@@ -3,22 +3,19 @@
 
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
 
-> Please fill in this Readme with the required information, and delete this box.
->
->   Since you are using `Cross-platform Startup SPA Solution`, decide on your target environment (see [Wiki](https://nus-cs3203.github.io/course-website/contents/tools/version-control-repository.html)).
->   Then, please enter the appropriate information below, giving details on the full toolchain (ie. OS, cmake and make versions.)
-> 2. The `.gitigore` is already pre-configured, note that the included libraries files (ie. `Team05/Code05/lib`) must accompany this repository and not to be removed from the repository.
-> 3. Put your test cases inside the correct directory (ie. `Team05/Tests05/`) not inside the scratch test directory (ie. `Team05/Code05/tests/`). The `.gitignore` is configured to prevent this.
-> 4. If you encounter build issues, visit 
-[Cross-platform-Startup-SPA-Solution FAQ](https://nus-cs3203.github.io/course-website/contents/tools/cross-platform-spa.html#faq) *before* reaching out for help:
-> 5. Use C++17.
+> 1. The `.gitignore` is already pre-configured, note that the included libraries files (`Team05/Code05/lib`) must not to be removed from the repository.
+> 2. Put your test cases inside (`Team05/Tests05/`) not inside the scratch test directory (`Team05/Code05/tests/`). The `.gitignore` is configured to prevent this.
+> 3. If you encounter build issues, visit 
+[Cross-platform-Startup-SPA-Solution FAQ](https://nus-cs3203.github.io/course-website/contents/tools/cross-platform-spa.html#faq)
+> *before* reaching out for help.
+> 4. Remove this box after every teammate has filled in their email below.
 
 ## Target Environment
 
 Item | Version
 -|-
-OS |
-Toolchain |
+OS | Windows Visual Studio (CMake Project)
+Toolchain | CMake 3.20.2, Make 3.81
 C++ Standard | C++17
 
 ### Additional Build Instructions
@@ -29,6 +26,6 @@ No additional instructions required.
 
 Name | Email | Development OS/Toolchain
 -:|:-|-|
-Ian Hong | ianhong@u.nus.edu | 
+Ian Hong | ianhong@u.nus.edu | CLion on MacOS with CMake
 <!-- add your emails here! -ian -->
 
