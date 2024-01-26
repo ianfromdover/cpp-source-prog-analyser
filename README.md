@@ -27,7 +27,7 @@ No additional instructions required.
 Name | Email                 | Development OS/Toolchain
 -:|:----------------------|-|
 Ian Hong | ianhong@u.nus.edu     | CLion on MacOS with CMake
-| Chai <br/>Yew Meng | yewmengchai@u.nus.edu | JetBrains Rider on Windows
+| Chai <br/>Yew Meng | yewmengchai@u.nus.edu | CLion on Windows with CMake
 <!-- add your emails here! -ian -->
 
 
