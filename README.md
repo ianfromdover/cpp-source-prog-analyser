@@ -29,6 +29,7 @@ Name | Email                 | Development OS/Toolchain
 Ian Hong | ianhong@u.nus.edu     | CLion on MacOS with CMake
 | Chai <br/>Yew Meng | yewmengchai@u.nus.edu | CLion on Windows with CMake
 | Alex Teo | alex.teo@u.nus.edu | VS 2022 on Windows with CMake
+| Toh Zhan Qing | e0544266@u.nus.edu | VS 2019 on Windows with CMake
 <!-- add your emails here! -ian -->
 
 
