@@ -1,0 +1,17 @@
+//
+// Created by Alex on 8/2/2024.
+//
+
+#ifndef SPA_COMPONENTENUM_H
+#define SPA_COMPONENTENUM_H
+
+
+enum ComponentEnum {
+    DECLARATION,
+    SELECT,
+    RELATIONSHIP_CONSTRAINT,
+    PATTERN_CONSTRAINT
+};
+
+
+#endif //SPA_COMPONENTENUM_H
