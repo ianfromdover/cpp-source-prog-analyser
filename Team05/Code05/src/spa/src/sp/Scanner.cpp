@@ -6,8 +6,8 @@
 
 Scanner::Scanner(const std::string& source, StrategyList& strategies, TokenList& tokens) {
     this->source = source;
-    this->strategies = strategies;
-    this->tokens = tokens;
+    this->strategies = &strategies;
+    this->tokens = &tokens;
 }
 
 void Scanner::scanTokens() {
@@ -15,8 +15,8 @@ void Scanner::scanTokens() {
     char character;
     bool prevTokenIsKeyword = false;
     while (stream.get(character)) {
-        for (const auto& strategy : strategies.getStrategies()) {
-            if (strategy->tokenize(character, stream, tokens, prevTokenIsKeyword)) {
+        for (const auto& strategy : strategies->getStrategies()) {
+            if (strategy->tokenize(character, stream, *tokens, prevTokenIsKeyword)) {
                 break;
             }
         }

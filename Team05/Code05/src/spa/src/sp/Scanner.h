@@ -11,8 +11,8 @@
 class Scanner {
 private:
     std::string source;
-    StrategyList strategies;
-    TokenList tokens;
+    StrategyList* strategies;
+    TokenList* tokens;
 
 public:
     Scanner(const std::string& source, StrategyList& strategies, TokenList& tokens);

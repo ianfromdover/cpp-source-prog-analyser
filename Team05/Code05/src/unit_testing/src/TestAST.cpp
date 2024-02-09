@@ -14,8 +14,8 @@ void require(bool b) {
 }
 
 TEST_CASE("1st Test") {
-    auto strategies = new StrategyList();
-    auto tokens = new TokenList();
+    StrategyList strategies;
+    TokenList tokens;
 
     std::string codeSnippet = R"(
     procedure procedure {
@@ -38,11 +38,9 @@ TEST_CASE("1st Test") {
         normSq = cenX * cenX + cenY * cenY;
     }
     )";
-
-    auto scanner = new Scanner(codeSnippet, *strategies, *tokens);
-
+    auto scanner = new Scanner(codeSnippet, strategies, tokens);
     scanner->scanTokens();
-
+    std::cout << tokens.toString() << std::endl;
     require(true);
 
 }

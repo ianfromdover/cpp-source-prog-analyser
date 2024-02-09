@@ -11,8 +11,8 @@
 
 class SourceProcessor {
 private:
-    StrategyList* strategies = new StrategyList();
-    TokenList* tokens = new TokenList();
+    StrategyList strategies;
+    TokenList tokens;
 public:
     SourceProcessor() = default;
     void runScanner(std::string source);

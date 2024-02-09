@@ -5,7 +5,7 @@
 #include "SourceProcessor.h"
 
 void SourceProcessor::runScanner(std::string source) {
-    auto scanner = new Scanner(source, *strategies, *tokens);
+    auto scanner = new Scanner(source, strategies, tokens);
     scanner->scanTokens();
-    std::cout << tokens->toString() << std::endl;
+    std::cout << tokens.toString() << std::endl;
 }
