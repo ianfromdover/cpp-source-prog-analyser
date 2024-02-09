@@ -1,8 +1,6 @@
 
 #include "TNode.h"
-#include "Scanner.cpp"
-#include "Scanner.h"
-#include "TokenList.h"
+#include "ScannerTemp.cpp"
 #include "Token.cpp"
 #include "TokenType.cpp"
 #include "catch.hpp"
@@ -35,7 +33,7 @@ TEST_CASE("1st Test") {
     }
     )";
 
-    auto scanner = new Scanner(codeSnippet);
+    auto scanner = new ScannerTemp(codeSnippet);
     scanner->scanTokens();
 
     require(true);
