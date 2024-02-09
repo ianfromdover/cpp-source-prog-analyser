@@ -5,7 +5,7 @@
 #ifndef SPA_QUERYBUILDER_H
 #define SPA_QUERYBUILDER_H
 
-#include "../Query/Declaration.h"
+#include "../query_elements/Declaration.h"
 #include "../Query/Returnable.h"
 #include "../Query/RelationshipConstraint.h"
 #include "../Query/PatternConstraint.h"

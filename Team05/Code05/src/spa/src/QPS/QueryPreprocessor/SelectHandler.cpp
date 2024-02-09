@@ -4,7 +4,7 @@
 
 #include "SelectHandler.h"
 
-void SelectHandler::handle(std::string& str) {
+std::shared_ptr<QueryComponent> SelectHandler::handle(std::string& str) {
     std::cout << "Select handler: " << str << std::endl;
     if (!true) {
         std::cout << "Handled by Select Handler: " << str << std::endl;
@@ -13,4 +13,5 @@ void SelectHandler::handle(std::string& str) {
         if (nextHandler) nextHandler->handle(str);
         else throw std::runtime_error("no handlers able to process!");
     }
+    return nullptr;
 }

@@ -18,7 +18,7 @@ protected:
 public:
     ComponentHandler() : nextHandler(nullptr) {};
     ComponentEnum componentType;
-    virtual void handle(std::string&) = 0;
+    virtual std::shared_ptr<QueryComponent> handle(std::string&) = 0;
     void addNextHandler(std::shared_ptr<ComponentHandler> handler) {
         nextHandler = handler;
     };

@@ -11,7 +11,7 @@
 class RelationshipConstraintHandler : public ComponentHandler{
 public:
     ComponentEnum componentType = ComponentEnum(RELATIONSHIP_CONSTRAINT);
-    void handle(std::string&);
+    std::shared_ptr<QueryComponent> handle(std::string&);
 
 
 };
