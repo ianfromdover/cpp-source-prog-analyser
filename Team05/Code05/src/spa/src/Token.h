@@ -1,7 +1,3 @@
-//
-// Created by sjh_9 on 8/2/2024.
-//
-
 #ifndef SPA_TOKEN_H
 #define SPA_TOKEN_H
 
@@ -12,17 +8,14 @@ class Token {
 private:
     TokenType type;
     std::string lexeme;
-    int stmtNo;
 
 public:
     // Constructor
-    Token(TokenType type, std::string lexeme, int stmtNo);
+    Token(TokenType type, std::string  lexeme);
     // Getter
-    TokenType getType() const;
-    std::string getLexeme() const;
-    int getStmtNo() const;
-
-
+    [[nodiscard]] TokenType getType() const;
+    [[nodiscard]] std::string getLexeme() const;
+    [[nodiscard]] std::string toString() const;
 };
 
 #endif //SPA_TOKEN_H

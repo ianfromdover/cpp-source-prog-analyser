@@ -1,13 +1,8 @@
-//
-// Created by sjh_9 on 8/2/2024.
-//
-
 #include "TokenType.h"
 
-std::string toString(TokenType type) {
-    switch (type) {
-        case IDENTIFIER: return "IDENTIFIER";
-        case STRING: return "STRING";
+std::string TokenType::toString() const {
+    switch (info) {
+        case INTEGER: return "INTEGER";
         case NAME: return "NAME";
         case LEFT_BRACE: return "LEFT_BRACE";
         case RIGHT_BRACE: return "RIGHT_BRACE";
@@ -26,15 +21,21 @@ std::string toString(TokenType type) {
         case PRINT: return "PRINT";
         case WHILE: return "WHILE";
         case IF: return "IF";
+        case ELSE: return "ELSE";
         case ASSIGN: return "ASSIGN";
+        case CALL: return "CALL";
         case BANG: return "BANG";
         case OR: return "OR";
         case AND: return "AND";
         case ADD: return "ADD";
         case SUBTRACT: return "SUBTRACT";
+        case MULTIPLY: return "MULTIPLY";
         case DIVIDE: return "DIVIDE";
         case MOD: return "MOD";
         default: return "UNKNOWN";
     }
 }
 
+TokenType::TokenType(TokenType::TypeInfo info) : info(info) {
+
+}

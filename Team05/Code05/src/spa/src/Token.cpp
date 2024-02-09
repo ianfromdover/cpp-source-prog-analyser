@@ -1,13 +1,9 @@
-//
-// Created by sjh_9 on 8/2/2024.
-//
-
 #include "Token.h"
 
-Token::Token(TokenType type, std::string lexeme, int stmtNo) {
-  this->type = type;
-  this->lexeme = lexeme;
-  this->stmtNo = stmtNo;
+#include <utility>
+
+Token::Token(TokenType type, std::string  lexeme) : type(type), lexeme(std::move(lexeme)) {
+
 }
 
 TokenType Token::getType() const {
@@ -18,6 +14,6 @@ std::string Token::getLexeme() const {
     return lexeme;
 }
 
-int Token::getStmtNo() const {
-    return stmtNo;
+std::string Token::toString() const {
+   return "(" + getType().toString() + ", " + getLexeme() + ")";
 }
