@@ -15,5 +15,5 @@ std::string Token::getLexeme() const {
 }
 
 std::string Token::toString() const {
-   return "(" + getType().toString() + ", " + getLexeme() + ")";
+   return "[" + getType().toString() + ", " + getLexeme() + "]";
 }

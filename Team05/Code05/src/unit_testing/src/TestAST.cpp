@@ -1,6 +1,9 @@
 
 #include "TNode.h"
 #include "sp/ScannerTemp.cpp"
+#include "sp/Scanner.cpp"
+#include "sp/TokenList.h"
+#include "sp/StrategyList.h"
 #include "sp/Token.cpp"
 #include "sp/TokenType.cpp"
 #include "catch.hpp"
@@ -11,6 +14,9 @@ void require(bool b) {
 }
 
 TEST_CASE("1st Test") {
+    auto strategies = new StrategyList();
+    auto tokens = new TokenList();
+
     std::string codeSnippet = R"(
     procedure procedure {
         count = 1123*923/wq;
@@ -33,7 +39,8 @@ TEST_CASE("1st Test") {
     }
     )";
 
-    auto scanner = new ScannerTemp(codeSnippet);
+    auto scanner = new Scanner(codeSnippet, *strategies, *tokens);
+
     scanner->scanTokens();
 
     require(true);
