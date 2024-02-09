@@ -11,11 +11,11 @@
 
 class FollowsTConstraint : public RelationshipConstraint{
 private:
-    std::vector<ConstraintArgument> constraintArguments;
+    std::vector<ConstraintArgument*> constraintArguments;
 public:
-    FollowsTConstraint(class StatementReference&, class StatementReference&);
+    FollowsTConstraint(class StatementReference*, class StatementReference*);
     std::string getConstraintType() override;
-    std::vector<ConstraintArgument> getConstraintArguments() override;
+    std::vector<ConstraintArgument*> getConstraintArguments() override;
 };
 
 

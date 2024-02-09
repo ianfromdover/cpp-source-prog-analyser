@@ -15,7 +15,7 @@ class Constraint {
 public:
     virtual std::string getConstraintClass() = 0;
     virtual std::string getConstraintType() = 0;
-    virtual std::vector<ConstraintArgument> getConstraintArguments() = 0;
+    virtual std::vector<ConstraintArgument*> getConstraintArguments() = 0;
 };
 
 
