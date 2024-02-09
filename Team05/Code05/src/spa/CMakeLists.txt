@@ -9,7 +9,9 @@ add_library(spa ${srcs} ${headers}
         src/pkb/QueryPKB.cpp
         src/pkb/entityTables/StmtTable.h
         src/pkb/entityTables/StmtTable.cpp
-        src/pkb/entityTables/ParentTable.cpp)
+        src/pkb/entityTables/ParentTable.cpp
+        src/utilSpa/DoubleMap.h
+        src/utilSpa/DoubleMap.cpp)
 # this makes the headers accessible for other projects which uses spa lib
 target_include_directories(spa PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
