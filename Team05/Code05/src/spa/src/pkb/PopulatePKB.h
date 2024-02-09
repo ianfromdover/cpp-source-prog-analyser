@@ -10,6 +10,7 @@ private:
 public:
     // ai-gen start (copilot, 1, e)
     // prompt: used copilot
+    static bool populateAll();
     static bool populateVarTable();
     static bool populateProcTable();
     static bool populateStmtTable();
@@ -18,8 +19,6 @@ public:
     static bool populateUses();
     static bool populateModifies();
     static bool populatePattern();
-    static bool populateAST();
-    static bool populateAll();
     // ai-gen end
     static bool generateFollowsT(); // use Follows table to generate FollowsT table
     static bool generateParentT();

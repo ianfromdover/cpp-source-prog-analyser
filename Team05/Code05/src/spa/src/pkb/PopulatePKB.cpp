@@ -1,6 +1,9 @@
 #include "PopulatePKB.h"
 
 // TODO: Implement PopulatePKB
+bool PopulatePKB::populateAll() {
+    return 0;
+}
 bool PopulatePKB::populateVarTable() {
     return 0;
 }
@@ -23,12 +26,6 @@ bool PopulatePKB::populateModifies() {
     return 0;
 }
 bool PopulatePKB::populatePattern() {
-    return 0;
-}
-bool PopulatePKB::populateAST() {
-    return 0;
-}
-bool PopulatePKB::populateAll() {
     return 0;
 }
 // ai-gen end
