@@ -1,8 +1,8 @@
 
 #include "TNode.h"
-#include "ScannerTemp.cpp"
-#include "Token.cpp"
-#include "TokenType.cpp"
+#include "sp/ScannerTemp.cpp"
+#include "sp/Token.cpp"
+#include "sp/TokenType.cpp"
 #include "catch.hpp"
 
 using namespace std;
