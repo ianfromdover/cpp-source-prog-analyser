@@ -12,7 +12,7 @@
 class QueryComponent {
 public:
     ComponentEnum componentType;
-    void acceptBuilder(QueryBuilder);
+    virtual void acceptBuilder(QueryBuilder *) = 0;
 };
 
 

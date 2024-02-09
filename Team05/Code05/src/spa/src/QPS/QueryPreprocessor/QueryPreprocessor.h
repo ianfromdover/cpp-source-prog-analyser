@@ -5,8 +5,12 @@
 #ifndef SPA_QUERYPREPROCESSOR_H
 #define SPA_QUERYPREPROCESSOR_H
 
+#include <string>
 
 class QueryPreprocessor {
+public:
+    QueryPreprocessor() = default;
+    void processQuery(std::string&);
 
 };
 

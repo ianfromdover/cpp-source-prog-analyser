@@ -7,13 +7,21 @@
 
 #include "QueryComponent.h"
 #include <string>
+#include <iostream>
 #include "ComponentEnum.h"
+#include <stdexcept>
 
 class ComponentHandler {
-    public:
+
+protected:
+    std::shared_ptr<ComponentHandler> nextHandler;
+public:
+    ComponentHandler() : nextHandler(nullptr) {};
     ComponentEnum componentType;
-    QueryComponent handle(std::string);
-    void addNextHandler(ComponentHandler);
+    virtual void handle(std::string&) = 0;
+    void addNextHandler(std::shared_ptr<ComponentHandler> handler) {
+        nextHandler = handler;
+    };
 };
 
 #endif //SPA_COMPONENTHANDLER_H

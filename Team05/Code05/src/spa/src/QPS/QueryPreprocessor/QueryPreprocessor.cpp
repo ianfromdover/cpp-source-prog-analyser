@@ -3,3 +3,10 @@
 //
 
 #include "QueryPreprocessor.h"
+#include "HandlerChain.h"
+
+void QueryPreprocessor::processQuery(std::string & queryStr) {
+    HandlerChain handler;
+    handler.handle(queryStr);
+
+}

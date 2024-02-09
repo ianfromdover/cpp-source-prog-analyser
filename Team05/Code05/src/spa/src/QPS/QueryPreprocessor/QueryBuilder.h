@@ -11,14 +11,10 @@
 #include "../Query/PatternConstraint.h"
 #include "../Query/Query.h"
 
+
 class QueryBuilder {
 public:
-    void addDeclaration(Declaration);
-    void addReturnType(Returnable);
-    void addRelationshipConstraint(RelationshipConstraint);
-    void addPatternConstraint(PatternConstraint);
-    Query build();
+    virtual void addDeclaration(Declaration) = 0;
 };
-
 
 #endif //SPA_QUERYBUILDER_H

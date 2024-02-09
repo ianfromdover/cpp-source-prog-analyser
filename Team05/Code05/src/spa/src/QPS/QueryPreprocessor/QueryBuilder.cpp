@@ -3,3 +3,7 @@
 //
 
 #include "QueryBuilder.h"
+
+void QueryBuilder::addDeclaration(Declaration) {
+
+}
