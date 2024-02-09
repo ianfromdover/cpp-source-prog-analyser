@@ -11,9 +11,9 @@
 #define PROC "procedure"
 #define STMT "stmt"
 #define ASGN "assign"
-#define READ "stmt"
-#define CALL "stmt"
-#define PRINT "stmt"
+#define READ "read"
+#define CALL "call"
+#define PRINT "print"
 #define WHILE "while"
 #define IF "if"
 
