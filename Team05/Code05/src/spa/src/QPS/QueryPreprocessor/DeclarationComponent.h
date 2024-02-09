@@ -5,15 +5,17 @@
 #ifndef SPA_DECLARATIONCOMPONENT_H
 #define SPA_DECLARATIONCOMPONENT_H
 
-#include <unordered_set>
+#include <vector>
 
 #include "QueryComponent.h"
+#include "../query_elements/Declaration.h"
 
 class DeclarationComponent : public QueryComponent{
 public:
     void acceptBuilder(QueryBuilder *) override;
+    void addDeclaration(Declaration&);
 private:
-    std::unordered_set<Declaration> declarations;
+    std::vector<Declaration> declarations;
 };
 
 

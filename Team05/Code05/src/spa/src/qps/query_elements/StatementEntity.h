@@ -7,7 +7,7 @@
 
 #include "StatementReference.h"
 
-class StatementEntity : public StatementReference, Entity {
+class StatementEntity : public StatementReference, public Entity {
 public:
     std::string getReturnType() override;
     std::string getEntityType() override;

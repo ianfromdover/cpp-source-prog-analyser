@@ -7,15 +7,16 @@
 
 
 #include "ComponentHandler.h"
+#include "DeclarationComponent.h"
 #include <vector>
 
 class DeclarationHandler : public ComponentHandler{
 public:
     ComponentEnum componentType = ComponentEnum(DECLARATION);
-    void handle(std::string&) override;
+    std::shared_ptr<QueryComponent> handle(std::string&) override;
 private:
-    void processEntity(std::string&);
-    void processSynonyms(std::string);
+    void parseDeclaration(std::string &s);
+    std::shared_ptr<DeclarationComponent> createComponent();
     std::string entityType;
     std::vector<std::string> synonyms;
 };

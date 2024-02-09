@@ -9,3 +9,7 @@ void DeclarationComponent::acceptBuilder(QueryBuilder *builderPtr) {
     builderPtr->addDeclaration(d);
 }
 
+void DeclarationComponent::addDeclaration(Declaration& declaration) {
+    declarations.push_back(declaration);
+}
+

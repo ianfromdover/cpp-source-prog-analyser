@@ -5,7 +5,7 @@
 #include "StatementReference.h"
 
 std::string StatementReference::getReferenceType() {
-    return QueryEnums::ENUM_RETURN_TYPE[enumReturnType::Statement];
+    return "Statement";
 }
 
 std::string StatementReference::getArgumentValue() {
