@@ -15,7 +15,8 @@ private:
     TokenList tokens;
 public:
     SourceProcessor() = default;
-    void runScanner(std::string source);
+    void runScanner(const std::string& source);
+    void runRelationExtractor();
 };
 
 
