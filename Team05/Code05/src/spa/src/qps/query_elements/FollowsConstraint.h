@@ -13,8 +13,8 @@ private:
     std::vector<ConstraintArgument*> constraintArguments;
 public:
     FollowsConstraint(class StatementReference*, class StatementReference*);
-    std::string getConstraintType() override;
-    std::vector<ConstraintArgument*> getConstraintArguments() override;
+    virtual std::string getConstraintType() = 0;
+    virtual std::vector<ConstraintArgument*> getConstraintArguments() = 0;
 };
 
 

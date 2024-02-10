@@ -11,8 +11,7 @@
 class SelectHandler : public ComponentHandler{
 public:
     ComponentEnum componentType = ComponentEnum(SELECT);
-    std::shared_ptr<QueryComponent> handle(std::string&);
-
+    std::shared_ptr<QueryComponent> handle(std::string&) override;
 };
 
 

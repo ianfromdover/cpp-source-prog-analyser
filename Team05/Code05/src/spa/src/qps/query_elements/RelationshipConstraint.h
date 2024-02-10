@@ -10,6 +10,7 @@
 class RelationshipConstraint : public Constraint {
 public:
     std::string getConstraintClass() override;
+
 };
 
 

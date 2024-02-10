@@ -25,8 +25,9 @@ public:
         declarationHandler->addNextHandler(selectHandler);
         selectHandler->addNextHandler(relationshipHandler);
     }
-    void handle(std::string);
-
+    std::vector<std::shared_ptr<QueryComponent>> handle(std::string);
+private:
+    std::vector<std::string> tryConvert(std::string str);
 };
 
 

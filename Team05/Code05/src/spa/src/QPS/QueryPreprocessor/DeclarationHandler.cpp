@@ -11,47 +11,33 @@
 
 
 std::shared_ptr<QueryComponent> DeclarationHandler::handle(std::string& str) {
-    std::cout << "Declaration handler: " << str << std::endl;
 
-    parseDeclaration(str);
-    std::shared_ptr<DeclarationComponent> component = createComponent();
-    return component;
-}
 
-void DeclarationHandler::parseDeclaration(std::string& s) {
-    std::regex entityPattern(R"(^(variable)\s+([a-zA-Z][a-zA-Z0-9]*)(?:,\s*([a-zA-Z][a-zA-Z0-9]*))*$)");
+    std::regex entityPattern(R"(^(stmt)\s+([a-zA-Z][a-zA-Z0-9]*)(?:,\s*([a-zA-Z][a-zA-Z0-9]*))*$)");
 
-    std::sregex_iterator iterator(s.begin(), s.end(), entityPattern);
+    std::sregex_iterator iterator(str.begin(), str.end(), entityPattern);
     std::sregex_iterator end;
-
     std::smatch matches;
     std::string entity;
-    if (std::regex_search(s, matches, entityPattern)) {
+    if (std::regex_search(str, matches, entityPattern)) {
+        std::cout << "Handled by Declaration Handler: " << str << std::endl;
         if (matches[1].matched) {
-            entity = matches[1];
+            Utils::trimAll(str);
+            Utils::removePrefix(str, matches[1]);
+            Utils::trimAll(str);
+
+            std::vector<std::string> synList = Utils::splitString(str, ',');
+            for (const std::string& syn : synList){
+                synonyms.push_back(syn);
+            }
+
+            return component;
         }
 
-    }
+        else throw std::runtime_error("BUG::SelectHandler matching regex but not matching required groups");
 
-    Utils::trimAll(s);
-    Utils::removePrefix(s, entity);
-    Utils::trimAll(s);
-
-    std::vector<std::string> synList = Utils::splitString(s, ',');
-    for (const std::string& syn : synList){
-        synonyms.push_back(syn);
+    } else {
+        if (nextHandler) return nextHandler->handle(str);
+        else throw std::runtime_error("no handlers able to process! " + str);
     }
 }
-
-std::shared_ptr<DeclarationComponent> DeclarationHandler::createComponent() {
-    std::shared_ptr<DeclarationComponent> component(new DeclarationComponent);
-    for (const std::string& syn : synonyms){
-        Declaration d;
-        d.entityType = new StatementEntity();
-        d.identifier = syn;
-        component->addDeclaration(d);
-    }
-    return component;
-}
-
-

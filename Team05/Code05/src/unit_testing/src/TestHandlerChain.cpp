@@ -9,9 +9,17 @@
 using namespace std;
 
 
-TEST_CASE("2st Test") {
+TEST_CASE("Valid PQL Syntax") {
 
     HandlerChain handlerChain;
-    handlerChain.handle("variable v,t,y,u,i,i;");
-    REQUIRE(1 == 1);
+    handlerChain.handle("stmt a,b;Select a such that Parent (w, a)");
+    handlerChain.handle("stmt a,b;Select a such that Parent* (w,a)");
+}
+
+
+TEST_CASE("Invalid PQL Syntax") {
+
+    HandlerChain handlerChain;
+    handlerChain.handle("stmt a,b;Select a such that Follows (w, a)");
+    handlerChain.handle("stmt a,b;Select a such that Follows(w,a)");
 }

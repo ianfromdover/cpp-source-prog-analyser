@@ -7,12 +7,16 @@
 
 
 #include "ComponentHandler.h"
+#include "../query_elements/RelationshipConstraint.h"
+#include "qps/query_elements/ConstraintArgument.h"
 
 class RelationshipConstraintHandler : public ComponentHandler{
 public:
     ComponentEnum componentType = ComponentEnum(RELATIONSHIP_CONSTRAINT);
     std::shared_ptr<QueryComponent> handle(std::string&);
-
+private:
+    std::string relationshipConstraint;
+    std::vector<std::string> arguments;
 
 };
 

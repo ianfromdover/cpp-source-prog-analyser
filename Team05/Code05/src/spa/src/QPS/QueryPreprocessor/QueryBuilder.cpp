@@ -4,6 +4,13 @@
 
 #include "QueryBuilder.h"
 
-void QueryBuilder::addDeclaration(Declaration) {
+
+void QueryBuilder::addConstraints(std::string constraintType, std::string arg1, std::string arg2) {
+
+
+}
+
+void QueryBuilder::addDeclaration(std::string entityType, std::string synonym) {
+
 
 }

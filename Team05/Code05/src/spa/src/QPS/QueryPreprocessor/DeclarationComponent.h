@@ -13,9 +13,10 @@
 class DeclarationComponent : public QueryComponent{
 public:
     void acceptBuilder(QueryBuilder *) override;
-    void addDeclaration(Declaration&);
+    void addDeclaration(std::string entityType, const std::string& synonym);
 private:
-    std::vector<Declaration> declarations;
+    std::string entityType;
+    std::vector<std::string> synonyms;
 };
 
 

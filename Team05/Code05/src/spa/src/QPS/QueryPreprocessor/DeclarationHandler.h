@@ -12,6 +12,9 @@
 
 class DeclarationHandler : public ComponentHandler{
 public:
+    DeclarationHandler() {
+        component = std::make_shared<DeclarationComponent>();
+    }
     ComponentEnum componentType = ComponentEnum(DECLARATION);
     std::shared_ptr<QueryComponent> handle(std::string&) override;
 private:
@@ -19,6 +22,7 @@ private:
     std::shared_ptr<DeclarationComponent> createComponent();
     std::string entityType;
     std::vector<std::string> synonyms;
+    std::shared_ptr<DeclarationComponent> component;
 };
 
 

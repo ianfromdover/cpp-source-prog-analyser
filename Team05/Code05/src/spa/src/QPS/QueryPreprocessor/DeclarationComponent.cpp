@@ -4,12 +4,18 @@
 
 #include "DeclarationComponent.h"
 
+#include <utility>
+#include <stdexcept>
+
 void DeclarationComponent::acceptBuilder(QueryBuilder *builderPtr) {
-    Declaration d;
-    builderPtr->addDeclaration(d);
 }
 
-void DeclarationComponent::addDeclaration(Declaration& declaration) {
-    declarations.push_back(declaration);
+void DeclarationComponent::addDeclaration(std::string type, const std::string& syn) {
+    if (entityType.empty() || entityType == type){
+        if (entityType.empty())
+            entityType = std::move(type);
+        synonyms.push_back(syn);
+    } else {
+        throw std::runtime_error("wrong type!");
+    }
 }
-
