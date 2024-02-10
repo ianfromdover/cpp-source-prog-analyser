@@ -14,16 +14,16 @@
 class QueryObject {
 private:
     std::shared_ptr<Returnable> returnType;
-    std::vector<Constraint*> constraints;
-    std::vector<Entity*> declarations;
+    std::vector<std::shared_ptr<Constraint>> constraints;
+    std::vector<std::shared_ptr<Entity>> declarations;
 
 public:
     std::shared_ptr<Returnable> getReturnType();
     void setReturnType(std::shared_ptr<Returnable> r);
-    std::vector<Constraint*> getConstraints();
-    void addConstraint(Constraint&);
-    std::vector<Entity*> getDeclarations();
-    void addDeclaration(Entity&);
+    std::vector<std::shared_ptr<Constraint>> getConstraints();
+    void addConstraint(std::shared_ptr<Constraint>);
+    std::vector<std::shared_ptr<Entity>> getDeclarations();
+    void addDeclaration(const std::shared_ptr<Entity>&);
 };
 
 

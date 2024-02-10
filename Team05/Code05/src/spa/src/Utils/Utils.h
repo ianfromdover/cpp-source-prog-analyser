@@ -12,6 +12,7 @@ class Utils {
 public:
     static std::vector<std::string> splitString(const std::string& str, char delimiter);
     static void printStringVector(const std::vector<std::string>& stringVector);
+    static std::string formatWithSquareBrackets(const std::vector<std::string>& strings);
     static void trimStart(std::string& str);
     static void trimTrailing(std::string& str);
     static void trimAll(std::string& str);

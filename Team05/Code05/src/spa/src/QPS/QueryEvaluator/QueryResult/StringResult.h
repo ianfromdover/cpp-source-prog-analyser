@@ -10,12 +10,15 @@
 #include <vector>
 #include <string>
 #include "QueryResultEnum.h"
+#include "qps/QueryProjector/Formattable.h"
+#include "QueryResult.h"
 
-class StringResult {
+class StringResult : public QueryResult {
 public:
     StringResult(std::vector<std::string>&);
     QueryResultEnum getType();
     std::vector<std::string> getResults();
+    std::vector<std::string> format() override;
 private:
     std::vector<std::string> results;
 

@@ -5,7 +5,7 @@
 #include "QueryPreprocessor.h"
 #include "HandlerChain.h"
 
-void QueryPreprocessor::processQuery(std::string & queryStr) {
+std::shared_ptr<QueryObject> QueryPreprocessor::processQuery(std::string & queryStr) {
     HandlerChain handler;
     std::vector<std::shared_ptr<QueryComponent>> components = handler.handle(queryStr);
 
@@ -16,5 +16,7 @@ void QueryPreprocessor::processQuery(std::string & queryStr) {
     }
 
     query = builder->build();
-    std::cout<<"ok"<<std::endl;
+
+    return query;
+
 }

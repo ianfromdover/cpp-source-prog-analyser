@@ -15,10 +15,10 @@ std::string SingleDeclarationRule::validate(QueryObject& qo) {
 }
 
 bool SingleDeclarationRule::followsSingleDeclaration(QueryObject& qo) {
-    std::vector<Entity*> declarations = qo.getDeclarations();
+    std::vector<std::shared_ptr<Entity>> declarations = qo.getDeclarations();
     std::map<std::string, int> declarationMap;
     bool ruleFollowed = true;
-    for (Entity* declaration : declarations) {
+    for (const std::shared_ptr<Entity>& declaration : declarations) {
         std::string declarationName = declaration->getIdentifier();
         if (declarationMap.count(declarationName)) {
             ruleFollowed = false;

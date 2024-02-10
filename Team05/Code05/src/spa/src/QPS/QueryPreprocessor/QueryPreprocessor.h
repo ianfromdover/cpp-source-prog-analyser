@@ -6,11 +6,12 @@
 #define SPA_QUERYPREPROCESSOR_H
 
 #include <string>
+#include "qps/query_elements/QueryObject.h"
 
 class QueryPreprocessor {
 public:
     QueryPreprocessor() = default;
-    void processQuery(std::string&);
+    std::shared_ptr<QueryObject> processQuery(std::string&);
 
 };
 

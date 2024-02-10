@@ -15,6 +15,7 @@ public:
     IntResult(std::vector<int>&);
     QueryResultEnum getType();
     std::vector<int> getResults();
+    std::vector<std::string> format() override;
 private:
     std::vector<int> results;
 };

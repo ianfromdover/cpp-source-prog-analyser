@@ -16,20 +16,20 @@ std::string NoDeclarationRule::validate(QueryObject& qo) {
 }
 
 bool NoDeclarationRule::followsNoDeclaration(QueryObject& qo) {
-    std::vector<Entity*> declarations = qo.getDeclarations();
+    std::vector<std::shared_ptr<Entity>> declarations = qo.getDeclarations();
     std::map<std::string, int> declarationMap;
     bool ruleFollowed = true;
 
     // get all declaration entities into a map
-    for (Entity* declaration : declarations) {
+    for (std::shared_ptr<Entity> declaration : declarations) {
         std::string declarationName = std::move(declaration->getIdentifier());
         declarationMap[declarationName] = 1;
     }
 
     //insert all constraint entities into a vector
-    std::vector<Constraint*> constraints = qo.getConstraints();
+    std::vector<std::shared_ptr<Constraint>> constraints = qo.getConstraints();
     std::vector<Entity*> constraintEntities;
-    for (Constraint* c : constraints) {
+    for (std::shared_ptr<Constraint> c : constraints) {
         std::vector<ConstraintArgument*> args = std::move(c->getConstraintArguments());
         for (ConstraintArgument* consArg : args) {
             if (dynamic_cast<Entity*>(consArg) != nullptr) {

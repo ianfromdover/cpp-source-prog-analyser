@@ -5,4 +5,12 @@
 #ifndef SPA_FORMATTABLE_H
 #define SPA_FORMATTABLE_H
 
+#include <string>
+#include <vector>
+
+class Formattable {
+public:
+    virtual std::vector<std::string> format() = 0;
+};
+
 #endif //SPA_FORMATTABLE_H

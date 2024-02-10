@@ -12,19 +12,19 @@ void QueryObject::setReturnType(std::shared_ptr<Returnable> ptr) {
     returnType = std::move(ptr);
 }
 
-std::vector<Constraint*> QueryObject::getConstraints() {
+std::vector<std::shared_ptr<Constraint>> QueryObject::getConstraints() {
     return constraints;
 }
 
-void QueryObject::addConstraint(Constraint& c) {
-    constraints.push_back(&c);
+void QueryObject::addConstraint(std::shared_ptr<Constraint> c) {
+    constraints.push_back(c);
 }
 
-std::vector<Entity*> QueryObject::getDeclarations() {
+std::vector<std::shared_ptr<Entity>> QueryObject::getDeclarations() {
     return declarations;
 }
 
-void QueryObject::addDeclaration(Entity& d) {
-    declarations.push_back(&d);
+void QueryObject::addDeclaration(const std::shared_ptr<Entity>& d) {
+    declarations.push_back(d);
 }
 

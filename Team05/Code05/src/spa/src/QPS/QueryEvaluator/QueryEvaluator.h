@@ -6,9 +6,13 @@
 #define SPA_QUERYEVALUATOR_H
 
 
+#include <memory>
+#include "../QueryProjector/Formattable.h"
+#include "qps/query_elements/QueryObject.h"
+
 class QueryEvaluator {
 public:
-
+    std::shared_ptr<Formattable> evaluate(QueryObject&);
 };
 
 

@@ -4,6 +4,7 @@
 
 #include "Utils.h"
 #include <iostream>
+#include <sstream>
 
 std::vector<std::string> Utils::splitString(const std::string &str, char delimiter) {
     std::vector<std::string> result;
@@ -22,15 +23,25 @@ std::vector<std::string> Utils::splitString(const std::string &str, char delimit
 }
 
 void Utils::printStringVector(const std::vector<std::string> &stringVector) {
-    std::cout << "[ ";
-    for (int i = 0; i < stringVector.size(); i++){
-        std::cout << stringVector[i];
-        if (i != stringVector.size()-1){
-            std::cout << " , ";
+    std::cout << formatWithSquareBrackets(stringVector) << std::endl;
+}
+
+std::string Utils::formatWithSquareBrackets(const std::vector<std::string>& strings) {
+    std::ostringstream oss;
+    oss << "["; // Start with opening square bracket
+
+    for (size_t i = 0; i < strings.size(); ++i) {
+        oss << strings[i]; // Append the current string
+
+        // Append a comma and space if it's not the last string
+        if (i < strings.size() - 1) {
+            oss << " , ";
         }
     }
-    std::cout << " ]";
-    std::cout << std::endl;
+
+    oss << "]"; // End with closing square bracket
+
+    return oss.str();
 }
 
 
