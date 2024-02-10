@@ -8,7 +8,6 @@
 #include <vector>
 
 #include "QueryComponent.h"
-#include "../query_elements/Declaration.h"
 
 class DeclarationComponent : public QueryComponent{
 public:

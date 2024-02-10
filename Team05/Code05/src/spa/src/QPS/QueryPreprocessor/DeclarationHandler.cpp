@@ -5,7 +5,6 @@
 #include "DeclarationHandler.h"
 #include "Utils/Utils.h"
 #include "DeclarationComponent.h"
-#include "qps/query_elements/StatementEntity.h"
 #include <regex>
 #include <vector>
 

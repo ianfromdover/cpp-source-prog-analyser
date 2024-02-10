@@ -5,7 +5,7 @@
 #include <memory>
 #include <regex>
 #include "RelationshipConstraintHandler.h"
-#include "qps/query_elements/FollowsConstraint.h"
+#include "qps/query_elements/constraint/FollowsConstraint.h"
 #include "RelationshipConstraintComponent.h"
 
 std::shared_ptr<QueryComponent> RelationshipConstraintHandler::handle(std::string& str) {

@@ -7,8 +7,8 @@
 
 
 #include "ComponentHandler.h"
-#include "../query_elements/RelationshipConstraint.h"
-#include "qps/query_elements/ConstraintArgument.h"
+#include "../query_elements/constraint/RelationshipConstraint.h"
+#include "qps/query_elements/constraint_argument/ConstraintArgument.h"
 
 class RelationshipConstraintHandler : public ComponentHandler{
 public:

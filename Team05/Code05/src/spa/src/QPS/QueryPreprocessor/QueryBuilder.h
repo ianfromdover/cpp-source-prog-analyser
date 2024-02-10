@@ -6,7 +6,6 @@
 #define SPA_QUERYBUILDER_H
 
 #include <memory>
-#include "../query_elements/Declaration.h"
 #include "../Query/Returnable.h"
 #include "../Query/RelationshipConstraint.h"
 #include "../Query/PatternConstraint.h"
@@ -21,7 +20,7 @@ public:
     void addReturnType(std::string);
     std::shared_ptr<QueryObject> build();
 private:
-    std::vector<Declaration> declarations;
+    std::vector<Entity> declarations;
     std::vector<std::string> constraintsArguments;
 };
 
