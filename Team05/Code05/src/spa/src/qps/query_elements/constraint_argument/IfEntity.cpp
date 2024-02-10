@@ -5,9 +5,9 @@
 #include "IfEntity.h"
 
 std::string IfEntity::getReturnType() {
-    return QueryEnums::ENUM_RETURN_TYPE[enumReturnType::If];
+    return RETURN_TYPE_IF;
 }
 
 std::string IfEntity::getEntityType() {
-    return QueryEnums::ENUM_RETURN_TYPE[enumReturnType::If];
+    return RETURN_TYPE_IF;
 }

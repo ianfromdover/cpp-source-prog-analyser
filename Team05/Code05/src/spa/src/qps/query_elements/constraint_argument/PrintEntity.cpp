@@ -5,9 +5,9 @@
 #include "PrintEntity.h"
 
 std::string PrintEntity::getReturnType() {
-    return QueryEnums::ENUM_RETURN_TYPE[enumReturnType::Print];
+    return RETURN_TYPE_PRINT;
 }
 
 std::string PrintEntity::getEntityType() {
-    return QueryEnums::ENUM_RETURN_TYPE[enumReturnType::Print];
+    return RETURN_TYPE_PRINT;
 }

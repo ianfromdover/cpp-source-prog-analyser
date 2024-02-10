@@ -5,9 +5,9 @@
 #include "IntegerArgument.h"
 
 std::string IntegerArgument::getArgumentValue() {
-    return QueryEnums::ENUM_RETURN_TYPE[enumReturnType::Integer];
+    return RETURN_TYPE_INTEGER;
 }
 
 std::string IntegerArgument::getEntityType() {
-    return QueryEnums::ENUM_RETURN_TYPE[enumReturnType::Integer];
+    return RETURN_TYPE_INTEGER;
 }

@@ -5,9 +5,9 @@
 #include "AssignEntity.h"
 
 std::string AssignEntity::getReturnType() {
-    return QueryEnums::ENUM_RETURN_TYPE[enumReturnType::Assign];
+    return RETURN_TYPE_STATEMENT;
 }
 
 std::string AssignEntity::getEntityType() {
-    return QueryEnums::ENUM_RETURN_TYPE[enumReturnType::Assign];
+    return RETURN_TYPE_STATEMENT;
 }
