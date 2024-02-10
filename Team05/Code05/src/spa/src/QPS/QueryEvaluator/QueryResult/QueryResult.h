@@ -6,8 +6,11 @@
 #define SPA_QUERYRESULT_H
 
 
-class QueryResult {
+#include "QueryResultEnum.h"
 
+class QueryResult {
+public:
+    virtual QueryResultEnum getType() = 0;
 };
 
 

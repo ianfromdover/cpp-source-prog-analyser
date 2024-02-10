@@ -10,8 +10,8 @@ std::vector<std::shared_ptr<QueryComponent>> HandlerChain::handle(std::string st
     std::cout << "handler chain received " << str <<std::endl;
     char delimitter = ';';
     std::vector<std::string> splitStr = Utils::splitString(str,delimitter);
-
     std::vector<std::string> toHandlers;
+    std::vector<std::shared_ptr<QueryComponent>> parsedComponents;
 
 
     for (std::string s : splitStr){
@@ -29,9 +29,10 @@ std::vector<std::shared_ptr<QueryComponent>> HandlerChain::handle(std::string st
     for (std::string s : toHandlers){
         std::cout << "processing " << s <<std::endl;
         std::shared_ptr<QueryComponent> component = handlerChain->handle(s);
+        parsedComponents.push_back(component);
     }
 
-    return std::vector<std::shared_ptr<QueryComponent>>();
+    return parsedComponents;
 }
 
 
