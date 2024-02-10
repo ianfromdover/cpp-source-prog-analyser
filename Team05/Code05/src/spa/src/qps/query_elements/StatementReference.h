@@ -8,6 +8,7 @@
 #include "ConstraintArgument.h"
 #include "QueryEnums.h"
 #include "Entity.h"
+#include "../../utilSpa/SpaTypes.h"
 
 class StatementReference : public ConstraintArgument {
 public:

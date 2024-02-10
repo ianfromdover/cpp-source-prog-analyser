@@ -5,5 +5,5 @@
 #include "WildCard.h"
 
 std::string WildCard::getEntityType() {
-    return QueryEnums::ENUM_RETURN_TYPE[enumReturnType::WildCard];
+    return RETURN_TYPE_WILDCARD;
 }

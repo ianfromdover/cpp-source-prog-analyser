@@ -9,6 +9,7 @@
 #include <vector>
 #include "ConstraintArgument.h"
 #include "QueryEnums.h"
+#include "../../utilSpa/SpaTypes.h"
 
 
 class Constraint {

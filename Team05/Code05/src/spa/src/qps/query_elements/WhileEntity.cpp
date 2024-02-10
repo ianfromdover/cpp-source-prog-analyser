@@ -6,9 +6,9 @@
 
 
 std::string WhileEntity::getReturnType() {
-    return QueryEnums::ENUM_RETURN_TYPE[enumReturnType::While];
+    return RETURN_TYPE_WHILE;
 }
 
 std::string WhileEntity::getEntityType() {
-    return QueryEnums::ENUM_RETURN_TYPE[enumReturnType::While];
+    return RETURN_TYPE_WHILE;
 }

@@ -5,9 +5,9 @@
 #include "CallEntity.h"
 
 std::string CallEntity::getReturnType() {
-    return QueryEnums::ENUM_RETURN_TYPE[enumReturnType::Call];
+    return RETURN_TYPE_CALL;
 }
 
 std::string CallEntity::getEntityType() {
-    return QueryEnums::ENUM_RETURN_TYPE[enumReturnType::Call];
+    return RETURN_TYPE_CALL;
 }

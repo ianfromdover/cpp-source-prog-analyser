@@ -9,7 +9,7 @@ std::string SynAssignDeclarationRule::validate(QueryObject& qo) {
     if (followsRule) {
         return "";
     } else {
-        return QueryEnums::ENUM_VALIDATION_RULE[enumValidationRule::SynAssignDeclarationRule];
+        return VALIDATION_RULE_SYN_ASSIGN_DECLARATION;
     }
 }
 

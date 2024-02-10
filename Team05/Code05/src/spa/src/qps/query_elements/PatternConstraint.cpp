@@ -6,5 +6,5 @@
 
 
 std::string PatternConstrain::getConstraintClass() {
-    return QueryEnums::ENUM_CONSTRAINT_CLASS[enumConstraintClass::Pattern];
+    return CONSTRAINT_CLASS_PATTERN;
 }

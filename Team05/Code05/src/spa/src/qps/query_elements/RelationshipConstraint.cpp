@@ -5,5 +5,5 @@
 #include "RelationshipConstraint.h"
 
 std::string RelationshipConstraint::getConstraintClass() {
-    return QueryEnums::ENUM_CONSTRAINT_CLASS[enumConstraintClass::Relationship];
+    return CONSTRAINT_CLASS_RELATIONSHIP;
 }

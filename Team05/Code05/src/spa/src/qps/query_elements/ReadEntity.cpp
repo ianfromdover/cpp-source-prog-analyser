@@ -5,9 +5,9 @@
 #include "ReadEntity.h"
 
 std::string ReadEntity::getReturnType() {
-    return QueryEnums::ENUM_RETURN_TYPE[enumReturnType::Read];
+    return RETURN_TYPE_READ;
 }
 
 std::string ReadEntity::getEntityType() {
-    return QueryEnums::ENUM_RETURN_TYPE[enumReturnType::Read];
+    return RETURN_TYPE_READ;
 }

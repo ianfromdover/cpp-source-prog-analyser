@@ -11,7 +11,7 @@ std::string NoDeclarationRule::validate(QueryObject& qo) {
     if (followsRule) {
         return "";
     } else {
-        return QueryEnums::ENUM_VALIDATION_RULE[enumValidationRule::NoDeclarationRule];
+        return VALIDATION_RULE_NO_DECLARATION;
     }
 }
 

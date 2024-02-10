@@ -7,7 +7,7 @@
 
 #include "Rule.h"
 
-class NoDeclarationRule : public Rule{
+class NoDeclarationRule : public Rule {
 private:
     bool followsNoDeclaration(QueryObject&);
 public:

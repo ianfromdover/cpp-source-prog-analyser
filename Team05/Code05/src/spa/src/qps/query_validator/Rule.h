@@ -8,6 +8,7 @@
 #include <string>
 #include "../query_elements/QueryObject.h"
 #include "../query_elements/QueryEnums.h"
+#include "../../utilSpa/SpaTypes.h"
 
 class Rule {
 public:

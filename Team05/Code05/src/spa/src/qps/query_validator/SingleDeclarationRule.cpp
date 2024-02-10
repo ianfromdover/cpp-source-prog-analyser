@@ -10,7 +10,7 @@ std::string SingleDeclarationRule::validate(QueryObject& qo) {
     if (followsRule) {
         return "";
     } else {
-        return QueryEnums::ENUM_VALIDATION_RULE[enumValidationRule::SingleDeclarationRule];
+        return VALIDATION_RULE_SINGLE_DECLARATION;
     }
 }
 

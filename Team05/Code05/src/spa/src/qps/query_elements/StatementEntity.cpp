@@ -5,9 +5,9 @@
 #include "StatementEntity.h"
 
 std::string StatementEntity::getReturnType() {
-    return QueryEnums::ENUM_RETURN_TYPE[enumReturnType::Statement];
+    return RETURN_TYPE_STATEMENT;
 }
 
 std::string StatementEntity::getEntityType() {
-    return QueryEnums::ENUM_RETURN_TYPE[enumReturnType::Statement];
+    return RETURN_TYPE_STATEMENT;
 }

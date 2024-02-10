@@ -10,7 +10,7 @@ FollowsConstraint::FollowsConstraint(class StatementReference* s1, class Stateme
 }
 
 std::string FollowsConstraint::getConstraintType() {
-    return QueryEnums::ENUM_CONSTRAINT_TYPE[enumConstraintType::Follows];
+    return CONSTRAINT_TYPE_FOLLOWS;
 }
 
 std::vector<ConstraintArgument*> FollowsConstraint::getConstraintArguments() {
