@@ -8,7 +8,7 @@
 #include <vector>
 #include <memory>
 #include "Returnable.h"
-#include "Constraint.h"
+#include "qps/query_elements/constraint/Constraint.h"
 #include "Declaration.h"
 
 

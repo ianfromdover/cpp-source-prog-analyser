@@ -5,7 +5,7 @@
 #ifndef PROJECT_PATTERNCONSTRAINT_H
 #define PROJECT_PATTERNCONSTRAINT_H
 
-#include "Constraint.h"
+#include "qps/query_elements/constraint/Constraint.h"
 
 class PatternConstrain : Constraint {
 public:

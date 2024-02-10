@@ -7,9 +7,9 @@
 
 #include <string>
 #include <vector>
-#include "ConstraintArgument.h"
-#include "QueryEnums.h"
-#include "../../utilSpa/SpaTypes.h"
+#include "qps/query_elements/constraint_argument/ConstraintArgument.h"
+#include "qps/query_elements/QueryEnums.h"
+#include "utilSpa/SpaTypes.h"
 
 
 class Constraint {
