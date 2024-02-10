@@ -9,7 +9,7 @@
 
 class SynAssignDeclarationRule : Rule{
 private:
-    bool followsSynAssignDeclaration(QueryObject&);
+    static bool followsSynAssignDeclaration(QueryObject&);
 public:
     std::string validate(QueryObject&) override;
 };

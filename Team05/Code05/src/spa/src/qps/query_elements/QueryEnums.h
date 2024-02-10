@@ -39,7 +39,7 @@ enum enumConstraintType {
     UsesS,
     UsesP,
     ModifiesS,
-    ModifiesP
+    ModifiesP,
 };
 
 enum enumValidationRule {

@@ -5,5 +5,13 @@
 #include "QueryValidator.h"
 
 std::vector<std::string> QueryValidator::validateQuery(QueryObject& qo) {
-    return std::vector<std::string>();
+    RuleSet* rules = new class RuleSet();
+    std::vector<std::string> failedRules;
+    for (Rule* r : rules->getRules()) {
+        std::string failedRule = r->validate(qo);
+        if (!failedRule.empty()) {
+            failedRules.push_back(failedRule);
+        }
+    }
+    return failedRules;
 }

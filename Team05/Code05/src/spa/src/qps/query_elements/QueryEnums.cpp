@@ -35,7 +35,7 @@ static const char *ENUM_CONSTRAINT_TYPE[8] = {
         "UsesS",
         "UsesP",
         "ModifiesS",
-        "ModifiesP"
+        "ModifiesP",
 };
 
 static const char *ENUM_VALIDATION_RULE[6] = {

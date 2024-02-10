@@ -6,6 +6,7 @@
 #define PROJECT_QUERYVALIDATOR_H
 
 #include "../query_elements/QueryObject.h"
+#include "RuleSet.h"
 
 class QueryValidator {
 public:

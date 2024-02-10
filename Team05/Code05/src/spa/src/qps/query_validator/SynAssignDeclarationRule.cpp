@@ -13,6 +13,7 @@ std::string SynAssignDeclarationRule::validate(QueryObject& qo) {
     }
 }
 
+//to be implemented in next sprint
 bool SynAssignDeclarationRule::followsSynAssignDeclaration(QueryObject& qo) {
     return true;
 }

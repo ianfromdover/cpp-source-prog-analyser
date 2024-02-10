@@ -10,9 +10,10 @@
 
 class RuleSet {
 private:
-    std::vector<std::shared_ptr<Rule>> rules;
+    std::vector<Rule*> rules;
 public:
-//    RuleSet();
+    RuleSet();
+    std::vector<Rule*> getRules();
 };
 
 
