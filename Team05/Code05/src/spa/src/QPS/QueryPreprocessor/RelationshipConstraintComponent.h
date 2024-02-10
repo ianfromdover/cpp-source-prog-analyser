@@ -10,7 +10,7 @@
 
 class RelationshipConstraintComponent : public QueryComponent{
 public:
-    void acceptBuilder(QueryBuilder *) override;
+    void acceptBuilder(std::shared_ptr<QueryBuilder>) override;
     void setRelationshipType(std::string string);
     void addArgument(const std::string& string);
 private:

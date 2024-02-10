@@ -21,13 +21,15 @@ std::shared_ptr<QueryComponent> DeclarationHandler::handle(std::string& str) {
     if (std::regex_search(str, matches, entityPattern)) {
         std::cout << "Handled by Declaration Handler: " << str << std::endl;
         if (matches[1].matched) {
+            std::string entityType = matches[1];
+
             Utils::trimAll(str);
-            Utils::removePrefix(str, matches[1]);
+            Utils::removePrefix(str, entityType);
             Utils::trimAll(str);
 
             std::vector<std::string> synList = Utils::splitString(str, ',');
             for (const std::string& syn : synList){
-                synonyms.push_back(syn);
+                component->addDeclaration(entityType, syn);
             }
 
             return component;

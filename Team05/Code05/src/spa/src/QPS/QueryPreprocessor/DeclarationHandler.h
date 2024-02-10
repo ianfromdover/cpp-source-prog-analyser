@@ -18,10 +18,6 @@ public:
     ComponentEnum componentType = ComponentEnum(DECLARATION);
     std::shared_ptr<QueryComponent> handle(std::string&) override;
 private:
-    void parseDeclaration(std::string &s);
-    std::shared_ptr<DeclarationComponent> createComponent();
-    std::string entityType;
-    std::vector<std::string> synonyms;
     std::shared_ptr<DeclarationComponent> component;
 };
 

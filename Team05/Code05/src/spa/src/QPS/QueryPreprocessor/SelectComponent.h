@@ -10,7 +10,7 @@
 
 class SelectComponent : public QueryComponent{
 public:
-    void acceptBuilder(QueryBuilder *) override;
+    void acceptBuilder(std::shared_ptr<QueryBuilder>) override;
     void setSynonym(std::string string);
 private:
     std::string selectedSyn;

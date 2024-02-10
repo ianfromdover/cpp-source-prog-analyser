@@ -12,7 +12,7 @@
 class QueryComponent {
 public:
     ComponentEnum componentType;
-    virtual void acceptBuilder(QueryBuilder *) = 0;
+    virtual void acceptBuilder(std::shared_ptr<QueryBuilder>) = 0;
 };
 
 

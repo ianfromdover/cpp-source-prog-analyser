@@ -12,6 +12,7 @@ class Entity : public Returnable {
 private:
     std::string identifier;
 public:
+    virtual std::string getReturnType() = 0;
     virtual std::string getEntityType() = 0;
     void setIdentifier(std::string s) {
         identifier = std::move(s);

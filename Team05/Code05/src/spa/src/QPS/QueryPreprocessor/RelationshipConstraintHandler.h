@@ -7,16 +7,21 @@
 
 
 #include "ComponentHandler.h"
-#include "../query_elements/constraint/RelationshipConstraint.h"
-#include "qps/query_elements/constraint_argument/ConstraintArgument.h"
+#include "RelationshipConstraintComponent.h"
+
 
 class RelationshipConstraintHandler : public ComponentHandler{
 public:
-    ComponentEnum componentType = ComponentEnum(RELATIONSHIP_CONSTRAINT);
+    RelationshipConstraintHandler() {
+        component = std::make_shared<RelationshipConstraintComponent>();
+        componentType = ComponentEnum(RELATIONSHIP_CONSTRAINT);
+    }
+    ComponentEnum componentType;
     std::shared_ptr<QueryComponent> handle(std::string&);
 private:
     std::string relationshipConstraint;
     std::vector<std::string> arguments;
+    std::shared_ptr<RelationshipConstraintComponent> component;
 
 };
 

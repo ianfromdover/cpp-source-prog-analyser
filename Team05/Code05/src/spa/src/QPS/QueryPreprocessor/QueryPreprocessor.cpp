@@ -7,6 +7,14 @@
 
 void QueryPreprocessor::processQuery(std::string & queryStr) {
     HandlerChain handler;
-    handler.handle(queryStr);
+    std::vector<std::shared_ptr<QueryComponent>> components = handler.handle(queryStr);
 
+    std::shared_ptr<QueryBuilder> builder = std::make_shared<QueryBuilder>();
+    std::shared_ptr<QueryObject> query;
+    for (const std::shared_ptr<QueryComponent>& component : components){
+        component->acceptBuilder(builder);
+    }
+
+    query = builder->build();
+    std::cout<<"ok"<<std::endl;
 }

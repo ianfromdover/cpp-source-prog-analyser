@@ -11,6 +11,7 @@ class StatementEntity : public StatementReference, public Entity {
 public:
     std::string getReturnType() override;
     std::string getEntityType() override;
+
 };
 
 #endif //SPA_STATEMENTENTITY_H

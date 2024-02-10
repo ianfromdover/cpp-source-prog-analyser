@@ -6,22 +6,22 @@
 #define SPA_QUERYBUILDER_H
 
 #include <memory>
-#include "../Query/Returnable.h"
-#include "../Query/RelationshipConstraint.h"
-#include "../Query/PatternConstraint.h"
-#include "../Query/Query.h"
 #include "qps/query_elements/QueryObject.h"
+#include "../query_elements/constraint/RelationshipConstraint.h"
+#include "qps/query_elements/constraint_argument/StatementEntity.h"
 
 
 class QueryBuilder {
 public:
-    void addDeclaration(std::string, std::string);
-    void addConstraints(std::string, std::string, std::string);
+    void addDeclaration(const std::string&, std::string);
+    void addRelationshipConstraints(std::string, std::string, std::string);
     void addReturnType(std::string);
     std::shared_ptr<QueryObject> build();
 private:
-    std::vector<Entity> declarations;
-    std::vector<std::string> constraintsArguments;
+    std::shared_ptr<Entity> QueryBuilder::searchDeclaration(const std::string& synonym);
+    std::vector<std::shared_ptr<Entity>> declarations;
+    std::vector<shared_ptr<Constraint>> constraints;
+    std::shared_ptr<Returnable> returnType;
 };
 
 #endif //SPA_QUERYBUILDER_H

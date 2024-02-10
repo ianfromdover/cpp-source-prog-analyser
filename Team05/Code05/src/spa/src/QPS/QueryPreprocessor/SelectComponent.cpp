@@ -4,10 +4,11 @@
 
 #include "SelectComponent.h"
 
-void SelectComponent::acceptBuilder(QueryBuilder *) {
-
-}
 
 void SelectComponent::setSynonym(std::string string) {
     this->selectedSyn=string;
+}
+
+void SelectComponent::acceptBuilder(std::shared_ptr<QueryBuilder> builder) {
+    builder->addReturnType(selectedSyn);
 }

@@ -15,6 +15,7 @@ void RelationshipConstraintComponent::addArgument(const std::string& string) {
 
 }
 
-void RelationshipConstraintComponent::acceptBuilder(QueryBuilder *) {
-
+void RelationshipConstraintComponent::acceptBuilder(std::shared_ptr<QueryBuilder> builder) {
+    builder->addRelationshipConstraints(relationshipType,arguments[0],arguments[1]);
 }
+

@@ -15,7 +15,6 @@ std::shared_ptr<QueryComponent> SelectHandler::handle(std::string& str) {
     if (std::regex_search(str, matches, regexPattern)) {
         std::cout << "Handled by Select Handler: " << str << std::endl;
         if (matches[1].matched) {
-            std::shared_ptr<SelectComponent> component(new SelectComponent);
             component->setSynonym(matches[1]);
             return component;
         }

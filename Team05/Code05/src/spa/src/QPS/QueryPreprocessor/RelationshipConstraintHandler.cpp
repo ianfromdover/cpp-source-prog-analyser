@@ -19,11 +19,6 @@ std::shared_ptr<QueryComponent> RelationshipConstraintHandler::handle(std::strin
     if (std::regex_search(str, matches, regexPattern)) {
         std::cout << "Handled by RelationshipConstraint Handler: " << str << std::endl;
         if (matches[1].matched && matches[2].matched && matches[3].matched) {
-            relationshipConstraint = matches[1];
-            arguments.push_back(matches[2]);
-            arguments.push_back(matches[3]);
-
-            std::shared_ptr<RelationshipConstraintComponent> component(new RelationshipConstraintComponent);
             component->setRelationshipType(matches[1]);
             component->addArgument(matches[2]);
             component->addArgument(matches[3]);

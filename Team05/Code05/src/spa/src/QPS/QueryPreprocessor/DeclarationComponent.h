@@ -11,7 +11,7 @@
 
 class DeclarationComponent : public QueryComponent{
 public:
-    void acceptBuilder(QueryBuilder *) override;
+    void acceptBuilder(std::shared_ptr<QueryBuilder>) override;
     void addDeclaration(std::string entityType, const std::string& synonym);
 private:
     std::string entityType;

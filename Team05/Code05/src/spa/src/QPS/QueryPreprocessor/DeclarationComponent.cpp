@@ -7,9 +7,6 @@
 #include <utility>
 #include <stdexcept>
 
-void DeclarationComponent::acceptBuilder(QueryBuilder *builderPtr) {
-}
-
 void DeclarationComponent::addDeclaration(std::string type, const std::string& syn) {
     if (entityType.empty() || entityType == type){
         if (entityType.empty())
@@ -17,5 +14,11 @@ void DeclarationComponent::addDeclaration(std::string type, const std::string& s
         synonyms.push_back(syn);
     } else {
         throw std::runtime_error("wrong type!");
+    }
+}
+
+void DeclarationComponent::acceptBuilder(std::shared_ptr<QueryBuilder> builder) {
+    for (const std::string& s : synonyms){
+        builder->addDeclaration(entityType, s);
     }
 }
