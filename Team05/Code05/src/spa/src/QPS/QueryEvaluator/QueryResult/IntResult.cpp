@@ -10,10 +10,10 @@ QueryResultEnum IntResult::getType() {
     return INTEGER;
 }
 
-std::shared_ptr<std::vector<int>> IntResult::getResults() {
+std::vector<int> IntResult::getResults() {
     return results;
 }
 
-IntResult::IntResult(std::shared_ptr<std::vector<int>> res) {
-    results = std::move(res);
+IntResult::IntResult(std::vector<int>& res) {
+    results = res;
 }

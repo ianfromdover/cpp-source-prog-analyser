@@ -13,11 +13,12 @@
 
 class StringResult {
 public:
-    StringResult(std::shared_ptr<std::vector<std::string>>);
+    StringResult(std::vector<std::string>&);
     QueryResultEnum getType();
-    std::shared_ptr<std::vector<std::string>> getResults();
+    std::vector<std::string> getResults();
 private:
-    std::shared_ptr<std::vector<std::string>> results;
+    std::vector<std::string> results;
+
 };
 
 

@@ -12,11 +12,11 @@
 
 class IntResult : public QueryResult {
 public:
-    IntResult(std::shared_ptr<std::vector<int>>);
+    IntResult(std::vector<int>&);
     QueryResultEnum getType();
-    std::shared_ptr<std::vector<int>> getResults();
+    std::vector<int> getResults();
 private:
-    std::shared_ptr<std::vector<int>> results;
+    std::vector<int> results;
 };
 
 

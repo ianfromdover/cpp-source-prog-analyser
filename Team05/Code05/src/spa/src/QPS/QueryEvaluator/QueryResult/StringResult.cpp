@@ -8,10 +8,10 @@ QueryResultEnum StringResult::getType() {
     return STRING;
 }
 
-StringResult::StringResult(std::shared_ptr<std::vector<std::string>> res) {
-    results = res;
+std::vector<std::string> StringResult::getResults() {
+    return results;
 }
 
-std::shared_ptr<std::vector<std::string>> StringResult::getResults() {
-    return results;
+StringResult::StringResult(std::vector<std::string>& res) {
+    results = res;
 }
