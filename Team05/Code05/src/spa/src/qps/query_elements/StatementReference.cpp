@@ -5,7 +5,7 @@
 #include "StatementReference.h"
 
 std::string StatementReference::getReferenceType() {
-    return RETURN_TYPE_STATEMENT;
+    return REFERENCE_TYPE_STATEMENT;
 }
 
 std::string StatementReference::getArgumentValue() {
