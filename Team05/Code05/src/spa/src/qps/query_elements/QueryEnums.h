@@ -42,12 +42,22 @@ enum enumConstraintType {
     ModifiesP
 };
 
+enum enumValidationRule {
+    SingleDeclarationRule,
+    NoDeclarationRule,
+    SynAssignDeclarationRule,
+    WildcardArgumentRule,
+    RelationshipArgumentRule,
+    PatternArgumentRule
+};
+
 class QueryEnums {
 public:
     static const char *ENUM_RETURN_TYPE[9];
     static const char *ENUM_REF_TYPE[3];
     static const char *ENUM_CONSTRAINT_CLASS[2];
     static const char *ENUM_CONSTRAINT_TYPE[8];
+    static const char *ENUM_VALIDATION_RULE[6];
 };
 
 

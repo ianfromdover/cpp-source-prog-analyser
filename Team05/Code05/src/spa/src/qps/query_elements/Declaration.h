@@ -7,9 +7,16 @@
 #include "Entity.h"
 
 class Declaration {
+private:
+    Entity* declarationEntity;
+
 public:
-    Entity* entityType;
-    std::string identifier;
+    explicit Declaration(Entity* e) {
+        declarationEntity = e;
+    }
+    Entity* getDeclarationEntity() {
+        return declarationEntity;
+    }
 };
 
 
