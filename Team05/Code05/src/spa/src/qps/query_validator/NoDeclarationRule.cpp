@@ -16,13 +16,13 @@ std::string NoDeclarationRule::validate(QueryObject& qo) {
 }
 
 bool NoDeclarationRule::followsNoDeclaration(QueryObject& qo) {
-    std::vector<Declaration*> declarations = qo.getDeclarations();
+    std::vector<Entity*> declarations = qo.getDeclarations();
     std::map<std::string, int> declarationMap;
     bool ruleFollowed = true;
 
     // get all declaration entities into a map
-    for (Declaration* declaration : declarations) {
-        std::string declarationName = std::move(declaration->getDeclarationEntity()->getIdentifier());
+    for (Entity* declaration : declarations) {
+        std::string declarationName = std::move(declaration->getIdentifier());
         declarationMap[declarationName] = 1;
     }
 

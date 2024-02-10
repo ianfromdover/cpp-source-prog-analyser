@@ -15,11 +15,11 @@ std::string SingleDeclarationRule::validate(QueryObject& qo) {
 }
 
 bool SingleDeclarationRule::followsSingleDeclaration(QueryObject& qo) {
-    std::vector<Declaration*> declarations = qo.getDeclarations();
+    std::vector<Entity*> declarations = qo.getDeclarations();
     std::map<std::string, int> declarationMap;
     bool ruleFollowed = true;
-    for (Declaration* declaration : declarations) {
-        std::string declarationName = declaration->getDeclarationEntity()->getIdentifier();
+    for (Entity* declaration : declarations) {
+        std::string declarationName = declaration->getIdentifier();
         if (declarationMap.count(declarationName)) {
             ruleFollowed = false;
             break;
