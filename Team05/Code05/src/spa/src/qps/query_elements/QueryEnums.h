@@ -9,46 +9,46 @@
 #include <string>
 
 enum enumReturnType {
-    Statement,
-    Read,
-    Print,
-    Assign,
-    Call,
-    If,
-    While,
-    Integer,
-    WildCard
+    Statement_enum,
+    Read_enum,
+    Print_enum,
+    Assign_enum,
+    Call_enum,
+    If_enum,
+    While_enum,
+    Integer_enum,
+    WildCard_enum
 };
 
 enum enumReferenceType {
-    ExpressionReference,
-    EntityReference,
-    StatementReference
+    ExpressionReference_enum,
+    EntityReference_enum,
+    StatementReference_enum
 };
 
 enum enumConstraintClass {
-    Relationship,
-    Pattern
+    Relationship_enum,
+    Pattern_enum
 };
 
 enum enumConstraintType {
-    Follows,
-    FollowsT,
-    Parent,
-    ParentT,
-    UsesS,
-    UsesP,
-    ModifiesS,
-    ModifiesP,
+    Follows_enum,
+    FollowsT_enum,
+    Parent_enum,
+    ParentT_enum,
+    UsesS_enum,
+    UsesP_enum,
+    ModifiesS_enum,
+    ModifiesP_enum,
 };
 
 enum enumValidationRule {
-    SingleDeclarationRule,
-    NoDeclarationRule,
-    SynAssignDeclarationRule,
-    WildcardArgumentRule,
-    RelationshipArgumentRule,
-    PatternArgumentRule
+    SingleDeclarationRule_enum,
+    NoDeclarationRule_enum,
+    SynAssignDeclarationRule_enum,
+    WildcardArgumentRule_enum,
+    RelationshipArgumentRule_enum,
+    PatternArgumentRule_enum
 };
 
 class QueryEnums {

@@ -10,7 +10,7 @@
 #define RETURN_TYPE_STATEMENT "Statement"
 #define RETURN_TYPE_READ "Read"
 #define RETURN_TYPE_PRINT "Print"
-#define RETURN TYPE_ASSIGN "Assign"
+#define RETURN_TYPE_ASSIGN "Assign"
 #define RETURN_TYPE_CALL "Call"
 #define RETURN_TYPE_IF "If"
 #define RETURN_TYPE_WHILE "While"

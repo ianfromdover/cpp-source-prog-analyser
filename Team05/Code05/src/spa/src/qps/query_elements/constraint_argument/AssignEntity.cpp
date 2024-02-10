@@ -5,9 +5,9 @@
 #include "AssignEntity.h"
 
 std::string AssignEntity::getReturnType() {
-    return RETURN_TYPE_STATEMENT;
+    return RETURN_TYPE_ASSIGN;
 }
 
 std::string AssignEntity::getEntityType() {
-    return RETURN_TYPE_STATEMENT;
+    return RETURN_TYPE_ASSIGN;
 }
