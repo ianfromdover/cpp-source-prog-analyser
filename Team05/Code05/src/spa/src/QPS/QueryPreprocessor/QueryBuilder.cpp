@@ -7,6 +7,7 @@
 #include "QueryBuilder.h"
 #include "qps/query_elements/constraint_argument/StatementEntity.h"
 #include "qps/query_elements/constraint/ParentConstraint.h"
+#include "qps/Exceptions/SemanticErrorException.h"
 
 
 void QueryBuilder::addRelationshipConstraints(std::string type, std::string syn1, std::string syn2) {
@@ -29,6 +30,13 @@ void QueryBuilder::addRelationshipConstraints(std::string type, std::string syn1
 
 void QueryBuilder::addDeclaration(const std::string& entityType, std::string synonym) {
     std::shared_ptr<Entity> e;
+
+    for (auto d : declarations){
+        if (d->getIdentifier() == synonym){
+            throw SemanticErrorException("Synonym already declared");
+        }
+    }
+
     if (entityType == STMT) {
         StatementEntity stmt(synonym);
         e = std::make_shared<StatementEntity>(stmt);

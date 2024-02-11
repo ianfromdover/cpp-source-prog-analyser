@@ -3,12 +3,16 @@
 //
 
 #include "DeclarationComponent.h"
+#include "qps/Exceptions/SemanticErrorException.h"
 
 #include <utility>
 #include <stdexcept>
 
 void DeclarationComponent::addDeclaration(std::string type, const std::string& syn) {
     if (entityType.empty() || entityType == type){
+        if (std::find(synonyms.begin(), synonyms.end(),syn) != synonyms.end()){
+            throw SemanticErrorException("same synonym declared!");
+        }
         if (entityType.empty())
             entityType = std::move(type);
         synonyms.push_back(syn);

@@ -2,8 +2,8 @@
 // Created by Alex on 12/2/2024.
 //
 
-#ifndef SPA_SYNTAXERROREXCEPTION_H
-#define SPA_SYNTAXERROREXCEPTION_H
+#ifndef SPA_SEMANTICERROREXCEPTION_H
+#define SPA_SEMANTICERROREXCEPTION_H
 
 #include <exception>
 
@@ -16,4 +16,4 @@ public:
 private:
     const char* msg;
 };
-#endif //SPA_SYNTAXERROREXCEPTION_H
+#endif //SPA_SEMANTICERROREXCEPTION_H

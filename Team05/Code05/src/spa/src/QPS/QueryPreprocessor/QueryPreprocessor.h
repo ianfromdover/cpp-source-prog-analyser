@@ -12,7 +12,6 @@ class QueryPreprocessor {
 public:
     QueryPreprocessor() = default;
     std::shared_ptr<QueryObject> processQuery(std::string&);
-
 };
 
 

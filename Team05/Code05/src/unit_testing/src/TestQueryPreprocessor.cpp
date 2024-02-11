@@ -4,14 +4,24 @@
 
 #include "catch.hpp"
 #include "QPS/QueryPreprocessor/QueryPreprocessor.h"
+#include "qps/QueryPreprocessor/QueryComponent.h"
 
 using namespace std;
 
 
-TEST_CASE("Valid PQL Syntax1") {
+TEST_CASE("preprocessor_valid_syntax") {
     QueryPreprocessor q;
     std::string query = "stmt a,b;Select a such that Parent (b, a)";
-    q.processQuery(query);
+    auto ls = std::shared_ptr<QueryObject>();
+    REQUIRE_NOTHROW(ls = q.processQuery(query));
+    REQUIRE(ls != nullptr);
+}
+
+TEST_CASE("preprocessor_invalid_syntax") {
+    QueryPreprocessor q;
+    std::string query = "stmt a,b;Select a such that Pasrent (b, a)";
+    auto ls = std::shared_ptr<QueryObject>();
+    REQUIRE_THROWS(ls = q.processQuery(query));
 }
 
 
