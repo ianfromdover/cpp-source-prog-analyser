@@ -8,18 +8,39 @@ using namespace std;
 class PopulatePKB {
 private:
 public:
-    // ai-gen start (copilot, 1, e)
+    // ai-gen start (copilot, 2, e)
     // prompt: used copilot
-    static bool populateAll();
-    static bool populateVarTable();
-    static bool populateProcTable();
-    static bool populateStmtTable();
-    static bool populateFollows();
-    static bool populateParent();
-    static bool populateUses();
-    static bool populateModifies();
-    static bool populatePattern();
+
+    // -- Add Entities --
+    // Adds a variable to the variable table
+    static bool addVar();
+
+    // Adds a constant to the constant table
+    static bool addConst();
+
+    // Adds a procedure to the procedure table
+    static bool addProcedure();
+
+    // Adds a statement to the statement table
+    static bool addStmt(StmtNo stmtNo, Str stmtType, ProcId procIndex);
+
+    // -- Add Abstractions --
+    // Adds a follows relationship to the follows table
+    static bool addFollows();
+
+    // Adds a parent relationship to the parent table
+    static bool addParent(StmtNo parent, StmtNo child); // parent is s1, child is s2
+
+    // Adds a uses relationship to the uses table
+    static bool addUses();
+
+    // Adds a modifies relationship to the modifies table
+    static bool addModifies();
     // ai-gen end
-    static bool generateFollowsT(); // use Follows table to generate FollowsT table
+
+    // -- Generate Transitive Closures --
+    // use the populated Follows table to generate FollowsT table
+    static bool generateFollowsT(); // T stands for Transitive closure
     static bool generateParentT();
+
 };
