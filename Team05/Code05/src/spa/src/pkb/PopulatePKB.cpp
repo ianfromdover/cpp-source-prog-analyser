@@ -19,7 +19,7 @@ bool PopulatePKB::addFollows() {
 }
 bool PopulatePKB::addParent(StmtNo parent, StmtNo child) {
     // add parent child pair to parent table
-    // PKB::parentTable->addParent(parent, child);
+    // PKB::twoSideMap->addParent(parent, child);
     return false;
 }
 bool PopulatePKB::addUses() {

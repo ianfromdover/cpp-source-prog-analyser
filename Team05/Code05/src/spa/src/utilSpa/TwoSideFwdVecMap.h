@@ -75,6 +75,8 @@ public:
      * @param value The value to remove.
      */
     void eraseValue(const B& value);
+
+    int size() const;
 };
 
 // ai-gen end

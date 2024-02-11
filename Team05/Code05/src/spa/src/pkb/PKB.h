@@ -10,14 +10,12 @@
 
 using namespace std;
 
-class VarTable;  // no need to #include "VarTable.h" as all I need is pointer
-
 class PKB {
 private:
-    shared_ptr<ParentTable> parentTable; // does this initialise?
 public:
     PKB();
     // TODO: Add a fn to Instantiate all Tables here, then call in TestWrapper
-	static VarTable* varTable;
+    // TODO: Use Singleton pattern?
 
+    shared_ptr<ParentTable> parentTable; // does this initialise?
 };

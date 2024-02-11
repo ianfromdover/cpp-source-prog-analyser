@@ -87,4 +87,9 @@ void TwoSideFwdVecMap<A, B>::eraseValue(const B& value) {
     }
 }
 
+template<typename A, typename B>
+int TwoSideFwdVecMap<A,B>::size() const {
+    return forwardMap.size();
+}
+
 // ai-gen end
