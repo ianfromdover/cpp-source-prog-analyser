@@ -1,5 +1,7 @@
 #include "DoubleMap.h"
 
+template<typename A, typename B>
+DoubleMap<A, B>::DoubleMap() {};
 // ai-gen start(gpt, 0, e)
 
 template<typename A, typename B>

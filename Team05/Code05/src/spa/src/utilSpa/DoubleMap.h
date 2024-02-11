@@ -9,6 +9,7 @@
 
 /**
  * @brief A double-sided map that allows bidirectional mapping between keys and values.
+ * Used for items in the PKB such as VarTable, ProcTable
  *
  * @tparam A The type of the keys.
  * @tparam B The type of the values.
@@ -20,6 +21,8 @@ private:
     std::unordered_map<B, A> backwardMap;
 
 public:
+    DoubleMap();
+
     /**
      * @brief Insert a mapping from key to value.
      *
