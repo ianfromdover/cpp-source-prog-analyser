@@ -11,7 +11,7 @@
 
 void QueryBuilder::addRelationshipConstraints(std::string type, std::string syn1, std::string syn2) {
     std::shared_ptr<RelationshipConstraint> r;
-    if (type == "Parent"){
+    if (type == "Parent" || type == "Parent*"){
         std::shared_ptr<Entity> arg1 = searchDeclaration(syn1);
         std::shared_ptr<Entity> arg2 = searchDeclaration(syn2);
         if (arg1 && arg2) {
@@ -35,7 +35,7 @@ void QueryBuilder::addDeclaration(const std::string& entityType, std::string syn
         throw std::runtime_error("invalid declaration type");
     }
     e->setIdentifier(std::move(synonym));
-    declarations.push_back(static_cast<shared_ptr<Entity>>(e));
+    declarations.push_back(e);
 }
 
 std::shared_ptr<Entity> QueryBuilder::searchDeclaration(const std::string& synonym){
@@ -59,11 +59,11 @@ void QueryBuilder::addReturnType(std::string r) {
 std::shared_ptr<QueryObject> QueryBuilder::build() {
     std::shared_ptr<QueryObject> query = std::make_shared<QueryObject>();
     for (const auto& d : declarations){
-        query->addDeclaration(*d); // TODO: Refactor with shared pointers
+        query->addDeclaration(d); // TODO: Refactor with shared pointers
     }
 
     for (const auto& c : constraints){
-        query->addConstraint(*c); // TODO: Refactor with shared pointers
+        query->addConstraint(c); // TODO: Refactor with shared pointers
     }
 
     query->setReturnType(returnType);

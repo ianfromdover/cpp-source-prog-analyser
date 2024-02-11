@@ -2,11 +2,11 @@
 // Created by Alex on 8/2/2024.
 //
 
-#include "Utils.h"
+#include "StringUtils.h"
 #include <iostream>
 #include <sstream>
 
-std::vector<std::string> Utils::splitString(const std::string &str, char delimiter) {
+std::vector<std::string> StringUtils::splitString(const std::string &str, char delimiter) {
     std::vector<std::string> result;
     std::size_t start = 0;
     std::size_t end = str.find(delimiter);
@@ -22,11 +22,11 @@ std::vector<std::string> Utils::splitString(const std::string &str, char delimit
     return result;
 }
 
-void Utils::printStringVector(const std::vector<std::string> &stringVector) {
+void StringUtils::printStringVector(const std::vector<std::string> &stringVector) {
     std::cout << formatWithSquareBrackets(stringVector) << std::endl;
 }
 
-std::string Utils::formatWithSquareBrackets(const std::vector<std::string>& strings) {
+std::string StringUtils::formatWithSquareBrackets(const std::vector<std::string>& strings) {
     std::ostringstream oss;
     oss << "["; // Start with opening square bracket
 
@@ -45,7 +45,7 @@ std::string Utils::formatWithSquareBrackets(const std::vector<std::string>& stri
 }
 
 
-void Utils::trimStart(std::string& str) {
+void StringUtils::trimStart(std::string& str) {
     // Find the first non-whitespace character
     size_t start = str.find_first_not_of(" \t\n\r");
 
@@ -58,7 +58,7 @@ void Utils::trimStart(std::string& str) {
     str = str.substr(start);
 }
 
-void Utils::trimTrailing(std::string& str) {
+void StringUtils::trimTrailing(std::string& str) {
     // Find the index of the last non-whitespace character
     size_t end = str.find_last_not_of(" \t\n\r");
     if (end == std::string::npos) {
@@ -70,7 +70,7 @@ void Utils::trimTrailing(std::string& str) {
     str = str.substr(0, end + 1);
 }
 
-void Utils::removePrefix(std::string& str, const std::string& prefix) {
+void StringUtils::removePrefix(std::string& str, const std::string& prefix) {
     // Check if the string starts with the prefix
     if (str.compare(0, prefix.length(), prefix) == 0) {
         // If it does, erase the prefix from the string
@@ -79,7 +79,7 @@ void Utils::removePrefix(std::string& str, const std::string& prefix) {
 
 }
 
-void Utils::trimAll(std::string &str) {
+void StringUtils::trimAll(std::string &str) {
     trimStart(str);
     trimTrailing(str);
 }

@@ -5,6 +5,7 @@
 #include <regex>
 #include "SelectHandler.h"
 #include "SelectComponent.h"
+#include "qps/Exceptions/SyntaxErrorException.h"
 
 std::shared_ptr<QueryComponent> SelectHandler::handle(std::string& str) {
     std::regex regexPattern(R"(^\s*Select\s+([a-zA-Z][a-zA-Z0-9]*)$)");
@@ -22,6 +23,6 @@ std::shared_ptr<QueryComponent> SelectHandler::handle(std::string& str) {
         else throw std::runtime_error("BUG::SelectHandler matching regex but not matching required groups");
     } else {
         if (nextHandler) return nextHandler->handle(str);
-        else throw std::runtime_error("no handlers able to process" + str);
+        else throw SyntaxErrorException(str.c_str());
     }
 }

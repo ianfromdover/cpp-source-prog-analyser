@@ -3,14 +3,16 @@
 //
 
 #include "DeclarationHandler.h"
-#include "Utils/Utils.h"
+#include "utilSpa/StringUtils.h"
 #include "DeclarationComponent.h"
+#include "qps/Exceptions/SyntaxErrorException.h"
 #include <regex>
 #include <vector>
 
 
 std::shared_ptr<QueryComponent> DeclarationHandler::handle(std::string& str) {
 
+    std::shared_ptr<DeclarationComponent> component = std::make_shared<DeclarationComponent>();
 
     std::regex entityPattern(R"(^(stmt)\s+([a-zA-Z][a-zA-Z0-9]*)(?:,\s*([a-zA-Z][a-zA-Z0-9]*))*$)");
 
@@ -23,11 +25,11 @@ std::shared_ptr<QueryComponent> DeclarationHandler::handle(std::string& str) {
         if (matches[1].matched) {
             std::string entityType = matches[1];
 
-            Utils::trimAll(str);
-            Utils::removePrefix(str, entityType);
-            Utils::trimAll(str);
+            StringUtils::trimAll(str);
+            StringUtils::removePrefix(str, entityType);
+            StringUtils::trimAll(str);
 
-            std::vector<std::string> synList = Utils::splitString(str, ',');
+            std::vector<std::string> synList = StringUtils::splitString(str, ',');
             for (const std::string& syn : synList){
                 component->addDeclaration(entityType, syn);
             }
@@ -39,6 +41,6 @@ std::shared_ptr<QueryComponent> DeclarationHandler::handle(std::string& str) {
 
     } else {
         if (nextHandler) return nextHandler->handle(str);
-        else throw std::runtime_error("no handlers able to process! " + str);
+        else throw SyntaxErrorException(str.c_str());
     }
 }

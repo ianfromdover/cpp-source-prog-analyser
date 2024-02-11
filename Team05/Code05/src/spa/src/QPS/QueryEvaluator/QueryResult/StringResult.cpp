@@ -3,7 +3,7 @@
 //
 
 #include "StringResult.h"
-#include "Utils/Utils.h"
+#include "utilSpa/StringUtils.h"
 
 QueryResultEnum StringResult::getType() {
     return STRING;

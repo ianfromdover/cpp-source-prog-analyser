@@ -7,6 +7,7 @@
 #include "RelationshipConstraintHandler.h"
 #include "qps/query_elements/constraint/FollowsConstraint.h"
 #include "RelationshipConstraintComponent.h"
+#include "qps/Exceptions/SyntaxErrorException.h"
 
 std::shared_ptr<QueryComponent> RelationshipConstraintHandler::handle(std::string& str) {
     std::cout << "Relationship handler: " << str << std::endl;
@@ -28,7 +29,7 @@ std::shared_ptr<QueryComponent> RelationshipConstraintHandler::handle(std::strin
         else throw std::runtime_error("BUG::RelationshipConstraintHandler matching regex but not matching required groups");
     } else {
         if (nextHandler) return nextHandler->handle(str);
-        else throw std::runtime_error("no handlers able to process" + str);
+        else throw SyntaxErrorException(str.c_str());
     }
 }
 

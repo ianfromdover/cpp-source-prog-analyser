@@ -4,12 +4,13 @@
 
 #include <regex>
 #include "HandlerChain.h"
-#include "Utils/Utils.h"
+#include "utilSpa/StringUtils.h"
+#include "qps/Exceptions/SyntaxErrorException.h"
 
 std::vector<std::shared_ptr<QueryComponent>> HandlerChain::handle(std::string str) {
     std::cout << "handler chain received " << str <<std::endl;
     char delimitter = ';';
-    std::vector<std::string> splitStr = Utils::splitString(str,delimitter);
+    std::vector<std::string> splitStr = StringUtils::splitString(str, delimitter);
     std::vector<std::string> toHandlers;
     std::vector<std::shared_ptr<QueryComponent>> parsedComponents;
 
@@ -74,7 +75,7 @@ std::vector<std::string> HandlerChain::tryConvert(std::string str) {
     if (std::all_of(str.begin(), str.end(), [](unsigned char c) { return std::isspace(c); })){
         return res;
     } else {
-        throw std::runtime_error("gg");
+        throw SyntaxErrorException(str.c_str());
     }
 
 }

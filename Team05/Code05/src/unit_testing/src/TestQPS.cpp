@@ -5,13 +5,33 @@
 #include <iostream>
 #include "catch.hpp"
 #include "qps/QPS.h"
-#include "Utils/Utils.h"
+#include "utilSpa/StringUtils.h"
 
 using namespace std;
 
 
 TEST_CASE("System Test") {
-    QPS q;
-    std::string query = "stmt a,b;Select a such that Parent (b, a)";
-    std::cout << Utils::formatWithSquareBrackets(q.evaluate(query));
+
+    std::vector<std::string> ls = {"s1","s2"};
+    PKBStub stub(ls);
+    QPS q(stub);
+    std::string query = "stmt a,b;stmt c,d;Select a such that Parent* (b, a)";
+    std::vector<std::string> actual = q.evaluate(query);
+
+    REQUIRE(ls == actual);
+}
+
+TEST_CASE("Invalid Syntax"){
+    std::string SYNTAX_ERROR = "SyntaxError";
+    std::vector<std::string> expected = std::vector<std::string>({SYNTAX_ERROR});
+
+    std::vector<std::string> ls = {"s1","s2"};
+    PKBStub stub(ls);
+    QPS q(stub);
+    std::string query = "stmt a,b;stmt c,d;Select a such that Parent* (b, a)";
+    std::vector<std::string> actual = q.evaluate(query);
+
+    REQUIRE(expected == actual);
+
+
 }

@@ -7,7 +7,7 @@
 #include <utility>
 #include <algorithm>
 #include <iterator>
-#include "Utils/Utils.h"
+#include "utilSpa/StringUtils.h"
 
 QueryResultEnum IntResult::getType() {
     return INTEGER;
