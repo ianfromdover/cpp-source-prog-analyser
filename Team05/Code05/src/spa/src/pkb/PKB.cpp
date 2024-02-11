@@ -2,9 +2,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "PKB.h"
 
 using namespace std;
 
-#include "PKB.h"
-#include "TNode.h"
-
+PKB::PKB() {}
