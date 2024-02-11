@@ -1,27 +1,29 @@
 #pragma once
-#define SPA_DOUBLEMAP_H
+#define SPA_TWO_SIDE_DBL_VEC_MAP_H
 
-#include "SpaTypes.h"
-
-// ai-gen start(gpt, 0, e)
-// prompt: https://chat.openai.com/share/8ef1cf87-56eb-45bd-b91f-fbf309b86d98
 #include <iostream>
+#include "utilSpa/TwoSideFwdVecMap.h"
 
 /**
  * @brief A double-sided map that allows bidirectional mapping between keys and values.
- * Used for items in the PKB such as VarTable, ProcTable
+ * Used for transitive tables in the PKB such as ParentTTable
  *
  * @tparam A The type of the keys.
  * @tparam B The type of the values.
  */
 template<typename A, typename B>
-class DoubleMap {
+class TwoSideDblVecMap {
 private:
-    std::unordered_map<A, B> forwardMap;
-    std::unordered_map<B, A> backwardMap;
+    // TODO: should the vector be a set to prevent duplicates?
+    std::unordered_map<A, std::vector<B>> forwardMap;
+    std::unordered_map<B, std::vector<A>> backwardMap;
 
 public:
-    DoubleMap();
+    TwoSideDblVecMap();
+    // TODO: how to construct a new TwoSideDblVecMap from a given TwoSideFedVecMap?
+    // used when generating transitive tables (the star table)
+    // benefit: faster than inserting one by one, just copy the maps and recurse 1 level
+    // TwoSideDblVecMap(const TwoSideFwdVecMap<A, B>& other);
 
     /**
      * @brief Insert a mapping from key to value.
@@ -37,7 +39,7 @@ public:
      * @param key The key.
      * @return The value associated with the key.
      */
-    B getValue(const A& key);
+    std::vector<B> getValues(const A& key);
 
     /**
      * @brief Retrieve the key associated with a value.
@@ -45,7 +47,7 @@ public:
      * @param value The value.
      * @return The key associated with the value.
      */
-    A getKey(const B& value);
+    std::vector<A> getKeys(const B& value);
 
     /**
      * @brief Check if a key exists in the map.
