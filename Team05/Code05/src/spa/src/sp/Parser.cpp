@@ -4,10 +4,6 @@
 
 #include "Parser.h"
 
-Parser::Parser(TokenList &tokens) {
-
-}
-
 bool Parser::match(std::initializer_list<TokenType::TypeInfo> types) {
     for (const auto& type : types) {
         if (this->check(type)) {
@@ -86,6 +82,7 @@ std::unique_ptr<Expr> Parser::condExpr() {
 }
 
 std::unique_ptr<Expr> Parser::relExpr() {
+    // rel_factor ('>' | '>=' | '<' | '<=' | '==' | '!=') rel_factor
     auto left = this->relFactor();
     if (this->match({ TokenType::GREATER, TokenType::GREATER_EQUAL, TokenType::LESSER,
                       TokenType::LESSER_EQUAL, TokenType::EQUAL_EQUAL, TokenType::BANG_EQUAL })) {
@@ -99,6 +96,7 @@ std::unique_ptr<Expr> Parser::relExpr() {
 }
 
 std::unique_ptr<Expr> Parser::relFactor() {
+    // var_name | const_value | expr
     if (this->match({ TokenType::NAME })) {
         return std::make_unique<Variable>(this->previous().getLexeme());
     }
@@ -107,38 +105,37 @@ std::unique_ptr<Expr> Parser::relFactor() {
         return std::make_unique<Literal>(std::stoi(this->previous().getLexeme()));
     }
 
-    this->expr();
-
+    return this->expr();
 }
 
-Expr Parser::expr() {
-    // term exprTail
-    this->term();
-    this->exprTail();
+std::unique_ptr<Expr> Parser::expr() {
+    // term expr_tail
+    return this->exprTail(this->term());
 }
 
-Expr Parser::exprTail() {
-    // '+' term exprTail | '-' term exprTail | empty
+std::unique_ptr<Expr> Parser::exprTail(std::unique_ptr<Expr> left) {
+    // ('+' | '-') term expr_tail | empty
     if (this->match({ TokenType::ADD, TokenType::SUBTRACT })) {
-        this->term();
-        this->exprTail();
+        auto op = std::make_unique<Token>(this->previous());
+        auto right = this->term();
+        return this->exprTail(std::make_unique<Binary>(std::move(left), std::move(op), std::move(right)));
     }
+    return left;
 }
 
 std::unique_ptr<Expr> Parser::term() {
-    // factor termTail
-    this->factor();
-    this->termTail();
+    // factor term_tail
+    this->termTail(this->factor());
 }
 
-std::optional<std::unique_ptr<Expr>> Parser::termTail() {
-    // ('*' | '/' | '%' factor termTail) | empty
+std::unique_ptr<Expr> Parser::termTail(std::unique_ptr<Expr> left) {
+    // ('*' | '/' | '%') factor term_tail | empty
     if (this->match({ TokenType::MULTIPLY, TokenType::DIVIDE, TokenType::MOD })) {
         auto op = std::make_unique<Token>(this->previous());
-        this->factor();
-        this->termTail();
+        auto right = this->factor();
+        return this->termTail(std::make_unique<Binary>(std::move(left), std::move(op), std::move(right)));
     }
-    return std::nullopt;
+    return left;
 }
 
 std::unique_ptr<Expr> Parser::factor() {
@@ -151,8 +148,8 @@ std::unique_ptr<Expr> Parser::factor() {
         return std::make_unique<Literal>(std::stoi(this->previous().getLexeme()));
     }
 
-    if (this->match({ TokenType::LEFT_PAREN })) {
-        this->expr();
-        this->consume(TokenType::RIGHT_PAREN, "Expect ')' after expression.");
-    }
+    this->consume(TokenType::LEFT_PAREN, "Expect '(' before expression.");
+    auto expr = this->expr();
+    this->consume(TokenType::RIGHT_PAREN, "Expect ')' after expression.");
+    return expr;
 }

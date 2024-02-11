@@ -7,6 +7,7 @@
 
 #include "TokenList.h"
 #include "Expr.h"
+#include "Stmt.h"
 
 class Parser {
 private:
@@ -16,6 +17,7 @@ private:
 
 public:
     explicit Parser(TokenList& tokens) : tokens(tokens.getTokens()) {};
+    Program parse();
 
 private:
     bool match(std::initializer_list<TokenType::TypeInfo> types);
@@ -29,11 +31,10 @@ private:
     std::unique_ptr<Expr> condExpr();
     std::unique_ptr<Expr> relExpr();
     std::unique_ptr<Expr> relFactor();
-
-    Expr expr();
-    Expr exprTail();
+    std::unique_ptr<Expr> expr();
+    std::unique_ptr<Expr> exprTail(std::unique_ptr<Expr> left);
     std::unique_ptr<Expr> term();
-    std::optional<std::unique_ptr<Expr>> termTail();
+    std::unique_ptr<Expr> termTail(std::unique_ptr<Expr> left);
     std::unique_ptr<Expr> factor();
 };
 
