@@ -7,6 +7,7 @@
 
 #include "Rule.h"
 
+//A synonym name can only be declared once.
 class SingleDeclarationRule : public Rule {
 private:
     bool followsSingleDeclaration(QueryObject&);

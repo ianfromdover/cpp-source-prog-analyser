@@ -7,6 +7,7 @@
 
 #include "Rule.h"
 
+// All the synonyms used in clauses must be declared exactly once.
 class NoDeclarationRule : public Rule {
 private:
     bool followsNoDeclaration(QueryObject&);
