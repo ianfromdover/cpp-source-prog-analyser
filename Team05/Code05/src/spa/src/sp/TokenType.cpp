@@ -32,10 +32,13 @@ std::string TokenType::toString() const {
         case MULTIPLY: return "MULTIPLY";
         case DIVIDE: return "DIVIDE";
         case MOD: return "MOD";
+        case END_OF_FILE: return "EOF";
         default: return "UNKNOWN";
     }
 }
 
-TokenType::TokenType(TokenType::TypeInfo info) : info(info) {
+TokenType::TokenType(TokenType::TypeInfo info) : info(info) {}
 
+TokenType::TypeInfo TokenType::getInfo() {
+    return this->info;
 }

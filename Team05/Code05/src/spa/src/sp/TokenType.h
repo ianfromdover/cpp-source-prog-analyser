@@ -17,6 +17,8 @@ public:
         BANG, OR, AND,
         //Mathematical Operators
         ADD, SUBTRACT, MULTIPLY, DIVIDE, MOD,
+        // Others
+        END_OF_FILE,
         // Invalid
         UNKNOWN
     };
@@ -26,6 +28,7 @@ private:
 
 public:
     explicit TokenType(TypeInfo info);
+    TypeInfo getInfo();
     [[nodiscard]] std::string toString() const;
 };
 
