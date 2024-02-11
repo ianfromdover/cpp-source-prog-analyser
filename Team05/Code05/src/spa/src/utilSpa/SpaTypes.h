@@ -7,6 +7,40 @@
 #include <unordered_map>
 
 // for QPS to check the constraint's arg type
+#define RETURN_TYPE_STATEMENT "Statement"
+#define RETURN_TYPE_READ "Read"
+#define RETURN_TYPE_PRINT "Print"
+#define RETURN_TYPE_ASSIGN "Assign"
+#define RETURN_TYPE_CALL "Call"
+#define RETURN_TYPE_IF "If"
+#define RETURN_TYPE_WHILE "While"
+#define RETURN_TYPE_INTEGER "Integer"
+#define RETURN_TYPE_WILDCARD "WildCard"
+
+#define REFERENCE_TYPE_EXPRESSION "ExpressionReference"
+#define REFERENCE_TYPE_ENTITY "EntityReference"
+#define REFERENCE_TYPE_STATEMENT "StatementReference"
+
+#define CONSTRAINT_CLASS_RELATIONSHIP "Relationship"
+#define CONSTRAINT_CLASS_PATTERN "Pattern"
+
+#define CONSTRAINT_TYPE_FOLLOWS "Follows"
+#define CONSTRAINT_TYPE_FOLLOWST "FollowsT"
+#define CONSTRAINT_TYPE_PARENT "Parent"
+#define CONSTRAINT_TYPE_PARENTT "ParentT"
+#define CONSTRAINT_TYPE_USESS "UsesS"
+#define CONSTRAINT_TYPE_USESP "UsesP"
+#define CONSTRAINT_TYPE_MODIFIESS "ModifiesS"
+#define CONSTRAINT_TYPE_MODIFIESP "ModifiesP"
+
+#define VALIDATION_RULE_SINGLE_DECLARATION "SingleDeclarationRule"
+#define VALIDATION_RULE_NO_DECLARATION "NoDeclarationRule"
+#define VALIDATION_RULE_SYN_ASSIGN_DECLARATION "SynAssignDeclarationRule"
+#define VALIDATION_RULE_WILDCARD_ARGUMENT "WildcardArgumentRule"
+#define VALIDATION_RULE_RELATIONSHIP_ARGUMENT "RelationshipArgumentRule"
+#define VALIDATION_RULE_PATTERN_ARGUMENT "PatternArgumentRule"
+
+
 #define LNNO "line_number"
 #define PROC "procedure"
 #define STMT "stmt"

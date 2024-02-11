@@ -20,11 +20,11 @@ void QueryObject::addConstraint(Constraint& c) {
     constraints.push_back(&c);
 }
 
-std::vector<Declaration*> QueryObject::getDeclarations() {
+std::vector<Entity*> QueryObject::getDeclarations() {
     return declarations;
 }
 
-void QueryObject::addDeclaration(Declaration& d) {
+void QueryObject::addDeclaration(Entity& d) {
     declarations.push_back(&d);
 }
 
