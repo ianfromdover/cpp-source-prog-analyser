@@ -14,6 +14,8 @@ using namespace std;
 #include "qps/query_elements/constraint_argument/PrintEntity.h"
 #include "qps/query_elements/constraint/ParentConstraint.h"
 
+// ai-gen start(gpt, 1, e)
+// prompt: https://chat.openai.com/share/58cc37a5-02ca-46fb-8029-ff79056aad6c
 TEST_CASE("noDeclarationRule_AllEntitiesDeclaredOnce_returnsNoString") {
     // Create a QueryObject with all entities declared exactly once
     QueryObject qo;
@@ -35,7 +37,7 @@ TEST_CASE("noDeclarationRule_Missing2EntityDeclaration_returnsString") {
     auto *e1 = new StatementEntity("q");
     auto *e2 = new PrintEntity("l");
     // Add a constraint with an undeclared entity as an argument
-    auto* p = new ParentConstraint(e1, e2); // e2 is not declared in qo
+    auto* p = new ParentConstraint(e1, e2); // e1, e2 is not declared in qo
     qo.addConstraint(*p);
     NoDeclarationRule rule;
 
@@ -59,7 +61,7 @@ TEST_CASE("noDeclarationRule_Missing1EntityDeclaration_returnsString") {
 
 
 
-TEST_CASE("noDeclarationRule_MultipleUsageOfSameEntity_returnsString") {
+TEST_CASE("noDeclarationRule_MultipleUsageOfMissingEntity_returnsString") {
     // Create a QueryObject with multiple usage of the same entity
     QueryObject qo;
     // Add entity declaration
@@ -91,3 +93,5 @@ TEST_CASE("noDeclarationRule_EntitiesUsedAsArgumentsNotDeclared_returnsString") 
     NoDeclarationRule rule;
     REQUIRE(rule.validate(qo) == VALIDATION_RULE_NO_DECLARATION);
 }
+
+// ai-gen end

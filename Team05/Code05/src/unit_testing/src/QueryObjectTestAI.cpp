@@ -25,14 +25,14 @@ TEST_CASE("QueryObject_GetReturnType_ReturnsCorrectValue") {
     REQUIRE(queryObj.getReturnType() == returnType);
 }
 
-TEST_CASE("QueryObject_SetReturnType_SetsCorrectValue") {
+TEST_CASE("QueryObject_Set/GetReturnType_SetsCorrectValue") {
     QueryObject queryObj;
     std::shared_ptr<Returnable> returnType = std::make_shared<PrintEntity>("c");
     queryObj.setReturnType(returnType);
     REQUIRE(queryObj.getReturnType() == returnType);
 }
 
-TEST_CASE("QueryObject_GetConstraints_ReturnsCorrectVector") {
+TEST_CASE("QueryObject_Get/AddConstraints_ReturnsCorrectVector") {
     QueryObject queryObj;
     auto* s = new StatementEntity("a");
     auto* r = new ReadEntity("z");

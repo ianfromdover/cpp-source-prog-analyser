@@ -31,7 +31,7 @@ TEST_CASE("SingleDeclarationRule_ValidDeclarations_NoError") {
     std::string result = rule.validate(qo);
 
     // Ensure no error message is returned
-    REQUIRE(result == "");
+    REQUIRE(result.empty());
 }
 
 TEST_CASE("SingleDeclarationRule_DuplicateDeclarations_Error") {
