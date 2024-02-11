@@ -6,9 +6,64 @@
 #define SPA_EXPR_H
 
 
-class Expr {
+#include "Token.h"
 
+class Expr;
+class Binary;
+class Variable;
+class Literal;
+class Unary;
+
+template <typename T>
+class ExprVisitor {
+public:
+    virtual T visitBinaryExpr(const Binary& expr);
+    virtual T visitVariableExpr(const Variable& expr);
+    virtual T visitLiteralExpr(const Literal& expr);
+    virtual T visitUnaryExpr(const Unary& expr);
 };
 
+class Expr {
+public:
+    virtual ~Expr() = default;
+//    template <typename T>
+//    T accept(Visitor<T> visitor);
+};
+
+class Binary : public Expr {
+private:
+    std::unique_ptr<Expr> left;
+    std::unique_ptr<Token> op;
+    std::unique_ptr<Expr> right;
+
+public:
+    Binary(std::unique_ptr<Expr> left, std::unique_ptr<Token> op, std::unique_ptr<Expr> right)
+        : left(std::move(left)), op(std::move(op)), right(std::move(right)) {}
+};
+
+class Variable : public Expr {
+private:
+    std::string name;
+
+public:
+    explicit Variable(std::string name) : name(std::move(name)) {}
+};
+
+class Literal : public Expr {
+private:
+    int value;
+
+public:
+    Literal(int value) : value(value) {}
+};
+
+class Unary : public Expr {
+private:
+    std::unique_ptr<Token> op;
+    std::unique_ptr<Expr> right;
+
+public:
+    Unary(std::unique_ptr<Token> op, std::unique_ptr<Expr> right) : op(std::move(op)), right(std::move(right)) {}
+};
 
 #endif //SPA_EXPR_H
