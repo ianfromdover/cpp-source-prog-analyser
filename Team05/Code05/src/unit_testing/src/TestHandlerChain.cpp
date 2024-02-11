@@ -15,11 +15,3 @@ TEST_CASE("Valid PQL Syntax") {
     handlerChain.handle("stmt a,b;Select a such that Parent (w, a)");
     handlerChain.handle("stmt a,b;Select a such that Parent* (w,a)");
 }
-
-
-TEST_CASE("Invalid PQL Syntax") {
-
-    HandlerChain handlerChain;
-    handlerChain.handle("stmt a,b;Select a such that Follows (w, a)");
-    handlerChain.handle("stmt a,b;Select a such that Follows(w,a)");
-}

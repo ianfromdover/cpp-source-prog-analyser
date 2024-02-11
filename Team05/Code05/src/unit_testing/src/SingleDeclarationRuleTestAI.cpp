@@ -19,9 +19,11 @@ using namespace std;
 TEST_CASE("SingleDeclarationRule_ValidDeclarations_NoError") {
     // Create a QueryObject with valid unique declarations
     QueryObject qo;
-    AssignEntity assignEntity("z");
-    PrintEntity printEntity("w");
-    StatementEntity statementEntity("p");
+
+    auto assignEntity = std::make_shared<AssignEntity>(AssignEntity("z"));
+    auto printEntity = std::make_shared<PrintEntity>(PrintEntity("w"));
+    auto statementEntity = std::make_shared<StatementEntity>(StatementEntity("p"));
+
     qo.addDeclaration(assignEntity);
     qo.addDeclaration(printEntity);
     qo.addDeclaration(statementEntity);
@@ -37,8 +39,8 @@ TEST_CASE("SingleDeclarationRule_ValidDeclarations_NoError") {
 TEST_CASE("SingleDeclarationRule_DuplicateDeclarations_Error") {
     // Create a QueryObject with duplicate declarations
     QueryObject qo;
-    AssignEntity assignEntity1("x");
-    AssignEntity assignEntity2("x");
+    auto assignEntity1 = std::make_shared<AssignEntity>(AssignEntity("x"));
+    auto assignEntity2 = std::make_shared<AssignEntity>(AssignEntity("x"));
     qo.addDeclaration(assignEntity1);
     qo.addDeclaration(assignEntity2);
 
@@ -53,9 +55,10 @@ TEST_CASE("SingleDeclarationRule_DuplicateDeclarations_Error") {
 TEST_CASE("SingleDeclarationRule_MixedDeclarations_Error") {
     // Create a QueryObject with a mix of unique and duplicate declarations
     QueryObject qo;
-    AssignEntity assignEntity1("x");
-    PrintEntity printEntity("y");
-    AssignEntity assignEntity2("x");
+
+    auto assignEntity1 = std::make_shared<AssignEntity>(AssignEntity("x"));
+    auto printEntity = std::make_shared<PrintEntity>(PrintEntity("y"));
+    auto assignEntity2 = std::make_shared<AssignEntity>(AssignEntity("x"));
 
     qo.addDeclaration(assignEntity1);
     qo.addDeclaration(printEntity);

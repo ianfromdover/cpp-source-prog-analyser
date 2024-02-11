@@ -21,14 +21,16 @@ using namespace std;
 TEST_CASE("QueryValidator_ValidateQuery_NoErrors") {
     // Create a QueryObject with valid unique declarations and no constraint violations
     QueryObject qo;
-    auto* assignEntity = new AssignEntity("x");
-    auto* printEntity = new PrintEntity("y");
-    qo.addDeclaration(*assignEntity);
-    qo.addDeclaration(*printEntity);
+    std::shared_ptr<AssignEntity> assignEntity = std::make_shared<AssignEntity>(AssignEntity("x"));
+    std::shared_ptr<PrintEntity> printEntity = std::make_shared<PrintEntity>(PrintEntity("y"));
 
-    auto* parentConstraint = new ParentConstraint(assignEntity, printEntity);
+    qo.addDeclaration(assignEntity);
+    qo.addDeclaration(printEntity);
 
-    qo.addConstraint(*parentConstraint);
+    std::shared_ptr<ParentConstraint> parentConstraint = std::make_shared<ParentConstraint>(ParentConstraint(assignEntity.get(), printEntity.get()));
+
+
+    qo.addConstraint(parentConstraint);
 
     // Apply QueryValidator to validate the QueryObject
     QueryValidator validator;
@@ -41,8 +43,10 @@ TEST_CASE("QueryValidator_ValidateQuery_NoErrors") {
 TEST_CASE("QueryValidator_ValidateQuery_SingleDeclarationRuleViolation") {
     // Create a QueryObject violating the SingleDeclarationRule
     QueryObject qo;
-    AssignEntity assignEntity1("x");
-    AssignEntity assignEntity2("x");
+
+    std::shared_ptr<AssignEntity> assignEntity1 = std::make_shared<AssignEntity>(AssignEntity("x"));
+    std::shared_ptr<AssignEntity> assignEntity2 = std::make_shared<AssignEntity>(AssignEntity("x"));
+
     qo.addDeclaration(assignEntity1);
     qo.addDeclaration(assignEntity2);
 
@@ -60,8 +64,8 @@ TEST_CASE("QueryValidator_ValidateQuery_NoDeclarationRuleViolation") {
     QueryObject qo;
     AssignEntity assignEntity("x");
     PrintEntity printEntity("y");
-    ParentConstraint parentConstraint(&assignEntity, &printEntity); // Using undeclared entities
 
+    std::shared_ptr<ParentConstraint> parentConstraint = std::make_shared<ParentConstraint>(ParentConstraint(&assignEntity, &printEntity)); // Using undeclared entities
     qo.addConstraint(parentConstraint);
 
     // Apply QueryValidator to validate the QueryObject
@@ -76,10 +80,11 @@ TEST_CASE("QueryValidator_ValidateQuery_NoDeclarationRuleViolation") {
 TEST_CASE("QueryValidator_ValidateQuery_MultipleRuleViolations") {
     // Create a QueryObject violating both SingleDeclarationRule and NoDeclarationRule
     QueryObject qo;
-    AssignEntity assignEntity1("x");
-    AssignEntity assignEntity2("x");
+
+    std::shared_ptr<AssignEntity> assignEntity1 = std::make_shared<AssignEntity>(AssignEntity("x"));
+    std::shared_ptr<AssignEntity> assignEntity2 = std::make_shared<AssignEntity>(AssignEntity("x"));
     PrintEntity printEntity("y");
-    ParentConstraint parentConstraint(&assignEntity1, &printEntity); // Using undeclared entity
+    std::shared_ptr<ParentConstraint> parentConstraint = std::make_shared<ParentConstraint>(ParentConstraint(assignEntity1.get(), &printEntity)); // Using undeclared entities
 
     qo.addDeclaration(assignEntity1);
     qo.addDeclaration(assignEntity2);

@@ -28,7 +28,7 @@ TEST_CASE("Invalid Syntax"){
     std::vector<std::string> ls = {"s1","s2"};
     PKBStub stub(ls);
     QPS q(stub);
-    std::string query = "stmt a,b;stmt c,d;Select a such that Parent* (b, a)";
+    std::string query = "stmt a,b;stmt c,d;Select a such that Parfent* (b, a)";
     std::vector<std::string> actual = q.evaluate(query);
 
     REQUIRE(expected == actual);

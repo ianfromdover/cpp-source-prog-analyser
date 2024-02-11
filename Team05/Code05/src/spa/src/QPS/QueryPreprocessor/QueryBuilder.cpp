@@ -30,11 +30,11 @@ void QueryBuilder::addRelationshipConstraints(std::string type, std::string syn1
 void QueryBuilder::addDeclaration(const std::string& entityType, std::string synonym) {
     std::shared_ptr<Entity> e;
     if (entityType == STMT) {
-        e = std::make_shared<StatementEntity>();
+        StatementEntity stmt(synonym);
+        e = std::make_shared<StatementEntity>(stmt);
     } else {
         throw std::runtime_error("invalid declaration type");
     }
-    e->setIdentifier(std::move(synonym));
     declarations.push_back(e);
 }
 
