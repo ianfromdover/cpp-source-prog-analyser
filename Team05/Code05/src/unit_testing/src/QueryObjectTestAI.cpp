@@ -20,22 +20,22 @@ using namespace std;
 // prompt: https://chat.openai.com/share/ab543156-156c-4880-9673-2ea97ffd9182
 TEST_CASE("QueryObject_GetReturnType_ReturnsCorrectValue") {
     QueryObject queryObj;
-    std::shared_ptr<PrintEntity> returnType = std::make_shared<PrintEntity>();
+    std::shared_ptr<PrintEntity> returnType = std::make_shared<PrintEntity>("g");
     queryObj.setReturnType(returnType);
     REQUIRE(queryObj.getReturnType() == returnType);
 }
 
 TEST_CASE("QueryObject_SetReturnType_SetsCorrectValue") {
     QueryObject queryObj;
-    std::shared_ptr<Returnable> returnType = std::make_shared<PrintEntity>();
+    std::shared_ptr<Returnable> returnType = std::make_shared<PrintEntity>("c");
     queryObj.setReturnType(returnType);
     REQUIRE(queryObj.getReturnType() == returnType);
 }
 
 TEST_CASE("QueryObject_GetConstraints_ReturnsCorrectVector") {
     QueryObject queryObj;
-    auto* s = new StatementEntity;
-    auto* r = new ReadEntity;
+    auto* s = new StatementEntity("a");
+    auto* r = new ReadEntity("z");
     FollowsConstraint follows_constraint(s, r);
     queryObj.addConstraint(follows_constraint);
     std::vector<Constraint*> constraints = queryObj.getConstraints();
@@ -48,8 +48,8 @@ TEST_CASE("QueryObject_GetConstraints_ReturnsCorrectVector") {
 
 TEST_CASE("QueryObject_Add/GetConstraint_ReturnsCorrectValues") {
     QueryObject queryObj;
-    auto* s = new StatementEntity;
-    auto* r = new ReadEntity;
+    auto* s = new StatementEntity("t");
+    auto* r = new ReadEntity("f");
     FollowsConstraint follows_constraint(s, r);
     queryObj.addConstraint(follows_constraint);
     std::vector<Constraint*> constraints = queryObj.getConstraints();
@@ -58,15 +58,15 @@ TEST_CASE("QueryObject_Add/GetConstraint_ReturnsCorrectValues") {
 
 TEST_CASE("QueryObject_Get/AddDeclarations_ReturnsCorrectValues") {
     QueryObject queryObj;
-    PrintEntity declaration1; // Using PrintEntity instead of Entity
-    PrintEntity declaration2; // Using PrintEntity instead of Entity
+    PrintEntity declaration1("q"); // Using PrintEntity instead of Entity
+    PrintEntity declaration2("h"); // Using PrintEntity instead of Entity
     queryObj.addDeclaration(declaration1);
     queryObj.addDeclaration(declaration2);
     std::vector<Entity*> declarations = queryObj.getDeclarations();
     REQUIRE(declarations.size() == 2);
     // Check if the stored pointers are of type PrintEntity
-    PrintEntity* storedDeclaration1 = dynamic_cast<PrintEntity*>(declarations[0]);
-    PrintEntity* storedDeclaration2 = dynamic_cast<PrintEntity*>(declarations[1]);
+    auto* storedDeclaration1 = dynamic_cast<PrintEntity*>(declarations[0]);
+    auto* storedDeclaration2 = dynamic_cast<PrintEntity*>(declarations[1]);
     REQUIRE(storedDeclaration1 != nullptr); // Ensure dynamic_cast succeeded
     REQUIRE(storedDeclaration2 != nullptr); // Ensure dynamic_cast succeeded
     // Address comparison

@@ -29,8 +29,8 @@ using namespace std;
 // ai-gen start(gpt, 1, e)
 // prompt: https://chat.openai.com/share/f965b299-102c-4b5b-a9df-e2e1a17ded54
 TEST_CASE("dynamic_cast_inheritance_relationship_constraint") {
-    auto* s = new StatementEntity;
-    auto* r = new ReadEntity;
+    auto* s = new StatementEntity("q");
+    auto* r = new ReadEntity("f");
     FollowsConstraint follows_constraint(s, r);
     FollowsTConstraint follows_t_constraint(s, r);
     ParentConstraint parent_constraint(s, r);
@@ -61,8 +61,8 @@ TEST_CASE("dynamic_cast_inheritance_relationship_constraint") {
 
 
 TEST_CASE("getConstraintClass_returns_CONSTRAINT_CLASS_RELATIONSHIP") {
-    auto* s = new StatementEntity;
-    auto* r = new ReadEntity;
+    auto* s = new StatementEntity("o");
+    auto* r = new ReadEntity("p");
 
     SECTION("FollowsConstraint") {
     FollowsConstraint follows_constraint(s, r);
@@ -93,13 +93,13 @@ TEST_CASE("InitializeConstraint_with_StatementReference_subclasses") {
     // All possible StatementReference subclasses
     std::vector<StatementReference*> entities;
 
-    entities.push_back(new StatementEntity);
-    entities.push_back(new ReadEntity);
-    entities.push_back(new PrintEntity);
-    entities.push_back(new AssignEntity);
-    entities.push_back(new CallEntity);
-    entities.push_back(new IfEntity);
-    entities.push_back(new WhileEntity);
+    entities.push_back(new StatementEntity("q"));
+    entities.push_back(new ReadEntity("w"));
+    entities.push_back(new PrintEntity("e"));
+    entities.push_back(new AssignEntity("r"));
+    entities.push_back(new CallEntity("t"));
+    entities.push_back(new IfEntity("y"));
+    entities.push_back(new WhileEntity("u"));
     entities.push_back(new IntegerArgument);
     entities.push_back(new WildCard);
 

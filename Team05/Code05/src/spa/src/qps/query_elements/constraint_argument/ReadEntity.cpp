@@ -11,3 +11,7 @@ std::string ReadEntity::getReturnType() {
 std::string ReadEntity::getEntityType() {
     return RETURN_TYPE_READ;
 }
+
+ReadEntity::ReadEntity(std::string s) {
+    identifier = std::move(s);
+}

@@ -11,3 +11,7 @@ std::string CallEntity::getReturnType() {
 std::string CallEntity::getEntityType() {
     return RETURN_TYPE_CALL;
 }
+
+CallEntity::CallEntity(std::string s) {
+    identifier = std::move(s);
+}

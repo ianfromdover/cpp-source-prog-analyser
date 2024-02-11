@@ -22,37 +22,37 @@ using namespace std;
 // ai-gen start(gpt, 0, e)
 // prompt: https://chat.openai.com/share/ec225b64-f0c0-4d04-a5c2-9645760d0401
 TEST_CASE("StatementEntity_inherits_from_ConstraintArgument") {
-    StatementEntity statement;
+    StatementEntity statement("z");
     REQUIRE(dynamic_cast<ConstraintArgument*>(&statement) != nullptr);
 }
 
 TEST_CASE("ReadEntity_inherits_from_ConstraintArgument") {
-    ReadEntity read;
+    ReadEntity read("a");
     REQUIRE(dynamic_cast<ConstraintArgument*>(&read) != nullptr);
 }
 
 TEST_CASE("PrintEntity_inherits_from_ConstraintArgument") {
-    PrintEntity print;
+    PrintEntity print("b");
     REQUIRE(dynamic_cast<ConstraintArgument*>(&print) != nullptr);
 }
 
 TEST_CASE("AssignEntity_inherits_from_ConstraintArgument") {
-    AssignEntity assign;
+    AssignEntity assign("c");
     REQUIRE(dynamic_cast<ConstraintArgument*>(&assign) != nullptr);
 }
 
 TEST_CASE("CallEntity_inherits_from_ConstraintArgument") {
-    CallEntity call;
+    CallEntity call("f");
     REQUIRE(dynamic_cast<ConstraintArgument*>(&call) != nullptr);
 }
 
 TEST_CASE("IfEntity_inherits_from_ConstraintArgument") {
-    IfEntity ifEntity;
+    IfEntity ifEntity("a");
     REQUIRE(dynamic_cast<ConstraintArgument*>(&ifEntity) != nullptr);
 }
 
 TEST_CASE("WhileEntity_inherits_from_ConstraintArgument") {
-    WhileEntity whileEntity;
+    WhileEntity whileEntity("q");
     REQUIRE(dynamic_cast<ConstraintArgument*>(&whileEntity) != nullptr);
 }
 
@@ -71,37 +71,37 @@ TEST_CASE("WildCard_inherits_from_ConstraintArgument") {
 // ai-gen start(gpt, 0, e)
 // prompt:https://chat.openai.com/c/02a7fbcc-80e0-4cfe-be5f-2f2858ab9b47
 TEST_CASE("StatementEntity_ReferenceType_StatementReference") {
-    StatementEntity s;
+    StatementEntity s("q");
     REQUIRE(s.getReferenceType() == REFERENCE_TYPE_STATEMENT);
 }
 
 TEST_CASE("ReadEntity_ReferenceType_StatementReference") {
-    ReadEntity r;
+    ReadEntity r("p");
     REQUIRE(r.getReferenceType() == REFERENCE_TYPE_STATEMENT);
 }
 
 TEST_CASE("PrintEntity_ReferenceType_StatementReference") {
-    PrintEntity p;
+    PrintEntity p("Q");
     REQUIRE(p.getReferenceType() == REFERENCE_TYPE_STATEMENT);
 }
 
 TEST_CASE("AssignEntity_ReferenceType_StatementReference") {
-    AssignEntity a;
+    AssignEntity a("p");
     REQUIRE(a.getReferenceType() == REFERENCE_TYPE_STATEMENT);
 }
 
 TEST_CASE("CallEntity_ReferenceType_StatementReference") {
-    CallEntity c;
+    CallEntity c("i");
     REQUIRE(c.getReferenceType() == REFERENCE_TYPE_STATEMENT);
 }
 
 TEST_CASE("IfEntity_ReferenceType_StatementReference") {
-    IfEntity i;
+    IfEntity i("g");
     REQUIRE(i.getReferenceType() == REFERENCE_TYPE_STATEMENT);
 }
 
 TEST_CASE("WhileEntity_ReferenceType_StatementReference") {
-    WhileEntity w;
+    WhileEntity w("v");
     REQUIRE(w.getReferenceType() == REFERENCE_TYPE_STATEMENT);
 }
 

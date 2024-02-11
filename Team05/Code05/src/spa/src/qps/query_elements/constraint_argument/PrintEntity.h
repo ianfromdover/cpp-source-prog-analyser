@@ -10,6 +10,7 @@
 
 class PrintEntity : public StatementReference, public Entity {
 public:
+    explicit PrintEntity(std::string);
     std::string getReturnType() override;
     std::string getEntityType() override;
 };

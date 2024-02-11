@@ -11,3 +11,7 @@ std::string StatementEntity::getReturnType() {
 std::string StatementEntity::getEntityType() {
     return RETURN_TYPE_STATEMENT;
 }
+
+StatementEntity::StatementEntity(std::string s) {
+    identifier = std::move(s);
+}

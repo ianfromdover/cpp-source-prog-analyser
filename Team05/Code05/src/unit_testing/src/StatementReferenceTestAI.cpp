@@ -22,37 +22,37 @@ using namespace std;
 // ai-gen start(gpt, 0, e)
 // prompt: https://chat.openai.com/share/1d6a042b-6280-4306-abaf-1ec120a9fef4
 TEST_CASE("entity_statementEntityIsTypeStatement_stringStatement") {
-    StatementEntity en = StatementEntity();
+    StatementEntity en = StatementEntity("q");
     REQUIRE(en.getEntityType() == RETURN_TYPE_STATEMENT);
 }
 
 TEST_CASE("entity_readEntityIsTypeStatement_stringRead") {
-    ReadEntity en = ReadEntity();
+    ReadEntity en = ReadEntity("o");
     REQUIRE(en.getEntityType() == RETURN_TYPE_READ);
 }
 
 TEST_CASE("entity_printEntityIsTypePrint_stringPrint") {
-    PrintEntity en = PrintEntity();
+    PrintEntity en = PrintEntity("r");
     REQUIRE(en.getEntityType() == RETURN_TYPE_PRINT);
 }
 
 TEST_CASE("entity_assignEntityIsTypeAssign_stringAssign") {
-    AssignEntity en = AssignEntity();
+    AssignEntity en = AssignEntity("a");
     REQUIRE(en.getEntityType() == RETURN_TYPE_ASSIGN);
 }
 
 TEST_CASE("entity_callEntityIsTypeCall_stringCall") {
-    CallEntity en = CallEntity();
+    CallEntity en = CallEntity("b");
     REQUIRE(en.getEntityType() == RETURN_TYPE_CALL);
 }
 
 TEST_CASE("entity_ifEntityIsTypeIf_stringIf") {
-    IfEntity en = IfEntity();
+    IfEntity en = IfEntity("c");
     REQUIRE(en.getEntityType() == RETURN_TYPE_IF);
 }
 
 TEST_CASE("entity_whileEntityIsTypeWhile_stringWhile") {
-    WhileEntity en = WhileEntity();
+    WhileEntity en = WhileEntity("d");
     REQUIRE(en.getEntityType() == RETURN_TYPE_WHILE);
 }
 
@@ -70,45 +70,16 @@ TEST_CASE("entity_wildCardIsTypeWildcard_stringWildcard") {
 
 // ai-gen start(gpt, 0, e)
 // prompt: https://chat.openai.com/share/79d15f08-fd88-453e-943a-261fbef441a6
-TEST_CASE("Entity_setIdentifierAndGetIdentifier_Success") {
+TEST_CASE("Entity_GetIdentifier_Success") {
     // Arrange
-    AssignEntity entity;
     std::string identifier = "test_identifier";
+    AssignEntity entity(identifier);
 
     // Act
-    entity.setIdentifier(identifier);
     std::string retrievedIdentifier = entity.getIdentifier();
 
     // Assert
     REQUIRE(retrievedIdentifier == identifier);
-}
-
-TEST_CASE("Entity_setIdentifierAndGetIdentifier_EmptyString") {
-    // Arrange
-    AssignEntity entity;
-    std::string identifier;
-
-    // Act
-    entity.setIdentifier(identifier);
-    std::string retrievedIdentifier = entity.getIdentifier();
-
-    // Assert
-    REQUIRE(retrievedIdentifier == identifier);
-}
-
-TEST_CASE("Entity_setIdentifierAndGetIdentifier_AfterMultipleSets") {
-    // Arrange
-    AssignEntity entity;
-    std::string identifier1 = "identifier1";
-    std::string identifier2 = "identifier2";
-
-    // Act
-    entity.setIdentifier(identifier1);
-    entity.setIdentifier(identifier2);
-    std::string retrievedIdentifier = entity.getIdentifier();
-
-    // Assert
-    REQUIRE(retrievedIdentifier == identifier2);
 }
 
 //ai-gen end
@@ -116,37 +87,37 @@ TEST_CASE("Entity_setIdentifierAndGetIdentifier_AfterMultipleSets") {
 // ai-gen start(gpt, 0 ,e)
 // prompt: https://chat.openai.com/share/09e67ecb-4081-4912-bb8c-023c7e117580
 TEST_CASE("inheritance_check_statementReference_ReadEntity") {
-    ReadEntity readEntity;
+    ReadEntity readEntity("v");
     bool isInstanceOfStatementReference = dynamic_cast<StatementReference*>(&readEntity) != nullptr;
     REQUIRE(isInstanceOfStatementReference);
 }
 
 TEST_CASE("inheritance_check_statementReference_PrintEntity") {
-    PrintEntity printEntity;
+    PrintEntity printEntity("p");
     bool isInstanceOfStatementReference = dynamic_cast<StatementReference*>(&printEntity) != nullptr;
     REQUIRE(isInstanceOfStatementReference);
 }
 
 TEST_CASE("inheritance_check_statementReference_AssignEntity") {
-    AssignEntity assignEntity;
+    AssignEntity assignEntity("f");
     bool isInstanceOfStatementReference = dynamic_cast<StatementReference*>(&assignEntity) != nullptr;
     REQUIRE(isInstanceOfStatementReference);
 }
 
 TEST_CASE("inheritance_check_statementReference_CallEntity") {
-    CallEntity callEntity;
+    CallEntity callEntity("c");
     bool isInstanceOfStatementReference = dynamic_cast<StatementReference*>(&callEntity) != nullptr;
     REQUIRE(isInstanceOfStatementReference);
 }
 
 TEST_CASE("inheritance_check_statementReference_IfEntity") {
-    IfEntity ifEntity;
+    IfEntity ifEntity("d");
     bool isInstanceOfStatementReference = dynamic_cast<StatementReference*>(&ifEntity) != nullptr;
     REQUIRE(isInstanceOfStatementReference);
 }
 
 TEST_CASE("inheritance_check_statementReference_WhileEntity") {
-    WhileEntity whileEntity;
+    WhileEntity whileEntity("e");
     bool isInstanceOfStatementReference = dynamic_cast<StatementReference*>(&whileEntity) != nullptr;
     REQUIRE(isInstanceOfStatementReference);
 }

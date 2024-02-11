@@ -9,6 +9,7 @@
 
 class AssignEntity : public StatementReference, public Entity {
 public:
+    explicit AssignEntity(std::string);
     std::string getReturnType() override;
     std::string getEntityType() override;
 };

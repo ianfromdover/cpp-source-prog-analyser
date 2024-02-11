@@ -19,12 +19,9 @@ using namespace std;
 TEST_CASE("SingleDeclarationRule_ValidDeclarations_NoError") {
     // Create a QueryObject with valid unique declarations
     QueryObject qo;
-    AssignEntity assignEntity;
-    PrintEntity printEntity;
-    StatementEntity statementEntity;
-    assignEntity.setIdentifier("x");
-    printEntity.setIdentifier("y");
-    statementEntity.setIdentifier("z");
+    AssignEntity assignEntity("z");
+    PrintEntity printEntity("w");
+    StatementEntity statementEntity("p");
     qo.addDeclaration(assignEntity);
     qo.addDeclaration(printEntity);
     qo.addDeclaration(statementEntity);
@@ -40,10 +37,8 @@ TEST_CASE("SingleDeclarationRule_ValidDeclarations_NoError") {
 TEST_CASE("SingleDeclarationRule_DuplicateDeclarations_Error") {
     // Create a QueryObject with duplicate declarations
     QueryObject qo;
-    AssignEntity assignEntity1;
-    AssignEntity assignEntity2;
-    assignEntity1.setIdentifier("x");
-    assignEntity2.setIdentifier("x");
+    AssignEntity assignEntity1("x");
+    AssignEntity assignEntity2("x");
     qo.addDeclaration(assignEntity1);
     qo.addDeclaration(assignEntity2);
 
@@ -58,12 +53,10 @@ TEST_CASE("SingleDeclarationRule_DuplicateDeclarations_Error") {
 TEST_CASE("SingleDeclarationRule_MixedDeclarations_Error") {
     // Create a QueryObject with a mix of unique and duplicate declarations
     QueryObject qo;
-    AssignEntity assignEntity1;
-    PrintEntity printEntity;
-    AssignEntity assignEntity2;
-    assignEntity1.setIdentifier("x");
-    printEntity.setIdentifier("y");
-    assignEntity2.setIdentifier("x");
+    AssignEntity assignEntity1("x");
+    PrintEntity printEntity("y");
+    AssignEntity assignEntity2("x");
+
     qo.addDeclaration(assignEntity1);
     qo.addDeclaration(printEntity);
     qo.addDeclaration(assignEntity2);

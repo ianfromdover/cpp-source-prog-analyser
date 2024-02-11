@@ -4,10 +4,16 @@
 
 #include "AssignEntity.h"
 
+#include <utility>
+
 std::string AssignEntity::getReturnType() {
     return RETURN_TYPE_ASSIGN;
 }
 
 std::string AssignEntity::getEntityType() {
     return RETURN_TYPE_ASSIGN;
+}
+
+AssignEntity::AssignEntity(std::string s) {
+    identifier = std::move(s);
 }
