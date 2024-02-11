@@ -12,3 +12,7 @@ std::string WhileEntity::getReturnType() {
 std::string WhileEntity::getEntityType() {
     return RETURN_TYPE_WHILE;
 }
+
+WhileEntity::WhileEntity(std::string s) {
+    identifier = std::move(s);
+}

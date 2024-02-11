@@ -11,3 +11,7 @@ std::string PrintEntity::getReturnType() {
 std::string PrintEntity::getEntityType() {
     return RETURN_TYPE_PRINT;
 }
+
+PrintEntity::PrintEntity(std::string s) {
+    identifier = std::move(s);
+}

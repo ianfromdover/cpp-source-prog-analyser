@@ -1,0 +1,110 @@
+//
+// Created by tohzh on 11/2/2024.
+//
+
+#include "TNode.h"
+
+#include "catch.hpp"
+using namespace std;
+
+#include "qps/query_elements/constraint/Constraint.h"
+#include "qps/query_elements/constraint/ParentConstraint.h"
+
+#include "qps/query_elements/constraint_argument/AssignEntity.h"
+#include "qps/query_elements/constraint_argument/PrintEntity.h"
+#include "qps/query_validator/QueryValidator.h"
+#include "qps/query_elements/QueryObject.h"
+
+
+// ai-gen start(gpt, 1, e)
+// prompt: https://chat.openai.com/share/b79012a9-d6db-4272-a8f5-d4e4e167dd91
+TEST_CASE("QueryValidator_ValidateQuery_NoErrors") {
+    // Create a QueryObject with valid unique declarations and no constraint violations
+    QueryObject qo;
+    auto* assignEntity = new AssignEntity("x");
+    auto* printEntity = new PrintEntity("y");
+    qo.addDeclaration(*assignEntity);
+    qo.addDeclaration(*printEntity);
+
+    auto* parentConstraint = new ParentConstraint(assignEntity, printEntity);
+
+    qo.addConstraint(*parentConstraint);
+
+    // Apply QueryValidator to validate the QueryObject
+    QueryValidator validator;
+    std::vector<std::string> failedRules = validator.validateQuery(qo);
+
+    // Ensure no failed rules are returned
+    REQUIRE(failedRules.empty());
+}
+
+TEST_CASE("QueryValidator_ValidateQuery_SingleDeclarationRuleViolation") {
+    // Create a QueryObject violating the SingleDeclarationRule
+    QueryObject qo;
+    AssignEntity assignEntity1("x");
+    AssignEntity assignEntity2("x");
+    qo.addDeclaration(assignEntity1);
+    qo.addDeclaration(assignEntity2);
+
+    // Apply QueryValidator to validate the QueryObject
+    QueryValidator validator;
+    std::vector<std::string> failedRules = validator.validateQuery(qo);
+
+    // Ensure SingleDeclarationRule violation is detected
+    REQUIRE(failedRules.size() == 1);
+    REQUIRE(failedRules[0] == VALIDATION_RULE_SINGLE_DECLARATION);
+}
+
+TEST_CASE("QueryValidator_ValidateQuery_NoDeclarationRuleViolation") {
+    // Create a QueryObject violating the NoDeclarationRule
+    QueryObject qo;
+    AssignEntity assignEntity("x");
+    PrintEntity printEntity("y");
+    ParentConstraint parentConstraint(&assignEntity, &printEntity); // Using undeclared entities
+
+    qo.addConstraint(parentConstraint);
+
+    // Apply QueryValidator to validate the QueryObject
+    QueryValidator validator;
+    std::vector<std::string> failedRules = validator.validateQuery(qo);
+
+    // Ensure NoDeclarationRule violation is detected
+    REQUIRE(failedRules.size() == 1);
+    REQUIRE(failedRules[0] == VALIDATION_RULE_NO_DECLARATION);
+}
+
+TEST_CASE("QueryValidator_ValidateQuery_MultipleRuleViolations") {
+    // Create a QueryObject violating both SingleDeclarationRule and NoDeclarationRule
+    QueryObject qo;
+    AssignEntity assignEntity1("x");
+    AssignEntity assignEntity2("x");
+    PrintEntity printEntity("y");
+    ParentConstraint parentConstraint(&assignEntity1, &printEntity); // Using undeclared entity
+
+    qo.addDeclaration(assignEntity1);
+    qo.addDeclaration(assignEntity2);
+    qo.addConstraint(parentConstraint);
+
+    // Apply QueryValidator to validate the QueryObject
+    QueryValidator validator;
+    std::vector<std::string> failedRules = validator.validateQuery(qo);
+
+    // Ensure both SingleDeclarationRule and NoDeclarationRule violations are detected
+    REQUIRE(failedRules.size() == 2);
+    REQUIRE(std::find(failedRules.begin(), failedRules.end(), VALIDATION_RULE_SINGLE_DECLARATION) != failedRules.end());
+    REQUIRE(std::find(failedRules.begin(), failedRules.end(), VALIDATION_RULE_NO_DECLARATION) != failedRules.end());
+}
+
+TEST_CASE("QueryValidator_ValidateQuery_EmptyQueryObject") {
+    // Create an empty QueryObject
+    QueryObject qo;
+
+    // Apply QueryValidator to validate the QueryObject
+    QueryValidator validator;
+    std::vector<std::string> failedRules = validator.validateQuery(qo);
+
+    // Ensure no failed rules are returned for an empty QueryObject
+    REQUIRE(failedRules.empty());
+}
+
+// ai-gen end

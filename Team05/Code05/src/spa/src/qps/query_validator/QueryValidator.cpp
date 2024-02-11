@@ -5,7 +5,7 @@
 #include "QueryValidator.h"
 
 std::vector<std::string> QueryValidator::validateQuery(QueryObject& qo) {
-    RuleSet* rules = new class RuleSet();
+    auto* rules = new class RuleSet();
     std::vector<std::string> failedRules;
     for (Rule* r : rules->getRules()) {
         std::string failedRule = r->validate(qo);

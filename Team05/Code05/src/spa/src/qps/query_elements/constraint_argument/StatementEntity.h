@@ -7,11 +7,11 @@
 
 #include "StatementReference.h"
 
-class StatementEntity : public StatementReference, public Entity {
+class StatementEntity : public StatementReference, public  Entity {
 public:
+    explicit StatementEntity(std::string);
     std::string getReturnType() override;
     std::string getEntityType() override;
-
 };
 
 #endif //SPA_STATEMENTENTITY_H

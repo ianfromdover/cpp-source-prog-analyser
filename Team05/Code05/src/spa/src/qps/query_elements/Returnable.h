@@ -4,7 +4,6 @@
 
 #ifndef SPA_RETURNABLE_H
 #define SPA_RETURNABLE_H
-#include "QueryEnums.h"
 #include <string>
 
 class Returnable {

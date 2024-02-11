@@ -11,3 +11,7 @@ std::string IfEntity::getReturnType() {
 std::string IfEntity::getEntityType() {
     return RETURN_TYPE_IF;
 }
+
+IfEntity::IfEntity(std::string s) {
+    identifier = std::move(s);
+}

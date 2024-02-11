@@ -4,6 +4,9 @@
 QueryPKB::QueryPKB() {}
 QueryPKB::~QueryPKB() {}
 
-bool QueryPKB::getFollows(StmtNo s1, StmtNo s2) {
+bool QueryPKB::getFollows(StmtNo before, StmtNo after) {
+    return false;
+}
+bool QueryPKB::getParent(StmtNo parent, StmtNo child) {
     return false;
 }

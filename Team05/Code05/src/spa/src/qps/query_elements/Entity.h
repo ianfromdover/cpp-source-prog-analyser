@@ -9,14 +9,11 @@
 #include "Returnable.h"
 
 class Entity : public Returnable {
-private:
+protected:
     std::string identifier;
 public:
     virtual std::string getReturnType() = 0;
     virtual std::string getEntityType() = 0;
-    void setIdentifier(std::string s) {
-        identifier = std::move(s);
-    }
     std::string getIdentifier() {
         return identifier;
     }

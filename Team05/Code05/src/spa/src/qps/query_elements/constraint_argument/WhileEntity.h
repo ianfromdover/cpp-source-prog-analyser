@@ -7,8 +7,9 @@
 
 #include "StatementReference.h"
 
-class WhileEntity : public StatementReference, Entity {
+class WhileEntity : public StatementReference, public  Entity {
 public:
+    explicit WhileEntity(std::string);
     std::string getReturnType() override;
     std::string getEntityType() override;
 };

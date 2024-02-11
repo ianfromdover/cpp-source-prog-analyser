@@ -8,8 +8,9 @@
 
 #include "StatementReference.h"
 
-class IfEntity : public StatementReference, Entity {
+class IfEntity : public StatementReference, public  Entity {
 public:
+    explicit IfEntity(std::string);
     std::string getReturnType() override;
     std::string getEntityType() override;
 };
