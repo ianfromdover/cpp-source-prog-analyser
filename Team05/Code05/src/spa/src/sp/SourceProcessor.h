@@ -10,15 +10,23 @@
 #include "Scanner.h"
 #include "RelationExtractor.h"
 #include "ParentExtractor.h"
+#include "Parser.h"
 
 class SourceProcessor {
 private:
     StrategyList strategies;
     TokenList tokens;
+    PopulatePKB& pkb;
+
 public:
-    SourceProcessor() = default;
+    explicit SourceProcessor(PopulatePKB& pkb) : pkb(pkb) {};
+    void exec(const std::string& source);
+
+public:
+    // TODO: Make private or something.
     void runScanner(const std::string& source);
-    void runRelationExtractor(PopulatePKB& pkb);
+    Program parse();
+    void runRelationExtractor(const Program& program);
 };
 
 

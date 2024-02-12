@@ -6,7 +6,9 @@ add_library(spa ${srcs} ${headers}
         src/sp/Expr.cpp
         src/sp/Expr.h
         src/sp/Stmt.cpp
-        src/sp/Stmt.h)
+        src/sp/Stmt.h
+        src/sp/PrettyPrinter.cpp
+        src/sp/PrettyPrinter.h)
 # this makes the headers accessible for other projects which uses spa lib
 target_include_directories(spa PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
