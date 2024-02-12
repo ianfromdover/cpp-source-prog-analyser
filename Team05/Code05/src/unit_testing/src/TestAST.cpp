@@ -1,6 +1,6 @@
 
 #include "TNode.h"
-#include "pkb/PKB.h"
+#include "pkb/PKBStorage.h"
 #include "catch.hpp"
 using namespace std;
 void require(bool b) {
@@ -18,7 +18,7 @@ TEST_CASE("1st Test") {
 
 TEST_CASE("Test PKB Parent Table") {
     // TODO: move test into its file after test-scaffold is merged
-    PKB p;
+    PKBStorage p;
 
     SECTION("Test if parent table is created") {
         REQUIRE(p.parentTable != nullptr);

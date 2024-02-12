@@ -11,10 +11,10 @@ using namespace std;
  * Stores all the relationship and entity tables.
  * TODO: Rename to PKBStorage
  */
-class PKB {
+class PKBStorage {
 private:
 public:
-    PKB();
+    PKBStorage();
 
     std::unique_ptr<ParentTable> parentTable;
 };

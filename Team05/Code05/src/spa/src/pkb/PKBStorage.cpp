@@ -1,5 +1,5 @@
-#include "PKB.h"
+#include "PKBStorage.h"
 
-PKB::PKB() {
+PKBStorage::PKBStorage() {
     parentTable = std::make_unique<ParentTable>();
 }

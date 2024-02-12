@@ -1,8 +1,8 @@
 #include "PopulatePKB.h"
-#include "PKB.h"
+#include "PKBStorage.h"
 
 // TODO: Implement PopulatePKB
-PopulatePKB::PopulatePKB(std::shared_ptr<PKB> p) {
+PopulatePKB::PopulatePKB(std::shared_ptr<PKBStorage> p) {
     pkb = p;
 }
 /*

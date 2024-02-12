@@ -2,16 +2,16 @@
 #define SPA_POPULATEPKB_H
 #include <memory>
 #include "utilSpa/SpaTypes.h"
-#include "pkb/PKB.h"
+#include "pkb/PKBStorage.h"
 
 using namespace std;
 
 // The interface between PKB and SP
 class PopulatePKB {
 private:
-    shared_ptr<PKB> pkb;
+    shared_ptr<PKBStorage> pkb;
 public:
-    PopulatePKB(shared_ptr<PKB> p);
+    PopulatePKB(shared_ptr<PKBStorage> p);
     // ai-gen start (copilot, 2, e)
     // prompt: used copilot
 
