@@ -2,6 +2,10 @@
 #include "PKB.h"
 
 // TODO: Implement PopulatePKB
+PopulatePKB::PopulatePKB(std::shared_ptr<PKB> p) {
+    pkb = p;
+}
+/*
 bool PopulatePKB::addVar() {
     return false;
 }
@@ -17,11 +21,12 @@ bool PopulatePKB::addStmt(StmtNo stmtNo, Str stmtType, ProcId procIndex) {
 bool PopulatePKB::addFollows() {
     return false;
 }
+ */
 bool PopulatePKB::addParent(StmtNo parent, StmtNo child) {
-    // add parent child pair to parent table
-    // PKB::twoSideMap->addParent(parent, child);
+    pkb->parentTable->addParent(parent, child);
     return false;
 }
+/*
 bool PopulatePKB::addUses() {
     return false;
 }
@@ -35,4 +40,4 @@ bool PopulatePKB::generateFollowsT() {
 bool PopulatePKB::generateParentT() {
     return false;
 }
-
+*/

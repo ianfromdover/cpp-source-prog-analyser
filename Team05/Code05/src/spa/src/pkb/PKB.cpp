@@ -1,9 +1,5 @@
-#include <cstdio>
-#include <iostream>
-#include <string>
-#include <vector>
 #include "PKB.h"
 
-using namespace std;
-
-PKB::PKB() {}
+PKB::PKB() {
+    parentTable = std::make_unique<ParentTable>();
+}
