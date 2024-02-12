@@ -70,9 +70,9 @@ std::unique_ptr<Procedure> Parser::procedure() {
 
 std::unique_ptr<StmtList> Parser::stmtList() {
     StmtList stmts = std::vector<std::unique_ptr<Stmt>>();
-    // TODO: Figure out terminating condition for statement lists.
-    // TODO: Check if usage of `stmtList` works correctly across `procedure`, `loop`, and `cond`.
-    // do {} while(?);
+    do {
+        stmts.push_back(this->stmt());
+    } while (!this->check(TokenType::RIGHT_BRACE) && !this->isAtEnd());
     return std::make_unique<StmtList>(std::move(stmts));
 }
 
@@ -236,7 +236,7 @@ std::unique_ptr<Expr> Parser::exprTail(std::unique_ptr<Expr> left) {
 
 std::unique_ptr<Expr> Parser::term() {
     // factor term_tail
-    this->termTail(this->factor());
+    return this->termTail(this->factor());
 }
 
 std::unique_ptr<Expr> Parser::termTail(std::unique_ptr<Expr> left) {
