@@ -2,6 +2,7 @@
 // Created by Chua Bing Quan on 11/2/24.
 //
 
+#include <string>
 #include "Parser.h"
 
 Program Parser::parse() {
@@ -236,7 +237,7 @@ std::unique_ptr<Expr> Parser::exprTail(std::unique_ptr<Expr> left) {
 
 std::unique_ptr<Expr> Parser::term() {
     // factor term_tail
-    this->termTail(this->factor());
+    return this->termTail(this->factor());
 }
 
 std::unique_ptr<Expr> Parser::termTail(std::unique_ptr<Expr> left) {

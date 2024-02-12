@@ -21,4 +21,5 @@ void Scanner::scanTokens() {
             }
         }
     }
+    tokens->addToken(TokenType::END_OF_FILE, "EOF");
 }

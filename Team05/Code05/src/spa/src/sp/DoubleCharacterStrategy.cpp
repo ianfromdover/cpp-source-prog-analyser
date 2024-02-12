@@ -31,10 +31,6 @@ bool DoubleCharacterStrategy::tokenize(char character, std::stringstream& stream
             doubleCharacter = stream.peek() == '&';
             type = doubleCharacter ? TokenType::AND : TokenType::UNKNOWN; // Assuming AND only valid as double char
             break;
-        case '/':
-            doubleCharacter = stream.peek() == '/';
-            type = doubleCharacter ? TokenType::DIVIDE : TokenType::UNKNOWN; // Assuming DIVIDE only valid as double char
-            break;
         default:
             return false; // No single or double character token recognized
     }
