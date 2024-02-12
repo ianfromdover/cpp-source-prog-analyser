@@ -16,18 +16,18 @@ void Demo::demo() {
     StatementEntity stmtEnt("s1");
     ParentConstraint c();
 
-    ConstraintArgument a; // you somehow get a constraint argument
+    std::shared_ptr<ConstraintArgument> a; // you somehow get a constraint argument
 
-    if (a.getReferenceType() == REFERENCE_TYPE_STATEMENT) {
+    if (a->getReferenceType() == REFERENCE_TYPE_STATEMENT) {
         //is a reference statement
-        if (a.getEntityType() == RETURN_TYPE_STATEMENT) {
+        if (a->getEntityType() == RETURN_TYPE_STATEMENT) {
             // is a statement
-            StatementEntity newStmt = dynamic_cast<StatementEntity>(a);
-            newStmt.value; // get value
-        } else if (a.getEntityType() == RETURN_TYPE_INTEGER) {
+            std::shared_ptr<StatementEntity> newStmt = std::dynamic_pointer_cast<StatementEntity>(a);
+            std::string s = newStmt->value; // get value
+        } else if (a->getEntityType() == RETURN_TYPE_INTEGER) {
             // is a integer
-            IntegerArgument newInt = dynamic_cast<IntegerArgument>(a);
-            newInt.value; //get value
+            std::shared_ptr<IntegerArgument> newInt = std::dynamic_pointer_cast<IntegerArgument>(a);
+            int i = newInt->value; //get value
         }
     }
 
