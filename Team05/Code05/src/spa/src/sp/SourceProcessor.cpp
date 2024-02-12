@@ -10,8 +10,8 @@ void SourceProcessor::runScanner(const std::string& source) {
     std::cout << tokens.toString() << std::endl;
 }
 
-void SourceProcessor::runRelationExtractor() {
-    auto parentExtractor = new ParentExtractor();
+void SourceProcessor::runRelationExtractor(PopulatePKB& pkb) {
+    auto parentExtractor = new ParentExtractor(pkb);
     // For each node in the AST
        // node.accept(visitor)
 }

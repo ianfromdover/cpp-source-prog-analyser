@@ -9,7 +9,8 @@
 
 class ParentExtractor: public RelationExtractor {
 public:
-    ParentExtractor() = default;
+    // Constructor
+    ParentExtractor(PopulatePKB pkb);
     // Statement Methods
     void visitReadStmt(Read& stmt) override;
     void visitPrintStmt(Print& stmt) override;

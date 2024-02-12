@@ -10,7 +10,7 @@
 
 class RelationExtractor {
 private:
-
+    PopulatePKB pkb;
 public:
     virtual ~RelationExtractor() = default;
     // Statement Methods
