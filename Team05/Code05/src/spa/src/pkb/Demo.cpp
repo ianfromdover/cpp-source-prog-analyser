@@ -23,7 +23,7 @@ void Demo::demo() {
         if (a->getEntityType() == RETURN_TYPE_STATEMENT) {
             // is a statement
             std::shared_ptr<StatementEntity> newStmt = std::dynamic_pointer_cast<StatementEntity>(a);
-            std::string s = newStmt->value; // get value
+            std::string s1 = newStmt->getIdentifier(); // get declaration identifier
         } else if (a->getEntityType() == RETURN_TYPE_INTEGER) {
             // is a integer
             std::shared_ptr<IntegerArgument> newInt = std::dynamic_pointer_cast<IntegerArgument>(a);
