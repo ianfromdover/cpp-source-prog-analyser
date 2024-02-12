@@ -28,6 +28,7 @@ private:
 
 public:
     explicit TokenType(TypeInfo info);
+
     TypeInfo getInfo();
     [[nodiscard]] std::string toString() const;
 };

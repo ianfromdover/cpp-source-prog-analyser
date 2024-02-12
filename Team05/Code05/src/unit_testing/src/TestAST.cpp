@@ -41,7 +41,7 @@ TEST_CASE("1st Test") {
     auto scanner = new Scanner(codeSnippet, strategies, tokens);
     scanner->scanTokens();
     std::cout << tokens.toString() << std::endl;
-    require(true);
+    require(tokens.toString().find("UNKNOWN") == std::string::npos);
 
 }
 

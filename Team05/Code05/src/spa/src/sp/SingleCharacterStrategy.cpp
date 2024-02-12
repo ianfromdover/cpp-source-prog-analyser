@@ -20,6 +20,7 @@ bool SingleCharacterStrategy::tokenize(char character, std::stringstream& stream
         case '-': type = TokenType::SUBTRACT; break;
         case '*': type = TokenType::MULTIPLY; break;
         case '%': type = TokenType::MOD; break;
+        case '/': type = TokenType::DIVIDE; break;
         default: isTokenFound = false; break;
     }
 

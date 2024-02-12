@@ -23,7 +23,8 @@ bool MultiCharacterStrategy::isKeyword(const std::string& name, TokenList& token
             {"program", TokenType::PROGRAM}, {"procedure", TokenType::PROCEDURE},
             {"read", TokenType::READ}, {"print", TokenType::PRINT},
             {"while", TokenType::WHILE}, {"if", TokenType::IF},
-            {"else", TokenType::ELSE}, {"call", TokenType::CALL},
+            {"then", TokenType::THEN}, {"else", TokenType::ELSE},
+            {"call", TokenType::CALL},
     };
 
     auto it = keywords.find(name);
