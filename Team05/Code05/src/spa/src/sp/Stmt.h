@@ -18,10 +18,11 @@ class If;
 class Assign;
 
 class Stmt {
+private:
+    int stmtNo;
 public:
-    int StmtNo;
     virtual ~Stmt() = default;
-    virtual int getStmtNo();
+    int getStmtNo();
 };
 
 using Program = std::unique_ptr<std::vector<std::unique_ptr<Procedure>>>;
@@ -66,9 +67,9 @@ private:
     std::unique_ptr<StmtList> body;
 
 public:
-    While(std::unique_ptr<Expr> condition, std::unique_ptr<StmtList> body) :
-        condition(std::move(condition)), body(std::move(body)) {}
-        std::unique_ptr<StmtList> getBody();
+    While(std::unique_ptr<Expr> condition, std::unique_ptr<StmtList> body)
+        : condition(std::move(condition)), body(std::move(body)) {}
+    std::unique_ptr<StmtList> getBody();
 };
 
 class If : public Stmt {

@@ -18,7 +18,7 @@ private:
 public:
     SourceProcessor() = default;
     void runScanner(const std::string& source);
-    void runRelationExtractor();
+    void runRelationExtractor(PopulatePKB& pkb);
 };
 
 

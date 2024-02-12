@@ -4,7 +4,11 @@
 
 #include "Stmt.h"
 
-std::unique_ptr<StmtList> If::getBody() {
+int Stmt::getStmtNo() {
+    return this->stmtNo;
+}
+
+std::unique_ptr<StmtList> While::getBody() {
 
 }
 

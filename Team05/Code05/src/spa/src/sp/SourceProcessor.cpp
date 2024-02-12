@@ -11,7 +11,7 @@ void SourceProcessor::runScanner(const std::string& source) {
 }
 
 void SourceProcessor::runRelationExtractor(PopulatePKB& pkb) {
-    auto parentExtractor = new ParentExtractor(pkb);
+    ParentExtractor parentExtractor(pkb);
     // For each node in the AST
-       // node.accept(visitor)
+    // node.accept(visitor)
 }

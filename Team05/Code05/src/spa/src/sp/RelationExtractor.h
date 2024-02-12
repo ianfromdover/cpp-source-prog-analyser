@@ -8,10 +8,14 @@
 #include <vector>
 #include "Stmt.h"
 
+// TODO: THIS IS A STUB, REMOVE DURING INTEGRATION WITH PKB.
+class PopulatePKB {};
+
 class RelationExtractor {
 private:
     PopulatePKB pkb;
 public:
+    RelationExtractor(PopulatePKB pkb) : pkb(pkb) {}
     virtual ~RelationExtractor() = default;
     // Statement Methods
     virtual void visitReadStmt(Read& stmt) = 0;

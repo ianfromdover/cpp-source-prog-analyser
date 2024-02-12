@@ -4,10 +4,6 @@
 
 #include "ParentExtractor.h"
 
-ParentExtractor::ParentExtractor(PopulatePKB pkb) {
-    this->pkb = pkb;
-}
-
 void ParentExtractor::visitReadStmt(Read& stmt) {
     // Do Nothing
 }
@@ -21,16 +17,16 @@ void ParentExtractor::visitCallStmt(Call& stmt) {
 }
 
 void ParentExtractor::visitWhileStmt(While& stmt) {
-    for (auto& childStmt: stmt.getBody()) {
+    for (auto& childStmt: *stmt.getBody()) {
         //pkb.addParent(stmt.getStmtNo(), childStmt-> getStmtNo());
     }
 }
 
 void ParentExtractor::visitIfStmt(If& stmt) {
-    for (auto& childStmt: stmt.getThenBranch()) {
+    for (auto& childStmt: *stmt.getThenBranch()) {
         //pkb.addParent(stmt.getStmtNo(), childStmt-> getStmtNo());
     }
-    for (auto& childStmt: stmt.getElseBranch()) {
+    for (auto& childStmt: *stmt.getElseBranch()) {
         //pkb.addParent(stmt.getStmtNo(), childStmt-> getStmtNo());
     }
 }
