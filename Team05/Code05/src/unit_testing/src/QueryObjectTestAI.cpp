@@ -34,10 +34,10 @@ TEST_CASE("QueryObject_Set/GetReturnType_SetsCorrectValue") {
 
 TEST_CASE("QueryObject_Get/AddConstraints_ReturnsCorrectVector") {
     QueryObject queryObj;
-    auto* s = new StatementEntity("a");
-    auto* r = new ReadEntity("z");
+    auto s = std::make_shared<StatementEntity>("a");
+    auto r = std::make_shared<ReadEntity>("z");
 //    FollowsConstraint follows_constraint(s, r);
-    auto follows_constraint = std::make_shared<FollowsConstraint>(FollowsConstraint(s,r));
+    auto follows_constraint = std::make_shared<FollowsConstraint>(s, r);
     queryObj.addConstraint(follows_constraint);
     std::vector<std::shared_ptr<Constraint>> constraints = queryObj.getConstraints();
     REQUIRE(constraints.size() == 1);
@@ -49,10 +49,10 @@ TEST_CASE("QueryObject_Get/AddConstraints_ReturnsCorrectVector") {
 
 TEST_CASE("QueryObject_Add/GetConstraint_ReturnsCorrectValues") {
     QueryObject queryObj;
-    auto* s = new StatementEntity("t");
-    auto* r = new ReadEntity("f");
+    auto s = std::make_shared<StatementEntity>("a");
+    auto r = std::make_shared<ReadEntity>("z");
     //FollowsConstraint follows_constraint(s, r);
-    auto follows_constraint = std::make_shared<FollowsConstraint>(FollowsConstraint(s,r));
+    auto follows_constraint = std::make_shared<FollowsConstraint>(s, r);
 
     queryObj.addConstraint(follows_constraint);
     std::vector<std::shared_ptr<Constraint>> constraints = queryObj.getConstraints();
