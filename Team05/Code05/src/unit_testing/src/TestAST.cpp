@@ -1,6 +1,7 @@
 
 #include "TNode.h"
 #include "pkb/PKBStorage.h"
+#include "pkb/PopulatePKB.h"
 #include "catch.hpp"
 using namespace std;
 void require(bool b) {
@@ -57,6 +58,30 @@ TEST_CASE("Test PKB Parent Table") {
     }
     SECTION("getSize") {
         REQUIRE(p.parentTable->getSize() == 3);
+    }
+}
+
+TEST_CASE("Test PopulatePKB") {
+    // ai-gen start (copilot, 1, e)
+    // prompt: used copilot
+    shared_ptr<PKBStorage> p = make_shared<PKBStorage>();
+    PopulatePKB pp(p);
+    SECTION("Attached PKBStorage") {
+        REQUIRE(pp.exists());
+    }
+
+    SECTION("addParent") {
+        REQUIRE(pp.addParent(1, 2));
+    }
+    // ai-gen end
+
+    pp.addParent(4, 5);
+    SECTION("Table hasParent") {
+        REQUIRE(p->parentTable->hasParent(5));
+    }
+
+    SECTION("-ve Table hasParent") {
+        REQUIRE(!(p->parentTable->hasParent(2)));
     }
 }
 
