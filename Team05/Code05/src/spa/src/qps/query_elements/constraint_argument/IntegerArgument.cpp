@@ -11,3 +11,4 @@ std::string IntegerArgument::getArgumentValue() {
 std::string IntegerArgument::getEntityType() {
     return RETURN_TYPE_INTEGER;
 }
+

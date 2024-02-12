@@ -8,18 +8,35 @@
 #include "qps/query_elements/constraint_argument/StatementEntity.h"
 #include "qps/query_elements/constraint/ParentConstraint.h"
 #include "qps/Exceptions/SemanticErrorException.h"
+#include "qps/query_elements/constraint_argument/IntegerArgument.h"
 
 
 void QueryBuilder::addRelationshipConstraints(std::string type, std::string syn1, std::string syn2) {
     std::shared_ptr<RelationshipConstraint> r;
     if (type == "Parent" || type == "Parent*"){
-        std::shared_ptr<Entity> arg1 = searchDeclaration(syn1);
-        std::shared_ptr<Entity> arg2 = searchDeclaration(syn2);
-        if (arg1 && arg2) {
-            std::shared_ptr<StatementEntity> s1 = std::dynamic_pointer_cast<StatementEntity>(arg1);
-            std::shared_ptr<StatementEntity> s2 = std::dynamic_pointer_cast<StatementEntity>(arg2);
+        std::shared_ptr<StatementReference> s1;
+        std::shared_ptr<StatementReference> s2;
+        try {
+            int value = std::stoi(syn1);
+            auto argPtr = std::make_shared<IntegerArgument>(value);
+            s1 = dynamic_pointer_cast<StatementReference>(argPtr);
+        } catch (const std::invalid_argument& e) {
+            std::shared_ptr<Entity> arg1 = searchDeclaration(syn1);
+            s1 = std::dynamic_pointer_cast<StatementReference>(arg1);
+        }
 
-            ParentConstraint p(s1.get(), s2.get());
+        try {
+            int value = std::stoi(syn2);
+            auto argPtr = std::make_shared<IntegerArgument>(value);
+            s2 = dynamic_pointer_cast<StatementReference>(argPtr);
+        } catch (const std::exception e) {
+            std::shared_ptr<Entity> arg2 = searchDeclaration(syn2);
+            s2 = std::dynamic_pointer_cast<StatementReference>(arg2);
+        }
+
+        if (s1.get() && s2.get()) {
+
+            ParentConstraint p(s1, s2);
             r = std::make_shared<ParentConstraint>(p);
         } else {
             throw std::runtime_error("synonym used not declared");

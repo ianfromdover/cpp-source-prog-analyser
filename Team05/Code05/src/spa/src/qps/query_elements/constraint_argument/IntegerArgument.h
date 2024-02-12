@@ -9,8 +9,11 @@
 
 class IntegerArgument : public StatementReference {
 public:
+    explicit IntegerArgument(int a) : value(a) {};
+    IntegerArgument() = default;
     std::string getEntityType() override;
     std::string getArgumentValue() override;
+    int value;
 };
 
 
