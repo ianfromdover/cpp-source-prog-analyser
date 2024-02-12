@@ -14,20 +14,9 @@ class Variable;
 class Literal;
 class Unary;
 
-template <typename T>
-class ExprVisitor {
-public:
-    virtual T visitBinaryExpr(const Binary& expr);
-    virtual T visitVariableExpr(const Variable& expr);
-    virtual T visitLiteralExpr(const Literal& expr);
-    virtual T visitUnaryExpr(const Unary& expr);
-};
-
 class Expr {
 public:
     virtual ~Expr() = default;
-//    template <typename T>
-//    T accept(Visitor<T> visitor);
 };
 
 class Binary : public Expr {

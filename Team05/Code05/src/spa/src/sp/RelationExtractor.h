@@ -6,19 +6,7 @@
 #define SPA_RELATIONEXTRACTOR_H
 #include <iostream>
 #include <vector>
-
-class Procedure;
-class Read;
-class Print;
-class Call;
-class While;
-class If;
-class Assign;
-class Expr;
-class Binary;
-class Variable;
-class Literal;
-class Unary;
+#include "Stmt.h"
 
 class RelationExtractor {
 private:
@@ -26,17 +14,17 @@ private:
 public:
     virtual ~RelationExtractor() = default;
     // Statement Methods
-    virtual void visitReadStmt(const Read& stmt) = 0;
-    virtual void visitPrintStmt(const Print& stmt) = 0;
-    virtual void visitCallStmt(const Call& stmt)= 0;
-    virtual void visitWhileStmt(const While& stmt) = 0;
-    virtual void visitIfStmt(const If& stmt) = 0;
-    virtual void visitAssignStmt(const Assign& stmt) = 0;
+    virtual void visitReadStmt(Read& stmt) = 0;
+    virtual void visitPrintStmt(Print& stmt) = 0;
+    virtual void visitCallStmt(Call& stmt)= 0;
+    virtual void visitWhileStmt(While& stmt) = 0;
+    virtual void visitIfStmt(If& stmt) = 0;
+    virtual void visitAssignStmt(Assign& stmt) = 0;
     // Expression Methods
-    virtual void visitBinaryExpr(const Binary& expr) = 0;
-    virtual void visitVariableExpr(const Variable& expr) = 0;
-    virtual void visitLiteralExpr(const Literal& expr) = 0;
-    virtual void visitUnaryExpr(const Unary& expr) = 0;
+    virtual void visitBinaryExpr(Binary& expr) = 0;
+    virtual void visitVariableExpr(Variable& expr) = 0;
+    virtual void visitLiteralExpr(Literal& expr) = 0;
+    virtual void visitUnaryExpr(Unary& expr) = 0;
 
 };
 

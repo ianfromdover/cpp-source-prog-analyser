@@ -11,17 +11,17 @@ class ParentExtractor: public RelationExtractor {
 public:
     ParentExtractor() = default;
     // Statement Methods
-    void visitReadStmt(const Read& stmt) override;
-    void visitPrintStmt(const Print& stmt) override;
-    void visitCallStmt(const Call& stmt) override;
-    void visitWhileStmt(const While& stmt) override;
-    void visitIfStmt(const If& stmt) override;
-    void visitAssignStmt(const Assign& stmt) override;
+    void visitReadStmt(Read& stmt) override;
+    void visitPrintStmt(Print& stmt) override;
+    void visitCallStmt(Call& stmt) override;
+    void visitWhileStmt(While& stmt) override;
+    void visitIfStmt(If& stmt) override;
+    void visitAssignStmt(Assign& stmt) override;
     // Expression Methods
-    void visitBinaryExpr(const Binary& expr) override;
-    void visitVariableExpr(const Variable& expr) override;
-    void visitLiteralExpr(const Literal& expr) override;
-    void visitUnaryExpr(const Unary& expr) override;
+    void visitBinaryExpr(Binary& expr) override;
+    void visitVariableExpr(Variable& expr) override;
+    void visitLiteralExpr(Literal& expr) override;
+    void visitUnaryExpr(Unary& expr) override;
 };
 
 #endif //SPA_PARENTEXTRACTOR_H

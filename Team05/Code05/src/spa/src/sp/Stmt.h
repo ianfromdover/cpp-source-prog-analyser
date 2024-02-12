@@ -17,21 +17,11 @@ class While;
 class If;
 class Assign;
 
-template <typename T>
-class StmtVisitor {
-public:
-    virtual T visitReadStmt(const Read& stmt);
-    virtual T visitPrintStmt(const Print& stmt);
-    virtual T visitCallStmt(const Call& stmt);
-    virtual T visitWhileStmt(const While& stmt);
-    virtual T visitIfStmt(const If& stmt);
-    virtual T visitAssignStmt(const Assign& stmt);
-};
-
 class Stmt {
-//    virtual ~Stmt() = default;
-//    template <typename T>
-//    T accept(Visitor<T> visitor);
+public:
+    int StmtNo;
+    virtual ~Stmt() = default;
+    virtual int getStmtNo();
 };
 
 using Program = std::unique_ptr<std::vector<std::unique_ptr<Procedure>>>;
@@ -78,6 +68,7 @@ private:
 public:
     While(std::unique_ptr<Expr> condition, std::unique_ptr<StmtList> body) :
         condition(std::move(condition)), body(std::move(body)) {}
+        std::unique_ptr<StmtList> getBody();
 };
 
 class If : public Stmt {
@@ -89,6 +80,8 @@ private:
 public:
     If(std::unique_ptr<Expr> condition, std::unique_ptr<StmtList> thenBranch, std::unique_ptr<StmtList> elseBranch)
         : condition(std::move(condition)), thenBranch(std::move(thenBranch)), elseBranch(std::move(elseBranch)) {}
+    std::unique_ptr<StmtList> getThenBranch();
+    std::unique_ptr<StmtList> getElseBranch();
 };
 
 class Assign : public Stmt {

@@ -3,3 +3,15 @@
 //
 
 #include "Stmt.h"
+
+std::unique_ptr<StmtList> If::getBody() {
+
+}
+
+std::unique_ptr<StmtList> If::getThenBranch() {
+
+}
+
+std::unique_ptr<StmtList> If::getElseBranch() {
+
+}

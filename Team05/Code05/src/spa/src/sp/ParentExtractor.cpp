@@ -4,49 +4,49 @@
 
 #include "ParentExtractor.h"
 
-void ParentExtractor::visitReadStmt(const Read& stmt) {
+void ParentExtractor::visitReadStmt(Read& stmt) {
     // Do Nothing
 }
 
-void ParentExtractor::visitPrintStmt(const Print& stmt) {
+void ParentExtractor::visitPrintStmt(Print& stmt) {
     // Do Nothing
 }
 
-void ParentExtractor::visitCallStmt(const Call& stmt) {
+void ParentExtractor::visitCallStmt(Call& stmt) {
     // Pending Implementation for Sprint 2
 }
 
-void ParentExtractor::visitWhileStmt(const While& stmt) {
+void ParentExtractor::visitWhileStmt(While& stmt) {
     for (auto& childStmt: stmt.getBody()) {
-        addParent(stmt.getStmtNo, childStmt.getStmtNo);
+        //addParent(stmt.getStmtNo(), childStmt-> getStmtNo());
     }
 }
 
-void ParentExtractor::visitIfStmt(const If& stmt) {
+void ParentExtractor::visitIfStmt(If& stmt) {
     for (auto& childStmt: stmt.getThenBranch()) {
-        addParent(stmt.getStmtNo, childStmt.getStmtNo);
+        //addParent(stmt.getStmtNo(), childStmt-> getStmtNo());
     }
     for (auto& childStmt: stmt.getElseBranch()) {
-        addParent(stmt.getStmtNo, childStmt.getStmtNo);
+        //addParent(stmt.getStmtNo(), childStmt-> getStmtNo());
     }
 }
 
-void ParentExtractor::visitAssignStmt(const Assign& stmt) {
+void ParentExtractor::visitAssignStmt(Assign& stmt) {
     // Do Nothing
 }
 
-void ParentExtractor::visitBinaryExpr(const Binary& expr) {
+void ParentExtractor::visitBinaryExpr(Binary& expr) {
     // Pending Implementation for Sprint 2
 }
 
-void ParentExtractor::visitVariableExpr(const Variable& expr) {
+void ParentExtractor::visitVariableExpr(Variable& expr) {
     // Pending Implementation for Sprint 2
 }
 
-void ParentExtractor::visitLiteralExpr(const Literal& expr) {
+void ParentExtractor::visitLiteralExpr(Literal& expr) {
     // Pending Implementation for Sprint 2
 }
 
-void ParentExtractor::visitUnaryExpr(const Unary& expr) {
+void ParentExtractor::visitUnaryExpr( Unary& expr) {
     // Pending Implementation for Sprint 2
 }
