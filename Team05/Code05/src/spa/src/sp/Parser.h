@@ -22,11 +22,21 @@ public:
 private:
     bool match(std::initializer_list<TokenType::TypeInfo> types);
     bool check(TokenType::TypeInfo type);
-    Token advance();
     bool isAtEnd();
+    Token advance();
     Token peek();
     Token previous();
     Token consume(TokenType::TypeInfo type, std::string message);
+
+    std::unique_ptr<Procedure> procedure();
+    std::unique_ptr<StmtList> stmtList();
+    std::unique_ptr<Stmt> stmt();
+    std::unique_ptr<Stmt> read();
+    std::unique_ptr<Stmt> print();
+    std::unique_ptr<Stmt> call();
+    std::unique_ptr<Stmt> loop();
+    std::unique_ptr<Stmt> cond();
+    std::unique_ptr<Stmt> assign();
 
     std::unique_ptr<Expr> condExpr();
     std::unique_ptr<Expr> relExpr();

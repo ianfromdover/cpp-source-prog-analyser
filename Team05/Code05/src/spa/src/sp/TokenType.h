@@ -12,7 +12,7 @@ public:
         //Comparison Operators
         BANG_EQUAL, EQUAL_EQUAL, GREATER, GREATER_EQUAL, LESSER_EQUAL, LESSER,
         //Keywords
-        PROGRAM, PROCEDURE, READ, PRINT, WHILE, IF, ELSE, ASSIGN, CALL,
+        PROGRAM, PROCEDURE, READ, PRINT, WHILE, IF, THEN, ELSE, ASSIGN, CALL,
         //Logical Operators
         BANG, OR, AND,
         //Mathematical Operators

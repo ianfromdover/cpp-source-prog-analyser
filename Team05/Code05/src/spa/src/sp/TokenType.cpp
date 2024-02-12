@@ -21,6 +21,7 @@ std::string TokenType::toString() const {
         case PRINT: return "PRINT";
         case WHILE: return "WHILE";
         case IF: return "IF";
+        case THEN: return "THEN";
         case ELSE: return "ELSE";
         case ASSIGN: return "ASSIGN";
         case CALL: return "CALL";

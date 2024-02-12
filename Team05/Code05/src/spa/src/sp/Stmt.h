@@ -29,19 +29,21 @@ public:
 };
 
 class Stmt {
-    virtual ~Stmt() = default;
+//    virtual ~Stmt() = default;
 //    template <typename T>
 //    T accept(Visitor<T> visitor);
 };
 
 using Program = std::unique_ptr<std::vector<std::unique_ptr<Procedure>>>;
+using StmtList = std::vector<std::unique_ptr<Stmt>>;
 
 class Procedure {
 private:
-    std::unique_ptr<std::vector<std::unique_ptr<Stmt>>> stmtList;
+    std::string name;
+    std::unique_ptr<StmtList> body;
 
 public:
-    Procedure(std::unique_ptr<std::vector<std::unique_ptr<Stmt>>> stmtList) : stmtList(std::move(stmtList)) {}
+    Procedure(std::string name, std::unique_ptr<StmtList> body) : name(std::move(name)), body(std::move(body)) {}
 };
 
 class Read : public Stmt {
@@ -71,23 +73,22 @@ public:
 class While : public Stmt {
 private:
     std::unique_ptr<Expr> condition;
-    std::unique_ptr<std::vector<std::unique_ptr<Stmt>>> body;
+    std::unique_ptr<StmtList> body;
 
 public:
-    While(std::unique_ptr<Expr> condition, std::unique_ptr<std::vector<std::unique_ptr<Stmt>>> body) :
+    While(std::unique_ptr<Expr> condition, std::unique_ptr<StmtList> body) :
         condition(std::move(condition)), body(std::move(body)) {}
 };
 
 class If : public Stmt {
 private:
     std::unique_ptr<Expr> condition;
-    std::unique_ptr<std::vector<std::unique_ptr<Stmt>>> then_branch;
-    std::unique_ptr<std::vector<std::unique_ptr<Stmt>>> else_branch;
+    std::unique_ptr<StmtList> thenBranch;
+    std::unique_ptr<StmtList> elseBranch;
 
 public:
-    If(std::unique_ptr<Expr> condition, std::unique_ptr<std::vector<std::unique_ptr<Stmt>>> then_branch,
-       std::unique_ptr<std::vector<std::unique_ptr<Stmt>>> else_branch) : condition(std::move(condition)),
-       then_branch(std::move(then_branch)), else_branch(std::move(else_branch)) {}
+    If(std::unique_ptr<Expr> condition, std::unique_ptr<StmtList> thenBranch, std::unique_ptr<StmtList> elseBranch)
+        : condition(std::move(condition)), thenBranch(std::move(thenBranch)), elseBranch(std::move(elseBranch)) {}
 };
 
 class Assign : public Stmt {
