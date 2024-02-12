@@ -58,6 +58,11 @@ Token Parser::consume(TokenType::TypeInfo type, std::string message) {
     throw message;
 }
 
+StmtNo Parser::nextStmtNo() {
+    this->currentStmtNo++;
+    return this->currentStmtNo;
+}
+
 std::unique_ptr<Procedure> Parser::procedure() {
     // 'procedure' proc_name '{' stmtLst '}'
     this->consume(TokenType::PROCEDURE, "Expect procedure in source file.");
@@ -105,21 +110,21 @@ std::unique_ptr<Stmt> Parser::read() {
     this->consume(TokenType::NAME, "Expect variable name after 'read'.");
     auto variable = std::make_unique<Variable>(this->previous().getLexeme());
     this->consume(TokenType::SEMICOLON, "Expect ';' at the end of 'read' statement.");
-    return std::make_unique<Read>(std::move(variable));
+    return std::make_unique<Read>(this->nextStmtNo(), std::move(variable));
 }
 
 std::unique_ptr<Stmt> Parser::print() {
     this->consume(TokenType::NAME, "Expect variable name after 'print'.");
     auto variable = std::make_unique<Variable>(this->previous().getLexeme());
     this->consume(TokenType::SEMICOLON, "Expect ';' at the end of 'print' statement.");
-    return std::make_unique<Print>(std::move(variable));
+    return std::make_unique<Print>(this->nextStmtNo(), std::move(variable));
 }
 
 std::unique_ptr<Stmt> Parser::call() {
     this->consume(TokenType::NAME, "Expect procedure name after 'call'.");
     auto procName = this->previous().getLexeme();
     this->consume(TokenType::SEMICOLON, "Expect ';' at the end of 'call' statement.");
-    return std::make_unique<Call>(procName);
+    return std::make_unique<Call>(this->nextStmtNo(), procName);
 }
 
 std::unique_ptr<Stmt> Parser::loop() {
@@ -131,7 +136,7 @@ std::unique_ptr<Stmt> Parser::loop() {
     auto body = this->stmtList();
     this->consume(TokenType::RIGHT_BRACE, "Expect '}' after loop body.");
 
-    return std::make_unique<While>(std::move(condition), std::move(body));
+    return std::make_unique<While>(this->nextStmtNo(), std::move(condition), std::move(body));
 }
 
 std::unique_ptr<Stmt> Parser::cond() {
@@ -149,7 +154,7 @@ std::unique_ptr<Stmt> Parser::cond() {
     auto elseBranch = this->stmtList();
     this->consume(TokenType::RIGHT_BRACE, "Expect '}' at the end of 'else' branch.");
 
-    return std::make_unique<If>(std::move(condition), std::move(thenBranch), std::move(elseBranch));
+    return std::make_unique<If>(this->nextStmtNo(), std::move(condition), std::move(thenBranch), std::move(elseBranch));
 }
 
 std::unique_ptr<Stmt> Parser::assign() {
@@ -158,7 +163,7 @@ std::unique_ptr<Stmt> Parser::assign() {
     this->consume(TokenType::ASSIGN, "Expect '=' after variable name.");
     auto value = this->expr();
     this->consume(TokenType::SEMICOLON, "Expect ';' at the end of assignment statement.");
-    return std::make_unique<Assign>(std::move(variable), std::move(value));
+    return std::make_unique<Assign>(this->nextStmtNo(), std::move(variable), std::move(value));
 }
 
 std::unique_ptr<Expr> Parser::condExpr() {

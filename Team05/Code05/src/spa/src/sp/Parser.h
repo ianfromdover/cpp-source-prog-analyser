@@ -12,6 +12,7 @@
 class Parser {
 private:
     int current = 0;
+    StmtNo currentStmtNo = 0;
     // TODO: Re-look at the design and ownership of TokenList.
     std::vector<std::shared_ptr<Token>> tokens;
 
@@ -27,6 +28,8 @@ private:
     Token peek();
     Token previous();
     Token consume(TokenType::TypeInfo type, std::string message);
+
+    StmtNo nextStmtNo();
 
     std::unique_ptr<Procedure> procedure();
     std::unique_ptr<StmtList> stmtList();

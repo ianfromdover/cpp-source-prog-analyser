@@ -4,7 +4,7 @@
 
 #include "Stmt.h"
 
-int Stmt::getStmtNo() {
+StmtNo Stmt::getStmtNo() const {
     return this->stmtNo;
 }
 

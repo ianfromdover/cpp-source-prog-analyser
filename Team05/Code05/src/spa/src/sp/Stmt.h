@@ -17,12 +17,15 @@ class While;
 class If;
 class Assign;
 
+using StmtNo = unsigned long;
+
 class Stmt {
 private:
-    int stmtNo;
+    StmtNo stmtNo;
 public:
+    explicit Stmt(StmtNo stmtNo) : stmtNo(stmtNo) {}
     virtual ~Stmt() = default;
-    int getStmtNo();
+    [[nodiscard]] StmtNo getStmtNo() const;
 };
 
 using Program = std::unique_ptr<std::vector<std::unique_ptr<Procedure>>>;
@@ -42,7 +45,7 @@ private:
     std::unique_ptr<Variable> variable;
 
 public:
-    Read(std::unique_ptr<Variable> variable) : variable(std::move(variable)) {}
+    Read(StmtNo stmtNo, std::unique_ptr<Variable> variable) : Stmt(stmtNo), variable(std::move(variable)) {}
 };
 
 class Print : public Stmt {
@@ -50,7 +53,7 @@ private:
     std::unique_ptr<Variable> variable;
 
 public:
-    Print(std::unique_ptr<Variable> variable) : variable(std::move(variable)) {}
+    Print(StmtNo stmtNo, std::unique_ptr<Variable> variable) : Stmt(stmtNo), variable(std::move(variable)) {}
 };
 
 class Call : public Stmt {
@@ -58,7 +61,7 @@ private:
     std::string procName;
 
 public:
-    Call(std::string procName) : procName(std::move(procName)) {}
+    Call(StmtNo stmtNo, std::string procName) : Stmt(stmtNo), procName(std::move(procName)) {}
 };
 
 class While : public Stmt {
@@ -67,8 +70,8 @@ private:
     std::unique_ptr<StmtList> body;
 
 public:
-    While(std::unique_ptr<Expr> condition, std::unique_ptr<StmtList> body)
-        : condition(std::move(condition)), body(std::move(body)) {}
+    While(StmtNo stmtNo, std::unique_ptr<Expr> condition, std::unique_ptr<StmtList> body)
+        : Stmt(stmtNo), condition(std::move(condition)), body(std::move(body)) {}
     std::unique_ptr<StmtList> getBody();
 };
 
@@ -79,8 +82,12 @@ private:
     std::unique_ptr<StmtList> elseBranch;
 
 public:
-    If(std::unique_ptr<Expr> condition, std::unique_ptr<StmtList> thenBranch, std::unique_ptr<StmtList> elseBranch)
-        : condition(std::move(condition)), thenBranch(std::move(thenBranch)), elseBranch(std::move(elseBranch)) {}
+    If(StmtNo stmtNo, std::unique_ptr<Expr> condition,
+       std::unique_ptr<StmtList> thenBranch, std::unique_ptr<StmtList> elseBranch)
+            : Stmt(stmtNo),
+              condition(std::move(condition)),
+              thenBranch(std::move(thenBranch)),
+              elseBranch(std::move(elseBranch)) {}
     std::unique_ptr<StmtList> getThenBranch();
     std::unique_ptr<StmtList> getElseBranch();
 };
@@ -91,8 +98,8 @@ private:
     std::unique_ptr<Expr> value;
 
 public:
-    Assign(std::unique_ptr<Expr> variable, std::unique_ptr<Expr> value)
-        : variable(std::move(variable)), value(std::move(value)) {}
+    Assign(StmtNo stmtNo, std::unique_ptr<Expr> variable, std::unique_ptr<Expr> value)
+        : Stmt(stmtNo), variable(std::move(variable)), value(std::move(value)) {}
 };
 
 #endif //SPA_STMT_H
