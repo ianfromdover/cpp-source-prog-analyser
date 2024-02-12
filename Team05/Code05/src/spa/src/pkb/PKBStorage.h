@@ -1,5 +1,5 @@
 #pragma once
-#define SPA_PKB_H
+#define SPA_PKBSTORAGE_H
 
 #include <string>
 #include <vector>
@@ -9,7 +9,6 @@ using namespace std;
 
 /**
  * Stores all the relationship and entity tables.
- * TODO: Rename to PKBStorage
  */
 class PKBStorage {
 private:

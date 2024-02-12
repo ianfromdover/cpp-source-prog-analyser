@@ -12,6 +12,8 @@ private:
     shared_ptr<PKBStorage> pkb;
 public:
     PopulatePKB(shared_ptr<PKBStorage> p);
+    // Returns true if PKBStorage exists
+    bool exists();
     // ai-gen start (copilot, 2, e)
     // prompt: used copilot
 

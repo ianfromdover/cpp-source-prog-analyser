@@ -1,10 +1,15 @@
 #include "PopulatePKB.h"
 #include "PKBStorage.h"
 
-// TODO: Implement PopulatePKB
 PopulatePKB::PopulatePKB(std::shared_ptr<PKBStorage> p) {
     pkb = p;
 }
+
+bool PopulatePKB::exists() {
+    return pkb != nullptr;
+}
+// ai-gen start (copilot, 1, e)
+// prompt: used copilot
 /*
 bool PopulatePKB::addVar() {
     return false;
@@ -23,8 +28,7 @@ bool PopulatePKB::addFollows() {
 }
  */
 bool PopulatePKB::addParent(StmtNo parent, StmtNo child) {
-    pkb->parentTable->addParent(parent, child);
-    return false;
+    return pkb->parentTable->addParent(parent, child);
 }
 /*
 bool PopulatePKB::addUses() {
@@ -41,3 +45,4 @@ bool PopulatePKB::generateParentT() {
     return false;
 }
 */
+// ai-gen end
