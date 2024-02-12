@@ -8,6 +8,8 @@
 #include "TokenList.h"
 #include "StrategyList.h"
 #include "Scanner.h"
+#include "RelationExtractor.h"
+#include "ParentExtractor.h"
 
 class SourceProcessor {
 private:
