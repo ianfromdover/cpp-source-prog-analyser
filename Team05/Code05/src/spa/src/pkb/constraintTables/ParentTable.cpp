@@ -1,28 +1,39 @@
 #include "ParentTable.h"
+ParentTable::ParentTable() {}
 bool ParentTable::addParent(StmtNo parent, StmtNo child) {
+    if (isParent(parent, child)) {
+        return false;
+    }
     twoSideMap.insert(parent, child);
-    return true; // TODO: return false if parent child pair already exists
+    return true;
 }
-bool ParentTable::hasParent(StmtNo child) {
-    return twoSideMap.containsKey(child);
-}
-bool ParentTable::hasChild(StmtNo parent) {
-    return twoSideMap.containsValue(parent);
-}
+
 bool ParentTable::isParent(StmtNo parent, StmtNo child) {
-    return twoSideMap.getKey(child) == parent;
+    if (twoSideMap.getKey(child) == std::nullopt) {
+        return false;
+    }
+    return twoSideMap.getKey(child).value() == parent;
 }
+
+bool ParentTable::hasParent(StmtNo child) {
+    return twoSideMap.getKey(child) != std::nullopt;
+}
+
+bool ParentTable::hasChildren(StmtNo parent) {
+    return twoSideMap.containsKey(parent);
+}
+
 StmtNo ParentTable::getParent(StmtNo child) {
-    return twoSideMap.getKey(child);
+    if (twoSideMap.getKey(child) == std::nullopt) {
+        return -1;
+    }
+    return twoSideMap.getKey(child).value();
 }
-vector<StmtNo> const& ParentTable::getChildren(StmtNo parent) {
+
+vector<StmtNo> ParentTable::getChildren(StmtNo parent) {
     return twoSideMap.getValues(parent);
 }
-vector<StmtNo> const& ParentTable::getSiblings(StmtNo child) {
-    // if child is a value in twoSideMap,
-    // return the vector of values associated with the key of child
-    return twoSideMap.getValues(twoSideMap.getKey(child));
-}
+
 int ParentTable::getSize() const {
     return twoSideMap.size();
 }

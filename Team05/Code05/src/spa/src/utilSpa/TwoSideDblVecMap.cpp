@@ -108,4 +108,3 @@ template<typename A, typename B>
 bool TwoSideDblVecMap<A, B>::containsValue(const B& value) {
     return backwardMap.find(value) != backwardMap.end();
 }
-// removed erase functions because unlikely to use and too lazy to implement
