@@ -6,7 +6,18 @@
 #define SPA_RELATIONEXTRACTOR_H
 #include <iostream>
 #include <vector>
-#include "Stmt.h"
+
+class Read;
+class Print;
+class Call;
+class While;
+class If;
+class Assign;
+class Expr;
+class Binary;
+class Variable;
+class Literal;
+class Unary;
 
 // TODO: THIS IS A STUB, REMOVE DURING INTEGRATION WITH PKB.
 class PopulatePKB {};

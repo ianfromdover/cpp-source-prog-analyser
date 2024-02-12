@@ -68,27 +68,27 @@ std::string Assign::toString() const {
 };
 
 void Read::accept(RelationExtractor& extractor) {
-    extractor.visitReadStmt(this);
+    extractor.visitReadStmt(*this);
 }
 
 void Print::accept(RelationExtractor& extractor) {
-    extractor.visitPrintStmt(this);
+    extractor.visitPrintStmt(*this);
 }
 
 void Call::accept(RelationExtractor& extractor) {
-    extractor.visitCallStmt(this);
+    extractor.visitCallStmt(*this);
 }
 
 void While::accept(RelationExtractor& extractor) {
-    extractor.visitWhileStmt(this);
+    extractor.visitWhileStmt(*this);
 }
 
 void If::accept(RelationExtractor& extractor) {
-    extractor.visitIfStmt(this);
+    extractor.visitIfStmt(*this);
 }
 
 void Assign::accept(RelationExtractor& extractor) {
-    extractor.visitAssignStmt(this);
+    extractor.visitAssignStmt(*this);
 }
 
 std::unique_ptr<StmtList> const& While::getBody() const {

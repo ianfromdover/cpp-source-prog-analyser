@@ -6,6 +6,7 @@
 #define SPA_PARENTEXTRACTOR_H
 
 #include "RelationExtractor.h"
+#include "Stmt.h"
 
 class ParentExtractor: public RelationExtractor {
 public:

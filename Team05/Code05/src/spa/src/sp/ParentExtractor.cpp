@@ -19,15 +19,18 @@ void ParentExtractor::visitCallStmt(const Call& stmt) {
 void ParentExtractor::visitWhileStmt(const While& stmt) {
     for (const auto& childStmt : *stmt.getBody()) {
         // pkb.addParent(stmt.getStmtNo(), childStmt-> getStmtNo());
+        std::cout << "pkb.addParent(" << stmt.getStmtNo() << ", " << childStmt->getStmtNo() << ");" << std::endl;
     }
 }
 
 void ParentExtractor::visitIfStmt(const If& stmt) {
     for (const auto& childStmt: *stmt.getThenBranch()) {
         // pkb.addParent(stmt.getStmtNo(), childStmt-> getStmtNo());
+        std::cout << "pkb.addParent(" << stmt.getStmtNo() << ", " << childStmt->getStmtNo() << ");" << std::endl;
     }
     for (const auto& childStmt: *stmt.getElseBranch()) {
         // pkb.addParent(stmt.getStmtNo(), childStmt-> getStmtNo());
+        std::cout << "pkb.addParent(" << stmt.getStmtNo() << ", " << childStmt->getStmtNo() << ");" << std::endl;
     }
 }
 

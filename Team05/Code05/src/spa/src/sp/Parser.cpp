@@ -128,6 +128,8 @@ std::unique_ptr<Stmt> Parser::call() {
 }
 
 std::unique_ptr<Stmt> Parser::loop() {
+    const auto stmtNo = this->nextStmtNo();
+
     this->consume(TokenType::LEFT_PAREN, "Expect '(' before conditional expression.");
     auto condition = this->condExpr();
     this->consume(TokenType::RIGHT_PAREN, "Expect ')' after conditional expression.");
@@ -136,10 +138,12 @@ std::unique_ptr<Stmt> Parser::loop() {
     auto body = this->stmtList();
     this->consume(TokenType::RIGHT_BRACE, "Expect '}' after loop body.");
 
-    return std::make_unique<While>(this->nextStmtNo(), std::move(condition), std::move(body));
+    return std::make_unique<While>(stmtNo, std::move(condition), std::move(body));
 }
 
 std::unique_ptr<Stmt> Parser::cond() {
+    const auto stmtNo = this->nextStmtNo();
+
     this->consume(TokenType::LEFT_PAREN, "Expect '(' before conditional expression.");
     auto condition = this->condExpr();
     this->consume(TokenType::RIGHT_PAREN, "Expect ')' after conditional expression.");
@@ -154,7 +158,7 @@ std::unique_ptr<Stmt> Parser::cond() {
     auto elseBranch = this->stmtList();
     this->consume(TokenType::RIGHT_BRACE, "Expect '}' at the end of 'else' branch.");
 
-    return std::make_unique<If>(this->nextStmtNo(), std::move(condition), std::move(thenBranch), std::move(elseBranch));
+    return std::make_unique<If>(stmtNo, std::move(condition), std::move(thenBranch), std::move(elseBranch));
 }
 
 std::unique_ptr<Stmt> Parser::assign() {

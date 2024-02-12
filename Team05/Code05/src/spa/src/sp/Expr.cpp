@@ -5,19 +5,19 @@
 #include "Expr.h"
 
 void Binary::accept(RelationExtractor& extractor) {
-    extractor.visitBinaryExpr(this);
+    extractor.visitBinaryExpr(*this);
 }
 
 void Variable::accept(RelationExtractor& extractor) {
-    extractor.visitVariableExpr(this);
+    extractor.visitVariableExpr(*this);
 }
 
 void Literal::accept(RelationExtractor& extractor) {
-    extractor.visitLiteralExpr(this);
+    extractor.visitLiteralExpr(*this);
 }
 
 void Unary::accept(RelationExtractor& extractor) {
-    extractor.visitUnaryExpr(this);
+    extractor.visitUnaryExpr(*this);
 }
 
 std::string Binary::toString() const {
