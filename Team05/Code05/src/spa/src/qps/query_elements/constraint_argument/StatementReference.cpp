@@ -9,5 +9,5 @@ std::string StatementReference::getReferenceType() {
 }
 
 std::string StatementReference::getArgumentValue() {
-    return "";
+    return "s";
 }

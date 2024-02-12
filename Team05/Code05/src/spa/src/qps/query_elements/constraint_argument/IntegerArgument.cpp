@@ -5,7 +5,7 @@
 #include "IntegerArgument.h"
 
 std::string IntegerArgument::getArgumentValue() {
-    return RETURN_TYPE_INTEGER;
+    return "3";
 }
 
 std::string IntegerArgument::getEntityType() {
