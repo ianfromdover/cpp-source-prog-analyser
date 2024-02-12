@@ -2,6 +2,7 @@
 // Created by Chua Bing Quan on 11/2/24.
 //
 
+#include <string>
 #include "Expr.h"
 
 void Binary::accept(RelationExtractor& extractor) {

@@ -8,6 +8,7 @@
 // include your other headers here
 #include "AbstractWrapper.h"
 #include "sp/SourceProcessor.h"
+#include "sp/RelationExtractor.h"
 
 class TestWrapper : public AbstractWrapper {
 private:
@@ -21,8 +22,8 @@ private:
 
 public:
     // default constructor
-    TestWrapper() {
-//        sp = SourceProcessor();
+    TestWrapper() : sp(PopulatePKB()) {
+//        sp = SourceProcessor(nullptr);
 //        pkb = PKB(1);
 //        popPkb = PopulatePKB(1);
 //        queryPkb = QueryPKB(1);

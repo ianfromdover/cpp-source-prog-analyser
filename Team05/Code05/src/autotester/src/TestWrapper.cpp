@@ -23,8 +23,8 @@ void TestWrapper::evaluate(std::string query, std::list<std::string>& results){
 
   // store the answers to the query in the results list (it is initially empty)
   // each result must be a string.
-    std::vector<std::string> ans = this->qps.evaluate(query);
-    for(const auto s : ans){
-        results.push_back(s);
-    }
+//    std::vector<std::string> ans = this->qps.evaluate(query);
+//    for(const auto s : ans){
+//        results.push_back(s);
+//    }
 }
