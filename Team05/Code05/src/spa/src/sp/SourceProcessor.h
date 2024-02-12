@@ -8,6 +8,8 @@
 #include "TokenList.h"
 #include "StrategyList.h"
 #include "Scanner.h"
+#include "RelationExtractor.h"
+#include "ParentExtractor.h"
 
 class SourceProcessor {
 private:
@@ -15,7 +17,8 @@ private:
     TokenList tokens;
 public:
     SourceProcessor() = default;
-    void runScanner(std::string source);
+    void runScanner(const std::string& source);
+    void runRelationExtractor();
 };
 
 

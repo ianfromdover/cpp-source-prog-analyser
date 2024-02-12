@@ -4,8 +4,14 @@
 
 #include "SourceProcessor.h"
 
-void SourceProcessor::runScanner(std::string source) {
+void SourceProcessor::runScanner(const std::string& source) {
     auto scanner = new Scanner(source, strategies, tokens);
     scanner->scanTokens();
     std::cout << tokens.toString() << std::endl;
+}
+
+void SourceProcessor::runRelationExtractor() {
+    auto parentExtractor = new ParentExtractor();
+    // For each node in the AST
+       // node.accept(visitor)
 }
