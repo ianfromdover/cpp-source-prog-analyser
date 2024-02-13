@@ -27,19 +27,31 @@ jobs:
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
       run: cmake -S ${{github.workspace}}\Team05\Code05\ -B ${{github.workspace}}\Team05\Code05\cmake-cli -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
-    - name: Build(AutoTester)
-      # Build your program with the given configuration
-      run: cmake --build ${{github.workspace}}\Team05\Code05\cmake-cli --target autotester --config ${{env.BUILD_TYPE}}
+#    - name: Build(AutoTester)
+#      # Build your program with the given configuration
+#      run: cmake --build ${{github.workspace}}\Team05\Code05\cmake-cli --target autotester --config ${{env.BUILD_TYPE}}
 
     - name: Build(Unit Testing)
       # Build your program with the given configuration
       run: cmake --build ${{github.workspace}}\Team05\Code05\cmake-cli --target unit_testing --config ${{env.BUILD_TYPE}}
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+          name: unit_testing.exe
+          path: ${{github.workspace}}\Team05\Code05\cmake-cli\src\unit_testing\Debug\unit_testing.exe 
 
   test:
     needs: build
     runs-on: windows-latest
 
     steps:
+    - name: Download Artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: unit_testing.exe
+        path: ${{github.workspace}}/Team05/Code05/cmake-cli/src/unit_testing/Debug
+        
     - name: Unit Test
       # runs unit test
       run: ${{github.workspace}}\Team05\Code05\cmake-cli\src\unit_testing\Debug\unit_testing.exe
