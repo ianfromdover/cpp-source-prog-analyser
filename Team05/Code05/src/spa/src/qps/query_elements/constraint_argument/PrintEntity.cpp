@@ -1,0 +1,17 @@
+//
+// Created by tohzh on 8/2/2024.
+//
+
+#include "PrintEntity.h"
+
+std::string PrintEntity::getReturnType() {
+    return RETURN_TYPE_PRINT;
+}
+
+std::string PrintEntity::getEntityType() {
+    return RETURN_TYPE_PRINT;
+}
+
+PrintEntity::PrintEntity(std::string s) {
+    identifier = std::move(s);
+}

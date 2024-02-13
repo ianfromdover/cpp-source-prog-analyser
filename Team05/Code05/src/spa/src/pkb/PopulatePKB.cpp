@@ -1,38 +1,49 @@
 #include "PopulatePKB.h"
+//#include "PKBStorage.h"
 
-// TODO: Implement PopulatePKB
-bool PopulatePKB::populateAll() {
-    return 0;
+PopulatePKB::PopulatePKB(std::shared_ptr<PKBStorage> p) {
+    pkb = p;
 }
-bool PopulatePKB::populateVarTable() {
-    return 0;
+
+bool PopulatePKB::exists() {
+    return pkb != nullptr;
 }
-bool PopulatePKB::populateProcTable() {
-    return 0;
+// ai-gen start (copilot, 1, e)
+// prompt: used copilot
+/*
+bool PopulatePKB::addVar() {
+    return false;
 }
-bool PopulatePKB::populateStmtTable() {
-    return 0;
+bool PopulatePKB::addConst() {
+    return false;
 }
-bool PopulatePKB::populateFollows() {
-    return 0;
+bool PopulatePKB::addProcedure() {
+    return false;
 }
-bool PopulatePKB::populateParent() {
-    return 0;
+bool PopulatePKB::addStmt(StmtNo stmtNo, Str stmtType, ProcId procIndex) {
+    return false;
 }
-bool PopulatePKB::populateUses() {
-    return 0;
+bool PopulatePKB::addFollows() {
+    return false;
 }
-bool PopulatePKB::populateModifies() {
-    return 0;
+ */
+bool PopulatePKB::addParent(StmtNo parent, StmtNo child) {
+    return pkb->parentTable->addParent(parent, child);
+    //return true;
 }
-bool PopulatePKB::populatePattern() {
-    return 0;
+/*
+bool PopulatePKB::addUses() {
+    return false;
+}
+bool PopulatePKB::addModifies() {
+    return false;
 }
 // ai-gen end
 bool PopulatePKB::generateFollowsT() {
-    return 0;
+    return false;
 }
 bool PopulatePKB::generateParentT() {
-    return 0;
+    return false;
 }
-
+*/
+// ai-gen end

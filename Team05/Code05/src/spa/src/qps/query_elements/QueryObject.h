@@ -8,23 +8,22 @@
 #include <vector>
 #include <memory>
 #include "Returnable.h"
-#include "Constraint.h"
-#include "Declaration.h"
-
+#include "qps/query_elements/constraint/Constraint.h"
+#include "Entity.h"
 
 class QueryObject {
 private:
     std::shared_ptr<Returnable> returnType;
-    std::vector<Constraint*> constraints;
-    std::vector<Declaration*> declarations;
+    std::vector<std::shared_ptr<Constraint>> constraints;
+    std::vector<std::shared_ptr<Entity>> declarations;
 
 public:
     std::shared_ptr<Returnable> getReturnType();
     void setReturnType(std::shared_ptr<Returnable> r);
-    std::vector<Constraint*> getConstraints();
-    void addConstraint(Constraint&);
-    std::vector<Declaration*> getDeclarations();
-    void addDeclaration(Declaration&);
+    std::vector<std::shared_ptr<Constraint>> getConstraints();
+    void addConstraint(std::shared_ptr<Constraint>);
+    std::vector<std::shared_ptr<Entity>> getDeclarations();
+    void addDeclaration(const std::shared_ptr<Entity>&);
 };
 
 
