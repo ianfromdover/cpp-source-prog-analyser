@@ -9,7 +9,7 @@
 #include "sp/TokenList.h"
 #include <sstream>
 
-TEST_CASE("SingleCharacterStrategy tokenization", "[SingleCharacter]") {
+TEST_CASE("[TestSP] SingleCharacterStrategy tokenization", "[SingleCharacter]") {
     SingleCharacterStrategy strategy;
     TokenList tokens;
     bool prevTokenIsKeyword = true;
@@ -173,7 +173,7 @@ TEST_CASE("DoubleCharacterStrategy tokenization", "[DoubleCharacter]") {
     }
 }
 
-TEST_CASE("MultiCharacterStrategy tokenization", "[MultiCharacter]") {
+TEST_CASE("[TestSP] MultiCharacterStrategy tokenization", "[MultiCharacter]") {
     MultiCharacterStrategy strategy;
     TokenList tokens;
     bool prevTokenIsKeyword = false;
@@ -329,7 +329,7 @@ TEST_CASE("MultiCharacterStrategy tokenization", "[MultiCharacter]") {
     }
 }
 
-TEST_CASE("Scanner tokenization", "[SingleCharacter, DoubleCharacter, MultiCharacter]") {
+TEST_CASE("[TestSP] Scanner tokenization", "[SingleCharacter, DoubleCharacter, MultiCharacter]") {
     StrategyList strategies;
     TokenList tokens;
     std::string codeSnippet = R"(
