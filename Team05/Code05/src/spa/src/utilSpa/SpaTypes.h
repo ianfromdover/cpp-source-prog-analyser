@@ -44,12 +44,12 @@
 #define LNNO "line_number"
 #define PROC "procedure"
 #define STMT "stmt"
-#define ASGN "assign"
-#define READ "read"
-#define CALL "call"
-#define PRINT "print"
-#define WHILE "while"
-#define IF "if"
+//#define ASGN "assign"
+//#define READ "read"
+//#define CALL "call"
+//#define PRINT "print"
+//#define WHILE "while"
+//#define IF "if"
 
 #define CNST "constant"
 #define INT "integer"
@@ -62,7 +62,7 @@
 using namespace std;
 
 // To make code more meaningful
-typedef int StmtNo;      // in the SIMPLE source program
+typedef unsigned long StmtNo;      // in the SIMPLE source program
 typedef int VarId;       // for PKB quick comparison in set
 typedef int ProcId;      // for PKB quick comparison in set
 typedef int Cnst;

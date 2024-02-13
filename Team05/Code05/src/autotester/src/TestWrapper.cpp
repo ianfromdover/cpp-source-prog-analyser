@@ -1,3 +1,4 @@
+#include <fstream>
 #include "TestWrapper.h"
 #include "QPS/QPS.h"
 
@@ -14,7 +15,22 @@ volatile bool AbstractWrapper::GlobalStop = false;
 void TestWrapper::parse(std::string filename) {
 	// call your parser to do the parsing
   // ...rest of your code...
-  sp.exec(filename);
+    std::ifstream theFile;
+    bool valid=false;
+    theFile.open(filename);
+    if (!theFile) {
+        valid = false;
+    }
+    std::string input;
+    std::string line;
+    while (getline(theFile, line)) {
+        input += line + "\n";
+    }
+    theFile.close();
+
+
+    std::cout << input;
+    sp.exec(input);
 }
 
 // method to evaluating a query

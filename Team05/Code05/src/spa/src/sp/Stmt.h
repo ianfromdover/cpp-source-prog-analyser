@@ -9,6 +9,7 @@
 #include <vector>
 #include "Expr.h"
 #include "RelationExtractor.h"
+#include "utilSpa/SpaTypes.h"
 
 class Procedure;
 class Read;
