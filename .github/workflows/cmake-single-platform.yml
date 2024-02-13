@@ -40,8 +40,6 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v3
-
     - name: Unit Test
       # runs unit test
       run: ${{github.workspace}}\Team05\Code05\cmake-cli\src\unit_testing\Debug\unit_testing.exe
