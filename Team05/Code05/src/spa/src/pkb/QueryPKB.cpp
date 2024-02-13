@@ -47,4 +47,5 @@ std::shared_ptr<QueryResult> QueryPKB::getResult(Returnable &r, Constraint &c) {
         return result1;
     }
 
+    return {};
 }

@@ -7,6 +7,7 @@
 #include <set>
 #include <optional>
 #include <memory>
+#include <unordered_map>
 
 /**
  * @brief A double-sided map that allows bidirectional mapping between keys and values.
