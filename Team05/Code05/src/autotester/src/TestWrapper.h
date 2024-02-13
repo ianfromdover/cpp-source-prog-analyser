@@ -9,11 +9,16 @@
 #include "AbstractWrapper.h"
 #include "sp/SourceProcessor.h"
 #include "sp/RelationExtractor.h"
+#include "pkb/QueryPKB.h"
+#include "qps/QPS.h"
 
 class TestWrapper : public AbstractWrapper {
 private:
-    SourceProcessor sp;
-    PopulatePKB pkb;
+    std::shared_ptr<PKBStorage> p=std::make_shared<PKBStorage>();
+    PopulatePKB pkb = PopulatePKB(p);;
+    SourceProcessor sp = SourceProcessor(pkb);
+    QueryPKB pkb1 = QueryPKB(p);
+    QPS qps = QPS(pkb1);
 
 //    PKB pkb;
 //    PopulatePKB popPkb;
