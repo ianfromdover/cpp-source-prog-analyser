@@ -107,6 +107,12 @@ TEST_CASE("Print with parent extractor") {
         while ((x != 0) && (y != 0)) {
             count = count + 1;
             cenX = cenX + x;
+            while (x == 1) {
+                x = x+1;
+                while (x == 2) {
+                    x = x+ 3;
+                }
+            }
             cenY = cenY + y;
             call readPoint;
         }
