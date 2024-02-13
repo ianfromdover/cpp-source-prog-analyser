@@ -22,10 +22,10 @@ class Unary;
 
 
 class RelationExtractor {
-private:
+protected:
     PopulatePKB pkb;
 public:
-    RelationExtractor(PopulatePKB pkb) : pkb(pkb) {}
+    RelationExtractor(PopulatePKB& pkb) : pkb(pkb) {}
     virtual ~RelationExtractor() = default;
     // Statement Methods
     virtual void visitReadStmt(const Read& stmt) = 0;

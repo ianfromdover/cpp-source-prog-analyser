@@ -19,7 +19,7 @@ class While;
 class If;
 class Assign;
 
-using StmtNo = unsigned long;
+//using StmtNo = unsigned long;
 
 class Stmt {
 private:

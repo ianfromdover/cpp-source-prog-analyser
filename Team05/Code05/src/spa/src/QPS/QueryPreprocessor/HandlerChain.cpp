@@ -8,7 +8,7 @@
 #include "qps/Exceptions/SyntaxErrorException.h"
 
 std::vector<std::shared_ptr<QueryComponent>> HandlerChain::handle(std::string str) {
-    std::cout << "handler chain received " << str <<std::endl;
+    //std::cout << "handler chain received " << str <<std::endl;
     char delimitter = ';';
     std::vector<std::string> splitStr = StringUtils::splitString(str, delimitter);
     std::vector<std::string> toHandlers;
@@ -28,7 +28,7 @@ std::vector<std::shared_ptr<QueryComponent>> HandlerChain::handle(std::string st
     }
 
     for (std::string s : toHandlers){
-        std::cout << "processing " << s <<std::endl;
+        //std::cout << "processing " << s <<std::endl;
         std::shared_ptr<QueryComponent> component = handlerChain->handle(s);
         parsedComponents.push_back(component);
     }

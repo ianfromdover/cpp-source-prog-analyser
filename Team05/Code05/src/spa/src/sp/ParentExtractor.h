@@ -11,7 +11,7 @@
 class ParentExtractor: public RelationExtractor {
 public:
     // Constructor
-    explicit ParentExtractor(PopulatePKB pkb) : RelationExtractor(pkb) {}
+    explicit ParentExtractor(PopulatePKB& pkb) : RelationExtractor(pkb) {}
     // Statement Methods
     void visitReadStmt(const Read& stmt) override;
     void visitPrintStmt(const Print& stmt) override;

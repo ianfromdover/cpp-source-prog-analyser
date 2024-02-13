@@ -37,13 +37,6 @@ void TestWrapper::parse(std::string filename) {
 void TestWrapper::evaluate(std::string query, std::list<std::string>& results){
 // call your evaluator to evaluate the query here
   // ...code to evaluate query...
-  std::vector<std::string> ls = {"s1","s2"};
-  PKBStub pkb(ls);
-  QPS qps(pkb);
-  std::vector<std::string> ans = qps.evaluate(query);
-  for (const auto s : ans){
-      results.push_back(s);
-  }
 
 
 
@@ -54,3 +47,11 @@ void TestWrapper::evaluate(std::string query, std::list<std::string>& results){
 //        results.push_back(s);
 //    }
 }
+
+TestWrapper::TestWrapper() : pkb(std::shared_ptr<PKBStorage>()), sp(pkb)  {
+    std::shared_ptr<PKBStorage> p;
+    this->pkb = PopulatePKB(p);
+    this->sp = SourceProcessor(this->pkb);
+}
+
+

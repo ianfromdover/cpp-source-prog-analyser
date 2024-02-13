@@ -21,7 +21,7 @@ std::shared_ptr<QueryComponent> DeclarationHandler::handle(std::string& str) {
     std::smatch matches;
     std::string entity;
     if (std::regex_search(str, matches, entityPattern)) {
-        std::cout << "Handled by Declaration Handler: " << str << std::endl;
+        //std::cout << "Handled by Declaration Handler: " << str << std::endl;
         if (matches[1].matched) {
             std::string entityType = matches[1];
 

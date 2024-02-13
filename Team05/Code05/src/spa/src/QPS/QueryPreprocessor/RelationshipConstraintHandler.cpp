@@ -10,7 +10,7 @@
 #include "qps/Exceptions/SyntaxErrorException.h"
 
 std::shared_ptr<QueryComponent> RelationshipConstraintHandler::handle(std::string& str) {
-    std::cout << "Relationship handler: " << str << std::endl;
+    //std::cout << "Relationship handler: " << str << std::endl;
 
     std::regex regexPattern(R"(^\s*such\s+that\s+(Parent|Parent\*)\s*\(\s*((?:[a-zA-Z][a-zA-Z0-9]*)|(?:[1-9][0-9]*))\s*?,\s*((?:[a-zA-Z][a-zA-Z0-9]*)|(?:[1-9][0-9]*))\s*\)$)");
 
@@ -18,7 +18,7 @@ std::shared_ptr<QueryComponent> RelationshipConstraintHandler::handle(std::strin
     std::sregex_iterator end;
     std::smatch matches;
     if (std::regex_search(str, matches, regexPattern)) {
-        std::cout << "Handled by RelationshipConstraint Handler: " << str << std::endl;
+        //std::cout << "Handled by RelationshipConstraint Handler: " << str << std::endl;
         if (matches[1].matched && matches[2].matched && matches[3].matched) {
             component->setRelationshipType(matches[1]);
             component->addArgument(matches[2]);

@@ -1,7 +1,7 @@
 #pragma once
 #define SPA_POPULATEPKB_H
 #include <memory>
-#include "utilSpa/SpaTypes.h"
+//#include "utilSpa/SpaTypes.h"
 #include "pkb/PKBStorage.h"
 
 using namespace std;

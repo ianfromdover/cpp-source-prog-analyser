@@ -1,5 +1,5 @@
 #include "PopulatePKB.h"
-#include "PKBStorage.h"
+//#include "PKBStorage.h"
 
 PopulatePKB::PopulatePKB(std::shared_ptr<PKBStorage> p) {
     pkb = p;
@@ -29,6 +29,7 @@ bool PopulatePKB::addFollows() {
  */
 bool PopulatePKB::addParent(StmtNo parent, StmtNo child) {
     return pkb->parentTable->addParent(parent, child);
+    //return true;
 }
 /*
 bool PopulatePKB::addUses() {

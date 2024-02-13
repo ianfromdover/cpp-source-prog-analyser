@@ -62,7 +62,7 @@
 using namespace std;
 
 // To make code more meaningful
-typedef unsigned long StmtNo;      // in the SIMPLE source program
+typedef int StmtNo;      // in the SIMPLE source program
 typedef int VarId;       // for PKB quick comparison in set
 typedef int ProcId;      // for PKB quick comparison in set
 typedef int Cnst;

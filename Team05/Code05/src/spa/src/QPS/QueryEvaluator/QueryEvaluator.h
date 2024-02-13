@@ -9,14 +9,15 @@
 #include <memory>
 #include "../QueryProjector/Formattable.h"
 #include "qps/query_elements/QueryObject.h"
-#include "PKBStub.h"
+
+#include "pkb/QueryPKB.h"
 
 class QueryEvaluator {
 public:
-    explicit QueryEvaluator(PKBStub& stub) : pkb(stub) {} ;
+    explicit QueryEvaluator(QueryPKB& stub) : pkb(stub) {} ;
     std::shared_ptr<Formattable> evaluate(QueryObject&);
 private:
-    PKBStub& pkb;
+    QueryPKB& pkb;
 };
 
 

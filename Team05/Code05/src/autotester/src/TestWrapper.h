@@ -13,16 +13,17 @@
 class TestWrapper : public AbstractWrapper {
 private:
     SourceProcessor sp;
+    PopulatePKB pkb;
 
 //    PKB pkb;
 //    PopulatePKB popPkb;
 //    QueryPKB queryPkb;
 //    PKBStub pkb;
 //    QPS qps;
-
 public:
     // default constructor
-    TestWrapper() : sp(PopulatePKB()) {
+    TestWrapper();
+
 //        sp = SourceProcessor(nullptr);
 //        pkb = PKB(1);
 //        popPkb = PopulatePKB(1);
@@ -30,7 +31,6 @@ public:
 //        std::vector<std::string> ls = {"s1","s2"};
 //        pkb = PKBStub(ls);
 //        qps = QPS(pkb);
-    };
 
     // destructor
     ~TestWrapper();

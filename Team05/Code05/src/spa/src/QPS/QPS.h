@@ -9,15 +9,15 @@
 #include <string>
 #include "QueryPreprocessor/QueryPreprocessor.h"
 #include "QueryEvaluator/QueryEvaluator.h"
-#include "qps/QueryEvaluator/PKBStub.h"
+#include "pkb/QueryPKB.h"
 
 class QPS {
 public:
-    QPS(PKBStub& stub){
+    QPS(QueryPKB stub){
         pkb = stub;
     }
     std::vector<std::string> evaluate(std::string);
-    PKBStub pkb;
+    QueryPKB pkb;
 };
 
 

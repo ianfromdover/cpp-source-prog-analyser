@@ -9,7 +9,7 @@
 #include <iostream>
 
 std::vector<std::string> QPS::evaluate(std::string queryString) {
-    std::cout << "QPS Processing query :" << queryString << std::endl;
+    //std::cout << "QPS Processing query :" << queryString << std::endl;
 
     QueryPreprocessor preprocessor;
     std::shared_ptr<QueryObject> query;

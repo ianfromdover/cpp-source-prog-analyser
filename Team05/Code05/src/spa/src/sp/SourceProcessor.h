@@ -21,6 +21,8 @@ private:
 public:
     explicit SourceProcessor(PopulatePKB& pkb) : pkb(pkb) {};
     void exec(const std::string& source);
+    SourceProcessor& operator=(const SourceProcessor& other) { return *this; }
+
 
 public:
     // TODO: Make private or something.
