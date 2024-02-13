@@ -1,6 +1,7 @@
 
 #include "TNode.h"
-
+#include "pkb/PKBStorage.h"
+#include "pkb/PopulatePKB.h"
 #include "catch.hpp"
 using namespace std;
 void require(bool b) {
@@ -14,6 +15,74 @@ TEST_CASE("1st Test") {
 	
 	
     require(1 == 1);
+}
+
+TEST_CASE("Test PKB Parent Table") {
+    // TODO: move test into its file after test-scaffold is merged
+    PKBStorage p;
+
+    SECTION("Test if parent table is created") {
+        REQUIRE(p.parentTable != nullptr);
+    }
+    SECTION("Insert") {
+        REQUIRE(p.parentTable->addParent(1, 2));
+    }
+
+    // test if the parent-child pair 1, 2 is added to the ParentTable using hasParent and hasChild
+    p.parentTable->addParent(1, 2);
+    SECTION("hasParent") {
+        REQUIRE(p.parentTable->hasParent(2));
+    }
+    SECTION("hasChild") {
+        REQUIRE(p.parentTable->hasChildren(1));
+    }
+
+    // test if the parent of 2 is 1
+    SECTION("isParent") {
+        REQUIRE(p.parentTable->isParent(1, 2));
+    }
+    SECTION("getParent") {
+        REQUIRE(p.parentTable->getParent(2) == 1);
+    }
+
+    // test if the children of 1 are 2, 3, 4
+    p.parentTable->addParent(1, 3);
+    p.parentTable->addParent(1, 4);
+    SECTION("getChildren") {
+        REQUIRE(p.parentTable->getChildren(1).size() == 3);
+        auto children = p.parentTable->getChildren(1);
+        std::sort(children.begin(), children.end());
+        REQUIRE(children[0] == 2);
+        REQUIRE(children[1] == 3);
+        REQUIRE(children[2] == 4);
+    }
+    SECTION("getSize") {
+        REQUIRE(p.parentTable->getSize() == 3);
+    }
+}
+
+TEST_CASE("Test PopulatePKB") {
+    // ai-gen start (copilot, 1, e)
+    // prompt: used copilot
+    shared_ptr<PKBStorage> p = make_shared<PKBStorage>();
+    PopulatePKB pp(p);
+    SECTION("Attached PKBStorage") {
+        REQUIRE(pp.exists());
+    }
+
+    SECTION("addParent") {
+        REQUIRE(pp.addParent(1, 2));
+    }
+    // ai-gen end
+
+    pp.addParent(4, 5);
+    SECTION("Table hasParent") {
+        REQUIRE(p->parentTable->hasParent(5));
+    }
+
+    SECTION("-ve Table hasParent") {
+        REQUIRE(!(p->parentTable->hasParent(2)));
+    }
 }
 
 

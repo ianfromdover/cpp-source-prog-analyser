@@ -1,46 +1,55 @@
 #pragma once
 #define SPA_POPULATEPKB_H
+#include <memory>
 #include "utilSpa/SpaTypes.h"
+#include "pkb/PKBStorage.h"
 
 using namespace std;
 
 // The interface between PKB and SP
 class PopulatePKB {
 private:
+    shared_ptr<PKBStorage> pkb;
 public:
+    PopulatePKB(shared_ptr<PKBStorage> p);
+    // Returns true if PKBStorage exists
+    bool exists();
     // ai-gen start (copilot, 2, e)
     // prompt: used copilot
 
     // -- Add Entities --
+    /*
     // Adds a variable to the variable table
-    static bool addVar();
+    bool addVar();
 
     // Adds a constant to the constant table
-    static bool addConst();
+    bool addConst();
 
     // Adds a procedure to the procedure table
-    static bool addProcedure();
+    bool addProcedure();
 
     // Adds a statement to the statement table
-    static bool addStmt(StmtNo stmtNo, Str stmtType, ProcId procIndex);
+    bool addStmt(StmtNo stmtNo, Str stmtType, ProcId procIndex);
 
     // -- Add Abstractions --
     // Adds a follows relationship to the follows table
-    static bool addFollows();
+    bool addFollows();
 
     // Adds a parent relationship to the parent table
-    static bool addParent(StmtNo parent, StmtNo child); // parent is s1, child is s2
+     */
+    bool addParent(StmtNo parent, StmtNo child); // parent is s1, child is s2
 
     // Adds a uses relationship to the uses table
-    static bool addUses();
+    /*
+    bool addUses();
 
     // Adds a modifies relationship to the modifies table
-    static bool addModifies();
+    bool addModifies();
     // ai-gen end
 
     // -- Generate Transitive Closures --
     // use the populated Follows table to generate FollowsT table
-    static bool generateFollowsT(); // T stands for Transitive closure
-    static bool generateParentT();
-
+    bool generateFollowsT(); // T stands for Transitive closure
+    bool generateParentT();
+    */
 };
