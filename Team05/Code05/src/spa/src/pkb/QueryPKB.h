@@ -20,7 +20,7 @@ public:
     bool getFollows(StmtNo before, StmtNo after);
     bool getParent(StmtNo parent, StmtNo child);
 
-    std::vector<ConstraintArgument*> getContraintArgs();
+    vector<shared_ptr<ConstraintArgument>> getContraintArgs();
 
     std::shared_ptr<QueryResult> getResult(Returnable& r, Constraint& c);
     // IntResult for now

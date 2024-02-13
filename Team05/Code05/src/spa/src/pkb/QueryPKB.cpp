@@ -2,13 +2,14 @@
 #include "QueryPKB.h"
 #include "constraintTables/ParentTable.h"
 #include "qps/QueryEvaluator/QueryResult/IntResult.h"
+#include "qps/query_elements/constraint_argument/IntegerArgument.h"
+#include "qps/query_elements/constraint_argument/StatementEntity.h"
 
 QueryPKB::QueryPKB() {}
 QueryPKB::~QueryPKB() {}
 
 PKBStorage pkb;
 ParentTable pt;
-ParentTConstraint ptc;
 
 bool QueryPKB::getFollows(StmtNo before, StmtNo after) {
     return false;
@@ -25,21 +26,21 @@ StmtNo QueryPKB::getParent(StmtNo child) {
     return pt.getParent(child);
 }
 
-std::vector<ConstraintArgument *> QueryPKB::getContraintArgs()  {
-    return ptc.getConstraintArguments();
-}
-
 std::shared_ptr<QueryResult> QueryPKB::getResult(Returnable &r, Constraint &c) {
     if (r.getReturnType() == RETURN_TYPE_STATEMENT
             && c.getConstraintType() == CONSTRAINT_TYPE_PARENT) {
-        std::vector<ConstraintArgument*> argList = c.getConstraintArguments();
+        vector<shared_ptr<ConstraintArgument>> argList = c.getConstraintArguments();
         std::vector<int> results;
         if (argList[0]->getEntityType() == RETURN_TYPE_INTEGER) {
             // finding children of line number
-            results = pkb.parentTable->getChildren(argList[0]->getArgumentValue()); //TODO: fix after merge
+            std::shared_ptr<IntegerArgument> newInt = std::dynamic_pointer_cast<IntegerArgument>(argList[0]);
+            int i = newInt->value; //get value
+            results = pkb.parentTable->getChildren(i);
         } else {
             // finding parent of line number
-            results[0] = pkb.parentTable->getParent(argList[0]->getArgumentValue());
+            std::shared_ptr<IntegerArgument> newInt = std::dynamic_pointer_cast<IntegerArgument>(argList[0]);
+            int i = newInt->value; //get value
+            results[0] = pkb.parentTable->getParent(i);
         }
         IntResult res(results);
         std::shared_ptr<QueryResult> result1 = std::make_shared<IntResult>(res);
