@@ -6,6 +6,7 @@
 #define SPA_RELATIONEXTRACTOR_H
 #include <iostream>
 #include <vector>
+#include "pkb/PopulatePKB.h"
 
 class Read;
 class Print;
@@ -19,8 +20,6 @@ class Variable;
 class Literal;
 class Unary;
 
-// TODO: THIS IS A STUB, REMOVE DURING INTEGRATION WITH PKB.
-class PopulatePKB {};
 
 class RelationExtractor {
 private:
