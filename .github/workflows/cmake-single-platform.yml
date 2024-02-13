@@ -13,7 +13,22 @@ env:
   BUILD_TYPE: Debug
 
 jobs:
-  build:
+  # This starter workflow is for a CMake project running on a single platform. There is a different starter workflow if you need cross-platform coverage.
+# See: https://github.com/actions/starter-workflows/blob/main/ci/cmake-multi-platform.yml
+name: CMake on a single platform
+
+on:
+  push:
+    branches: [ "cicd" ]
+  pull_request:
+    branches: [ "cicd" ]
+
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Debug
+
+jobs:
+  configure_cmake:
     # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
     # You can convert this to a matrix build if you need cross-platform coverage.
     # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
@@ -27,15 +42,25 @@ jobs:
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
       run: cmake -S ${{github.workspace}}\Team05\Code05\ -B ${{github.workspace}}\Team05\Code05\cmake-cli -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
-    - name: Build(AutoTester)
-      # Build your program with the given configuration
-      run: cmake --build ${{github.workspace}}\Team05\Code05\cmake-cli --target autotester --config ${{env.BUILD_TYPE}}
+  build_autotester:
+	needs: configure_cmake
+	runs-on: windows-latest
 
-    - name: Build(Unit Testing)
-      # Build your program with the given configuration
-      run: cmake --build ${{github.workspace}}\Team05\Code05\cmake-cli --target unit_testing --config ${{env.BUILD_TYPE}}
+    steps:
+    - uses: actions/checkout@v3
+	- name: Build(AutoTester)
+	  # Build your program with the given configuration
+	  run: cmake --build ${{github.workspace}}\Team05\Code05\cmake-cli --target autotester --config ${{env.BUILD_TYPE}}
+  
+  build_unit_testing:
+	needs: configure_cmake
+	runs-on: windows-latest
 
-    - name: Unit Test
-      # runs unit test
-      run: ${{github.workspace}}\Team05\Code05\cmake-cli\src\unit_testing\Debug\unit_testing.exe
-
+    steps:
+    - uses: actions/checkout@v3
+	- name: Build(Unit Testing)
+	  # Build your program with the given configuration
+	  run: cmake --build ${{github.workspace}}\Team05\Code05\cmake-cli --target unit_testing --config ${{env.BUILD_TYPE}}
+  
+  
+  
