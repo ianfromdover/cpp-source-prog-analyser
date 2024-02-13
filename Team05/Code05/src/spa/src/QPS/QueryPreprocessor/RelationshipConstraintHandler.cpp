@@ -12,7 +12,7 @@
 std::shared_ptr<QueryComponent> RelationshipConstraintHandler::handle(std::string& str) {
     std::cout << "Relationship handler: " << str << std::endl;
 
-    std::regex regexPattern(R"(^\s*such\s+that\s+(Parent|Parent\*)\s*\(\s*([a-zA-Z][a-zA-Z0-9]*)\s*?,\s*([a-zA-Z][a-zA-Z0-9]*)\s*\)$)");
+    std::regex regexPattern(R"(^\s*such\s+that\s+(Parent|Parent\*)\s*\(\s*((?:[a-zA-Z][a-zA-Z0-9]*)|(?:[1-9][0-9]*))\s*?,\s*((?:[a-zA-Z][a-zA-Z0-9]*)|(?:[1-9][0-9]*))\s*\)$)");
 
     std::sregex_iterator iterator(str.begin(), str.end(), regexPattern);
     std::sregex_iterator end;

@@ -10,11 +10,11 @@
 
 class ParentTConstraint :public RelationshipConstraint {
 private:
-    std::vector<ConstraintArgument*> constraintArguments;
+    std::vector<std::shared_ptr<ConstraintArgument>> constraintArguments;
 public:
-    ParentTConstraint(class StatementReference*, class StatementReference*);
+    ParentTConstraint(std::shared_ptr<ConstraintArgument>, std::shared_ptr<ConstraintArgument>);
     std::string getConstraintType() override;
-    std::vector<ConstraintArgument*> getConstraintArguments() override;
+    std::vector<std::shared_ptr<ConstraintArgument>>  getConstraintArguments() override;
 };
 
 

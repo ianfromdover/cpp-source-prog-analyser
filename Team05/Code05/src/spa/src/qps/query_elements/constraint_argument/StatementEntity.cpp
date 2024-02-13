@@ -15,3 +15,7 @@ std::string StatementEntity::getEntityType() {
 StatementEntity::StatementEntity(std::string s) {
     identifier = std::move(s);
 }
+
+std::string StatementEntity::getArgumentValue() {
+    return StatementReference::getArgumentValue();
+}

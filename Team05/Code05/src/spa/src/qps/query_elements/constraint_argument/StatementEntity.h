@@ -12,6 +12,8 @@ public:
     explicit StatementEntity(std::string);
     std::string getReturnType() override;
     std::string getEntityType() override;
+    std::string getArgumentValue() override;
+    std::string value;
 };
 
 #endif //SPA_STATEMENTENTITY_H

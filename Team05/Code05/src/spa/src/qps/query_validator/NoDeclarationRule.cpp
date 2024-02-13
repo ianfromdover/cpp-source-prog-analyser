@@ -3,6 +3,7 @@
 //
 
 #include "NoDeclarationRule.h"
+#include "qps/query_elements/constraint_argument/IntegerArgument.h"
 
 #include <map>
 
@@ -30,11 +31,16 @@ bool NoDeclarationRule::followsNoDeclaration(QueryObject& qo) {
     std::vector<std::shared_ptr<Constraint>> constraints = qo.getConstraints();
     std::vector<Entity*> constraintEntities;
     for (std::shared_ptr<Constraint> c : constraints) {
-        std::vector<ConstraintArgument*> args = std::move(c->getConstraintArguments());
-        for (ConstraintArgument* consArg : args) {
-            if (dynamic_cast<Entity*>(consArg) != nullptr) {
+        std::vector<std::shared_ptr<ConstraintArgument>> args = std::move(c->getConstraintArguments());
+        for (std::shared_ptr<ConstraintArgument> consArg : args) {
+            if (dynamic_cast<IntegerArgument*>(consArg.get()) != nullptr) {
                 //if consArg is an instance of Entity
-                constraintEntities.push_back(dynamic_cast<Entity*>(consArg));
+                continue;
+            }
+            if (dynamic_cast<Entity*>(consArg.get()) != nullptr) {
+                //if consArg is an instance of Entity
+                ConstraintArgument* arg = consArg.get();
+                constraintEntities.push_back(dynamic_cast<Entity*>(arg));
             }
         }
     }
