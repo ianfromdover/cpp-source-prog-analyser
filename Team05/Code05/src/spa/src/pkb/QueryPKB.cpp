@@ -1,12 +1,12 @@
-#include "PKB.h"
+#include "PKBStorage.h"
 #include "QueryPKB.h"
-#include "entityTables/ParentTable.h"
+#include "constraintTables/ParentTable.h"
 #include "qps/QueryEvaluator/QueryResult/IntResult.h"
 
 QueryPKB::QueryPKB() {}
 QueryPKB::~QueryPKB() {}
 
-PKB pkb;
+PKBStorage pkb;
 ParentTable pt;
 ParentTConstraint ptc;
 
@@ -25,10 +25,6 @@ StmtNo QueryPKB::getParent(StmtNo child) {
     return pt.getParent(child);
 }
 
-vector<StmtNo> QueryPKB::getSiblings(StmtNo child) {
-    return pt.getSiblings(child);
-}
-
 std::vector<ConstraintArgument *> QueryPKB::getContraintArgs()  {
     return ptc.getConstraintArguments();
 }
@@ -40,10 +36,10 @@ std::shared_ptr<QueryResult> QueryPKB::getResult(Returnable &r, Constraint &c) {
         std::vector<int> results;
         if (argList[0]->getEntityType() == RETURN_TYPE_INTEGER) {
             // finding children of line number
-            results = pkb.ParentTable.getChildren(argList[0]->getArgumentValue());
+            results = pkb.parentTable->getChildren(argList[0]->getArgumentValue()); //TODO: fix after merge
         } else {
             // finding parent of line number
-            results[0] = pkb.ParentTable.getParent(argList[0]->getArgumentValue());
+            results[0] = pkb.parentTable->getParent(argList[0]->getArgumentValue());
         }
         IntResult res(results);
         std::shared_ptr<QueryResult> result1 = std::make_shared<IntResult>(res);
