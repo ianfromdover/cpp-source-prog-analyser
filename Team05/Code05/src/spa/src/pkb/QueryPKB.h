@@ -1,7 +1,7 @@
 #pragma once
 #define SPA_QUERYPKB_H
 
-#include <utilSpa/spaTypes.h>
+#include <utilSpa/SpaTypes.h>
 #include <qps/query_elements/constraint/ParentTConstraint.h>
 #include <memory>
 #include "qps/QueryEvaluator/QueryResult/QueryResult.h"
