@@ -3,8 +3,8 @@
 //
 
 #include "catch.hpp"
-#include "QPS/QueryPreprocessor/DeclarationHandler.h"
-#include "QPS/QueryPreprocessor/DeclarationComponent.h"
+#include "qps/QueryPreprocessor/DeclarationHandler.h"
+#include "qps/QueryPreprocessor/DeclarationComponent.h"
 
 using namespace std;
 

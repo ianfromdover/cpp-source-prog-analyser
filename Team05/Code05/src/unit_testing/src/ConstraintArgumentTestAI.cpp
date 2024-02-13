@@ -14,7 +14,7 @@ using namespace std;
 #include "qps/query_elements/constraint_argument/CallEntity.h"
 #include "qps/query_elements/constraint_argument/IfEntity.h"
 #include "qps/query_elements/constraint_argument/WhileEntity.h"
-#include "qps/query_elements/constraint_argument/IntegerArgument.h."
+#include "qps/query_elements/constraint_argument/IntegerArgument.h"
 #include "qps/query_elements/constraint_argument/WildCard.h"
 #include "qps/query_elements/constraint_argument/ConstraintArgument.h"
 
