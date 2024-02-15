@@ -8,7 +8,8 @@
 using namespace qps;
 
 static std::vector<std::shared_ptr<Token>> testHelper(const std::string& basicString);
-static bool compareExpected(std::vector<std::shared_ptr<Token>> tokens, std::initializer_list<TokenType::TypeInfo> expectedTypes);
+static bool compareExpected(std::vector<std::shared_ptr<Token>> tokens,
+                            std::initializer_list<TokenType::TypeInfo> expectedTypes);
 
 // Unit Tests for QPS
 TEST_CASE("tokenize_validSyntax_noThrows") {

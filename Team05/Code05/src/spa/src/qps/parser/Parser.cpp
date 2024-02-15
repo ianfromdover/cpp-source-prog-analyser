@@ -83,7 +83,7 @@ namespace qps {
         return *this->tokens.at(this->current - 1);
     }
 
-    Token Parser::consume(TokenType::TypeInfo type, std::string message) {
+    Token Parser::consume(TokenType::TypeInfo type, const std::string& message) {
         if (this->check(type)) {
             return this->advance();
         }

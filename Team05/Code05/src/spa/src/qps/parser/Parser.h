@@ -47,7 +47,7 @@ namespace qps {
 
         Token previous();
 
-        Token consume(TokenType::TypeInfo type, std::string message);
+        Token consume(TokenType::TypeInfo type, const std::string& message);
 
         std::shared_ptr<DeclarationClause> declaration();
 
