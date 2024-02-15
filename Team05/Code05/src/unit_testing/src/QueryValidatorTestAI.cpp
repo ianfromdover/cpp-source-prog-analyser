@@ -2,8 +2,6 @@
 // Created by tohzh on 11/2/2024.
 //
 
-#include "TNode.h"
-
 #include "catch.hpp"
 using namespace std;
 

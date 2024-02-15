@@ -3,8 +3,8 @@
 //
 
 #include "catch.hpp"
-#include "QPS/QueryPreprocessor/SelectComponent.h"
-#include "QPS/QueryPreprocessor/SelectHandler.h"
+#include "qps/QueryPreprocessor/SelectComponent.h"
+#include "qps/QueryPreprocessor/SelectHandler.h"
 
 using namespace std;
 
