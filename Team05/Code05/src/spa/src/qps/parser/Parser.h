@@ -12,6 +12,7 @@
 #include "DeclarationClause.h"
 #include "SelectClause.h"
 #include "RelationshipClause.h"
+#include "PatternClause.h"
 
 namespace qps {
     class Parser {
@@ -57,11 +58,24 @@ namespace qps {
 
         std::shared_ptr<RelationshipClause> parent();
 
+        std::shared_ptr<PatternClause> pattern();
+
         Token stmtRef();
 
         Token entRef();
 
         Token synonym();
+
+        Token exprSpec();
+
+        Token expr();
+        Token exprTail();
+
+        Token term();
+        Token termTail();
+
+        Token factor();
+
     };
 }
 

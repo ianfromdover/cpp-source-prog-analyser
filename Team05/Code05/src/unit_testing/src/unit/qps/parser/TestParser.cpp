@@ -57,6 +57,25 @@ TEST_CASE("parse_validSyntax_noThrows") {
         Parser parser(tokens);
         REQUIRE_NOTHROW(parser.parse());
     }
+    SECTION("singleDeclaration_singleSelect_singlePattern") {
+        TokenList tokens = generateTokenList({
+            {TokenType::TypeInfo::STMT, "stmt"},
+            {TokenType::TypeInfo::IDENTIFIER, "s"},
+            {TokenType::TypeInfo::SEMICOLON, ";"},
+            {TokenType::TypeInfo::SELECT, "Select"},
+            {TokenType::TypeInfo::IDENTIFIER, "s"},
+            {TokenType::TypeInfo::PATTERN, "pattern"},
+            {TokenType::TypeInfo::IDENTIFIER, "s"},
+            {TokenType::TypeInfo::LEFT_PAREN, "("},
+            {TokenType::TypeInfo::IDENTIFIER, "s"},
+            {TokenType::TypeInfo::COMMA, ","},
+            {TokenType::TypeInfo::WILDCARD, "_"},
+            {TokenType::TypeInfo::RIGHT_PAREN, ")"},
+            {TokenType::TypeInfo::END_OF_FILE, ""},
+            });
+        Parser parser(tokens);
+        REQUIRE_NOTHROW(parser.parse());
+    }
 
 }
 

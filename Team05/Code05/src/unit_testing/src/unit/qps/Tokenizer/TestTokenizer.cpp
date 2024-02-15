@@ -11,6 +11,17 @@ static std::vector<std::shared_ptr<Token>> testHelper(const std::string& basicSt
 static bool compareExpected(std::vector<std::shared_ptr<Token>> tokens,
                             std::initializer_list<TokenType::TypeInfo> expectedTypes);
 
+TEST_CASE("scratch_pad") {
+    std::string source = "stmt s; Select s pattern a(_,_)";
+    std::shared_ptr<StrategyList> strategies = std::make_shared<StrategyList>();
+    std::shared_ptr<TokenList> tokens = std::make_shared<TokenList>();
+    Tokenizer tokenizer(source, strategies, tokens);
+
+    REQUIRE_NOTHROW(tokenizer.tokenize());
+    tokens->toString();
+
+}
+
 // Unit Tests for QPS
 TEST_CASE("tokenize_validSyntax_noThrows") {
     SECTION("singleDeclaration_singleSelect") {
@@ -60,6 +71,38 @@ TEST_CASE("tokenize_select_selectToken") {
         REQUIRE(compareExpected(tokens, {TokenType::IDENTIFIER, TokenType::END_OF_FILE}));
     }
 }
+
+TEST_CASE("tokenize_suchThat_suchThatToken"){
+    SECTION("suchThat_suchTokenThatToken") {
+        std::string source = "such that";
+        std::vector<std::shared_ptr<Token>> tokens = testHelper(source);
+        REQUIRE(compareExpected(tokens, {TokenType::SUCH, TokenType::THAT, TokenType::END_OF_FILE}));
+    }
+    SECTION("such_identifierToken") {
+        std::string source = "such";
+        std::vector<std::shared_ptr<Token>> tokens = testHelper(source);
+        REQUIRE(compareExpected(tokens, {TokenType::IDENTIFIER, TokenType::END_OF_FILE}));
+    }
+    SECTION("that_identifierToken") {
+        std::string source = "that";
+        std::vector<std::shared_ptr<Token>> tokens = testHelper(source);
+        REQUIRE(compareExpected(tokens, {TokenType::IDENTIFIER, TokenType::END_OF_FILE}));
+    }
+}
+
+TEST_CASE("tokenize_pattern_patternToken") {
+    SECTION("pattern_patternToken") {
+        std::string source = "pattern";
+        std::vector<std::shared_ptr<Token>> tokens = testHelper(source);
+        REQUIRE(compareExpected(tokens, {TokenType::PATTERN, TokenType::END_OF_FILE}));
+    }
+    SECTION("uowercasePattern_identifierToken") {
+        std::string source = "Pattern";
+        std::vector<std::shared_ptr<Token>> tokens = testHelper(source);
+        REQUIRE(compareExpected(tokens, {TokenType::IDENTIFIER, TokenType::END_OF_FILE}));
+    }
+}
+
 
 static std::vector<std::shared_ptr<Token>> testHelper(const std::string& source) {
     std::shared_ptr<StrategyList> strategies = std::make_shared<StrategyList>();

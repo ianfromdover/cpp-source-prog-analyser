@@ -34,13 +34,13 @@ namespace qps {
                 {"Select",  TokenType::SELECT},
                 {"that",    TokenType::THAT},
                 {"Parent",  TokenType::PARENT},
-                {"Pattern", TokenType::PATTERN}
+                {"pattern", TokenType::PATTERN}
         };
 
         auto it = declarationKeywords.find(name);
         if (it != declarationKeywords.end()) {
             if (it->second == TokenType::THAT) {
-                if (tokens.getTokens().back()->getLexeme() == "such") {
+                if (tokens.getTokens().size() > 0 && tokens.getTokens().back()->getLexeme() == "such") {
                     Token t = *tokens.getTokens().back();
                     tokens.getTokens().pop_back();
                     tokens.addToken(TokenType::SUCH, t.getLexeme());

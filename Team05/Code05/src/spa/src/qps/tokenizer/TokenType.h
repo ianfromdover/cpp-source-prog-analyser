@@ -38,6 +38,9 @@ namespace qps {
 
             // Pattern Arguments
             PLUS, MINUS, STAR, SLASH, PERCENT,
+            EXPR, EXPR_WILDCARD, // EXPR is plain expressions, EXPR_WILDCARD is expressions with wildcard at both ends
+            // Tokens for pattern expression
+            FACTOR, TERM, EMPTY,
 
             // Others
             END_OF_FILE

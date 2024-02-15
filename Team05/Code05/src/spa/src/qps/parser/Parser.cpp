@@ -122,11 +122,13 @@ namespace qps {
     }
 
     std::shared_ptr<RelationshipClause> Parser::relationship() {
-        std::shared_ptr<RelationshipClause> relationshipClause = std::make_shared<RelationshipClause>();
+        std::shared_ptr<RelationshipClause> relationshipClause;
 
-        Token relationshipType = this->consume(TokenType::PARENT, "Expect declaration type.");
-        this->consume(TokenType::LEFT_PAREN, "Expect '(' after relationship type.");
-
+        if (this->check(TokenType::PARENT)) {
+            relationshipClause = this->parent();
+        } else {
+            relationshipClause = nullptr;
+        }
 
         return relationshipClause;
     }
@@ -148,6 +150,25 @@ namespace qps {
         this->consume(TokenType::RIGHT_PAREN, "Expect ')' after relationship type.");
 
         return relationshipClause;
+    }
+
+    std::shared_ptr<PatternClause> Parser::pattern() {
+        std::shared_ptr<PatternClause> patternClause = std::make_shared<PatternClause>();
+        this->consume(TokenType::PATTERN, "Expect pattern type.");
+        Token synAssign = this->synonym();
+
+        this->consume(TokenType::LEFT_PAREN, "Expect '(' after identifier.");
+
+        if (this->check({TokenType::IDENTIFIER, TokenType::WILDCARD, TokenType::QUOTE})) {
+            Token t = this->entRef();
+            patternClause->setFirstArg(t);
+        }
+            // TODO: BUG: will skip over first argument
+        this->consume(TokenType::COMMA, "Expect ',' after entRef.");
+        Token exprSpec = this->exprSpec();
+        this->consume(TokenType::RIGHT_PAREN, "Expect ')' after expr spec.");
+
+        return patternClause;
     }
 
     Token Parser::stmtRef() {
@@ -190,6 +211,116 @@ namespace qps {
         return newToken;
     }
 
+    Token Parser::exprSpec() {
+        if (this->check(TokenType::WILDCARD)){
+            Token t = this->consume(TokenType::WILDCARD, "Expect wildcard.");
+            if (this->check(TokenType::QUOTE)){
+                this->consume(TokenType::QUOTE, "Expect quote.");
+                Token expr = this->expr();
+                this->consume(TokenType::QUOTE, "Expect quote.");
+                this->consume(TokenType::WILDCARD, "Expect wildcard.");
+
+                TokenType type(TokenType::EXPR_WILDCARD);
+                Token newToken = Token(type, "\"" + expr.getLexeme() + "\"");
+                return newToken;
+            } else {
+                return t;
+            }
+        }
+
+        if (this->check(TokenType::QUOTE)){
+            this->consume(TokenType::QUOTE, "Expect quote.");
+            Token expr = this->expr();
+            this->consume(TokenType::QUOTE, "Expect quote.");
+
+            TokenType type(TokenType::EXPR);
+            Token newToken = Token(type, "\"" + expr.getLexeme() + "\"");
+            return newToken;
+        }
+
+        throw std::runtime_error("syntax error: exprSpec");
+    }
+
+    Token Parser::expr() {
+        Token t1 = this->term();
+        Token t2 = this->exprTail();
+        TokenType type(TokenType::EXPR);
+        Token newToken = Token(type, t1.getLexeme()+t2.getLexeme());
+        return newToken;
+    }
+
+    Token Parser::exprTail() {
+        if (this->check(TokenType::PLUS)){
+            this->consume(TokenType::PLUS, "Expect '+' after expression.");
+            Token t1 = this->term();
+            Token t2 = this->exprTail();
+            TokenType type(TokenType::EXPR);
+            Token newToken = Token(type, t1.getLexeme()+t2.getLexeme());
+            return newToken;
+        }
+        if (this->check(TokenType::MINUS)){
+            this->consume(TokenType::MINUS, "Expect '-' after expression.");
+            Token t1 = this->term();
+            Token t2 = this->exprTail();
+            TokenType type(TokenType::EXPR);
+            Token newToken = Token(type, t1.getLexeme()+t2.getLexeme());
+            return newToken;
+        }
+        return {TokenType(TokenType::EMPTY), ""};
+    }
+
+    Token Parser::term() {
+        Token t1 = this->factor();
+        Token t2 = this->termTail();
+        TokenType type(TokenType::TERM);
+        Token newToken = Token(type, t1.getLexeme()+t2.getLexeme());
+        return newToken;
+    }
+
+    Token Parser::termTail() {
+        if (this->check(TokenType::STAR)){
+            this->consume(TokenType::STAR, "Expect '+' after expression.");
+            Token t1 = this->factor();
+            Token t2 = this->termTail();
+            TokenType type(TokenType::TERM);
+            Token newToken = Token(type, t1.getLexeme()+t2.getLexeme());
+            return newToken;
+        }
+        if (this->check(TokenType::SLASH)){
+            this->consume(TokenType::SLASH, "Expect '/' after expression.");
+            Token t1 = this->term();
+            Token t2 = this->exprTail();
+            TokenType type(TokenType::TERM);
+            Token newToken = Token(type, t1.getLexeme()+t2.getLexeme());
+            return newToken;
+        }
+        if (this->check(TokenType::PERCENT)){
+            this->consume(TokenType::PERCENT, "Expect '%' after expression.");
+            Token t1 = this->term();
+            Token t2 = this->exprTail();
+            TokenType type(TokenType::TERM);
+            Token newToken = Token(type, t1.getLexeme()+t2.getLexeme());
+            return newToken;
+        }
+        return {TokenType(TokenType::EMPTY), ""};
+    }
+
+    Token Parser::factor() {
+        if (this->check(TokenType::INTEGER))
+            return this->consume(TokenType::INTEGER, "Expect integer.");
+        if (this->check(TokenType::IDENTIFIER))
+            return this->consume(TokenType::IDENTIFIER, "Expect identifier.");
+        if (this->check(TokenType::LEFT_PAREN)) {
+            this->consume(TokenType::LEFT_PAREN, "Expect '(' after expression.");
+            Token t = this->expr();
+            this->consume(TokenType::RIGHT_PAREN, "Expect ')' after expression.");
+            TokenType type(TokenType::FACTOR);
+            Token newToken = Token(type, t.getLexeme());
+        }
+        throw std::runtime_error("syntax error: factor");
+
+    }
+
 
     void Parser::parse() {
         auto query = std::make_shared<IntermediateQuery>();
@@ -210,12 +341,18 @@ namespace qps {
                 this->consume(TokenType::THAT, "Expect 'that' after 'such'.");
 
                 if (isRelationship()) {
-                    if (this->check(TokenType::PARENT)) {
-                        std::shared_ptr<RelationshipClause> relationship = this->parent();
-                        query->addClause(relationship);
-                    }
+                    std::shared_ptr<RelationshipClause> relationship = this->relationship();
+                    query->addClause(relationship);
                 }
             }
+
+            if (this->check(TokenType::PATTERN)) {
+                pattern();
+            }
+
+            if (!isAtEnd()) throw std::runtime_error("Expect end of file.");
+
+            // if pattern
         }
     }
 }
