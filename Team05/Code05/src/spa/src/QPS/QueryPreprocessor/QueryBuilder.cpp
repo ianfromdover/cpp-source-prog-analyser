@@ -5,10 +5,10 @@
 #include <stdexcept>
 #include <utility>
 #include "QueryBuilder.h"
-#include "qps/query_elements/constraint_argument/StatementEntity.h"
+#include "qps/query_elements/constraint_argument/statement_reference/StatementEntity.h"
 #include "qps/query_elements/constraint/ParentConstraint.h"
 #include "qps/Exceptions/SemanticErrorException.h"
-#include "qps/query_elements/constraint_argument/IntegerArgument.h"
+#include "qps/query_elements/constraint_argument/statement_reference/IntegerArgument.h"
 
 
 void QueryBuilder::addRelationshipConstraints(std::string type, std::string syn1, std::string syn2) {

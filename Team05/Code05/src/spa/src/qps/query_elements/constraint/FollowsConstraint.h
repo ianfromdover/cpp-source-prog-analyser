@@ -6,7 +6,7 @@
 #define SPA_FOLLOWSCONSTRAINT_H
 
 #include "RelationshipConstraint.h"
-#include "qps/query_elements/constraint_argument/StatementReference.h"
+#include "qps/query_elements/constraint_argument/statement_reference/StatementReference.h"
 
 class FollowsConstraint : public RelationshipConstraint{
 private:

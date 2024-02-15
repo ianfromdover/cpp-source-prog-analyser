@@ -10,9 +10,9 @@ using namespace std;
 #include "qps/query_elements/constraint/Constraint.h"
 #include "qps/query_elements/constraint/FollowsConstraint.h"
 
-#include "qps/query_elements/constraint_argument/StatementEntity.h"
-#include "qps/query_elements/constraint_argument/PrintEntity.h"
-#include "qps/query_elements/constraint_argument/ReadEntity.h"
+#include "qps/query_elements/constraint_argument/statement_reference/StatementEntity.h"
+#include "qps/query_elements/constraint_argument/statement_reference/PrintEntity.h"
+#include "qps/query_elements/constraint_argument/statement_reference/ReadEntity.h"
 
 #include "qps/query_elements/QueryObject.h"
 

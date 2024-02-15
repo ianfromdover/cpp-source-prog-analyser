@@ -10,9 +10,9 @@ using namespace std;
 #include "catch.hpp"
 #include "qps/query_validator/SingleDeclarationRule.h" // Include the header file for SingleDeclarationRule
 #include "qps/query_elements/QueryObject.h"
-#include "qps/query_elements/constraint_argument/StatementEntity.h"
-#include "qps/query_elements/constraint_argument/PrintEntity.h"
-#include "qps/query_elements/constraint_argument/AssignEntity.h"
+#include "qps/query_elements/constraint_argument/statement_reference/StatementEntity.h"
+#include "qps/query_elements/constraint_argument/statement_reference/PrintEntity.h"
+#include "qps/query_elements/constraint_argument/statement_reference/AssignEntity.h"
 
 // ai-gen start(gpt, 1, e)
 // prompt: https://chat.openai.com/share/dccb94c8-d4d6-4310-b2f1-2306849865cf

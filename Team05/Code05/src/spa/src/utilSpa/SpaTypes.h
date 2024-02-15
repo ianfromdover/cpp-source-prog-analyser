@@ -16,10 +16,15 @@
 #define RETURN_TYPE_WHILE "While"
 #define RETURN_TYPE_INTEGER "Integer"
 #define RETURN_TYPE_WILDCARD "WildCard"
+#define RETURN_TYPE_PROCEDURE "Procedure"
+#define RETURN_TYPE_VARIABLE "Variable"
+#define RETURN_TYPE_CONSTANT "Constant"
+#define RETURN_TYPE_EXPRESSION "ExpressionSpec"
 
 #define REFERENCE_TYPE_EXPRESSION "ExpressionReference"
 #define REFERENCE_TYPE_ENTITY "EntityReference"
 #define REFERENCE_TYPE_STATEMENT "StatementReference"
+#define REFERENCE_TYPE_WILDCARD "WildCard"
 
 #define CONSTRAINT_CLASS_RELATIONSHIP "Relationship"
 #define CONSTRAINT_CLASS_PATTERN "Pattern"

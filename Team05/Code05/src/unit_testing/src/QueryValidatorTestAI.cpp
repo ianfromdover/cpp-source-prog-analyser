@@ -10,8 +10,8 @@ using namespace std;
 #include "qps/query_elements/constraint/Constraint.h"
 #include "qps/query_elements/constraint/ParentConstraint.h"
 
-#include "qps/query_elements/constraint_argument/AssignEntity.h"
-#include "qps/query_elements/constraint_argument/PrintEntity.h"
+#include "qps/query_elements/constraint_argument/statement_reference/AssignEntity.h"
+#include "qps/query_elements/constraint_argument/statement_reference/PrintEntity.h"
 #include "qps/query_validator/QueryValidator.h"
 #include "qps/query_elements/QueryObject.h"
 

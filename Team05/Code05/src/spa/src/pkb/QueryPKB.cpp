@@ -2,8 +2,8 @@
 #include "QueryPKB.h"
 #include "constraintTables/ParentTable.h"
 #include "qps/QueryEvaluator/QueryResult/IntResult.h"
-#include "qps/query_elements/constraint_argument/IntegerArgument.h"
-#include "qps/query_elements/constraint_argument/StatementEntity.h"
+#include "qps/query_elements/constraint_argument/statement_reference/IntegerArgument.h"
+#include "qps/query_elements/constraint_argument/statement_reference/StatementEntity.h"
 
 QueryPKB::QueryPKB() {}
 QueryPKB::~QueryPKB() {}

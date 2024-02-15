@@ -3,8 +3,8 @@
 //
 
 #include "Demo.h"
-#include "qps/query_elements/constraint_argument/IntegerArgument.h"
-#include "qps/query_elements/constraint_argument/StatementEntity.h"
+#include "qps/query_elements/constraint_argument/statement_reference/IntegerArgument.h"
+#include "qps/query_elements/constraint_argument/statement_reference/StatementEntity.h"
 #include "qps/query_elements/constraint/ParentConstraint.h"
 #include "utilSpa/SpaTypes.h"
 

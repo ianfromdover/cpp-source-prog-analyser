@@ -8,7 +8,7 @@
 #include <memory>
 #include "qps/query_elements/QueryObject.h"
 #include "../query_elements/constraint/RelationshipConstraint.h"
-#include "qps/query_elements/constraint_argument/StatementEntity.h"
+#include "qps/query_elements/constraint_argument/statement_reference/StatementEntity.h"
 
 
 class QueryBuilder {

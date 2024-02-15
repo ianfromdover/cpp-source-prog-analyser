@@ -7,14 +7,14 @@
 #include "catch.hpp"
 using namespace std;
 
-#include "qps/query_elements/constraint_argument/StatementEntity.h"
-#include "qps/query_elements/constraint_argument/ReadEntity.h"
-#include "qps/query_elements/constraint_argument/PrintEntity.h"
-#include "qps/query_elements/constraint_argument/AssignEntity.h"
-#include "qps/query_elements/constraint_argument/CallEntity.h"
-#include "qps/query_elements/constraint_argument/IfEntity.h"
-#include "qps/query_elements/constraint_argument/WhileEntity.h"
-#include "qps/query_elements/constraint_argument/IntegerArgument.h"
+#include "qps/query_elements/constraint_argument/statement_reference/StatementEntity.h"
+#include "qps/query_elements/constraint_argument/statement_reference/ReadEntity.h"
+#include "qps/query_elements/constraint_argument/statement_reference/PrintEntity.h"
+#include "qps/query_elements/constraint_argument/statement_reference/AssignEntity.h"
+#include "qps/query_elements/constraint_argument/statement_reference/CallEntity.h"
+#include "qps/query_elements/constraint_argument/statement_reference/IfEntity.h"
+#include "qps/query_elements/constraint_argument/statement_reference/WhileEntity.h"
+#include "qps/query_elements/constraint_argument/statement_reference/IntegerArgument.h"
 #include "qps/query_elements/constraint_argument/WildCard.h"
 
 //named in the form of [feature]_[scenario]_[result]
