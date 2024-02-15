@@ -15,7 +15,7 @@ using namespace std;
 #include "qps/query_elements/constraint_argument/statement_reference/IfEntity.h"
 #include "qps/query_elements/constraint_argument/statement_reference/WhileEntity.h"
 #include "qps/query_elements/constraint_argument/statement_reference/IntegerArgument.h"
-#include "qps/query_elements/constraint_argument/WildCard.h"
+#include "qps/query_elements/constraint_argument/entity_reference/EntityRefWildCard.h"
 #include "qps/query_elements/constraint_argument/ConstraintArgument.h"
 
 
@@ -62,7 +62,7 @@ TEST_CASE("IntegerArgument_inherits_from_ConstraintArgument") {
 }
 
 //TEST_CASE("WildCard_inherits_from_ConstraintArgument") {
-//    WildCard wildCard;
+//    EntityRefWildCard wildCard;
 //    REQUIRE(dynamic_cast<ConstraintArgument*>(&wildCard) != nullptr);
 //}
 
@@ -110,9 +110,9 @@ TEST_CASE("IntegerArgument_ReferenceType_StatementReference") {
     REQUIRE(ia.getReferenceType() == REFERENCE_TYPE_STATEMENT);
 }
 
-//TEST_CASE("WildCard_ReferenceType_StatementReference") {
-//    WildCard wc;
-//    REQUIRE(wc.getReferenceType() == REFERENCE_TYPE_STATEMENT);
-//}
+TEST_CASE("WildCard_ReferenceType_StatementReference") {
+    EntityRefWildCard wc;
+    REQUIRE(wc.getReferenceType() == REFERENCE_TYPE_STATEMENT);
+}
 
 // ai-gen end

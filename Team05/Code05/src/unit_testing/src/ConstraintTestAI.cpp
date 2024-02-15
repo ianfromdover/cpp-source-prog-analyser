@@ -24,7 +24,7 @@ using namespace std;
 #include "qps/query_elements/constraint_argument/statement_reference/IfEntity.h"
 #include "qps/query_elements/constraint_argument/statement_reference/WhileEntity.h"
 #include "qps/query_elements/constraint_argument/statement_reference/IntegerArgument.h"
-#include "qps/query_elements/constraint_argument/WildCard.h"
+#include "qps/query_elements/constraint_argument/entity_reference/EntityRefWildCard.h"
 
 // ai-gen start(gpt, 1, e)
 // prompt: https://chat.openai.com/share/f965b299-102c-4b5b-a9df-e2e1a17ded54
@@ -97,7 +97,7 @@ TEST_CASE("InitializeConstraint_with_StatementReference_subclasses") {
     entities.push_back(std::make_shared<IfEntity>("y"));
     entities.push_back(std::make_shared<WhileEntity>("u"));
     entities.push_back(std::make_shared<IntegerArgument>());
-//    entities.push_back(std::make_shared<WildCard>());
+//    entities.push_back(std::make_shared<EntityRefWildCard>());
 
     SECTION("FollowsConstraint") {
         // Pairwise testing for FollowsConstraint initialization
