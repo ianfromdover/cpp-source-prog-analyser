@@ -10,7 +10,7 @@
 
 class SyntaxErrorException : public BaseException {
 public:
-    SyntaxErrorException(Str message) : BaseException(message) {}
+    SyntaxErrorException(std::string message) : BaseException(message) {}
     const char* what() const noexcept override {
         return msg;
     }

@@ -10,7 +10,7 @@
 
 class SemanticErrorException : public BaseException {
 public:
-    SemanticErrorException(Str message) : BaseException(message) {}
+    SemanticErrorException(std::string message) : BaseException(message) {}
     const char* what() const noexcept override {
         return msg;
     }
