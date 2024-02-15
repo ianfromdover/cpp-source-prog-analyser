@@ -5,7 +5,10 @@
 #include "qps/query_elements/constraint_argument/IntegerArgument.h"
 #include "qps/query_elements/constraint_argument/StatementEntity.h"
 
-QueryPKB::QueryPKB() {}
+QueryPKB::QueryPKB(std::shared_ptr<PKBStorage> p) {
+    pkb = p;
+}
+
 QueryPKB::~QueryPKB() {}
 
 PKBStorage pkb;
