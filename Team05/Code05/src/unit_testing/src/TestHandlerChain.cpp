@@ -4,7 +4,7 @@
 
 
 #include "catch.hpp"
-#include "QPS/QueryPreprocessor/HandlerChain.h"
+#include "qps/QueryPreprocessor/HandlerChain.h"
 
 using namespace std;
 

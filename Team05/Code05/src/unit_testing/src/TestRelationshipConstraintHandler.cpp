@@ -3,8 +3,8 @@
 //
 
 #include "catch.hpp"
-#include "QPS/QueryPreprocessor/RelationshipConstraintComponent.h"
-#include "QPS/QueryPreprocessor/RelationshipConstraintHandler.h"
+#include "qps/QueryPreprocessor/RelationshipConstraintComponent.h"
+#include "qps/QueryPreprocessor/RelationshipConstraintHandler.h"
 
 using namespace std;
 

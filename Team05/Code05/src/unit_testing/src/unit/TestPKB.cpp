@@ -5,7 +5,7 @@
 using namespace std;
 
 TEST_CASE("[TestPKB] Test Tables") {
-    PKB pkb();
+    PKB pkb;
     // ai-gen start (copilot, 1, e)
     // prompt: used copilot
     SECTION("Initialise PKB") {
@@ -24,7 +24,7 @@ TEST_CASE("[TestPKB] Test Tables") {
 }
 
 TEST_CASE("[TestPKB] Test Population") {
-    PKB pkb();
+    PKB pkb;
     SECTION("Populate FollowsT") {
     }
     SECTION("Populate ParentT") {
