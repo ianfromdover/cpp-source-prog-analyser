@@ -6,10 +6,11 @@
 #define SPA_SEMANTICERROREXCEPTION_H
 
 #include <exception>
+#include "../../utilSpa/base_exception/BaseException.h"
 
-class SemanticErrorException : public std::exception {
+class SemanticErrorException : BaseException {
 public:
-    SemanticErrorException(const char* message) : msg(message) {}
+    SemanticErrorException(const char* message) : BaseException(message) {}
     const char* what() const noexcept override {
         return msg;
     }
