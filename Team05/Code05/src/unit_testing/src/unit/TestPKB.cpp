@@ -1,11 +1,8 @@
 // Author: Ian Hong
-#include "pkb/PKB.h"
-
 #include "catch.hpp"
 using namespace std;
 
 TEST_CASE("[TestPKB] Test Tables") {
-    PKB pkb;
     // ai-gen start (copilot, 1, e)
     // prompt: used copilot
     SECTION("Initialise PKB") {
@@ -24,7 +21,6 @@ TEST_CASE("[TestPKB] Test Tables") {
 }
 
 TEST_CASE("[TestPKB] Test Population") {
-    PKB pkb;
     SECTION("Populate FollowsT") {
     }
     SECTION("Populate ParentT") {
