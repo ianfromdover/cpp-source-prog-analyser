@@ -5,21 +5,24 @@
 #include "SourceProcessor.h"
 
 void SourceProcessor::exec(const std::string& source) {
-    this->runScanner(source);
-    auto program = this->parse();
-    this->runRelationExtractor(program);
+    auto tokens = this->scan(source);
+    auto program = this->parse(tokens);
+    this->extract(program);
 }
 
-void SourceProcessor::runScanner(const std::string& source) {
+shared_ptr<std::vector<std::shared_ptr<Token>>> SourceProcessor::scan(const std::string& source) {
+    auto tokens = std::make_shared<std::vector<std::shared_ptr<Token>>>();
+    auto strategies = std::make_shared<std::vector<std::shared_ptr<TokenStrategy>>>();
     auto scanner = Scanner(source, strategies, tokens);
     scanner.scanTokens();
+    return tokens;
 }
 
-Program SourceProcessor::parse() {
-    return Parser(this->tokens).parse();
+Program SourceProcessor::parse(std::shared_ptr<std::vector<std::shared_ptr<Token>>>& tokens) {
+    return Parser(tokens).parse();
 }
 
-void SourceProcessor::runRelationExtractor(const Program& program) {
+void SourceProcessor::extract(const Program& program) {
     ParentExtractor parentExtractor(this->pkb);
     for (const auto& procedure : *program) {
         procedure->accept(parentExtractor);
