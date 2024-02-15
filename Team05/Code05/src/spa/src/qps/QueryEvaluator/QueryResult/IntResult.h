@@ -13,7 +13,7 @@
 class IntResult : public QueryResult {
 public:
     IntResult(std::vector<int>&);
-    QueryResultEnum getType();
+    QueryResultEnum getType() override;
     std::vector<int> getResults();
     std::vector<std::string> format() override;
 private:

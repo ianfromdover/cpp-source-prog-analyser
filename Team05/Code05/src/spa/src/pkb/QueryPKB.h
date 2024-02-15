@@ -11,12 +11,9 @@
 class QueryPKB {
 private:
 public:
-    QueryPKB(); // TODO: Instantiate in TestWrapper
+    QueryPKB() = default;
+    QueryPKB(std::shared_ptr<PKBStorage> p);
     ~QueryPKB();
-
-    QueryPKB::QueryPKB(std::shared_ptr<PKBStorage> p) {
-        pkb = p;
-    }
 
     vector<StmtNo> getChildren(StmtNo parent);
     StmtNo getParent(StmtNo child);

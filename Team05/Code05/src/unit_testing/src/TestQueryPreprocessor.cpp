@@ -3,7 +3,7 @@
 //
 
 #include "catch.hpp"
-#include "QPS/QueryPreprocessor/QueryPreprocessor.h"
+#include "qps/QueryPreprocessor/QueryPreprocessor.h"
 #include "qps/QueryPreprocessor/QueryComponent.h"
 
 using namespace std;
