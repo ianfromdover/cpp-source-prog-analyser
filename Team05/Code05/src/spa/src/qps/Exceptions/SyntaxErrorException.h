@@ -8,9 +8,9 @@
 #include <exception>
 #include "../../utilSpa/base_exception/BaseException.h"
 
-class SyntaxErrorException : BaseException {
+class SyntaxErrorException : public BaseException {
 public:
-    SyntaxErrorException(const char* message) : BaseException(message) {}
+    SyntaxErrorException(Str message) : BaseException(message) {}
     const char* what() const noexcept override {
         return msg;
     }

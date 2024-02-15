@@ -9,7 +9,7 @@
 
 class BaseException : public std::exception {
 public:
-    BaseException(const char* message) : msg(message) {}
+    BaseException(Str message) : msg(message.c_str()) {}
 
     const char* what() const noexcept override {
         return msg;

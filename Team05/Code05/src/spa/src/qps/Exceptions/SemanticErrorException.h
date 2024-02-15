@@ -8,9 +8,9 @@
 #include <exception>
 #include "../../utilSpa/base_exception/BaseException.h"
 
-class SemanticErrorException : BaseException {
+class SemanticErrorException : public BaseException {
 public:
-    SemanticErrorException(const char* message) : BaseException(message) {}
+    SemanticErrorException(Str message) : BaseException(message) {}
     const char* what() const noexcept override {
         return msg;
     }

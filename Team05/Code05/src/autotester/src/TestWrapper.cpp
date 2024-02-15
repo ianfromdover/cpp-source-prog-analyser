@@ -32,7 +32,7 @@ void TestWrapper::parse(std::string filename) {
 }
 
 // method to evaluating a query
-void TestWrapper::evaluate(std::string query, std::list<std::string>& results){
+void TestWrapper::evaluate(std::string query, std::list<std::string>& results) {
 // call your evaluator to evaluate the query here
   // ...code to evaluate query...
   // store the answers to the query in the results list (it is initially empty)
@@ -42,8 +42,9 @@ void TestWrapper::evaluate(std::string query, std::list<std::string>& results){
         for (const auto s: ans) {
             results.push_back(s);
         }
-    } catch (const BaseException& ){
+    } catch (const BaseException& exception) {
         // handle exception
+        std::cerr << "Caught BaseException: " << exception.what() << std::endl;
         exit(0); // exit silently
     }
 }
