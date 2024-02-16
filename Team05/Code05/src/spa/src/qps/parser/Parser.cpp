@@ -83,6 +83,11 @@ namespace qps {
         return *this->tokens.at(this->current - 1);
     }
 
+    bool Parser::checkPrevious(TokenType::TypeInfo type) {
+        return this->previous().getType().getInfo() == type;
+    }
+
+
     Token Parser::consume(TokenType::TypeInfo type, const std::string& message) {
         if (this->check(type)) {
             return this->advance();
@@ -96,10 +101,10 @@ namespace qps {
         std::vector<std::string> synonyms;
         std::string type;
         Token declarationType = this->consume(TokenType::STMT, "Expect declaration type.");
-        Token entityType = this->synonym();
+        Token entityType = this->synonym(this->consume(TokenType::IDENTIFIER, "Expect identifier."));
         synonyms.push_back(entityType.getLexeme());
         while (this->match({TokenType::COMMA})) {
-            Token synonym = this->synonym();
+            Token synonym = this->synonym(this->consume(TokenType::IDENTIFIER, "Expect identifier."));
             synonyms.push_back(synonym.getLexeme());
         }
         this->consume(TokenType::SEMICOLON, "Expect ';' after declaration.");
@@ -111,14 +116,14 @@ namespace qps {
     }
 
     std::shared_ptr<SelectClause> Parser::select() {
-        std::shared_ptr<SelectClause> selectcl = std::make_shared<SelectClause>();
 
         Token declarationType = this->consume(TokenType::SELECT, "Expect select type.");
-        Token entityType = this->synonym();
+        Token entityType = this->synonym(this->consume(TokenType::IDENTIFIER, "Expect identifier."));
 
-        selectcl->addSelect(entityType.getLexeme());
+        std::shared_ptr<SelectClause> selectCl = std::make_shared<SelectClause>();
+        selectCl->addSelect(entityType.getLexeme());
 
-        return selectcl;
+        return selectCl;
     }
 
     std::shared_ptr<RelationshipClause> Parser::relationship() {
@@ -134,78 +139,68 @@ namespace qps {
     }
 
     std::shared_ptr<RelationshipClause> Parser::parent() {
-        std::shared_ptr<RelationshipClause> relationshipClause = std::make_shared<RelationshipClause>();
 
         Token relationshipType = this->consume(TokenType::PARENT, "Expect declaration type.");
         this->consume(TokenType::LEFT_PAREN, "Expect '(' after relationship type.");
-        if (this->check({TokenType::IDENTIFIER, TokenType::WILDCARD, TokenType::INTEGER})) {
-            Token t = stmtRef();
-            relationshipClause->setFirstArg(t);
-        }
+        auto t1 = stmtRef();
         this->consume(TokenType::COMMA, "Expect ',' after stmtRef.");
-        if (this->check({TokenType::IDENTIFIER, TokenType::WILDCARD, TokenType::INTEGER})) {
-            Token t = stmtRef();
-            relationshipClause->setSecondArg(t);
-        }
+        auto t2 = stmtRef();
         this->consume(TokenType::RIGHT_PAREN, "Expect ')' after relationship type.");
 
-        return relationshipClause;
+        RelationshipClause parentCl(relationshipType.getType().getInfo(), t1, TokenType::STMT_REF,  t2, TokenType::STMT_REF);
+
+        return std::make_shared<RelationshipClause>(parentCl);
     }
 
     std::shared_ptr<PatternClause> Parser::pattern() {
-        std::shared_ptr<PatternClause> patternClause = std::make_shared<PatternClause>();
-        this->consume(TokenType::PATTERN, "Expect pattern type.");
-        Token synAssign = this->synonym();
+        Token synAssign = this->synonym(this->consume(TokenType::IDENTIFIER, "Expect identifier."));
 
         this->consume(TokenType::LEFT_PAREN, "Expect '(' after identifier.");
-
-        if (this->check({TokenType::IDENTIFIER, TokenType::WILDCARD, TokenType::QUOTE})) {
-            Token t = this->entRef();
-            patternClause->setFirstArg(t);
-        }
-            // TODO: BUG: will skip over first argument
+        Token entRef = this->entRef();
         this->consume(TokenType::COMMA, "Expect ',' after entRef.");
         Token exprSpec = this->exprSpec();
         this->consume(TokenType::RIGHT_PAREN, "Expect ')' after expr spec.");
 
-        return patternClause;
+        PatternClause patternCl(synAssign.getLexeme(), entRef, TokenType::TypeInfo::ENT_REF, exprSpec, TokenType::EXPR_SPEC);
+
+        return std::make_shared<PatternClause>(patternCl);
     }
 
     Token Parser::stmtRef() {
-        if (this->check(TokenType::INTEGER))
-            return this->consume(TokenType::INTEGER, "Expect integer.");
+        if (this->match({TokenType::INTEGER, TokenType::IDENTIFIER, TokenType::WILDCARD})) {
+            if (this->checkPrevious(TokenType::INTEGER))
+                return this->previous();
 
-        if (this->check(TokenType::IDENTIFIER))
-            return this->synonym();
+            if (this->checkPrevious(TokenType::IDENTIFIER))
+                return this->synonym(this->previous());
 
-        if (this->check(TokenType::WILDCARD))
-            return this->consume(TokenType::WILDCARD, "Expect wildcard.");
-
+            if (this->checkPrevious(TokenType::WILDCARD))
+                return this->previous();
+        }
         throw std::runtime_error("syntax error: statement reference");
     }
 
     Token Parser::entRef() {
-        if (this->check(TokenType::IDENTIFIER))
-            return synonym();
+        if (this->match({TokenType::IDENTIFIER, TokenType::WILDCARD, TokenType::QUOTE})) {
+            if (this->checkPrevious(TokenType::IDENTIFIER))
+                return synonym(this->previous());
 
-        if (this->check(TokenType::WILDCARD))
-            return this->consume(TokenType::WILDCARD, "Expect wildcard.");
+            if (this->checkPrevious(TokenType::WILDCARD))
+                return this->previous();
 
-        if (this->check(TokenType::QUOTE)) {
-            this->consume(TokenType::QUOTE, "Expect quote.");
-            Token ident = this->consume(TokenType::IDENTIFIER, "Expect identifier.");
-            this->consume(TokenType::QUOTE, "Expect quote.");
+            if (this->checkPrevious(TokenType::QUOTE)) {
+                Token ident = this->consume(TokenType::IDENTIFIER, "Expect identifier.");
+                this->consume(TokenType::QUOTE, "Expect quote.");
 
-            TokenType type(TokenType::QUOTED_IDENT);
-            Token newToken = Token(type, "\"" + ident.getLexeme() + "\"");
-            return newToken;
+                TokenType type(TokenType::QUOTED_IDENT);
+                Token newToken = Token(type, "\"" + ident.getLexeme() + "\"");
+                return newToken;
+            }
         }
-
         throw std::runtime_error("syntax error: statement reference");
     }
 
-    Token Parser::synonym() {
-        Token t = this->consume(TokenType::IDENTIFIER, "Expect identifier.");
+    Token Parser::synonym(Token t) {
         TokenType type(TokenType::SYNONYM);
         Token newToken = Token(type, t.getLexeme());
         return newToken;
@@ -322,7 +317,7 @@ namespace qps {
     }
 
 
-    void Parser::parse() {
+    std::shared_ptr<IntermediateQuery> Parser::parse() {
         auto query = std::make_shared<IntermediateQuery>();
 
         if (isDeclaration()) {
@@ -346,13 +341,15 @@ namespace qps {
                 }
             }
 
-            if (this->check(TokenType::PATTERN)) {
-                pattern();
+            if (this->match({TokenType::PATTERN})) {
+                std::shared_ptr<PatternClause> pattern = this->pattern();
+                query->addClause(pattern);
             }
 
             if (!isAtEnd()) throw std::runtime_error("Expect end of file.");
 
-            // if pattern
+            return query;
         }
+        throw std::runtime_error("Expect declaration clause.");
     }
 }

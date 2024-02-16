@@ -12,7 +12,7 @@ static bool compareExpected(std::vector<std::shared_ptr<Token>> tokens,
                             std::initializer_list<TokenType::TypeInfo> expectedTypes);
 
 TEST_CASE("scratch_pad") {
-    std::string source = "stmt s; Select s pattern a(_,_)";
+    std::string source = "stmt s; Select s such that Follows(1, s) pattern s(_, _\"x+y\"_)";
     std::shared_ptr<StrategyList> strategies = std::make_shared<StrategyList>();
     std::shared_ptr<TokenList> tokens = std::make_shared<TokenList>();
     Tokenizer tokenizer(source, strategies, tokens);

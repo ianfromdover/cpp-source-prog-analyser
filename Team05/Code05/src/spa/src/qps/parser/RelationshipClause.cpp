@@ -6,24 +6,15 @@
 #include "RelationshipClause.h"
 
 namespace qps {
-    void RelationshipClause::setFirstArg(Token &t1) {
-        firstArg = std::make_shared<Token>(t1);
-    }
-
-    void RelationshipClause::setSecondArg(Token &t2) {
-        secondArg = std::make_shared<Token>(t2);
-    }
-
-    std::string RelationshipClause::getSecondArgValue() {
+    Token& RelationshipClause::getSecondArg() {
         if (secondArg != nullptr) {
-            return secondArg->getLexeme();
+            return *secondArg;
         }
         throw std::runtime_error("Second argument is not set");
     }
-
-    std::string RelationshipClause::getFirstArgValue() {
+    Token& RelationshipClause::getFirstArg() {
         if (firstArg != nullptr) {
-            return firstArg->getLexeme();
+            return *firstArg;
         }
         throw std::runtime_error("First argument is not set");
     }
@@ -40,5 +31,17 @@ namespace qps {
             return firstArg->getType().getInfo();
         }
         throw std::runtime_error("First argument is not set");
+    }
+
+    TokenType::TypeInfo RelationshipClause::getRelationshipType() {
+        return relationshipType;
+    }
+
+    TokenType::TypeInfo RelationshipClause::getFirstReferenceType() {
+        return firstArgRefType;
+    }
+
+    TokenType::TypeInfo RelationshipClause::getSecondReferenceType() {
+        return secondArgRefType;
     }
 }

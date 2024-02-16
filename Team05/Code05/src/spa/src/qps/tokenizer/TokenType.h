@@ -12,15 +12,13 @@ namespace qps {
     public:
         enum TypeInfo {
             // Lexical Tokens
-            INTEGER, IDENTIFIER,
-            // Complex tokens
-            SYNONYM,
+            IDENTIFIER,
 
             // Punctuation
             SEMICOLON, LEFT_PAREN, RIGHT_PAREN, COMMA, QUOTE,
 
             // Design Entities
-            STMT, // TODO: Add more design entities
+            STMT, READ, PRINT, CALL, WHILE, IF, ASSIGN, VARIABLE, CONSTANT, PROCEDURE,
 
             // Select Keywords
             SELECT,
@@ -29,18 +27,37 @@ namespace qps {
             SUCH, THAT,
 
             // Relationships
-            PARENT, // TODO: Add more relationships
-            // Constraint Arguments
-            WILDCARD, QUOTED_IDENT, STMT_REF, ENT_REF,
+            PARENT, PARENT_T,
+            FOLLOWS, FOLLOWS_T,
+            MODIFIES_S, MODIFIES_T,
+            USES_S, USES_T,
+
+            // Entity References
+            ENT_REF,
+            WILDCARD,           // '_'
+            SYNONYM,            // synonym
+            QUOTED_IDENT,       // '"' IDENT '"'
+
+            // Statement References
+            STMT_REF,
+            //WILDCARD,           // '_' : already exists
+            //SYNONYM,            // synonym : already exists
+            INTEGER,
 
             // Pattern Keywords
             PATTERN,
 
-            // Pattern Arguments
-            PLUS, MINUS, STAR, SLASH, PERCENT,
-            EXPR, EXPR_WILDCARD, // EXPR is plain expressions, EXPR_WILDCARD is expressions with wildcard at both ends
+            // expression-spec :
+            EXPR_SPEC,
+            EXPR,               // '"' expr '"'
+            EXPR_WILDCARD,      // '_' '"' expr '"' '_'
+            // WILDCARD         // '_' : already exists
+
             // Tokens for pattern expression
             FACTOR, TERM, EMPTY,
+
+            // Expression Operators
+            PLUS, MINUS, STAR, SLASH, PERCENT,
 
             // Others
             END_OF_FILE

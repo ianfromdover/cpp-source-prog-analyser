@@ -12,23 +12,33 @@
 namespace qps {
     class RelationshipClause : public Clause {
     public:
-        RelationshipClause() : Clause(ClauseType::RELATIONSHIP) {}
+        RelationshipClause(TokenType::TypeInfo type, Token &t1, TokenType::TypeInfo type1, Token &t2, TokenType::TypeInfo type2) : Clause(ClauseType::RELATIONSHIP) {
+            relationshipType = type;
+
+            firstArg = std::make_shared<Token>(t1);
+            firstArgRefType = type1;
+            secondArg = std::make_shared<Token>(t2);
+            secondArgRefType = type2;
+        }
+
+        TokenType::TypeInfo getRelationshipType();
 
         TokenType::TypeInfo getFirstArgType();
+        TokenType::TypeInfo getFirstReferenceType();
+        Token& getFirstArg();
 
         TokenType::TypeInfo getSecondArgType();
+        TokenType::TypeInfo getSecondReferenceType();
+        Token& getSecondArg();
 
-        std::string getFirstArgValue();
-
-        std::string getSecondArgValue();
-
-        void setFirstArg(Token &t1);
-
-        void setSecondArg(Token &t2);
+    private:
+        TokenType::TypeInfo relationshipType;
 
         std::shared_ptr<Token> firstArg;
-        std::shared_ptr<Token> secondArg;
+        TokenType::TypeInfo firstArgRefType;
 
+        std::shared_ptr<Token> secondArg;
+        TokenType::TypeInfo secondArgRefType;
     };
 }
 

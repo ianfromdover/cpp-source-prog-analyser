@@ -4,10 +4,51 @@
 
 #include "catch.hpp"
 #include "qps/parser/Parser.h"
+#include "qps/parser/Demo.h"
 
 using namespace qps;
 
 static TokenList generateTokenList(std::initializer_list<std::pair<TokenType::TypeInfo,std::string>> tokenStream);
+
+TEST_CASE("scratch pad parser"){
+    SECTION("singleDeclaration_singleSelect_singlePattern") {
+        Demo d;
+
+        std::string source = "stmt s; Select s such that Follows(1, s) pattern s(_, _\"x+y\"_)";
+TokenList tokens = generateTokenList({
+            {TokenType::TypeInfo::STMT, "stmt"},
+            {TokenType::TypeInfo::IDENTIFIER, "s"},
+            {TokenType::TypeInfo::SEMICOLON, ";"},
+            {TokenType::TypeInfo::SELECT, "Select"},
+            {TokenType::TypeInfo::IDENTIFIER, "s"},
+            {TokenType::TypeInfo::SUCH, "such"},
+            {TokenType::TypeInfo::THAT, "that"},
+            {TokenType::TypeInfo::PARENT, "Parent"},
+            {TokenType::TypeInfo::LEFT_PAREN, "("},
+            {TokenType::TypeInfo::INTEGER, "1"},
+            {TokenType::TypeInfo::COMMA, ","},
+            {TokenType::TypeInfo::IDENTIFIER, "s"},
+            {TokenType::TypeInfo::RIGHT_PAREN, ")"},
+            {TokenType::TypeInfo::PATTERN, "pattern"},
+            {TokenType::TypeInfo::IDENTIFIER, "s"},
+            {TokenType::TypeInfo::LEFT_PAREN, "("},
+            {TokenType::TypeInfo::WILDCARD, "_"},
+            {TokenType::TypeInfo::COMMA, ","},
+            {TokenType::TypeInfo::WILDCARD, "_"},
+            {TokenType::TypeInfo::QUOTE, "\""},
+            {TokenType::TypeInfo::IDENTIFIER, "x"},
+            {TokenType::TypeInfo::PLUS, "+"},
+            {TokenType::TypeInfo::IDENTIFIER, "y"},
+            {TokenType::TypeInfo::QUOTE, "\""},
+            {TokenType::TypeInfo::WILDCARD, "_"},
+            {TokenType::TypeInfo::RIGHT_PAREN, ")"},
+            {TokenType::TypeInfo::END_OF_FILE, ""},
+        });
+
+        Parser parser(tokens);
+        REQUIRE_NOTHROW(parser.parse());
+    }
+}
 
 // Unit Tests for QPS
 TEST_CASE("parse_validSyntax_noThrows") {

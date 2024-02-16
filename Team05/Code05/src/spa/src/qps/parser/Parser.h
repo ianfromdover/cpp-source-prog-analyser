@@ -13,6 +13,7 @@
 #include "SelectClause.h"
 #include "RelationshipClause.h"
 #include "PatternClause.h"
+#include "IntermediateQuery.h"
 
 namespace qps {
     class Parser {
@@ -23,7 +24,7 @@ namespace qps {
     public:
         explicit Parser(TokenList &tokens) : tokens(tokens.getTokens()) {};
 
-        void parse();
+        std::shared_ptr<IntermediateQuery> parse();
 
     private:
         bool match(std::initializer_list<TokenType::TypeInfo> types);
@@ -48,6 +49,8 @@ namespace qps {
 
         Token previous();
 
+        bool Parser::checkPrevious(TokenType::TypeInfo type);
+
         Token consume(TokenType::TypeInfo type, const std::string& message);
 
         std::shared_ptr<DeclarationClause> declaration();
@@ -64,7 +67,7 @@ namespace qps {
 
         Token entRef();
 
-        Token synonym();
+        Token synonym(Token t);
 
         Token exprSpec();
 

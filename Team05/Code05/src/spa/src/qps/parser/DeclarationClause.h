@@ -19,7 +19,7 @@ namespace qps {
 
         void addDeclaration(const TokenType &, const std::string &);
 
-        std::vector<std::pair<TokenType, std::string>> getAllDeclarations();
+        std::vector<std::pair<TokenType::TypeInfo, std::string>> getAllDeclarations();
     };
 }
 

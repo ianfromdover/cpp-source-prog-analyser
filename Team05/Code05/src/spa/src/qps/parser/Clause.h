@@ -5,6 +5,7 @@
 #ifndef SPA_CLAUSE_H
 #define SPA_CLAUSE_H
 
+
 class Clause {
 public:
     enum ClauseType {
@@ -17,8 +18,9 @@ public:
 
     };
 public:
-    Clause(ClauseType type) : type_(type) {}
-    ClauseType getType() const { return type_; }
+    explicit Clause(ClauseType type) : type_(type) {}
+    [[nodiscard]] ClauseType getType() const { return type_; }
+    virtual ~Clause() = default;
 
 private:
     ClauseType type_;
