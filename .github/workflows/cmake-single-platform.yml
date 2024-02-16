@@ -42,13 +42,13 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
           name: unit_testing_${{matrix.os}}.exe
-          path: ${{github.workspace}}/Team05/Code05/cmake-cli/src/unit_testing/Debug/unit_testing_${{matrix.os}}.exe
+          path: ${{github.workspace}}/Team05/Code05/cmake-cli/src/unit_testing/Debug/unit_testing.exe
 
     - name: Upload Artifact (AutoTester)
       uses: actions/upload-artifact@v2
       with:
           name: autotester_${{matrix.os}}.exe
-          path: ${{github.workspace}}/Team05/Code05/cmake-cli/src/autotester/Debug/autotester_${{matrix.os}}.exe
+          path: ${{github.workspace}}/Team05/Code05/cmake-cli/src/autotester/Debug/autotester.exe
 
   test:
     needs: build
