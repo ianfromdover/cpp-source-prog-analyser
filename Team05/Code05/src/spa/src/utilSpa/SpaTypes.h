@@ -62,8 +62,8 @@
 using namespace std;
 
 // To make code more meaningful
-typedef int StmtNo;      // in the SIMPLE source program
-typedef int VarId;       // for PKB quick comparison in set
-typedef int ProcId;      // for PKB quick comparison in set
-typedef int Cnst;
-typedef std::string Str; // to neaten code
+using StmtNo = int;      // in the SIMPLE source program
+using Str = std::string; // to neaten code
+using VarName = Str;
+using ProcName = Str;
+using ConstVal = int;
