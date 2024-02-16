@@ -80,6 +80,66 @@ TEST_CASE("Parse sample program") {
 }
 
 TEST_CASE("Print with parent extractor") {
+    /**
+    std::string codeSnippet = R"(
+    procedure main {
+        1 flag = 0;
+        2 call computeCentroid;
+        3 call printResults;
+    }
+    procedure readPoint {
+        4 read x;
+        5 read y;
+    }
+    procedure printResults {
+        6 print flag;
+        7 print cenX;
+        8 print cenY;
+        9 print normSq;
+    }
+    procedure computeCentroid {
+        10 count = uer;
+        11 cenX = 0;
+        12 cenY = 0;
+        13 call readPoint;
+        Uses(14, x)
+        Uses(14, y)
+        Uses(14, t)
+        Uses(14, w)
+        14 while ((p != t) && (q != w)) {
+            15 count = count + 1;
+            16 cenX = cenX + x;
+            17 while (t == 1) {
+                18 x = y+1;
+                19 while (k == 2) {
+                    20 x = j+ 3;
+                }
+            }
+            21 cenY = cenY + y;
+            22 call readPoint;
+        }
+        23 if (count == 0) then {
+            24 flag = 1;
+        } else {
+            25 cenX = cenX / count;
+            26 cenY = cenY / count;
+        }
+        27 normSq = cenX * cenX + cenY * cenY;
+    }
+    procedure test {
+        28 pass = 0;
+        29 if (pass == 0) then {
+            30 a = 0;
+        } else {
+            31 if (meow >= 2) then {
+              32 ad = sa;
+            } else {
+               33 sn = 2;
+            }
+        }
+    }
+    )";
+**/
     std::string codeSnippet = R"(
     procedure main {
         flag = 0;
@@ -97,17 +157,17 @@ TEST_CASE("Print with parent extractor") {
         print normSq;
     }
     procedure computeCentroid {
-        count = 0;
+        count = uer;
         cenX = 0;
         cenY = 0;
         call readPoint;
-        while ((x != 0) && (y != 0)) {
+        while ((p != t) && (q != w)) {
             count = count + 1;
             cenX = cenX + x;
-            while (x == 1) {
-                x = x+1;
-                while (x == 2) {
-                    x = x+ 3;
+            while (t == 1) {
+                x = y+1;
+                while (k == 2) {
+                    x = j+ 3;
                 }
             }
             cenY = cenY + y;
@@ -126,11 +186,14 @@ TEST_CASE("Print with parent extractor") {
         if (pass == 0) then {
             a = 0;
         } else {
-            a = 1;
+            if (meow >= 2) then {
+              ad = sa;
+            } else {
+              sn = 2;
+            }
         }
     }
     )";
-
     std::shared_ptr<PKBStorage> p=std::make_shared<PKBStorage>();
     auto pkb = PopulatePKB(p);
     auto sp = SourceProcessor(pkb);

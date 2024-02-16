@@ -1,17 +1,17 @@
 //
-// Created by sjh_9 on 10/2/2024.
+// Created by sjh_9 on 16/2/2024.
 //
 
-#ifndef SPA_PARENTEXTRACTOR_H
-#define SPA_PARENTEXTRACTOR_H
+#ifndef SPA_MODIFIESEXTRACTOR_H
+#define SPA_MODIFIESEXTRACTOR_H
 
 #include "RelationExtractor.h"
 #include "Stmt.h"
 
-class ParentExtractor: public RelationExtractor {
+class ModifiesExtractor: public RelationExtractor {
 public:
     // Constructor
-    explicit ParentExtractor(PopulatePKB& pkb) : RelationExtractor(pkb) {}
+    explicit ModifiesExtractor(PopulatePKB& pkb) : RelationExtractor(pkb) {}
     // Statement Methods
     void visitReadStmt(const Read& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) override;
     void visitPrintStmt(const Print& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) override;
@@ -26,4 +26,4 @@ public:
     void visitUnaryExpr(const Unary& expr, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) override;
 };
 
-#endif //SPA_PARENTEXTRACTOR_H
+#endif //SPA_MODIFIESEXTRACTOR_H

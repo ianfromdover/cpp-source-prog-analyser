@@ -5,20 +5,20 @@
 #include <string>
 #include "Expr.h"
 
-void Binary::accept(RelationExtractor& extractor) {
-    extractor.visitBinaryExpr(*this);
+void Binary::accept(RelationExtractor& extractor, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+    extractor.visitBinaryExpr(*this, parentInfo);
 }
 
-void Variable::accept(RelationExtractor& extractor) {
-    extractor.visitVariableExpr(*this);
+void Variable::accept(RelationExtractor& extractor, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+    extractor.visitVariableExpr(*this, parentInfo);
 }
 
-void Literal::accept(RelationExtractor& extractor) {
-    extractor.visitLiteralExpr(*this);
+void Literal::accept(RelationExtractor& extractor, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+    extractor.visitLiteralExpr(*this, parentInfo);
 }
 
-void Unary::accept(RelationExtractor& extractor) {
-    extractor.visitUnaryExpr(*this);
+void Unary::accept(RelationExtractor& extractor, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+    extractor.visitUnaryExpr(*this, parentInfo);
 }
 
 std::string Binary::toString() const {
@@ -36,4 +36,32 @@ std::string Literal::toString() const {
 
 std::string Unary::toString() const {
     return "Unary: {\n op: " + this->op->getLexeme() + ",\n right: " + this->right->toString() + "\n}";
+}
+
+std::unique_ptr<Expr> const& Binary::getLeft() const {
+    return this->left;
+}
+
+std::unique_ptr<Token> const& Binary::getOP() const {
+    return this->op;
+}
+
+std::unique_ptr<Expr> const& Binary::getRight() const {
+    return this->right;
+}
+
+std::string Variable::getName() const {
+    return name;
+}
+
+int Literal::getValue() const {
+    return value;
+}
+
+std::unique_ptr<Token> const& Unary::getOP() const {
+    return this->op;
+}
+
+std::unique_ptr<Expr> const& Unary::getRight() const {
+    return this->right;
 }

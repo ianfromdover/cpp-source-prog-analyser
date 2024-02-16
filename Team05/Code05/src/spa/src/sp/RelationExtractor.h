@@ -4,6 +4,7 @@
 
 #ifndef SPA_RELATIONEXTRACTOR_H
 #define SPA_RELATIONEXTRACTOR_H
+#include <variant>
 #include <iostream>
 #include <vector>
 #include "pkb/PopulatePKB.h"
@@ -28,17 +29,17 @@ public:
     RelationExtractor(PopulatePKB& pkb) : pkb(pkb) {}
     virtual ~RelationExtractor() = default;
     // Statement Methods
-    virtual void visitReadStmt(const Read& stmt) = 0;
-    virtual void visitPrintStmt(const Print& stmt) = 0;
-    virtual void visitCallStmt(const Call& stmt)= 0;
-    virtual void visitWhileStmt(const While& stmt) = 0;
-    virtual void visitIfStmt(const If& stmt) = 0;
-    virtual void visitAssignStmt(const Assign& stmt) = 0;
+    virtual void visitReadStmt(const Read& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) = 0;
+    virtual void visitPrintStmt(const Print& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) = 0;
+    virtual void visitCallStmt(const Call& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo)= 0;
+    virtual void visitWhileStmt(const While& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) = 0;
+    virtual void visitIfStmt(const If& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) = 0;
+    virtual void visitAssignStmt(const Assign& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) = 0;
     // Expression Methods
-    virtual void visitBinaryExpr(const Binary& expr) = 0;
-    virtual void visitVariableExpr(const Variable& expr) = 0;
-    virtual void visitLiteralExpr(const Literal& expr) = 0;
-    virtual void visitUnaryExpr(const Unary& expr) = 0;
+    virtual void visitBinaryExpr(const Binary& expr, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) = 0;
+    virtual void visitVariableExpr(const Variable& expr, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) = 0;
+    virtual void visitLiteralExpr(const Literal& expr, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) = 0;
+    virtual void visitUnaryExpr(const Unary& expr, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) = 0;
 
 };
 

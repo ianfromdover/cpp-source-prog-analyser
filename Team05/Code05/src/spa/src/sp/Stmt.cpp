@@ -7,7 +7,8 @@
 
 void Procedure::accept(RelationExtractor& extractor) {
     for (const auto& stmt : *this->body) {
-        stmt->accept(extractor);
+        auto parentInfo = std::make_shared<std::vector<std::variant<StmtNo, std::string>>>();
+        stmt->accept(extractor, parentInfo);
     }
 }
 
@@ -68,32 +69,56 @@ std::string Assign::toString() const {
         + this->value->toString() + "\n}");
 };
 
-void Read::accept(RelationExtractor& extractor) {
-    extractor.visitReadStmt(*this);
+void Read::accept(RelationExtractor& extractor, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+    extractor.visitReadStmt(*this, parentInfo);
 }
 
-void Print::accept(RelationExtractor& extractor) {
-    extractor.visitPrintStmt(*this);
+void Print::accept(RelationExtractor& extractor, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+    extractor.visitPrintStmt(*this, parentInfo);
 }
 
-void Call::accept(RelationExtractor& extractor) {
-    extractor.visitCallStmt(*this);
+void Call::accept(RelationExtractor& extractor, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+    extractor.visitCallStmt(*this, parentInfo);
 }
 
-void While::accept(RelationExtractor& extractor) {
-    extractor.visitWhileStmt(*this);
+void While::accept(RelationExtractor& extractor, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+    extractor.visitWhileStmt(*this, parentInfo);
 }
 
-void If::accept(RelationExtractor& extractor) {
-    extractor.visitIfStmt(*this);
+void If::accept(RelationExtractor& extractor, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+    extractor.visitIfStmt(*this, parentInfo);
 }
 
-void Assign::accept(RelationExtractor& extractor) {
-    extractor.visitAssignStmt(*this);
+void Assign::accept(RelationExtractor& extractor, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+    extractor.visitAssignStmt(*this, parentInfo);
+}
+
+std::unique_ptr<StmtList> const& Procedure::getBody() const {
+    return this->body;
+}
+
+std::unique_ptr<Variable> const& Read::getVariable() const {
+    return this->variable;
+}
+
+std::unique_ptr<Variable> const& Print::getVariable() const {
+    return this->variable;
+}
+
+std::string Call::getProcName() const {
+    return procName;
+}
+
+std::unique_ptr<Expr> const& While::getCondition() const {
+    return this->condition;
 }
 
 std::unique_ptr<StmtList> const& While::getBody() const {
     return this->body;
+}
+
+std::unique_ptr<Expr> const& If::getCondition() const {
+    return this->condition;
 }
 
 std::unique_ptr<StmtList> const& If::getThenBranch() const {
@@ -104,3 +129,10 @@ std::unique_ptr<StmtList> const& If::getElseBranch() const {
     return this->elseBranch;
 }
 
+std::unique_ptr<Expr> const& Assign::getVariable() const {
+    return this->variable;
+}
+
+std::unique_ptr<Expr> const& Assign::getValue() const {
+    return this->value;
+}

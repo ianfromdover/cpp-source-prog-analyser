@@ -3,6 +3,8 @@
 //
 
 #include "SourceProcessor.h"
+#include "UsesExtractor.h"
+#include "ModifiesExtractor.h"
 
 void SourceProcessor::exec(const std::string& source) {
     auto tokens = this->scan(source);
@@ -20,7 +22,11 @@ Program SourceProcessor::parse(std::shared_ptr<std::vector<std::shared_ptr<Token
 
 void SourceProcessor::extract(const Program& program) {
     ParentExtractor parentExtractor(this->pkb);
+    UsesExtractor usesExtractor(this->pkb);
+    ModifiesExtractor modifiesExtractor(this->pkb);
     for (const auto& procedure : *program) {
         procedure->accept(parentExtractor);
+        procedure->accept(usesExtractor);
+        procedure->accept(modifiesExtractor);
     }
 }

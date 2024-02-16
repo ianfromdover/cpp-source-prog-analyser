@@ -7,6 +7,7 @@
 
 #include <memory>
 #include <vector>
+#include <variant>
 #include "Expr.h"
 #include "RelationExtractor.h"
 #include "utilSpa/SpaTypes.h"
@@ -27,9 +28,9 @@ private:
 public:
     explicit Stmt(StmtNo stmtNo) : stmtNo(stmtNo) {}
     virtual ~Stmt() = default;
-    virtual void accept(RelationExtractor& extractor) = 0;
-    virtual std::string toString() const = 0;
-    std::string prefixStmtNo(std::string text) const;
+    virtual void accept(RelationExtractor& extractor, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) = 0;
+    [[nodiscard]] virtual std::string toString() const = 0;
+    [[nodiscard]] std::string prefixStmtNo(std::string text) const;
     [[nodiscard]] StmtNo getStmtNo() const;
 };
 
@@ -44,7 +45,8 @@ private:
 public:
     Procedure(std::string name, std::unique_ptr<StmtList> body) : name(std::move(name)), body(std::move(body)) {}
     void accept(RelationExtractor& extractor);
-    std::string toString() const;
+    [[nodiscard]] std::string toString() const;
+    [[nodiscard]] std::unique_ptr<StmtList> const& getBody() const;
 };
 
 class Read : public Stmt {
@@ -53,8 +55,9 @@ private:
 
 public:
     Read(StmtNo stmtNo, std::unique_ptr<Variable> variable) : Stmt(stmtNo), variable(std::move(variable)) {}
-    void accept(RelationExtractor& extractor) override;
-    std::string toString() const override;
+    void accept(RelationExtractor& extractor, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) override;
+    [[nodiscard]] std::string toString() const override;
+    [[nodiscard]] std::unique_ptr<Variable> const& getVariable() const;
 };
 
 class Print : public Stmt {
@@ -63,8 +66,9 @@ private:
 
 public:
     Print(StmtNo stmtNo, std::unique_ptr<Variable> variable) : Stmt(stmtNo), variable(std::move(variable)) {}
-    void accept(RelationExtractor& extractor) override;
-    std::string toString() const override;
+    void accept(RelationExtractor& extractor, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) override;
+    [[nodiscard]] std::string toString() const override;
+    [[nodiscard]] std::unique_ptr<Variable> const& getVariable() const;
 };
 
 class Call : public Stmt {
@@ -73,8 +77,9 @@ private:
 
 public:
     Call(StmtNo stmtNo, std::string procName) : Stmt(stmtNo), procName(std::move(procName)) {}
-    void accept(RelationExtractor& extractor) override;
-    std::string toString() const override;
+    void accept(RelationExtractor& extractor, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) override;
+    [[nodiscard]] std::string toString() const override;
+    [[nodiscard]] std::string getProcName() const;
 };
 
 class While : public Stmt {
@@ -85,9 +90,10 @@ private:
 public:
     While(StmtNo stmtNo, std::unique_ptr<Expr> condition, std::unique_ptr<StmtList> body)
         : Stmt(stmtNo), condition(std::move(condition)), body(std::move(body)) {}
-    void accept(RelationExtractor& extractor) override;
-    std::string toString() const override;
-    std::unique_ptr<StmtList> const& getBody() const;
+    void accept(RelationExtractor& extractor, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) override;
+    [[nodiscard]] std::string toString() const override;
+    [[nodiscard]] std::unique_ptr<Expr> const& getCondition() const;
+    [[nodiscard]] std::unique_ptr<StmtList> const& getBody() const;
 };
 
 class If : public Stmt {
@@ -103,10 +109,11 @@ public:
               condition(std::move(condition)),
               thenBranch(std::move(thenBranch)),
               elseBranch(std::move(elseBranch)) {}
-    void accept(RelationExtractor& extractor) override;
-    std::string toString() const override;
-    std::unique_ptr<StmtList> const& getThenBranch() const;
-    std::unique_ptr<StmtList> const& getElseBranch() const;
+    void accept(RelationExtractor& extractor, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) override;
+    [[nodiscard]] std::string toString() const override;
+    [[nodiscard]] std::unique_ptr<Expr> const& getCondition() const;
+    [[nodiscard]] std::unique_ptr<StmtList> const& getThenBranch() const;
+    [[nodiscard]] std::unique_ptr<StmtList> const& getElseBranch() const;
 };
 
 class Assign : public Stmt {
@@ -117,8 +124,10 @@ private:
 public:
     Assign(StmtNo stmtNo, std::unique_ptr<Expr> variable, std::unique_ptr<Expr> value)
         : Stmt(stmtNo), variable(std::move(variable)), value(std::move(value)) {}
-    void accept(RelationExtractor& extractor) override;
-    std::string toString() const override;
+    void accept(RelationExtractor& extractor, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) override;
+    [[nodiscard]] std::string toString() const override;
+    [[nodiscard]] std::unique_ptr<Expr> const& getVariable() const;
+    [[nodiscard]] std::unique_ptr<Expr> const& getValue() const;
 };
 
 #endif //SPA_STMT_H
