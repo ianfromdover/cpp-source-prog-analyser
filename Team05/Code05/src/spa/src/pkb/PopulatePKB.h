@@ -14,42 +14,33 @@ public:
     PopulatePKB(shared_ptr<PKBStorage> p);
     // Returns true if PKBStorage exists
     bool exists();
-    // ai-gen start (copilot, 2, e)
-    // prompt: used copilot
-
     // -- Add Entities --
-    /*
-    // Adds a variable to the variable table
-    bool addVar();
+    // relationships
 
-    // Adds a constant to the constant table
-    bool addConst();
+    bool addRead(StmtNo sNum, VarName name);
+    bool addCallStmt(StmtNo sNum, VarName name);
+    // implement using set
+    bool addIf(StmtNo sNum, VarName ctrlVarName);
+    // implement using set
+    bool addWhile(StmtNo sNum, VarName ctrlVarName);
+    bool addAssign(StmtNo sNum, VarName LhsVarName);
 
-    // Adds a procedure to the procedure table
-    bool addProcedure();
-
-    // Adds a statement to the statement table
-    bool addStmt(StmtNo stmtNo, Str stmtType, ProcId procIndex);
+    bool addProcedure(StmtNo sNum, Str procedureName); // future: should this have an associated StmtList?
+    bool addVar(StmtNo sNum, VarName name);
+    bool addConst(StmtNo sNum, ConstVal c);
 
     // -- Add Abstractions --
     // Adds a follows relationship to the follows table
-    bool addFollows();
-
+    bool addFollows(StmtNo before, StmtNo after);
+    bool addFollowsT(StmtNo before, StmtNo after);
     // Adds a parent relationship to the parent table
-     */
     bool addParent(StmtNo parent, StmtNo child); // parent is s1, child is s2
-
+    bool addParentT(StmtNo ancestor, StmtNo descendant);
     // Adds a uses relationship to the uses table
-    /*
-    bool addUses();
-
+    bool addUses(StmtNo sNum, VarName name);
+    bool addUses(ProcName ProcedureName, VarName name);
     // Adds a modifies relationship to the modifies table
-    bool addModifies();
-    // ai-gen end
-
-    // -- Generate Transitive Closures --
-    // use the populated Follows table to generate FollowsT table
-    bool generateFollowsT(); // T stands for Transitive closure
-    bool generateParentT();
-    */
+    bool addModifies(StmtNo sNum, VarName name);
+    bool addModifies(ProcName ProcedureName, VarName name);
+    bool addPatternAsgn(StmtNo sNum, Str lhs, Str rhsBracketed);
 };

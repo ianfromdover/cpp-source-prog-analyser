@@ -8,42 +8,60 @@ PopulatePKB::PopulatePKB(std::shared_ptr<PKBStorage> p) {
 bool PopulatePKB::exists() {
     return pkb != nullptr;
 }
-// ai-gen start (copilot, 1, e)
-// prompt: used copilot
-/*
-bool PopulatePKB::addVar() {
+bool PopulatePKB::addRead(StmtNo sNum, VarName name) {
     return false;
 }
-bool PopulatePKB::addConst() {
+bool PopulatePKB::addCallStmt(StmtNo sNum, VarName name) {
+    // implement using set
     return false;
 }
-bool PopulatePKB::addProcedure() {
+bool PopulatePKB::addIf(StmtNo sNum, VarName ctrlVarName) {
+    // implement using set
     return false;
 }
-bool PopulatePKB::addStmt(StmtNo stmtNo, Str stmtType, ProcId procIndex) {
+bool PopulatePKB::addWhile(StmtNo sNum, VarName ctrlVarName) {
     return false;
 }
-bool PopulatePKB::addFollows() {
+bool PopulatePKB::addAssign(StmtNo sNum, VarName LhsVarName) {
     return false;
 }
- */
+
+bool PopulatePKB::addProcedure(StmtNo sNum, Str procedureName) {
+    // future: should this have an associated StmtList?
+    return false;
+}
+bool PopulatePKB::addVar(StmtNo sNum, VarName name) {
+    return false;
+}
+bool PopulatePKB::addConst(StmtNo sNum, ConstVal c) {
+    return false;
+}
+
+// -- Add Abstractions --
+bool PopulatePKB::addFollows(StmtNo before, StmtNo after) {
+    return false;
+}
+bool PopulatePKB::addFollowsT(StmtNo before, StmtNo after) {
+    return false;
+}
 bool PopulatePKB::addParent(StmtNo parent, StmtNo child) {
     return pkb->parentTable->addParent(parent, child);
-    //return true;
 }
-/*
-bool PopulatePKB::addUses() {
+bool PopulatePKB::addParentT(StmtNo ancestor, StmtNo descendant) {
     return false;
 }
-bool PopulatePKB::addModifies() {
+bool PopulatePKB::addUses(StmtNo sNum, VarName name) {
     return false;
 }
-// ai-gen end
-bool PopulatePKB::generateFollowsT() {
+bool PopulatePKB::addUses(ProcName ProcedureName, VarName name) {
     return false;
 }
-bool PopulatePKB::generateParentT() {
+bool PopulatePKB::addModifies(StmtNo sNum, VarName name) {
     return false;
 }
-*/
-// ai-gen end
+bool PopulatePKB::addModifies(ProcName ProcedureName, VarName name) {
+    return false;
+}
+bool PopulatePKB::addPatternAsgn(StmtNo sNum, Str lhs, Str rhsBracketed) {
+    return false;
+}
