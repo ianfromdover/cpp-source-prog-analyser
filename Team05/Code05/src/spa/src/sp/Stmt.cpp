@@ -106,6 +106,10 @@ std::unique_ptr<StmtList> const& Procedure::getBody() const {
     return this->body;
 }
 
+std::string Procedure::getProcName() const {
+    return this->name;
+}
+
 std::unique_ptr<Variable> const& Read::getVariable() const {
     return this->variable;
 }

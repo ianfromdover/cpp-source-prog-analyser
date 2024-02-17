@@ -48,6 +48,7 @@ public:
     void accept(RelationExtractor& extractor);
     [[nodiscard]] std::string toString() const;
     [[nodiscard]] std::unique_ptr<StmtList> const& getBody() const;
+    [[nodiscard]] std::string getProcName() const;
 };
 
 class Read : public Stmt {
