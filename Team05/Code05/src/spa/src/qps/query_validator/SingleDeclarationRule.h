@@ -13,6 +13,7 @@ private:
     bool followsSingleDeclaration(QueryObject&);
 public:
     std::string validate(QueryObject&) override;
+    std::string validate(IntermediateQuery&) override;
 };
 
 

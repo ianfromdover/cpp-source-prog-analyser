@@ -56,3 +56,17 @@ bool NoDeclarationRule::followsNoDeclaration(QueryObject& qo) {
     return ruleFollowed;
 }
 
+std::string NoDeclarationRule::validate(IntermediateQuery & query) {
+    std::string selectSyn = query.getSelectClause().getAllSelect()[0]; // Assumed to only have one select element
+
+    auto it = query.getSynonymTypeMap().find(selectSyn);
+    if (it == query.getSynonymTypeMap().end()) {
+        return VALIDATION_RULE_NO_DECLARATION;
+    } else {
+        if (it->second != TokenType::TypeInfo::ASSIGN) {
+            return VALIDATION_RULE_SYN_ASSIGN_DECLARATION;
+        }
+    }
+    return "";
+}
+

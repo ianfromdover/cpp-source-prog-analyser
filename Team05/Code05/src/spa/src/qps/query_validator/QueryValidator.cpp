@@ -15,3 +15,8 @@ std::vector<std::string> QueryValidator::validateQuery(QueryObject& qo) {
     }
     return failedRules;
 }
+
+std::vector<std::string> QueryValidator::validateQuery(IntermediateQuery &) {
+
+    return std::vector<std::string>();
+}

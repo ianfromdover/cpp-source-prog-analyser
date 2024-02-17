@@ -9,10 +9,14 @@
 #include "../query_elements/QueryObject.h"
 #include "../query_elements/QueryEnums.h"
 #include "../../utilSpa/SpaTypes.h"
+#include "qps/parser/IntermediateQuery.h"
+
+using namespace qps;
 
 class Rule {
 public:
     virtual std::string validate(QueryObject&) = 0;
+    virtual std::string validate(IntermediateQuery&) = 0;
 };
 
 #endif //PROJECT_RULE_H

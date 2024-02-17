@@ -12,6 +12,7 @@ static TokenList generateTokenList(std::initializer_list<std::pair<TokenType::Ty
 
 TEST_CASE("scratch pad parser"){
     SECTION("singleDeclaration_singleSelect_singlePattern") {
+        Demo d;
 TokenList tokens = generateTokenList({
             {TokenType::TypeInfo::STMT, "stmt"},
             {TokenType::TypeInfo::IDENTIFIER, "s"},
