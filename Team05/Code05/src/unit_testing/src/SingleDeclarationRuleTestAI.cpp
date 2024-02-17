@@ -83,3 +83,12 @@ TEST_CASE("SingleDeclarationRule_NoDeclarations_NoError") {
 }
 
 // ai-gen end
+
+TEST_CASE("scratch pad single declaration"){
+    IntermediateQuery query;
+
+    SingleDeclarationRule rule;
+    std::string result = rule.validate(query);
+
+    REQUIRE(result.empty());
+}
