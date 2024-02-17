@@ -1,0 +1,61 @@
+//
+// Created by sjh_9 on 17/2/2024.
+//
+
+#include "PrintExtractor.h"
+
+void PrintExtractor::visitReadStmt(const Read& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+    // Do Nothing
+}
+
+void PrintExtractor::visitPrintStmt(const Print& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+    auto& var = stmt.getVariable();
+    parentInfo->emplace_back(stmt.getStmtNo());
+    var->accept(*this, parentInfo);
+}
+
+void PrintExtractor::visitCallStmt(const Call& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+    // Do Nothing
+}
+
+void PrintExtractor::visitWhileStmt(const While& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+    for (const auto& childStmt: *stmt.getBody()) {
+        auto parentInfoCopy = std::make_shared<std::vector<std::variant<StmtNo, std::string>>>(*parentInfo);
+        childStmt->accept(*this, parentInfoCopy);
+    }
+}
+
+void PrintExtractor::visitIfStmt(const If& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+    for (const auto& childStmt: *stmt.getThenBranch()) {
+        auto parentInfoCopy = std::make_shared<std::vector<std::variant<StmtNo, std::string>>>(*parentInfo);
+        childStmt->accept(*this, parentInfoCopy);
+    }
+    for (const auto& childStmt: *stmt.getElseBranch()) {
+        auto parentInfoCopy = std::make_shared<std::vector<std::variant<StmtNo, std::string>>>(*parentInfo);
+        childStmt->accept(*this, parentInfoCopy);
+    }
+}
+
+void PrintExtractor::visitAssignStmt(const Assign& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+    // Do nothing
+}
+
+void PrintExtractor::visitBinaryExpr(const Binary& expr, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+    // Do Nothing
+}
+
+void PrintExtractor::visitVariableExpr(const Variable& expr, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+    for (const auto& val : *parentInfo) {
+        std::visit([&](const auto& actualValue) {
+            std::cout << "pkb.addPrint(" << actualValue << ", " << expr.getName() << ");" << std::endl;
+        }, val);
+    }
+}
+
+void PrintExtractor::visitLiteralExpr(const Literal& expr, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+    // Do Nothing
+}
+
+void PrintExtractor::visitUnaryExpr(const Unary& expr, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+    // Do Nothing
+}

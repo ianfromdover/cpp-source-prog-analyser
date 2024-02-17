@@ -113,7 +113,7 @@ TEST_CASE("Print with parent extractor") {
                 18 x = y+1;
                 19 while (k == 2) {
                     20 x = j+ 3;
-                    21 call sk;
+                    21 print sk;
                 }
             }
             22 cenY = cenY + y;
@@ -134,7 +134,7 @@ TEST_CASE("Print with parent extractor") {
         } else {
             32 if (meow >= 2) then {
               33 ad = sa;
-              34 call usgdal;
+              34 print usgdal;
             } else {
                35 sn = 2;
             }
@@ -171,7 +171,7 @@ TEST_CASE("Print with parent extractor") {
                 x = y+1;
                 while (k == 2) {
                     x = j+ 3;
-                    call sk;
+                    print sk;
                 }
             }
             cenY = cenY + y;
@@ -192,11 +192,11 @@ TEST_CASE("Print with parent extractor") {
         } else {
             if (meow >= 2) then {
               ad = sa;
-              call usgdal;
+              print usgdal;
             } else {
               sn = 2;
             }
-            hello = 20;
+            print hello;
         }
     }
     )";
