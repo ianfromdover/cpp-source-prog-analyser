@@ -37,4 +37,12 @@ namespace qps {
     std::string PatternClause::getPatternSynonym() {
         return synonym;
     }
+
+    TokenType::TypeInfo PatternClause::getFirstReferenceType() {
+        return firstArgType;
+    }
+
+    TokenType::TypeInfo PatternClause::getSecondReferenceType() {
+        return secondArgType;
+    }
 }

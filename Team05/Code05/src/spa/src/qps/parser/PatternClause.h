@@ -23,9 +23,11 @@ namespace qps {
         std::string getPatternSynonym();
 
         TokenType::TypeInfo getFirstArgType();
+        TokenType::TypeInfo getFirstReferenceType();
         std::string getFirstArgValue();
 
         TokenType::TypeInfo getSecondArgType();
+        TokenType::TypeInfo getSecondReferenceType();
         std::string getSecondArgValue();
 
     private:
