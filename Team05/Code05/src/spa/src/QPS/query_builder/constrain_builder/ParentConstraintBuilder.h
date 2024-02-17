@@ -5,9 +5,9 @@
 #ifndef SPA_PARENTCONSTRAINTBUILDER_H
 #define SPA_PARENTCONSTRAINTBUILDER_H
 
-#include "ConstraintBuilder.h"
+#include "RelationshipConstraintBuilder.h"
 
-class ParentConstraintBuilder : public ConstraintBuilder {
+class ParentConstraintBuilder : public RelationshipConstraintBuilder {
 private:
     shared_ptr<StatementReference> arg1;
     shared_ptr<StatementReference> arg2;

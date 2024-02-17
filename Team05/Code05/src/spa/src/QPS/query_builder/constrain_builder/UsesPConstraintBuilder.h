@@ -5,9 +5,9 @@
 #ifndef SPA_USESPCONSTRAINTBUILDER_H
 #define SPA_USESPCONSTRAINTBUILDER_H
 
-#include "ConstraintBuilder.h"
+#include "RelationshipConstraintBuilder.h"
 
-class UsesPConstraintBuilder : public ConstraintBuilder {
+class UsesPConstraintBuilder : public RelationshipConstraintBuilder {
 private:
     shared_ptr<EntityReference> arg1;
     shared_ptr<EntityReference> arg2;

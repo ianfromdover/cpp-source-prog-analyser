@@ -5,9 +5,9 @@
 #ifndef SPA_FOLLOWSCONSTRAINTBUILDER_H
 #define SPA_FOLLOWSCONSTRAINTBUILDER_H
 
-#include "ConstraintBuilder.h"
+#include "RelationshipConstraintBuilder.h"
 
-class FollowsConstraintBuilder : public ConstraintBuilder {
+class FollowsConstraintBuilder : public RelationshipConstraintBuilder {
 private:
     shared_ptr<StatementReference> arg1;
     shared_ptr<StatementReference> arg2;
