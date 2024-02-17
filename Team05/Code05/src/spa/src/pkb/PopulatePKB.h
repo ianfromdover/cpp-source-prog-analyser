@@ -18,13 +18,14 @@ public:
     // relationships
 
     bool addRead(StmtNo sNum, VarName name);
-    bool addCallStmt(StmtNo sNum, VarName name);
+    bool addCallStmt(StmtNo sNum, ProcName name);
     // implement using set
     bool addIf(StmtNo sNum, VarName ctrlVarName);
     // implement using set
     bool addWhile(StmtNo sNum, VarName ctrlVarName);
     bool addAssign(StmtNo sNum, VarName LhsVarName);
-
+    bool addPrint(StmtNo s, VarName name);
+    bool addFinalStatementNo(StmtNo s);
     bool addProcedure(StmtNo sNum, Str procedureName); // future: should this have an associated StmtList?
     bool addVar(StmtNo sNum, VarName name);
     bool addConst(StmtNo sNum, ConstVal c);
