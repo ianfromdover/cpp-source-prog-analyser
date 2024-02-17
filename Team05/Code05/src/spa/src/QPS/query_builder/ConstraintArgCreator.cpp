@@ -4,6 +4,10 @@
 
 #include "ConstraintArgCreator.h"
 
+//std::shared_ptr<ConstraintArgument> ConstraintArgCreator::buildArg(qps::TokenType tokentype, qps::TokenType::TypeInfo ref, std::string identifier) {
+//
+//}
+
 std::shared_ptr<ConstraintArgument> ConstraintArgCreator::buildArg(qps::Token& token, qps::TokenType::TypeInfo ref) {
     std::string identifier = token.getLexeme();
     switch (token.getType().getInfo()) {

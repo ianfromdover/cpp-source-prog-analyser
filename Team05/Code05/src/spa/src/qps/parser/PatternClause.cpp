@@ -37,4 +37,18 @@ namespace qps {
     std::string PatternClause::getPatternSynonym() {
         return synonym;
     }
+
+    Token &PatternClause::getFirstArg() {
+        if (firstArg != nullptr) {
+            return *firstArg;
+        }
+        throw std::runtime_error("First argument is not set");
+    }
+
+    Token &PatternClause::getSecondArg() {
+        if (secondArg != nullptr) {
+            return *secondArg;
+        }
+        throw std::runtime_error("Second argument is not set");
+    }
 }

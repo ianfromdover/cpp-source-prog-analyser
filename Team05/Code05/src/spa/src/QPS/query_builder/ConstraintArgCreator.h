@@ -25,6 +25,8 @@
 
 class ConstraintArgCreator {
 public:
+//    static std::shared_ptr<ConstraintArgument> buildArgFromToken(qps::Token&, qps::TokenType::TypeInfo);
+//    static std::shared_ptr<ConstraintArgument> buildArg(qps::TokenType, qps::TokenType::TypeInfo, std::string);
     static std::shared_ptr<ConstraintArgument> buildArg(qps::Token&, qps::TokenType::TypeInfo);
     static std::shared_ptr<ExpressionSpec> createExpressionSpec(std::string);
     static std::shared_ptr<ProcedureEntity> createProcedureEntity(std::string);

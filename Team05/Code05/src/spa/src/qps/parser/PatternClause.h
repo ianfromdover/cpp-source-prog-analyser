@@ -28,6 +28,9 @@ namespace qps {
         TokenType::TypeInfo getSecondArgType();
         std::string getSecondArgValue();
 
+        Token& getFirstArg();
+        Token& getSecondArg();
+
     private:
         std::string synonym;
 
