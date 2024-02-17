@@ -4,9 +4,6 @@
 
 #include "ConstraintArgCreator.h"
 
-//std::shared_ptr<ConstraintArgument> ConstraintArgCreator::buildArg(qps::TokenType tokentype, qps::TokenType::TypeInfo ref, std::string identifier) {
-//
-//}
 
 std::shared_ptr<ConstraintArgument> ConstraintArgCreator::buildArg(qps::Token& token, qps::TokenType::TypeInfo ref) {
     std::string identifier = token.getLexeme();
@@ -25,10 +22,12 @@ std::shared_ptr<ConstraintArgument> ConstraintArgCreator::buildArg(qps::Token& t
             break;
         case qps::TokenType::WILDCARD:
             // need to check what type of wild card
-            if (ref == qps::TokenType::STMT_REF) {
+            if (ref == qps::TokenType::ENT_REF) {
                 return ConstraintArgCreator::createEntityRefWildCard();
-            } else {
+            } else if (ref == qps::TokenType::STMT_REF) {
                 return ConstraintArgCreator::createStatementRefWildCard();
+            } else {
+                return ConstraintArgCreator::createExpressionRefWildCard();
             }
             break;
         case qps::TokenType::STMT:
@@ -114,4 +113,8 @@ std::shared_ptr<IntegerArgument> ConstraintArgCreator::createIntegerArgument(std
 
 std::shared_ptr<StatementRefWildCard> ConstraintArgCreator::createStatementRefWildCard() {
     return std::make_shared<StatementRefWildCard>();
+}
+
+std::shared_ptr<ExpressionRefWildcard> ConstraintArgCreator::createExpressionRefWildCard() {
+    return std::make_shared<ExpressionRefWildcard>();
 }

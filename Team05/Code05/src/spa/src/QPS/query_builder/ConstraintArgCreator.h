@@ -20,6 +20,7 @@
 #include "../query_elements/constraint_argument/statement_reference/WhileEntity.h"
 #include "../query_elements/constraint_argument/statement_reference/IntegerArgument.h"
 #include "../query_elements/constraint_argument/statement_reference/StatementRefWildCard.h"
+#include "../query_elements/constraint_argument/expression_reference/ExpressionRefWildCard.h"
 #include <memory>
 #include <stdexcept>
 
@@ -42,6 +43,7 @@ public:
     static std::shared_ptr<WhileEntity> createWhileEntity(std::string);
     static std::shared_ptr<IntegerArgument> createIntegerArgument(std::string);
     static std::shared_ptr<StatementRefWildCard> createStatementRefWildCard();
+    static std::shared_ptr<ExpressionRefWildcard> createExpressionRefWildCard();
 };
 
 
