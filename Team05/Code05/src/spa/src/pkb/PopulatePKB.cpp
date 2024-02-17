@@ -11,7 +11,7 @@ bool PopulatePKB::exists() {
 bool PopulatePKB::addRead(StmtNo sNum, VarName name) {
     return false;
 }
-bool PopulatePKB::addCallStmt(StmtNo sNum, VarName name) {
+bool PopulatePKB::addCallStmt(StmtNo sNum, ProcName name) {
     // implement using set
     return false;
 }
@@ -23,6 +23,14 @@ bool PopulatePKB::addWhile(StmtNo sNum, VarName ctrlVarName) {
     return false;
 }
 bool PopulatePKB::addAssign(StmtNo sNum, VarName LhsVarName) {
+    return false;
+}
+
+bool PopulatePKB::addPrint(StmtNo s, VarName name) {
+    return false;
+}
+
+bool PopulatePKB::addFinalStatementNo(StmtNo s) {
     return false;
 }
 
