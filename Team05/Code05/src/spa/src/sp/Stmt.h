@@ -10,6 +10,7 @@
 #include <variant>
 #include "Expr.h"
 #include "RelationExtractor.h"
+#include "FollowsExtractor.h"
 #include "utilSpa/SpaTypes.h"
 
 class Procedure;

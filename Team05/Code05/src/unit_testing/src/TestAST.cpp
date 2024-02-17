@@ -136,6 +136,7 @@ TEST_CASE("Print with parent extractor") {
             } else {
                33 sn = 2;
             }
+            34 print hello;
         }
     }
     )";
@@ -191,6 +192,7 @@ TEST_CASE("Print with parent extractor") {
             } else {
               sn = 2;
             }
+            hello = 20;
         }
     }
     )";

@@ -6,9 +6,18 @@
 #include "Stmt.h"
 
 void Procedure::accept(RelationExtractor& extractor) {
-    for (const auto& stmt : *this->body) {
-        auto parentInfo = std::make_shared<std::vector<std::variant<StmtNo, std::string>>>();
-        stmt->accept(extractor, parentInfo);
+    auto prevStmtInfo = std::make_shared<std::vector<std::variant<StmtNo, std::string>>>();
+    auto followsExtractor = dynamic_cast<FollowsExtractor*>(&extractor);
+    if (followsExtractor != nullptr) {
+        for (const auto& stmt : *this->body) {
+            stmt->accept(extractor, prevStmtInfo);
+            prevStmtInfo->emplace_back(stmt->getStmtNo());
+        }
+    } else {
+        for (const auto& stmt : *this->body) {
+            auto parentInfo = std::make_shared<std::vector<std::variant<StmtNo, std::string>>>();
+            stmt->accept(extractor, parentInfo);
+        }
     }
 }
 

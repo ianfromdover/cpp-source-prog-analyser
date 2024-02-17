@@ -24,9 +24,11 @@ void SourceProcessor::extract(const Program& program) {
     ParentExtractor parentExtractor(this->pkb);
     UsesExtractor usesExtractor(this->pkb);
     ModifiesExtractor modifiesExtractor(this->pkb);
+    FollowsExtractor followsExtractor(this->pkb);
     for (const auto& procedure : *program) {
         procedure->accept(parentExtractor);
         procedure->accept(usesExtractor);
         procedure->accept(modifiesExtractor);
+        procedure->accept(followsExtractor);
     }
 }

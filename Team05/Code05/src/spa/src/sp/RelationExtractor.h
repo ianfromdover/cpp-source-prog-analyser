@@ -26,20 +26,20 @@ class RelationExtractor {
 protected:
     PopulatePKB pkb;
 public:
-    RelationExtractor(PopulatePKB& pkb) : pkb(pkb) {}
+    RelationExtractor(PopulatePKB&pkb) : pkb(pkb) {}
     virtual ~RelationExtractor() = default;
     // Statement Methods
-    virtual void visitReadStmt(const Read& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) = 0;
-    virtual void visitPrintStmt(const Print& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) = 0;
-    virtual void visitCallStmt(const Call& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo)= 0;
-    virtual void visitWhileStmt(const While& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) = 0;
-    virtual void visitIfStmt(const If& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) = 0;
-    virtual void visitAssignStmt(const Assign& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) = 0;
+    virtual void visitReadStmt(const Read&, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>&) = 0;
+    virtual void visitPrintStmt(const Print&, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>&) = 0;
+    virtual void visitCallStmt(const Call&, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>&)= 0;
+    virtual void visitWhileStmt(const While&, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>&) = 0;
+    virtual void visitIfStmt(const If&, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>&) = 0;
+    virtual void visitAssignStmt(const Assign&, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>&) = 0;
     // Expression Methods
-    virtual void visitBinaryExpr(const Binary& expr, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) = 0;
-    virtual void visitVariableExpr(const Variable& expr, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) = 0;
-    virtual void visitLiteralExpr(const Literal& expr, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) = 0;
-    virtual void visitUnaryExpr(const Unary& expr, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) = 0;
+    virtual void visitBinaryExpr(const Binary&, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>&) = 0;
+    virtual void visitVariableExpr(const Variable&, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>&) = 0;
+    virtual void visitLiteralExpr(const Literal&, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>&) = 0;
+    virtual void visitUnaryExpr(const Unary&, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>&) = 0;
 
 };
 
