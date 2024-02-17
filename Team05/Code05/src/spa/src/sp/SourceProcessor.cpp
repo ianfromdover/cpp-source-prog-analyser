@@ -13,6 +13,7 @@
 #include "AssignExtractor.h"
 #include "StatementExtractor.h"
 #include "VariableExtractor.h"
+#include "ConstantExtractor.h"
 
 void SourceProcessor::exec(const std::string& source) {
     auto tokens = this->scan(source);
@@ -41,6 +42,7 @@ void SourceProcessor::extract(const Program& program) {
     AssignExtractor assignExtractor(this->pkb);
     StatementExtractor statementExtractor(this->pkb);
     VariableExtractor variableExtractor(this->pkb);
+    ConstantExtractor constantExtractor(this->pkb);
     for (const auto& procedure : *program) {
         //procedure->accept(parentExtractor);
         //procedure->accept(usesExtractor);
@@ -54,6 +56,7 @@ void SourceProcessor::extract(const Program& program) {
         //procedure->accept(assignExtractor);
         //procedure->accept(statementExtractor);
         //std::cout << "pkb.addProcedure(" << procedure->getProcName() << ");" << std::endl;
-        procedure->accept(variableExtractor);
+        //procedure->accept(variableExtractor);
+        procedure->accept(constantExtractor);
     }
 }
