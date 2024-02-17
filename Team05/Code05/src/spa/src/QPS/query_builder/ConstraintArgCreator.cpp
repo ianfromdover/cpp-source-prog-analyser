@@ -8,7 +8,7 @@
 std::shared_ptr<ConstraintArgument> ConstraintArgCreator::buildArg(qps::Token& token, qps::TokenType::TypeInfo ref) {
     std::string identifier = token.getLexeme();
     switch (token.getType().getInfo()) {
-        case qps::TokenType::EXPR_SPEC:
+        case qps::TokenType::EXPR_REF:
             return ConstraintArgCreator::createExpressionSpec(identifier);
             break;
         case qps::TokenType::PROCEDURE:

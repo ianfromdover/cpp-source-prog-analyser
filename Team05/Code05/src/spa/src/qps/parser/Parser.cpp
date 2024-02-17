@@ -161,7 +161,7 @@ namespace qps {
         Token exprSpec = this->exprSpec();
         this->consume(TokenType::RIGHT_PAREN, "Expect ')' after expr spec.");
 
-        PatternClause patternCl(synAssign.getLexeme(), entRef, TokenType::TypeInfo::ENT_REF, exprSpec, TokenType::EXPR_SPEC);
+        PatternClause patternCl(synAssign.getLexeme(), entRef, TokenType::TypeInfo::ENT_REF, exprSpec, TokenType::EXPR_REF);
 
         return std::make_shared<PatternClause>(patternCl);
     }

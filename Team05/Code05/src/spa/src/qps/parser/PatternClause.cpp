@@ -38,6 +38,13 @@ namespace qps {
         return synonym;
     }
 
+    TokenType::TypeInfo PatternClause::getFirstReferenceType() {
+        return firstArgType;
+    }
+
+    TokenType::TypeInfo PatternClause::getSecondReferenceType() {
+        return secondArgType;
+    }
     Token &PatternClause::getFirstArg() {
         if (firstArg != nullptr) {
             return *firstArg;

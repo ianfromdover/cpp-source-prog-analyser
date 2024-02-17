@@ -17,7 +17,7 @@ std::shared_ptr<ConstraintArgument> ConstraintBuilderTemplate::buildArg(qps::Tok
 }
 
 std::shared_ptr<ExpressionReference> ConstraintBuilderTemplate::buildArgAsExpressionRef(qps::Token& token, qps::TokenType::TypeInfo ref) {
-    if (ref != qps::TokenType::EXPR_SPEC) {
+    if (ref != qps::TokenType::EXPR_REF) {
         throw std::invalid_argument( "Not Expression reference, is " + to_string(ref) );
     }
     return dynamic_pointer_cast<ExpressionReference>(buildArg(token, ref));

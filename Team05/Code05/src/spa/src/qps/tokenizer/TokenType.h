@@ -48,7 +48,7 @@ namespace qps {
             PATTERN,
 
             // expression-spec :
-            EXPR_SPEC,
+            EXPR_REF,
             EXPR,               // '"' expr '"'
             EXPR_WILDCARD,      // '_' '"' expr '"' '_'
             // WILDCARD         // '_' : already exists
