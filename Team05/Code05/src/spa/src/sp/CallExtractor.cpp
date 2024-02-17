@@ -19,16 +19,19 @@ void CallExtractor::visitCallStmt(const Call& stmt, shared_ptr<std::vector<std::
 
 void CallExtractor::visitWhileStmt(const While& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
     for (const auto& childStmt: *stmt.getBody()) {
-        childStmt->accept(*this, parentInfo);
+        auto parentInfoCopy = std::make_shared<std::vector<std::variant<StmtNo, std::string>>>(*parentInfo);
+        childStmt->accept(*this, parentInfoCopy);
     }
 }
 
 void CallExtractor::visitIfStmt(const If& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
     for (const auto& childStmt: *stmt.getThenBranch()) {
-        childStmt->accept(*this, parentInfo);
+        auto parentInfoCopy = std::make_shared<std::vector<std::variant<StmtNo, std::string>>>(*parentInfo);
+        childStmt->accept(*this, parentInfoCopy);
     }
     for (const auto& childStmt: *stmt.getElseBranch()) {
-        childStmt->accept(*this, parentInfo);
+        auto parentInfoCopy = std::make_shared<std::vector<std::variant<StmtNo, std::string>>>(*parentInfo);
+        childStmt->accept(*this, parentInfoCopy);
     }
 }
 
