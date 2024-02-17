@@ -23,20 +23,20 @@
 
 class ConstraintArgCreator {
 public:
-    std::shared_ptr<ExpressionSpec> createExpressionSpec(std::string);
-    std::shared_ptr<ProcedureEntity> createProcedureEntity(std::string);
-    std::shared_ptr<VariableEntity> createVariableEntity(std::string);
-    std::shared_ptr<ConstantEntity> createConstantEntity(std::string);
-    std::shared_ptr<EntityRefWildCard> createEntityRefWildCard();
-    std::shared_ptr<StatementEntity> createStatementEntity(std::string);
-    std::shared_ptr<ReadEntity> createReadEntity(std::string);
-    std::shared_ptr<PrintEntity> createPrintEntity(std::string);
-    std::shared_ptr<AssignEntity> createAssignEntity(std::string);
-    std::shared_ptr<CallEntity> createCallEntity(std::string);
-    std::shared_ptr<IfEntity> createIfEntity(std::string);
-    std::shared_ptr<WhileEntity> createWhileEntity(std::string);
-    std::shared_ptr<IntegerArgument> createIntegerArgument();
-    std::shared_ptr<StatementRefWildCard> createStatementRefWildCard();
+    static std::shared_ptr<ExpressionSpec> createExpressionSpec(std::string);
+    static std::shared_ptr<ProcedureEntity> createProcedureEntity(std::string);
+    static std::shared_ptr<VariableEntity> createVariableEntity(std::string);
+    static std::shared_ptr<ConstantEntity> createConstantEntity(std::string);
+    static std::shared_ptr<EntityRefWildCard> createEntityRefWildCard();
+    static std::shared_ptr<StatementEntity> createStatementEntity(std::string);
+    static std::shared_ptr<ReadEntity> createReadEntity(std::string);
+    static std::shared_ptr<PrintEntity> createPrintEntity(std::string);
+    static std::shared_ptr<AssignEntity> createAssignEntity(std::string);
+    static std::shared_ptr<CallEntity> createCallEntity(std::string);
+    static std::shared_ptr<IfEntity> createIfEntity(std::string);
+    static std::shared_ptr<WhileEntity> createWhileEntity(std::string);
+    static std::shared_ptr<IntegerArgument> createIntegerArgument(std::string);
+    static std::shared_ptr<StatementRefWildCard> createStatementRefWildCard();
 };
 
 

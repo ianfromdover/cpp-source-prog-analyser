@@ -54,7 +54,7 @@ void QueryBuilder::addDeclaration(const std::string& entityType, std::string syn
         }
     }
 
-    if (entityType == STMT) {
+    if (entityType == "stmt") { // removed spaUtils definition due to clash with token::stmt, to check w alex
         StatementEntity stmt(synonym);
         e = std::make_shared<StatementEntity>(stmt);
     } else {

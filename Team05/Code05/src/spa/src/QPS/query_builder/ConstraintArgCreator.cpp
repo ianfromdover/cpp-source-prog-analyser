@@ -52,8 +52,9 @@ std::shared_ptr<WhileEntity> ConstraintArgCreator::createWhileEntity(std::string
     return std::make_shared<WhileEntity>(s);
 }
 
-std::shared_ptr<IntegerArgument> ConstraintArgCreator::createIntegerArgument() {
-    return std::make_shared<IntegerArgument>();
+std::shared_ptr<IntegerArgument> ConstraintArgCreator::createIntegerArgument(std::string s) {
+    int num = stoi(s);
+    return std::make_shared<IntegerArgument>(num);
 }
 
 std::shared_ptr<StatementRefWildCard> ConstraintArgCreator::createStatementRefWildCard() {

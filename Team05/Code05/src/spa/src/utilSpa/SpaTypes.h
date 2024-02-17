@@ -47,7 +47,7 @@
 
 #define LNNO "line_number"
 #define PROC "procedure"
-#define STMT "stmt"
+//#define STMT "stmt" (used in Team05/Code05/src/spa/src/qps/QueryPreprocessor/QueryBuilder.cpp)
 //#define ASGN "assign"
 //#define READ "read"
 //#define CALL "call"
