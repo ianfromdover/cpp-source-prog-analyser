@@ -21,7 +21,11 @@ void ParentExtractor::visitPrintStmt(const Print& stmt, shared_ptr<std::vector<s
 }
 
 void ParentExtractor::visitCallStmt(const Call& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
-    // Pending Implementation for Sprint 2
+    for (const auto& val : *parentInfo) {
+        std::visit([&](const auto& actualValue) {
+            std::cout << "pkb.addParentT(" << actualValue << ", " << stmt.getStmtNo() << ");" << std::endl;
+        }, val);
+    }
 }
 
 void ParentExtractor::visitWhileStmt(const While& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
