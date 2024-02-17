@@ -113,30 +113,32 @@ TEST_CASE("Print with parent extractor") {
                 18 x = y+1;
                 19 while (k == 2) {
                     20 x = j+ 3;
+                    21 call sk;
                 }
             }
-            21 cenY = cenY + y;
-            22 call readPoint;
+            22 cenY = cenY + y;
+            23 call readPoint;
         }
-        23 if (count == 0) then {
-            24 flag = 1;
+        24 if (count == 0) then {
+            25 flag = 1;
         } else {
-            25 cenX = cenX / count;
-            26 cenY = cenY / count;
+            26 cenX = cenX / count;
+            27 cenY = cenY / count;
         }
-        27 normSq = cenX * cenX + cenY * cenY;
+        28 normSq = cenX * cenX + cenY * cenY;
     }
     procedure test {
-        28 pass = 0;
-        29 if (pass == 0) then {
-            30 a = 0;
+        29 pass = 0;
+        30 if (pass == 0) then {
+            31 a = 0;
         } else {
-            31 if (meow >= 2) then {
-              32 ad = sa;
+            32 if (meow >= 2) then {
+              33 ad = sa;
+              34 call usgdal;
             } else {
-               33 sn = 2;
+               35 sn = 2;
             }
-            34 print hello;
+            36 print hello;
         }
     }
     )";
@@ -169,6 +171,7 @@ TEST_CASE("Print with parent extractor") {
                 x = y+1;
                 while (k == 2) {
                     x = j+ 3;
+                    call sk;
                 }
             }
             cenY = cenY + y;
@@ -189,6 +192,7 @@ TEST_CASE("Print with parent extractor") {
         } else {
             if (meow >= 2) then {
               ad = sa;
+              call usgdal;
             } else {
               sn = 2;
             }

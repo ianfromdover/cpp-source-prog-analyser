@@ -5,6 +5,9 @@
 #include "SourceProcessor.h"
 #include "UsesExtractor.h"
 #include "ModifiesExtractor.h"
+#include "ReadExtractor.h"
+#include "CallExtractor.h"
+#include "IfExtractor.h"
 
 void SourceProcessor::exec(const std::string& source) {
     auto tokens = this->scan(source);
@@ -25,10 +28,17 @@ void SourceProcessor::extract(const Program& program) {
     UsesExtractor usesExtractor(this->pkb);
     ModifiesExtractor modifiesExtractor(this->pkb);
     FollowsExtractor followsExtractor(this->pkb);
+    ReadExtractor readExtractor(this->pkb);
+    CallExtractor callExtractor(this->pkb);
+    IfExtractor ifExtractor(this->pkb);
+
     for (const auto& procedure : *program) {
         //procedure->accept(parentExtractor);
-        procedure->accept(usesExtractor);
+        //procedure->accept(usesExtractor);
         //procedure->accept(modifiesExtractor);
         //procedure->accept(followsExtractor);
+        //procedure->accept(readExtractor);
+        //procedure->accept(callExtractor);
+        procedure->accept(ifExtractor);
     }
 }
