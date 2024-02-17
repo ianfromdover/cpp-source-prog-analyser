@@ -16,12 +16,10 @@ private:
     std::string source;
     std::shared_ptr<std::vector<std::shared_ptr<TokenStrategy>>> strategies;
     std::shared_ptr<std::vector<std::shared_ptr<Token>>> tokens;
-    void populateStrategies();
 
 public:
-    Scanner(const std::string& source, std::shared_ptr<std::vector<std::shared_ptr<TokenStrategy>>>& strategies,
-            std::shared_ptr<std::vector<std::shared_ptr<Token>>>& tokens);
-    void scanTokens();
+    explicit Scanner(const std::string& source);
+    std::shared_ptr<std::vector<std::shared_ptr<Token>>> scanTokens();
 };
 
 

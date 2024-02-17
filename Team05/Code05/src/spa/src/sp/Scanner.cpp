@@ -4,18 +4,21 @@
 
 #include "Scanner.h"
 
-Scanner::Scanner(const std::string& source, std::shared_ptr<std::vector<std::shared_ptr<TokenStrategy>>>& strategies,
-        std::shared_ptr<std::vector<std::shared_ptr<Token>>>& tokens) {
+Scanner::Scanner(const std::string& source) {
     this->source = source;
-    this->tokens = tokens;
-    this->strategies=strategies;
+    this->tokens = std::make_shared<std::vector<std::shared_ptr<Token>>>();
+    auto strategyVector = std::vector<std::shared_ptr<TokenStrategy>>{
+            std::make_shared<SingleCharacterStrategy>(),
+            std::make_shared<DoubleCharacterStrategy>(),
+            std::make_shared<MultiCharacterStrategy>()
+    };
+    this->strategies =  std::make_shared<std::vector<std::shared_ptr<TokenStrategy>>>(strategyVector);
 }
 
-void Scanner::scanTokens() {
+std::shared_ptr<std::vector<std::shared_ptr<Token>>> Scanner::scanTokens() {
     std::stringstream stream(this->source);
     char character;
     bool prevTokenIsKeyword = false;
-    populateStrategies();
     while (stream.get(character)) {
         for (auto &strategy: *strategies) {
             if (strategy->tokenize(character, stream, tokens, prevTokenIsKeyword)) {
@@ -24,10 +27,5 @@ void Scanner::scanTokens() {
         }
     }
     (*strategies).back()->addToken(TokenType::END_OF_FILE, "EOF", tokens);
-}
-
-void Scanner::populateStrategies() {
-    strategies->push_back(std::make_shared<SingleCharacterStrategy>());
-    strategies->push_back(std::make_shared<DoubleCharacterStrategy>());
-    strategies->push_back(std::make_shared<MultiCharacterStrategy>());
+    return tokens;
 }

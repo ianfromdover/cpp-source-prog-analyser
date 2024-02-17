@@ -10,12 +10,8 @@ void SourceProcessor::exec(const std::string& source) {
     this->extract(program);
 }
 
-shared_ptr<std::vector<std::shared_ptr<Token>>> SourceProcessor::scan(const std::string& source) {
-    auto tokens = std::make_shared<std::vector<std::shared_ptr<Token>>>();
-    auto strategies = std::make_shared<std::vector<std::shared_ptr<TokenStrategy>>>();
-    auto scanner = Scanner(source, strategies, tokens);
-    scanner.scanTokens();
-    return tokens;
+std::shared_ptr<std::vector<std::shared_ptr<Token>>> SourceProcessor::scan(const std::string& source) {
+    return Scanner(source).scanTokens();
 }
 
 Program SourceProcessor::parse(std::shared_ptr<std::vector<std::shared_ptr<Token>>>& tokens) {
