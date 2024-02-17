@@ -5,7 +5,7 @@
 #ifndef SPA_QUERYBUILDER_H
 #define SPA_QUERYBUILDER_H
 
-#include "ConstraintBuilder.h"
+#include "qps/query_builder/constrainbuilders/ConstraintBuilder.h"
 #include "ConstraintArgCreator.h"
 
 class QueryBuilder {

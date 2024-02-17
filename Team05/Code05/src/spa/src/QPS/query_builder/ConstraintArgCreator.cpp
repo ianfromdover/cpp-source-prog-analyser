@@ -4,6 +4,57 @@
 
 #include "ConstraintArgCreator.h"
 
+std::shared_ptr<ConstraintArgument> ConstraintArgCreator::buildArg(qps::Token& token, qps::TokenType::TypeInfo ref) {
+    std::string identifier = token.getLexeme();
+    switch (token.getType().getInfo()) {
+        case qps::TokenType::EXPR_SPEC:
+            return ConstraintArgCreator::createExpressionSpec(identifier);
+            break;
+        case qps::TokenType::PROCEDURE:
+            return ConstraintArgCreator::createProcedureEntity(identifier);
+            break;
+        case qps::TokenType::VARIABLE:
+            return ConstraintArgCreator::createVariableEntity(identifier);
+            break;
+        case qps::TokenType::CONSTANT:
+            return ConstraintArgCreator::createConstantEntity(identifier);
+            break;
+        case qps::TokenType::WILDCARD:
+            // need to check what type of wild card
+            if (ref == qps::TokenType::STMT_REF) {
+                return ConstraintArgCreator::createEntityRefWildCard();
+            } else {
+                return ConstraintArgCreator::createStatementRefWildCard();
+            }
+            break;
+        case qps::TokenType::STMT:
+            return ConstraintArgCreator::createStatementEntity(identifier);
+            break;
+        case qps::TokenType::PRINT:
+            return ConstraintArgCreator::createPrintEntity(identifier);
+            break;
+        case qps::TokenType::ASSIGN:
+            return ConstraintArgCreator::createAssignEntity(identifier);
+            break;
+        case qps::TokenType::CALL:
+            return ConstraintArgCreator::createCallEntity(identifier);
+            break;
+        case qps::TokenType::IF:
+            return ConstraintArgCreator::createIfEntity(identifier);
+            break;
+        case qps::TokenType::READ:
+            return ConstraintArgCreator::createReadEntity(identifier);
+            break;
+        case qps::TokenType::WHILE:
+            return ConstraintArgCreator::createWhileEntity(identifier);
+            break;
+        case qps::TokenType::INTEGER:
+            return ConstraintArgCreator::createIntegerArgument(identifier);
+        default:
+            throw std::invalid_argument( "invalid constraint argument flag" );
+    }
+}
+
 std::shared_ptr<ExpressionSpec> ConstraintArgCreator::createExpressionSpec(std::string s) {
     return std::make_shared<ExpressionSpec>(s);
 }

@@ -5,6 +5,7 @@
 #ifndef SPA_CONSTRAINTARGCREATOR_H
 #define SPA_CONSTRAINTARGCREATOR_H
 
+#include "qps/parser/RelationshipClause.h" // error when I include this inclusion, it has to be the first import (also for subsequent imports)
 #include "../query_elements/constraint_argument/expression_reference/ExpressionSpec.h"
 #include "../query_elements/constraint_argument/entity_reference/ProcedureEntity.h"
 #include "../query_elements/constraint_argument/entity_reference/VariableEntity.h"
@@ -20,9 +21,11 @@
 #include "../query_elements/constraint_argument/statement_reference/IntegerArgument.h"
 #include "../query_elements/constraint_argument/statement_reference/StatementRefWildCard.h"
 #include <memory>
+#include <stdexcept>
 
 class ConstraintArgCreator {
 public:
+    static std::shared_ptr<ConstraintArgument> buildArg(qps::Token&, qps::TokenType::TypeInfo);
     static std::shared_ptr<ExpressionSpec> createExpressionSpec(std::string);
     static std::shared_ptr<ProcedureEntity> createProcedureEntity(std::string);
     static std::shared_ptr<VariableEntity> createVariableEntity(std::string);
