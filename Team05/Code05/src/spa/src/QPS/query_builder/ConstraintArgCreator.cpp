@@ -57,6 +57,7 @@ std::shared_ptr<ConstraintArgument> ConstraintArgCreator::buildArg(qps::TokenTyp
     }
 }
 
+// ref is only used to distinguish what type of wildcard is the constraint argument.
 std::shared_ptr<ConstraintArgument> ConstraintArgCreator::buildArgFromToken(qps::Token& token, qps::TokenType::TypeInfo ref) {
     std::string identifier = token.getLexeme();
     return buildArg(token.getType().getInfo(), ref, identifier);
