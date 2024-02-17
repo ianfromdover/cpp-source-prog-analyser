@@ -19,8 +19,8 @@ namespace qps {
                              "pattern s(_, _\"x+y\"_)"; // Pattern Clause : PATTERN, SYNONYM="s", ENT_REF, WILDCARD, EXPR_WILDCARD="\"x+y\""
                              // (NOTE: wildcard character is not present. can differentiate <'"' expr'"'=EXPR> vs <'_' '"' expr '"' '_'=EXPR_WILDCARD>)
 
-        std::shared_ptr<StrategyList> strategies = std::make_shared<StrategyList>();             //ignore
-        std::shared_ptr<TokenList> tokens = std::make_shared<TokenList>();                       //ignore
+        std::shared_ptr<QPSStrategyList> strategies = std::make_shared<QPSStrategyList>();             //ignore
+        std::shared_ptr<QPSTokenList> tokens = std::make_shared<QPSTokenList>();                       //ignore
         Tokenizer tokenizer(source, strategies, tokens);                                   //ignore
         tokenizer.tokenize();                                                                    //ignore
         Parser parser(*tokens);                                                               //ignore
@@ -29,7 +29,7 @@ namespace qps {
         intermediateQuery->processDeclarations(); // called by validator, ignore
 
         // Returns a map <synonym=STRING, type=TYPEINFO> of all declared synonyms for easier search, guaranteed declaration synonyms are unique
-        std::map<std::string, qps::TokenType::TypeInfo> synonymTypeMap = intermediateQuery->getSynonymTypeMap();
+        std::map<std::string, QPSTokenType::TypeInfo> synonymTypeMap = intermediateQuery->getSynonymTypeMap();
 
         // Returns a SelectClause
         SelectClause selectClause = intermediateQuery->getSelectClause();
@@ -38,18 +38,18 @@ namespace qps {
 
         // Returns RelationshipClause
         RelationshipClause relationshipClause = intermediateQuery->getRelationshipClause();
-            TokenType::TypeInfo relationshipType = relationshipClause.getRelationshipType(); // Returns the relationship type {PARENT, FOLLOWS, MODIFIES, USES, etc.}
-            TokenType::TypeInfo referenceType1 = relationshipClause.getFirstReferenceType(); // {ENT_REF,STMT_REF}
-            TokenType::TypeInfo tokenType1 = relationshipClause.getFirstArgType(); // {INTEGER,SYNONYM,WILLCARD}
-            Token token1 = relationshipClause.getFirstArg(); // Returns the token, can also find token type{INTEGER,SYNONYM,WILLCARD} from token.getType()
+            QPSTokenType::TypeInfo relationshipType = relationshipClause.getRelationshipType(); // Returns the relationship type {PARENT, FOLLOWS, MODIFIES, USES, etc.}
+            QPSTokenType::TypeInfo referenceType1 = relationshipClause.getFirstReferenceType(); // {ENT_REF,STMT_REF}
+            QPSTokenType::TypeInfo tokenType1 = relationshipClause.getFirstArgType(); // {INTEGER,SYNONYM,WILLCARD}
+            QPSToken token1 = relationshipClause.getFirstArg(); // Returns the token, can also find token type{INTEGER,SYNONYM,WILLCARD} from token.getType()
             // Same for second argument
 
         // Returns PatternClause
         PatternClause patternClause = intermediateQuery->getPatternClause();
             std::string patternSynonym = patternClause.getPatternSynonym(); // Returns the synonym, can use this to search declaration map for synonym type
-            TokenType::TypeInfo argType1 = patternClause.getFirstArgType(); // Returns the argument type {SYNONYM, WILDCARD, QUOTED_IDENT} REFER(grammar): pattern-cl : entRef : synonym | '_' | '"' IDENT '"'
+            QPSTokenType::TypeInfo argType1 = patternClause.getFirstArgType(); // Returns the argument type {SYNONYM, WILDCARD, QUOTED_IDENT} REFER(grammar): pattern-cl : entRef : synonym | '_' | '"' IDENT '"'
             std::string argValue1 = patternClause.getFirstArgValue(); // Returns the first argument value. First arg is only ENT_REF, can use this to get value.
-            TokenType::TypeInfo argType2 = patternClause.getSecondArgType(); // Returns the argument type {EXPR, EXPR_WILDCARD, WILDCARD} REFER(grammar): expression-spec :  '"' expr'"' | '_' '"' expr '"' '_' | '_'
+            QPSTokenType::TypeInfo argType2 = patternClause.getSecondArgType(); // Returns the argument type {EXPR, EXPR_WILDCARD, WILDCARD} REFER(grammar): expression-spec :  '"' expr'"' | '_' '"' expr '"' '_' | '_'
             std::string argValue2 = patternClause.getSecondArgValue(); // Returns the argument value. NOTE: EXPR_WILDCARD type.getstring will not return wildcard in the string. can check for token type to differentiate.
 
     }

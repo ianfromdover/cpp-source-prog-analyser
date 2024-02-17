@@ -7,7 +7,7 @@
 #include "IntermediateQuery.h"
 
 namespace qps {
-    bool Parser::match(std::initializer_list<TokenType::TypeInfo> types) {
+    bool Parser::match(std::initializer_list<QPSTokenType::TypeInfo> types) {
         for (const auto &type: types) {
             if (this->check(type)) {
                 this->advance();
@@ -17,7 +17,7 @@ namespace qps {
         return false;
     }
 
-    bool Parser::check(std::initializer_list<TokenType::TypeInfo> types) {
+    bool Parser::check(std::initializer_list<QPSTokenType::TypeInfo> types) {
         for (const auto &type: types) {
             if (this->check(type)) {
                 return true;
@@ -26,7 +26,7 @@ namespace qps {
         return false;
     }
 
-    bool Parser::check(TokenType::TypeInfo type) {
+    bool Parser::check(QPSTokenType::TypeInfo type) {
         if (this->isAtEnd()) {
             return false;
         }
@@ -35,41 +35,41 @@ namespace qps {
 
 
     bool Parser::isDeclaration() {
-        return this->check(TokenType::STMT);
+        return this->check(QPSTokenType::STMT);
     }
 
     bool Parser::isRelationship() {
-        return this->check({TokenType::PARENT, TokenType::PARENT_T, TokenType::FOLLOWS, TokenType::FOLLOWS_T, TokenType::USES_S, TokenType::MODIFIES_S});
+        return this->check({QPSTokenType::PARENT, QPSTokenType::PARENT_T, QPSTokenType::FOLLOWS, QPSTokenType::FOLLOWS_T, QPSTokenType::USES_S, QPSTokenType::MODIFIES_S});
     }
 
     bool Parser::isSuchThat() {
-        std::vector<Token> lookahead = this->peekAhead(2);
+        std::vector<QPSToken> lookahead = this->peekAhead(2);
         if (lookahead.empty()) {
             return false;
         }
-        return lookahead[0].getType().getInfo() == TokenType::SUCH &&
-               lookahead[1].getType().getInfo() == TokenType::THAT;
+        return lookahead[0].getType().getInfo() == QPSTokenType::SUCH &&
+               lookahead[1].getType().getInfo() == QPSTokenType::THAT;
     }
 
     bool Parser::isAtEnd() {
-        return this->peek().getType().getInfo() == TokenType::END_OF_FILE;
+        return this->peek().getType().getInfo() == QPSTokenType::END_OF_FILE;
     }
 
-    Token Parser::advance() {
+    QPSToken Parser::advance() {
         if (!this->isAtEnd()) {
             this->current++;
         }
         return this->previous();
     }
 
-    Token Parser::peek() {
+    QPSToken Parser::peek() {
         return *this->tokens.at(this->current);
     }
 
 // will return empty list if not enough tokens to peek
-    std::vector<Token> Parser::peekAhead(int lookahead) {
+    std::vector<QPSToken> Parser::peekAhead(int lookahead) {
         if (this->current + lookahead < this->tokens.size()) {
-            std::vector<Token> lookaheadTokens;
+            std::vector<QPSToken> lookaheadTokens;
             for (int i = 0; i < lookahead; i++) {
                 lookaheadTokens.push_back(*this->tokens.at(this->current + i));
             }
@@ -79,16 +79,16 @@ namespace qps {
         }
     }
 
-    Token Parser::previous() {
+    QPSToken Parser::previous() {
         return *this->tokens.at(this->current - 1);
     }
 
-    bool Parser::checkPrevious(TokenType::TypeInfo type) {
+    bool Parser::checkPrevious(QPSTokenType::TypeInfo type) {
         return this->previous().getType().getInfo() == type;
     }
 
 
-    Token Parser::consume(TokenType::TypeInfo type, const std::string& message) {
+    QPSToken Parser::consume(QPSTokenType::TypeInfo type, const std::string& message) {
         if (this->check(type)) {
             return this->advance();
         }
@@ -100,14 +100,14 @@ namespace qps {
     std::shared_ptr<DeclarationClause> Parser::declaration() {
         std::vector<std::string> synonyms;
         std::string type;
-        Token declarationType = this->consume(TokenType::STMT, "Expect declaration type.");
-        Token entityType = this->synonym(this->consume(TokenType::IDENTIFIER, "Expect identifier."));
+        QPSToken declarationType = this->consume(QPSTokenType::STMT, "Expect declaration type.");
+        QPSToken entityType = this->synonym(this->consume(QPSTokenType::IDENTIFIER, "Expect identifier."));
         synonyms.push_back(entityType.getLexeme());
-        while (this->match({TokenType::COMMA})) {
-            Token synonym = this->synonym(this->consume(TokenType::IDENTIFIER, "Expect identifier."));
+        while (this->match({QPSTokenType::COMMA})) {
+            QPSToken synonym = this->synonym(this->consume(QPSTokenType::IDENTIFIER, "Expect identifier."));
             synonyms.push_back(synonym.getLexeme());
         }
-        this->consume(TokenType::SEMICOLON, "Expect ';' after declaration.");
+        this->consume(QPSTokenType::SEMICOLON, "Expect ';' after declaration.");
         auto declarationCl = std::make_shared<DeclarationClause>();
         for (auto &synonym: synonyms) {
             declarationCl->addDeclaration(declarationType.getType(), synonym);
@@ -117,8 +117,8 @@ namespace qps {
 
     std::shared_ptr<SelectClause> Parser::select() {
 
-        Token declarationType = this->consume(TokenType::SELECT, "Expect select type.");
-        Token entityType = this->synonym(this->consume(TokenType::IDENTIFIER, "Expect identifier."));
+        QPSToken declarationType = this->consume(QPSTokenType::SELECT, "Expect select type.");
+        QPSToken entityType = this->synonym(this->consume(QPSTokenType::IDENTIFIER, "Expect identifier."));
 
         std::shared_ptr<SelectClause> selectCl = std::make_shared<SelectClause>();
         selectCl->addSelect(entityType.getLexeme());
@@ -129,13 +129,13 @@ namespace qps {
     std::shared_ptr<RelationshipClause> Parser::relationship() {
         std::shared_ptr<RelationshipClause> relationshipClause;
 
-        if (this->check(TokenType::PARENT)) {
+        if (this->check(QPSTokenType::PARENT)) {
             relationshipClause = this->parent();
-        } else if (this->check({TokenType::FOLLOWS, TokenType::FOLLOWS_T})) {
+        } else if (this->check({QPSTokenType::FOLLOWS, QPSTokenType::FOLLOWS_T})) {
             relationshipClause = this->follow();
-        } else if (this->check(TokenType::USES_S)) {
+        } else if (this->check(QPSTokenType::USES_S)) {
             relationshipClause = this->uses();
-        } else if (this->check(TokenType::MODIFIES_S)) {
+        } else if (this->check(QPSTokenType::MODIFIES_S)) {
             relationshipClause = this->modifies();
         } else {
             relationshipClause = nullptr;
@@ -146,224 +146,224 @@ namespace qps {
 
     std::shared_ptr<RelationshipClause> Parser::parent() {
 
-        this->match({TokenType::PARENT, TokenType::PARENT_T});
-        Token relationshipType = this->previous();
-        this->consume(TokenType::LEFT_PAREN, "Expect '(' after relationship type.");
+        this->match({QPSTokenType::PARENT, QPSTokenType::PARENT_T});
+        QPSToken relationshipType = this->previous();
+        this->consume(QPSTokenType::LEFT_PAREN, "Expect '(' after relationship type.");
         auto t1 = stmtRef();
-        this->consume(TokenType::COMMA, "Expect ',' after stmtRef.");
+        this->consume(QPSTokenType::COMMA, "Expect ',' after stmtRef.");
         auto t2 = stmtRef();
-        this->consume(TokenType::RIGHT_PAREN, "Expect ')' after relationship type.");
+        this->consume(QPSTokenType::RIGHT_PAREN, "Expect ')' after relationship type.");
 
-        RelationshipClause parentCl(relationshipType.getType().getInfo(), t1, TokenType::STMT_REF,  t2, TokenType::STMT_REF);
+        RelationshipClause parentCl(relationshipType.getType().getInfo(), t1, QPSTokenType::STMT_REF, t2, QPSTokenType::STMT_REF);
 
         return std::make_shared<RelationshipClause>(parentCl);
     }
 
     std::shared_ptr<RelationshipClause> Parser::follow() {
 
-        this->match({TokenType::FOLLOWS, TokenType::FOLLOWS_T});
-        Token relationshipType = this->previous();
-        this->consume(TokenType::LEFT_PAREN, "Expect '(' after relationship type.");
+        this->match({QPSTokenType::FOLLOWS, QPSTokenType::FOLLOWS_T});
+        QPSToken relationshipType = this->previous();
+        this->consume(QPSTokenType::LEFT_PAREN, "Expect '(' after relationship type.");
         auto t1 = stmtRef();
-        this->consume(TokenType::COMMA, "Expect ',' after stmtRef.");
+        this->consume(QPSTokenType::COMMA, "Expect ',' after stmtRef.");
         auto t2 = stmtRef();
-        this->consume(TokenType::RIGHT_PAREN, "Expect ')' after relationship type.");
+        this->consume(QPSTokenType::RIGHT_PAREN, "Expect ')' after relationship type.");
 
-        RelationshipClause parentCl(relationshipType.getType().getInfo(), t1, TokenType::STMT_REF,  t2, TokenType::STMT_REF);
+        RelationshipClause parentCl(relationshipType.getType().getInfo(), t1, QPSTokenType::STMT_REF, t2, QPSTokenType::STMT_REF);
 
         return std::make_shared<RelationshipClause>(parentCl);
     }
 
     std::shared_ptr<RelationshipClause> Parser::uses() {
 
-        this->match({TokenType::USES_S});
-        Token relationshipType = this->previous();
-        this->consume(TokenType::LEFT_PAREN, "Expect '(' after relationship type.");
+        this->match({QPSTokenType::USES_S});
+        QPSToken relationshipType = this->previous();
+        this->consume(QPSTokenType::LEFT_PAREN, "Expect '(' after relationship type.");
         auto t1 = stmtRef();
-        this->consume(TokenType::COMMA, "Expect ',' after stmtRef.");
+        this->consume(QPSTokenType::COMMA, "Expect ',' after stmtRef.");
         auto t2 = entRef();
-        this->consume(TokenType::RIGHT_PAREN, "Expect ')' after relationship type.");
+        this->consume(QPSTokenType::RIGHT_PAREN, "Expect ')' after relationship type.");
 
-        RelationshipClause parentCl(relationshipType.getType().getInfo(), t1, TokenType::STMT_REF,  t2, TokenType::ENT_REF);
+        RelationshipClause parentCl(relationshipType.getType().getInfo(), t1, QPSTokenType::STMT_REF, t2, QPSTokenType::ENT_REF);
 
         return std::make_shared<RelationshipClause>(parentCl);
     }
 
     std::shared_ptr<RelationshipClause> Parser::modifies() {
 
-        this->match({TokenType::MODIFIES_S});
-        Token relationshipType = this->previous();
-        this->consume(TokenType::LEFT_PAREN, "Expect '(' after relationship type.");
+        this->match({QPSTokenType::MODIFIES_S});
+        QPSToken relationshipType = this->previous();
+        this->consume(QPSTokenType::LEFT_PAREN, "Expect '(' after relationship type.");
         auto t1 = stmtRef();
-        this->consume(TokenType::COMMA, "Expect ',' after stmtRef.");
+        this->consume(QPSTokenType::COMMA, "Expect ',' after stmtRef.");
         auto t2 = entRef();
-        this->consume(TokenType::RIGHT_PAREN, "Expect ')' after relationship type.");
+        this->consume(QPSTokenType::RIGHT_PAREN, "Expect ')' after relationship type.");
 
-        RelationshipClause parentCl(relationshipType.getType().getInfo(), t1, TokenType::STMT_REF,  t2, TokenType::ENT_REF);
+        RelationshipClause parentCl(relationshipType.getType().getInfo(), t1, QPSTokenType::STMT_REF, t2, QPSTokenType::ENT_REF);
 
         return std::make_shared<RelationshipClause>(parentCl);
     }
 
 
     std::shared_ptr<PatternClause> Parser::pattern() {
-        Token synAssign = this->synonym(this->consume(TokenType::IDENTIFIER, "Expect identifier."));
+        QPSToken synAssign = this->synonym(this->consume(QPSTokenType::IDENTIFIER, "Expect identifier."));
 
-        this->consume(TokenType::LEFT_PAREN, "Expect '(' after identifier.");
-        Token entRef = this->entRef();
-        this->consume(TokenType::COMMA, "Expect ',' after entRef.");
-        Token exprSpec = this->exprSpec();
-        this->consume(TokenType::RIGHT_PAREN, "Expect ')' after expr spec.");
+        this->consume(QPSTokenType::LEFT_PAREN, "Expect '(' after identifier.");
+        QPSToken entRef = this->entRef();
+        this->consume(QPSTokenType::COMMA, "Expect ',' after entRef.");
+        QPSToken exprSpec = this->exprSpec();
+        this->consume(QPSTokenType::RIGHT_PAREN, "Expect ')' after expr spec.");
 
-        PatternClause patternCl(synAssign.getLexeme(), entRef, TokenType::TypeInfo::ENT_REF, exprSpec, TokenType::EXPR_REF);
+        PatternClause patternCl(synAssign.getLexeme(), entRef, QPSTokenType::TypeInfo::ENT_REF, exprSpec, QPSTokenType::EXPR_REF);
 
         return std::make_shared<PatternClause>(patternCl);
     }
 
-    Token Parser::stmtRef() {
-        if (this->match({TokenType::INTEGER, TokenType::IDENTIFIER, TokenType::WILDCARD})) {
-            if (this->checkPrevious(TokenType::INTEGER))
+    QPSToken Parser::stmtRef() {
+        if (this->match({QPSTokenType::INTEGER, QPSTokenType::IDENTIFIER, QPSTokenType::WILDCARD})) {
+            if (this->checkPrevious(QPSTokenType::INTEGER))
                 return this->previous();
 
-            if (this->checkPrevious(TokenType::IDENTIFIER))
+            if (this->checkPrevious(QPSTokenType::IDENTIFIER))
                 return this->synonym(this->previous());
 
-            if (this->checkPrevious(TokenType::WILDCARD))
+            if (this->checkPrevious(QPSTokenType::WILDCARD))
                 return this->previous();
         }
         throw std::runtime_error("syntax error: statement reference");
     }
 
-    Token Parser::entRef() {
-        if (this->match({TokenType::IDENTIFIER, TokenType::WILDCARD, TokenType::QUOTE})) {
-            if (this->checkPrevious(TokenType::IDENTIFIER))
+    QPSToken Parser::entRef() {
+        if (this->match({QPSTokenType::IDENTIFIER, QPSTokenType::WILDCARD, QPSTokenType::QUOTE})) {
+            if (this->checkPrevious(QPSTokenType::IDENTIFIER))
                 return synonym(this->previous());
 
-            if (this->checkPrevious(TokenType::WILDCARD))
+            if (this->checkPrevious(QPSTokenType::WILDCARD))
                 return this->previous();
 
-            if (this->checkPrevious(TokenType::QUOTE)) {
-                Token ident = this->consume(TokenType::IDENTIFIER, "Expect identifier.");
-                this->consume(TokenType::QUOTE, "Expect quote.");
+            if (this->checkPrevious(QPSTokenType::QUOTE)) {
+                QPSToken ident = this->consume(QPSTokenType::IDENTIFIER, "Expect identifier.");
+                this->consume(QPSTokenType::QUOTE, "Expect quote.");
 
-                TokenType type(TokenType::QUOTED_IDENT);
-                Token newToken = Token(type, "\"" + ident.getLexeme() + "\"");
+                QPSTokenType type(QPSTokenType::QUOTED_IDENT);
+                QPSToken newToken = QPSToken(type, "\"" + ident.getLexeme() + "\"");
                 return newToken;
             }
         }
         throw std::runtime_error("syntax error: statement reference");
     }
 
-    Token Parser::synonym(Token t) {
-        TokenType type(TokenType::SYNONYM);
-        Token newToken = Token(type, t.getLexeme());
+    QPSToken Parser::synonym(QPSToken t) {
+        QPSTokenType type(QPSTokenType::SYNONYM);
+        QPSToken newToken = QPSToken(type, t.getLexeme());
         return newToken;
     }
 
-    Token Parser::exprSpec() {
-        if (this->check(TokenType::WILDCARD)){
-            Token t = this->consume(TokenType::WILDCARD, "Expect wildcard.");
-            if (this->check(TokenType::QUOTE)){
-                this->consume(TokenType::QUOTE, "Expect quote.");
-                Token expr = this->expr();
-                this->consume(TokenType::QUOTE, "Expect quote.");
-                this->consume(TokenType::WILDCARD, "Expect wildcard.");
+    QPSToken Parser::exprSpec() {
+        if (this->check(QPSTokenType::WILDCARD)){
+            QPSToken t = this->consume(QPSTokenType::WILDCARD, "Expect wildcard.");
+            if (this->check(QPSTokenType::QUOTE)){
+                this->consume(QPSTokenType::QUOTE, "Expect quote.");
+                QPSToken expr = this->expr();
+                this->consume(QPSTokenType::QUOTE, "Expect quote.");
+                this->consume(QPSTokenType::WILDCARD, "Expect wildcard.");
 
-                TokenType type(TokenType::EXPR_WILDCARD);
-                Token newToken = Token(type, "\"" + expr.getLexeme() + "\"");
+                QPSTokenType type(QPSTokenType::EXPR_WILDCARD);
+                QPSToken newToken = QPSToken(type, "\"" + expr.getLexeme() + "\"");
                 return newToken;
             } else {
                 return t;
             }
         }
 
-        if (this->check(TokenType::QUOTE)){
-            this->consume(TokenType::QUOTE, "Expect quote.");
-            Token expr = this->expr();
-            this->consume(TokenType::QUOTE, "Expect quote.");
+        if (this->check(QPSTokenType::QUOTE)){
+            this->consume(QPSTokenType::QUOTE, "Expect quote.");
+            QPSToken expr = this->expr();
+            this->consume(QPSTokenType::QUOTE, "Expect quote.");
 
-            TokenType type(TokenType::EXPR);
-            Token newToken = Token(type, "\"" + expr.getLexeme() + "\"");
+            QPSTokenType type(QPSTokenType::EXPR);
+            QPSToken newToken = QPSToken(type, "\"" + expr.getLexeme() + "\"");
             return newToken;
         }
 
         throw std::runtime_error("syntax error: exprSpec");
     }
 
-    Token Parser::expr() {
-        Token t1 = this->term();
-        Token t2 = this->exprTail();
-        TokenType type(TokenType::EXPR);
-        Token newToken = Token(type, t1.getLexeme()+t2.getLexeme());
+    QPSToken Parser::expr() {
+        QPSToken t1 = this->term();
+        QPSToken t2 = this->exprTail();
+        QPSTokenType type(QPSTokenType::EXPR);
+        QPSToken newToken = QPSToken(type, t1.getLexeme() + t2.getLexeme());
         return newToken;
     }
 
-    Token Parser::exprTail() {
-        if (this->check(TokenType::PLUS)){
-            this->consume(TokenType::PLUS, "Expect '+' after expression.");
-            Token t1 = this->term();
-            Token t2 = this->exprTail();
-            TokenType type(TokenType::EXPR);
-            Token newToken = Token(type, t1.getLexeme()+t2.getLexeme());
+    QPSToken Parser::exprTail() {
+        if (this->check(QPSTokenType::PLUS)){
+            this->consume(QPSTokenType::PLUS, "Expect '+' after expression.");
+            QPSToken t1 = this->term();
+            QPSToken t2 = this->exprTail();
+            QPSTokenType type(QPSTokenType::EXPR);
+            QPSToken newToken = QPSToken(type, t1.getLexeme() + t2.getLexeme());
             return newToken;
         }
-        if (this->check(TokenType::MINUS)){
-            this->consume(TokenType::MINUS, "Expect '-' after expression.");
-            Token t1 = this->term();
-            Token t2 = this->exprTail();
-            TokenType type(TokenType::EXPR);
-            Token newToken = Token(type, t1.getLexeme()+t2.getLexeme());
+        if (this->check(QPSTokenType::MINUS)){
+            this->consume(QPSTokenType::MINUS, "Expect '-' after expression.");
+            QPSToken t1 = this->term();
+            QPSToken t2 = this->exprTail();
+            QPSTokenType type(QPSTokenType::EXPR);
+            QPSToken newToken = QPSToken(type, t1.getLexeme() + t2.getLexeme());
             return newToken;
         }
-        return {TokenType(TokenType::EMPTY), ""};
+        return {QPSTokenType(QPSTokenType::EMPTY), ""};
     }
 
-    Token Parser::term() {
-        Token t1 = this->factor();
-        Token t2 = this->termTail();
-        TokenType type(TokenType::TERM);
-        Token newToken = Token(type, t1.getLexeme()+t2.getLexeme());
+    QPSToken Parser::term() {
+        QPSToken t1 = this->factor();
+        QPSToken t2 = this->termTail();
+        QPSTokenType type(QPSTokenType::TERM);
+        QPSToken newToken = QPSToken(type, t1.getLexeme() + t2.getLexeme());
         return newToken;
     }
 
-    Token Parser::termTail() {
-        if (this->check(TokenType::STAR)){
-            this->consume(TokenType::STAR, "Expect '+' after expression.");
-            Token t1 = this->factor();
-            Token t2 = this->termTail();
-            TokenType type(TokenType::TERM);
-            Token newToken = Token(type, t1.getLexeme()+t2.getLexeme());
+    QPSToken Parser::termTail() {
+        if (this->check(QPSTokenType::STAR)){
+            this->consume(QPSTokenType::STAR, "Expect '+' after expression.");
+            QPSToken t1 = this->factor();
+            QPSToken t2 = this->termTail();
+            QPSTokenType type(QPSTokenType::TERM);
+            QPSToken newToken = QPSToken(type, t1.getLexeme() + t2.getLexeme());
             return newToken;
         }
-        if (this->check(TokenType::SLASH)){
-            this->consume(TokenType::SLASH, "Expect '/' after expression.");
-            Token t1 = this->term();
-            Token t2 = this->exprTail();
-            TokenType type(TokenType::TERM);
-            Token newToken = Token(type, t1.getLexeme()+t2.getLexeme());
+        if (this->check(QPSTokenType::SLASH)){
+            this->consume(QPSTokenType::SLASH, "Expect '/' after expression.");
+            QPSToken t1 = this->term();
+            QPSToken t2 = this->exprTail();
+            QPSTokenType type(QPSTokenType::TERM);
+            QPSToken newToken = QPSToken(type, t1.getLexeme() + t2.getLexeme());
             return newToken;
         }
-        if (this->check(TokenType::PERCENT)){
-            this->consume(TokenType::PERCENT, "Expect '%' after expression.");
-            Token t1 = this->term();
-            Token t2 = this->exprTail();
-            TokenType type(TokenType::TERM);
-            Token newToken = Token(type, t1.getLexeme()+t2.getLexeme());
+        if (this->check(QPSTokenType::PERCENT)){
+            this->consume(QPSTokenType::PERCENT, "Expect '%' after expression.");
+            QPSToken t1 = this->term();
+            QPSToken t2 = this->exprTail();
+            QPSTokenType type(QPSTokenType::TERM);
+            QPSToken newToken = QPSToken(type, t1.getLexeme() + t2.getLexeme());
             return newToken;
         }
-        return {TokenType(TokenType::EMPTY), ""};
+        return {QPSTokenType(QPSTokenType::EMPTY), ""};
     }
 
-    Token Parser::factor() {
-        if (this->check(TokenType::INTEGER))
-            return this->consume(TokenType::INTEGER, "Expect integer.");
-        if (this->check(TokenType::IDENTIFIER))
-            return this->consume(TokenType::IDENTIFIER, "Expect identifier.");
-        if (this->check(TokenType::LEFT_PAREN)) {
-            this->consume(TokenType::LEFT_PAREN, "Expect '(' after expression.");
-            Token t = this->expr();
-            this->consume(TokenType::RIGHT_PAREN, "Expect ')' after expression.");
-            TokenType type(TokenType::FACTOR);
-            Token newToken = Token(type, t.getLexeme());
+    QPSToken Parser::factor() {
+        if (this->check(QPSTokenType::INTEGER))
+            return this->consume(QPSTokenType::INTEGER, "Expect integer.");
+        if (this->check(QPSTokenType::IDENTIFIER))
+            return this->consume(QPSTokenType::IDENTIFIER, "Expect identifier.");
+        if (this->check(QPSTokenType::LEFT_PAREN)) {
+            this->consume(QPSTokenType::LEFT_PAREN, "Expect '(' after expression.");
+            QPSToken t = this->expr();
+            this->consume(QPSTokenType::RIGHT_PAREN, "Expect ')' after expression.");
+            QPSTokenType type(QPSTokenType::FACTOR);
+            QPSToken newToken = QPSToken(type, t.getLexeme());
         }
         throw std::runtime_error("syntax error: factor");
 
@@ -379,14 +379,14 @@ namespace qps {
                 query->addClause(declaration);
             }
 
-            if (this->check(TokenType::SELECT)) {
+            if (this->check(QPSTokenType::SELECT)) {
                 std::shared_ptr<SelectClause> select = this->select();
                 query->addClause(select);
             }
 
             if (isSuchThat()) {
-                this->consume(TokenType::SUCH, "Expect 'such' after select clause.");
-                this->consume(TokenType::THAT, "Expect 'that' after 'such'.");
+                this->consume(QPSTokenType::SUCH, "Expect 'such' after select clause.");
+                this->consume(QPSTokenType::THAT, "Expect 'that' after 'such'.");
 
                 if (isRelationship()) {
                     std::shared_ptr<RelationshipClause> relationship = this->relationship();
@@ -395,7 +395,7 @@ namespace qps {
                 }
             }
 
-            if (this->match({TokenType::PATTERN})) {
+            if (this->match({QPSTokenType::PATTERN})) {
                 std::shared_ptr<PatternClause> pattern = this->pattern();
                 if (pattern) query->addClause(pattern);
             }

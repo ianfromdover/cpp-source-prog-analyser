@@ -51,7 +51,7 @@ void IntermediateQuery::processDeclarations() {
     }
 }
 
-void IntermediateQuery::addDeclaration(qps::TokenType::TypeInfo type, const std::string& synonym) {
+void IntermediateQuery::addDeclaration(QPSTokenType::TypeInfo type, const std::string& synonym) {
     if (typeSynonymMap->find(type) == typeSynonymMap->end()) {
         typeSynonymMap->insert(std::make_pair(type, std::vector<std::string>()));
     }
@@ -59,7 +59,7 @@ void IntermediateQuery::addDeclaration(qps::TokenType::TypeInfo type, const std:
     synonymTypeMap->insert(std::make_pair(synonym, type));
 }
 
-std::map<std::string, qps::TokenType::TypeInfo> IntermediateQuery::getSynonymTypeMap() {
+std::map<std::string, QPSTokenType::TypeInfo> IntermediateQuery::getSynonymTypeMap() {
     return *synonymTypeMap;
 }
 

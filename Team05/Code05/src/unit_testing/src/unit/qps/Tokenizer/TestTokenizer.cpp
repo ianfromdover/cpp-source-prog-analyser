@@ -5,16 +5,16 @@
 #include "catch.hpp"
 #include "qps/tokenizer/Tokenizer.h"
 
-using namespace qps;
 
-static std::vector<std::shared_ptr<Token>> testHelper(const std::string& basicString);
-static bool compareExpected(std::vector<std::shared_ptr<Token>> tokens,
-                            std::initializer_list<TokenType::TypeInfo> expectedTypes);
+
+static std::vector<std::shared_ptr<QPSToken>> testHelper(const std::string& basicString);
+static bool compareExpected(std::vector<std::shared_ptr<QPSToken>> tokens,
+                            std::initializer_list<QPSTokenType::TypeInfo> expectedTypes);
 
 TEST_CASE("scratch_pad") {
     std::string source = "stmt s; Select s such that Follows(1, s) pattern s(_, _\"x+y\"_)";
-    std::shared_ptr<StrategyList> strategies = std::make_shared<StrategyList>();
-    std::shared_ptr<TokenList> tokens = std::make_shared<TokenList>();
+    std::shared_ptr<QPSStrategyList> strategies = std::make_shared<QPSStrategyList>();
+    std::shared_ptr<QPSTokenList> tokens = std::make_shared<QPSTokenList>();
     Tokenizer tokenizer(source, strategies, tokens);
 
     REQUIRE_NOTHROW(tokenizer.tokenize());
@@ -26,34 +26,34 @@ TEST_CASE("scratch_pad") {
 TEST_CASE("tokenize_validSyntax_noThrows") {
     SECTION("singleDeclaration_singleSelect") {
         std::string source = "stmt s; Select s";
-        std::vector<std::shared_ptr<Token>> tokens = testHelper(source);
-        REQUIRE(compareExpected(tokens, {TokenType::STMT, TokenType::IDENTIFIER, TokenType::SEMICOLON,
-                                         TokenType::SELECT, TokenType::IDENTIFIER, TokenType::END_OF_FILE}));
+        std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+        REQUIRE(compareExpected(tokens, {QPSTokenType::STMT, QPSTokenType::IDENTIFIER, QPSTokenType::SEMICOLON,
+                                         QPSTokenType::SELECT, QPSTokenType::IDENTIFIER, QPSTokenType::END_OF_FILE}));
     }
     SECTION("multipleDeclaration_singleSelect") {
         std::string source = "stmt s,s1; Select s";
-        std::vector<std::shared_ptr<Token>> tokens = testHelper(source);
-    REQUIRE(compareExpected(tokens, {TokenType::STMT, TokenType::IDENTIFIER,
-                                         TokenType::COMMA, TokenType::IDENTIFIER, TokenType::SEMICOLON,
-                                         TokenType::SELECT, TokenType::IDENTIFIER, TokenType::END_OF_FILE}));
+        std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+    REQUIRE(compareExpected(tokens, {QPSTokenType::STMT, QPSTokenType::IDENTIFIER,
+                                     QPSTokenType::COMMA, QPSTokenType::IDENTIFIER, QPSTokenType::SEMICOLON,
+                                     QPSTokenType::SELECT, QPSTokenType::IDENTIFIER, QPSTokenType::END_OF_FILE}));
     }
 }
 
 TEST_CASE("tokenize_invalidSyntax_noThrows") {
     SECTION("integerDeclaration_singleSelect") {
         std::string source = "stmt 1 ; Select s";
-        std::vector<std::shared_ptr<Token>> tokens = testHelper(source);
-        REQUIRE(compareExpected(tokens, {TokenType::STMT, TokenType::INTEGER,
-                                         TokenType::SEMICOLON, TokenType::SELECT,
-                                         TokenType::IDENTIFIER, TokenType::END_OF_FILE}));
+        std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+        REQUIRE(compareExpected(tokens, {QPSTokenType::STMT, QPSTokenType::INTEGER,
+                                         QPSTokenType::SEMICOLON, QPSTokenType::SELECT,
+                                         QPSTokenType::IDENTIFIER, QPSTokenType::END_OF_FILE}));
     }
 }
 
 TEST_CASE("tokenize_declaration_declarationToken") {
     SECTION("stmt token") {
         std::string source = "stmt";
-        std::vector<std::shared_ptr<Token>> tokens = testHelper(source);
-        REQUIRE(compareExpected(tokens, {TokenType::STMT, TokenType::END_OF_FILE}));
+        std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+        REQUIRE(compareExpected(tokens, {QPSTokenType::STMT, QPSTokenType::END_OF_FILE}));
     }
     // TODO: other declaration tokens
 }
@@ -62,58 +62,58 @@ TEST_CASE("tokenize_select_selectToken") {
 
     SECTION("properSelect_selectToken") {
         std::string source = "Select";
-        std::vector<std::shared_ptr<Token>> tokens = testHelper(source);
-        REQUIRE(compareExpected(tokens, {TokenType::SELECT, TokenType::END_OF_FILE}));
+        std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+        REQUIRE(compareExpected(tokens, {QPSTokenType::SELECT, QPSTokenType::END_OF_FILE}));
     }
     SECTION("lowercaseSelect_identifierToken") {
         std::string source = "select";
-        std::vector<std::shared_ptr<Token>> tokens = testHelper(source);
-        REQUIRE(compareExpected(tokens, {TokenType::IDENTIFIER, TokenType::END_OF_FILE}));
+        std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+        REQUIRE(compareExpected(tokens, {QPSTokenType::IDENTIFIER, QPSTokenType::END_OF_FILE}));
     }
 }
 
 TEST_CASE("tokenize_suchThat_suchThatToken"){
     SECTION("suchThat_suchTokenThatToken") {
         std::string source = "such that";
-        std::vector<std::shared_ptr<Token>> tokens = testHelper(source);
-        REQUIRE(compareExpected(tokens, {TokenType::SUCH, TokenType::THAT, TokenType::END_OF_FILE}));
+        std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+        REQUIRE(compareExpected(tokens, {QPSTokenType::SUCH, QPSTokenType::THAT, QPSTokenType::END_OF_FILE}));
     }
     SECTION("such_identifierToken") {
         std::string source = "such";
-        std::vector<std::shared_ptr<Token>> tokens = testHelper(source);
-        REQUIRE(compareExpected(tokens, {TokenType::IDENTIFIER, TokenType::END_OF_FILE}));
+        std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+        REQUIRE(compareExpected(tokens, {QPSTokenType::IDENTIFIER, QPSTokenType::END_OF_FILE}));
     }
     SECTION("that_identifierToken") {
         std::string source = "that";
-        std::vector<std::shared_ptr<Token>> tokens = testHelper(source);
-        REQUIRE(compareExpected(tokens, {TokenType::IDENTIFIER, TokenType::END_OF_FILE}));
+        std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+        REQUIRE(compareExpected(tokens, {QPSTokenType::IDENTIFIER, QPSTokenType::END_OF_FILE}));
     }
 }
 
 TEST_CASE("tokenize_pattern_patternToken") {
     SECTION("pattern_patternToken") {
         std::string source = "pattern";
-        std::vector<std::shared_ptr<Token>> tokens = testHelper(source);
-        REQUIRE(compareExpected(tokens, {TokenType::PATTERN, TokenType::END_OF_FILE}));
+        std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+        REQUIRE(compareExpected(tokens, {QPSTokenType::PATTERN, QPSTokenType::END_OF_FILE}));
     }
     SECTION("uowercasePattern_identifierToken") {
         std::string source = "Pattern";
-        std::vector<std::shared_ptr<Token>> tokens = testHelper(source);
-        REQUIRE(compareExpected(tokens, {TokenType::IDENTIFIER, TokenType::END_OF_FILE}));
+        std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+        REQUIRE(compareExpected(tokens, {QPSTokenType::IDENTIFIER, QPSTokenType::END_OF_FILE}));
     }
 }
 
 
-static std::vector<std::shared_ptr<Token>> testHelper(const std::string& source) {
-    std::shared_ptr<StrategyList> strategies = std::make_shared<StrategyList>();
-    std::shared_ptr<TokenList> tokens = std::make_shared<TokenList>();
+static std::vector<std::shared_ptr<QPSToken>> testHelper(const std::string& source) {
+    std::shared_ptr<QPSStrategyList> strategies = std::make_shared<QPSStrategyList>();
+    std::shared_ptr<QPSTokenList> tokens = std::make_shared<QPSTokenList>();
     Tokenizer tokenizer(source, strategies, tokens);
     REQUIRE_NOTHROW(tokenizer.tokenize());
     return tokens->getTokens();
 }
 
-static bool compareExpected(std::vector<std::shared_ptr<Token>> tokens,
-                            std::initializer_list<TokenType::TypeInfo> expectedTypes){
+static bool compareExpected(std::vector<std::shared_ptr<QPSToken>> tokens,
+                            std::initializer_list<QPSTokenType::TypeInfo> expectedTypes){
     if (tokens.size() != expectedTypes.size()) {
         return false;
     }
