@@ -12,9 +12,6 @@ static TokenList generateTokenList(std::initializer_list<std::pair<TokenType::Ty
 
 TEST_CASE("scratch pad parser"){
     SECTION("singleDeclaration_singleSelect_singlePattern") {
-        Demo d;
-
-        std::string source = "stmt s; Select s such that Follows(1, s) pattern s(_, _\"x+y\"_)";
 TokenList tokens = generateTokenList({
             {TokenType::TypeInfo::STMT, "stmt"},
             {TokenType::TypeInfo::IDENTIFIER, "s"},
@@ -23,7 +20,7 @@ TokenList tokens = generateTokenList({
             {TokenType::TypeInfo::IDENTIFIER, "s"},
             {TokenType::TypeInfo::SUCH, "such"},
             {TokenType::TypeInfo::THAT, "that"},
-            {TokenType::TypeInfo::PARENT, "Parent"},
+            {TokenType::TypeInfo::USES_S, "UsesS"},
             {TokenType::TypeInfo::LEFT_PAREN, "("},
             {TokenType::TypeInfo::INTEGER, "1"},
             {TokenType::TypeInfo::COMMA, ","},
@@ -46,7 +43,8 @@ TokenList tokens = generateTokenList({
         });
 
         Parser parser(tokens);
-        REQUIRE_NOTHROW(parser.parse());
+        std::shared_ptr<IntermediateQuery> query;
+        REQUIRE_NOTHROW(query=parser.parse());
     }
 }
 

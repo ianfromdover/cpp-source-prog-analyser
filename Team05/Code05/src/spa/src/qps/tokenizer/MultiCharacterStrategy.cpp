@@ -15,7 +15,7 @@ namespace qps {
                     declarationStarted = false;
                 }
                 tokens.addToken(TokenType::IDENTIFIER, name);
-            } else if (expectSynonymNext(name, tokens, declarationStarted)) {
+            } else if (expectSynonymNext(name, tokens)) {
                 declarationStarted = true;
             }
         } else if (std::isdigit(character)) {
@@ -27,20 +27,36 @@ namespace qps {
         return true;
     }
 
-    bool
-    MultiCharacterStrategy::expectSynonymNext(const std::string &name, TokenList &tokens, bool &declarationStarted) {
+    bool MultiCharacterStrategy::expectSynonymNext(const std::string &name, TokenList &tokens) {
         static const std::map<std::string, TokenType::TypeInfo> declarationKeywords = {
+                // Design entities
                 {"stmt",    TokenType::STMT},
+                {"read",    TokenType::READ},
+                {"print", TokenType::PRINT},
+                {"while",   TokenType::WHILE},
+                {"if",      TokenType::IF},
+                {"assign",  TokenType::ASSIGN},
+                {"variable",TokenType::VARIABLE},
+                {"constant",TokenType::CONSTANT},
+                {"procedure",TokenType::PROCEDURE},
+
+                // Relations
+                {"Follows", TokenType::FOLLOWS},
+                {"Follows*",TokenType::FOLLOWS_T},
+                {"Parent",  TokenType::PARENT},
+                {"Parent*", TokenType::PARENT_T},
+                {"Modifies",TokenType::MODIFIES_S},
+                {"Uses",    TokenType::USES_S},
+
                 {"Select",  TokenType::SELECT},
                 {"that",    TokenType::THAT},
-                {"Parent",  TokenType::PARENT},
-                {"pattern", TokenType::PATTERN}
+                {"pattern", TokenType::PATTERN},
         };
 
         auto it = declarationKeywords.find(name);
         if (it != declarationKeywords.end()) {
             if (it->second == TokenType::THAT) {
-                if (tokens.getTokens().size() > 0 && tokens.getTokens().back()->getLexeme() == "such") {
+                if (!tokens.getTokens().empty() && tokens.getTokens().back()->getLexeme() == "such") {
                     Token t = *tokens.getTokens().back();
                     tokens.getTokens().pop_back();
                     tokens.addToken(TokenType::SUCH, t.getLexeme());

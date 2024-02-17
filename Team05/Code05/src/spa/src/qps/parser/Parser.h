@@ -60,6 +60,9 @@ namespace qps {
         std::shared_ptr<RelationshipClause> relationship();
 
         std::shared_ptr<RelationshipClause> parent();
+        std::shared_ptr<RelationshipClause> follow();
+        std::shared_ptr<RelationshipClause> uses();
+        std::shared_ptr<RelationshipClause> modifies();
 
         std::shared_ptr<PatternClause> pattern();
 

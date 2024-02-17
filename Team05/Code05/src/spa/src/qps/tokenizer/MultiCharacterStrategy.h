@@ -12,7 +12,7 @@ namespace qps {
     public:
         bool tokenize(char character, std::stringstream &stream, TokenList &tokens, bool &prevTokenIsKeyword) override;
 
-        bool expectSynonymNext(const std::string &name, TokenList &tokens, bool &declarationStarted);
+        bool expectSynonymNext(const std::string &name, TokenList &tokens);
 
     private:
         std::string readWhile(std::stringstream &stream, const std::function<bool(char)> &condition);

@@ -39,7 +39,7 @@ namespace qps {
     }
 
     bool Parser::isRelationship() {
-        return this->check(TokenType::PARENT);
+        return this->check({TokenType::PARENT, TokenType::PARENT_T, TokenType::FOLLOWS, TokenType::FOLLOWS_T, TokenType::USES_S, TokenType::MODIFIES_S});
     }
 
     bool Parser::isSuchThat() {
@@ -131,6 +131,12 @@ namespace qps {
 
         if (this->check(TokenType::PARENT)) {
             relationshipClause = this->parent();
+        } else if (this->check({TokenType::FOLLOWS, TokenType::FOLLOWS_T})) {
+            relationshipClause = this->follow();
+        } else if (this->check(TokenType::USES_S)) {
+            relationshipClause = this->uses();
+        } else if (this->check(TokenType::MODIFIES_S)) {
+            relationshipClause = this->modifies();
         } else {
             relationshipClause = nullptr;
         }
@@ -140,7 +146,8 @@ namespace qps {
 
     std::shared_ptr<RelationshipClause> Parser::parent() {
 
-        Token relationshipType = this->consume(TokenType::PARENT, "Expect declaration type.");
+        this->match({TokenType::PARENT, TokenType::PARENT_T});
+        Token relationshipType = this->previous();
         this->consume(TokenType::LEFT_PAREN, "Expect '(' after relationship type.");
         auto t1 = stmtRef();
         this->consume(TokenType::COMMA, "Expect ',' after stmtRef.");
@@ -151,6 +158,52 @@ namespace qps {
 
         return std::make_shared<RelationshipClause>(parentCl);
     }
+
+    std::shared_ptr<RelationshipClause> Parser::follow() {
+
+        this->match({TokenType::FOLLOWS, TokenType::FOLLOWS_T});
+        Token relationshipType = this->previous();
+        this->consume(TokenType::LEFT_PAREN, "Expect '(' after relationship type.");
+        auto t1 = stmtRef();
+        this->consume(TokenType::COMMA, "Expect ',' after stmtRef.");
+        auto t2 = stmtRef();
+        this->consume(TokenType::RIGHT_PAREN, "Expect ')' after relationship type.");
+
+        RelationshipClause parentCl(relationshipType.getType().getInfo(), t1, TokenType::STMT_REF,  t2, TokenType::STMT_REF);
+
+        return std::make_shared<RelationshipClause>(parentCl);
+    }
+
+    std::shared_ptr<RelationshipClause> Parser::uses() {
+
+        this->match({TokenType::USES_S});
+        Token relationshipType = this->previous();
+        this->consume(TokenType::LEFT_PAREN, "Expect '(' after relationship type.");
+        auto t1 = stmtRef();
+        this->consume(TokenType::COMMA, "Expect ',' after stmtRef.");
+        auto t2 = entRef();
+        this->consume(TokenType::RIGHT_PAREN, "Expect ')' after relationship type.");
+
+        RelationshipClause parentCl(relationshipType.getType().getInfo(), t1, TokenType::STMT_REF,  t2, TokenType::ENT_REF);
+
+        return std::make_shared<RelationshipClause>(parentCl);
+    }
+
+    std::shared_ptr<RelationshipClause> Parser::modifies() {
+
+        this->match({TokenType::MODIFIES_S});
+        Token relationshipType = this->previous();
+        this->consume(TokenType::LEFT_PAREN, "Expect '(' after relationship type.");
+        auto t1 = stmtRef();
+        this->consume(TokenType::COMMA, "Expect ',' after stmtRef.");
+        auto t2 = entRef();
+        this->consume(TokenType::RIGHT_PAREN, "Expect ')' after relationship type.");
+
+        RelationshipClause parentCl(relationshipType.getType().getInfo(), t1, TokenType::STMT_REF,  t2, TokenType::ENT_REF);
+
+        return std::make_shared<RelationshipClause>(parentCl);
+    }
+
 
     std::shared_ptr<PatternClause> Parser::pattern() {
         Token synAssign = this->synonym(this->consume(TokenType::IDENTIFIER, "Expect identifier."));
@@ -337,13 +390,14 @@ namespace qps {
 
                 if (isRelationship()) {
                     std::shared_ptr<RelationshipClause> relationship = this->relationship();
-                    query->addClause(relationship);
+
+                    if (relationship) query->addClause(relationship);
                 }
             }
 
             if (this->match({TokenType::PATTERN})) {
                 std::shared_ptr<PatternClause> pattern = this->pattern();
-                query->addClause(pattern);
+                if (pattern) query->addClause(pattern);
             }
 
             if (!isAtEnd()) throw std::runtime_error("Expect end of file.");
