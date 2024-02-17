@@ -24,7 +24,6 @@
 #define REFERENCE_TYPE_EXPRESSION "ExpressionReference"
 #define REFERENCE_TYPE_ENTITY "EntityReference"
 #define REFERENCE_TYPE_STATEMENT "StatementReference"
-#define REFERENCE_TYPE_WILDCARD "EntityRefWildCard"
 
 #define CONSTRAINT_CLASS_RELATIONSHIP "Relationship"
 #define CONSTRAINT_CLASS_PATTERN "Pattern"
