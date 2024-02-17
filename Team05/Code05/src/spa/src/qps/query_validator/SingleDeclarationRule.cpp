@@ -29,3 +29,7 @@ bool SingleDeclarationRule::followsSingleDeclaration(QueryObject& qo) {
     }
     return ruleFollowed;
 }
+
+std::string SingleDeclarationRule::validate(IntermediateQuery &) {
+    return std::string();
+}

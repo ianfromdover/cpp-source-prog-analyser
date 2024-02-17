@@ -35,16 +35,16 @@ public:
     void processDeclarations(); // TODO: move responsibility to validator.
 
 
-    std::map<std::string, QPSTokenType::TypeInfo> getSynonymTypeMap();
+    std::map<std::string, QPSTokenType::QPSTypeInfo> getSynonymTypeMap();
 
 private:
     bool hasClauseType(Clause::ClauseType type);
 
-    std::shared_ptr<std::map<QPSTokenType::TypeInfo, std::vector<std::string>>> typeSynonymMap = std::make_shared<std::map<QPSTokenType::TypeInfo, std::vector<std::string>>>();
+    std::shared_ptr<std::map<QPSTokenType::QPSTypeInfo, std::vector<std::string>>> typeSynonymMap = std::make_shared<std::map<QPSTokenType::QPSTypeInfo, std::vector<std::string>>>();
 
-    std::shared_ptr<std::map<std::string, QPSTokenType::TypeInfo>> synonymTypeMap = std::make_shared<std::map<std::string, QPSTokenType::TypeInfo>>();
+    std::shared_ptr<std::map<std::string, QPSTokenType::QPSTypeInfo>> synonymTypeMap = std::make_shared<std::map<std::string, QPSTokenType::QPSTypeInfo>>();
 
-    void addDeclaration(QPSTokenType::TypeInfo type, const std::string &synonym);
+    void addDeclaration(QPSTokenType::QPSTypeInfo type, const std::string &synonym);
 
 };
 

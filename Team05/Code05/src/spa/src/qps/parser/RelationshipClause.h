@@ -12,7 +12,7 @@
 namespace qps {
     class RelationshipClause : public Clause {
     public:
-        RelationshipClause(QPSTokenType::TypeInfo type, QPSToken &t1, QPSTokenType::TypeInfo type1, QPSToken &t2, QPSTokenType::TypeInfo type2) : Clause(ClauseType::RELATIONSHIP) {
+        RelationshipClause(QPSTokenType::QPSTypeInfo type, QPSToken &t1, QPSTokenType::QPSTypeInfo type1, QPSToken &t2, QPSTokenType::QPSTypeInfo type2) : Clause(ClauseType::RELATIONSHIP) {
             relationshipType = type;
 
             firstArg = std::make_shared<QPSToken>(t1);
@@ -21,24 +21,24 @@ namespace qps {
             secondArgRefType = type2;
         }
 
-        QPSTokenType::TypeInfo getRelationshipType();
+        QPSTokenType::QPSTypeInfo getRelationshipType();
 
-        QPSTokenType::TypeInfo getFirstArgType();
-        QPSTokenType::TypeInfo getFirstReferenceType();
+        QPSTokenType::QPSTypeInfo getFirstArgType();
+        QPSTokenType::QPSTypeInfo getFirstReferenceType();
         QPSToken& getFirstArg();
 
-        QPSTokenType::TypeInfo getSecondArgType();
-        QPSTokenType::TypeInfo getSecondReferenceType();
+        QPSTokenType::QPSTypeInfo getSecondArgType();
+        QPSTokenType::QPSTypeInfo getSecondReferenceType();
         QPSToken& getSecondArg();
 
     private:
-        QPSTokenType::TypeInfo relationshipType;
+        QPSTokenType::QPSTypeInfo relationshipType;
 
         std::shared_ptr<QPSToken> firstArg;
-        QPSTokenType::TypeInfo firstArgRefType;
+        QPSTokenType::QPSTypeInfo firstArgRefType;
 
         std::shared_ptr<QPSToken> secondArg;
-        QPSTokenType::TypeInfo secondArgRefType;
+        QPSTokenType::QPSTypeInfo secondArgRefType;
     };
 }
 

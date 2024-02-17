@@ -19,29 +19,29 @@ namespace qps {
         throw std::runtime_error("First argument is not set");
     }
 
-    QPSTokenType::TypeInfo RelationshipClause::getSecondArgType() {
+    QPSTokenType::QPSTypeInfo RelationshipClause::getSecondArgType() {
         if (secondArg != nullptr) {
             return secondArg->getType().getInfo();
         }
         throw std::runtime_error("Second argument is not set");
     }
 
-    QPSTokenType::TypeInfo RelationshipClause::getFirstArgType() {
+    QPSTokenType::QPSTypeInfo RelationshipClause::getFirstArgType() {
         if (firstArg != nullptr) {
             return firstArg->getType().getInfo();
         }
         throw std::runtime_error("First argument is not set");
     }
 
-    QPSTokenType::TypeInfo RelationshipClause::getRelationshipType() {
+    QPSTokenType::QPSTypeInfo RelationshipClause::getRelationshipType() {
         return relationshipType;
     }
 
-    QPSTokenType::TypeInfo RelationshipClause::getFirstReferenceType() {
+    QPSTokenType::QPSTypeInfo RelationshipClause::getFirstReferenceType() {
         return firstArgRefType;
     }
 
-    QPSTokenType::TypeInfo RelationshipClause::getSecondReferenceType() {
+    QPSTokenType::QPSTypeInfo RelationshipClause::getSecondReferenceType() {
         return secondArgRefType;
     }
 }

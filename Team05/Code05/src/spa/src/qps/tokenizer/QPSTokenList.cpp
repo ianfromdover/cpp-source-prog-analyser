@@ -5,7 +5,7 @@
 #include "QPSTokenList.h"
 
 
-void QPSTokenList::addToken(QPSTokenType::TypeInfo typeInfo, const std::string &lexeme) {
+void QPSTokenList::addToken(QPSTokenType::QPSTypeInfo typeInfo, const std::string &lexeme) {
     QPSTokenType tokenType(typeInfo);
     std::shared_ptr<QPSToken> token = std::make_shared<QPSToken>(tokenType, lexeme);
     tokens.push_back(token);

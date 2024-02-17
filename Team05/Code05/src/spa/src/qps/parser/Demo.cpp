@@ -29,7 +29,7 @@ namespace qps {
         intermediateQuery->processDeclarations(); // called by validator, ignore
 
         // Returns a map <synonym=STRING, type=TYPEINFO> of all declared synonyms for easier search, guaranteed declaration synonyms are unique
-        std::map<std::string, QPSTokenType::TypeInfo> synonymTypeMap = intermediateQuery->getSynonymTypeMap();
+        std::map<std::string, QPSTokenType::QPSTypeInfo> synonymTypeMap = intermediateQuery->getSynonymTypeMap();
 
         // Returns a SelectClause
         SelectClause selectClause = intermediateQuery->getSelectClause();
@@ -38,18 +38,18 @@ namespace qps {
 
         // Returns RelationshipClause
         RelationshipClause relationshipClause = intermediateQuery->getRelationshipClause();
-            QPSTokenType::TypeInfo relationshipType = relationshipClause.getRelationshipType(); // Returns the relationship type {PARENT, FOLLOWS, MODIFIES, USES, etc.}
-            QPSTokenType::TypeInfo referenceType1 = relationshipClause.getFirstReferenceType(); // {ENT_REF,STMT_REF}
-            QPSTokenType::TypeInfo tokenType1 = relationshipClause.getFirstArgType(); // {INTEGER,SYNONYM,WILLCARD}
+            QPSTokenType::QPSTypeInfo relationshipType = relationshipClause.getRelationshipType(); // Returns the relationship type {PARENT, FOLLOWS, MODIFIES, USES, etc.}
+            QPSTokenType::QPSTypeInfo referenceType1 = relationshipClause.getFirstReferenceType(); // {ENT_REF,STMT_REF}
+            QPSTokenType::QPSTypeInfo tokenType1 = relationshipClause.getFirstArgType(); // {INTEGER,SYNONYM,WILLCARD}
             QPSToken token1 = relationshipClause.getFirstArg(); // Returns the token, can also find token type{INTEGER,SYNONYM,WILLCARD} from token.getType()
             // Same for second argument
 
         // Returns PatternClause
         PatternClause patternClause = intermediateQuery->getPatternClause();
             std::string patternSynonym = patternClause.getPatternSynonym(); // Returns the synonym, can use this to search declaration map for synonym type
-            QPSTokenType::TypeInfo argType1 = patternClause.getFirstArgType(); // Returns the argument type {SYNONYM, WILDCARD, QUOTED_IDENT} REFER(grammar): pattern-cl : entRef : synonym | '_' | '"' IDENT '"'
+            QPSTokenType::QPSTypeInfo argType1 = patternClause.getFirstArgType(); // Returns the argument type {SYNONYM, WILDCARD, QUOTED_IDENT} REFER(grammar): pattern-cl : entRef : synonym | '_' | '"' IDENT '"'
             std::string argValue1 = patternClause.getFirstArgValue(); // Returns the first argument value. First arg is only ENT_REF, can use this to get value.
-            QPSTokenType::TypeInfo argType2 = patternClause.getSecondArgType(); // Returns the argument type {EXPR, EXPR_WILDCARD, WILDCARD} REFER(grammar): expression-spec :  '"' expr'"' | '_' '"' expr '"' '_' | '_'
+            QPSTokenType::QPSTypeInfo argType2 = patternClause.getSecondArgType(); // Returns the argument type {EXPR, EXPR_WILDCARD, WILDCARD} REFER(grammar): expression-spec :  '"' expr'"' | '_' '"' expr '"' '_' | '_'
             std::string argValue2 = patternClause.getSecondArgValue(); // Returns the argument value. NOTE: EXPR_WILDCARD type.getstring will not return wildcard in the string. can check for token type to differentiate.
 
     }

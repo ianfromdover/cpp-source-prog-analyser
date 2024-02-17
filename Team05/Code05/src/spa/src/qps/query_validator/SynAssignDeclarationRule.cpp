@@ -19,7 +19,7 @@ std::string SynAssignDeclarationRule::validate(IntermediateQuery& query) {
     if (it == query.getSynonymTypeMap().end()) {
         return VALIDATION_RULE_NO_DECLARATION;
     } else {
-        if (it->second != TokenType::TypeInfo::ASSIGN) {
+        if (it->second != QPSTokenType::QPSTypeInfo::ASSIGN) {
             return VALIDATION_RULE_SYN_ASSIGN_DECLARATION;
         }
     }

@@ -28,9 +28,9 @@ bool QPSMultiCharacterStrategy::tokenize(char character, std::stringstream &stre
 }
 
 bool QPSMultiCharacterStrategy::expectSynonymNext(const std::string &name, QPSTokenList &tokens) {
-    static const std::map<std::string, QPSTokenType::TypeInfo> declarationKeywords = {
+    static const std::map<std::string, QPSTokenType::QPSTypeInfo> declarationKeywords = {
             // Design entities
-            {"stmt",      QPSTokenType::STMT},
+            {"stmt",      QPSTokenType::STMT1},
             {"read",      QPSTokenType::READ},
             {"print",     QPSTokenType::PRINT},
             {"while",     QPSTokenType::WHILE},

@@ -13,12 +13,12 @@ namespace qps {
         }
     }
 
-    std::vector<std::pair<QPSTokenType::TypeInfo, std::string>> DeclarationClause::getAllDeclarations() {
-        std::vector<std::pair<QPSTokenType::TypeInfo, std::string>> result;
+    std::vector<std::pair<QPSTokenType::QPSTypeInfo, std::string>> DeclarationClause::getAllDeclarations() {
+        std::vector<std::pair<QPSTokenType::QPSTypeInfo, std::string>> result;
         for (const auto &pair: declarationMap) {
             for (const std::string &s: pair.second) {
                 auto token = pair.first;
-                QPSTokenType::TypeInfo typeInfo = token.getInfo();
+                QPSTokenType::QPSTypeInfo typeInfo = token.getInfo();
                 result.push_back(std::make_pair(typeInfo, s));
             }
         }

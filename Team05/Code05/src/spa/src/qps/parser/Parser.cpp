@@ -7,7 +7,7 @@
 #include "IntermediateQuery.h"
 
 namespace qps {
-    bool Parser::match(std::initializer_list<QPSTokenType::TypeInfo> types) {
+    bool Parser::match(std::initializer_list<QPSTokenType::QPSTypeInfo> types) {
         for (const auto &type: types) {
             if (this->check(type)) {
                 this->advance();
@@ -17,7 +17,7 @@ namespace qps {
         return false;
     }
 
-    bool Parser::check(std::initializer_list<QPSTokenType::TypeInfo> types) {
+    bool Parser::check(std::initializer_list<QPSTokenType::QPSTypeInfo> types) {
         for (const auto &type: types) {
             if (this->check(type)) {
                 return true;
@@ -26,7 +26,7 @@ namespace qps {
         return false;
     }
 
-    bool Parser::check(QPSTokenType::TypeInfo type) {
+    bool Parser::check(QPSTokenType::QPSTypeInfo type) {
         if (this->isAtEnd()) {
             return false;
         }
@@ -35,7 +35,7 @@ namespace qps {
 
 
     bool Parser::isDeclaration() {
-        return this->check(QPSTokenType::STMT);
+        return this->check(QPSTokenType::STMT1);
     }
 
     bool Parser::isRelationship() {
@@ -83,12 +83,12 @@ namespace qps {
         return *this->tokens.at(this->current - 1);
     }
 
-    bool Parser::checkPrevious(QPSTokenType::TypeInfo type) {
+    bool Parser::checkPrevious(QPSTokenType::QPSTypeInfo type) {
         return this->previous().getType().getInfo() == type;
     }
 
 
-    QPSToken Parser::consume(QPSTokenType::TypeInfo type, const std::string& message) {
+    QPSToken Parser::consume(QPSTokenType::QPSTypeInfo type, const std::string& message) {
         if (this->check(type)) {
             return this->advance();
         }
@@ -100,7 +100,7 @@ namespace qps {
     std::shared_ptr<DeclarationClause> Parser::declaration() {
         std::vector<std::string> synonyms;
         std::string type;
-        QPSToken declarationType = this->consume(QPSTokenType::STMT, "Expect declaration type.");
+        QPSToken declarationType = this->consume(QPSTokenType::STMT1, "Expect declaration type.");
         QPSToken entityType = this->synonym(this->consume(QPSTokenType::IDENTIFIER, "Expect identifier."));
         synonyms.push_back(entityType.getLexeme());
         while (this->match({QPSTokenType::COMMA})) {
@@ -214,7 +214,7 @@ namespace qps {
         QPSToken exprSpec = this->exprSpec();
         this->consume(QPSTokenType::RIGHT_PAREN, "Expect ')' after expr spec.");
 
-        PatternClause patternCl(synAssign.getLexeme(), entRef, QPSTokenType::TypeInfo::ENT_REF, exprSpec, QPSTokenType::EXPR_REF);
+        PatternClause patternCl(synAssign.getLexeme(), entRef, QPSTokenType::QPSTypeInfo::ENT_REF, exprSpec, QPSTokenType::EXPR_REF);
 
         return std::make_shared<PatternClause>(patternCl);
     }

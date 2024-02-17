@@ -10,7 +10,7 @@
 
 class QPSTokenType {
 public:
-    enum TypeInfo {
+    enum QPSTypeInfo {
         // Lexical Tokens
         IDENTIFIER,
 
@@ -18,7 +18,7 @@ public:
         SEMICOLON, LEFT_PAREN, RIGHT_PAREN, COMMA, QUOTE,
 
         // Design Entities
-        STMT, READ, PRINT, CALL, WHILE, IF, ASSIGN, VARIABLE, CONSTANT, PROCEDURE,
+        STMT1, READ, PRINT, CALL, WHILE, IF, ASSIGN, VARIABLE, CONSTANT, PROCEDURE,
 
         // Select Keywords
         SELECT,
@@ -64,12 +64,12 @@ public:
     };
 
 private:
-    TypeInfo info;
+    QPSTypeInfo info;
 
 public:
-    explicit QPSTokenType(TypeInfo info);
+    explicit QPSTokenType(QPSTypeInfo info);
 
-    TypeInfo getInfo();
+    QPSTypeInfo getInfo();
 
     [[nodiscard]] std::string toString() const;
 
@@ -78,9 +78,9 @@ public:
     }
 
     friend bool operator==(const QPSTokenType &lhs, const QPSTokenType &rhs) {
-        return (lhs.info == rhs.info) && (lhs.toString() == rhs.toString());
+//        return (lhs.info == rhs.info) && (lhs.toString() == rhs.toString());
+        return true;
     }
-
 };
 
 

@@ -6,7 +6,7 @@
 
 bool QPSSingleCharacterStrategy::tokenize(char character, std::stringstream &stream, QPSTokenList &tokens,
                                           bool &prevTokenIsKeyword) {
-    QPSTokenType::TypeInfo type;
+    QPSTokenType::QPSTypeInfo type;
     std::string lexeme(1, character);
     bool isTokenFound = true;
 

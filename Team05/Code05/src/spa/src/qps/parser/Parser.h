@@ -27,11 +27,11 @@ namespace qps {
         std::shared_ptr<IntermediateQuery> parse();
 
     private:
-        bool match(std::initializer_list<QPSTokenType::TypeInfo> types);
+        bool match(std::initializer_list<QPSTokenType::QPSTypeInfo> types);
 
-        bool check(QPSTokenType::TypeInfo type);
+        bool check(QPSTokenType::QPSTypeInfo type);
 
-        bool check(std::initializer_list<QPSTokenType::TypeInfo> types);
+        bool check(std::initializer_list<QPSTokenType::QPSTypeInfo> types);
 
         bool isDeclaration();
 
@@ -49,9 +49,9 @@ namespace qps {
 
         QPSToken previous();
 
-        bool Parser::checkPrevious(QPSTokenType::TypeInfo type);
+        bool Parser::checkPrevious(QPSTokenType::QPSTypeInfo type);
 
-        QPSToken consume(QPSTokenType::TypeInfo type, const std::string& message);
+        QPSToken consume(QPSTokenType::QPSTypeInfo type, const std::string& message);
 
         std::shared_ptr<DeclarationClause> declaration();
 

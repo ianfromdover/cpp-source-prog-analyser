@@ -13,7 +13,7 @@
 namespace qps {
     class PatternClause : public Clause {
     public:
-        PatternClause(std::string syn, QPSToken& t1, QPSTokenType::TypeInfo type1, QPSToken& t2, QPSTokenType::TypeInfo type2) : Clause(ClauseType::PATTERN) {
+        PatternClause(std::string syn, QPSToken& t1, QPSTokenType::QPSTypeInfo type1, QPSToken& t2, QPSTokenType::QPSTypeInfo type2) : Clause(ClauseType::PATTERN) {
             synonym = std::move(syn);
             firstArg = std::make_shared<QPSToken>(t1);
             firstArgType = type1;
@@ -22,22 +22,22 @@ namespace qps {
         }
         std::string getPatternSynonym();
 
-        QPSTokenType::TypeInfo getFirstArgType();
-        QPSTokenType::TypeInfo getFirstReferenceType();
+        QPSTokenType::QPSTypeInfo getFirstArgType();
+        QPSTokenType::QPSTypeInfo getFirstReferenceType();
         std::string getFirstArgValue();
 
-        QPSTokenType::TypeInfo getSecondArgType();
-        QPSTokenType::TypeInfo getSecondReferenceType();
+        QPSTokenType::QPSTypeInfo getSecondArgType();
+        QPSTokenType::QPSTypeInfo getSecondReferenceType();
         std::string getSecondArgValue();
 
     private:
         std::string synonym;
 
         std::shared_ptr<QPSToken> firstArg;
-        QPSTokenType::TypeInfo firstArgType;
+        QPSTokenType::QPSTypeInfo firstArgType;
 
         std::shared_ptr<QPSToken> secondArg;
-        QPSTokenType::TypeInfo secondArgType;
+        QPSTokenType::QPSTypeInfo secondArgType;
     };
 }
 

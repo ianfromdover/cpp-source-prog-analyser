@@ -3,6 +3,7 @@
 //
 
 #include "NoDeclarationRule.h"
+#include "qps/tokenizer/QPSTokenType.h"
 #include "qps/query_elements/constraint_argument/IntegerArgument.h"
 
 #include <map>
@@ -63,7 +64,7 @@ std::string NoDeclarationRule::validate(IntermediateQuery & query) {
     if (it == query.getSynonymTypeMap().end()) {
         return VALIDATION_RULE_NO_DECLARATION;
     } else {
-        if (it->second != TokenType::TypeInfo::ASSIGN) {
+        if (it->second != QPSTokenType::QPSTypeInfo::ASSIGN) {
             return VALIDATION_RULE_SYN_ASSIGN_DECLARATION;
         }
     }

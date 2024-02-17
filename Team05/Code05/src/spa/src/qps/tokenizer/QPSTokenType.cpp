@@ -40,7 +40,7 @@ std::string QPSTokenType::toString() const {
             return "IDENTIFIER";
         case END_OF_FILE:
             return "EOF";
-        case STMT:
+        case STMT1:
             return "STMT";
         case SYNONYM:
             return "SYNONYM";
@@ -50,9 +50,9 @@ std::string QPSTokenType::toString() const {
     }
 }
 
-QPSTokenType::QPSTokenType(QPSTokenType::TypeInfo info) : info(info) {}
+QPSTokenType::QPSTokenType(QPSTokenType::QPSTypeInfo info) : info(info) {}
 
-QPSTokenType::TypeInfo QPSTokenType::getInfo() {
+QPSTokenType::QPSTypeInfo QPSTokenType::getInfo() {
     return this->info;
 }
 

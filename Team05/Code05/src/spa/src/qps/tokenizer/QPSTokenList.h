@@ -18,7 +18,7 @@ private:
 public:
     QPSTokenList() = default;
 
-    void addToken(QPSTokenType::TypeInfo typeInfo, const std::string &lexeme);
+    void addToken(QPSTokenType::QPSTypeInfo typeInfo, const std::string &lexeme);
 
     std::vector<std::shared_ptr<QPSToken>> &getTokens();
 
