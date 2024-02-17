@@ -7,7 +7,7 @@
 
 #include "StatementReference.h"
 
-class StatementRefWIldCard : public StatementReference {
+class StatementRefWildCard : public StatementReference {
 public:
     std::string getEntityType() override;
 };

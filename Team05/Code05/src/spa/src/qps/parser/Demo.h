@@ -8,7 +8,7 @@
 namespace qps {
     class Demo {
     public:
-        Demo();
+        void demonstrate();
     };
 }
 

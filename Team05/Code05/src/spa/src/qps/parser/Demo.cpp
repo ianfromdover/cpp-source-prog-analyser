@@ -8,7 +8,7 @@
 #include "Parser.h"
 
 namespace qps {
-    Demo::Demo() {
+    void Demo::demonstrate() {
 
         // Run TestParser::scratch pad or just call Demo() in some unit test. Following code exist inside constructor.
 

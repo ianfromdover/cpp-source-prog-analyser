@@ -10,6 +10,7 @@
 #include "sp/SourceProcessor.h"
 #include "catch.hpp"
 #include "qps/QPS.h"
+#include "qps/parser/Demo.h"
 
 
 using namespace std;
@@ -213,3 +214,7 @@ TEST_CASE("Print with parent extractoar") {
 
 }
 
+TEST_CASE("intermediate demo") {
+    qps::Demo obj;
+    obj.demonstrate();
+}
