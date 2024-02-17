@@ -22,7 +22,6 @@ void IfExtractor::visitWhileStmt(const While& stmt, shared_ptr<std::vector<std::
         auto parentInfoCopy = std::make_shared<std::vector<std::variant<StmtNo, std::string>>>(*parentInfo);
         childStmt->accept(*this, parentInfoCopy);
     }
-    parentInfo->emplace_back(stmt.getStmtNo());
     auto& condition = stmt.getCondition();
     condition->accept(*this, parentInfo);
 }
@@ -57,7 +56,7 @@ void IfExtractor::visitBinaryExpr(const Binary& expr, shared_ptr<std::vector<std
 void IfExtractor::visitVariableExpr(const Variable& expr, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
     for (const auto &val: *parentInfo) {
         std::visit([&](const auto &actualValue) {
-            std::cout << "pkb.addRead(" << actualValue << ", " << expr.getName() << ");" << std::endl;
+            std::cout << "pkb.addIf(" << actualValue << ", " << expr.getName() << ");" << std::endl;
         }, val);
     }
 }
