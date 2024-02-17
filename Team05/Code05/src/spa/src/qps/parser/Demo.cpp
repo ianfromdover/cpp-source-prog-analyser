@@ -32,12 +32,12 @@ namespace qps {
         std::map<std::string, qps::TokenType::TypeInfo> synonymTypeMap = intermediateQuery->getSynonymTypeMap();
 
         // Returns a SelectClause
-        SelectClause selectClause = intermediateQuery->getSelectClause();
+        SelectClause selectClause = *intermediateQuery->getSelectClause();
             // Returns the selected synonym
             std::string selectedSynonym = selectClause.getAllSelect()[0]; // Can assume only 1 element, vector is for A-SPA
 
         // Returns RelationshipClause
-        RelationshipClause relationshipClause = intermediateQuery->getRelationshipClause();
+        RelationshipClause relationshipClause = *intermediateQuery->getRelationshipClause();
             TokenType::TypeInfo relationshipType = relationshipClause.getRelationshipType(); // Returns the relationship type {PARENT, FOLLOWS, MODIFIES, USES, etc.}
             TokenType::TypeInfo referenceType1 = relationshipClause.getFirstReferenceType(); // {ENT_REF,STMT_REF}
             TokenType::TypeInfo tokenType1 = relationshipClause.getFirstArgType(); // {INTEGER,SYNONYM,WILLCARD}
@@ -45,7 +45,7 @@ namespace qps {
             // Same for second argument
 
         // Returns PatternClause
-        PatternClause patternClause = intermediateQuery->getPatternClause();
+        PatternClause patternClause = *intermediateQuery->getPatternClause();
             std::string patternSynonym = patternClause.getPatternSynonym(); // Returns the synonym, can use this to search declaration map for synonym type
             TokenType::TypeInfo argType1 = patternClause.getFirstArgType(); // Returns the argument type {SYNONYM, WILDCARD, QUOTED_IDENT} REFER(grammar): pattern-cl : entRef : synonym | '_' | '"' IDENT '"'
             std::string argValue1 = patternClause.getFirstArgValue(); // Returns the first argument value. First arg is only ENT_REF, can use this to get value.

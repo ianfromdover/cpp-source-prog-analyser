@@ -21,9 +21,12 @@ class ConstraintBuilderTemplate {
 protected:
     shared_ptr<Constraint> constraintClause;
     void reset();
-    std::shared_ptr<Constraint> build();
+
     std::shared_ptr<ConstraintArgument> buildArg(qps::Token&, qps::TokenType::TypeInfo);
 
+
+public:
+    std::shared_ptr<Constraint> build();
 
 protected:
     std::shared_ptr<ExpressionReference> buildArgAsExpressionRef(qps::Token&, qps::TokenType::TypeInfo);

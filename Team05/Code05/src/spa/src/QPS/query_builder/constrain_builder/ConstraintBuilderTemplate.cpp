@@ -13,7 +13,7 @@ std::shared_ptr<Constraint> ConstraintBuilderTemplate::build() {
 }
 
 std::shared_ptr<ConstraintArgument> ConstraintBuilderTemplate::buildArg(qps::Token & token, qps::TokenType::TypeInfo ref) {
-    return ConstraintArgCreator::buildArg(token, ref);
+    return ConstraintArgCreator::buildArgFromToken(token, ref);
 }
 
 std::shared_ptr<ExpressionReference> ConstraintBuilderTemplate::buildArgAsExpressionRef(qps::Token& token, qps::TokenType::TypeInfo ref) {

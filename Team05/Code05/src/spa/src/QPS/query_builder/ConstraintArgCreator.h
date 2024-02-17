@@ -27,8 +27,8 @@
 class ConstraintArgCreator {
 public:
 //    static std::shared_ptr<ConstraintArgument> buildArgFromToken(qps::Token&, qps::TokenType::TypeInfo);
-//    static std::shared_ptr<ConstraintArgument> buildArg(qps::TokenType, qps::TokenType::TypeInfo, std::string);
-    static std::shared_ptr<ConstraintArgument> buildArg(qps::Token&, qps::TokenType::TypeInfo);
+//    static std::shared_ptr<ConstraintArgument> buildArgFromToken(qps::TokenType, qps::TokenType::TypeInfo, std::string);
+    static std::shared_ptr<ConstraintArgument> buildArgFromToken(qps::Token &token, qps::TokenType::TypeInfo ref);
     static std::shared_ptr<ExpressionSpec> createExpressionSpec(std::string);
     static std::shared_ptr<ProcedureEntity> createProcedureEntity(std::string);
     static std::shared_ptr<VariableEntity> createVariableEntity(std::string);
@@ -44,6 +44,8 @@ public:
     static std::shared_ptr<IntegerArgument> createIntegerArgument(std::string);
     static std::shared_ptr<StatementRefWildCard> createStatementRefWildCard();
     static std::shared_ptr<ExpressionRefWildcard> createExpressionRefWildCard();
+    static shared_ptr<ConstraintArgument>buildArg(qps::TokenType::TypeInfo type, qps::TokenType::TypeInfo ref, string identifier);
+    static shared_ptr<Entity> buildEntity(qps::TokenType::TypeInfo type, string identifier);
 };
 
 

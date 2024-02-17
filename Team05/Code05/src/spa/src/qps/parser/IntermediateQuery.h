@@ -29,9 +29,9 @@ public:
     bool hasRelationshipClause();
     bool hasPatternClause();
 
-    qps::SelectClause getSelectClause();
-    qps::RelationshipClause getRelationshipClause();
-    qps::PatternClause getPatternClause();
+    std::shared_ptr<qps::SelectClause> getSelectClause();
+    std::shared_ptr<qps::RelationshipClause> getRelationshipClause();
+    std::shared_ptr<qps::PatternClause> getPatternClause();
     void processDeclarations(); // TODO: move responsibility to validator.
 
 

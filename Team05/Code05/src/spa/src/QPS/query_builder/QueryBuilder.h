@@ -19,16 +19,20 @@
 #include "constrain_builder/UsesSConstraintBuilder.h"
 #include "qps/parser/SelectClause.h"
 #include "qps/parser/IntermediateQuery.h"
+#include "constrain_builder/RelationshipConstraintDirector.h"
 
 class QueryBuilder {
 private:
     std::shared_ptr<QueryObject> qo;
-    std::shared_ptr<IntermediateQuery> intermediate;
+    std::shared_ptr<IntermediateQuery> intermediateObject;
     void reset();
-    void setSingleRelationshipConstraint();
-    void setSinglePatternClause();
+    void setSingleRelationshipConstraint(std::shared_ptr<qps::RelationshipClause>);
+    void setSinglePatternClause(std::shared_ptr<qps::PatternClause>);
     void setSingleSelectClause();
-    void setDeclarationClauses();
+    void setAllRelationshipConstraint();
+    void setAllPatternClauses();
+    void setAllDeclarationClauses();
+    std::shared_ptr<QueryObject> getQueryObjectRepresentation();
 public:
     std::shared_ptr<QueryObject> build(shared_ptr<IntermediateQuery>);
 };
