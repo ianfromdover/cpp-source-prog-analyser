@@ -7,8 +7,8 @@
 
 #include <memory>
 #include <vector>
-#include "qps/tokenizer/Token.h"
-#include "qps/tokenizer/TokenList.h"
+#include "qps/tokenizer/QPSToken.h"
+#include "qps/tokenizer/QPSTokenList.h"
 #include "DeclarationClause.h"
 #include "SelectClause.h"
 #include "RelationshipClause.h"
@@ -19,19 +19,19 @@ namespace qps {
     class Parser {
     private:
         int current = 0;
-        std::vector<std::shared_ptr<Token>> tokens;
+        std::vector<std::shared_ptr<QPSToken>> tokens;
 
     public:
-        explicit Parser(TokenList &tokens) : tokens(tokens.getTokens()) {};
+        explicit Parser(QPSTokenList &tokens) : tokens(tokens.getTokens()) {};
 
         std::shared_ptr<IntermediateQuery> parse();
 
     private:
-        bool match(std::initializer_list<TokenType::TypeInfo> types);
+        bool match(std::initializer_list<QPSTokenType::TypeInfo> types);
 
-        bool check(TokenType::TypeInfo type);
+        bool check(QPSTokenType::TypeInfo type);
 
-        bool check(std::initializer_list<TokenType::TypeInfo> types);
+        bool check(std::initializer_list<QPSTokenType::TypeInfo> types);
 
         bool isDeclaration();
 
@@ -41,17 +41,17 @@ namespace qps {
 
         bool isAtEnd();
 
-        Token advance();
+        QPSToken advance();
 
-        Token peek();
+        QPSToken peek();
 
-        std::vector<Token> peekAhead(int lookahead);
+        std::vector<QPSToken> peekAhead(int lookahead);
 
-        Token previous();
+        QPSToken previous();
 
-        bool Parser::checkPrevious(TokenType::TypeInfo type);
+        bool Parser::checkPrevious(QPSTokenType::TypeInfo type);
 
-        Token consume(TokenType::TypeInfo type, const std::string& message);
+        QPSToken consume(QPSTokenType::TypeInfo type, const std::string& message);
 
         std::shared_ptr<DeclarationClause> declaration();
 
@@ -66,21 +66,21 @@ namespace qps {
 
         std::shared_ptr<PatternClause> pattern();
 
-        Token stmtRef();
+        QPSToken stmtRef();
 
-        Token entRef();
+        QPSToken entRef();
 
-        Token synonym(Token t);
+        QPSToken synonym(QPSToken t);
 
-        Token exprSpec();
+        QPSToken exprSpec();
 
-        Token expr();
-        Token exprTail();
+        QPSToken expr();
+        QPSToken exprTail();
 
-        Token term();
-        Token termTail();
+        QPSToken term();
+        QPSToken termTail();
 
-        Token factor();
+        QPSToken factor();
 
     };
 }

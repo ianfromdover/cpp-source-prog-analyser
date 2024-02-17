@@ -7,38 +7,38 @@
 
 #include <memory>
 #include "Clause.h"
-#include "qps/tokenizer/Token.h"
+#include "qps/tokenizer/QPSToken.h"
 
 namespace qps {
     class RelationshipClause : public Clause {
     public:
-        RelationshipClause(TokenType::TypeInfo type, Token &t1, TokenType::TypeInfo type1, Token &t2, TokenType::TypeInfo type2) : Clause(ClauseType::RELATIONSHIP) {
+        RelationshipClause(QPSTokenType::TypeInfo type, QPSToken &t1, QPSTokenType::TypeInfo type1, QPSToken &t2, QPSTokenType::TypeInfo type2) : Clause(ClauseType::RELATIONSHIP) {
             relationshipType = type;
 
-            firstArg = std::make_shared<Token>(t1);
+            firstArg = std::make_shared<QPSToken>(t1);
             firstArgRefType = type1;
-            secondArg = std::make_shared<Token>(t2);
+            secondArg = std::make_shared<QPSToken>(t2);
             secondArgRefType = type2;
         }
 
-        TokenType::TypeInfo getRelationshipType();
+        QPSTokenType::TypeInfo getRelationshipType();
 
-        TokenType::TypeInfo getFirstArgType();
-        TokenType::TypeInfo getFirstReferenceType();
-        Token& getFirstArg();
+        QPSTokenType::TypeInfo getFirstArgType();
+        QPSTokenType::TypeInfo getFirstReferenceType();
+        QPSToken& getFirstArg();
 
-        TokenType::TypeInfo getSecondArgType();
-        TokenType::TypeInfo getSecondReferenceType();
-        Token& getSecondArg();
+        QPSTokenType::TypeInfo getSecondArgType();
+        QPSTokenType::TypeInfo getSecondReferenceType();
+        QPSToken& getSecondArg();
 
     private:
-        TokenType::TypeInfo relationshipType;
+        QPSTokenType::TypeInfo relationshipType;
 
-        std::shared_ptr<Token> firstArg;
-        TokenType::TypeInfo firstArgRefType;
+        std::shared_ptr<QPSToken> firstArg;
+        QPSTokenType::TypeInfo firstArgRefType;
 
-        std::shared_ptr<Token> secondArg;
-        TokenType::TypeInfo secondArgRefType;
+        std::shared_ptr<QPSToken> secondArg;
+        QPSTokenType::TypeInfo secondArgRefType;
     };
 }
 

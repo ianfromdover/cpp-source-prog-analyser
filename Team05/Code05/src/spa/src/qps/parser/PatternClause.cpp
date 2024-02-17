@@ -20,14 +20,14 @@ namespace qps {
         throw std::runtime_error("First argument is not set");
     }
 
-    TokenType::TypeInfo PatternClause::getSecondArgType() {
+    QPSTokenType::TypeInfo PatternClause::getSecondArgType() {
         if (secondArg != nullptr) {
             return secondArg->getType().getInfo();
         }
         throw std::runtime_error("Second argument is not set");
     }
 
-    TokenType::TypeInfo PatternClause::getFirstArgType() {
+    QPSTokenType::TypeInfo PatternClause::getFirstArgType() {
         if (firstArg != nullptr) {
             return firstArg->getType().getInfo();
         }
@@ -38,11 +38,11 @@ namespace qps {
         return synonym;
     }
 
-    TokenType::TypeInfo PatternClause::getFirstReferenceType() {
+    QPSTokenType::TypeInfo PatternClause::getFirstReferenceType() {
         return firstArgType;
     }
 
-    TokenType::TypeInfo PatternClause::getSecondReferenceType() {
+    QPSTokenType::TypeInfo PatternClause::getSecondReferenceType() {
         return secondArgType;
     }
 }

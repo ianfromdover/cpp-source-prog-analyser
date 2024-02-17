@@ -8,38 +8,38 @@
 
 using namespace qps;
 
-static TokenList generateTokenList(std::initializer_list<std::pair<TokenType::TypeInfo,std::string>> tokenStream);
+static QPSTokenList generateTokenList(std::initializer_list<std::pair<QPSTokenType::TypeInfo,std::string>> tokenStream);
 
 TEST_CASE("scratch pad parser"){
     SECTION("singleDeclaration_singleSelect_singlePattern") {
-TokenList tokens = generateTokenList({
-            {TokenType::TypeInfo::STMT, "stmt"},
-            {TokenType::TypeInfo::IDENTIFIER, "s"},
-            {TokenType::TypeInfo::SEMICOLON, ";"},
-            {TokenType::TypeInfo::SELECT, "Select"},
-            {TokenType::TypeInfo::IDENTIFIER, "s"},
-            {TokenType::TypeInfo::SUCH, "such"},
-            {TokenType::TypeInfo::THAT, "that"},
-            {TokenType::TypeInfo::USES_S, "UsesS"},
-            {TokenType::TypeInfo::LEFT_PAREN, "("},
-            {TokenType::TypeInfo::INTEGER, "1"},
-            {TokenType::TypeInfo::COMMA, ","},
-            {TokenType::TypeInfo::IDENTIFIER, "s"},
-            {TokenType::TypeInfo::RIGHT_PAREN, ")"},
-            {TokenType::TypeInfo::PATTERN, "pattern"},
-            {TokenType::TypeInfo::IDENTIFIER, "s"},
-            {TokenType::TypeInfo::LEFT_PAREN, "("},
-            {TokenType::TypeInfo::WILDCARD, "_"},
-            {TokenType::TypeInfo::COMMA, ","},
-            {TokenType::TypeInfo::WILDCARD, "_"},
-            {TokenType::TypeInfo::QUOTE, "\""},
-            {TokenType::TypeInfo::IDENTIFIER, "x"},
-            {TokenType::TypeInfo::PLUS, "+"},
-            {TokenType::TypeInfo::IDENTIFIER, "y"},
-            {TokenType::TypeInfo::QUOTE, "\""},
-            {TokenType::TypeInfo::WILDCARD, "_"},
-            {TokenType::TypeInfo::RIGHT_PAREN, ")"},
-            {TokenType::TypeInfo::END_OF_FILE, ""},
+QPSTokenList tokens = generateTokenList({
+            {QPSTokenType::TypeInfo::STMT,        "stmt"},
+            {QPSTokenType::TypeInfo::IDENTIFIER,  "s"},
+            {QPSTokenType::TypeInfo::SEMICOLON,   ";"},
+            {QPSTokenType::TypeInfo::SELECT,      "Select"},
+            {QPSTokenType::TypeInfo::IDENTIFIER,  "s"},
+            {QPSTokenType::TypeInfo::SUCH,        "such"},
+            {QPSTokenType::TypeInfo::THAT,        "that"},
+            {QPSTokenType::TypeInfo::USES_S,      "UsesS"},
+            {QPSTokenType::TypeInfo::LEFT_PAREN,  "("},
+            {QPSTokenType::TypeInfo::INTEGER,     "1"},
+            {QPSTokenType::TypeInfo::COMMA,       ","},
+            {QPSTokenType::TypeInfo::IDENTIFIER,  "s"},
+            {QPSTokenType::TypeInfo::RIGHT_PAREN, ")"},
+            {QPSTokenType::TypeInfo::PATTERN,     "pattern"},
+            {QPSTokenType::TypeInfo::IDENTIFIER,  "s"},
+            {QPSTokenType::TypeInfo::LEFT_PAREN,  "("},
+            {QPSTokenType::TypeInfo::WILDCARD,    "_"},
+            {QPSTokenType::TypeInfo::COMMA,       ","},
+            {QPSTokenType::TypeInfo::WILDCARD,    "_"},
+            {QPSTokenType::TypeInfo::QUOTE,       "\""},
+            {QPSTokenType::TypeInfo::IDENTIFIER,  "x"},
+            {QPSTokenType::TypeInfo::PLUS,        "+"},
+            {QPSTokenType::TypeInfo::IDENTIFIER,  "y"},
+            {QPSTokenType::TypeInfo::QUOTE,       "\""},
+            {QPSTokenType::TypeInfo::WILDCARD,    "_"},
+            {QPSTokenType::TypeInfo::RIGHT_PAREN, ")"},
+            {QPSTokenType::TypeInfo::END_OF_FILE, ""},
         });
 
         Parser parser(tokens);
@@ -51,66 +51,66 @@ TokenList tokens = generateTokenList({
 // Unit Tests for QPS
 TEST_CASE("parse_validSyntax_noThrows") {
     SECTION("singleDeclaration_singleSelect") {
-        TokenList tokens = generateTokenList({
-            {TokenType::TypeInfo::STMT, "stmt"},
-            {TokenType::TypeInfo::IDENTIFIER, "s"},
-            {TokenType::TypeInfo::SEMICOLON, ";"},
-            {TokenType::TypeInfo::SELECT, "Select"},
-            {TokenType::TypeInfo::IDENTIFIER, "s"},
-            {TokenType::TypeInfo::END_OF_FILE, ""},
+        QPSTokenList tokens = generateTokenList({
+            {QPSTokenType::TypeInfo::STMT,        "stmt"},
+            {QPSTokenType::TypeInfo::IDENTIFIER,  "s"},
+            {QPSTokenType::TypeInfo::SEMICOLON,   ";"},
+            {QPSTokenType::TypeInfo::SELECT,      "Select"},
+            {QPSTokenType::TypeInfo::IDENTIFIER,  "s"},
+            {QPSTokenType::TypeInfo::END_OF_FILE, ""},
             });
         Parser parser(tokens);
         REQUIRE_NOTHROW(parser.parse());
     }
     SECTION("multipleDeclaration_singleSelect") {
-        TokenList tokens = generateTokenList({
-            {TokenType::TypeInfo::STMT, "stmt"},
-            {TokenType::TypeInfo::IDENTIFIER, "s"},
-            {TokenType::TypeInfo::COMMA, ","},
-            {TokenType::TypeInfo::IDENTIFIER, "s1"},
-            {TokenType::TypeInfo::SEMICOLON, ";"},
-            {TokenType::TypeInfo::SELECT, "Select"},
-            {TokenType::TypeInfo::IDENTIFIER, "s"},
-            {TokenType::TypeInfo::END_OF_FILE, ""},
+        QPSTokenList tokens = generateTokenList({
+            {QPSTokenType::TypeInfo::STMT,        "stmt"},
+            {QPSTokenType::TypeInfo::IDENTIFIER,  "s"},
+            {QPSTokenType::TypeInfo::COMMA,       ","},
+            {QPSTokenType::TypeInfo::IDENTIFIER,  "s1"},
+            {QPSTokenType::TypeInfo::SEMICOLON,   ";"},
+            {QPSTokenType::TypeInfo::SELECT,      "Select"},
+            {QPSTokenType::TypeInfo::IDENTIFIER,  "s"},
+            {QPSTokenType::TypeInfo::END_OF_FILE, ""},
             });
         Parser parser(tokens);
         REQUIRE_NOTHROW(parser.parse());
     }
     SECTION("singleDeclaration_singleSelect_singleRelationship") {
-        TokenList tokens = generateTokenList({
-            {TokenType::TypeInfo::STMT, "stmt"},
-            {TokenType::TypeInfo::IDENTIFIER, "s"},
-            {TokenType::TypeInfo::SEMICOLON, ";"},
-            {TokenType::TypeInfo::SELECT, "Select"},
-            {TokenType::TypeInfo::IDENTIFIER, "s"},
-            {TokenType::TypeInfo::SUCH, "such"},
-            {TokenType::TypeInfo::THAT, "that"},
-            {TokenType::TypeInfo::PARENT, "Parent"},
-            {TokenType::TypeInfo::LEFT_PAREN, "("},
-            {TokenType::TypeInfo::IDENTIFIER, "s"},
-            {TokenType::TypeInfo::COMMA, ","},
-            {TokenType::TypeInfo::IDENTIFIER, "s"},
-            {TokenType::TypeInfo::RIGHT_PAREN, ")"},
-            {TokenType::TypeInfo::END_OF_FILE, ""},
+        QPSTokenList tokens = generateTokenList({
+            {QPSTokenType::TypeInfo::STMT,        "stmt"},
+            {QPSTokenType::TypeInfo::IDENTIFIER,  "s"},
+            {QPSTokenType::TypeInfo::SEMICOLON,   ";"},
+            {QPSTokenType::TypeInfo::SELECT,      "Select"},
+            {QPSTokenType::TypeInfo::IDENTIFIER,  "s"},
+            {QPSTokenType::TypeInfo::SUCH,        "such"},
+            {QPSTokenType::TypeInfo::THAT,        "that"},
+            {QPSTokenType::TypeInfo::PARENT,      "Parent"},
+            {QPSTokenType::TypeInfo::LEFT_PAREN,  "("},
+            {QPSTokenType::TypeInfo::IDENTIFIER,  "s"},
+            {QPSTokenType::TypeInfo::COMMA,       ","},
+            {QPSTokenType::TypeInfo::IDENTIFIER,  "s"},
+            {QPSTokenType::TypeInfo::RIGHT_PAREN, ")"},
+            {QPSTokenType::TypeInfo::END_OF_FILE, ""},
             });
         Parser parser(tokens);
         REQUIRE_NOTHROW(parser.parse());
     }
     SECTION("singleDeclaration_singleSelect_singlePattern") {
-        TokenList tokens = generateTokenList({
-            {TokenType::TypeInfo::STMT, "stmt"},
-            {TokenType::TypeInfo::IDENTIFIER, "s"},
-            {TokenType::TypeInfo::SEMICOLON, ";"},
-            {TokenType::TypeInfo::SELECT, "Select"},
-            {TokenType::TypeInfo::IDENTIFIER, "s"},
-            {TokenType::TypeInfo::PATTERN, "pattern"},
-            {TokenType::TypeInfo::IDENTIFIER, "s"},
-            {TokenType::TypeInfo::LEFT_PAREN, "("},
-            {TokenType::TypeInfo::IDENTIFIER, "s"},
-            {TokenType::TypeInfo::COMMA, ","},
-            {TokenType::TypeInfo::WILDCARD, "_"},
-            {TokenType::TypeInfo::RIGHT_PAREN, ")"},
-            {TokenType::TypeInfo::END_OF_FILE, ""},
+        QPSTokenList tokens = generateTokenList({
+            {QPSTokenType::TypeInfo::STMT,        "stmt"},
+            {QPSTokenType::TypeInfo::IDENTIFIER,  "s"},
+            {QPSTokenType::TypeInfo::SEMICOLON,   ";"},
+            {QPSTokenType::TypeInfo::SELECT,      "Select"},
+            {QPSTokenType::TypeInfo::IDENTIFIER,  "s"},
+            {QPSTokenType::TypeInfo::PATTERN,     "pattern"},
+            {QPSTokenType::TypeInfo::IDENTIFIER,  "s"},
+            {QPSTokenType::TypeInfo::LEFT_PAREN,  "("},
+            {QPSTokenType::TypeInfo::IDENTIFIER,  "s"},
+            {QPSTokenType::TypeInfo::COMMA,       ","},
+            {QPSTokenType::TypeInfo::WILDCARD,    "_"},
+            {QPSTokenType::TypeInfo::RIGHT_PAREN, ")"},
+            {QPSTokenType::TypeInfo::END_OF_FILE, ""},
             });
         Parser parser(tokens);
         REQUIRE_NOTHROW(parser.parse());
@@ -118,8 +118,8 @@ TEST_CASE("parse_validSyntax_noThrows") {
 
 }
 
-static TokenList generateTokenList(std::initializer_list<std::pair<TokenType::TypeInfo,std::string>> tokenStream){
-    TokenList tokens;
+static QPSTokenList generateTokenList(std::initializer_list<std::pair<QPSTokenType::TypeInfo,std::string>> tokenStream){
+    QPSTokenList tokens;
     for(auto& token : tokenStream){
         tokens.addToken(token.first, token.second);
     }
