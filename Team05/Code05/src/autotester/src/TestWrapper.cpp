@@ -1,6 +1,6 @@
 #include <fstream>
 #include "TestWrapper.h"
-#include "QPS/QPS.h"
+#include "qps/QPS.h"
 
 // implementation code of WrapperFactory - do NOT modify the next 5 lines
 AbstractWrapper* WrapperFactory::wrapper = 0;

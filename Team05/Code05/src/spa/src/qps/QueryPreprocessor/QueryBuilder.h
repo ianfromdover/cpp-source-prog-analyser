@@ -18,7 +18,7 @@ public:
     void addReturnType(std::string);
     std::shared_ptr<QueryObject> build();
 private:
-    std::shared_ptr<Entity> QueryBuilder::searchDeclaration(const std::string& synonym);
+    std::shared_ptr<Entity> searchDeclaration(const std::string& synonym);
     std::vector<std::shared_ptr<Entity>> declarations;
     std::vector<shared_ptr<Constraint>> constraints;
     std::shared_ptr<Returnable> returnType;

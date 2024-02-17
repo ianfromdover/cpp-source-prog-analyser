@@ -16,7 +16,7 @@
 class StringResult : public QueryResult {
 public:
     StringResult(std::vector<std::string>&);
-    QueryResultEnum getType();
+    QueryResultEnum getType() override;
     std::vector<std::string> getResults();
     std::vector<std::string> format() override;
 private:
