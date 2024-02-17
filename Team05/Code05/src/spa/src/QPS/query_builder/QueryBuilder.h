@@ -7,9 +7,30 @@
 
 #include "qps/query_builder/constrain_builder//RelationshipConstraintBuilder.h"
 #include "ConstraintArgCreator.h"
+#include "../query_elements/QueryObject.h"
+#include "constrain_builder/ConcretePatternConstraintBuilder.h"
+#include "constrain_builder/FollowsConstraintBuilder.h"
+#include "constrain_builder/FollowsTConstraintBuilder.h"
+#include "constrain_builder/ModifiesPConstraintBuilder.h"
+#include "constrain_builder/ModifiesSConstraintBuilder.h"
+#include "constrain_builder/ParentConstraintBuilder.h"
+#include "constrain_builder/ParentTConstraintBuilder.h"
+#include "constrain_builder/UsesPConstraintBuilder.h"
+#include "constrain_builder/UsesSConstraintBuilder.h"
+#include "qps/parser/SelectClause.h"
+#include "qps/parser/IntermediateQuery.h"
 
 class QueryBuilder {
-
+private:
+    std::shared_ptr<QueryObject> qo;
+    std::shared_ptr<IntermediateQuery> intermediate;
+    void reset();
+    void setSingleRelationshipConstraint();
+    void setSinglePatternClause();
+    void setSingleSelectClause();
+    void setDeclarationClauses();
+public:
+    std::shared_ptr<QueryObject> build(shared_ptr<IntermediateQuery>);
 };
 
 
