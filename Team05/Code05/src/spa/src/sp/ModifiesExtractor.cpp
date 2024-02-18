@@ -56,8 +56,12 @@ void ModifiesExtractor::visitBinaryExpr(const Binary& expr, shared_ptr<std::vect
 
 void ModifiesExtractor::visitVariableExpr(const Variable& expr, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
     for (const auto& val : *parentInfo) {
-        std::visit([&](const auto& actualValue) {
-            std::cout << "pkb.addModifies(" << actualValue << ", " << expr.getName() << ");" << std::endl;
+        std::visit([&expr, this](auto &&actualValue) {
+            using T = std::decay_t<decltype(actualValue)>;
+            if constexpr (std::is_same_v<T, StmtNo>) {
+                //std::cout << "pkb.addModifies(" << actualValue << ", " << expr.getName() << ");" << std::endl;
+                pkb.addModifies(actualValue, expr.getName());
+            }
         }, val);
     }
 }

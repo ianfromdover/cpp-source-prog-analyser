@@ -12,44 +12,64 @@
 
 void FollowsExtractor::visitReadStmt(const Read& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& prevStmtInfo) {
     for (const auto& val : *prevStmtInfo) {
-        std::visit([&](const auto& actualValue) {
-            if (&val == &prevStmtInfo->back()) {
-                std::cout << "pkb.addFollow(" << actualValue << ", " << stmt.getStmtNo() << ");" << std::endl;
+        std::visit([&stmt, this, &prevStmtInfo, &val](auto&& actualValue) {
+            using T = std::decay_t<decltype(actualValue)>;
+            if constexpr (std::is_same_v<T, StmtNo>) {
+                if (&val == &prevStmtInfo->back()) {
+                    //std::cout << "pkb.addFollows(" << actualValue << ", " << stmt.getStmtNo() << ");" << std::endl;
+                    pkb.addFollows(actualValue, stmt.getStmtNo());
+                }
+                //std::cout << "pkb.addFollowsT(" << actualValue << ", " << stmt.getStmtNo() << ");" << std::endl;
+                pkb.addFollowsT(actualValue, stmt.getStmtNo());
             }
-            std::cout << "pkb.addFollowT(" << actualValue << ", " << stmt.getStmtNo() << ");" << std::endl;
         }, val);
     }
 }
 
 void FollowsExtractor::visitPrintStmt(const Print& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& prevStmtInfo) {
     for (const auto& val : *prevStmtInfo) {
-        std::visit([&](const auto& actualValue) {
-            if (&val == &prevStmtInfo->back()) {
-                std::cout << "pkb.addFollow(" << actualValue << ", " << stmt.getStmtNo() << ");" << std::endl;
+        std::visit([&stmt, this, &prevStmtInfo, &val](auto&& actualValue) {
+            using T = std::decay_t<decltype(actualValue)>;
+            if constexpr (std::is_same_v<T, StmtNo>) {
+                if (&val == &prevStmtInfo->back()) {
+                    //std::cout << "pkb.addFollows(" << actualValue << ", " << stmt.getStmtNo() << ");" << std::endl;
+                    pkb.addFollows(actualValue, stmt.getStmtNo());
+                }
+                //std::cout << "pkb.addFollowsT(" << actualValue << ", " << stmt.getStmtNo() << ");" << std::endl;
+                pkb.addFollowsT(actualValue, stmt.getStmtNo());
             }
-            std::cout << "pkb.addFollowT(" << actualValue << ", " << stmt.getStmtNo() << ");" << std::endl;
         }, val);
     }
 }
 
 void FollowsExtractor::visitCallStmt(const Call& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& prevStmtInfo) {
     for (const auto& val : *prevStmtInfo) {
-        std::visit([&](const auto& actualValue) {
-            if (&val == &prevStmtInfo->back()) {
-                std::cout << "pkb.addFollow(" << actualValue << ", " << stmt.getStmtNo() << ");" << std::endl;
+        std::visit([&stmt, this, &prevStmtInfo, &val](auto&& actualValue) {
+            using T = std::decay_t<decltype(actualValue)>;
+            if constexpr (std::is_same_v<T, StmtNo>) {
+                if (&val == &prevStmtInfo->back()) {
+                    //std::cout << "pkb.addFollows(" << actualValue << ", " << stmt.getStmtNo() << ");" << std::endl;
+                    pkb.addFollows(actualValue, stmt.getStmtNo());
+                }
+                //std::cout << "pkb.addFollowsT(" << actualValue << ", " << stmt.getStmtNo() << ");" << std::endl;
+                pkb.addFollowsT(actualValue, stmt.getStmtNo());
             }
-            std::cout << "pkb.addFollowT(" << actualValue << ", " << stmt.getStmtNo() << ");" << std::endl;
         }, val);
     }
 }
 
 void FollowsExtractor::visitWhileStmt(const While& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& prevStmtInfo) {
     for (const auto& val : *prevStmtInfo) {
-        std::visit([&](const auto& actualValue) {
-            if (&val == &prevStmtInfo->back()) {
-                std::cout << "pkb.addFollow(" << actualValue << ", " << stmt.getStmtNo() << ");" << std::endl;
+        std::visit([&stmt, this, &prevStmtInfo, &val](auto&& actualValue) {
+            using T = std::decay_t<decltype(actualValue)>;
+            if constexpr (std::is_same_v<T, StmtNo>) {
+                if (&val == &prevStmtInfo->back()) {
+                    //std::cout << "pkb.addFollows(" << actualValue << ", " << stmt.getStmtNo() << ");" << std::endl;
+                    pkb.addFollows(actualValue, stmt.getStmtNo());
+                }
+                //std::cout << "pkb.addFollowsT(" << actualValue << ", " << stmt.getStmtNo() << ");" << std::endl;
+                pkb.addFollowsT(actualValue, stmt.getStmtNo());
             }
-            std::cout << "pkb.addFollowT(" << actualValue << ", " << stmt.getStmtNo() << ");" << std::endl;
         }, val);
     }
     auto newPrevStmtInfo = std::make_shared<std::vector<std::variant<StmtNo, std::string>>>();
@@ -61,11 +81,16 @@ void FollowsExtractor::visitWhileStmt(const While& stmt, shared_ptr<std::vector<
 
 void FollowsExtractor::visitIfStmt(const If& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& prevStmtInfo) {
     for (const auto& val : *prevStmtInfo) {
-        std::visit([&](const auto& actualValue) {
-            if (&val == &prevStmtInfo->back()) {
-                std::cout << "pkb.addFollow(" << actualValue << ", " << stmt.getStmtNo() << ");" << std::endl;
+        std::visit([&stmt, this, &prevStmtInfo, &val](auto&& actualValue) {
+            using T = std::decay_t<decltype(actualValue)>;
+            if constexpr (std::is_same_v<T, StmtNo>) {
+                if (&val == &prevStmtInfo->back()) {
+                    //std::cout << "pkb.addFollows(" << actualValue << ", " << stmt.getStmtNo() << ");" << std::endl;
+                    pkb.addFollows(actualValue, stmt.getStmtNo());
+                }
+                //std::cout << "pkb.addFollowsT(" << actualValue << ", " << stmt.getStmtNo() << ");" << std::endl;
+                pkb.addFollowsT(actualValue, stmt.getStmtNo());
             }
-            std::cout << "pkb.addFollowT(" << actualValue << ", " << stmt.getStmtNo() << ");" << std::endl;
         }, val);
     }
     auto newPrevThenStmtInfo = std::make_shared<std::vector<std::variant<StmtNo, std::string>>>();
@@ -82,11 +107,16 @@ void FollowsExtractor::visitIfStmt(const If& stmt, shared_ptr<std::vector<std::v
 
 void FollowsExtractor::visitAssignStmt(const Assign& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& prevStmtInfo) {
     for (const auto& val : *prevStmtInfo) {
-        std::visit([&](const auto& actualValue) {
-            if (&val == &prevStmtInfo->back()) {
-                std::cout << "pkb.addFollow(" << actualValue << ", " << stmt.getStmtNo() << ");" << std::endl;
+        std::visit([&stmt, this, &prevStmtInfo, &val](auto&& actualValue) {
+            using T = std::decay_t<decltype(actualValue)>;
+            if constexpr (std::is_same_v<T, StmtNo>) {
+                if (&val == &prevStmtInfo->back()) {
+                    //std::cout << "pkb.addFollows(" << actualValue << ", " << stmt.getStmtNo() << ");" << std::endl;
+                    pkb.addFollows(actualValue, stmt.getStmtNo());
+                }
+                //std::cout << "pkb.addFollowsT(" << actualValue << ", " << stmt.getStmtNo() << ");" << std::endl;
+                pkb.addFollowsT(actualValue, stmt.getStmtNo());
             }
-            std::cout << "pkb.addFollowT(" << actualValue << ", " << stmt.getStmtNo() << ");" << std::endl;
         }, val);
     }
 }
