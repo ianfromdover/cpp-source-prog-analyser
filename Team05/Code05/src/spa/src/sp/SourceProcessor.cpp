@@ -55,7 +55,7 @@ void SourceProcessor::extract(const Program& program) {
         procedure->accept(statementExtractor);
         procedure->accept(variableExtractor);
         procedure->accept(constantExtractor);
-        //procedure->accept(parentExtractor);
+        procedure->accept(parentExtractor);
         //procedure->accept(usesExtractor);
         //procedure->accept(modifiesExtractor);
         //procedure->accept(followsExtractor);

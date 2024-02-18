@@ -6,38 +6,54 @@
 
 void ParentExtractor::visitReadStmt(const Read& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
     for (const auto& val : *parentInfo) {
-        std::visit([&](const auto& actualValue) {
-            std::cout << "pkb.addParentT(" << actualValue << ", " << stmt.getStmtNo() << ");" << std::endl;
+        std::visit([&stmt, this](auto&& actualValue) {
+            using T = std::decay_t<decltype(actualValue)>;
+            if constexpr (std::is_same_v<T, StmtNo>) {
+                //std::cout << "pkb.addParentT(" << actualValue << ", " << stmt.getStmtNo() << ");" << std::endl;
+                pkb.addParentT(actualValue, stmt.getStmtNo());
+            }
         }, val);
     }
 }
 
 void ParentExtractor::visitPrintStmt(const Print& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
     for (const auto& val : *parentInfo) {
-        std::visit([&](const auto& actualValue) {
-            std::cout << "pkb.addParentT(" << actualValue << ", " << stmt.getStmtNo() << ");" << std::endl;
+        std::visit([&stmt, this](auto&& actualValue) {
+            using T = std::decay_t<decltype(actualValue)>;
+            if constexpr (std::is_same_v<T, StmtNo>) {
+                //std::cout << "pkb.addParentT(" << actualValue << ", " << stmt.getStmtNo() << ");" << std::endl;
+                pkb.addParentT(actualValue, stmt.getStmtNo());
+            }
         }, val);
     }
 }
 
 void ParentExtractor::visitCallStmt(const Call& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
     for (const auto& val : *parentInfo) {
-        std::visit([&](const auto& actualValue) {
-            std::cout << "pkb.addParentT(" << actualValue << ", " << stmt.getStmtNo() << ");" << std::endl;
+        std::visit([&stmt, this](auto&& actualValue) {
+            using T = std::decay_t<decltype(actualValue)>;
+            if constexpr (std::is_same_v<T, StmtNo>) {
+                //std::cout << "pkb.addParentT(" << actualValue << ", " << stmt.getStmtNo() << ");" << std::endl;
+                pkb.addParentT(actualValue, stmt.getStmtNo());
+            }
         }, val);
     }
 }
 
 void ParentExtractor::visitWhileStmt(const While& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
     for (const auto& val : *parentInfo) {
-        std::visit([&](const auto& actualValue) {
-            std::cout << "pkb.addParentT(" << actualValue << ", " << stmt.getStmtNo() << ");" << std::endl;
+        std::visit([&stmt, this](auto&& actualValue) {
+            using T = std::decay_t<decltype(actualValue)>;
+            if constexpr (std::is_same_v<T, StmtNo>) {
+                //std::cout << "pkb.addParentT(" << actualValue << ", " << stmt.getStmtNo() << ");" << std::endl;
+                pkb.addParentT(actualValue, stmt.getStmtNo());
+            }
         }, val);
     }
     parentInfo->emplace_back(stmt.getStmtNo());
     for (const auto& childStmt : *stmt.getBody()) {
-        //pkb.addParent(stmt.getStmtNo(), childStmt-> getStmtNo());
-        std::cout << "pkb.addParent(" << stmt.getStmtNo() << ", " << childStmt->getStmtNo() << ");" << std::endl;
+        //std::cout << "pkb.addParent(" << stmt.getStmtNo() << ", " << childStmt->getStmtNo() << ");" << std::endl;
+        pkb.addParent(stmt.getStmtNo(), childStmt-> getStmtNo());
         auto parentInfoCopy = std::make_shared<std::vector<std::variant<StmtNo, std::string>>>(*parentInfo);
         childStmt->accept(*this, parentInfoCopy);
     }
@@ -45,20 +61,24 @@ void ParentExtractor::visitWhileStmt(const While& stmt, shared_ptr<std::vector<s
 
 void ParentExtractor::visitIfStmt(const If& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
     for (const auto& val : *parentInfo) {
-        std::visit([&](const auto& actualValue) {
-            std::cout << "pkb.addParentT(" << actualValue << ", " << stmt.getStmtNo() << ");" << std::endl;
+        std::visit([&stmt, this](auto&& actualValue) {
+            using T = std::decay_t<decltype(actualValue)>;
+            if constexpr (std::is_same_v<T, StmtNo>) {
+                //std::cout << "pkb.addParentT(" << actualValue << ", " << stmt.getStmtNo() << ");" << std::endl;
+                pkb.addParentT(actualValue, stmt.getStmtNo());
+            }
         }, val);
     }
     parentInfo->emplace_back(stmt.getStmtNo());
     for (const auto& childStmt: *stmt.getThenBranch()) {
-        //pkb.addParent(stmt.getStmtNo(), childStmt-> getStmtNo());
-        std::cout << "pkb.addParent(" << stmt.getStmtNo() << ", " << childStmt->getStmtNo() << ");" << std::endl;
+        //std::cout << "pkb.addParent(" << stmt.getStmtNo() << ", " << childStmt->getStmtNo() << ");" << std::endl;
+        pkb.addParent(stmt.getStmtNo(), childStmt-> getStmtNo());
         auto parentInfoCopy = std::make_shared<std::vector<std::variant<StmtNo, std::string>>>(*parentInfo);
         childStmt->accept(*this, parentInfoCopy);
     }
     for (const auto& childStmt: *stmt.getElseBranch()) {
-        //pkb.addParent(stmt.getStmtNo(), childStmt-> getStmtNo());
-        std::cout << "pkb.addParent(" << stmt.getStmtNo() << ", " << childStmt->getStmtNo() << ");" << std::endl;
+        //std::cout << "pkb.addParent(" << stmt.getStmtNo() << ", " << childStmt->getStmtNo() << ");" << std::endl;
+        pkb.addParent(stmt.getStmtNo(), childStmt-> getStmtNo());
         auto parentInfoCopy = std::make_shared<std::vector<std::variant<StmtNo, std::string>>>(*parentInfo);
         childStmt->accept(*this, parentInfoCopy);
     }
@@ -66,8 +86,12 @@ void ParentExtractor::visitIfStmt(const If& stmt, shared_ptr<std::vector<std::va
 
 void ParentExtractor::visitAssignStmt(const Assign& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
     for (const auto& val : *parentInfo) {
-        std::visit([&](const auto& actualValue) {
-            std::cout << "pkb.addParentT(" << actualValue << ", " << stmt.getStmtNo() << ");" << std::endl;
+        std::visit([&stmt, this](auto&& actualValue) {
+            using T = std::decay_t<decltype(actualValue)>;
+            if constexpr (std::is_same_v<T, StmtNo>) {
+                //std::cout << "pkb.addParentT(" << actualValue << ", " << stmt.getStmtNo() << ");" << std::endl;
+                pkb.addParentT(actualValue, stmt.getStmtNo());
+            }
         }, val);
     }
 }
