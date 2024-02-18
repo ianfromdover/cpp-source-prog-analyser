@@ -50,7 +50,7 @@ void AssignExtractor::visitVariableExpr(const Variable& expr, shared_ptr<std::ve
             using T = std::decay_t<decltype(actualValue)>;
             if constexpr (std::is_same_v<T, StmtNo>) {
                 //std::cout << "pkb.addAssign(" << actualValue << ", " << expr.getName() << ");" << std::endl;
-                std::cout<<pkb.addAssign(actualValue, expr.getName())<<std::endl;
+                pkb.addAssign(actualValue, expr.getName());
             }
         }, val);
     }

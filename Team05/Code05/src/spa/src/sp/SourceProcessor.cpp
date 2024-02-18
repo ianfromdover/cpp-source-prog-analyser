@@ -30,10 +30,6 @@ Program SourceProcessor::parse(std::shared_ptr<std::vector<std::shared_ptr<Token
 }
 
 void SourceProcessor::extract(const Program& program) {
-    ParentExtractor parentExtractor(this->pkb);
-    UsesExtractor usesExtractor(this->pkb);
-    ModifiesExtractor modifiesExtractor(this->pkb);
-    FollowsExtractor followsExtractor(this->pkb);
     ReadExtractor readExtractor(this->pkb);
     CallExtractor callExtractor(this->pkb);
     IfExtractor ifExtractor(this->pkb);
@@ -43,11 +39,13 @@ void SourceProcessor::extract(const Program& program) {
     StatementExtractor statementExtractor(this->pkb);
     VariableExtractor variableExtractor(this->pkb);
     ConstantExtractor constantExtractor(this->pkb);
+    ParentExtractor parentExtractor(this->pkb);
+    UsesExtractor usesExtractor(this->pkb);
+    ModifiesExtractor modifiesExtractor(this->pkb);
+    FollowsExtractor followsExtractor(this->pkb);
     for (const auto& procedure : *program) {
-        //procedure->accept(parentExtractor);
-        //procedure->accept(usesExtractor);
-        //procedure->accept(modifiesExtractor);
-        //procedure->accept(followsExtractor);
+        //std::cout << "pkb.addProcedure(" << procedure->getProcName() << ");" << std::endl;
+        pkb.addProcedure(procedure->getProcName());
         procedure->accept(readExtractor);
         procedure->accept(callExtractor);
         procedure->accept(ifExtractor);
@@ -55,9 +53,11 @@ void SourceProcessor::extract(const Program& program) {
         procedure->accept(printExtractor);
         procedure->accept(assignExtractor);
         procedure->accept(statementExtractor);
-        //std::cout << "pkb.addProcedure(" << procedure->getProcName() << ");" << std::endl;
-        //std::cout << pkb.addProcedure(procedure->getProcName()) << std::endl;
         procedure->accept(variableExtractor);
         procedure->accept(constantExtractor);
+        //procedure->accept(parentExtractor);
+        //procedure->accept(usesExtractor);
+        //procedure->accept(modifiesExtractor);
+        //procedure->accept(followsExtractor);
     }
 }
