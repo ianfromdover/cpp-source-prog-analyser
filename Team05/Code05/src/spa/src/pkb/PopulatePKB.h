@@ -26,7 +26,7 @@ public:
     bool addAssign(StmtNo sNum, VarName LhsVarName);
     bool addPrint(StmtNo s, VarName name);
     bool addFinalStatementNo(StmtNo s);
-    bool addProcedure(StmtNo sNum, Str procedureName); // future: should this have an associated StmtList?
+    bool addProcedure(Str procedureName); // future: should this have an associated StmtList?
     bool addVar(StmtNo sNum, VarName name);
     bool addConst(StmtNo sNum, ConstVal c);
 

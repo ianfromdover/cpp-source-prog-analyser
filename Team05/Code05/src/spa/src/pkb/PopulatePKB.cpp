@@ -34,7 +34,7 @@ bool PopulatePKB::addFinalStatementNo(StmtNo s) {
     return false;
 }
 
-bool PopulatePKB::addProcedure(StmtNo sNum, Str procedureName) {
+bool PopulatePKB::addProcedure(Str procedureName) {
     // future: should this have an associated StmtList?
     return false;
 }
