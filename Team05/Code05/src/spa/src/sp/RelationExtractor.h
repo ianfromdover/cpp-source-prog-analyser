@@ -4,6 +4,8 @@
 
 #ifndef SPA_RELATIONEXTRACTOR_H
 #define SPA_RELATIONEXTRACTOR_H
+
+#include "utilSpa/spaTypes.h"
 #include <variant>
 #include <iostream>
 #include <vector>

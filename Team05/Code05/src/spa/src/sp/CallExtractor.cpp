@@ -14,7 +14,8 @@ void CallExtractor::visitPrintStmt(const Print& stmt, shared_ptr<std::vector<std
 
 void CallExtractor::visitCallStmt(const Call& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
     std::string procName = stmt.getProcName();
-    std::cout << "pkb.addCall(" << stmt.getStmtNo() << ", " << procName << ");" << std::endl;
+    //std::cout << "pkb.addCallStmt(" << stmt.getStmtNo() << ", " << procName << ");" << std::endl;
+    pkb.addCallStmt(stmt.getStmtNo(), procName );
 }
 
 void CallExtractor::visitWhileStmt(const While& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {

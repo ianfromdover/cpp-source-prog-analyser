@@ -48,15 +48,16 @@ void SourceProcessor::extract(const Program& program) {
         //procedure->accept(usesExtractor);
         //procedure->accept(modifiesExtractor);
         //procedure->accept(followsExtractor);
-        //procedure->accept(readExtractor);
-        //procedure->accept(callExtractor);
-        //procedure->accept(ifExtractor);
-        //procedure->accept(whileExtractor);
-        //procedure->accept(printExtractor);
-        //procedure->accept(assignExtractor);
-        //procedure->accept(statementExtractor);
+        procedure->accept(readExtractor);
+        procedure->accept(callExtractor);
+        procedure->accept(ifExtractor);
+        procedure->accept(whileExtractor);
+        procedure->accept(printExtractor);
+        procedure->accept(assignExtractor);
+        procedure->accept(statementExtractor);
         //std::cout << "pkb.addProcedure(" << procedure->getProcName() << ");" << std::endl;
-        //procedure->accept(variableExtractor);
+        //std::cout << pkb.addProcedure(procedure->getProcName()) << std::endl;
+        procedure->accept(variableExtractor);
         procedure->accept(constantExtractor);
     }
 }

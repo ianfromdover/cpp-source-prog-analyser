@@ -5,18 +5,23 @@
 #include "StatementExtractor.h"
 
 void StatementExtractor::visitReadStmt(const Read& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
-    std::cout << "pkb.addFinalStatementNo(" << stmt.getStmtNo() << ");" << std::endl;
+    //std::cout << "pkb.addFinalStatementNo(" << stmt.getStmtNo() << ");" << std::endl;
+    pkb.addFinalStatementNo(stmt.getStmtNo());
 }
 
 void StatementExtractor::visitPrintStmt(const Print& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
-    std::cout << "pkb.addFinalStatementNo(" << stmt.getStmtNo() << ");" << std::endl;
+    //std::cout << "pkb.addFinalStatementNo(" << stmt.getStmtNo() << ");" << std::endl;
+    pkb.addFinalStatementNo(stmt.getStmtNo());
 }
 
 void StatementExtractor::visitCallStmt(const Call& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
-    std::cout << "pkb.addFinalStatementNo(" << stmt.getStmtNo() << ");" << std::endl;
+    //std::cout << "pkb.addFinalStatementNo(" << stmt.getStmtNo() << ");" << std::endl;
+    pkb.addFinalStatementNo(stmt.getStmtNo());
 }
 
 void StatementExtractor::visitWhileStmt(const While& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+    //std::cout << "pkb.addFinalStatementNo(" << stmt.getStmtNo() << ");" << std::endl;
+    pkb.addFinalStatementNo(stmt.getStmtNo());
     for (const auto& childStmt: *stmt.getBody()) {
         auto parentInfoCopy = std::make_shared<std::vector<std::variant<StmtNo, std::string>>>(*parentInfo);
         childStmt->accept(*this, parentInfoCopy);
@@ -24,6 +29,8 @@ void StatementExtractor::visitWhileStmt(const While& stmt, shared_ptr<std::vecto
 }
 
 void StatementExtractor::visitIfStmt(const If& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+    //std::cout << "pkb.addFinalStatementNo(" << stmt.getStmtNo() << ");" << std::endl;
+    pkb.addFinalStatementNo(stmt.getStmtNo());
     for (const auto& childStmt: *stmt.getThenBranch()) {
         auto parentInfoCopy = std::make_shared<std::vector<std::variant<StmtNo, std::string>>>(*parentInfo);
         childStmt->accept(*this, parentInfoCopy);
@@ -35,7 +42,8 @@ void StatementExtractor::visitIfStmt(const If& stmt, shared_ptr<std::vector<std:
 }
 
 void StatementExtractor::visitAssignStmt(const Assign& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
-    std::cout << "pkb.addFinalStatementNo(" << stmt.getStmtNo() << ");" << std::endl;
+    //std::cout << "pkb.addFinalStatementNo(" << stmt.getStmtNo() << ");" << std::endl;
+    pkb.addFinalStatementNo(stmt.getStmtNo());
 }
 
 void StatementExtractor::visitBinaryExpr(const Binary& expr, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {

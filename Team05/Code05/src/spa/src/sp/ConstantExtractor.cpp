@@ -68,8 +68,12 @@ void ConstantExtractor::visitVariableExpr(const Variable& expr, shared_ptr<std::
 
 void ConstantExtractor::visitLiteralExpr(const Literal& expr, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
     for (const auto& val : *parentInfo) {
-        std::visit([&](const auto& actualValue) {
-            std::cout << "pkb.addConst(" << actualValue << ", " << expr.getValue() << ");" << std::endl;
+        std::visit([&expr, this](auto&& actualValue) {
+            using T = std::decay_t<decltype(actualValue)>;
+            if constexpr (std::is_same_v<T, StmtNo>) {
+                //std::cout << "pkb.addConst(" << actualValue << ", " << expr.getValue() << ");" << std::endl;
+                pkb.addConst(actualValue, expr.getValue());
+            }
         }, val);
     }
 }

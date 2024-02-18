@@ -54,9 +54,13 @@ void IfExtractor::visitBinaryExpr(const Binary& expr, shared_ptr<std::vector<std
 }
 
 void IfExtractor::visitVariableExpr(const Variable& expr, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
-    for (const auto &val: *parentInfo) {
-        std::visit([&](const auto &actualValue) {
-            std::cout << "pkb.addIf(" << actualValue << ", " << expr.getName() << ");" << std::endl;
+    for (const auto& val : *parentInfo) {
+        std::visit([&expr, this](auto&& actualValue) {
+            using T = std::decay_t<decltype(actualValue)>;
+            if constexpr (std::is_same_v<T, StmtNo>) {
+                //std::cout << "pkb.addIf(" << actualValue << ", " << expr.getName() << ");" << std::endl;
+                pkb.addIf(actualValue, expr.getName());
+            }
         }, val);
     }
 }
