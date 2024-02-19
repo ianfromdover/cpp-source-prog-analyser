@@ -1,6 +1,7 @@
 #include "DoubleCharacterStrategy.h"
 
-bool DoubleCharacterStrategy::tokenize(char character, std::stringstream& stream, TokenList& tokens, bool& prevTokenIsKeyword) {
+bool DoubleCharacterStrategy::tokenize(char character, std::stringstream& stream, std::shared_ptr<std::vector<std::shared_ptr<Token>>>& tokens,
+                                       bool& prevTokenIsKeyword) {
     TokenType::TypeInfo type;
     std::string lexeme(1, character);
     bool doubleCharacter = false;
@@ -39,7 +40,7 @@ bool DoubleCharacterStrategy::tokenize(char character, std::stringstream& stream
         lexeme += static_cast<char>(stream.get()); // Append the second character to lexeme
     }
 
-    tokens.addToken(type, lexeme);
+    this->addToken(type, lexeme, tokens);
     prevTokenIsKeyword = false; // Reset keyword flag for all tokens handled here
     return true;
 }

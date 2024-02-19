@@ -5,7 +5,8 @@
 
 #include "SingleCharacterStrategy.h"
 
-bool SingleCharacterStrategy::tokenize(char character, std::stringstream& stream, TokenList& tokens, bool& prevTokenIsKeyword) {
+bool SingleCharacterStrategy::tokenize(char character, std::stringstream& stream, std::shared_ptr<std::vector<std::shared_ptr<Token>>>& tokens,
+                                       bool& prevTokenIsKeyword) {
     TokenType::TypeInfo type;
     std::string lexeme(1, character);
     bool isTokenFound = true;
@@ -25,7 +26,7 @@ bool SingleCharacterStrategy::tokenize(char character, std::stringstream& stream
     }
 
     if (isTokenFound) {
-        tokens.addToken(type, lexeme);
+        this->addToken(type, lexeme, tokens);
         if (!(type == TokenType::LEFT_PAREN || type == TokenType::RIGHT_PAREN)) {
             prevTokenIsKeyword = false;
         }

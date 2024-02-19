@@ -5,7 +5,6 @@
 #ifndef SPA_PARSER_H
 #define SPA_PARSER_H
 
-#include "TokenList.h"
 #include "Expr.h"
 #include "Stmt.h"
 
@@ -13,11 +12,10 @@ class Parser {
 private:
     int current = 0;
     StmtNo currentStmtNo = 0;
-    // TODO: Re-look at the design and ownership of TokenList.
-    std::vector<std::shared_ptr<Token>> tokens;
+    std::shared_ptr<std::vector<std::shared_ptr<Token>>> tokens;
 
 public:
-    explicit Parser(TokenList& tokens) : tokens(tokens.getTokens()) {};
+    explicit Parser(std::shared_ptr<std::vector<std::shared_ptr<Token>>>& tokens) : tokens(tokens) {};
     Program parse();
 
 private:

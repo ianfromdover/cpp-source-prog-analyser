@@ -6,70 +6,69 @@
 #include "sp/SingleCharacterStrategy.h"
 #include "sp/DoubleCharacterStrategy.h"
 #include "sp/MultiCharacterStrategy.h"
-#include "sp/TokenList.h"
 #include <sstream>
 
 TEST_CASE("[TestSP] SingleCharacterStrategy tokenization", "[SingleCharacter]") {
     SingleCharacterStrategy strategy;
-    TokenList tokens;
+    auto tokens = std::make_shared<std::vector<std::shared_ptr<Token>>>();
     bool prevTokenIsKeyword = true;
     std::stringstream stream;
 
     SECTION("Tokenize '{' as LEFT_BRACE") {
         REQUIRE(strategy.tokenize('{', stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().back() -> getType().getInfo() == TokenType::LEFT_BRACE);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::LEFT_BRACE);
         REQUIRE(prevTokenIsKeyword == false);
     }
     SECTION("Tokenize '}' as RIGHT_BRACE") {
         REQUIRE(strategy.tokenize('}', stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().back() -> getType().getInfo() == TokenType::RIGHT_BRACE);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::RIGHT_BRACE);
         REQUIRE(prevTokenIsKeyword == false);
     }
     SECTION("Tokenize ';' as SEMICOLON") {
         REQUIRE(strategy.tokenize(';', stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().back() -> getType().getInfo() == TokenType::SEMICOLON);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::SEMICOLON);
         REQUIRE(prevTokenIsKeyword == false);
     }
     SECTION("Tokenize '(' as LEFT_PAREN") {
         REQUIRE(strategy.tokenize('(', stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().back() -> getType().getInfo() == TokenType::LEFT_PAREN);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::LEFT_PAREN);
         REQUIRE(prevTokenIsKeyword == true);
     }
     SECTION("Tokenize ')' as RIGHT_PAREN") {
         REQUIRE(strategy.tokenize(')', stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().back() -> getType().getInfo() == TokenType::RIGHT_PAREN);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::RIGHT_PAREN);
         REQUIRE(prevTokenIsKeyword == true);
     }
     SECTION("Tokenize '+' as ADD") {
         REQUIRE(strategy.tokenize('+', stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().back() -> getType().getInfo() == TokenType::ADD);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::ADD);
         REQUIRE(prevTokenIsKeyword == false);
     }
     SECTION("Tokenize '-' as SUBTRACT") {
         REQUIRE(strategy.tokenize('-', stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().back() -> getType().getInfo() == TokenType::SUBTRACT);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::SUBTRACT);
         REQUIRE(prevTokenIsKeyword == false);
     }
     SECTION("Tokenize '*' as MULTIPLY") {
         REQUIRE(strategy.tokenize('*', stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().back() -> getType().getInfo() == TokenType::MULTIPLY);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::MULTIPLY);
         REQUIRE(prevTokenIsKeyword == false);
     }
     SECTION("Tokenize '%' as MOD") {
         REQUIRE(strategy.tokenize('%', stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().back() -> getType().getInfo() == TokenType::MOD);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::MOD);
         REQUIRE(prevTokenIsKeyword == false);
     }
     SECTION("Tokenize '/' as DIVIDE") {
         REQUIRE(strategy.tokenize('/', stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().back() -> getType().getInfo() == TokenType::DIVIDE);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::DIVIDE);
         REQUIRE(prevTokenIsKeyword == false);
     }
 }
 
 TEST_CASE("DoubleCharacterStrategy tokenization", "[DoubleCharacter]") {
     DoubleCharacterStrategy strategy;
-    TokenList tokens;
+    auto tokens = std::make_shared<std::vector<std::shared_ptr<Token>>>();
     bool prevTokenIsKeyword = true;
     std::stringstream stream;
 
@@ -78,7 +77,7 @@ TEST_CASE("DoubleCharacterStrategy tokenization", "[DoubleCharacter]") {
         char firstChar;
         stream.get(firstChar);
         REQUIRE(strategy.tokenize(firstChar, stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().back() -> getType().getInfo() == TokenType::EQUAL_EQUAL);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::EQUAL_EQUAL);
         REQUIRE(prevTokenIsKeyword == false);
     }
 
@@ -87,7 +86,7 @@ TEST_CASE("DoubleCharacterStrategy tokenization", "[DoubleCharacter]") {
         char firstChar;
         stream.get(firstChar);
         REQUIRE(strategy.tokenize(firstChar, stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().back() -> getType().getInfo() == TokenType::ASSIGN);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::ASSIGN);
         REQUIRE(prevTokenIsKeyword == false);
     }
 
@@ -96,7 +95,7 @@ TEST_CASE("DoubleCharacterStrategy tokenization", "[DoubleCharacter]") {
         char firstChar;
         stream.get(firstChar);
         REQUIRE(strategy.tokenize(firstChar, stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().back() -> getType().getInfo() == TokenType::GREATER_EQUAL);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::GREATER_EQUAL);
         REQUIRE(prevTokenIsKeyword == false);
     }
     SECTION("Tokenize '>' as GREATER") {
@@ -104,7 +103,7 @@ TEST_CASE("DoubleCharacterStrategy tokenization", "[DoubleCharacter]") {
         char firstChar;
         stream.get(firstChar);
         REQUIRE(strategy.tokenize(firstChar, stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().back() -> getType().getInfo() == TokenType::GREATER);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::GREATER);
         REQUIRE(prevTokenIsKeyword == false);
     }
     SECTION("Tokenize '!=' as BANG_EQUAL") {
@@ -112,7 +111,7 @@ TEST_CASE("DoubleCharacterStrategy tokenization", "[DoubleCharacter]") {
         char firstChar;
         stream.get(firstChar);
         REQUIRE(strategy.tokenize(firstChar, stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().back() -> getType().getInfo() == TokenType::BANG_EQUAL);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::BANG_EQUAL);
         REQUIRE(prevTokenIsKeyword == false);
     }
     SECTION("Tokenize '!' as BANG") {
@@ -120,7 +119,7 @@ TEST_CASE("DoubleCharacterStrategy tokenization", "[DoubleCharacter]") {
         char firstChar;
         stream.get(firstChar);
         REQUIRE(strategy.tokenize(firstChar, stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().back() -> getType().getInfo() == TokenType::BANG);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::BANG);
         REQUIRE(prevTokenIsKeyword == false);
     }
     SECTION("Tokenize '<=' as LESSER_EQUAL") {
@@ -128,7 +127,7 @@ TEST_CASE("DoubleCharacterStrategy tokenization", "[DoubleCharacter]") {
         char firstChar;
         stream.get(firstChar);
         REQUIRE(strategy.tokenize(firstChar, stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().back() -> getType().getInfo() == TokenType::LESSER_EQUAL);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::LESSER_EQUAL);
         REQUIRE(prevTokenIsKeyword == false);
     }
     SECTION("Tokenize '<' as LESSER") {
@@ -136,7 +135,7 @@ TEST_CASE("DoubleCharacterStrategy tokenization", "[DoubleCharacter]") {
         char firstChar;
         stream.get(firstChar);
         REQUIRE(strategy.tokenize(firstChar, stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().back() -> getType().getInfo() == TokenType::LESSER);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::LESSER);
         REQUIRE(prevTokenIsKeyword == false);
     }
     SECTION("Tokenize '||' as OR") {
@@ -144,7 +143,7 @@ TEST_CASE("DoubleCharacterStrategy tokenization", "[DoubleCharacter]") {
         char firstChar;
         stream.get(firstChar);
         REQUIRE(strategy.tokenize(firstChar, stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().back() -> getType().getInfo() == TokenType::OR);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::OR);
         REQUIRE(prevTokenIsKeyword == false);
     }
     SECTION("Tokenize '|' as UNKNOWN") {
@@ -152,7 +151,7 @@ TEST_CASE("DoubleCharacterStrategy tokenization", "[DoubleCharacter]") {
         char firstChar;
         stream.get(firstChar);
         REQUIRE(strategy.tokenize(firstChar, stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().back() -> getType().getInfo() == TokenType::UNKNOWN);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::UNKNOWN);
         REQUIRE(prevTokenIsKeyword == false);
     }
     SECTION("Tokenize '&&' as AND") {
@@ -160,7 +159,7 @@ TEST_CASE("DoubleCharacterStrategy tokenization", "[DoubleCharacter]") {
         char firstChar;
         stream.get(firstChar);
         REQUIRE(strategy.tokenize(firstChar, stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().back() -> getType().getInfo() == TokenType::AND);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::AND);
         REQUIRE(prevTokenIsKeyword == false);
     }
     SECTION("Tokenize '&' as UNKNOWN") {
@@ -168,14 +167,14 @@ TEST_CASE("DoubleCharacterStrategy tokenization", "[DoubleCharacter]") {
         char firstChar;
         stream.get(firstChar);
         REQUIRE(strategy.tokenize(firstChar, stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().back() -> getType().getInfo() == TokenType::UNKNOWN);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::UNKNOWN);
         REQUIRE(prevTokenIsKeyword == false);
     }
 }
 
 TEST_CASE("[TestSP] MultiCharacterStrategy tokenization", "[MultiCharacter]") {
     MultiCharacterStrategy strategy;
-    TokenList tokens;
+    auto tokens = std::make_shared<std::vector<std::shared_ptr<Token>>>();
     bool prevTokenIsKeyword = false;
     std::stringstream stream;
 
@@ -184,35 +183,35 @@ TEST_CASE("[TestSP] MultiCharacterStrategy tokenization", "[MultiCharacter]") {
         char firstChar;
         stream.get(firstChar);
         REQUIRE(strategy.tokenize(firstChar, stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().at(0) -> getType().getInfo() == TokenType::PROGRAM);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::PROGRAM);
     }
     SECTION("Tokenize procedure as keyword") {
         stream.str("procedure");
         char firstChar;
         stream.get(firstChar);
         REQUIRE(strategy.tokenize(firstChar, stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().at(0) -> getType().getInfo() == TokenType::PROCEDURE);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::PROCEDURE);
     }
     SECTION("Tokenize read as keyword") {
         stream.str("read");
         char firstChar;
         stream.get(firstChar);
         REQUIRE(strategy.tokenize(firstChar, stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().at(0) -> getType().getInfo() == TokenType::READ);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::READ);
     }
     SECTION("Tokenize while as keyword") {
         stream.str("while");
         char firstChar;
         stream.get(firstChar);
         REQUIRE(strategy.tokenize(firstChar, stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().at(0) -> getType().getInfo() == TokenType::WHILE);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::WHILE);
     }
     SECTION("Tokenize if as keyword") {
         stream.str("if");
         char firstChar;
         stream.get(firstChar);
         REQUIRE(strategy.tokenize(firstChar, stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().at(0) -> getType().getInfo() == TokenType::IF);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::IF);
     }
 
     SECTION("Tokenize then as keyword") {
@@ -220,21 +219,21 @@ TEST_CASE("[TestSP] MultiCharacterStrategy tokenization", "[MultiCharacter]") {
         char firstChar;
         stream.get(firstChar);
         REQUIRE(strategy.tokenize(firstChar, stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().at(0) -> getType().getInfo() == TokenType::THEN);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::THEN);
     }
     SECTION("Tokenize else as keyword") {
         stream.str("else");
         char firstChar;
         stream.get(firstChar);
         REQUIRE(strategy.tokenize(firstChar, stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().at(0) -> getType().getInfo() == TokenType::ELSE);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::ELSE);
     }
     SECTION("Tokenize call as keyword") {
         stream.str("call");
         char firstChar;
         stream.get(firstChar);
         REQUIRE(strategy.tokenize(firstChar, stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().at(0) -> getType().getInfo() == TokenType::CALL);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::CALL);
     }
 
     SECTION("Tokenize program as name") {
@@ -243,7 +242,7 @@ TEST_CASE("[TestSP] MultiCharacterStrategy tokenization", "[MultiCharacter]") {
         char firstChar;
         stream.get(firstChar);
         REQUIRE(strategy.tokenize(firstChar, stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().at(0) -> getType().getInfo() == TokenType::NAME);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::NAME);
         REQUIRE(prevTokenIsKeyword == false);
     }
     SECTION("Tokenize procedure as name") {
@@ -252,7 +251,7 @@ TEST_CASE("[TestSP] MultiCharacterStrategy tokenization", "[MultiCharacter]") {
         char firstChar;
         stream.get(firstChar);
         REQUIRE(strategy.tokenize(firstChar, stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().at(0) -> getType().getInfo() == TokenType::NAME);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::NAME);
         REQUIRE(prevTokenIsKeyword == false);
     }
     SECTION("Tokenize read as name") {
@@ -261,7 +260,7 @@ TEST_CASE("[TestSP] MultiCharacterStrategy tokenization", "[MultiCharacter]") {
         char firstChar;
         stream.get(firstChar);
         REQUIRE(strategy.tokenize(firstChar, stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().at(0) -> getType().getInfo() == TokenType::NAME);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::NAME);
         REQUIRE(prevTokenIsKeyword == false);
     }
     SECTION("Tokenize while as name") {
@@ -270,7 +269,7 @@ TEST_CASE("[TestSP] MultiCharacterStrategy tokenization", "[MultiCharacter]") {
         char firstChar;
         stream.get(firstChar);
         REQUIRE(strategy.tokenize(firstChar, stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().at(0) -> getType().getInfo() == TokenType::NAME);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::NAME);
         REQUIRE(prevTokenIsKeyword == false);
     }
     SECTION("Tokenize if as name") {
@@ -279,7 +278,7 @@ TEST_CASE("[TestSP] MultiCharacterStrategy tokenization", "[MultiCharacter]") {
         char firstChar;
         stream.get(firstChar);
         REQUIRE(strategy.tokenize(firstChar, stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().at(0) -> getType().getInfo() == TokenType::NAME);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::NAME);
         REQUIRE(prevTokenIsKeyword == false);
     }
 
@@ -289,7 +288,7 @@ TEST_CASE("[TestSP] MultiCharacterStrategy tokenization", "[MultiCharacter]") {
         char firstChar;
         stream.get(firstChar);
         REQUIRE(strategy.tokenize(firstChar, stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().at(0) -> getType().getInfo() == TokenType::NAME);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::NAME);
         REQUIRE(prevTokenIsKeyword == false);
     }
     SECTION("Tokenize else as name") {
@@ -298,7 +297,7 @@ TEST_CASE("[TestSP] MultiCharacterStrategy tokenization", "[MultiCharacter]") {
         char firstChar;
         stream.get(firstChar);
         REQUIRE(strategy.tokenize(firstChar, stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().at(0) -> getType().getInfo() == TokenType::NAME);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::NAME);
         REQUIRE(prevTokenIsKeyword == false);
     }
     SECTION("Tokenize call as name") {
@@ -307,7 +306,7 @@ TEST_CASE("[TestSP] MultiCharacterStrategy tokenization", "[MultiCharacter]") {
         char firstChar;
         stream.get(firstChar);
         REQUIRE(strategy.tokenize(firstChar, stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().at(0) -> getType().getInfo() == TokenType::NAME);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::NAME);
         REQUIRE(prevTokenIsKeyword == false);
     }
     SECTION("Tokenize digits") {
@@ -315,7 +314,7 @@ TEST_CASE("[TestSP] MultiCharacterStrategy tokenization", "[MultiCharacter]") {
         char firstChar;
         stream.get(firstChar);
         REQUIRE(strategy.tokenize(firstChar, stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().back() -> getType().getInfo() == TokenType::INTEGER);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::INTEGER);
         REQUIRE(prevTokenIsKeyword == false);
     }
 
@@ -324,39 +323,7 @@ TEST_CASE("[TestSP] MultiCharacterStrategy tokenization", "[MultiCharacter]") {
         char firstChar;
         stream.get(firstChar);
         REQUIRE(strategy.tokenize(firstChar, stream, tokens, prevTokenIsKeyword) == true);
-        REQUIRE(tokens.getTokens().back() -> getType().getInfo() == TokenType::NAME);
+        REQUIRE(tokens->back()->getType().getInfo() == TokenType::NAME);
         REQUIRE(prevTokenIsKeyword == false);
-    }
-}
-
-TEST_CASE("[TestSP] Scanner tokenization", "[SingleCharacter, DoubleCharacter, MultiCharacter]") {
-    StrategyList strategies;
-    TokenList tokens;
-    std::string codeSnippet = R"(
-            procedure procedure {
-                count = 1123*923/wq;
-                cenX = 0;
-                cenY = 0;
-                call call;
-                while ((while != 0) && (y != 0)) {
-                    count = count + 1;
-                    cenX = cenX + x;
-                    cenY = cenY + y;
-                    call readPoint;
-                }
-                if (count == 0) then {
-                    flag = 1;
-                } else {
-                    cenX = cenX / count;
-                    cenY = cenY / count;
-                }
-                normSq = cenX * cenX + cenY * cenY;
-            }
-            )";
-
-    SECTION("Check for UNKNOWNS") {
-        auto scanner = new Scanner(codeSnippet, strategies, tokens);
-        scanner->scanTokens();
-        REQUIRE(tokens.toString().find("UNKNOWN") == std::string::npos);
     }
 }

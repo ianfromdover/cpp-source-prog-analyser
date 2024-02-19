@@ -9,12 +9,15 @@
 #include <functional>
 #include <cctype>
 #include <map>
-#include "TokenList.h"
+#include "Token.h"
 
 class TokenStrategy {
 public:
     virtual ~TokenStrategy() = default;
-    virtual bool tokenize(char character, std::stringstream& stream, TokenList& tokens, bool& prevTokenIsKeyword) = 0;
+    virtual bool tokenize(char character, std::stringstream& stream,
+                          std::shared_ptr<std::vector<std::shared_ptr<Token>>>&, bool& prevTokenIsKeyword) = 0;
+    virtual void addToken(TokenType::TypeInfo typeInfo, const std::string &lexeme,
+                           std::shared_ptr<std::vector<std::shared_ptr<Token>>> &tokens);
 };
 
 

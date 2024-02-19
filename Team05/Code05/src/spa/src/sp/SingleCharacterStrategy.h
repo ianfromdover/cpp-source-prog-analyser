@@ -10,7 +10,7 @@
 class SingleCharacterStrategy: public TokenStrategy {
 public:
     SingleCharacterStrategy() = default;
-    bool tokenize(char character, std::stringstream& stream, TokenList& tokens, bool& prevTokenIsKeyword) override;
+    bool tokenize(char character, std::stringstream& stream, std::shared_ptr<std::vector<std::shared_ptr<Token>>>& tokens, bool& prevTokenIsKeyword) override;
 };
 
 

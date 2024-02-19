@@ -42,11 +42,11 @@ Token Parser::advance() {
 }
 
 Token Parser::peek() {
-    return *this->tokens.at(this->current);
+    return *this->tokens->at(this->current);
 }
 
 Token Parser::previous() {
-    return *this->tokens.at(this->current - 1);
+    return *this->tokens->at(this->current - 1);
 }
 
 Token Parser::consume(TokenType::TypeInfo type, std::string message) {

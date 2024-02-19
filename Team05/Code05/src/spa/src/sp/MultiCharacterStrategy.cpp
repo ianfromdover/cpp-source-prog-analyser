@@ -4,13 +4,14 @@
 
 #include "MultiCharacterStrategy.h"
 
-bool MultiCharacterStrategy::tokenize(char character, std::stringstream& stream, TokenList& tokens, bool& prevTokenIsKeyword) {
+bool MultiCharacterStrategy::tokenize(char character, std::stringstream& stream,
+                                      std::shared_ptr<std::vector<std::shared_ptr<Token>>>& tokens, bool& prevTokenIsKeyword) {
     if (std::isalpha(character)) {
         std::string name = character + readWhile(stream, [](char ch) { return std::isalnum(ch); });
         prevTokenIsKeyword = isKeyword(name, tokens, prevTokenIsKeyword);
     } else if (std::isdigit(character)) {
         std::string integer = character + readWhile(stream, [](char ch) { return std::isdigit(ch); });
-        tokens.addToken(TokenType::INTEGER, integer);
+        this->addToken(TokenType::INTEGER, integer, tokens);
         prevTokenIsKeyword = false;
     } else if (character != ' ' && character != '\n') {
         //Do nothing
@@ -18,7 +19,8 @@ bool MultiCharacterStrategy::tokenize(char character, std::stringstream& stream,
     return true;
 }
 
-bool MultiCharacterStrategy::isKeyword(const std::string& name, TokenList& tokens, bool& prevTokenIsKeyword) {
+bool MultiCharacterStrategy::isKeyword(const std::string& name, std::shared_ptr<std::vector<std::shared_ptr<Token>>>& tokens,
+                                       bool& prevTokenIsKeyword) {
     static const std::map<std::string, TokenType::TypeInfo> keywords = {
             {"program", TokenType::PROGRAM}, {"procedure", TokenType::PROCEDURE},
             {"read", TokenType::READ}, {"print", TokenType::PRINT},
@@ -29,10 +31,10 @@ bool MultiCharacterStrategy::isKeyword(const std::string& name, TokenList& token
 
     auto it = keywords.find(name);
     if (it != keywords.end() && !prevTokenIsKeyword) {
-        tokens.addToken(it->second, name);
+        this->addToken(it->second, name, tokens);
         return true;
     } else {
-        tokens.addToken(TokenType::NAME, name);
+        this->addToken(TokenType::NAME, name, tokens);
         return false;
     }
 }

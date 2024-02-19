@@ -8,9 +8,11 @@
 
 class MultiCharacterStrategy : public TokenStrategy {
 public:
-    bool tokenize(char character, std::stringstream& stream, TokenList& tokens, bool& prevTokenIsKeyword) override;
+    bool tokenize(char character, std::stringstream& stream,
+                  std::shared_ptr<std::vector<std::shared_ptr<Token>>>& tokens, bool& prevTokenIsKeyword) override;
 private:
-    bool isKeyword(const std::string& name, TokenList& tokens, bool& prevTokenIsKeyword);
+    bool isKeyword(const std::string& name, std::shared_ptr<std::vector<std::shared_ptr<Token>>>& tokens,
+                   bool& prevTokenIsKeyword);
     std::string readWhile(std::stringstream& stream, const std::function<bool(char)>& condition);
 };
 
