@@ -2,43 +2,43 @@
 // Created by tohzh on 17/2/2024.
 //
 
-#include "QueryBuilder.h"
+#include "QueryObjectBuilder.h"
 
 #include <utility>
 
-void QueryBuilder::reset() {
+void QueryObjectBuilder::reset() {
     intermediateObject.reset();
     qo.reset();
 }
 
-void QueryBuilder::setSingleRelationshipConstraint(std::shared_ptr<qps::RelationshipClause> relationship) {
+void QueryObjectBuilder::setSingleRelationshipConstraint(std::shared_ptr<qps::RelationshipClause> relationship) {
     shared_ptr<Constraint> ptr = RelationshipConstraintDirector::process(std::move(relationship));
     qo->addConstraint(ptr);
 }
 
-void QueryBuilder::setSinglePatternClause(std::shared_ptr<qps::PatternClause> patternClause) {
+void QueryObjectBuilder::setSinglePatternClause(std::shared_ptr<qps::PatternClause> patternClause) {
     ConcretePatternConstraintBuilder builder;
     qo->addConstraint(builder.buildPatternConstraint(std::move(patternClause)));
 }
 
 
-void QueryBuilder::setSingleSelectClause() {
+void QueryObjectBuilder::setSingleSelectClause() {
     std::string name = intermediateObject->getSelectClause()->selectElements[0];
     qo->setReturnType(qo->getEntityInDeclaration(name));
 }
 
 //only need one relationship for milestone 1
-void QueryBuilder::setAllRelationshipConstraint() {
+void QueryObjectBuilder::setAllRelationshipConstraint() {
     setSingleRelationshipConstraint(intermediateObject->getRelationshipClause());
 }
 
 //only need one pattern for milestone 1
-void QueryBuilder::setAllPatternClauses() {
+void QueryObjectBuilder::setAllPatternClauses() {
     setSinglePatternClause(intermediateObject->getPatternClause());
 }
 
 
-void QueryBuilder::setAllDeclarationClauses() {
+void QueryObjectBuilder::setAllDeclarationClauses() {
     std::map<std::string, qps::TokenType::TypeInfo> synonymTypeMap = intermediateObject->getSynonymTypeMap();
     std::map<std::string, qps::TokenType::TypeInfo>::iterator it;
     for (it = synonymTypeMap.begin(); it != synonymTypeMap.end(); it++) {
@@ -49,11 +49,11 @@ void QueryBuilder::setAllDeclarationClauses() {
     }
 }
 
-std::shared_ptr<QueryObject> QueryBuilder::getQueryObjectRepresentation() {
+std::shared_ptr<QueryObject> QueryObjectBuilder::getQueryObjectRepresentation() {
     return qo;
 }
 
-std::shared_ptr<QueryObject> QueryBuilder::build(shared_ptr<IntermediateQuery> inter) {
+std::shared_ptr<QueryObject> QueryObjectBuilder::build(shared_ptr<IntermediateQuery> inter) {
     reset();
     intermediateObject = std::move(inter);
     qo = make_shared<QueryObject>();
