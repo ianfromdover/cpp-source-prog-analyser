@@ -15,3 +15,7 @@ std::string PrintEntity::getEntityType() {
 PrintEntity::PrintEntity(std::string s) {
     identifier = std::move(s);
 }
+
+std::string PrintEntity::toString() {
+    return this->identifier + " [PRINT]";
+}

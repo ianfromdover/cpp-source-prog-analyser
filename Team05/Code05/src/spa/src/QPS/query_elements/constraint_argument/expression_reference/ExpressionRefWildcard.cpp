@@ -7,3 +7,7 @@
 std::string ExpressionRefWildcard::getEntityType() {
     return RETURN_TYPE_WILDCARD;
 }
+
+std::string ExpressionRefWildcard::toString() {
+    return "_ [EXPR WILDCARD]";
+}

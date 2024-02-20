@@ -7,3 +7,7 @@
 std::string EntityRefWildCard::getEntityType() {
     return RETURN_TYPE_WILDCARD;
 }
+
+std::string EntityRefWildCard::toString() {
+    return "_ [ENT REF]";
+}

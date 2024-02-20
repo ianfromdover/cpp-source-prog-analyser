@@ -15,3 +15,7 @@ std::string ConstantEntity::getEntityType() {
 ConstantEntity::ConstantEntity(std::string s) {
     identifier = std::move(s);
 }
+
+std::string ConstantEntity::toString() {
+    return this->identifier + " [CONST]";
+}

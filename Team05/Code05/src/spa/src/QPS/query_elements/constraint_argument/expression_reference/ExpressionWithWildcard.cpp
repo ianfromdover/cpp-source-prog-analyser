@@ -15,3 +15,7 @@ std::string ExpressionWithWildcard::getEntityType() {
 ExpressionWithWildcard::ExpressionWithWildcard(std::string s) {
     regularExpression = std::move(s);
 }
+
+std::string ExpressionWithWildcard::toString() {
+    return this->regularExpression + "[EXPR WITH WILDCARD]";
+}

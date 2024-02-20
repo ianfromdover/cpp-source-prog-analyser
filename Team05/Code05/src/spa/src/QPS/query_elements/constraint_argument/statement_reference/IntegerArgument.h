@@ -14,6 +14,7 @@ public:
     std::string getEntityType() override;
     std::string getArgumentValue() override;
     int value;
+    std::string toString() override;
 };
 
 

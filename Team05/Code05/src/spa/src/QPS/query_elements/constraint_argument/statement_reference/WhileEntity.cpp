@@ -16,3 +16,7 @@ std::string WhileEntity::getEntityType() {
 WhileEntity::WhileEntity(std::string s) {
     identifier = std::move(s);
 }
+
+std::string WhileEntity::toString() {
+    return this->identifier + " [WHILE]";
+}

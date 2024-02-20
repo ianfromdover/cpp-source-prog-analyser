@@ -17,3 +17,7 @@ std::string AssignEntity::getEntityType() {
 AssignEntity::AssignEntity(std::string s) {
     identifier = std::move(s);
 }
+
+std::string AssignEntity::toString() {
+    return this->identifier + " [ASSIGN]";
+}

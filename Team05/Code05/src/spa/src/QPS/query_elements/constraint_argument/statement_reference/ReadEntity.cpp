@@ -15,3 +15,7 @@ std::string ReadEntity::getEntityType() {
 ReadEntity::ReadEntity(std::string s) {
     identifier = std::move(s);
 }
+
+std::string ReadEntity::toString() {
+    return this->identifier + " [READ]";
+}

@@ -15,6 +15,7 @@ public:
     explicit Expression(std::string);
     std::string getEntityType() override;
     std::string getArgumentValue() override;
+    std::string toString() override;
 };
 
 

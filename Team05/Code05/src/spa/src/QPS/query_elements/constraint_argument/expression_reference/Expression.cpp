@@ -17,3 +17,7 @@ std::string Expression::getEntityType() {
 Expression::Expression(std::string s) {
     regularExpression = std::move(s);
 }
+
+std::string Expression::toString() {
+    return this->regularExpression + " [EXPR]";
+}

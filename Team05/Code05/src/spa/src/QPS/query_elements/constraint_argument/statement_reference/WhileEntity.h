@@ -12,6 +12,7 @@ public:
     explicit WhileEntity(std::string);
     std::string getReturnType() override;
     std::string getEntityType() override;
+    std::string toString() override;
 };
 
 

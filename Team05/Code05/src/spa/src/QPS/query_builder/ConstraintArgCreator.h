@@ -19,7 +19,7 @@
 #include "../query_elements/constraint_argument/statement_reference/IfEntity.h"
 #include "../query_elements/constraint_argument/statement_reference/WhileEntity.h"
 #include "../query_elements/constraint_argument/statement_reference/IntegerArgument.h"
-#include "../query_elements/constraint_argument/statement_reference/StatementRefWildCard.h"
+#include "../query_elements/constraint_argument/statement_reference/StatementRefWildcard.h"
 #include "../query_elements/constraint_argument/expression_reference/ExpressionRefWildCard.h"
 #include "../query_elements/constraint_argument/expression_reference/ExpressionWithWildcard.h"
 #include "../query_elements/QueryObject.h"

@@ -15,3 +15,9 @@ std::string ProcedureEntity::getEntityType() {
 ProcedureEntity::ProcedureEntity(std::string s) {
     identifier = std::move(s);
 }
+
+std::string ProcedureEntity::toString() {
+    return this->identifier + " [PROCEDURE]";
+}
+
+

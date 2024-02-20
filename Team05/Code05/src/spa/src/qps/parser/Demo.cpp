@@ -30,7 +30,7 @@
         intermediateQuery->processDeclarations(); // called by validator, ignore
 
         QueryObjectBuilder builder;
-        builder.build(intermediateQuery);
+        std::shared_ptr<QueryObject> qo = builder.build(intermediateQuery);
 
         // Returns a map <synonym=STRING, type=TYPEINFO> of all declared synonyms for easier search, guaranteed declaration synonyms are unique
         std::map<std::string, QPSTokenType::QPSTypeInfo> synonymTypeMap = intermediateQuery->getSynonymTypeMap();

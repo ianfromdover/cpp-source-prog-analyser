@@ -15,3 +15,8 @@ std::string IfEntity::getEntityType() {
 IfEntity::IfEntity(std::string s) {
     identifier = std::move(s);
 }
+
+std::string IfEntity::toString() {
+    return this->identifier + " [IF]";
+}
+

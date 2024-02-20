@@ -19,3 +19,7 @@ StatementEntity::StatementEntity(std::string s) {
 std::string StatementEntity::getArgumentValue() {
     return StatementReference::getArgumentValue();
 }
+
+std::string StatementEntity::toString() {
+    return this->identifier + " [STMT]";
+}

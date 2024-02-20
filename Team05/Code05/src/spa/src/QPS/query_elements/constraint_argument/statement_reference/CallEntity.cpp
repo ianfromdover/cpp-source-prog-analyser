@@ -15,3 +15,7 @@ std::string CallEntity::getEntityType() {
 CallEntity::CallEntity(std::string s) {
     identifier = std::move(s);
 }
+
+std::string CallEntity::toString() {
+    return this->identifier + " [CALL]";
+}

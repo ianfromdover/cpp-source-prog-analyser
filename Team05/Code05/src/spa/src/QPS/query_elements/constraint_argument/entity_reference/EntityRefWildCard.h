@@ -11,6 +11,7 @@
 class EntityRefWildCard : public EntityReference {
 public:
     std::string getEntityType() override;
+    std::string toString() override;
 };
 
 

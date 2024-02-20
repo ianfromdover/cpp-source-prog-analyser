@@ -15,3 +15,7 @@ std::string VariableEntity::getEntityType() {
 VariableEntity::VariableEntity(std::string s) {
     identifier = std::move(s);
 }
+
+std::string VariableEntity::toString() {
+    return this->identifier + " [VARIABLE]";
+}

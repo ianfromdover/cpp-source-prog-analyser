@@ -12,3 +12,7 @@ std::string IntegerArgument::getEntityType() {
     return RETURN_TYPE_INTEGER;
 }
 
+std::string IntegerArgument::toString() {
+    return to_string(this->value) + " [INTEGER]";
+}
+
