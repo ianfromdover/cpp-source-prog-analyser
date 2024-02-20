@@ -1,6 +1,7 @@
 #include <fstream>
 #include "TestWrapper.h"
 #include "qps/QPS.h"
+#include "../../spa/src/utilSpa/base_exception/BaseException.h"
 
 // implementation code of WrapperFactory - do NOT modify the next 5 lines
 AbstractWrapper* WrapperFactory::wrapper = 0;
@@ -31,14 +32,20 @@ void TestWrapper::parse(std::string filename) {
 }
 
 // method to evaluating a query
-void TestWrapper::evaluate(std::string query, std::list<std::string>& results){
+void TestWrapper::evaluate(std::string query, std::list<std::string>& results) {
 // call your evaluator to evaluate the query here
   // ...code to evaluate query...
   // store the answers to the query in the results list (it is initially empty)
   // each result must be a string.
-    std::vector<std::string> ans = this->qps.evaluate(query);
-    for(const auto s : ans){
-        results.push_back(s);
+    try {
+        std::vector<std::string> ans = this->qps.evaluate(query);
+        for (const auto s: ans) {
+            results.push_back(s);
+        }
+    } catch (const BaseException& exception) {
+        // handle exception
+        std::cerr << "Caught BaseException: " << exception.what() << std::endl;
+        exit(0); // exit silently
     }
 }
 

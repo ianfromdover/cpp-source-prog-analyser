@@ -3,8 +3,7 @@
 //
 
 #include "NoDeclarationRule.h"
-#include "qps/tokenizer/QPSTokenType.h"
-#include "qps/query_elements/constraint_argument/IntegerArgument.h"
+#include "qps/query_elements/constraint_argument/statement_reference/IntegerArgument.h"
 
 #include <map>
 #include <algorithm>
@@ -61,7 +60,7 @@ bool NoDeclarationRule::followsNoDeclaration(QueryObject& qo) {
 
 std::string NoDeclarationRule::validate(IntermediateQuery & query) {
     std::vector<std::string> usedSyns;
-    usedSyns.push_back(query.getSelectClause().getAllSelect()[0]); // Assumed to only have one select element
+    usedSyns.push_back(query.getSelectClause()->getAllSelect()[0]); // Assumed to only have one select element
 
     // find all used declarations in pattern and relationship clause
     for (const auto& clause : query.clauses){

@@ -63,28 +63,28 @@ std::map<std::string, QPSTokenType::QPSTypeInfo> IntermediateQuery::getSynonymTy
     return *synonymTypeMap;
 }
 
-qps::SelectClause IntermediateQuery::getSelectClause() {
+std::shared_ptr<qps::SelectClause> IntermediateQuery::getSelectClause() {
     for (const auto& clause : clauses) {
         if (clause->getType() == Clause::ClauseType::SELECT) {
-            return *std::dynamic_pointer_cast<qps::SelectClause>(clause);
+            return std::dynamic_pointer_cast<qps::SelectClause>(clause);
         }
     }
     throw std::runtime_error("No relationship clause found");
 }
 
-qps::RelationshipClause IntermediateQuery::getRelationshipClause() {
+std::shared_ptr<qps::RelationshipClause> IntermediateQuery::getRelationshipClause() {
     for (const auto& clause : clauses) {
         if (clause->getType() == Clause::ClauseType::RELATIONSHIP) {
-            return *std::dynamic_pointer_cast<qps::RelationshipClause>(clause);
+            return std::dynamic_pointer_cast<qps::RelationshipClause>(clause);
         }
     }
     throw std::runtime_error("No relationship clause found");
 }
 
-qps::PatternClause IntermediateQuery::getPatternClause() {
+std::shared_ptr<qps::PatternClause> IntermediateQuery::getPatternClause() {
     for (const auto& clause : clauses) {
         if (clause->getType() == Clause::ClauseType::PATTERN) {
-            return *std::dynamic_pointer_cast<qps::PatternClause>(clause);
+            return std::dynamic_pointer_cast<qps::PatternClause>(clause);
         }
     }
     throw std::runtime_error("No relationship clause found");

@@ -8,8 +8,8 @@ using namespace std;
 #include "catch.hpp"
 #include "qps/query_validator/NoDeclarationRule.h" // Include the header file for SingleDeclarationRule
 #include "qps/query_elements/QueryObject.h"
-#include "qps/query_elements/constraint_argument/StatementEntity.h"
-#include "qps/query_elements/constraint_argument/PrintEntity.h"
+#include "qps/query_elements/constraint_argument/statement_reference/StatementEntity.h"
+#include "qps/query_elements/constraint_argument/statement_reference/PrintEntity.h"
 #include "qps/query_elements/constraint/ParentConstraint.h"
 
 // ai-gen start(gpt, 1, e)

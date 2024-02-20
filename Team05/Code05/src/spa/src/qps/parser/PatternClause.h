@@ -30,6 +30,9 @@ namespace qps {
         QPSTokenType::QPSTypeInfo getSecondReferenceType();
         std::string getSecondArgValue();
 
+        QPSToken& getFirstArg();
+        QPSToken& getSecondArg();
+
     private:
         std::string synonym;
 

@@ -6,15 +6,15 @@
 #include "catch.hpp"
 using namespace std;
 
-#include "qps/query_elements/constraint_argument/StatementEntity.h"
-#include "qps/query_elements/constraint_argument/ReadEntity.h"
-#include "qps/query_elements/constraint_argument/PrintEntity.h"
-#include "qps/query_elements/constraint_argument/AssignEntity.h"
-#include "qps/query_elements/constraint_argument/CallEntity.h"
-#include "qps/query_elements/constraint_argument/IfEntity.h"
-#include "qps/query_elements/constraint_argument/WhileEntity.h"
-#include "qps/query_elements/constraint_argument/IntegerArgument.h"
-#include "qps/query_elements/constraint_argument/WildCard.h"
+#include "qps/query_elements/constraint_argument/statement_reference/StatementEntity.h"
+#include "qps/query_elements/constraint_argument/statement_reference/ReadEntity.h"
+#include "qps/query_elements/constraint_argument/statement_reference/PrintEntity.h"
+#include "qps/query_elements/constraint_argument/statement_reference/AssignEntity.h"
+#include "qps/query_elements/constraint_argument/statement_reference/CallEntity.h"
+#include "qps/query_elements/constraint_argument/statement_reference/IfEntity.h"
+#include "qps/query_elements/constraint_argument/statement_reference/WhileEntity.h"
+#include "qps/query_elements/constraint_argument/statement_reference/IntegerArgument.h"
+#include "qps/query_elements/constraint_argument/statement_reference//StatementRefWIldcard.h"
 
 //named in the form of [feature]_[scenario]_[result]
 
@@ -61,7 +61,7 @@ TEST_CASE("entity_integerArgumentIsTypeInteger_stringInteger") {
 }
 
 TEST_CASE("entity_wildCardIsTypeWildcard_stringWildcard") {
-    WildCard en = WildCard();
+    StatementRefWildCard en = StatementRefWildCard();
     REQUIRE(en.getEntityType() == RETURN_TYPE_WILDCARD);
 }
 
@@ -128,7 +128,7 @@ TEST_CASE("inheritance_check_statementReference_IntegerArgument") {
 }
 
 TEST_CASE("inheritance_check_statementReference_WildCard") {
-    WildCard wildCard;
+    StatementRefWildCard wildCard;
     bool isInstanceOfStatementReference = dynamic_cast<StatementReference*>(&wildCard) != nullptr;
     REQUIRE(isInstanceOfStatementReference);
 }
@@ -172,7 +172,7 @@ TEST_CASE("IntegerArgument_inheritanceCheck_isFalse") {
 }
 
 TEST_CASE("WildCard_inheritanceCheck_isFalse") {
-    REQUIRE_FALSE(std::is_base_of<Entity, WildCard>::value);
+    REQUIRE_FALSE(std::is_base_of<Entity, StatementRefWildCard>::value);
 }
 
 // ai-gen end

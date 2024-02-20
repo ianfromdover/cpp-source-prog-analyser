@@ -4,6 +4,8 @@
 
 #include "StringResult.h"
 #include "utilSpa/StringUtils.h"
+#include <algorithm>
+#include <iterator>
 
 QueryResultEnum StringResult::getType() {
     return STRING;
@@ -19,4 +21,15 @@ StringResult::StringResult(std::vector<std::string>& res) {
 
 std::vector<std::string> StringResult::format() {
     return results;
+}
+
+std::vector<std::string> StringResult::intersect(std::shared_ptr<StringResult> anotherPointer) {
+    std::vector<std::string> anotherResult = anotherPointer->getResults();
+    std::sort(anotherResult.begin(), anotherResult.end());
+    std::sort(this->getResults().begin(), this->getResults().end());
+    std::vector<std::string> finalResult;
+    std::set_intersection(anotherResult.begin(), anotherResult.end(),
+                          this->getResults().begin(), this->getResults().end(),
+                          back_inserter(finalResult));
+    return finalResult;
 }
