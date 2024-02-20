@@ -4,8 +4,7 @@ bool ParentTable::addParent(StmtNo parent, StmtNo child) {
     if (isParent(parent, child)) {
         return false;
     }
-    twoSideMap.insert(parent, child);
-    return true;
+    return twoSideMap.insert(parent, child);
 }
 
 bool ParentTable::isParent(StmtNo parent, StmtNo child) {

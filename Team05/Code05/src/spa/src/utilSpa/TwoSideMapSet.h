@@ -1,5 +1,5 @@
 #pragma once
-#define SPA_TWO_SIDE_FWD_VEC_MAP_H
+#define SPA_TWO_SIDE_MAP_SET_H
 
 // ai-gen start(gpt, 1, e)
 // prompt: https://chat.openai.com/share/8ef1cf87-56eb-45bd-b91f-fbf309b86d98
@@ -11,19 +11,19 @@
 
 /**
  * @brief A double-sided map that allows bidirectional mapping between keys and values.
- * Used for tables in the PKB such as ParentTable
+ * Used for relationship tables in the PKB such as ParentTable
  *
  * @tparam A The type of the keys. Needs to be hashable.
  * @tparam B The type of the values. Needs to be hashable.
  */
 template<typename A, typename B>
-class TwoSideFwdVecMap {
+class TwoSideMapSet {
 private:
     std::unordered_map<A, std::set<std::shared_ptr<B>>> forwardMap;
     std::unordered_map<B, A> backwardMap;
 
 public:
-    TwoSideFwdVecMap();
+    TwoSideMapSet();
 
     /**
      * @brief Insert a mapping from key to value.

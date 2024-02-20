@@ -1,5 +1,4 @@
 #include "PopulatePKB.h"
-//#include "PKBStorage.h"
 
 PopulatePKB::PopulatePKB(std::shared_ptr<PKBStorage> p) {
     pkb = p;
@@ -22,7 +21,8 @@ bool PopulatePKB::addIf(StmtNo sNum, VarName ctrlVarName) {
 bool PopulatePKB::addWhile(StmtNo sNum, VarName ctrlVarName) {
     return false;
 }
-bool PopulatePKB::addAssign(StmtNo sNum, VarName LhsVarName) {
+bool PopulatePKB::addAssign(StmtNo sNum, VarName LhsVarName, Str RhsExpression) {
+    // do C++ substring match from QPS' string to stored SP string, chatGPT it
     return false;
 }
 
@@ -68,6 +68,7 @@ bool PopulatePKB::addModifies(StmtNo sNum, VarName name) {
     return false;
 }
 bool PopulatePKB::addModifies(ProcName ProcedureName, VarName name) {
+    // not required for ms 1
     return false;
 }
 bool PopulatePKB::addPatternAsgn(StmtNo sNum, Str lhs, Str rhsBracketed) {

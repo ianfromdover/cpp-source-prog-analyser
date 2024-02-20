@@ -23,7 +23,7 @@ public:
     bool addIf(StmtNo sNum, VarName ctrlVarName);
     // implement using set
     bool addWhile(StmtNo sNum, VarName ctrlVarName);
-    bool addAssign(StmtNo sNum, VarName LhsVarName);
+    bool addAssign(StmtNo sNum, VarName LhsVarName, Str RhsExpression);
     bool addPrint(StmtNo s, VarName name);
     bool addFinalStatementNo(StmtNo s);
     bool addProcedure(Str procedureName); // future: should this have an associated StmtList?
