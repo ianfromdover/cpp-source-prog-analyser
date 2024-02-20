@@ -34,11 +34,27 @@
 
 
     bool QPSParser::isDeclaration() {
-        return this->check(QPSTokenType::STMT1);
+        return this->check({
+            QPSTokenType::STMT1,
+            QPSTokenType::READ,
+            QPSTokenType::PRINT,
+            QPSTokenType::CALL,
+            QPSTokenType::WHILE,
+            QPSTokenType::IF,
+            QPSTokenType::ASSIGN,
+            QPSTokenType::VARIABLE,
+            QPSTokenType::CONSTANT,
+            QPSTokenType::PROCEDURE});
     }
 
     bool QPSParser::isRelationship() {
-        return this->check({QPSTokenType::PARENT, QPSTokenType::PARENT_T, QPSTokenType::FOLLOWS, QPSTokenType::FOLLOWS_T, QPSTokenType::USES_S, QPSTokenType::MODIFIES_S});
+        return this->check({
+            QPSTokenType::PARENT,
+            QPSTokenType::PARENT_T,
+            QPSTokenType::FOLLOWS,
+            QPSTokenType::FOLLOWS_T,
+            QPSTokenType::USES_S,
+            QPSTokenType::MODIFIES_S});
     }
 
     bool QPSParser::isSuchThat() {
