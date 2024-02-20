@@ -9,7 +9,7 @@
 #include "RuleSet.h"
 #include "qps/parser/IntermediateQuery.h"
 
-using namespace qps;
+
 
 class QueryValidator {
 public:

@@ -11,7 +11,6 @@
 #include "../../utilSpa/SpaTypes.h"
 #include "qps/parser/IntermediateQuery.h"
 
-using namespace qps;
 
 class Rule {
 public:

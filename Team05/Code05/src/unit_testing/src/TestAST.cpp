@@ -215,6 +215,6 @@ TEST_CASE("Print with parent extractoar") {
 }
 
 TEST_CASE("intermediate demo") {
-    qps::Demo obj;
+    Demo obj;
     obj.demonstrate();
 }

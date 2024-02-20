@@ -4,8 +4,8 @@
 
 #include "UsesPConstraintBuilder.h"
 
-void UsesPConstraintBuilder::addConstraintClause(shared_ptr<qps::RelationshipClause> rs) {
-    if (rs->getRelationshipType() != qps::TokenType::USES_T) {
+void UsesPConstraintBuilder::addConstraintClause(shared_ptr<RelationshipClause> rs) {
+    if (rs->getRelationshipType() != QPSTokenType::USES_P) {
         throw std::invalid_argument( "Not Uses P argument" );
     }
 

@@ -4,7 +4,7 @@
 
 #include "DeclarationClause.h"
 
-namespace qps {
+
     void DeclarationClause::addDeclaration(const QPSTokenType &type, const std::string &synonym) {
         if (declarationMap.find(type) != declarationMap.end()) {
             declarationMap[type].push_back(synonym);
@@ -24,4 +24,3 @@ namespace qps {
         }
         return result;
     }
-}

@@ -2,8 +2,8 @@
 // Created by Alex on 16/2/2024.
 //
 
-#ifndef SPA_PARSER_H
-#define SPA_PARSER_H
+#ifndef SPA_QPSPARSER_H
+#define SPA_QPSPARSER_H
 
 #include <memory>
 #include <vector>
@@ -15,14 +15,14 @@
 #include "PatternClause.h"
 #include "IntermediateQuery.h"
 
-namespace qps {
-    class Parser {
+
+    class QPSParser {
     private:
         int current = 0;
         std::vector<std::shared_ptr<QPSToken>> tokens;
 
     public:
-        explicit Parser(QPSTokenList &tokens) : tokens(tokens.getTokens()) {};
+        explicit QPSParser(QPSTokenList &tokens) : tokens(tokens.getTokens()) {};
 
         std::shared_ptr<IntermediateQuery> parse();
 
@@ -83,7 +83,7 @@ namespace qps {
         QPSToken factor();
 
     };
-}
 
 
-#endif //SPA_PARSER_H
+
+#endif //SPA_QPSPARSER_H

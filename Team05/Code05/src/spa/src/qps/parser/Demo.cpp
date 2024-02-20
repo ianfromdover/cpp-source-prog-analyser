@@ -5,9 +5,8 @@
 #include <map>
 #include "Demo.h"
 #include "qps/tokenizer/Tokenizer.h"
-#include "Parser.h"
+#include "QPSParser.h"
 
-namespace qps {
     void Demo::demonstrate() {
 
         // Run TestParser::scratch pad or just call Demo() in some unit test. Following code exist inside constructor.
@@ -23,7 +22,7 @@ namespace qps {
         std::shared_ptr<QPSTokenList> tokens = std::make_shared<QPSTokenList>();                       //ignore
         Tokenizer tokenizer(source, strategies, tokens);                                   //ignore
         tokenizer.tokenize();                                                                    //ignore
-        Parser parser(*tokens);                                                               //ignore
+        QPSParser parser(*tokens);                                                               //ignore
 
         std::shared_ptr<IntermediateQuery> intermediateQuery = parser.parse();                   // Will receive this shared pointer
         intermediateQuery->processDeclarations(); // called by validator, ignore
@@ -53,4 +52,3 @@ namespace qps {
             std::string argValue2 = patternClause.getSecondArgValue(); // Returns the argument value. NOTE: EXPR_WILDCARD type.getstring will not return wildcard in the string. can check for token type to differentiate.
 
     }
-}

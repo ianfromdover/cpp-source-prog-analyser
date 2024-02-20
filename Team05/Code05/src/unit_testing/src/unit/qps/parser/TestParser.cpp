@@ -3,10 +3,10 @@
 //
 
 #include "catch.hpp"
-#include "qps/parser/Parser.h"
+#include "qps/parser/QPSParser.h"
 #include "qps/parser/Demo.h"
 
-using namespace qps;
+
 
 static QPSTokenList generateTokenList(std::initializer_list<std::pair<QPSTokenType::QPSTypeInfo,std::string>> tokenStream);
 
@@ -42,7 +42,7 @@ QPSTokenList tokens = generateTokenList({
             {QPSTokenType::QPSTypeInfo::END_OF_FILE, ""},
         });
 
-        Parser parser(tokens);
+        QPSParser parser(tokens);
         std::shared_ptr<IntermediateQuery> query;
         REQUIRE_NOTHROW(query=parser.parse());
     }
@@ -59,7 +59,7 @@ TEST_CASE("parse_validSyntax_noThrows") {
             {QPSTokenType::QPSTypeInfo::IDENTIFIER,  "s"},
             {QPSTokenType::QPSTypeInfo::END_OF_FILE, ""},
             });
-        Parser parser(tokens);
+        QPSParser parser(tokens);
         REQUIRE_NOTHROW(parser.parse());
     }
     SECTION("multipleDeclaration_singleSelect") {
@@ -73,7 +73,7 @@ TEST_CASE("parse_validSyntax_noThrows") {
             {QPSTokenType::QPSTypeInfo::IDENTIFIER,  "s"},
             {QPSTokenType::QPSTypeInfo::END_OF_FILE, ""},
             });
-        Parser parser(tokens);
+        QPSParser parser(tokens);
         REQUIRE_NOTHROW(parser.parse());
     }
     SECTION("singleDeclaration_singleSelect_singleRelationship") {
@@ -93,7 +93,7 @@ TEST_CASE("parse_validSyntax_noThrows") {
             {QPSTokenType::QPSTypeInfo::RIGHT_PAREN, ")"},
             {QPSTokenType::QPSTypeInfo::END_OF_FILE, ""},
             });
-        Parser parser(tokens);
+        QPSParser parser(tokens);
         REQUIRE_NOTHROW(parser.parse());
     }
     SECTION("singleDeclaration_singleSelect_singlePattern") {
@@ -112,7 +112,7 @@ TEST_CASE("parse_validSyntax_noThrows") {
             {QPSTokenType::QPSTypeInfo::RIGHT_PAREN, ")"},
             {QPSTokenType::QPSTypeInfo::END_OF_FILE, ""},
             });
-        Parser parser(tokens);
+        QPSParser parser(tokens);
         REQUIRE_NOTHROW(parser.parse());
     }
 

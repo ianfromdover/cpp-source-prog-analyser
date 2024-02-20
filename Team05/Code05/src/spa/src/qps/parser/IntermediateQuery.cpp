@@ -37,10 +37,10 @@ bool IntermediateQuery::hasClauseType(Clause::ClauseType type) {
 }
 
 void IntermediateQuery::processDeclarations() {
-    std::vector<std::shared_ptr<qps::DeclarationClause>> declarationClauses;
+    std::vector<std::shared_ptr<DeclarationClause>> declarationClauses;
     for (const std::shared_ptr<Clause>& clause : clauses) {
         if (clause->getType() == Clause::ClauseType::DECLARATION) {
-            declarationClauses.push_back(std::dynamic_pointer_cast<qps::DeclarationClause>(clause));
+            declarationClauses.push_back(std::dynamic_pointer_cast<DeclarationClause>(clause));
         }
     }
 
@@ -63,28 +63,28 @@ std::map<std::string, QPSTokenType::QPSTypeInfo> IntermediateQuery::getSynonymTy
     return *synonymTypeMap;
 }
 
-std::shared_ptr<qps::SelectClause> IntermediateQuery::getSelectClause() {
+std::shared_ptr<SelectClause> IntermediateQuery::getSelectClause() {
     for (const auto& clause : clauses) {
         if (clause->getType() == Clause::ClauseType::SELECT) {
-            return std::dynamic_pointer_cast<qps::SelectClause>(clause);
+            return std::dynamic_pointer_cast<SelectClause>(clause);
         }
     }
     throw std::runtime_error("No relationship clause found");
 }
 
-std::shared_ptr<qps::RelationshipClause> IntermediateQuery::getRelationshipClause() {
+std::shared_ptr<RelationshipClause> IntermediateQuery::getRelationshipClause() {
     for (const auto& clause : clauses) {
         if (clause->getType() == Clause::ClauseType::RELATIONSHIP) {
-            return std::dynamic_pointer_cast<qps::RelationshipClause>(clause);
+            return std::dynamic_pointer_cast<RelationshipClause>(clause);
         }
     }
     throw std::runtime_error("No relationship clause found");
 }
 
-std::shared_ptr<qps::PatternClause> IntermediateQuery::getPatternClause() {
+std::shared_ptr<PatternClause> IntermediateQuery::getPatternClause() {
     for (const auto& clause : clauses) {
         if (clause->getType() == Clause::ClauseType::PATTERN) {
-            return std::dynamic_pointer_cast<qps::PatternClause>(clause);
+            return std::dynamic_pointer_cast<PatternClause>(clause);
         }
     }
     throw std::runtime_error("No relationship clause found");

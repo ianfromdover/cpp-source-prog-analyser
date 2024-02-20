@@ -11,12 +11,12 @@ void QueryObjectBuilder::reset() {
     qo.reset();
 }
 
-void QueryObjectBuilder::setSingleRelationshipConstraint(std::shared_ptr<qps::RelationshipClause> relationship) {
+void QueryObjectBuilder::setSingleRelationshipConstraint(std::shared_ptr<RelationshipClause> relationship) {
     shared_ptr<Constraint> ptr = RelationshipConstraintDirector::process(std::move(relationship));
     qo->addConstraint(ptr);
 }
 
-void QueryObjectBuilder::setSinglePatternClause(std::shared_ptr<qps::PatternClause> patternClause) {
+void QueryObjectBuilder::setSinglePatternClause(std::shared_ptr<PatternClause> patternClause) {
     ConcretePatternConstraintBuilder builder;
     qo->addConstraint(builder.buildPatternConstraint(std::move(patternClause)));
 }
@@ -39,11 +39,11 @@ void QueryObjectBuilder::setAllPatternClauses() {
 
 
 void QueryObjectBuilder::setAllDeclarationClauses() {
-    std::map<std::string, qps::TokenType::TypeInfo> synonymTypeMap = intermediateObject->getSynonymTypeMap();
-    std::map<std::string, qps::TokenType::TypeInfo>::iterator it;
+    std::map<std::string, QPSTokenType::QPSTypeInfo> synonymTypeMap = intermediateObject->getSynonymTypeMap();
+    std::map<std::string, QPSTokenType::QPSTypeInfo>::iterator it;
     for (it = synonymTypeMap.begin(); it != synonymTypeMap.end(); it++) {
         std::string synName = it->first;
-        qps::TokenType::TypeInfo typeInfo = it->second;
+        QPSTokenType::QPSTypeInfo typeInfo = it->second;
         std::shared_ptr<Entity> declaration = ConstraintArgCreator::buildEntity(typeInfo, synName);
         qo->addDeclaration(declaration);
     }

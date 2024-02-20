@@ -10,7 +10,7 @@
 #include "Clause.h"
 #include "qps/tokenizer/QPSToken.h"
 
-namespace qps {
+
     class PatternClause : public Clause {
     public:
         PatternClause(std::string syn, QPSToken& t1, QPSTokenType::QPSTypeInfo type1, QPSToken& t2, QPSTokenType::QPSTypeInfo type2) : Clause(ClauseType::PATTERN) {
@@ -42,7 +42,7 @@ namespace qps {
         std::shared_ptr<QPSToken> secondArg;
         QPSTokenType::QPSTypeInfo secondArgType;
     };
-}
+
 
 
 #endif //SPA_PATTERNCLAUSE_H

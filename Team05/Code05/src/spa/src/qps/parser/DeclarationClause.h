@@ -10,7 +10,7 @@
 #include "Clause.h"
 #include "qps/tokenizer/QPSTokenType.h"
 
-namespace qps {
+
     class DeclarationClause : public Clause {
     public:
         DeclarationClause() : Clause(ClauseType::DECLARATION) {}
@@ -21,7 +21,7 @@ namespace qps {
 
         std::vector<std::pair<QPSTokenType::QPSTypeInfo, std::string>> getAllDeclarations();
     };
-}
+
 
 
 #endif //SPA_DECLARATIONCLAUSE_H

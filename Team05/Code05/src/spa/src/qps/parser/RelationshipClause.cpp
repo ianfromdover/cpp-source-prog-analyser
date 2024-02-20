@@ -5,7 +5,7 @@
 #include <stdexcept>
 #include "RelationshipClause.h"
 
-namespace qps {
+
     QPSToken& RelationshipClause::getSecondArg() {
         if (secondArg != nullptr) {
             return *secondArg;
@@ -44,4 +44,4 @@ namespace qps {
     QPSTokenType::QPSTypeInfo RelationshipClause::getSecondReferenceType() {
         return secondArgRefType;
     }
-}
+

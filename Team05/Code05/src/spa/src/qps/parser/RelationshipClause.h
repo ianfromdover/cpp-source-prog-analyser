@@ -9,7 +9,7 @@
 #include "Clause.h"
 #include "qps/tokenizer/QPSToken.h"
 
-namespace qps {
+
     class RelationshipClause : public Clause {
     public:
         RelationshipClause(QPSTokenType::QPSTypeInfo type, QPSToken &t1, QPSTokenType::QPSTypeInfo type1, QPSToken &t2, QPSTokenType::QPSTypeInfo type2) : Clause(ClauseType::RELATIONSHIP) {
@@ -40,7 +40,7 @@ namespace qps {
         std::shared_ptr<QPSToken> secondArg;
         QPSTokenType::QPSTypeInfo secondArgRefType;
     };
-}
+
 
 
 #endif //SPA_RELATIONSHIPCLAUSE_H

@@ -4,7 +4,7 @@
 
 #include "ConstraintArgCreator.h"
 
-std::shared_ptr<ConstraintArgument> ConstraintArgCreator::buildArg(QPSTokenType::QPSTypeInfo type, QPSTokenType::TypeInfo ref,
+std::shared_ptr<ConstraintArgument> ConstraintArgCreator::buildArg(QPSTokenType::QPSTypeInfo type, QPSTokenType::QPSTypeInfo ref,
                                                                    std::string identifier) {
     switch (type) {
         case QPSTokenType::EXPR_REF:
@@ -29,7 +29,7 @@ std::shared_ptr<ConstraintArgument> ConstraintArgCreator::buildArg(QPSTokenType:
                 return ConstraintArgCreator::createExpressionRefWildCard();
             }
             break;
-        case QPSTokenType::STMT:
+        case QPSTokenType::STMT1:
             return ConstraintArgCreator::createStatementEntity(identifier);
             break;
         case QPSTokenType::PRINT:
@@ -58,7 +58,7 @@ std::shared_ptr<ConstraintArgument> ConstraintArgCreator::buildArg(QPSTokenType:
 }
 
 // ref is only used to distinguish what type of wildcard is the constraint argument.
-std::shared_ptr<ConstraintArgument> ConstraintArgCreator::buildArgFromToken(QPSToken& token, QPSTokenType::TypeInfo ref) {
+std::shared_ptr<ConstraintArgument> ConstraintArgCreator::buildArgFromToken(QPSToken& token, QPSTokenType::QPSTypeInfo ref) {
     std::string identifier = token.getLexeme();
     return buildArg(token.getType().getInfo(), ref, identifier);
 }
@@ -124,7 +124,7 @@ std::shared_ptr<ExpressionRefWildcard> ConstraintArgCreator::createExpressionRef
     return std::make_shared<ExpressionRefWildcard>();
 }
 
-shared_ptr<Entity> ConstraintArgCreator::buildEntity(QPSTokenType::TypeInfo type, string identifier) {
+shared_ptr<Entity> ConstraintArgCreator::buildEntity(QPSTokenType::QPSTypeInfo type, string identifier) {
     switch (type) {
         case QPSTokenType::PROCEDURE:
             return ConstraintArgCreator::createProcedureEntity(identifier);
@@ -135,7 +135,7 @@ shared_ptr<Entity> ConstraintArgCreator::buildEntity(QPSTokenType::TypeInfo type
         case QPSTokenType::CONSTANT:
             return ConstraintArgCreator::createConstantEntity(identifier);
             break;
-        case QPSTokenType::STMT:
+        case QPSTokenType::STMT1:
             return ConstraintArgCreator::createStatementEntity(identifier);
             break;
         case QPSTokenType::PRINT:

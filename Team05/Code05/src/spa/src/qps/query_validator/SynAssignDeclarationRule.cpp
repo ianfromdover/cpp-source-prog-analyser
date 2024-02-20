@@ -14,7 +14,7 @@ std::string SynAssignDeclarationRule::validate(QueryObject& qo) {
 }
 
 std::string SynAssignDeclarationRule::validate(IntermediateQuery& query) {
-    std::string selectSyn = query.getSelectClause().getAllSelect()[0]; // Assumed to only have one select element
+    std::string selectSyn = query.getSelectClause()->getAllSelect()[0]; // Assumed to only have one select element
 
     for (const auto& clause : query.clauses){
         if (clause->getType() == Clause::ClauseType::DECLARATION) {
