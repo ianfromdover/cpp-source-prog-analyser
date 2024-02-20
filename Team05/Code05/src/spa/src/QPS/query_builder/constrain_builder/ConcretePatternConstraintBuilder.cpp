@@ -9,8 +9,8 @@
 void ConcretePatternConstraintBuilder::addPatternClause(std::shared_ptr<PatternClause> pattern, shared_ptr<QueryObject> qo) {
     std::string synName = pattern->getPatternSynonym();
     syn = ConstraintArgCreator::createAssignEntity(synName);
-    arg1 = buildArgAsEntityRef(pattern->getFirstArg(), pattern->getFirstArgType(), qo);
-    arg2 = buildArgAsExpressionRef(pattern->getSecondArg(), pattern->getSecondArgType(), qo);
+    arg1 = buildArgAsEntityRef(pattern->getFirstArg(), pattern->getFirstReferenceType(), qo);
+    arg2 = buildArgAsExpressionRef(pattern->getSecondArg(), pattern->getSecondReferenceType(), qo);
     shared_ptr<ConcretePatternConstraint> patternConstraint =  make_shared<ConcretePatternConstraint>(arg1, arg2, syn);
     constraintClause = patternConstraint;
 }
