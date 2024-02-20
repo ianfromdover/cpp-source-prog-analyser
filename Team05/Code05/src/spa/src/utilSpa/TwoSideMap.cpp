@@ -1,9 +1,12 @@
 #include "TwoSideMap.h"
 
 template<typename A, typename B>
+TwoSideMap<A, B>::TwoSideMap() {};
+
+template<typename A, typename B>
 bool TwoSideMap<A, B>::insert(A key, B value) {
-    if (containsPair(key, value)) {
-        std::cout << "Warning: TwoSideMap-insert: Pair already exists" << std::endl;
+    if (containsKey(key) || containsValue(value)) {
+        std::cout << "Warning: TwoSideMap-insert: Key or Val already exists" << std::endl;
         // TODO: throw InsertException and catch it
         return false;
     }
@@ -16,11 +19,17 @@ bool TwoSideMap<A, B>::insert(A key, B value) {
 // prompt: used copilot
 template<typename A, typename B>
 std::optional<B> TwoSideMap<A, B>::getValue(A key) {
+    if (!containsKey(key)) {
+        return std::nullopt;
+    }
     return std::make_optional<B>(*forwardMap[key]);
 }
 
 template<typename A, typename B>
 std::optional<A> TwoSideMap<A, B>::getKey(B value) {
+    if (!containsValue(value)) {
+        return std::nullopt;
+    }
     return std::make_optional<B>(*backwardMap[value]);
 }
 
@@ -36,7 +45,12 @@ bool TwoSideMap<A, B>::containsValue(B value) {
 
 template<typename A, typename B>
 bool TwoSideMap<A, B>::containsPair(A key, B value) {
-    return getKey(value) == key && getValue(key) == value;
+    auto k = getKey(value);
+    auto v = getValue(key);
+    if (!k.has_value() || ! v.has_value()) {
+        return false;
+    }
+    return k.value() == key && v.value() == value;
 }
 
 template<typename A, typename B>

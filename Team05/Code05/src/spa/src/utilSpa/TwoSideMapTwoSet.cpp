@@ -5,6 +5,13 @@ TwoSideMapTwoSet<A, B>::TwoSideMapTwoSet() {};
 
 template<typename A, typename B>
 bool TwoSideMapTwoSet<A, B>::insert(const A key, const B value) {
+    // ai-gen start (copilot, 0, e)
+    // prompt: used copilot
+    if (containsPair(key, value)) {
+        std::cout << "Warning: TwoSideMapTwoSet-insert: Pair already exists" << std::endl;
+        return false;
+    }
+    // ai-gen end
     auto kPtr = std::make_shared<A>(key);
     auto vPtr = std::make_shared<B>(value);
 
@@ -62,10 +69,26 @@ bool TwoSideMapTwoSet<A, B>::containsValue(const B value) {
 }
 
 template<typename A, typename B>
+bool TwoSideMapTwoSet<A, B>::containsPair(A key, B value) {
+    if (!containsKey(key) || !containsValue(value)) {
+        return false;
+    }
+
+    // eg. does this contains pair(1, "x") in my StmtNo-VarName table?
+    std::vector<B> values = getValues(key); // eg. line 1 has vars x, y, z
+    for (const B& v : values) {
+        if (v == value) {
+            return true;
+        }
+    }
+    return false;
+}
+
+template<typename A, typename B>
 int TwoSideMapTwoSet<A, B>::size() const {
     int totalSize = 0;
-    for (const auto& set : forwardMap) {
-        totalSize += set->size();
+    for (const auto& pair : forwardMap) {
+        totalSize += pair.second.size();
     }
     return totalSize;
 }

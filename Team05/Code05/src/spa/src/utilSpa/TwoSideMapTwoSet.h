@@ -64,18 +64,13 @@ public:
     bool containsValue(const B value);
 
     /**
-     * @brief Remove a mapping by key.
+     * Check if a pair exists in the map.
      *
-     * @param key The key to remove.
+     * @param key
+     * @param value
+     * @return
      */
-    void eraseKey(const A& key);
-
-    /**
-     * @brief Remove a mapping by value.
-     *
-     * @param value The value to remove.
-     */
-    void eraseValue(const B& value);
+    bool containsPair(A key, B value);
 
     /**
      * @brief Get the size of the map.

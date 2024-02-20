@@ -16,7 +16,7 @@ template<typename A, typename B>
 class TwoSideMap {
 private:
     std::unordered_map<A, std::shared_ptr<B>> forwardMap;
-    std::unordered_map<B, std::weak_ptr<A>> backwardMap;
+    std::unordered_map<B, std::shared_ptr<A>> backwardMap;
 public:
     TwoSideMap();
 
