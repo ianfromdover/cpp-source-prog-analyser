@@ -11,6 +11,7 @@
 #include "qps/query_elements/constraint_argument/ConstraintArgument.h"
 #include "qps/query_elements/QueryEnums.h"
 #include "utilSpa/SpaTypes.h"
+#include "qps/QueryEvaluator/QueryResult/QueryResult.h"
 
 
 class Constraint {
@@ -19,6 +20,9 @@ public:
     virtual std::string getConstraintType() = 0;
     virtual std::vector<std::shared_ptr<ConstraintArgument>>  getConstraintArguments() = 0;
 
+    std::shared_ptr<QueryResult> processConstraint(const Str& constraintType) {
+
+    };
 };
 
 

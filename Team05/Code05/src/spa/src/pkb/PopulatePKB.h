@@ -1,7 +1,6 @@
 #pragma once
 #define SPA_POPULATEPKB_H
 #include <memory>
-//#include "utilSpa/SpaTypes.h"
 #include "pkb/PKBStorage.h"
 
 using namespace std;
@@ -14,8 +13,8 @@ public:
     PopulatePKB(shared_ptr<PKBStorage> p);
     // Returns true if PKBStorage exists
     bool exists();
+  
     // -- Add Entities --
-    // relationships
 
     bool addRead(StmtNo sNum, VarName name);
     bool addCallStmt(StmtNo sNum, ProcName name);
@@ -43,5 +42,4 @@ public:
     // Adds a modifies relationship to the modifies table
     bool addModifies(StmtNo sNum, VarName name);
     bool addModifies(ProcName ProcedureName, VarName name);
-    bool addPatternAsgn(StmtNo sNum, Str lhs, Str rhsBracketed);
 };
