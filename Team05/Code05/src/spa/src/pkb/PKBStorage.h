@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include "pkb/constraintTables/ParentTable.h"
+#include "pkb/constraintTables/FollowsTable.h"
 
 using namespace std;
 
@@ -16,4 +17,5 @@ public:
     PKBStorage();
 
     std::unique_ptr<ParentTable> parentTable;
+    std::unique_ptr<FollowsTable> followsTable;
 };
