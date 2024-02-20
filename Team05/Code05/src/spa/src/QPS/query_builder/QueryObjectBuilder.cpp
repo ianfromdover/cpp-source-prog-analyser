@@ -11,14 +11,14 @@ void QueryObjectBuilder::reset() {
     qo.reset();
 }
 
-void QueryObjectBuilder::setSingleRelationshipConstraint(std::shared_ptr<RelationshipClause> relationship) {
-    shared_ptr<Constraint> ptr = RelationshipConstraintDirector::process(std::move(relationship));
+void QueryObjectBuilder::setSingleRelationshipConstraint(std::shared_ptr<RelationshipClause> relationship, std::shared_ptr<QueryObject> qo) {
+    shared_ptr<Constraint> ptr = RelationshipConstraintDirector::process(std::move(relationship), qo);
     qo->addConstraint(ptr);
 }
 
-void QueryObjectBuilder::setSinglePatternClause(std::shared_ptr<PatternClause> patternClause) {
+void QueryObjectBuilder::setSinglePatternClause(std::shared_ptr<PatternClause> patternClause, shared_ptr<QueryObject> qo) {
     ConcretePatternConstraintBuilder builder;
-    qo->addConstraint(builder.buildPatternConstraint(std::move(patternClause)));
+    qo->addConstraint(builder.buildPatternConstraint(std::move(patternClause), std::move(qo)));
 }
 
 
@@ -29,12 +29,12 @@ void QueryObjectBuilder::setSingleSelectClause() {
 
 //only need one relationship for milestone 1
 void QueryObjectBuilder::setAllRelationshipConstraint() {
-    setSingleRelationshipConstraint(intermediateObject->getRelationshipClause());
+    setSingleRelationshipConstraint(intermediateObject->getRelationshipClause(), this->getQueryObjectRepresentation());
 }
 
 //only need one pattern for milestone 1
 void QueryObjectBuilder::setAllPatternClauses() {
-    setSinglePatternClause(intermediateObject->getPatternClause());
+    setSinglePatternClause(intermediateObject->getPatternClause(), this->getQueryObjectRepresentation());
 }
 
 

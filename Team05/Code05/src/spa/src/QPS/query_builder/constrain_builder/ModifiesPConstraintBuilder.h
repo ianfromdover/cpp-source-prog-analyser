@@ -12,7 +12,7 @@ private:
     shared_ptr<EntityReference> arg1;
     shared_ptr<EntityReference> arg2;
 public:
-    void addConstraintClause(shared_ptr<RelationshipClause>) override;
+    void addConstraintClause(shared_ptr<RelationshipClause>, shared_ptr<QueryObject>) override;
 };
 
 

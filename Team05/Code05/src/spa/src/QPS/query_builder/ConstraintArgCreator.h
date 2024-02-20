@@ -21,6 +21,7 @@
 #include "../query_elements/constraint_argument/statement_reference/IntegerArgument.h"
 #include "../query_elements/constraint_argument/statement_reference/StatementRefWildCard.h"
 #include "../query_elements/constraint_argument/expression_reference/ExpressionRefWildCard.h"
+#include "../query_elements/QueryObject.h"
 #include <memory>
 #include <stdexcept>
 
@@ -28,7 +29,7 @@ class ConstraintArgCreator {
 public:
 //    static std::shared_ptr<ConstraintArgument> buildArgFromToken(QPSToken&, QPSTokenType::QPSTypeInfo);
 //    static std::shared_ptr<ConstraintArgument> buildArgFromToken(QPSTokenType, QPSTokenType::QPSTypeInfo, std::string);
-    static std::shared_ptr<ConstraintArgument> buildArgFromToken(QPSToken &token, QPSTokenType::QPSTypeInfo ref);
+    static std::shared_ptr<ConstraintArgument> buildArgFromToken(QPSToken&, QPSTokenType::QPSTypeInfo, shared_ptr<QueryObject>);
     static std::shared_ptr<ExpressionSpec> createExpressionSpec(std::string);
     static std::shared_ptr<ProcedureEntity> createProcedureEntity(std::string);
     static std::shared_ptr<VariableEntity> createVariableEntity(std::string);
@@ -44,7 +45,7 @@ public:
     static std::shared_ptr<IntegerArgument> createIntegerArgument(std::string);
     static std::shared_ptr<StatementRefWildCard> createStatementRefWildCard();
     static std::shared_ptr<ExpressionRefWildcard> createExpressionRefWildCard();
-    static shared_ptr<ConstraintArgument>buildArg(QPSTokenType::QPSTypeInfo type, QPSTokenType::QPSTypeInfo ref, string identifier);
+    static shared_ptr<ConstraintArgument>buildArg(QPSTokenType::QPSTypeInfo type, QPSTokenType::QPSTypeInfo ref, string identifier, std::shared_ptr<QueryObject>);
     static shared_ptr<Entity> buildEntity(QPSTokenType::QPSTypeInfo type, string identifier);
 };
 

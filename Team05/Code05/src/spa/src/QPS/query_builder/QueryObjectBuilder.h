@@ -26,8 +26,8 @@ private:
     std::shared_ptr<QueryObject> qo;
     std::shared_ptr<IntermediateQuery> intermediateObject;
     void reset();
-    void setSingleRelationshipConstraint(std::shared_ptr<RelationshipClause>);
-    void setSinglePatternClause(std::shared_ptr<PatternClause>);
+    void setSingleRelationshipConstraint(std::shared_ptr<RelationshipClause>, shared_ptr<QueryObject>);
+    void setSinglePatternClause(std::shared_ptr<PatternClause>, shared_ptr<QueryObject>);
     void setSingleSelectClause();
     void setAllRelationshipConstraint();
     void setAllPatternClauses();

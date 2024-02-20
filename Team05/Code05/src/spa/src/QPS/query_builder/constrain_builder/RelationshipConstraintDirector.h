@@ -16,7 +16,7 @@
 
 class RelationshipConstraintDirector {
 public:
-    static std::shared_ptr<Constraint> process(std::shared_ptr<RelationshipClause>);
+    static std::shared_ptr<Constraint> process(std::shared_ptr<RelationshipClause>, shared_ptr<QueryObject>);
 };
 
 

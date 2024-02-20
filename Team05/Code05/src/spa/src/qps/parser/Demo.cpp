@@ -6,6 +6,7 @@
 #include "Demo.h"
 #include "qps/tokenizer/Tokenizer.h"
 #include "QPSParser.h"
+#include "../query_builder/QueryObjectBuilder.h"
 
     void Demo::demonstrate() {
 
@@ -18,6 +19,7 @@
                              "pattern s(_, _\"x+y\"_)"; // Pattern Clause : PATTERN, SYNONYM="s", ENT_REF, WILDCARD, EXPR_WILDCARD="\"x+y\""
                              // (NOTE: wildcard character is not present. can differentiate <'"' expr'"'=EXPR> vs <'_' '"' expr '"' '_'=EXPR_WILDCARD>)
 
+
         std::shared_ptr<QPSStrategyList> strategies = std::make_shared<QPSStrategyList>();             //ignore
         std::shared_ptr<QPSTokenList> tokens = std::make_shared<QPSTokenList>();                       //ignore
         Tokenizer tokenizer(source, strategies, tokens);                                   //ignore
@@ -26,6 +28,9 @@
 
         std::shared_ptr<IntermediateQuery> intermediateQuery = parser.parse();                   // Will receive this shared pointer
         intermediateQuery->processDeclarations(); // called by validator, ignore
+
+        QueryObjectBuilder builder;
+        builder.build(intermediateQuery);
 
         // Returns a map <synonym=STRING, type=TYPEINFO> of all declared synonyms for easier search, guaranteed declaration synonyms are unique
         std::map<std::string, QPSTokenType::QPSTypeInfo> synonymTypeMap = intermediateQuery->getSynonymTypeMap();

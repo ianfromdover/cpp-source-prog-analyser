@@ -4,8 +4,9 @@
 
 #include "ConstraintArgCreator.h"
 
+
 std::shared_ptr<ConstraintArgument> ConstraintArgCreator::buildArg(QPSTokenType::QPSTypeInfo type, QPSTokenType::QPSTypeInfo ref,
-                                                                   std::string identifier) {
+                                                                   std::string identifier, std::shared_ptr<QueryObject> qo) {
     switch (type) {
         case QPSTokenType::EXPR_REF:
             return ConstraintArgCreator::createExpressionSpec(identifier);
@@ -52,15 +53,17 @@ std::shared_ptr<ConstraintArgument> ConstraintArgCreator::buildArg(QPSTokenType:
             break;
         case QPSTokenType::INTEGER:
             return ConstraintArgCreator::createIntegerArgument(identifier);
+        case QPSTokenType::SYNONYM:
+            return dynamic_pointer_cast<ConstraintArgument>(qo->getEntityInDeclaration(identifier));
         default:
             throw std::invalid_argument( "invalid constraint argument flag" );
     }
 }
 
 // ref is only used to distinguish what type of wildcard is the constraint argument.
-std::shared_ptr<ConstraintArgument> ConstraintArgCreator::buildArgFromToken(QPSToken& token, QPSTokenType::QPSTypeInfo ref) {
+std::shared_ptr<ConstraintArgument> ConstraintArgCreator::buildArgFromToken(QPSToken& token, QPSTokenType::QPSTypeInfo ref, shared_ptr<QueryObject> qo) {
     std::string identifier = token.getLexeme();
-    return buildArg(token.getType().getInfo(), ref, identifier);
+    return buildArg(token.getType().getInfo(), ref, identifier, qo);
 }
 
 std::shared_ptr<ExpressionSpec> ConstraintArgCreator::createExpressionSpec(std::string s) {
