@@ -30,34 +30,26 @@ Program SourceProcessor::parse(std::shared_ptr<std::vector<std::shared_ptr<Token
 }
 
 void SourceProcessor::extract(const Program& program) {
-    ReadExtractor readExtractor(this->pkb);
-    CallExtractor callExtractor(this->pkb);
-    IfExtractor ifExtractor(this->pkb);
-    WhileExtractor whileExtractor(this->pkb);
-    PrintExtractor printExtractor(this->pkb);
-    AssignExtractor assignExtractor(this->pkb);
-    StatementExtractor statementExtractor(this->pkb);
-    VariableExtractor variableExtractor(this->pkb);
-    ConstantExtractor constantExtractor(this->pkb);
-    ParentExtractor parentExtractor(this->pkb);
-    UsesExtractor usesExtractor(this->pkb);
-    ModifiesExtractor modifiesExtractor(this->pkb);
-    FollowsExtractor followsExtractor(this->pkb);
+    auto relationExtractor = std::vector<shared_ptr<RelationExtractor>>{
+            std::make_shared<ReadExtractor>(this->pkb),
+            std::make_shared<CallExtractor>(this->pkb),
+            std::make_shared<IfExtractor>(this->pkb),
+            std::make_shared<WhileExtractor>(this->pkb),
+            std::make_shared<PrintExtractor>(this->pkb),
+            std::make_shared<AssignExtractor>(this->pkb),
+            std::make_shared<StatementExtractor>(this->pkb),
+            std::make_shared<VariableExtractor>(this->pkb),
+            std::make_shared<ConstantExtractor>(this->pkb),
+            std::make_shared<ParentExtractor>(this->pkb),
+            std::make_shared<UsesExtractor>(this->pkb),
+            std::make_shared<ModifiesExtractor>(this->pkb),
+            std::make_shared<FollowsExtractor>(this->pkb)
+    };
     for (const auto& procedure : *program) {
-        std::cout << "pkb.addProcedure(" << procedure->getProcName() << ");" << std::endl;
+        //std::cout << "pkb.addProcedure(" << procedure->getProcName() << ");" << std::endl;
         pkb.addProcedure(procedure->getProcName());
-        procedure->accept(readExtractor);
-        procedure->accept(callExtractor);
-        procedure->accept(ifExtractor);
-        procedure->accept(whileExtractor);
-        procedure->accept(printExtractor);
-        procedure->accept(assignExtractor);
-        procedure->accept(statementExtractor);
-        procedure->accept(variableExtractor);
-        procedure->accept(constantExtractor);
-        procedure->accept(parentExtractor);
-        procedure->accept(usesExtractor);
-        procedure->accept(modifiesExtractor);
-        procedure->accept(followsExtractor);
+        for (const auto& extractor : relationExtractor) {
+            procedure->accept(*extractor);
+        }
     }
 }
