@@ -21,7 +21,7 @@ TEST_CASE("Tokenise sample program") {
         cenX = 0;
         cenY = 0;
         call call;
-        readx1;
+        read x1;
         while ((while != 0) && (y != 0)) {
             count = count + 1;
             cenX = cenX + x;

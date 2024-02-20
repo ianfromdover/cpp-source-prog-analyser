@@ -5,19 +5,19 @@
 #include <string>
 #include "Expr.h"
 
-void Binary::accept(RelationExtractor& extractor, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+void Binary::accept(RelationExtractor& extractor, shared_ptr<Accumulator>& parentInfo) {
     extractor.visitBinaryExpr(*this, parentInfo);
 }
 
-void Variable::accept(RelationExtractor& extractor, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+void Variable::accept(RelationExtractor& extractor, shared_ptr<Accumulator>& parentInfo) {
     extractor.visitVariableExpr(*this, parentInfo);
 }
 
-void Literal::accept(RelationExtractor& extractor, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+void Literal::accept(RelationExtractor& extractor, shared_ptr<Accumulator>& parentInfo) {
     extractor.visitLiteralExpr(*this, parentInfo);
 }
 
-void Unary::accept(RelationExtractor& extractor, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+void Unary::accept(RelationExtractor& extractor, shared_ptr<Accumulator>& parentInfo) {
     extractor.visitUnaryExpr(*this, parentInfo);
 }
 

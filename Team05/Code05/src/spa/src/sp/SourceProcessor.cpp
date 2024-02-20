@@ -44,7 +44,7 @@ void SourceProcessor::extract(const Program& program) {
     ModifiesExtractor modifiesExtractor(this->pkb);
     FollowsExtractor followsExtractor(this->pkb);
     for (const auto& procedure : *program) {
-        //std::cout << "pkb.addProcedure(" << procedure->getProcName() << ");" << std::endl;
+        std::cout << "pkb.addProcedure(" << procedure->getProcName() << ");" << std::endl;
         pkb.addProcedure(procedure->getProcName());
         procedure->accept(readExtractor);
         procedure->accept(callExtractor);

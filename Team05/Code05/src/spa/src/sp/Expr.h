@@ -19,7 +19,7 @@ class Unary;
 class Expr {
 public:
     virtual ~Expr() = default;
-    virtual void accept(RelationExtractor& extractor, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) = 0;
+    virtual void accept(RelationExtractor& extractor, shared_ptr<Accumulator>& parentInfo) = 0;
     [[nodiscard]] virtual std::string toString() const = 0;
 };
 
@@ -32,7 +32,7 @@ private:
 public:
     Binary(std::unique_ptr<Expr> left, std::unique_ptr<Token> op, std::unique_ptr<Expr> right)
         : left(std::move(left)), op(std::move(op)), right(std::move(right)) {}
-    void accept(RelationExtractor& extractor, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) override;
+    void accept(RelationExtractor& extractor, shared_ptr<Accumulator>& parentInfo) override;
     [[nodiscard]] std::string toString() const override;
     [[nodiscard]] std::unique_ptr<Expr> const& getLeft() const;
     [[nodiscard]] std::unique_ptr<Token> const& getOP() const;
@@ -45,7 +45,7 @@ private:
 
 public:
     explicit Variable(std::string name) : name(std::move(name)) {}
-    void accept(RelationExtractor& extractor, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) override;
+    void accept(RelationExtractor& extractor, shared_ptr<Accumulator>& parentInfo) override;
     [[nodiscard]] std::string toString() const override;
     [[nodiscard]] std::string getName() const;
 };
@@ -56,7 +56,7 @@ private:
 
 public:
     explicit Literal(int value) : value(value) {}
-    void accept(RelationExtractor& extractor, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) override;
+    void accept(RelationExtractor& extractor, shared_ptr<Accumulator>& parentInfo) override;
     [[nodiscard]] std::string toString() const override;
     [[nodiscard]] int getValue() const;
 };
@@ -68,7 +68,7 @@ private:
 
 public:
     Unary(std::unique_ptr<Token> op, std::unique_ptr<Expr> right) : op(std::move(op)), right(std::move(right)) {}
-    void accept(RelationExtractor& extractor, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) override;
+    void accept(RelationExtractor& extractor, shared_ptr<Accumulator>& parentInfo) override;
     [[nodiscard]] std::string toString() const override;
     [[nodiscard]] std::unique_ptr<Token> const& getOP() const;
     [[nodiscard]] std::unique_ptr<Expr> const& getRight() const;

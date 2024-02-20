@@ -6,16 +6,16 @@
 #include "Stmt.h"
 
 void Procedure::accept(RelationExtractor& extractor) {
-    auto prevStmtInfo = std::make_shared<std::vector<std::variant<StmtNo, std::string>>>();
+    auto prevStmtInfo = std::make_shared<Accumulator>();
     auto followsExtractor = dynamic_cast<FollowsExtractor*>(&extractor);
     if (followsExtractor != nullptr) {
         for (const auto& stmt : *this->body) {
             stmt->accept(extractor, prevStmtInfo);
-            prevStmtInfo->emplace_back(stmt->getStmtNo());
+            prevStmtInfo->info.emplace_back(stmt->getStmtNo());
         }
     } else {
         for (const auto& stmt : *this->body) {
-            auto parentInfo = std::make_shared<std::vector<std::variant<StmtNo, std::string>>>();
+            auto parentInfo = std::make_shared<Accumulator>();
             stmt->accept(extractor, parentInfo);
         }
     }
@@ -78,27 +78,27 @@ std::string Assign::toString() const {
         + this->value->toString() + "\n}");
 };
 
-void Read::accept(RelationExtractor& extractor, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+void Read::accept(RelationExtractor& extractor, shared_ptr<Accumulator>& parentInfo) {
     extractor.visitReadStmt(*this, parentInfo);
 }
 
-void Print::accept(RelationExtractor& extractor, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+void Print::accept(RelationExtractor& extractor, shared_ptr<Accumulator>& parentInfo) {
     extractor.visitPrintStmt(*this, parentInfo);
 }
 
-void Call::accept(RelationExtractor& extractor, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+void Call::accept(RelationExtractor& extractor, shared_ptr<Accumulator>& parentInfo) {
     extractor.visitCallStmt(*this, parentInfo);
 }
 
-void While::accept(RelationExtractor& extractor, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+void While::accept(RelationExtractor& extractor, shared_ptr<Accumulator>& parentInfo) {
     extractor.visitWhileStmt(*this, parentInfo);
 }
 
-void If::accept(RelationExtractor& extractor, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+void If::accept(RelationExtractor& extractor, shared_ptr<Accumulator>& parentInfo) {
     extractor.visitIfStmt(*this, parentInfo);
 }
 
-void Assign::accept(RelationExtractor& extractor, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+void Assign::accept(RelationExtractor& extractor, shared_ptr<Accumulator>& parentInfo) {
     extractor.visitAssignStmt(*this, parentInfo);
 }
 

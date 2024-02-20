@@ -4,81 +4,76 @@
 
 #include "ConstantExtractor.h"
 
-void ConstantExtractor::visitReadStmt(const Read& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+void ConstantExtractor::visitReadStmt(const Read& stmt, shared_ptr<Accumulator>& parentInfo) {
     auto& var = stmt.getVariable();
-    parentInfo->emplace_back(stmt.getStmtNo());
+    parentInfo->info.emplace_back(stmt.getStmtNo());
     var->accept(*this, parentInfo);
 }
 
-void ConstantExtractor::visitPrintStmt(const Print& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+void ConstantExtractor::visitPrintStmt(const Print& stmt, shared_ptr<Accumulator>& parentInfo) {
     auto& var = stmt.getVariable();
-    parentInfo->emplace_back(stmt.getStmtNo());
+    parentInfo->info.emplace_back(stmt.getStmtNo());
     var->accept(*this, parentInfo);
 }
 
-void ConstantExtractor::visitCallStmt(const Call& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+void ConstantExtractor::visitCallStmt(const Call& stmt, shared_ptr<Accumulator>& parentInfo) {
     // Do Nothing
 }
 
-void ConstantExtractor::visitWhileStmt(const While& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+void ConstantExtractor::visitWhileStmt(const While& stmt, shared_ptr<Accumulator>& parentInfo) {
     for (const auto& childStmt: *stmt.getBody()) {
-        auto parentInfoCopy = std::make_shared<std::vector<std::variant<StmtNo, std::string>>>(*parentInfo);
+        auto parentInfoCopy = std::make_shared<Accumulator>(*parentInfo);
         childStmt->accept(*this, parentInfoCopy);
     }
-    parentInfo->emplace_back(stmt.getStmtNo());
+    parentInfo->info.emplace_back(stmt.getStmtNo());
     auto& condition = stmt.getCondition();
     condition->accept(*this, parentInfo);
 }
 
-void ConstantExtractor::visitIfStmt(const If& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+void ConstantExtractor::visitIfStmt(const If& stmt, shared_ptr<Accumulator>& parentInfo) {
     for (const auto& childStmt: *stmt.getThenBranch()) {
-        auto parentInfoCopy = std::make_shared<std::vector<std::variant<StmtNo, std::string>>>(*parentInfo);
+        auto parentInfoCopy = std::make_shared<Accumulator>(*parentInfo);
         childStmt->accept(*this, parentInfoCopy);
     }
     for (const auto& childStmt: *stmt.getElseBranch()) {
-        auto parentInfoCopy = std::make_shared<std::vector<std::variant<StmtNo, std::string>>>(*parentInfo);
+        auto parentInfoCopy = std::make_shared<Accumulator>(*parentInfo);
         childStmt->accept(*this, parentInfoCopy);
     }
-    parentInfo->emplace_back(stmt.getStmtNo());
+    parentInfo->info.emplace_back(stmt.getStmtNo());
     auto& condition = stmt.getCondition();
     condition->accept(*this, parentInfo);
 }
 
-void ConstantExtractor::visitAssignStmt(const Assign& stmt, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
-    auto parentInfoLHSCopy = std::make_shared<std::vector<std::variant<StmtNo, std::string>>>(*parentInfo);
-    auto parentInfoRHSCopy = std::make_shared<std::vector<std::variant<StmtNo, std::string>>>(*parentInfo);
+void ConstantExtractor::visitAssignStmt(const Assign& stmt, shared_ptr<Accumulator>& parentInfo) {
+    auto parentInfoLHSCopy = std::make_shared<Accumulator>(*parentInfo);
+    auto parentInfoRHSCopy = std::make_shared<Accumulator>(*parentInfo);
     auto& lhs = stmt.getVariable();
-    parentInfoLHSCopy->emplace_back(stmt.getStmtNo());
+    parentInfoLHSCopy->info.emplace_back(stmt.getStmtNo());
     lhs->accept(*this, parentInfoLHSCopy);
     auto& rhs = stmt.getValue();
-    parentInfoRHSCopy->emplace_back(stmt.getStmtNo());
+    parentInfoRHSCopy->info.emplace_back(stmt.getStmtNo());
     rhs->accept(*this, parentInfoRHSCopy);
 }
 
-void ConstantExtractor::visitBinaryExpr(const Binary& expr, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+void ConstantExtractor::visitBinaryExpr(const Binary& expr, shared_ptr<Accumulator>& parentInfo) {
     auto& leftExpr = expr.getLeft();
     auto& rightExpr = expr.getRight();
     leftExpr->accept(*this, parentInfo);
     rightExpr->accept(*this, parentInfo);
 }
 
-void ConstantExtractor::visitVariableExpr(const Variable& expr, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+void ConstantExtractor::visitVariableExpr(const Variable& expr, shared_ptr<Accumulator>& parentInfo) {
     // Do Nothing
 }
 
-void ConstantExtractor::visitLiteralExpr(const Literal& expr, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
-    for (const auto& val : *parentInfo) {
-        std::visit([&expr, this](auto&& actualValue) {
-            using T = std::decay_t<decltype(actualValue)>;
-            if constexpr (std::is_same_v<T, StmtNo>) {
-                //std::cout << "pkb.addConst(" << actualValue << ", " << expr.getValue() << ");" << std::endl;
-                pkb.addConst(actualValue, expr.getValue());
-            }
-        }, val);
+void ConstantExtractor::visitLiteralExpr(const Literal& expr, shared_ptr<Accumulator>& parentInfo) {
+    for (const auto& stmtNo : parentInfo->info) {
+        //std::cout << "pkb.addConst(" << stmtNo << ", " << expr.getValue() << ");" << std::endl;
+        pkb.addConst(stmtNo, expr.getValue());
     }
 }
 
-void ConstantExtractor::visitUnaryExpr(const Unary& expr, shared_ptr<std::vector<std::variant<StmtNo, std::string>>>& parentInfo) {
+void ConstantExtractor::visitUnaryExpr(const Unary& expr, shared_ptr<Accumulator>& parentInfo) {
     auto& rightExpr = expr.getRight();
     rightExpr->accept(*this, parentInfo);
 }
