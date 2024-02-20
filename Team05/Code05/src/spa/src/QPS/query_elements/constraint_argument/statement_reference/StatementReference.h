@@ -5,8 +5,8 @@
 #ifndef SPA_STATEMENTREFERENCE_H
 #define SPA_STATEMENTREFERENCE_H
 
-#include "ConstraintArgument.h"
-#include "../Entity.h"
+#include "qps/query_elements/constraint_argument/ConstraintArgument.h"
+#include "qps/query_elements/Entity.h"
 #include "utilSpa/SpaTypes.h"
 
 class StatementReference : public ConstraintArgument {

@@ -16,6 +16,7 @@ public:
     QueryResultEnum getType() override;
     std::vector<int> getResults();
     std::vector<std::string> format() override;
+    std::vector<int> intersect(std::shared_ptr<IntResult>);
 private:
     std::vector<int> results;
 };

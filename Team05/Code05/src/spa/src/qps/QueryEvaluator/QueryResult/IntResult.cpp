@@ -30,3 +30,14 @@ std::vector<std::string> IntResult::format() {
 
     return strings;
 }
+
+std::vector<int> IntResult::intersect(std::shared_ptr<IntResult> anotherPointer) {
+    std::vector<int> anotherResult = anotherPointer->getResults();
+    std::sort(anotherResult.begin(), anotherResult.end());
+    std::sort(this->getResults().begin(), this->getResults().end());
+    std::vector<int> finalResult;
+    std::set_intersection(anotherResult.begin(), anotherResult.end(),
+                          this->getResults().begin(), this->getResults().end(),
+                          back_inserter(finalResult));
+    return finalResult;
+}
