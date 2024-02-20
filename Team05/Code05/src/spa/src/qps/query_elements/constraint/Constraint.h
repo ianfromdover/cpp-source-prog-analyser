@@ -18,7 +18,7 @@ public:
     virtual std::string getConstraintClass() = 0;
     virtual std::string getConstraintType() = 0;
     virtual std::vector<std::shared_ptr<ConstraintArgument>>  getConstraintArguments() = 0;
-
+    std:: string toString();
 };
 
 
