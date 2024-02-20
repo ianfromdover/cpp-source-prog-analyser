@@ -32,11 +32,11 @@ public:
     bool addStmt(StmtNo stmtNo, Str stmtType, ProcId procIndex);
 
     // -- Add Abstractions --
+    */
     // Adds a follows relationship to the follows table
-    bool addFollows();
+    bool addFollows(StmtNo before, StmtNo after);
 
     // Adds a parent relationship to the parent table
-     */
     bool addParent(StmtNo parent, StmtNo child); // parent is s1, child is s2
 
     // Adds a uses relationship to the uses table

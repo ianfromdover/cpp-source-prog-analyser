@@ -23,10 +23,12 @@ bool PopulatePKB::addProcedure() {
 bool PopulatePKB::addStmt(StmtNo stmtNo, Str stmtType, ProcId procIndex) {
     return false;
 }
-bool PopulatePKB::addFollows() {
-    return false;
-}
  */
+
+bool PopulatePKB::addFollows(StmtNo before, StmtNo after) {
+    return pkb->followsTable->addFollows(before, after);
+}
+
 bool PopulatePKB::addParent(StmtNo parent, StmtNo child) {
     return pkb->parentTable->addParent(parent, child);
     //return true;

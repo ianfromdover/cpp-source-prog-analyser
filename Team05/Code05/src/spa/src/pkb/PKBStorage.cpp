@@ -2,4 +2,5 @@
 
 PKBStorage::PKBStorage() {
     parentTable = std::make_unique<ParentTable>();
+    followsTable = std::make_unique<FollowsTable>();
 }
