@@ -49,7 +49,7 @@ namespace qps {
 
         QPSToken previous();
 
-        bool Parser::checkPrevious(QPSTokenType::QPSTypeInfo type);
+        bool checkPrevious(QPSTokenType::QPSTypeInfo type);
 
         QPSToken consume(QPSTokenType::QPSTypeInfo type, const std::string& message);
 
