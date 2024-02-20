@@ -77,12 +77,12 @@ std::shared_ptr<QueryResult> QueryPKB::queryFollowsTable(vector<shared_ptr<Const
         // finding the statement number which Follows argList[0]
         std::shared_ptr<IntegerArgument> newInt = std::dynamic_pointer_cast<IntegerArgument>(argList[0]);
         int i = newInt->value; //get value
-        results = pkb->followsTable->getFollowers(i);
+        results.push_back(pkb->followsTable->getFollower(i));
     } else {
         // finding what statement is before argList[1]
         std::shared_ptr<IntegerArgument> newInt = std::dynamic_pointer_cast<IntegerArgument>(argList[1]);
         int i = newInt->value; //get value
-        results.push_back(pkb->followsTable->getFollowed(i));
+        results.push_back(pkb->followsTable->getStmtBefore(i));
     }
     IntResult res(results);
     return std::make_shared<IntResult>(res);

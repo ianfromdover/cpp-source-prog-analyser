@@ -1,30 +1,26 @@
-//
-// Created by yewme on 20/2/2024.
-//
-
-#ifndef SPA_FOLLOWSTABLE_H
+#pragma once
 #define SPA_FOLLOWSTABLE_H
 
 #include "utilSpa/SpaTypes.h"
-#include "utilSpa/TwoSideFwdVecMap.h"
+#include "utilSpa/TwoSideMap.h"
 
 class FollowsTable {
-    // TODO: Create Follows* table class using TwoSideDblVecMap
 private:
-    TwoSideFwdVecMap<StmtNo, StmtNo> twoSideMap;
+    TwoSideMap<StmtNo, StmtNo> twoSideMap; // actually this can be a twosidemap
 public:
     FollowsTable();
+    // Adds a follows relationship to the follows table, returns true if the relationship is added
     bool addFollows(StmtNo before, StmtNo after);
+    // Returns true if the before statement follows the after statement
     bool isFollows(StmtNo before, StmtNo after);
-    // Returns true if the statement has a followed
-    bool hasFollowed(StmtNo after);
+    // Returns true if there is a statement that is followed by this statement
+    bool hasStmtBefore(StmtNo after);
     // Returns true if the statement has a follower
     bool hasFollower(StmtNo before);
-    StmtNo getFollowed(StmtNo after);
-    // Returns a list of children of the parent, unsorted // TODO: QPS ppl, do you want it to be sorted?
-    vector<StmtNo> getFollowers(StmtNo before);
-    int getSize() const;
+    // Returns the statement that is followed by this statement
+    StmtNo getStmtBefore(StmtNo after);
+    // Returns the follower of this statement. Returns -1 if there is no follower
+    StmtNo getFollower(StmtNo before);
+    // Returns the number of follows relationships
+    [[nodiscard]] int getSize() const;
 };
-
-
-#endif //SPA_FOLLOWSTABLE_H
