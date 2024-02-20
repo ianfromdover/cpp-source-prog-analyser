@@ -18,7 +18,7 @@ using namespace std;
 
 
 // ai-gen start(gpt, 0, e)
-// prompt: https://chat.openai.com/share/ec225b64-f0c0-4d04-a5c2-9645760d0401
+// prompt: https://platform.openai.com/playground/p/iUhV1Vs18pHIoJq0lDbowAOl?model=gpt-3.5-turbo&mode=chat
 TEST_CASE("StatementEntity_inherits_from_ConstraintArgument") {
     StatementEntity statement("z");
     REQUIRE(dynamic_cast<ConstraintArgument*>(&statement) != nullptr);
@@ -59,15 +59,6 @@ TEST_CASE("IntegerArgument_inherits_from_ConstraintArgument") {
     REQUIRE(dynamic_cast<ConstraintArgument*>(&integerArg) != nullptr);
 }
 
-//TEST_CASE("WildCard_inherits_from_ConstraintArgument") {
-//    EntityRefWildCard wildCard;
-//    REQUIRE(dynamic_cast<ConstraintArgument*>(&wildCard) != nullptr);
-//}
-
-// ai-gen end
-
-// ai-gen start(gpt, 0, e)
-// prompt:https://chat.openai.com/c/02a7fbcc-80e0-4cfe-be5f-2f2858ab9b47
 TEST_CASE("StatementEntity_ReferenceType_StatementReference") {
     StatementEntity s("q");
     REQUIRE(s.getReferenceType() == REFERENCE_TYPE_STATEMENT);

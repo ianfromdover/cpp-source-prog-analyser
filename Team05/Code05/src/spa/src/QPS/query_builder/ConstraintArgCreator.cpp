@@ -66,7 +66,8 @@ std::shared_ptr<ConstraintArgument> ConstraintArgCreator::buildArg(QPSTokenType:
 // ref is only used to distinguish what type of wildcard is the constraint argument.
 std::shared_ptr<ConstraintArgument> ConstraintArgCreator::buildArgFromToken(QPSToken& token, QPSTokenType::QPSTypeInfo ref, shared_ptr<QueryObject> qo) {
     std::string identifier = token.getLexeme();
-    return buildArg(token.getType().getInfo(), ref, identifier, qo);
+    auto x=  buildArg(token.getType().getInfo(), ref, identifier, qo);
+    return x;
 }
 
 std::shared_ptr<Expression> ConstraintArgCreator::createExpression(std::string s) {

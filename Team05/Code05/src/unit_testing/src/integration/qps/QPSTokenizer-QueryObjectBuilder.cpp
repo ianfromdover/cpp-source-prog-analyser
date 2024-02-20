@@ -30,5 +30,17 @@ std::string testHelper(std::string source) {
 
 TEST_CASE("OneDeclaration_TokenizertoQOBuilder_ReturnsOneSelectClause") {
     std::string source = "stmt s;";
-    std::cout << testHelper(source);
+    std::string processed = testHelper(source);
+    std::string output = "{DECLARATIONS}: s [STMT]";
+    REQUIRE(processed == output);
+    cout << processed;
 }
+
+TEST_CASE("MultipleDeclaration_TokenizertoQOBuilder_ReturnsOneSelectClause") {
+    std::string source = "if s;";
+    std::string processed = testHelper(source);
+    std::string output = "{DECLARATIONS}: s [STMT], c [STMT], p [PRINT]";
+//    REQUIRE(processed == output);
+    cout << processed;
+}
+

@@ -28,6 +28,8 @@ public:
     void addDeclaration(const std::shared_ptr<Entity>&);
     std::shared_ptr<Entity> getEntityInDeclaration(std::string);
     std::string toString();
+
+    string combineString(string returnString, string declarationString, string constraintString);
 };
 
 

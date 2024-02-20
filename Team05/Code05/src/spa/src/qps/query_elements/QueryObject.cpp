@@ -41,7 +41,29 @@ std::string QueryObject::toString() {
     std::string returnString = getReturnString();
     std::string declarationString = getDeclarationString();
     std::string constraintString = getConstraintString();
-    return returnString + "\n" + declarationString + "\n" + constraintString;
+    return combineString(returnString, declarationString, constraintString);
+}
+
+std::string QueryObject::combineString(std::string returnString, std::string declarationString, std::string constraintString) {
+    std::string out = "";
+    if (!returnString.empty()) {
+        out += returnString ;
+    }
+    if (!declarationString.empty()) {
+        if (!returnString.empty()) {
+            out += "\n" + declarationString;
+        } else {
+            out += declarationString;
+        }
+    }
+    if (!constraintString.empty()) {
+        if (!out.empty()) {
+            out += "\n" + constraintString;
+        } else {
+            out += constraintString;
+        }
+    }
+    return out;
 }
 
 std::string QueryObject::getReturnString() {

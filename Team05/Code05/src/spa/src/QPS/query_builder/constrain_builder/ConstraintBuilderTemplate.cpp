@@ -15,7 +15,8 @@ std::shared_ptr<Constraint> ConstraintBuilderTemplate::build() {
 }
 
 std::shared_ptr<ConstraintArgument> ConstraintBuilderTemplate::buildArg(QPSToken & token, QPSTokenType::QPSTypeInfo ref, shared_ptr<QueryObject> qo) {
-    return ConstraintArgCreator::buildArgFromToken(token, ref, std::move(qo));
+    auto x = ConstraintArgCreator::buildArgFromToken(token, ref, std::move(qo));
+    return x;
 }
 
 std::shared_ptr<ExpressionReference> ConstraintBuilderTemplate::buildArgAsExpressionRef(QPSToken& token, QPSTokenType::QPSTypeInfo ref, shared_ptr<QueryObject> qo) {
@@ -36,7 +37,8 @@ std::shared_ptr<EntityReference> ConstraintBuilderTemplate::buildArgAsEntityRef(
     if (ref != QPSTokenType::ENT_REF) {
         throw std::invalid_argument( "Not Entity reference, is " + to_string(ref) );
     }
-    return dynamic_pointer_cast<EntityReference>(buildArg(token, ref, std::move(qo)));
+    auto x = dynamic_pointer_cast<EntityReference>(buildArg(token, ref, std::move(qo)));
+    return x;
 }
 
 
