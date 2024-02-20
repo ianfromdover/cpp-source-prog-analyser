@@ -29,8 +29,8 @@ public:
         // Relationships
         PARENT, PARENT_T,
         FOLLOWS, FOLLOWS_T,
-        MODIFIES_S, MODIFIES_T,
-        USES_S, USES_T,
+        MODIFIES_S, MODIFIES_P,
+        USES_S, USES_P,
 
         // Entity References
         ENT_REF,
