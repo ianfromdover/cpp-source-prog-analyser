@@ -9,5 +9,5 @@ std::string EntityRefWildCard::getEntityType() {
 }
 
 std::string EntityRefWildCard::toString() {
-    return "_ [ENT REF]";
+    return "_ [ENT WILDCARD]";
 }

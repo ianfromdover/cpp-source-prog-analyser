@@ -3,6 +3,7 @@
 //
 
 #include <map>
+#include <iostream>
 #include "Demo.h"
 #include "qps/tokenizer/Tokenizer.h"
 #include "QPSParser.h"
@@ -31,6 +32,8 @@
 
         QueryObjectBuilder builder;
         std::shared_ptr<QueryObject> qo = builder.build(intermediateQuery);
+
+        std::cout << qo->toString();
 
         // Returns a map <synonym=STRING, type=TYPEINFO> of all declared synonyms for easier search, guaranteed declaration synonyms are unique
         std::map<std::string, QPSTokenType::QPSTypeInfo> synonymTypeMap = intermediateQuery->getSynonymTypeMap();

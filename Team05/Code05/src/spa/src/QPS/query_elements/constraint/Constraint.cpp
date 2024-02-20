@@ -5,6 +5,6 @@
 #include "Constraint.h"
 
 std::string Constraint::toString() {
-    return getConstraintClass() + "(" + this->getConstraintArguments()[0]->toString()
+    return getConstraintType() + "(" + this->getConstraintArguments()[0]->toString()
     + ", " + this->getConstraintArguments()[1]->toString() + ")";
 }

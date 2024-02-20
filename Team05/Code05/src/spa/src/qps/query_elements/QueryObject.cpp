@@ -37,3 +37,22 @@ std::shared_ptr<Entity> QueryObject::getEntityInDeclaration(std::string toFind) 
     return nullptr;
 }
 
+std::string QueryObject::toString() {
+    std::string returnString = "{RETURN}: " + this->getReturnType()->toString();
+    std::string declarationString = "{DECLARATIONS}: ";
+    std::string constraintString = "{CONSTRAINTS}: ";
+    for (auto it = declarations.begin(); it != declarations.end(); ++it) {
+        declarationString += (*it)->toString();
+        if (std::next(it) != declarations.end()){
+            declarationString += ", ";
+        }
+    }
+    for (auto it = constraints.begin(); it != constraints.end(); ++it) {
+        constraintString += (*it)->toString();
+        if (std::next(it) != constraints.end()){
+            constraintString += ", ";
+        }
+    }
+    return returnString + "\n" + declarationString + "\n" + constraintString;
+}
+

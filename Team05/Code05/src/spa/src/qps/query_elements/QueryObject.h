@@ -25,6 +25,7 @@ public:
     std::vector<std::shared_ptr<Entity>> getDeclarations();
     void addDeclaration(const std::shared_ptr<Entity>&);
     std::shared_ptr<Entity> getEntityInDeclaration(std::string);
+    std::string toString();
 };
 
 
