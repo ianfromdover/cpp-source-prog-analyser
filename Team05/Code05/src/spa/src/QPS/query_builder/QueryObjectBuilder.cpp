@@ -23,22 +23,35 @@ void QueryObjectBuilder::setSinglePatternClause(std::shared_ptr<PatternClause> p
 
 
 void QueryObjectBuilder::setSingleSelectClause() {
+    if (!intermediateObject->hasSelectClause()) {
+        return;
+    }
     std::string name = intermediateObject->getSelectClause()->selectElements[0];
     qo->setReturnType(qo->getEntityInDeclaration(name));
 }
 
 //only need one relationship for milestone 1
 void QueryObjectBuilder::setAllRelationshipConstraint() {
+    if (!intermediateObject->hasRelationshipClause()) {
+        return;
+    }
     setSingleRelationshipConstraint(intermediateObject->getRelationshipClause(), this->getQueryObjectRepresentation());
 }
 
 //only need one pattern for milestone 1
 void QueryObjectBuilder::setAllPatternClauses() {
+    if (!intermediateObject->hasPatternClause()) {
+        return;
+    }
     setSinglePatternClause(intermediateObject->getPatternClause(), this->getQueryObjectRepresentation());
 }
 
 
 void QueryObjectBuilder::setAllDeclarationClauses() {
+    if (!intermediateObject->hasDeclarationClause()) {
+        return;
+    }
+
     std::map<std::string, QPSTokenType::QPSTypeInfo> synonymTypeMap = intermediateObject->getSynonymTypeMap();
     std::map<std::string, QPSTokenType::QPSTypeInfo>::iterator it;
     for (it = synonymTypeMap.begin(); it != synonymTypeMap.end(); it++) {

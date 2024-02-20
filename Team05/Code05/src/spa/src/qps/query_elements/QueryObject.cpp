@@ -38,21 +38,47 @@ std::shared_ptr<Entity> QueryObject::getEntityInDeclaration(std::string toFind) 
 }
 
 std::string QueryObject::toString() {
-    std::string returnString = "{RETURN}: " + this->getReturnType()->toString();
+    std::string returnString = getReturnString();
+    std::string declarationString = getDeclarationString();
+    std::string constraintString = getConstraintString();
+    return returnString + "\n" + declarationString + "\n" + constraintString;
+}
+
+std::string QueryObject::getReturnString() {
+    if (this->returnType == nullptr) {
+        return "";
+    } else {
+        return "{RETURN}: " + this->getReturnType()->toString();
+    }
+
+}
+
+std::string QueryObject::getDeclarationString() {
+    if (this->declarations.empty()) {
+        return "";
+    }
     std::string declarationString = "{DECLARATIONS}: ";
-    std::string constraintString = "{CONSTRAINTS}: ";
     for (auto it = declarations.begin(); it != declarations.end(); ++it) {
         declarationString += (*it)->toString();
         if (std::next(it) != declarations.end()){
             declarationString += ", ";
         }
     }
+    return declarationString;
+}
+
+std::string QueryObject::getConstraintString() {
+    if (this->constraints.empty()) {
+        return "";
+    }
+    std::string constraintString = "{CONSTRAINTS}: ";
+
     for (auto it = constraints.begin(); it != constraints.end(); ++it) {
         constraintString += (*it)->toString();
         if (std::next(it) != constraints.end()){
             constraintString += ", ";
         }
     }
-    return returnString + "\n" + declarationString + "\n" + constraintString;
+    return constraintString;
 }
 

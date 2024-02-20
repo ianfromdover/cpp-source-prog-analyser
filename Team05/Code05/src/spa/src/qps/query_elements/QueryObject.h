@@ -16,7 +16,9 @@ private:
     std::shared_ptr<Returnable> returnType;
     std::vector<std::shared_ptr<Constraint>> constraints;
     std::vector<std::shared_ptr<Entity>> declarations;
-
+    std::string getReturnString();
+    std::string getDeclarationString();
+    std::string getConstraintString();
 public:
     std::shared_ptr<Returnable> getReturnType();
     void setReturnType(std::shared_ptr<Returnable> r);
