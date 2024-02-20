@@ -26,7 +26,7 @@ std::string Procedure::toString() const {
     for (const auto& stmt : *this->body) {
         bodyStr += stmt->toString() + "\n";
     }
-    return "procedure: {\n name: " + this->name + ",\n body: {\n" + bodyStr + "\n}\n}";
+    return "procedure(" + this->name + "): " + "[\n" + bodyStr + "]";
 }
 
 std::string Stmt::prefixStmtNo(std::string text) const {
@@ -38,15 +38,15 @@ StmtNo Stmt::getStmtNo() const {
 }
 
 std::string Read::toString() const {
-    return this->prefixStmtNo("Read: { variable: " + this->variable->toString() + " }");
+    return this->prefixStmtNo("read: " + this->variable->toString());
 };
 
 std::string Print::toString() const {
-    return this->prefixStmtNo("Print: { variable: " + this->variable->toString() + " }");
+    return this->prefixStmtNo("print: " + this->variable->toString());
 };
 
 std::string Call::toString() const {
-    return this->prefixStmtNo("Call: { procName: " + this->procName + " }");
+    return this->prefixStmtNo("call: " + this->procName);
 };
 
 std::string While::toString() const {
@@ -55,7 +55,7 @@ std::string While::toString() const {
     for (const auto& stmt : *this->body) {
         bodyStr += stmt->toString() + "\n";
     }
-    return this->prefixStmtNo("While: {\n condition: " + conditionStr + ",\n body: {\n" + bodyStr + "\n}\n}");
+    return this->prefixStmtNo("while(" + conditionStr + "): [\n" + bodyStr + "]");
 };
 
 std::string If::toString() const {
@@ -68,14 +68,11 @@ std::string If::toString() const {
     for (const auto& stmt : *this->elseBranch) {
         elseBranchStr += stmt->toString() + "\n";
     }
-    std::string ifStr = "If: {\n condition: " + conditionStr + ", \n then: {\n" + thenBranchStr + "\n}\n, else: {\n"
-            + elseBranchStr + "\n}\n}";
-    return this->prefixStmtNo(ifStr);
+    return this->prefixStmtNo("if(" + conditionStr + ") then: [\n" + thenBranchStr + "] else: [\n" + elseBranchStr + "]");
 };
 
 std::string Assign::toString() const {
-    return this->prefixStmtNo("Assign: {\n variable: " + this->variable->toString() + ",\n value: "
-        + this->value->toString() + "\n}");
+    return this->prefixStmtNo("assign: " + this->variable->toString() + " = " + this->value->toString());
 };
 
 void Read::accept(RelationExtractor& extractor, shared_ptr<Accumulator>& parentInfo) {

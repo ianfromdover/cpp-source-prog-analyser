@@ -22,20 +22,19 @@ void Unary::accept(RelationExtractor& extractor, shared_ptr<Accumulator>& parent
 }
 
 std::string Binary::toString() const {
-    return "Binary: {\n op: " + this->op->getLexeme() + ",\n left: " + this->left->toString() + ",\n right: "
-        + this->right->toString() + "\n}";
+    return "(" + this->left->toString() + this->op->getLexeme() + this->right->toString() + ")";
 }
 
 std::string Variable::toString() const {
-    return "Variable: { name: " + this->name + " }";
+    return this->name;
 }
 
 std::string Literal::toString() const {
-    return "Literal: { value: " + std::to_string(this->value) + " }";
+    return std::to_string(this->value);
 }
 
 std::string Unary::toString() const {
-    return "Unary: {\n op: " + this->op->getLexeme() + ",\n right: " + this->right->toString() + "\n}";
+    return "(" + this->op->getLexeme() + this->right->toString() + ")";
 }
 
 std::unique_ptr<Expr> const& Binary::getLeft() const {

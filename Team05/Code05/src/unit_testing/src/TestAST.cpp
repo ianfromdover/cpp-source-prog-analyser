@@ -74,8 +74,11 @@ TEST_CASE("Parse sample program") {
     auto sp = SourceProcessor(pkb);
     auto tokens = sp.scan(codeSnippet);
     const auto parser = new Parser(tokens);
-    PrettyPrinter pp;
-    std::cout << pp.print(parser->parse()) << std::endl;
+    const auto program = parser->parse();
+    for (const auto& procedures : *program) {
+        std::cout << procedures->toString() << std::endl;
+    }
+
     require(true);
 }
 
