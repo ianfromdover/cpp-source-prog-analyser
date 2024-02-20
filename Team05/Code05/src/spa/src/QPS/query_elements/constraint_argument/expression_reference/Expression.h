@@ -2,20 +2,20 @@
 // Created by tohzh on 15/2/2024.
 //
 
-#ifndef SPA_EXPRESSIONSPEC_H
-#define SPA_EXPRESSIONSPEC_H
+#ifndef SPA_EXPRESSION_H
+#define SPA_EXPRESSION_H
 
 
 #include "ExpressionReference.h"
 
-class ExpressionSpec : public ExpressionReference {
+class Expression : public ExpressionReference {
 protected:
     std::string regularExpression;
 public:
-    explicit ExpressionSpec(std::string);
+    explicit Expression(std::string);
     std::string getEntityType() override;
     std::string getArgumentValue() override;
 };
 
 
-#endif //SPA_EXPRESSIONSPEC_H
+#endif //SPA_EXPRESSION_H

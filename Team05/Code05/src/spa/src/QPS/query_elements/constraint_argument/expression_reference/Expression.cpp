@@ -2,18 +2,18 @@
 // Created by tohzh on 15/2/2024.
 //
 
-#include "ExpressionSpec.h"
+#include "Expression.h"
 
 #include <utility>
 
-std::string ExpressionSpec::getArgumentValue() {
+std::string Expression::getArgumentValue() {
     return regularExpression;
 }
 
-std::string ExpressionSpec::getEntityType() {
+std::string Expression::getEntityType() {
     return RETURN_TYPE_EXPRESSION;
 }
 
-ExpressionSpec::ExpressionSpec(std::string s) {
+Expression::Expression(std::string s) {
     regularExpression = std::move(s);
 }

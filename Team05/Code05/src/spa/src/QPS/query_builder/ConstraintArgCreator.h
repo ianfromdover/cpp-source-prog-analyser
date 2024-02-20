@@ -6,7 +6,7 @@
 #define SPA_CONSTRAINTARGCREATOR_H
 
 #include "qps/parser/RelationshipClause.h" // error when I include this inclusion, it has to be the first import (also for subsequent imports)
-#include "../query_elements/constraint_argument/expression_reference/ExpressionSpec.h"
+#include "../query_elements/constraint_argument/expression_reference/Expression.h"
 #include "../query_elements/constraint_argument/entity_reference/ProcedureEntity.h"
 #include "../query_elements/constraint_argument/entity_reference/VariableEntity.h"
 #include "../query_elements/constraint_argument/entity_reference/ConstantEntity.h"
@@ -21,6 +21,7 @@
 #include "../query_elements/constraint_argument/statement_reference/IntegerArgument.h"
 #include "../query_elements/constraint_argument/statement_reference/StatementRefWildCard.h"
 #include "../query_elements/constraint_argument/expression_reference/ExpressionRefWildCard.h"
+#include "../query_elements/constraint_argument/expression_reference/ExpressionWithWildcard.h"
 #include "../query_elements/QueryObject.h"
 #include <memory>
 #include <stdexcept>
@@ -30,7 +31,8 @@ public:
 //    static std::shared_ptr<ConstraintArgument> buildArgFromToken(QPSToken&, QPSTokenType::QPSTypeInfo);
 //    static std::shared_ptr<ConstraintArgument> buildArgFromToken(QPSTokenType, QPSTokenType::QPSTypeInfo, std::string);
     static std::shared_ptr<ConstraintArgument> buildArgFromToken(QPSToken&, QPSTokenType::QPSTypeInfo, shared_ptr<QueryObject>);
-    static std::shared_ptr<ExpressionSpec> createExpressionSpec(std::string);
+    static std::shared_ptr<Expression> createExpression(std::string);
+    static std::shared_ptr<ExpressionWithWildcard> createExpressionWithWildcard(std::string);
     static std::shared_ptr<ProcedureEntity> createProcedureEntity(std::string);
     static std::shared_ptr<VariableEntity> createVariableEntity(std::string);
     static std::shared_ptr<ConstantEntity> createConstantEntity(std::string);

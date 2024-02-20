@@ -19,7 +19,8 @@
 #define RETURN_TYPE_PROCEDURE "Procedure"
 #define RETURN_TYPE_VARIABLE "Variable"
 #define RETURN_TYPE_CONSTANT "Constant"
-#define RETURN_TYPE_EXPRESSION "ExpressionSpec"
+#define RETURN_TYPE_EXPRESSION "Expression"
+#define RETURN_TYPE_EXPRESSION_W_WILDCARD "ExpressionWithWildcard"
 
 #define REFERENCE_TYPE_EXPRESSION "ExpressionReference"
 #define REFERENCE_TYPE_ENTITY "EntityReference"

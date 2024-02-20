@@ -8,8 +8,11 @@
 std::shared_ptr<ConstraintArgument> ConstraintArgCreator::buildArg(QPSTokenType::QPSTypeInfo type, QPSTokenType::QPSTypeInfo ref,
                                                                    std::string identifier, std::shared_ptr<QueryObject> qo) {
     switch (type) {
-        case QPSTokenType::EXPR_REF:
-            return ConstraintArgCreator::createExpressionSpec(identifier);
+        case QPSTokenType::EXPR:
+            return ConstraintArgCreator::createExpression(identifier);
+            break;
+        case QPSTokenType::EXPR_WILDCARD:
+            return ConstraintArgCreator::createExpressionWithWildcard(identifier);
             break;
         case QPSTokenType::PROCEDURE:
             return ConstraintArgCreator::createProcedureEntity(identifier);
@@ -66,8 +69,12 @@ std::shared_ptr<ConstraintArgument> ConstraintArgCreator::buildArgFromToken(QPST
     return buildArg(token.getType().getInfo(), ref, identifier, qo);
 }
 
-std::shared_ptr<ExpressionSpec> ConstraintArgCreator::createExpressionSpec(std::string s) {
-    return std::make_shared<ExpressionSpec>(s);
+std::shared_ptr<Expression> ConstraintArgCreator::createExpression(std::string s) {
+    return std::make_shared<Expression>(s);
+}
+
+std::shared_ptr<ExpressionWithWildcard> ConstraintArgCreator::createExpressionWithWildcard(std::string s) {
+    return std::make_shared<ExpressionWithWildcard>(s);
 }
 
 std::shared_ptr<ProcedureEntity> ConstraintArgCreator::createProcedureEntity(std::string s) {
