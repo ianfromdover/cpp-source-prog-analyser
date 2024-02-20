@@ -28,6 +28,6 @@ TEST_CASE("[TestUtils] Test DoubleMap") {
 }
 
 TEST_CASE("[TestUtils] Test SPA Types") {
-    SECTION("Test LnNo") {
+    SECTION("Test StmtNo") {
     }
 }
