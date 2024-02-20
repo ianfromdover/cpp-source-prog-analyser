@@ -28,3 +28,12 @@ void QueryObject::addDeclaration(const std::shared_ptr<Entity>& d) {
     declarations.push_back(d);
 }
 
+std::shared_ptr<Entity> QueryObject::getEntityInDeclaration(std::string toFind) {
+    for (shared_ptr<Entity> ent : declarations) {
+        if (ent->getIdentifier() == toFind) {
+            return ent;
+        }
+    }
+    return nullptr;
+}
+

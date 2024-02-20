@@ -4,7 +4,7 @@
 
 #include "FollowsConstraint.h"
 
-FollowsConstraint::FollowsConstraint(std::shared_ptr<ConstraintArgument> s1, std::shared_ptr<ConstraintArgument>  s2) {
+FollowsConstraint::FollowsConstraint(std::shared_ptr<StatementReference> s1, std::shared_ptr<StatementReference>  s2) {
     constraintArguments.push_back(s1);
     constraintArguments.push_back(s2);
 }

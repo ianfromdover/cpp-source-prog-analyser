@@ -24,6 +24,7 @@ public:
     void addConstraint(std::shared_ptr<Constraint>);
     std::vector<std::shared_ptr<Entity>> getDeclarations();
     void addDeclaration(const std::shared_ptr<Entity>&);
+    std::shared_ptr<Entity> getEntityInDeclaration(std::string);
 };
 
 
