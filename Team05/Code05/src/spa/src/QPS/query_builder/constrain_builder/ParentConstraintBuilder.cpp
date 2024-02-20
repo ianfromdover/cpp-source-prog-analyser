@@ -4,8 +4,8 @@
 
 #include "ParentConstraintBuilder.h"
 
-void ParentConstraintBuilder::addConstraintClause(shared_ptr<qps::RelationshipClause> rs) {
-    if (rs->getRelationshipType() != qps::TokenType::PARENT) {
+void ParentConstraintBuilder::addConstraintClause(shared_ptr<RelationshipClause> rs) {
+    if (rs->getRelationshipType() != QPSTokenType::PARENT) {
         throw std::invalid_argument( "Not Parent argument" );
     }
 

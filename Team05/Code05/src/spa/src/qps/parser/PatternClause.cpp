@@ -5,7 +5,7 @@
 #include <stdexcept>
 #include "PatternClause.h"
 
-namespace qps {
+
     std::string PatternClause::getSecondArgValue() {
         if (secondArg != nullptr) {
             return secondArg->getLexeme();
@@ -20,14 +20,14 @@ namespace qps {
         throw std::runtime_error("First argument is not set");
     }
 
-    TokenType::TypeInfo PatternClause::getSecondArgType() {
+    QPSTokenType::QPSTypeInfo PatternClause::getSecondArgType() {
         if (secondArg != nullptr) {
             return secondArg->getType().getInfo();
         }
         throw std::runtime_error("Second argument is not set");
     }
 
-    TokenType::TypeInfo PatternClause::getFirstArgType() {
+    QPSTokenType::QPSTypeInfo PatternClause::getFirstArgType() {
         if (firstArg != nullptr) {
             return firstArg->getType().getInfo();
         }
@@ -38,24 +38,23 @@ namespace qps {
         return synonym;
     }
 
-    TokenType::TypeInfo PatternClause::getFirstReferenceType() {
+    QPSTokenType::QPSTypeInfo PatternClause::getFirstReferenceType() {
         return firstArgType;
     }
 
-    TokenType::TypeInfo PatternClause::getSecondReferenceType() {
+    QPSTokenType::QPSTypeInfo PatternClause::getSecondReferenceType() {
         return secondArgType;
     }
-    Token &PatternClause::getFirstArg() {
+    QPSToken &PatternClause::getFirstArg() {
         if (firstArg != nullptr) {
             return *firstArg;
         }
         throw std::runtime_error("First argument is not set");
     }
 
-    Token &PatternClause::getSecondArg() {
+    QPSToken &PatternClause::getSecondArg() {
         if (secondArg != nullptr) {
             return *secondArg;
         }
         throw std::runtime_error("Second argument is not set");
     }
-}

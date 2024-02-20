@@ -4,8 +4,8 @@
 
 #include "ModifiesSConstraintBuilder.h"
 
-void ModifiesSConstraintBuilder::addConstraintClause(shared_ptr<qps::RelationshipClause> rs) {
-    if (rs->getRelationshipType() != qps::TokenType::MODIFIES_S) {
+void ModifiesSConstraintBuilder::addConstraintClause(shared_ptr<RelationshipClause> rs) {
+    if (rs->getRelationshipType() != QPSTokenType::MODIFIES_S) {
         throw std::invalid_argument( "Not Modifies S argument" );
     }
 

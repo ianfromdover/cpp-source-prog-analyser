@@ -6,7 +6,7 @@
 
 #include <utility>
 
-void ConcretePatternConstraintBuilder::addPatternClause(std::shared_ptr<qps::PatternClause> pattern) {
+void ConcretePatternConstraintBuilder::addPatternClause(std::shared_ptr<PatternClause> pattern) {
     std::string synName = pattern->getPatternSynonym();
     syn = ConstraintArgCreator::createAssignEntity(synName);
     arg1 = buildArgAsEntityRef(pattern->getFirstArg(), pattern->getFirstArgType());
@@ -17,7 +17,7 @@ void ConcretePatternConstraintBuilder::addPatternClause(std::shared_ptr<qps::Pat
 
 
 
-shared_ptr<ConcretePatternConstraint> ConcretePatternConstraintBuilder::buildPatternConstraint(std::shared_ptr<qps::PatternClause> patternClause) {
+shared_ptr<ConcretePatternConstraint> ConcretePatternConstraintBuilder::buildPatternConstraint(std::shared_ptr<PatternClause> patternClause) {
     addPatternClause(std::move(patternClause));
     return dynamic_pointer_cast<ConcretePatternConstraint>(constraintClause);
 }

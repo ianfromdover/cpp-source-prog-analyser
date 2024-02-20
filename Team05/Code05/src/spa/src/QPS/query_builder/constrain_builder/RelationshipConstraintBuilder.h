@@ -9,9 +9,9 @@
 
 class RelationshipConstraintBuilder : public ConstraintBuilderTemplate {
 private:
-    virtual void addConstraintClause(shared_ptr<qps::RelationshipClause>) = 0;
+    virtual void addConstraintClause(shared_ptr<RelationshipClause>) = 0;
 public:
-    std::shared_ptr<Constraint> buildRelationConstraint(shared_ptr<qps::RelationshipClause>);
+    std::shared_ptr<Constraint> buildRelationConstraint(shared_ptr<RelationshipClause>);
 };
 
 

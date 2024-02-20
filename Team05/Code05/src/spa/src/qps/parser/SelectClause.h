@@ -9,7 +9,7 @@
 #include <string>
 #include "Clause.h"
 
-namespace qps {
+
     class SelectClause : public Clause {
     public:
         SelectClause() : Clause(ClauseType::SELECT) {}
@@ -21,7 +21,7 @@ namespace qps {
         std::vector<std::string> selectElements;
 
     };
-}
+
 
 
 #endif //SPA_SELECTCLAUSE_H

@@ -7,10 +7,14 @@
 
 #include "../query_elements/QueryObject.h"
 #include "RuleSet.h"
+#include "qps/parser/IntermediateQuery.h"
+
+
 
 class QueryValidator {
 public:
     std::vector<std::string> validateQuery(QueryObject&);
+    std::vector<std::string> validateQuery(IntermediateQuery&);
 };
 
 

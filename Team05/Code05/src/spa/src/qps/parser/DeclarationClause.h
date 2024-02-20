@@ -8,20 +8,20 @@
 #include <map>
 #include <vector>
 #include "Clause.h"
-#include "qps/tokenizer/TokenType.h"
+#include "qps/tokenizer/QPSTokenType.h"
 
-namespace qps {
+
     class DeclarationClause : public Clause {
     public:
         DeclarationClause() : Clause(ClauseType::DECLARATION) {}
 
-        std::map<TokenType, std::vector<std::string>> declarationMap;
+        std::map<QPSTokenType, std::vector<std::string>> declarationMap;
 
-        void addDeclaration(const TokenType &, const std::string &);
+        void addDeclaration(const QPSTokenType &, const std::string &);
 
-        std::vector<std::pair<TokenType::TypeInfo, std::string>> getAllDeclarations();
+        std::vector<std::pair<QPSTokenType::QPSTypeInfo, std::string>> getAllDeclarations();
     };
-}
+
 
 
 #endif //SPA_DECLARATIONCLAUSE_H

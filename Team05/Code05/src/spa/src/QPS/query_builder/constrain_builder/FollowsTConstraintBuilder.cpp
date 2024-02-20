@@ -4,8 +4,8 @@
 
 #include "FollowsTConstraintBuilder.h"
 
-void FollowsTConstraintBuilder::addConstraintClause(shared_ptr<qps::RelationshipClause> rs) {
-    if (rs->getRelationshipType() != qps::TokenType::FOLLOWS_T) {
+void FollowsTConstraintBuilder::addConstraintClause(shared_ptr<RelationshipClause> rs) {
+    if (rs->getRelationshipType() != QPSTokenType::FOLLOWS_T) {
         throw std::invalid_argument( "Not followsT argument" );
     }
 

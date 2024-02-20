@@ -22,16 +22,16 @@ protected:
     shared_ptr<Constraint> constraintClause;
     void reset();
 
-    std::shared_ptr<ConstraintArgument> buildArg(qps::Token&, qps::TokenType::TypeInfo);
+    std::shared_ptr<ConstraintArgument> buildArg(QPSToken&, QPSTokenType::QPSTypeInfo);
 
 
 public:
     std::shared_ptr<Constraint> build();
 
 protected:
-    std::shared_ptr<ExpressionReference> buildArgAsExpressionRef(qps::Token&, qps::TokenType::TypeInfo);
-    std::shared_ptr<StatementReference> buildArgAsStatementRef(qps::Token&, qps::TokenType::TypeInfo);
-    std::shared_ptr<EntityReference> buildArgAsEntityRef(qps::Token&, qps::TokenType::TypeInfo);
+    std::shared_ptr<ExpressionReference> buildArgAsExpressionRef(QPSToken&, QPSTokenType::QPSTypeInfo);
+    std::shared_ptr<StatementReference> buildArgAsStatementRef(QPSToken&, QPSTokenType::QPSTypeInfo);
+    std::shared_ptr<EntityReference> buildArgAsEntityRef(QPSToken&, QPSTokenType::QPSTypeInfo);
 };
 
 

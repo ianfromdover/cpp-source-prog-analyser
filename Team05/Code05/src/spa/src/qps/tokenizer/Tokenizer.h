@@ -6,22 +6,22 @@
 #define SPA_TOKENIZER_H
 
 
-#include "TokenList.h"
-#include "StrategyList.h"
+#include "QPSTokenList.h"
+#include "QPSStrategyList.h"
 
-namespace qps {
-    class Tokenizer {
-    private:
-        std::string source;
-        std::shared_ptr<TokenList> tokens;
-        std::shared_ptr<StrategyList> strategies;
 
-    public:
-        Tokenizer(const std::string &source, std::shared_ptr<StrategyList>& strategies, std::shared_ptr<TokenList>& tokens);
+class Tokenizer {
+private:
+    std::string source;
+    std::shared_ptr<QPSTokenList> tokens;
+    std::shared_ptr<QPSStrategyList> strategies;
 
-        void tokenize();
-    };
-}
+public:
+    Tokenizer(const std::string &source, std::shared_ptr<QPSStrategyList> &strategies,
+              std::shared_ptr<QPSTokenList> &tokens);
+
+    void tokenize();
+};
 
 
 #endif //SPA_TOKENIZER_H

@@ -8,41 +8,41 @@
 #include <memory>
 #include <utility>
 #include "Clause.h"
-#include "qps/tokenizer/Token.h"
+#include "qps/tokenizer/QPSToken.h"
 
-namespace qps {
+
     class PatternClause : public Clause {
     public:
-        PatternClause(std::string syn, Token& t1, TokenType::TypeInfo type1, Token& t2, TokenType::TypeInfo type2) : Clause(ClauseType::PATTERN) {
+        PatternClause(std::string syn, QPSToken& t1, QPSTokenType::QPSTypeInfo type1, QPSToken& t2, QPSTokenType::QPSTypeInfo type2) : Clause(ClauseType::PATTERN) {
             synonym = std::move(syn);
-            firstArg = std::make_shared<Token>(t1);
+            firstArg = std::make_shared<QPSToken>(t1);
             firstArgType = type1;
-            secondArg = std::make_shared<Token>(t2);
+            secondArg = std::make_shared<QPSToken>(t2);
             secondArgType = type2;
         }
         std::string getPatternSynonym();
 
-        TokenType::TypeInfo getFirstArgType();
-        TokenType::TypeInfo getFirstReferenceType();
+        QPSTokenType::QPSTypeInfo getFirstArgType();
+        QPSTokenType::QPSTypeInfo getFirstReferenceType();
         std::string getFirstArgValue();
 
-        TokenType::TypeInfo getSecondArgType();
-        TokenType::TypeInfo getSecondReferenceType();
+        QPSTokenType::QPSTypeInfo getSecondArgType();
+        QPSTokenType::QPSTypeInfo getSecondReferenceType();
         std::string getSecondArgValue();
 
-        Token& getFirstArg();
-        Token& getSecondArg();
+        QPSToken& getFirstArg();
+        QPSToken& getSecondArg();
 
     private:
         std::string synonym;
 
-        std::shared_ptr<Token> firstArg;
-        TokenType::TypeInfo firstArgType;
+        std::shared_ptr<QPSToken> firstArg;
+        QPSTokenType::QPSTypeInfo firstArgType;
 
-        std::shared_ptr<Token> secondArg;
-        TokenType::TypeInfo secondArgType;
+        std::shared_ptr<QPSToken> secondArg;
+        QPSTokenType::QPSTypeInfo secondArgType;
     };
-}
+
 
 
 #endif //SPA_PATTERNCLAUSE_H

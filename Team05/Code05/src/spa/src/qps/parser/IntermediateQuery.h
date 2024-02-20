@@ -29,22 +29,22 @@ public:
     bool hasRelationshipClause();
     bool hasPatternClause();
 
-    std::shared_ptr<qps::SelectClause> getSelectClause();
-    std::shared_ptr<qps::RelationshipClause> getRelationshipClause();
-    std::shared_ptr<qps::PatternClause> getPatternClause();
+    std::shared_ptr<SelectClause> getSelectClause();
+    std::shared_ptr<RelationshipClause> getRelationshipClause();
+    std::shared_ptr<PatternClause> getPatternClause();
     void processDeclarations(); // TODO: move responsibility to validator.
 
 
-    std::map<std::string, qps::TokenType::TypeInfo> getSynonymTypeMap();
+    std::map<std::string, QPSTokenType::QPSTypeInfo> getSynonymTypeMap();
 
 private:
     bool hasClauseType(Clause::ClauseType type);
 
-    std::shared_ptr<std::map<qps::TokenType::TypeInfo, std::vector<std::string>>> typeSynonymMap = std::make_shared<std::map<qps::TokenType::TypeInfo, std::vector<std::string>>>();
+    std::shared_ptr<std::map<QPSTokenType::QPSTypeInfo, std::vector<std::string>>> typeSynonymMap = std::make_shared<std::map<QPSTokenType::QPSTypeInfo, std::vector<std::string>>>();
 
-    std::shared_ptr<std::map<std::string, qps::TokenType::TypeInfo>> synonymTypeMap = std::make_shared<std::map<std::string, qps::TokenType::TypeInfo>>();
+    std::shared_ptr<std::map<std::string, QPSTokenType::QPSTypeInfo>> synonymTypeMap = std::make_shared<std::map<std::string, QPSTokenType::QPSTypeInfo>>();
 
-    void addDeclaration(qps::TokenType::TypeInfo type, const std::string &synonym);
+    void addDeclaration(QPSTokenType::QPSTypeInfo type, const std::string &synonym);
 
 };
 
