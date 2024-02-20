@@ -13,6 +13,7 @@ using namespace std;
 #include "qps/query_elements/constraint_argument/statement_reference/IfEntity.h"
 #include "qps/query_elements/constraint_argument/statement_reference/WhileEntity.h"
 #include "qps/query_elements/constraint_argument/statement_reference/IntegerArgument.h"
+#include "qps/query_elements/constraint_argument/statement_reference/StatementRefWIldcard.h"
 #include "qps/query_elements/constraint_argument/entity_reference/EntityRefWildCard.h"
 #include "qps/query_elements/constraint_argument/ConstraintArgument.h"
 
@@ -109,7 +110,7 @@ TEST_CASE("IntegerArgument_ReferenceType_StatementReference") {
 }
 
 TEST_CASE("WildCard_ReferenceType_StatementReference") {
-    EntityRefWildCard wc;
+    StatementRefWildCard wc;
     REQUIRE(wc.getReferenceType() == REFERENCE_TYPE_STATEMENT);
 }
 
