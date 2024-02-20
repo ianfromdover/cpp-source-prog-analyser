@@ -5,7 +5,8 @@
 #ifndef SPA_EXPR_H
 #define SPA_EXPR_H
 
-
+#include <vector>
+#include <variant>
 #include "Token.h"
 #include "RelationExtractor.h"
 
@@ -18,7 +19,7 @@ class Unary;
 class Expr {
 public:
     virtual ~Expr() = default;
-    virtual void accept(RelationExtractor& extractor) = 0;
+    virtual void accept(RelationExtractor& extractor, shared_ptr<Accumulator>& parentInfo) = 0;
     [[nodiscard]] virtual std::string toString() const = 0;
 };
 
@@ -31,8 +32,11 @@ private:
 public:
     Binary(std::unique_ptr<Expr> left, std::unique_ptr<Token> op, std::unique_ptr<Expr> right)
         : left(std::move(left)), op(std::move(op)), right(std::move(right)) {}
-    void accept(RelationExtractor& extractor) override;
-    std::string toString() const override;
+    void accept(RelationExtractor& extractor, shared_ptr<Accumulator>& parentInfo) override;
+    [[nodiscard]] std::string toString() const override;
+    [[nodiscard]] std::unique_ptr<Expr> const& getLeft() const;
+    [[nodiscard]] std::unique_ptr<Token> const& getOP() const;
+    [[nodiscard]] std::unique_ptr<Expr> const& getRight() const;
 };
 
 class Variable : public Expr {
@@ -41,8 +45,9 @@ private:
 
 public:
     explicit Variable(std::string name) : name(std::move(name)) {}
-    void accept(RelationExtractor& extractor) override;
-    std::string toString() const override;
+    void accept(RelationExtractor& extractor, shared_ptr<Accumulator>& parentInfo) override;
+    [[nodiscard]] std::string toString() const override;
+    [[nodiscard]] std::string getName() const;
 };
 
 class Literal : public Expr {
@@ -51,8 +56,9 @@ private:
 
 public:
     explicit Literal(int value) : value(value) {}
-    void accept(RelationExtractor& extractor) override;
-    std::string toString() const override;
+    void accept(RelationExtractor& extractor, shared_ptr<Accumulator>& parentInfo) override;
+    [[nodiscard]] std::string toString() const override;
+    [[nodiscard]] int getValue() const;
 };
 
 class Unary : public Expr {
@@ -62,8 +68,10 @@ private:
 
 public:
     Unary(std::unique_ptr<Token> op, std::unique_ptr<Expr> right) : op(std::move(op)), right(std::move(right)) {}
-    void accept(RelationExtractor& extractor) override;
-    std::string toString() const override;
+    void accept(RelationExtractor& extractor, shared_ptr<Accumulator>& parentInfo) override;
+    [[nodiscard]] std::string toString() const override;
+    [[nodiscard]] std::unique_ptr<Token> const& getOP() const;
+    [[nodiscard]] std::unique_ptr<Expr> const& getRight() const;
 };
 
 #endif //SPA_EXPR_H

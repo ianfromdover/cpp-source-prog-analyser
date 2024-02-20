@@ -4,9 +4,14 @@
 
 #ifndef SPA_RELATIONEXTRACTOR_H
 #define SPA_RELATIONEXTRACTOR_H
+
+
+#include <variant>
 #include <iostream>
 #include <vector>
 #include "pkb/PopulatePKB.h"
+#include "utilSpa/spaTypes.h"
+#include "Accumulator.h"
 
 class Read;
 class Print;
@@ -25,20 +30,20 @@ class RelationExtractor {
 protected:
     PopulatePKB pkb;
 public:
-    RelationExtractor(PopulatePKB& pkb) : pkb(pkb) {}
+    RelationExtractor(PopulatePKB&pkb) : pkb(pkb) {}
     virtual ~RelationExtractor() = default;
     // Statement Methods
-    virtual void visitReadStmt(const Read& stmt) = 0;
-    virtual void visitPrintStmt(const Print& stmt) = 0;
-    virtual void visitCallStmt(const Call& stmt)= 0;
-    virtual void visitWhileStmt(const While& stmt) = 0;
-    virtual void visitIfStmt(const If& stmt) = 0;
-    virtual void visitAssignStmt(const Assign& stmt) = 0;
+    virtual void visitReadStmt(const Read&, shared_ptr<Accumulator>&) = 0;
+    virtual void visitPrintStmt(const Print&, shared_ptr<Accumulator>&) = 0;
+    virtual void visitCallStmt(const Call&, shared_ptr<Accumulator>&)= 0;
+    virtual void visitWhileStmt(const While&, shared_ptr<Accumulator>&) = 0;
+    virtual void visitIfStmt(const If&, shared_ptr<Accumulator>&) = 0;
+    virtual void visitAssignStmt(const Assign&, shared_ptr<Accumulator>&) = 0;
     // Expression Methods
-    virtual void visitBinaryExpr(const Binary& expr) = 0;
-    virtual void visitVariableExpr(const Variable& expr) = 0;
-    virtual void visitLiteralExpr(const Literal& expr) = 0;
-    virtual void visitUnaryExpr(const Unary& expr) = 0;
+    virtual void visitBinaryExpr(const Binary&, shared_ptr<Accumulator>&) = 0;
+    virtual void visitVariableExpr(const Variable&, shared_ptr<Accumulator>&) = 0;
+    virtual void visitLiteralExpr(const Literal&, shared_ptr<Accumulator>&) = 0;
+    virtual void visitUnaryExpr(const Unary&, shared_ptr<Accumulator>&) = 0;
 
 };
 
