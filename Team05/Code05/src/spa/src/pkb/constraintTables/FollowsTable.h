@@ -2,7 +2,7 @@
 #define SPA_FOLLOWSTABLE_H
 
 #include "utilSpa/SpaTypes.h"
-#include "utilSpa/TwoSideMap.h"
+#include "utilSpa/TwoSideMap.hpp"
 
 class FollowsTable {
 private:

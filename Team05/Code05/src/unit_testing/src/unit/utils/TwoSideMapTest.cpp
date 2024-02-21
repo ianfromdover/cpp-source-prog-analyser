@@ -1,4 +1,4 @@
-#include "utilSpa/TwoSideMap.cpp" // doesn't work when it is .h
+#include "utilSpa/TwoSideMap.hpp"
 #include "catch.hpp"
 using namespace std;
 

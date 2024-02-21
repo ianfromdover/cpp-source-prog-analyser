@@ -1,4 +1,4 @@
-#include "utilSpa/TwoSideMapSet.h"
+#include "utilSpa/TwoSideMapSet.hpp"
 #include "catch.hpp"
 using namespace std;
 

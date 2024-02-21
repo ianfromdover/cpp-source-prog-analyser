@@ -2,8 +2,7 @@
 #define SPA_PARENT_TABLE
 
 #include "utilSpa/SpaTypes.h"
-#include "utilSpa/TwoSideMapSet.h"
-#include "utilSpa/TwoSideMapSet.cpp" // TODO: BLOCKER: it doesn't work if i don't include this :(
+#include "utilSpa/TwoSideMapSet.hpp"
 
 class ParentTable {
 private:

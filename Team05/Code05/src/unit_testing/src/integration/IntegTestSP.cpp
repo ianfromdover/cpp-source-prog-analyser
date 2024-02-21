@@ -6,7 +6,7 @@ using namespace std;
 
 // Integration Tests for SP
 TEST_CASE("[IntegTestSP] Replace with your Integration tests") {
-    // TODO: Initialize Stub for PKB
+    // Initialize Stub for PKB
 
     SECTION("Use Stub to test a feature") {
         REQUIRE(1 == 1);
