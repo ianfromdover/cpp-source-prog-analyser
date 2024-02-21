@@ -145,7 +145,7 @@
     std::shared_ptr<RelationshipClause> QPSParser::relationship() {
         std::shared_ptr<RelationshipClause> relationshipClause;
 
-        if (this->check(QPSTokenType::PARENT)) {
+        if (this->check({QPSTokenType::PARENT, QPSTokenType::PARENT_T})) {
             relationshipClause = this->parent();
         } else if (this->check({QPSTokenType::FOLLOWS, QPSTokenType::FOLLOWS_T})) {
             relationshipClause = this->follow();
