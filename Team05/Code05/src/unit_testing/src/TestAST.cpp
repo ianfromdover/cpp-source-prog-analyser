@@ -7,6 +7,8 @@
 #include "sp/SourceProcessor.h"
 #include "catch.hpp"
 #include "qps/QPS.h"
+#include "sp/SemanticAnalysisException.h"
+#include "catch.hpp"
 
 using namespace std;
 void require(bool b) {
@@ -219,4 +221,180 @@ TEST_CASE("Print with parent extractor") {
     }
 
 
+}
+
+TEST_CASE("Test SIMPLE semantic analysis") {
+    std::shared_ptr<PKBStorage> p=std::make_shared<PKBStorage>();
+    auto pkb = PopulatePKB(p);
+    auto sp = SourceProcessor(pkb);
+
+    std::string repeatedProcedureName = R"(
+        procedure getInputs {
+            read x;
+        }
+
+        procedure getInputs {
+            read y;
+        }
+    )";
+
+    REQUIRE_THROWS_WITH(sp.exec(repeatedProcedureName), "Repeated procedure names \"getInputs\" is not allowed");
+
+    std::string unknownProcedureCall = R"(
+        procedure main {
+            call getInputs;
+        }
+
+        procedure getInput {
+            read x;
+        }
+    )";
+
+    REQUIRE_THROWS_WITH(sp.exec(unknownProcedureCall), "Calling of unknown procedure \"getInputs\" is not allowed");
+
+    std::string recursiveCall = R"(
+        procedure main {
+            read x;
+            y = x + 1;
+            call main;
+        }
+    )";
+
+    REQUIRE_THROWS_WITH(sp.exec(recursiveCall), "Recursive and cyclic calls are not allowed");
+
+    std::string cyclicCalls1 = R"(
+        procedure A {
+            x = 1;
+            call B;
+        }
+
+        procedure B {
+            x = x + 1;
+            call C;
+        }
+
+        procedure C {
+            x = x + 2;
+            call A;
+        }
+    )";
+
+    REQUIRE_THROWS_WITH(sp.exec(cyclicCalls1), "Recursive and cyclic calls are not allowed");
+
+    std::string cyclicCalls2 = R"(
+        procedure A {
+            x = 1;
+            call B;
+        }
+
+        procedure B {
+            x = x + 1;
+            call C;
+        }
+
+        procedure C {
+            x = x + 2;
+            call B;
+        }
+    )";
+
+    REQUIRE_THROWS_WITH(sp.exec(cyclicCalls2), "Recursive and cyclic calls are not allowed");
+
+    std::string cyclicCalls3 = R"(
+        procedure A {
+            x = 1;
+            call C;
+        }
+
+        procedure B {
+            x = x + 1;
+            call A;
+        }
+
+        procedure C {
+            x = x + 2;
+            call B;
+        }
+    )";
+
+    REQUIRE_THROWS_WITH(sp.exec(cyclicCalls3), "Recursive and cyclic calls are not allowed");
+
+    std::string cyclicCalls4 = R"(
+        procedure A {
+            x = 1;
+            call B;
+        }
+
+        procedure B {
+            x = x + 1;
+            call C;
+        }
+
+        procedure C {
+            x = x + 2;
+            if (x == 0) then {
+                call D;
+            } else {
+                call E;
+            }
+        }
+
+        procedure D {
+            x = x - 1;
+            while (x == 0) {
+                call E;
+                call F;
+            }
+        }
+
+        procedure E {
+            print x;
+        }
+
+        procedure F {
+            print y;
+            call B;
+        }
+    )";
+
+    REQUIRE_THROWS_WITH(sp.exec(cyclicCalls4), "Recursive and cyclic calls are not allowed");
+
+    std::string noCyclicCall1 = R"(
+        procedure A {
+            x = 1;
+            call B;
+        }
+
+        procedure B {
+            x = x + 1;
+            call C;
+        }
+
+        procedure C {
+            x = x + 2;
+            if (x == 0) then {
+                call D;
+            } else {
+                print x;
+            }
+        }
+
+        procedure D {
+            x = x - 1;
+            while (x == 0) {
+                call E;
+                call F;
+            }
+        }
+
+        procedure E {
+            print x;
+        }
+
+        procedure F {
+            print y;
+        }
+    )";
+
+    REQUIRE_NOTHROW(sp.exec(noCyclicCall1));
 }

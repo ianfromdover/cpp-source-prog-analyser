@@ -33,7 +33,7 @@ Program SourceProcessor::parse(std::shared_ptr<std::vector<std::shared_ptr<Token
 }
 
 void SourceProcessor::validate(const Program &program) {
-    SemanticAnalyzer::check(program);
+    SemanticAnalyzer().check(program);
 }
 
 void SourceProcessor::extract(const Program& program) {
@@ -54,7 +54,7 @@ void SourceProcessor::extract(const Program& program) {
     };
     for (const auto& procedure : *program) {
         //std::cout << "pkb.addProcedure(" << procedure->getProcName() << ");" << std::endl;
-        pkb.addProcedure(procedure->getProcName());
+        pkb.addProcedure(procedure->getName());
         for (const auto& extractor : relationExtractor) {
             procedure->accept(*extractor);
         }
