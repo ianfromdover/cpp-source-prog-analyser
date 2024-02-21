@@ -122,16 +122,17 @@ TEST_CASE("singleUsesSConstraint_TokenizertoQOBuilder_returnsCorrect") {
     cout << processed;
 }
 
-TEST_CASE("singleUsesPConstraint_TokenizertoQOBuilder_returnsCorrect") {
-    std::string source = "variable v;"
-                         "procedure p; "
-                         "Select v "
-                         "such that Uses(p, v)";
-    std::string processed = testHelper(source);
-    std::string output = "{RETURN}: v [VARIABLE]\n{DECLARATIONS}: v [VARIABLE], p [PROCEDURE]\n{CONSTRAINTS}: UsesP(p [PROCEDURE], v [VARIABLE])";
-    REQUIRE(processed == output);
-    cout << processed;
-}
+// Not in milestone 1 (procedure)
+//TEST_CASE("singleUsesPConstraint_TokenizertoQOBuilder_returnsCorrect") {
+//    std::string source = "variable v;"
+//                         "procedure p; "
+//                         "Select v "
+//                         "such that Uses(p, v)";
+//    std::string processed = testHelper(source);
+//    std::string output = "{RETURN}: v [VARIABLE]\n{DECLARATIONS}: v [VARIABLE], p [PROCEDURE]\n{CONSTRAINTS}: UsesP(p [PROCEDURE], v [VARIABLE])";
+//    REQUIRE(processed == output);
+//    cout << processed;
+//}
 
 TEST_CASE("singleModifiesSConstraint_TokenizertoQOBuilder_returnsCorrect") {
     std::string source = "assign a;"
@@ -144,16 +145,17 @@ TEST_CASE("singleModifiesSConstraint_TokenizertoQOBuilder_returnsCorrect") {
     cout << processed;
 }
 
-TEST_CASE("singleModifiesPConstraint_TokenizertoQOBuilder_returnsCorrect") {
-    std::string source = "procedure p;"
-                         "variable v; "
-                         "Select p "
-                         "such that Modifies(p, v)";
-    std::string processed = testHelper(source);
-    std::string output = "{RETURN}: p [PROCEDURE]\n{DECLARATIONS}: p [PROCEDURE], v [VARIABLE]\n{CONSTRAINTS}: ModifiesP(p [PROCEDURE], v [VARIABLE])";
-    REQUIRE(processed == output);
-    cout << processed;
-}
+// Not in milestone 1
+//TEST_CASE("singleModifiesPConstraint_TokenizertoQOBuilder_returnsCorrect") {
+//    std::string source = "procedure p;"
+//                         "variable v; "
+//                         "Select p "
+//                         "such that Modifies(p, v)";
+//    std::string processed = testHelper(source);
+//    std::string output = "{RETURN}: p [PROCEDURE]\n{DECLARATIONS}: p [PROCEDURE], v [VARIABLE]\n{CONSTRAINTS}: ModifiesP(p [PROCEDURE], v [VARIABLE])";
+//    REQUIRE(processed == output);
+//    cout << processed;
+//}
 
 TEST_CASE("SingleConcretePatternConstraint_TokenizertoQOBuilder_returnsCorrect") {
     std::string source = "assign a;"
@@ -175,16 +177,17 @@ TEST_CASE("expressionWildcard_TokenizertoQOBuilder_returnsCorrect") {
     cout << processed;
 }
 
-TEST_CASE("EntityWildcard_TokenizertoQOBuilder_returnsCorrect") {
-    std::string source = "procedure p;"
-                         "variable v; "
-                         "Select p "
-                         "such that Modifies(p, _)";
-    std::string processed = testHelper(source);
-    std::string output = "{RETURN}: p [PROCEDURE]\n{DECLARATIONS}: p [PROCEDURE], v [VARIABLE]\n{CONSTRAINTS}: ModifiesP(p [PROCEDURE], _ [ENT WILDCARD])";
-    REQUIRE(processed == output);
-    cout << processed;
-}
+// Not in milestone 1 scope (procedures)
+//TEST_CASE("EntityWildcard_TokenizertoQOBuilder_returnsCorrect") {
+//    std::string source = "procedure p;"
+//                         "variable v; "
+//                         "Select p "
+//                         "such that Modifies(p, _)";
+//    std::string processed = testHelper(source);
+//    std::string output = "{RETURN}: p [PROCEDURE]\n{DECLARATIONS}: p [PROCEDURE], v [VARIABLE]\n{CONSTRAINTS}: ModifiesP(p [PROCEDURE], _ [ENT WILDCARD])";
+//    REQUIRE(processed == output);
+//    cout << processed;
+//}
 
 TEST_CASE("StatementWildcard_TokenizertoQOBuilder_returnsCorrect") {
     std::string source = "if f;"
