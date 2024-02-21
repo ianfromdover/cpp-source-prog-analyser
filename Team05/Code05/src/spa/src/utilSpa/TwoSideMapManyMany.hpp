@@ -9,6 +9,7 @@
 
 /**
  * @brief A double-sided map that allows bidirectional mapping between keys and values.
+ * For Many-Many relations
  * Used for transitive tables in the PKB such as ParentTTable
  * Also Used for transitive tables in the PKB such as ParentTTable
  *
@@ -16,13 +17,13 @@
  * @tparam B The type of the values.
  */
 template<typename A, typename B>
-class TwoSideMapTwoSet {
+class TwoSideMapManyMany {
 private:
     std::unordered_map<A, std::set<std::shared_ptr<B>>> forwardMap; // TODO: print out addr to see if ptr is pointing to the key objects
     std::unordered_map<B, std::set<std::shared_ptr<A>>> backwardMap; // TODO: change to weak_ptr to prevent memory leak
 
 public:
-    TwoSideMapTwoSet();
+    TwoSideMapManyMany();
 
     /**
      * @brief Insert a mapping from key to value.
@@ -85,10 +86,10 @@ public:
 // ---------------------------- Implementation ----------------------------
 
 template<typename A, typename B>
-TwoSideMapTwoSet<A, B>::TwoSideMapTwoSet() {};
+TwoSideMapManyMany<A, B>::TwoSideMapManyMany() {};
 
 template<typename A, typename B>
-bool TwoSideMapTwoSet<A, B>::insert(const A key, const B value) {
+bool TwoSideMapManyMany<A, B>::insert(const A key, const B value) {
     // ai-gen start (copilot, 0, e)
     // prompt: used copilot
     if (containsPair(key, value)) {
@@ -115,7 +116,7 @@ bool TwoSideMapTwoSet<A, B>::insert(const A key, const B value) {
 }
 
 template<typename A, typename B>
-std::vector<B> TwoSideMapTwoSet<A, B>::getValues(A key) {
+std::vector<B> TwoSideMapManyMany<A, B>::getValues(A key) {
     std::vector<B> result;
     if (!containsKey(key)) {
         std::cout << "Warning: TwoSideMapTwoSet-getValues: Key not found in forward map" << std::endl;
@@ -129,7 +130,7 @@ std::vector<B> TwoSideMapTwoSet<A, B>::getValues(A key) {
 }
 
 template<typename A, typename B>
-std::vector<A> TwoSideMapTwoSet<A, B>::getKeys(B value) {
+std::vector<A> TwoSideMapManyMany<A, B>::getKeys(B value) {
     std::vector<B> result;
     if (!containsValue(value)) {
         std::cout << "Warning: TwoSideMapTwoSet-getKeys: Value not found in backward map" << std::endl;
@@ -143,17 +144,17 @@ std::vector<A> TwoSideMapTwoSet<A, B>::getKeys(B value) {
 }
 
 template<typename A, typename B>
-bool TwoSideMapTwoSet<A, B>::containsKey(const A key) {
+bool TwoSideMapManyMany<A, B>::containsKey(const A key) {
     return forwardMap.find(key) != forwardMap.end();
 }
 
 template<typename A, typename B>
-bool TwoSideMapTwoSet<A, B>::containsValue(const B value) {
+bool TwoSideMapManyMany<A, B>::containsValue(const B value) {
     return backwardMap.find(value) != backwardMap.end();
 }
 
 template<typename A, typename B>
-bool TwoSideMapTwoSet<A, B>::containsPair(A key, B value) {
+bool TwoSideMapManyMany<A, B>::containsPair(A key, B value) {
     if (!containsKey(key) || !containsValue(value)) {
         return false;
     }
@@ -169,7 +170,7 @@ bool TwoSideMapTwoSet<A, B>::containsPair(A key, B value) {
 }
 
 template<typename A, typename B>
-int TwoSideMapTwoSet<A, B>::size() const {
+int TwoSideMapManyMany<A, B>::size() const {
     int totalSize = 0;
     for (const auto& pair : forwardMap) {
         totalSize += pair.second.size();

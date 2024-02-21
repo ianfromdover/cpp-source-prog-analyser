@@ -7,18 +7,19 @@
 
 /**
  * @brief A double-sided map that allows bidirectional mapping between keys and values.
+ * For One-One relations
  * Used for entity tables in the PKB such as VarTable
  *
  * @tparam A The type of the keys. Needs to be hashable.
  * @tparam B The type of the values. Needs to be hashable.
  */
 template<typename A, typename B>
-class TwoSideMap {
+class TwoSideMapOneOne {
 private:
     std::unordered_map<A, std::shared_ptr<B>> forwardMap;
     std::unordered_map<B, std::shared_ptr<A>> backwardMap;
 public:
-    TwoSideMap();
+    TwoSideMapOneOne();
 
     bool insert(A key, B value);
 
@@ -41,10 +42,10 @@ public:
 // ---------------------------- Implementation ----------------------------
 
 template<typename A, typename B>
-TwoSideMap<A, B>::TwoSideMap() {};
+TwoSideMapOneOne<A, B>::TwoSideMapOneOne() {};
 
 template<typename A, typename B>
-bool TwoSideMap<A, B>::insert(A key, B value) {
+bool TwoSideMapOneOne<A, B>::insert(A key, B value) {
     if (containsKey(key) || containsValue(value)) {
         std::cout << "Warning: TwoSideMap-insert: Key or Val already exists" << std::endl;
         // TODO: throw InsertException and catch it
@@ -58,7 +59,7 @@ bool TwoSideMap<A, B>::insert(A key, B value) {
 // ai-gen start (copilot, 1, e)
 // prompt: used copilot
 template<typename A, typename B>
-std::optional<B> TwoSideMap<A, B>::getValue(A key) {
+std::optional<B> TwoSideMapOneOne<A, B>::getValue(A key) {
     if (!containsKey(key)) {
         return std::nullopt;
     }
@@ -66,7 +67,7 @@ std::optional<B> TwoSideMap<A, B>::getValue(A key) {
 }
 
 template<typename A, typename B>
-std::optional<A> TwoSideMap<A, B>::getKey(B value) {
+std::optional<A> TwoSideMapOneOne<A, B>::getKey(B value) {
     if (!containsValue(value)) {
         return std::nullopt;
     }
@@ -74,17 +75,17 @@ std::optional<A> TwoSideMap<A, B>::getKey(B value) {
 }
 
 template<typename A, typename B>
-bool TwoSideMap<A, B>::containsKey(A key) {
+bool TwoSideMapOneOne<A, B>::containsKey(A key) {
     return forwardMap.find(key) != forwardMap.end();
 }
 
 template<typename A, typename B>
-bool TwoSideMap<A, B>::containsValue(B value) {
+bool TwoSideMapOneOne<A, B>::containsValue(B value) {
     return backwardMap.find(value) != backwardMap.end();
 }
 
 template<typename A, typename B>
-bool TwoSideMap<A, B>::containsPair(A key, B value) {
+bool TwoSideMapOneOne<A, B>::containsPair(A key, B value) {
     auto k = getKey(value);
     auto v = getValue(key);
     if (!k.has_value() || ! v.has_value()) {
@@ -94,7 +95,7 @@ bool TwoSideMap<A, B>::containsPair(A key, B value) {
 }
 
 template<typename A, typename B>
-[[nodiscard]] int TwoSideMap<A, B>::size() const {
+[[nodiscard]] int TwoSideMapOneOne<A, B>::size() const {
     return forwardMap.size();
 }
 // ai-gen end

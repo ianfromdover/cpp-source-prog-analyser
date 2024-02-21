@@ -11,19 +11,20 @@
 
 /**
  * @brief A double-sided map that allows bidirectional mapping between keys and values.
+ * For One-Many relations
  * Used for relationship tables in the PKB such as ParentTable
  *
  * @tparam A The type of the keys. Needs to be hashable.
  * @tparam B The type of the values. Needs to be hashable.
  */
 template<typename A, typename B>
-class TwoSideMapSet {
+class TwoSideMapOneMany {
 private:
     std::unordered_map<A, std::set<std::shared_ptr<B>>> forwardMap;
     std::unordered_map<B, A> backwardMap;
 
 public:
-    TwoSideMapSet();
+    TwoSideMapOneMany();
 
     /**
      * @brief Insert a mapping from key to value.
@@ -73,7 +74,7 @@ public:
 // ---------------------------- Implementation ----------------------------
 
 template<typename A, typename B>
-TwoSideMapSet<A, B>::TwoSideMapSet() {};
+TwoSideMapOneMany<A, B>::TwoSideMapOneMany() {};
 // ai-gen start(gpt, 2, e)
 // prompt: https://chat.openai.com/share/8ef1cf87-56eb-45bd-b91f-fbf309b86d98
 // ai-gen start(copilot, 1, e)
@@ -81,7 +82,7 @@ TwoSideMapSet<A, B>::TwoSideMapSet() {};
 // copilot wrote code according to given comments
 
 template<typename A, typename B>
-bool TwoSideMapSet<A, B>::insert(A key, B value) {
+bool TwoSideMapOneMany<A, B>::insert(A key, B value) {
     if (containsValue(value)) {
         std::cout << "Warning: TwoSideMapSet-insert: Value already exists in backward map" << std::endl;
         // TODO: make my own InsertException that inherits from BaseException
@@ -103,7 +104,7 @@ bool TwoSideMapSet<A, B>::insert(A key, B value) {
 }
 
 template<typename A, typename B>
-std::vector<B> TwoSideMapSet<A, B>::getValues(A key) {
+std::vector<B> TwoSideMapOneMany<A, B>::getValues(A key) {
     std::vector<B> result;
     // guard clause for key not found
     if (!containsKey(key)) {
@@ -118,7 +119,7 @@ std::vector<B> TwoSideMapSet<A, B>::getValues(A key) {
 }
 
 template<typename A, typename B>
-std::optional<A> TwoSideMapSet<A, B>::getKey(B value) {
+std::optional<A> TwoSideMapOneMany<A, B>::getKey(B value) {
     // guard clause for value not found
     if (!containsValue(value)) {
         return std::nullopt;
@@ -127,17 +128,17 @@ std::optional<A> TwoSideMapSet<A, B>::getKey(B value) {
 }
 
 template<typename A, typename B>
-bool TwoSideMapSet<A, B>::containsKey(A key) {
+bool TwoSideMapOneMany<A, B>::containsKey(A key) {
     return forwardMap.find(key) != forwardMap.end();
 }
 
 template<typename A, typename B>
-bool TwoSideMapSet<A, B>::containsValue(B value) {
+bool TwoSideMapOneMany<A, B>::containsValue(B value) {
     return backwardMap.find(value) != backwardMap.end();
 }
 
 template<typename A, typename B>
-int TwoSideMapSet<A, B>::size() const {
+int TwoSideMapOneMany<A, B>::size() const {
     return backwardMap.size();
 }
 

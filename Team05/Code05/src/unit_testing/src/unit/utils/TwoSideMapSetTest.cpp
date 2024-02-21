@@ -1,16 +1,16 @@
-#include "utilSpa/TwoSideMapSet.hpp"
+#include "utilSpa/TwoSideMapOneMany.hpp"
 #include "catch.hpp"
 using namespace std;
 
 TEST_CASE("[Utils TwoSideMapSet] insert") {
-    TwoSideMapSet<int, int> map;
+    TwoSideMapOneMany<int, int> map;
     SECTION("Insert 1, 2, insertion successful") {
         REQUIRE(map.insert(1, 2));
     }
 }
 
 TEST_CASE("[Utils TwoSideMapSet] containsKey") {
-    TwoSideMapSet<int, int> map;
+    TwoSideMapOneMany<int, int> map;
     map.insert(1, 2);
     SECTION("Insert 1, 2, contains key 1") {
         REQUIRE(map.containsKey(1));
@@ -21,7 +21,7 @@ TEST_CASE("[Utils TwoSideMapSet] containsKey") {
 }
 
 TEST_CASE("[Utils TwoSideMapSet] containsValue") {
-    TwoSideMapSet<int, int> map;
+    TwoSideMapOneMany<int, int> map;
     map.insert(1, 2);
     SECTION("Insert 1, 2, contains value 2") {
         REQUIRE(map.containsValue(2));
@@ -32,7 +32,7 @@ TEST_CASE("[Utils TwoSideMapSet] containsValue") {
 }
 
 TEST_CASE("[Utils TwoSideMapSet] size") {
-    TwoSideMapSet<int, int> map;
+    TwoSideMapOneMany<int, int> map;
     map.insert(1, 2);
     SECTION("Insert 1, 2, size is 1") {
         REQUIRE(map.size() == 1);
@@ -51,7 +51,7 @@ TEST_CASE("[Utils TwoSideMapSet] size") {
 }
 
 TEST_CASE("[Utils TwoSideMapSet] getKey") {
-    TwoSideMapSet<int, int> map;
+    TwoSideMapOneMany<int, int> map;
     map.insert(1, 2);
     SECTION("Insert (1,2), get key 2 gives 1") {
         REQUIRE(map.getKey(2) == 1);
@@ -62,7 +62,7 @@ TEST_CASE("[Utils TwoSideMapSet] getKey") {
 // prompt: used copilot
 // generate the getValues test just like the getKey one
 TEST_CASE("[Utils TwoSideMapSet] getValues") {
-    TwoSideMapSet<int, int> map;
+    TwoSideMapOneMany<int, int> map;
     map.insert(1, 2);
     SECTION("Insert (1,2), get values 1 gives 2") {
         REQUIRE(map.getValues(1).size() == 1);

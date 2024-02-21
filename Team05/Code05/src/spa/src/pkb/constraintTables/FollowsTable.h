@@ -2,11 +2,11 @@
 #define SPA_FOLLOWSTABLE_H
 
 #include "utilSpa/SpaTypes.h"
-#include "utilSpa/TwoSideMap.hpp"
+#include "utilSpa/TwoSideMapOneOne.hpp"
 
 class FollowsTable {
 private:
-    TwoSideMap<StmtNo, StmtNo> twoSideMap; // actually this can be a twosidemap
+    TwoSideMapOneOne<StmtNo, StmtNo> twoSideMap; // actually this can be a twosidemap
 public:
     FollowsTable();
     // Adds a follows relationship to the follows table, returns true if the relationship is added
