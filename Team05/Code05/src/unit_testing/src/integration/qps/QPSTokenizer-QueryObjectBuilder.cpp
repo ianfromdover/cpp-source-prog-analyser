@@ -68,47 +68,264 @@ TEST_CASE("commasInDeclaration_TokenizertoQOBuilder_returnsCorrect") {
 
 
 TEST_CASE("singleFollowsConstraint_TokenizertoQOBuilder_returnsCorrect") {
-    std::string source = "if f;"
-                         "while w;"
-                         "Select w "
-                         "such that Follows(f, w)";
-    std::string processed = testHelper(source);
-    std::string output = "{RETURN}: w [WHILE]\n{DECLARATIONS}: f [IF], w [WHILE]\n{CONSTRAINTS}: Follows(f [IF], w [WHILE])";
-    REQUIRE(processed == output);
-    cout << processed;
+    std::string source = "stmt s;"
+                         "read r; "
+                         "print pr; "
+                         "while w; "
+                         "if ifs; "
+                         "assign a; "
+                         "Select pr ";
+    SECTION("stmt-read") {
+        std::string input = source + "such that Follows(s, r)";
+        std::string processed = testHelper(input);
+        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], w [WHILE]\n{CONSTRAINTS}: Follows(s [STMT], r [READ])";
+        REQUIRE(processed == output);
+    }
+
+    SECTION("read-stmt") {
+        std::string input = source + "such that Follows(r, s)";
+        std::string processed = testHelper(input);
+        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], w [WHILE]\n{CONSTRAINTS}: Follows(r [READ], s [STMT])";
+        REQUIRE(processed == output);
+    }
+
+    SECTION("print-assign") {
+        std::string input = source + "such that Follows(pr, a)";
+        std::string processed = testHelper(input);
+        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], w [WHILE]\n{CONSTRAINTS}: Follows(pr [PRINT], a [ASSIGN])";
+        REQUIRE(processed == output);
+    }
+
+    SECTION("assign-print") {
+        std::string input = source + "such that Follows(a, pr)";
+        std::string processed = testHelper(input);
+        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], w [WHILE]\n{CONSTRAINTS}: Follows(a [ASSIGN], pr [PRINT])";
+        REQUIRE(processed == output);
+    }
+
+    SECTION("while-if") {
+        std::string input = source + "such that Follows(w, ifs)";
+        std::string processed = testHelper(input);
+        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], w [WHILE]\n{CONSTRAINTS}: Follows(w [WHILE], ifs [IF])";
+        REQUIRE(processed == output);
+    }
+
+    SECTION("if-while") {
+        std::string input = source + "such that Follows(ifs, w)";
+        std::string processed = testHelper(input);
+        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], w [WHILE]\n{CONSTRAINTS}: Follows(ifs [IF], w [WHILE])";
+        REQUIRE(processed == output);
+    }
+
+    SECTION("int-wildcard") {
+        std::string input = source + "such that Follows(5, _)";
+        std::string processed = testHelper(input);
+        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], w [WHILE]\n{CONSTRAINTS}: Follows(5 [INTEGER], _ [STMT WILDCARD])";
+        REQUIRE(processed == output);
+    }
+
+    SECTION("wildcard-int") {
+        std::string input = source + "such that Follows(_, 7)";
+        std::string processed = testHelper(input);
+        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], w [WHILE]\n{CONSTRAINTS}: Follows(_ [STMT WILDCARD], 7 [INTEGER])";
+        REQUIRE(processed == output);
+    }
+
 }
 
 TEST_CASE("singleFollowsTConstraint_TokenizertoQOBuilder_returnsCorrect") {
-    std::string source = "print a;"
-                         "stmt w;"
-                         "Select w "
-                         "such that Follows*(a, w)";
-    std::string processed = testHelper(source);
-    std::string output = "{RETURN}: w [STMT]\n{DECLARATIONS}: a [PRINT], w [STMT]\n{CONSTRAINTS}: FollowsT(a [PRINT], w [STMT])";
-    REQUIRE(processed == output);
-    cout << processed;
+    std::string source = "stmt s;"
+                         "read r; "
+                         "print pr; "
+                         "while w; "
+                         "if ifs; "
+                         "assign a; "
+                         "Select pr ";
+    SECTION("stmt-read") {
+        std::string input = source + "such that Follows*(s, r)";
+        std::string processed = testHelper(input);
+        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], w [WHILE]\n{CONSTRAINTS}: FollowsT(s [STMT], r [READ])";
+        REQUIRE(processed == output);
+    }
+
+    SECTION("read-stmt") {
+        std::string input = source + "such that Follows*(r, s)";
+        std::string processed = testHelper(input);
+        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], w [WHILE]\n{CONSTRAINTS}: FollowsT(r [READ], s [STMT])";
+        REQUIRE(processed == output);
+    }
+
+    SECTION("print-assign") {
+        std::string input = source + "such that Follows*(pr, a)";
+        std::string processed = testHelper(input);
+        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], w [WHILE]\n{CONSTRAINTS}: FollowsT(pr [PRINT], a [ASSIGN])";
+        REQUIRE(processed == output);
+    }
+
+    SECTION("assign-print") {
+        std::string input = source + "such that Follows*(a, pr)";
+        std::string processed = testHelper(input);
+        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], w [WHILE]\n{CONSTRAINTS}: FollowsT(a [ASSIGN], pr [PRINT])";
+        REQUIRE(processed == output);
+    }
+
+    SECTION("while-if") {
+        std::string input = source + "such that Follows*(w, ifs)";
+        std::string processed = testHelper(input);
+        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], w [WHILE]\n{CONSTRAINTS}: FollowsT(w [WHILE], ifs [IF])";
+        REQUIRE(processed == output);
+    }
+
+    SECTION("if-while") {
+        std::string input = source + "such that Follows*(ifs, w)";
+        std::string processed = testHelper(input);
+        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], w [WHILE]\n{CONSTRAINTS}: FollowsT(ifs [IF], w [WHILE])";
+        REQUIRE(processed == output);
+    }
+
+    SECTION("int-wildcard") {
+        std::string input = source + "such that Follows*(5, _)";
+        std::string processed = testHelper(input);
+        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], w [WHILE]\n{CONSTRAINTS}: FollowsT(5 [INTEGER], _ [STMT WILDCARD])";
+        REQUIRE(processed == output);
+    }
+
+    SECTION("wildcard-int") {
+        std::string input = source + "such that Follows*(_, 7)";
+        std::string processed = testHelper(input);
+        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], w [WHILE]\n{CONSTRAINTS}: FollowsT(_ [STMT WILDCARD], 7 [INTEGER])";
+        REQUIRE(processed == output);
+    }
 }
 
 TEST_CASE("singleParentConstraint_TokenizertoQOBuilder_returnsCorrect") {
-    std::string source = "if f;"
+    std::string source = "stmt s;"
                          "read r; "
-                         "Select r "
-                         "such that Parent(f, r)";
-    std::string processed = testHelper(source);
-    std::string output = "{RETURN}: r [READ]\n{DECLARATIONS}: f [IF], r [READ]\n{CONSTRAINTS}: Parent(f [IF], r [READ])";
-    REQUIRE(processed == output);
-    cout << processed;
+                         "print pr; "
+                         "while w; "
+                         "if ifs; "
+                         "assign a; "
+                         "Select pr ";
+    SECTION("stmt-read") {
+        std::string input = source + "such that Parent(s, r)";
+        std::string processed = testHelper(input);
+        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], w [WHILE]\n{CONSTRAINTS}: Parent(s [STMT], r [READ])";
+        REQUIRE(processed == output);
+    }
+
+    SECTION("read-stmt") {
+        std::string input = source + "such that Parent(r, s)";
+        std::string processed = testHelper(input);
+        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], w [WHILE]\n{CONSTRAINTS}: Parent(r [READ], s [STMT])";
+        REQUIRE(processed == output);
+    }
+
+    SECTION("print-assign") {
+        std::string input = source + "such that Parent(pr, a)";
+        std::string processed = testHelper(input);
+        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], w [WHILE]\n{CONSTRAINTS}: Parent(pr [PRINT], a [ASSIGN])";
+        REQUIRE(processed == output);
+    }
+
+    SECTION("assign-print") {
+        std::string input = source + "such that Parent(a, pr)";
+        std::string processed = testHelper(input);
+        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], w [WHILE]\n{CONSTRAINTS}: Parent(a [ASSIGN], pr [PRINT])";
+        REQUIRE(processed == output);
+    }
+
+    SECTION("while-if") {
+        std::string input = source + "such that Parent(w, ifs)";
+        std::string processed = testHelper(input);
+        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], w [WHILE]\n{CONSTRAINTS}: Parent(w [WHILE], ifs [IF])";
+        REQUIRE(processed == output);
+    }
+
+    SECTION("if-while") {
+        std::string input = source + "such that Parent(ifs, w)";
+        std::string processed = testHelper(input);
+        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], w [WHILE]\n{CONSTRAINTS}: Parent(ifs [IF], w [WHILE])";
+        REQUIRE(processed == output);
+    }
+
+    SECTION("int-wildcard") {
+        std::string input = source + "such that Parent(5, _)";
+        std::string processed = testHelper(input);
+        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], w [WHILE]\n{CONSTRAINTS}: Parent(5 [INTEGER], _ [STMT WILDCARD])";
+        REQUIRE(processed == output);
+    }
+
+    SECTION("wildcard-int") {
+        std::string input = source + "such that Parent(_, 7)";
+        std::string processed = testHelper(input);
+        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], w [WHILE]\n{CONSTRAINTS}: Parent(_ [STMT WILDCARD], 7 [INTEGER])";
+        REQUIRE(processed == output);
+    }
 }
 
 TEST_CASE("singleParentTConstraint_TokenizertoQOBuilder_returnsCorrect") {
-    std::string source = "while w;"
+    std::string source = "stmt s;"
                          "read r; "
-                         "Select r "
-                         "such that Parent*(w, r)";
-    std::string processed = testHelper(source);
-    std::string output = "{RETURN}: r [READ]\n{DECLARATIONS}: w [WHILE], r [READ]\n{CONSTRAINTS}: ParentT(w [WHILE], r [READ])";
-    REQUIRE(processed == output);
-    cout << processed;
+                         "print pr; "
+                         "while w; "
+                         "if ifs; "
+                         "assign a; "
+                         "Select pr ";
+    SECTION("stmt-read") {
+        std::string input = source + "such that Parent*(s, r)";
+        std::string processed = testHelper(input);
+        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], w [WHILE]\n{CONSTRAINTS}: ParentT(s [STMT], r [READ])";
+        REQUIRE(processed == output);
+    }
+
+    SECTION("read-stmt") {
+        std::string input = source + "such that Parent*(r, s)";
+        std::string processed = testHelper(input);
+        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], w [WHILE]\n{CONSTRAINTS}: ParentT(r [READ], s [STMT])";
+        REQUIRE(processed == output);
+    }
+
+    SECTION("print-assign") {
+        std::string input = source + "such that Parent*(pr, a)";
+        std::string processed = testHelper(input);
+        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], w [WHILE]\n{CONSTRAINTS}: ParentT(pr [PRINT], a [ASSIGN])";
+        REQUIRE(processed == output);
+    }
+
+    SECTION("assign-print") {
+        std::string input = source + "such that Parent*(a, pr)";
+        std::string processed = testHelper(input);
+        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], w [WHILE]\n{CONSTRAINTS}: ParentT(a [ASSIGN], pr [PRINT])";
+        REQUIRE(processed == output);
+    }
+
+    SECTION("while-if") {
+        std::string input = source + "such that Parent*(w, ifs)";
+        std::string processed = testHelper(input);
+        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], w [WHILE]\n{CONSTRAINTS}: ParentT(w [WHILE], ifs [IF])";
+        REQUIRE(processed == output);
+    }
+
+    SECTION("if-while") {
+        std::string input = source + "such that Parent*(ifs, w)";
+        std::string processed = testHelper(input);
+        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], w [WHILE]\n{CONSTRAINTS}: ParentT(ifs [IF], w [WHILE])";
+        REQUIRE(processed == output);
+    }
+
+    SECTION("int-wildcard") {
+        std::string input = source + "such that Parent*(5, _)";
+        std::string processed = testHelper(input);
+        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], w [WHILE]\n{CONSTRAINTS}: ParentT(5 [INTEGER], _ [STMT WILDCARD])";
+        REQUIRE(processed == output);
+    }
+
+    SECTION("wildcard-int") {
+        std::string input = source + "such that Parent*(_, 7)";
+        std::string processed = testHelper(input);
+        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], w [WHILE]\n{CONSTRAINTS}: ParentT(_ [STMT WILDCARD], 7 [INTEGER])";
+        REQUIRE(processed == output);
+    }
 }
 
 TEST_CASE("singleUsesSConstraint_TokenizertoQOBuilder_returnsCorrect") {
