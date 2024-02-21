@@ -32,6 +32,8 @@ std::shared_ptr<QueryObject> QueryPreprocessor::processQuery(std::string & query
         throw std::exception(msg.c_str());
     }
 
+    intermediateQuery->processDeclarations();
+
     QueryObjectBuilderTest builder;
     std::shared_ptr<QueryObject> qo = builder.build(intermediateQuery);
 
