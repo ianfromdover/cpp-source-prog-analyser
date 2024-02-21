@@ -47,7 +47,7 @@ TEST_CASE("MultipleDeclaration_TokenizertoQOBuilder_ReturnsAllDeclaration") {
                          "assign a; "
                          "constant c; "
                          "procedure p; "
-                         "Select pr";
+                         "Select pr ";
     std::string processed = testHelper(source);
     std::string output = "{RETURN} pr [PRINT]\n{DECLARATIONS}: s [STMT], v [VARIABLE], cal [CALL], r [READ], pr [PRINT], w [WHILE], ifs [IF], a [ASSIGN], c [CONSTANT], p [PROCEDURE]";
     REQUIRE(processed == output);
@@ -57,7 +57,7 @@ TEST_CASE("MultipleDeclaration_TokenizertoQOBuilder_ReturnsAllDeclaration") {
 TEST_CASE("commasInDeclaration_TokenizertoQOBuilder_returnsCorrect") {
     std::string source = "read v, v1, v2, v3;"
                          "read v4; "
-                         "Select v1";
+                         "Select v1 ";
     std::string processed = testHelper(source);
     std::string output = "{RETURN}: v1 [READ]\n{DECLARATIONS}: v [READ], v1 [READ], v2 [READ], v3 [READ], v4 [READ]";
     REQUIRE(processed == output);
@@ -91,7 +91,7 @@ TEST_CASE("singleFollowsTConstraint_TokenizertoQOBuilder_returnsCorrect") {
 TEST_CASE("singleParentConstraint_TokenizertoQOBuilder_returnsCorrect") {
     std::string source = "if f;"
                          "read r; "
-                         "Select r"
+                         "Select r "
                          "such that Parent(f, r)";
     std::string processed = testHelper(source);
     std::string output = "{RETURN}: r [READ]\n{DECLARATIONS}: f [IF], r [READ]\n{CONSTRAINTS}: Parent(f [IF], r [READ])";
@@ -102,7 +102,7 @@ TEST_CASE("singleParentConstraint_TokenizertoQOBuilder_returnsCorrect") {
 TEST_CASE("singleParentTConstraint_TokenizertoQOBuilder_returnsCorrect") {
     std::string source = "while w;"
                          "read r; "
-                         "Select r"
+                         "Select r "
                          "such that Parent*(w, r)";
     std::string processed = testHelper(source);
     std::string output = "{RETURN}: r [READ]\n{DECLARATIONS}: w [WHILE], r [READ]\n{CONSTRAINTS}: ParentT(w [WHILE], r [READ])";
@@ -113,7 +113,7 @@ TEST_CASE("singleParentTConstraint_TokenizertoQOBuilder_returnsCorrect") {
 TEST_CASE("singleUsesSConstraint_TokenizertoQOBuilder_returnsCorrect") {
     std::string source = "read r;"
                          "constant c; "
-                         "Select c"
+                         "Select c "
                          "such that Uses(r, c)";
     std::string processed = testHelper(source);
     std::string output = "{RETURN}: c [CONSTANT]\n{DECLARATIONS}: r [READ], c [CONSTANT]\n{CONSTRAINTS}: UsesS(r [READ], c [CONSTANT])";
@@ -124,7 +124,7 @@ TEST_CASE("singleUsesSConstraint_TokenizertoQOBuilder_returnsCorrect") {
 TEST_CASE("singleUsesPConstraint_TokenizertoQOBuilder_returnsCorrect") {
     std::string source = "variable v;"
                          "procedure p; "
-                         "Select v"
+                         "Select v "
                          "such that Uses(p, v)";
     std::string processed = testHelper(source);
     std::string output = "{RETURN}: v [VARIABLE]\n{DECLARATIONS}: v [VARIABLE], p [PROCEDURE]\n{CONSTRAINTS}: UsesP(p [PROCEDURE], v [VARIABLE])";
@@ -135,7 +135,7 @@ TEST_CASE("singleUsesPConstraint_TokenizertoQOBuilder_returnsCorrect") {
 TEST_CASE("singleModifiesSConstraint_TokenizertoQOBuilder_returnsCorrect") {
     std::string source = "assign a;"
                          "variable v; "
-                         "Select a"
+                         "Select a "
                          "such that Modifies(a, v)";
     std::string processed = testHelper(source);
     std::string output = "{RETURN}: a [ASSIGN]\n{DECLARATIONS}: a [ASSIGN], v [VARIABLE]\n{CONSTRAINTS}: ModifiesS(a [ASSIGN], v [VARIABLE])";
@@ -146,10 +146,64 @@ TEST_CASE("singleModifiesSConstraint_TokenizertoQOBuilder_returnsCorrect") {
 TEST_CASE("singleModifiesPConstraint_TokenizertoQOBuilder_returnsCorrect") {
     std::string source = "procedure p;"
                          "variable v; "
-                         "Select p"
+                         "Select p "
                          "such that Modifies(p, v)";
     std::string processed = testHelper(source);
     std::string output = "{RETURN}: p [PROCEDURE]\n{DECLARATIONS}: p [PROCEDURE], v [VARIABLE]\n{CONSTRAINTS}: ModifiesP(p [PROCEDURE], v [VARIABLE])";
+    REQUIRE(processed == output);
+    cout << processed;
+}
+
+TEST_CASE("SingleConcretePatternConstraint_TokenizertoQOBuilder_returnsCorrect") {
+    std::string source = "assign a;"
+                         "Select a "
+                         " pattern a (\"someExpr\", \"_wildcardExpr_\")";
+    std::string processed = testHelper(source);
+    std::string output = "{RETURN}: a [ASSIGN]\n{DECLARATIONS}: a [ASSIGN]\n{CONSTRAINTS}: Pattern(someExpr [EXPR], wildcardExpr [EXPR WITH WILDCARD])";
+    REQUIRE(processed == output);
+    cout << processed;
+}
+
+TEST_CASE("expressionWildcard_TokenizertoQOBuilder_returnsCorrect") {
+    std::string source = "assign a;"
+                         "Select a "
+                         " pattern a (_, \"_wildcardExpr_\")";
+    std::string processed = testHelper(source);
+    std::string output = "{RETURN}: a [ASSIGN]\n{DECLARATIONS}: a [ASSIGN]\n{CONSTRAINTS}: Pattern(_ [EXPR WILDCARD], wildcardExpr [EXPR WITH WILDCARD])";
+    REQUIRE(processed == output);
+    cout << processed;
+}
+
+TEST_CASE("EntityWildcard_TokenizertoQOBuilder_returnsCorrect") {
+    std::string source = "procedure p;"
+                         "variable v; "
+                         "Select p "
+                         "such that Modifies(p, _)";
+    std::string processed = testHelper(source);
+    std::string output = "{RETURN}: p [PROCEDURE]\n{DECLARATIONS}: p [PROCEDURE], v [VARIABLE]\n{CONSTRAINTS}: ModifiesP(p [PROCEDURE], _ [ENT WILDCARD])";
+    REQUIRE(processed == output);
+    cout << processed;
+}
+
+TEST_CASE("StatementWildcard_TokenizertoQOBuilder_returnsCorrect") {
+    std::string source = "if f;"
+                         "read r; "
+                         "Select r "
+                         "such that Parent(_, r)";
+    std::string processed = testHelper(source);
+    std::string output = "{RETURN}: r [READ]\n{DECLARATIONS}: f [IF], r [READ]\n{CONSTRAINTS}: Parent(_ [STMT WILDCARD], r [READ])";
+    REQUIRE(processed == output);
+    cout << processed;
+}
+
+
+TEST_CASE("MultipleConstraints_TokenizertoQOBuilder_returnsCorrect") {
+    std::string source = "if f;"
+                         "read r; "
+                         "Select r "
+                         "such that Parent(_, r)";
+    std::string processed = testHelper(source);
+    std::string output = "{RETURN}: r [READ]\n{DECLARATIONS}: f [IF], r [READ]\n{CONSTRAINTS}: Parent(_ [STMT WILDCARD], r [READ])";
     REQUIRE(processed == output);
     cout << processed;
 }
