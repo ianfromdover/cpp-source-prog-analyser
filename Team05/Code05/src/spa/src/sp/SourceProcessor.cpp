@@ -15,10 +15,12 @@
 #include "VariableExtractor.h"
 #include "ConstantExtractor.h"
 #include "FollowsExtractor.h"
+#include "SemanticAnalyzer.h"
 
 void SourceProcessor::exec(const std::string& source) {
     auto tokens = this->scan(source);
     auto program = this->parse(tokens);
+    this->validate(program);
     this->extract(program);
 }
 
@@ -28,6 +30,10 @@ std::shared_ptr<std::vector<std::shared_ptr<Token>>> SourceProcessor::scan(const
 
 Program SourceProcessor::parse(std::shared_ptr<std::vector<std::shared_ptr<Token>>>& tokens) {
     return Parser(tokens).parse();
+}
+
+void SourceProcessor::validate(const Program &program) {
+    SemanticAnalyzer::check(program);
 }
 
 void SourceProcessor::extract(const Program& program) {
