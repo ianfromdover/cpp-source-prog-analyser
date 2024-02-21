@@ -1,45 +1,39 @@
 #include "TokenType.h"
 
-std::string TokenType::toString() const {
-    switch (info) {
-        case INTEGER: return "INTEGER";
-        case NAME: return "NAME";
-        case LEFT_BRACE: return "LEFT_BRACE";
-        case RIGHT_BRACE: return "RIGHT_BRACE";
-        case SEMICOLON: return "SEMICOLON";
-        case LEFT_PAREN: return "LEFT_PAREN";
-        case RIGHT_PAREN: return "RIGHT_PAREN";
-        case BANG_EQUAL: return "BANG_EQUAL";
-        case EQUAL_EQUAL: return "EQUAL_EQUAL";
-        case GREATER: return "GREATER";
-        case GREATER_EQUAL: return "GREATER_EQUAL";
-        case LESSER_EQUAL: return "LESSER_EQUAL";
-        case LESSER: return "LESSER";
-        case PROGRAM: return "PROGRAM";
-        case PROCEDURE: return "PROCEDURE";
-        case READ: return "READ";
-        case PRINT: return "PRINT";
-        case WHILE: return "WHILE";
-        case IF: return "IF";
-        case THEN: return "THEN";
-        case ELSE: return "ELSE";
-        case ASSIGN: return "ASSIGN";
-        case CALL: return "CALL";
-        case BANG: return "BANG";
-        case OR: return "OR";
-        case AND: return "AND";
-        case ADD: return "ADD";
-        case SUBTRACT: return "SUBTRACT";
-        case MULTIPLY: return "MULTIPLY";
-        case DIVIDE: return "DIVIDE";
-        case MOD: return "MOD";
-        case END_OF_FILE: return "EOF";
+std::string TokenTypeFmt::toString(TokenType type) {
+    switch (type) {
+        case TokenType::INTEGER: return "INTEGER";
+        case TokenType::NAME: return "NAME";
+        case TokenType::LEFT_BRACE: return "LEFT_BRACE";
+        case TokenType::RIGHT_BRACE: return "RIGHT_BRACE";
+        case TokenType::SEMICOLON: return "SEMICOLON";
+        case TokenType::LEFT_PAREN: return "LEFT_PAREN";
+        case TokenType::RIGHT_PAREN: return "RIGHT_PAREN";
+        case TokenType::BANG_EQUAL: return "BANG_EQUAL";
+        case TokenType::EQUAL_EQUAL: return "EQUAL_EQUAL";
+        case TokenType::GREATER: return "GREATER";
+        case TokenType::GREATER_EQUAL: return "GREATER_EQUAL";
+        case TokenType::LESSER_EQUAL: return "LESSER_EQUAL";
+        case TokenType::LESSER: return "LESSER";
+        case TokenType::PROGRAM: return "PROGRAM";
+        case TokenType::PROCEDURE: return "PROCEDURE";
+        case TokenType::READ: return "READ";
+        case TokenType::PRINT: return "PRINT";
+        case TokenType::WHILE: return "WHILE";
+        case TokenType::IF: return "IF";
+        case TokenType::THEN: return "THEN";
+        case TokenType::ELSE: return "ELSE";
+        case TokenType::ASSIGN: return "ASSIGN";
+        case TokenType::CALL: return "CALL";
+        case TokenType::BANG: return "BANG";
+        case TokenType::OR: return "OR";
+        case TokenType::AND: return "AND";
+        case TokenType::ADD: return "ADD";
+        case TokenType::SUBTRACT: return "SUBTRACT";
+        case TokenType::MULTIPLY: return "MULTIPLY";
+        case TokenType::DIVIDE: return "DIVIDE";
+        case TokenType::MOD: return "MOD";
+        case TokenType::END_OF_FILE: return "EOF";
         default: return "UNKNOWN";
     }
-}
-
-TokenType::TokenType(TokenType::TypeInfo info) : info(info) {}
-
-TokenType::TypeInfo TokenType::getInfo() {
-    return this->info;
 }

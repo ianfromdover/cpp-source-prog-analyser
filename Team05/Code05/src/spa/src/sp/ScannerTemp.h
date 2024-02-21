@@ -18,7 +18,7 @@ private:
 public:
     explicit ScannerTemp(const std::string& source);
     void scanTokens();
-    void addToken(TokenType::TypeInfo typeInfo, const std::string& lexeme);
+    void addToken(TokenType type, const std::string& lexeme);
     bool isKeyword(const std::string &name, bool prevTokenIsKeyword);
 };
 

@@ -2,7 +2,7 @@
 
 #include <utility>
 
-Token::Token(TokenType type, std::string  lexeme) : type(type), lexeme(std::move(lexeme)) {
+Token::Token(TokenType type, std::string lexeme) : type(type), lexeme(std::move(lexeme)) {
 
 }
 
@@ -15,5 +15,5 @@ std::string Token::getLexeme() const {
 }
 
 std::string Token::toString() const {
-   return "[" + getType().toString() + ", " + getLexeme() + "]";
+   return "[" + TokenTypeFmt::toString(getType()) + ", " + getLexeme() + "]";
 }

@@ -21,7 +21,7 @@ bool MultiCharacterStrategy::tokenize(char character, std::stringstream& stream,
 
 bool MultiCharacterStrategy::isKeyword(const std::string& name, std::shared_ptr<std::vector<std::shared_ptr<Token>>>& tokens,
                                        bool& prevTokenIsKeyword) {
-    static const std::map<std::string, TokenType::TypeInfo> keywords = {
+    static const std::map<std::string, TokenType> keywords = {
             {"program", TokenType::PROGRAM}, {"procedure", TokenType::PROCEDURE},
             {"read", TokenType::READ}, {"print", TokenType::PRINT},
             {"while", TokenType::WHILE}, {"if", TokenType::IF},

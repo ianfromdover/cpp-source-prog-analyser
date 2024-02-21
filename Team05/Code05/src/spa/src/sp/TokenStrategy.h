@@ -16,7 +16,7 @@ public:
     virtual ~TokenStrategy() = default;
     virtual bool tokenize(char character, std::stringstream& stream,
                           std::shared_ptr<std::vector<std::shared_ptr<Token>>>&, bool& prevTokenIsKeyword) = 0;
-    virtual void addToken(TokenType::TypeInfo typeInfo, const std::string &lexeme,
+    virtual void addToken(TokenType type, const std::string &lexeme,
                            std::shared_ptr<std::vector<std::shared_ptr<Token>>> &tokens);
 };
 
