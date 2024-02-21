@@ -18,6 +18,7 @@
 
     class QPSParser {
     private:
+        //static std::initializer_list<>
         int current = 0;
         std::vector<std::shared_ptr<QPSToken>> tokens;
 
