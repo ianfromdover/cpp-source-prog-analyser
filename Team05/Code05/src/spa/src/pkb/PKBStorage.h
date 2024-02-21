@@ -4,9 +4,9 @@
 #include <string>
 #include <vector>
 #include "pkb/constraintTables/FollowsTable.h"
- #include "pkb/constraintTables/FollowsTTable.h"
+#include "pkb/constraintTables/FollowsTTable.h"
 #include "pkb/constraintTables/ParentTable.h"
-// #include "pkb/constraintTables/ParentTTable.h"
+#include "pkb/constraintTables/ParentTTable.h"
 #include "pkb/constraintTables/UsesTable.h"
 // #include "pkb/constraintTables/ModifiesTable.h"
 // #include "pkb/constraintTables/AssignPatternTable.h"
@@ -33,7 +33,7 @@ public:
     std::unique_ptr<FollowsTable> followsTable;
     std::unique_ptr<FollowsTTable> followsTTable;
     std::unique_ptr<ParentTable> parentTable;
-    // std::unique_ptr<ParentTTable> parentTTable;
+    std::unique_ptr<ParentTTable> parentTTable;
     std::unique_ptr<UsesTable> usesTable;
     // std::unique_ptr<ModifiesTable> modifiesTable;
     // std::unique_ptr<AssignPatternTable> assignPatternTable;
