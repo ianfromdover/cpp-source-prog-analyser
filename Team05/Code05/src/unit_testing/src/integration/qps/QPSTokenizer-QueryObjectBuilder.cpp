@@ -206,7 +206,7 @@ TEST_CASE("1ConstraintWithPattern_TokenizertoQOBuilder_returnsCorrect") {
                          "such that Parent(_, r) "
                          " pattern a (_, _\"wildcardExpr\"_)";
     std::string processed = testHelper(source);
-    std::string output = "{RETURN}: r [READ]\n{DECLARATIONS}: f [IF], a [ASSIGN], r [READ]\n{CONSTRAINTS}: Parent(_ [STMT WILDCARD], r [READ])\nPattern(_ [ENT WILDCARD], \"wildcardExpr\" [EXPR WITH WILDCARD])";
+    std::string output = "{RETURN}: r [READ]\n{DECLARATIONS}: a [ASSIGN], f [IF], r [READ]\n{CONSTRAINTS}: Parent(_ [STMT WILDCARD], r [READ]), Pattern(_ [ENT WILDCARD], \"wildcardExpr\" [EXPR WITH WILDCARD])";
     REQUIRE(processed == output);
     cout << processed;
 }
