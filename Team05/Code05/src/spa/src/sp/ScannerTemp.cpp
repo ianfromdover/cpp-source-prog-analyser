@@ -118,9 +118,8 @@ void ScannerTemp::scanTokens() {
     }
 }
 
-void ScannerTemp::addToken(TokenType::TypeInfo typeInfo, const std::string& lexeme) {
-    TokenType tokenType(typeInfo);
-    std::shared_ptr<Token> token = std::make_shared<Token>(tokenType, lexeme);
+void ScannerTemp::addToken(TokenType type, const std::string& lexeme) {
+    std::shared_ptr<Token> token = std::make_shared<Token>(type, lexeme);
     tokenList.push_back(token);
 }
 

@@ -13,7 +13,7 @@ Program Parser::parse() {
     return program;
 }
 
-bool Parser::match(std::initializer_list<TokenType::TypeInfo> types) {
+bool Parser::match(std::initializer_list<TokenType> types) {
     for (const auto& type : types) {
         if (this->check(type)) {
             this->advance();
@@ -23,15 +23,15 @@ bool Parser::match(std::initializer_list<TokenType::TypeInfo> types) {
     return false;
 }
 
-bool Parser::check(TokenType::TypeInfo type) {
+bool Parser::check(TokenType type) {
     if (this->isAtEnd()) {
         return false;
     }
-    return this->peek().getType().getInfo() == type;
+    return this->peek().getType() == type;
 }
 
 bool Parser::isAtEnd() {
-    return this->peek().getType().getInfo() == TokenType::END_OF_FILE;
+    return this->peek().getType() == TokenType::END_OF_FILE;
 }
 
 Token Parser::advance() {
@@ -49,7 +49,7 @@ Token Parser::previous() {
     return *this->tokens->at(this->current - 1);
 }
 
-Token Parser::consume(TokenType::TypeInfo type, std::string message) {
+Token Parser::consume(TokenType type, std::string message) {
     if (this->check(type)) {
         return this->advance();
     }

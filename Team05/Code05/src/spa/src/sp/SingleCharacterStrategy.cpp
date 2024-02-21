@@ -7,7 +7,7 @@
 
 bool SingleCharacterStrategy::tokenize(char character, std::stringstream& stream, std::shared_ptr<std::vector<std::shared_ptr<Token>>>& tokens,
                                        bool& prevTokenIsKeyword) {
-    TokenType::TypeInfo type;
+    TokenType type;
     std::string lexeme(1, character);
     bool isTokenFound = true;
 

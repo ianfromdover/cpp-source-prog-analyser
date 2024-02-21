@@ -19,13 +19,13 @@ public:
     Program parse();
 
 private:
-    bool match(std::initializer_list<TokenType::TypeInfo> types);
-    bool check(TokenType::TypeInfo type);
+    bool match(std::initializer_list<TokenType> types);
+    bool check(TokenType type);
     bool isAtEnd();
     Token advance();
     Token peek();
     Token previous();
-    Token consume(TokenType::TypeInfo type, std::string message);
+    Token consume(TokenType type, std::string message);
 
     StmtNo nextStmtNo();
 
