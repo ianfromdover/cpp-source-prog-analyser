@@ -400,20 +400,23 @@
                 query->addClause(select);
             }
 
-            if (isSuchThat()) {
-                this->consume(QPSTokenType::SUCH, "Expect 'such' after select clause.");
-                this->consume(QPSTokenType::THAT, "Expect 'that' after 'such'.");
+            while(isSuchThat() || this->check({QPSTokenType::PATTERN})) {
 
-                if (isRelationship()) {
-                    std::shared_ptr<RelationshipClause> relationship = this->relationship();
+                if (isSuchThat()) {
+                    this->consume(QPSTokenType::SUCH, "Expect 'such' after select clause.");
+                    this->consume(QPSTokenType::THAT, "Expect 'that' after 'such'.");
 
-                    if (relationship) query->addClause(relationship);
+                    if (isRelationship()) {
+                        std::shared_ptr<RelationshipClause> relationship = this->relationship();
+
+                        if (relationship) query->addClause(relationship);
+                    }
                 }
-            }
 
-            if (this->match({QPSTokenType::PATTERN})) {
-                std::shared_ptr<PatternClause> pattern = this->pattern();
-                if (pattern) query->addClause(pattern);
+                if (this->match({QPSTokenType::PATTERN})) {
+                    std::shared_ptr<PatternClause> pattern = this->pattern();
+                    if (pattern) query->addClause(pattern);
+                }
             }
 
             if (!isAtEnd()) throw std::runtime_error("Expect end of file.");

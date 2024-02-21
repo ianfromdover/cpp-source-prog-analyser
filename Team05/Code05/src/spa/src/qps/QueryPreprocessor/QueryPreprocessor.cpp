@@ -12,13 +12,18 @@
 
 
 std::shared_ptr<QueryObject> QueryPreprocessor::processQuery(std::string & queryStr) {
+    std::shared_ptr<IntermediateQuery> intermediateQuery;
 
-    std::shared_ptr<QPSStrategyList> strategies = std::make_shared<QPSStrategyList>();
-    std::shared_ptr<QPSTokenList> tokens = std::make_shared<QPSTokenList>();
-    Tokenizer tokenizer(queryStr, strategies, tokens);
-    tokenizer.tokenize();
-    QPSParser parser(*tokens);
-    std::shared_ptr<IntermediateQuery> intermediateQuery = parser.parse();
+    try {
+        std::shared_ptr<QPSStrategyList> strategies = std::make_shared<QPSStrategyList>();
+        std::shared_ptr<QPSTokenList> tokens = std::make_shared<QPSTokenList>();
+        Tokenizer tokenizer(queryStr, strategies, tokens);
+        tokenizer.tokenize();
+        QPSParser parser(*tokens);
+        intermediateQuery = parser.parse();
+    } catch (std::exception& e){
+        throw std::exception("syntax error");
+    }
 
     RuleSet ruleSet;
     std::string validationResults;
