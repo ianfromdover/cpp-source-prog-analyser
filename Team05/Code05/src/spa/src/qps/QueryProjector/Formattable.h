@@ -11,6 +11,9 @@
 class Formattable {
 public:
     virtual std::vector<std::string> format() = 0;
+    std::string toString();
 };
+
+
 
 #endif //SPA_FORMATTABLE_H

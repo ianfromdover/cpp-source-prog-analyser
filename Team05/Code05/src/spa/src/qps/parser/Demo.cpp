@@ -13,10 +13,10 @@
 
         // Run TestParser::scratch pad or just call Demo() in some unit test. Following code exist inside constructor.
 
-        std::string source = "variable v;" // Declaration Clause 1 : map<STMT,"s">
-                             "assign a; " // Declaration Clause 2 : map<STMT,"s1">
-                             "Select a " // Select Clause : "s"
-                             "such that Modifies(1, v) " // Relationship Clause : PARENT, STMT_REF, INTEGER="1", STMT_REF, SYNONYM="s"
+        std::string source = "stmt s, s2;" // Declaration Clause 1 : map<STMT,"s">
+                             "assign a; variable v, v1; " // Declaration Clause 2 : map<STMT,"s1">
+                             "Select s " // Select Clause : "s"
+                             "such that ParentT(s, s2) " // Relationship Clause : PARENT, STMT_REF, INTEGER="1", STMT_REF, SYNONYM="s"
                              "pattern s(_, _\"x+y\"_)"; // Pattern Clause : PATTERN, SYNONYM="s", ENT_REF, WILDCARD, EXPR_WILDCARD="\"x+y\""
                              // (NOTE: wildcard character is not present. can differentiate <'"' expr'"'=EXPR> vs <'_' '"' expr '"' '_'=EXPR_WILDCARD>)
 
@@ -30,7 +30,7 @@
         std::shared_ptr<IntermediateQuery> intermediateQuery = parser.parse();                   // Will receive this shared pointer
         intermediateQuery->processDeclarations(); // called by validator, ignore
 
-        QueryObjectBuilder builder;
+        QueryObjectBuilderTest builder;
         std::shared_ptr<QueryObject> qo = builder.build(intermediateQuery);
 
         std::cout << qo->toString();

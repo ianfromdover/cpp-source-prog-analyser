@@ -23,7 +23,7 @@ std::string testHelper(std::string source) {
     std::shared_ptr<IntermediateQuery> intermediateQuery = parser.parse();
     intermediateQuery->processDeclarations();
 
-    QueryObjectBuilder builder;
+    QueryObjectBuilderTest builder;
     std::shared_ptr<QueryObject> qo = builder.build(intermediateQuery);
     return qo->toString();
 }
@@ -46,10 +46,10 @@ TEST_CASE("MultipleDeclaration_TokenizertoQOBuilder_ReturnsOneSelectClause") {
 
 TEST_CASE("query1_TokenizertoQOBuilder_returnsCorrect") {
     std::string source = "variable v;" // Declaration Clause 1 : map<STMT,"s">
-                         "stmt s; " // Declaration Clause 2 : map<STMT,"s1">
-                         "Select a " // Select Clause : "s"
-                         "such that Modifies(1, s) " // Relationship Clause : PARENT, STMT_REF, INTEGER="1", STMT_REF, SYNONYM="s"
-                         "pattern s(_, _\"x+y\"_)";
+                         "variable v1; " // Declaration Clause 2 : map<STMT,"s1">
+                         "Select v " // Select Clause : "s"
+                         "such that Modifies*(v1, v)"; // Relationship Clause : PARENT, STMT_REF, INTEGER="1", STMT_REF, SYNONYM="s"
+//                         "pattern s(_, _\"x+y\"_)";
     std::string processed = testHelper(source);
     std::string output = "{DECLARATIONS}: s [STMT], c [STMT], p [PRINT]";
 //    REQUIRE(processed == output);

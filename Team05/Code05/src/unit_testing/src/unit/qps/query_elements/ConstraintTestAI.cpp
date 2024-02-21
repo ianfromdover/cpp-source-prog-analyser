@@ -6,7 +6,7 @@
 using namespace std;
 
 #define CATCH_CONFIG_MAIN
-#include <catch.hpp>
+#include "catch.hpp"
 
 #include "qps/query_elements/constraint/Constraint.h"
 #include "qps/query_elements/constraint/FollowsConstraint.h"

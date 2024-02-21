@@ -3,12 +3,10 @@
 
 #include <utilSpa/SpaTypes.h>
 #include <qps/query_elements/constraint/ParentTConstraint.h>
-#include <memory>
-#include "qps/QueryEvaluator/QueryResult/QueryResult.h"
-#include "PKBStorage.h"
+#include "QueryPKBVirtual.h"
 
 // The interface between PKB and QPS
-class QueryPKB {
+class QueryPKB : public QueryPKBVirtual {
 private:
 public:
     QueryPKB() = default;
@@ -25,6 +23,6 @@ public:
 
     vector<shared_ptr<ConstraintArgument>> getContraintArgs();
 
-    std::shared_ptr<QueryResult> getResult(Returnable& r, Constraint& c);
+    std::shared_ptr<QueryResult> getResult(Returnable& r, Constraint& c) override;
     // IntResult for now
 };
