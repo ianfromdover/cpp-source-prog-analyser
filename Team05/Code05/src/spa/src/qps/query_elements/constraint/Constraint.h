@@ -20,9 +20,11 @@ public:
     virtual std::string getConstraintType() = 0;
     virtual std::vector<std::shared_ptr<ConstraintArgument>>  getConstraintArguments() = 0;
 
+    /*
     std::shared_ptr<QueryResult> processConstraint(const Str& constraintType) {
 
     };
+     */
 };
 
 

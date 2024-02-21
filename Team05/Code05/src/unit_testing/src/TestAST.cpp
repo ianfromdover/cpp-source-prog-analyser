@@ -1,14 +1,6 @@
-
-#include "sp/ScannerTemp.cpp"
-#include "sp/Scanner.cpp"
-#include "sp/TokenList.h"
-#include "sp/StrategyList.h"
-#include "sp/Token.cpp"
-#include "sp/TokenType.cpp"
-#include "sp/Parser.h"
+#include "catch.hpp"
 #include "sp/PrettyPrinter.h"
 #include "sp/SourceProcessor.h"
-#include "catch.hpp"
 #include "qps/QPS.h"
 
 

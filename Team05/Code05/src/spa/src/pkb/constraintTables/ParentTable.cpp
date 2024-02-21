@@ -1,22 +1,22 @@
 #include "ParentTable.h"
-ParentTable::ParentTable() {}
+ParentTable::ParentTable() = default;
 bool ParentTable::addParent(StmtNo parent, StmtNo child) {
     if (isParent(parent, child)) {
         return false;
     }
-    twoSideMap.insert(parent, child);
-    return true;
+    return twoSideMap.insert(parent, child);
 }
 
 bool ParentTable::isParent(StmtNo parent, StmtNo child) {
-    if (twoSideMap.getKey(child) == std::nullopt) {
+    if (!twoSideMap.containsKey(parent)
+        || !twoSideMap.containsValue(child)) {
         return false;
     }
     return twoSideMap.getKey(child).value() == parent;
 }
 
 bool ParentTable::hasParent(StmtNo child) {
-    return twoSideMap.getKey(child) != std::nullopt;
+    return twoSideMap.getKey(child).has_value();
 }
 
 bool ParentTable::hasChildren(StmtNo parent) {
@@ -24,10 +24,11 @@ bool ParentTable::hasChildren(StmtNo parent) {
 }
 
 StmtNo ParentTable::getParent(StmtNo child) {
-    if (twoSideMap.getKey(child) == std::nullopt) {
+    auto k = twoSideMap.getKey(child);
+    if (!k.has_value()) {
         return -1;
     }
-    return twoSideMap.getKey(child).value();
+    return k.value();
 }
 
 vector<StmtNo> ParentTable::getChildren(StmtNo parent) {
