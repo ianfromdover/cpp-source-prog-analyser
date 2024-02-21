@@ -8,7 +8,7 @@
 #include "pkb/constraintTables/ParentTable.h"
 #include "pkb/constraintTables/ParentTTable.h"
 #include "pkb/constraintTables/UsesTable.h"
-// #include "pkb/constraintTables/ModifiesTable.h"
+#include "pkb/constraintTables/ModifiesTable.h"
 // #include "pkb/constraintTables/AssignPatternTable.h"
 
 // for milestone 2:
@@ -35,7 +35,7 @@ public:
     std::unique_ptr<ParentTable> parentTable;
     std::unique_ptr<ParentTTable> parentTTable;
     std::unique_ptr<UsesTable> usesTable;
-    // std::unique_ptr<ModifiesTable> modifiesTable;
+    std::unique_ptr<ModifiesTable> modifiesTable;
     // std::unique_ptr<AssignPatternTable> assignPatternTable;
 
     // ai-gen start (copilot, 0, e)

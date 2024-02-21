@@ -11,12 +11,12 @@ QueryPKB::QueryPKB(std::shared_ptr<PKBStorage> p) {
 QueryPKB::~QueryPKB() {}
 
 
-bool QueryPKB::getFollows(StmtNo before, StmtNo after) {
-    return false;
-}
-bool QueryPKB::getParent(StmtNo parent, StmtNo child) {
-    return false;
-}
+//bool QueryPKB::getFollows(StmtNo before, StmtNo after) {
+//    return false;
+//}
+//bool QueryPKB::getParent(StmtNo parent, StmtNo child) {
+//    return false;
+//}
 
 //vector<StmtNo> QueryPKB::getChildren(StmtNo parent) {
 //    return pkb->parentTable->getChildren(parent);
@@ -41,6 +41,8 @@ std::shared_ptr<QueryResult> QueryPKB::getResult(Returnable &r, Constraint &c) {
             finalResult = queryFollowsTTable(argList);
         } else if (type == CONSTRAINT_TYPE_USESS) {
             finalResult = queryUsesTable(argList);
+        } else if (type == CONSTRAINT_TYPE_MODIFIESS) {
+            finalResult = queryModifiesTable(argList);
         } else {
                 finalResult = {};
         }
@@ -156,3 +158,4 @@ std::shared_ptr<QueryResult> QueryPKB::queryUsesTable(vector<shared_ptr<Constrai
 //    IntResult res(results);
 //    return std::make_shared<IntResult>(res);
 //}
+// TODO: change to modifiesS table

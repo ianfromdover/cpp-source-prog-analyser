@@ -40,6 +40,6 @@ public:
     bool addUses(StmtNo sNum, VarName name);
     bool addUses(ProcName ProcedureName, VarName name);
     // Adds a modifies relationship to the modifies table
-    bool addModifies(StmtNo sNum, VarName name);
-    bool addModifies(ProcName ProcedureName, VarName name);
+    bool addModifies(StmtNo stmtNo, VarName varName);
+    bool addModifies(ProcName procName, VarName varName);
 };
