@@ -22,6 +22,7 @@
 #include "../query_elements/constraint_argument/statement_reference/StatementRefWildcard.h"
 #include "../query_elements/constraint_argument/expression_reference/ExpressionRefWildCard.h"
 #include "../query_elements/constraint_argument/expression_reference/ExpressionWithWildcard.h"
+#include "../query_elements/constraint_argument/entity_reference/QuotedIdentity.h"
 #include "../query_elements/QueryObject.h"
 #include <memory>
 #include <stdexcept>
@@ -47,6 +48,7 @@ public:
     static std::shared_ptr<IntegerArgument> createIntegerArgument(std::string);
     static std::shared_ptr<StatementRefWildCard> createStatementRefWildCard();
     static std::shared_ptr<ExpressionRefWildcard> createExpressionRefWildCard();
+    static std::shared_ptr<QuotedIdentity> createQuotedIdentity(std::string);
     static shared_ptr<ConstraintArgument>buildArg(QPSTokenType::QPSTypeInfo type, QPSTokenType::QPSTypeInfo ref, string identifier, std::shared_ptr<QueryObject>);
     static shared_ptr<Entity> buildEntity(QPSTokenType::QPSTypeInfo type, string identifier);
 };

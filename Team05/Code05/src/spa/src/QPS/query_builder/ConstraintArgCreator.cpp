@@ -8,6 +8,8 @@
 std::shared_ptr<ConstraintArgument> ConstraintArgCreator::buildArg(QPSTokenType::QPSTypeInfo type, QPSTokenType::QPSTypeInfo ref,
                                                                    std::string identifier, std::shared_ptr<QueryObject> qo) {
     switch (type) {
+        case QPSTokenType::QUOTED_IDENT:
+            return ConstraintArgCreator::createQuotedIdentity(identifier);
         case QPSTokenType::EXPR:
             return ConstraintArgCreator::createExpression(identifier);
             break;
@@ -135,6 +137,10 @@ std::shared_ptr<ExpressionRefWildcard> ConstraintArgCreator::createExpressionRef
     return std::make_shared<ExpressionRefWildcard>();
 }
 
+std::shared_ptr<QuotedIdentity> ConstraintArgCreator::createQuotedIdentity(std::string s) {
+    return std::make_shared<QuotedIdentity>(s);
+}
+
 shared_ptr<Entity> ConstraintArgCreator::buildEntity(QPSTokenType::QPSTypeInfo type, string identifier) {
     switch (type) {
         case QPSTokenType::PROCEDURE:
@@ -171,3 +177,5 @@ shared_ptr<Entity> ConstraintArgCreator::buildEntity(QPSTokenType::QPSTypeInfo t
             throw std::invalid_argument( "invalid entity flag" );
     }
 }
+
+

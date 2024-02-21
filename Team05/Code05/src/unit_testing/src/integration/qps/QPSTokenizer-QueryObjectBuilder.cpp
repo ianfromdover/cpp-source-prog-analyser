@@ -49,10 +49,11 @@ TEST_CASE("MultipleDeclaration_TokenizertoQOBuilder_ReturnsAllDeclaration") {
                          "procedure p; "
                          "Select pr ";
     std::string processed = testHelper(source);
-    std::string output = "{RETURN} pr [PRINT]\n{DECLARATIONS}: s [STMT], v [VARIABLE], cal [CALL], r [READ], pr [PRINT], w [WHILE], ifs [IF], a [ASSIGN], c [CONSTANT], p [PROCEDURE]";
+    std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], c [CONST], cal [CALL], ifs [IF], p [PROCEDURE], pr [PRINT], r [READ], s [STMT], v [VARIABLE], w [WHILE]";
     REQUIRE(processed == output);
     cout << processed;
 }
+
 
 TEST_CASE("commasInDeclaration_TokenizertoQOBuilder_returnsCorrect") {
     std::string source = "read v, v1, v2, v3;"
@@ -116,7 +117,7 @@ TEST_CASE("singleUsesSConstraint_TokenizertoQOBuilder_returnsCorrect") {
                          "Select c "
                          "such that Uses(r, c)";
     std::string processed = testHelper(source);
-    std::string output = "{RETURN}: c [CONSTANT]\n{DECLARATIONS}: r [READ], c [CONSTANT]\n{CONSTRAINTS}: UsesS(r [READ], c [CONSTANT])";
+    std::string output = "{RETURN}: c [CONST]\n{DECLARATIONS}: c [CONST], r [READ]\n{CONSTRAINTS}: UsesS(r [READ], c [CONST])";
     REQUIRE(processed == output);
     cout << processed;
 }
@@ -157,9 +158,9 @@ TEST_CASE("singleModifiesPConstraint_TokenizertoQOBuilder_returnsCorrect") {
 TEST_CASE("SingleConcretePatternConstraint_TokenizertoQOBuilder_returnsCorrect") {
     std::string source = "assign a;"
                          "Select a "
-                         " pattern a (\"someExpr\", \"_wildcardExpr_\")";
+                         " pattern a (\"someExpr\", _\"wildcardExpr\"_)";
     std::string processed = testHelper(source);
-    std::string output = "{RETURN}: a [ASSIGN]\n{DECLARATIONS}: a [ASSIGN]\n{CONSTRAINTS}: Pattern(someExpr [EXPR], wildcardExpr [EXPR WITH WILDCARD])";
+    std::string output = "{RETURN}: a [ASSIGN]\n{DECLARATIONS}: a [ASSIGN]\n{CONSTRAINTS}: Pattern(\"someExpr\" [QUOTED IDENT], \"wildcardExpr\" [EXPR WITH WILDCARD])";
     REQUIRE(processed == output);
     cout << processed;
 }
@@ -167,9 +168,9 @@ TEST_CASE("SingleConcretePatternConstraint_TokenizertoQOBuilder_returnsCorrect")
 TEST_CASE("expressionWildcard_TokenizertoQOBuilder_returnsCorrect") {
     std::string source = "assign a;"
                          "Select a "
-                         " pattern a (_, \"_wildcardExpr_\")";
+                         " pattern a (_, _\"wildcardExpr\"_)";
     std::string processed = testHelper(source);
-    std::string output = "{RETURN}: a [ASSIGN]\n{DECLARATIONS}: a [ASSIGN]\n{CONSTRAINTS}: Pattern(_ [EXPR WILDCARD], wildcardExpr [EXPR WITH WILDCARD])";
+    std::string output = "{RETURN}: a [ASSIGN]\n{DECLARATIONS}: a [ASSIGN]\n{CONSTRAINTS}: Pattern(_ [ENT WILDCARD], \"wildcardExpr\" [EXPR WITH WILDCARD])";
     REQUIRE(processed == output);
     cout << processed;
 }
@@ -197,13 +198,15 @@ TEST_CASE("StatementWildcard_TokenizertoQOBuilder_returnsCorrect") {
 }
 
 
-TEST_CASE("MultipleConstraints_TokenizertoQOBuilder_returnsCorrect") {
+TEST_CASE("1ConstraintWithPattern_TokenizertoQOBuilder_returnsCorrect") {
     std::string source = "if f;"
+                         "assign a"
                          "read r; "
                          "Select r "
-                         "such that Parent(_, r)";
+                         "such that Parent(_, r) "
+                         " pattern a (_, _\"wildcardExpr\"_)";
     std::string processed = testHelper(source);
-    std::string output = "{RETURN}: r [READ]\n{DECLARATIONS}: f [IF], r [READ]\n{CONSTRAINTS}: Parent(_ [STMT WILDCARD], r [READ])";
+    std::string output = "{RETURN}: r [READ]\n{DECLARATIONS}: f [IF], a [ASSIGN], r [READ]\n{CONSTRAINTS}: Parent(_ [STMT WILDCARD], r [READ])\nPattern(_ [ENT WILDCARD], \"wildcardExpr\" [EXPR WITH WILDCARD])";
     REQUIRE(processed == output);
     cout << processed;
 }
