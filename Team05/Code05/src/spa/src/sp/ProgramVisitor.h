@@ -7,6 +7,7 @@
 
 #include "Accumulator.h"
 
+class Procedure;
 class Read;
 class Print;
 class Call;
@@ -21,6 +22,8 @@ class Unary;
 
 class ProgramVisitor {
 public:
+    // Top-level Methods.
+    virtual void visitProcedure(const Procedure&) = 0;
     // Statement Methods
     virtual void visitReadStmt(const Read&, shared_ptr<Accumulator>&) = 0;
     virtual void visitPrintStmt(const Print&, shared_ptr<Accumulator>&) = 0;

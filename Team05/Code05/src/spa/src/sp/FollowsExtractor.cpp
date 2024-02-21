@@ -4,11 +4,13 @@
 
 #include "FollowsExtractor.h"
 
-//
-// Created by sjh_9 on 10/2/2024.
-//
-
-#include "FollowsExtractor.h"
+void FollowsExtractor::visitProcedure(const Procedure &procedure) {
+    auto prevStmtInfo = std::make_shared<Accumulator>();
+    for (const auto& stmt : *procedure.getBody()) {
+        stmt->accept(*this, prevStmtInfo);
+        prevStmtInfo->info.emplace_back(stmt->getStmtNo());
+    }
+}
 
 void FollowsExtractor::visitReadStmt(const Read& stmt, shared_ptr<Accumulator>& prevStmtInfo) {
     for (const auto& stmtNo : prevStmtInfo->info) {

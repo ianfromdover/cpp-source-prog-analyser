@@ -7,6 +7,7 @@
 
 #include "ProgramVisitor.h"
 #include "pkb/PopulatePKB.h"
+#include "Stmt.h"
 
 class RelationExtractor : public ProgramVisitor {
 protected:
@@ -14,6 +15,7 @@ protected:
 public:
     explicit RelationExtractor(PopulatePKB& pkb) : pkb(pkb) {}
     virtual ~RelationExtractor() = default;
+    void visitProcedure(const Procedure&) override;
 };
 
 

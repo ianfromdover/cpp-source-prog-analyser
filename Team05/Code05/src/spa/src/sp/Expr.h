@@ -6,9 +6,8 @@
 #define SPA_EXPR_H
 
 #include <vector>
-#include <variant>
 #include "Token.h"
-#include "RelationExtractor.h"
+#include "ProgramVisitor.h"
 
 class Expr;
 class Binary;
@@ -19,7 +18,7 @@ class Unary;
 class Expr {
 public:
     virtual ~Expr() = default;
-    virtual void accept(RelationExtractor& extractor, shared_ptr<Accumulator>& parentInfo) = 0;
+    virtual void accept(ProgramVisitor& visitor, shared_ptr<Accumulator>& parentInfo) = 0;
     [[nodiscard]] virtual std::string toString() const = 0;
 };
 
@@ -32,7 +31,7 @@ private:
 public:
     Binary(std::shared_ptr<Expr> left, std::shared_ptr<Token> op, std::shared_ptr<Expr> right)
         : left(std::move(left)), op(std::move(op)), right(std::move(right)) {}
-    void accept(RelationExtractor& extractor, shared_ptr<Accumulator>& parentInfo) override;
+    void accept(ProgramVisitor& visitor, shared_ptr<Accumulator>& parentInfo) override;
     [[nodiscard]] std::string toString() const override;
     [[nodiscard]] std::shared_ptr<Expr> const& getLeft() const;
     [[nodiscard]] std::shared_ptr<Token> const& getOP() const;
@@ -45,7 +44,7 @@ private:
 
 public:
     explicit Variable(std::string name) : name(std::move(name)) {}
-    void accept(RelationExtractor& extractor, shared_ptr<Accumulator>& parentInfo) override;
+    void accept(ProgramVisitor& visitor, shared_ptr<Accumulator>& parentInfo) override;
     [[nodiscard]] std::string toString() const override;
     [[nodiscard]] std::string getName() const;
 };
@@ -56,7 +55,7 @@ private:
 
 public:
     explicit Literal(int value) : value(value) {}
-    void accept(RelationExtractor& extractor, shared_ptr<Accumulator>& parentInfo) override;
+    void accept(ProgramVisitor& visitor, shared_ptr<Accumulator>& parentInfo) override;
     [[nodiscard]] std::string toString() const override;
     [[nodiscard]] int getValue() const;
 };
@@ -68,7 +67,7 @@ private:
 
 public:
     Unary(std::shared_ptr<Token> op, std::shared_ptr<Expr> right) : op(std::move(op)), right(std::move(right)) {}
-    void accept(RelationExtractor& extractor, shared_ptr<Accumulator>& parentInfo) override;
+    void accept(ProgramVisitor& visitor, shared_ptr<Accumulator>& parentInfo) override;
     [[nodiscard]] std::string toString() const override;
     [[nodiscard]] std::shared_ptr<Token> const& getOP() const;
     [[nodiscard]] std::shared_ptr<Expr> const& getRight() const;
