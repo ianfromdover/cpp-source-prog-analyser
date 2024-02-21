@@ -37,15 +37,15 @@ std::string Unary::toString() const {
     return "(" + this->op->getLexeme() + this->right->toString() + ")";
 }
 
-std::unique_ptr<Expr> const& Binary::getLeft() const {
+std::shared_ptr<Expr> const& Binary::getLeft() const {
     return this->left;
 }
 
-std::unique_ptr<Token> const& Binary::getOP() const {
+std::shared_ptr<Token> const& Binary::getOP() const {
     return this->op;
 }
 
-std::unique_ptr<Expr> const& Binary::getRight() const {
+std::shared_ptr<Expr> const& Binary::getRight() const {
     return this->right;
 }
 
@@ -57,10 +57,10 @@ int Literal::getValue() const {
     return value;
 }
 
-std::unique_ptr<Token> const& Unary::getOP() const {
+std::shared_ptr<Token> const& Unary::getOP() const {
     return this->op;
 }
 
-std::unique_ptr<Expr> const& Unary::getRight() const {
+std::shared_ptr<Expr> const& Unary::getRight() const {
     return this->right;
 }

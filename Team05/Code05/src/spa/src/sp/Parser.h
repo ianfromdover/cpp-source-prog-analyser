@@ -29,24 +29,24 @@ private:
 
     StmtNo nextStmtNo();
 
-    std::unique_ptr<Procedure> procedure();
-    std::unique_ptr<StmtList> stmtList();
-    std::unique_ptr<Stmt> stmt();
-    std::unique_ptr<Stmt> read();
-    std::unique_ptr<Stmt> print();
-    std::unique_ptr<Stmt> call();
-    std::unique_ptr<Stmt> loop();
-    std::unique_ptr<Stmt> cond();
-    std::unique_ptr<Stmt> assign();
+    std::shared_ptr<Procedure> procedure();
+    std::shared_ptr<StmtList> stmtList();
+    std::shared_ptr<Stmt> stmt();
+    std::shared_ptr<Stmt> read();
+    std::shared_ptr<Stmt> print();
+    std::shared_ptr<Stmt> call();
+    std::shared_ptr<Stmt> loop();
+    std::shared_ptr<Stmt> cond();
+    std::shared_ptr<Stmt> assign();
 
-    std::unique_ptr<Expr> condExpr();
-    std::unique_ptr<Expr> relExpr();
-    std::unique_ptr<Expr> relFactor();
-    std::unique_ptr<Expr> expr();
-    std::unique_ptr<Expr> exprTail(std::unique_ptr<Expr> left);
-    std::unique_ptr<Expr> term();
-    std::unique_ptr<Expr> termTail(std::unique_ptr<Expr> left);
-    std::unique_ptr<Expr> factor();
+    std::shared_ptr<Expr> condExpr();
+    std::shared_ptr<Expr> relExpr();
+    std::shared_ptr<Expr> relFactor();
+    std::shared_ptr<Expr> expr();
+    std::shared_ptr<Expr> exprTail(std::shared_ptr<Expr> left);
+    std::shared_ptr<Expr> term();
+    std::shared_ptr<Expr> termTail(std::shared_ptr<Expr> left);
+    std::shared_ptr<Expr> factor();
 };
 
 
