@@ -22,9 +22,18 @@ std::shared_ptr<QueryObject> QueryPreprocessor::processQuery(std::string & query
 
     RuleSet ruleSet;
     std::string validationResults;
-    for (auto& rule : ruleSet.getRules()){
+    for (auto& rule : ruleSet.getDeclarationRules()){
          std::string result = rule->validate(*intermediateQuery);
          validationResults.append(result.empty()? "" : result + ", ");
+    }
+
+    if (validationResults.empty()){
+        intermediateQuery->processDeclarations();
+
+        for (auto& rule : ruleSet.getRules()){
+            std::string result = rule->validate(*intermediateQuery);
+            validationResults.append(result.empty()? "" : result + ", ");
+        }
     }
 
     if (!validationResults.empty()){

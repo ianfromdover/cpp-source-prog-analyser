@@ -87,7 +87,7 @@ std::shared_ptr<PatternClause> IntermediateQuery::getPatternClause() {
             return std::dynamic_pointer_cast<PatternClause>(clause);
         }
     }
-    throw std::runtime_error("No relationship clause found");
+    throw std::runtime_error("No pattern clause found");
 }
 
 
