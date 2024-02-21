@@ -10,6 +10,9 @@ bool QPSMultiCharacterStrategy::tokenize(char character, std::stringstream &stre
                                          bool &declarationStarted) {
     if (std::isalpha(character)) {
         std::string name = character + readWhile(stream, [](char ch) { return std::isalnum(ch); });
+        if (starAllowed(name) && '*' == static_cast<char>(stream.peek())){
+            name += static_cast<char>(stream.get());
+        }
         if (declarationStarted) {
             if (tokens.getTokens().back()->getType().getInfo() == QPSTokenType::SELECT) {
                 declarationStarted = false;
@@ -43,9 +46,9 @@ bool QPSMultiCharacterStrategy::expectSynonymNext(const std::string &name, QPSTo
 
             // Relations
             {"Follows",   QPSTokenType::FOLLOWS},
-            //{"Follows*",  QPSTokenType::FOLLOWS_T},
+            {"Follows*",  QPSTokenType::FOLLOWS_T},
             {"Parent",    QPSTokenType::PARENT},
-            //{"Parent*",   QPSTokenType::PARENT_T},
+            {"Parent*",   QPSTokenType::PARENT_T},
             {"Modifies",  QPSTokenType::MODIFIES_S},
             {"Uses",      QPSTokenType::USES_S},
 
@@ -87,4 +90,13 @@ QPSMultiCharacterStrategy::readWhile(std::stringstream &stream, const std::funct
         nextChar = static_cast<char>(stream.peek());
     }
     return result;
+}
+
+bool QPSMultiCharacterStrategy::starAllowed(const std::string& name) {
+    static const std::map<std::string, QPSTokenType::QPSTypeInfo> declarationKeywords = {
+            // Design entities
+            {"Parent",      QPSTokenType::PARENT},
+            {"Follows",      QPSTokenType::FOLLOWS}};
+
+    return declarationKeywords.find(name) != declarationKeywords.end();
 }
