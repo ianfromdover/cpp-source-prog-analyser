@@ -200,7 +200,7 @@ TEST_CASE("StatementWildcard_TokenizertoQOBuilder_returnsCorrect") {
 
 TEST_CASE("1ConstraintWithPattern_TokenizertoQOBuilder_returnsCorrect") {
     std::string source = "if f;"
-                         "assign a"
+                         "assign a;"
                          "read r; "
                          "Select r "
                          "such that Parent(_, r) "
