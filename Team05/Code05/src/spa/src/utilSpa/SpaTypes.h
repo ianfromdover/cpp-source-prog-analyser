@@ -21,6 +21,7 @@
 #define RETURN_TYPE_CONSTANT "Constant"
 #define RETURN_TYPE_EXPRESSION "Expression"
 #define RETURN_TYPE_EXPRESSION_W_WILDCARD "ExpressionWithWildcard"
+#define RETURN_TYPE_QUOTED_IDENT "QuotedIdentity"
 
 #define REFERENCE_TYPE_EXPRESSION "ExpressionReference"
 #define REFERENCE_TYPE_ENTITY "EntityReference"

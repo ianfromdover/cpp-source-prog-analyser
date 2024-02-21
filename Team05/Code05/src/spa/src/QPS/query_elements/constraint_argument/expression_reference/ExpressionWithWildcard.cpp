@@ -17,5 +17,5 @@ ExpressionWithWildcard::ExpressionWithWildcard(std::string s) {
 }
 
 std::string ExpressionWithWildcard::toString() {
-    return this->regularExpression + "[EXPR WITH WILDCARD]";
+    return this->regularExpression + " [EXPR WITH WILDCARD]";
 }
