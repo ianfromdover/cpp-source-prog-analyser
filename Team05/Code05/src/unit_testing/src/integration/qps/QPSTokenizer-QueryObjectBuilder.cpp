@@ -29,33 +29,120 @@ std::string testHelper(std::string source) {
 }
 
 TEST_CASE("OneDeclaration_TokenizertoQOBuilder_ReturnsOneSelectClause") {
-    std::string source = "stmt s;";
+    std::string source = "stmt s;"
+                         "Select s";
     std::string processed = testHelper(source);
-    std::string output = "{DECLARATIONS}: s [STMT]";
+    std::string output = "{RETURN}: s [STMT]\n{DECLARATIONS}: s [STMT]";
+    REQUIRE(processed == output);
+}
+
+TEST_CASE("MultipleDeclaration_TokenizertoQOBuilder_ReturnsAllDeclaration") {
+    std::string source = "stmt s;"
+                         "variable v; "
+                         "call cal; "
+                         "read r; "
+                         "print pr; "
+                         "while w; "
+                         "if ifs; "
+                         "assign a; "
+                         "constant c; "
+                         "procedure p; "
+                         "Select pr";
+    std::string processed = testHelper(source);
+    std::string output = "{RETURN} pr [PRINT]\n{DECLARATIONS}: s [STMT], v [VARIABLE], cal [CALL], r [READ], pr [PRINT], w [WHILE], ifs [IF], a [ASSIGN], c [CONSTANT], p [PROCEDURE]";
     REQUIRE(processed == output);
     cout << processed;
 }
 
-TEST_CASE("MultipleDeclaration_TokenizertoQOBuilder_ReturnsOneSelectClause") {
-    std::string source = "if s;";
+TEST_CASE("commasInDeclaration_TokenizertoQOBuilder_returnsCorrect") {
+    std::string source = "read v, v1, v2, v3;"
+                         "read v4; "
+                         "Select v1";
     std::string processed = testHelper(source);
-    std::string output = "{DECLARATIONS}: s [STMT], c [STMT], p [PRINT]";
-//    REQUIRE(processed == output);
-    cout << processed;
-}
-
-TEST_CASE("query1_TokenizertoQOBuilder_returnsCorrect") {
-    std::string source = "variable v;" // Declaration Clause 1 : map<STMT,"s">
-                         "variable v1; " // Declaration Clause 2 : map<STMT,"s1">
-                         "Select v " // Select Clause : "s"
-                         "such that Modifies*(v1, v)"; // Relationship Clause : PARENT, STMT_REF, INTEGER="1", STMT_REF, SYNONYM="s"
-//                         "pattern s(_, _\"x+y\"_)";
-    std::string processed = testHelper(source);
-    std::string output = "{DECLARATIONS}: s [STMT], c [STMT], p [PRINT]";
-//    REQUIRE(processed == output);
+    std::string output = "{RETURN}: v1 [READ]\n{DECLARATIONS}: v [READ], v1 [READ], v2 [READ], v3 [READ], v4 [READ]";
+    REQUIRE(processed == output);
     cout << processed;
 }
 
 
 
+TEST_CASE("singleFollowsConstraint_TokenizertoQOBuilder_returnsCorrect") {
+    std::string source = "if f;"
+                         "while w;"
+                         "Select w "
+                         "such that Parent(f, w)";
+    std::string processed = testHelper(source);
+    std::string output = "{RETURN}: v1 [READ]\n{DECLARATIONS}: v [READ], v1 [READ], v2 [READ], v3 [READ], v4 [READ]";
+    REQUIRE(processed == output);
+    cout << processed;
+}
 
+TEST_CASE("singleFollowsTConstraint_TokenizertoQOBuilder_returnsCorrect") {
+    std::string source = "read v, v1, v2, v3;"
+                         "read v4; "
+                         "Select v1";
+    std::string processed = testHelper(source);
+    std::string output = "{RETURN}: v1 [READ]\n{DECLARATIONS}: v [READ], v1 [READ], v2 [READ], v3 [READ], v4 [READ]";
+    REQUIRE(processed == output);
+    cout << processed;
+}
+
+TEST_CASE("singleParentConstraint_TokenizertoQOBuilder_returnsCorrect") {
+    std::string source = "read v, v1, v2, v3;"
+                         "read v4; "
+                         "Select v1";
+    std::string processed = testHelper(source);
+    std::string output = "{RETURN}: v1 [READ]\n{DECLARATIONS}: v [READ], v1 [READ], v2 [READ], v3 [READ], v4 [READ]";
+    REQUIRE(processed == output);
+    cout << processed;
+}
+
+TEST_CASE("singleParentTConstraint_TokenizertoQOBuilder_returnsCorrect") {
+    std::string source = "read v, v1, v2, v3;"
+                         "read v4; "
+                         "Select v1";
+    std::string processed = testHelper(source);
+    std::string output = "{RETURN}: v1 [READ]\n{DECLARATIONS}: v [READ], v1 [READ], v2 [READ], v3 [READ], v4 [READ]";
+    REQUIRE(processed == output);
+    cout << processed;
+}
+
+TEST_CASE("singleUsesSConstraint_TokenizertoQOBuilder_returnsCorrect") {
+    std::string source = "read v, v1, v2, v3;"
+                         "read v4; "
+                         "Select v1";
+    std::string processed = testHelper(source);
+    std::string output = "{RETURN}: v1 [READ]\n{DECLARATIONS}: v [READ], v1 [READ], v2 [READ], v3 [READ], v4 [READ]";
+    REQUIRE(processed == output);
+    cout << processed;
+}
+
+TEST_CASE("singleUsesPConstraint_TokenizertoQOBuilder_returnsCorrect") {
+    std::string source = "read v, v1, v2, v3;"
+                         "read v4; "
+                         "Select v1";
+    std::string processed = testHelper(source);
+    std::string output = "{RETURN}: v1 [READ]\n{DECLARATIONS}: v [READ], v1 [READ], v2 [READ], v3 [READ], v4 [READ]";
+    REQUIRE(processed == output);
+    cout << processed;
+}
+
+TEST_CASE("singleModifiesSConstraint_TokenizertoQOBuilder_returnsCorrect") {
+    std::string source = "read v, v1, v2, v3;"
+                         "read v4; "
+                         "Select v1";
+    std::string processed = testHelper(source);
+    std::string output = "{RETURN}: v1 [READ]\n{DECLARATIONS}: v [READ], v1 [READ], v2 [READ], v3 [READ], v4 [READ]";
+    REQUIRE(processed == output);
+    cout << processed;
+}
+
+TEST_CASE("singleModifiesPConstraint_TokenizertoQOBuilder_returnsCorrect") {
+    std::string source = "read v, v1, v2, v3;"
+                         "read v4; "
+                         "Select v1";
+    std::string processed = testHelper(source);
+    std::string output = "{RETURN}: v1 [READ]\n{DECLARATIONS}: v [READ], v1 [READ], v2 [READ], v3 [READ], v4 [READ]";
+    REQUIRE(processed == output);
+    cout << processed;
+}

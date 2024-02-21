@@ -35,6 +35,7 @@ bool QPSMultiCharacterStrategy::expectSynonymNext(const std::string &name, QPSTo
             {"print",     QPSTokenType::PRINT},
             {"while",     QPSTokenType::WHILE},
             {"if",        QPSTokenType::IF},
+            {"call",      QPSTokenType::CALL},
             {"assign",    QPSTokenType::ASSIGN},
             {"variable",  QPSTokenType::VARIABLE},
             {"constant",  QPSTokenType::CONSTANT},
@@ -42,9 +43,9 @@ bool QPSMultiCharacterStrategy::expectSynonymNext(const std::string &name, QPSTo
 
             // Relations
             {"Follows",   QPSTokenType::FOLLOWS},
-            {"Follows*",  QPSTokenType::FOLLOWS_T},
+            //{"Follows*",  QPSTokenType::FOLLOWS_T},
             {"Parent",    QPSTokenType::PARENT},
-            {"Parent*",   QPSTokenType::PARENT_T},
+            //{"Parent*",   QPSTokenType::PARENT_T},
             {"Modifies",  QPSTokenType::MODIFIES_S},
             {"Uses",      QPSTokenType::USES_S},
 
@@ -55,6 +56,9 @@ bool QPSMultiCharacterStrategy::expectSynonymNext(const std::string &name, QPSTo
 
     auto it = declarationKeywords.find(name);
     if (it != declarationKeywords.end()) {
+//        if (it->second == QPSTokenType::PARENT || it->second == QPSTokenType::FOLLOWS){
+//            if ()
+//        }
         if (it->second == QPSTokenType::THAT) {
             if (!tokens.getTokens().empty() && tokens.getTokens().back()->getLexeme() == "such") {
                 QPSToken t = *tokens.getTokens().back();

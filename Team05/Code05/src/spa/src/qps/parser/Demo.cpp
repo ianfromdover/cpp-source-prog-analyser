@@ -3,23 +3,29 @@
 //
 
 #include <map>
-#include <iostream>
 #include "Demo.h"
 #include "qps/tokenizer/Tokenizer.h"
 #include "QPSParser.h"
-#include "../query_builder/QueryObjectBuilder.h"
 
     void Demo::demonstrate() {
 
         // Run TestParser::scratch pad or just call Demo() in some unit test. Following code exist inside constructor.
 
-        std::string source = "stmt s, s2;" // Declaration Clause 1 : map<STMT,"s">
-                             "assign a; variable v, v1; " // Declaration Clause 2 : map<STMT,"s1">
-                             "Select s " // Select Clause : "s"
-                             "such that ParentT(s, s2) " // Relationship Clause : PARENT, STMT_REF, INTEGER="1", STMT_REF, SYNONYM="s"
-                             "pattern s(_, _\"x+y\"_)"; // Pattern Clause : PATTERN, SYNONYM="s", ENT_REF, WILDCARD, EXPR_WILDCARD="\"x+y\""
-                             // (NOTE: wildcard character is not present. can differentiate <'"' expr'"'=EXPR> vs <'_' '"' expr '"' '_'=EXPR_WILDCARD>)
+        std::string source = "stmt s;" // Declaration Clause 1 : map<STMT,"s">
+                             "variable v; " // Declaration Clause 2 : map<STMT,"s1">
+                             "call cal; " // Declaration Clause 2 : map<STMT,"s1">
+                             "read r; " // Declaration Clause 2 : map<STMT,"s1">
+                             "print pr; " // Declaration Clause 2 : map<STMT,"s1">
+                             "while w; " // Declaration Clause 2 : map<STMT,"s1">
+                             "if ifs; " // Declaration Clause 2 : map<STMT,"s1">
+                             "assign a; " // Declaration Clause 2 : map<STMT,"s1">
+                             "constant c; " // Declaration Clause 2 : map<STMT,"s1">
+                             "procedure p; " // Declaration Clause 2 : map<STMT,"s1">
 
+                             "Select s " // Select Clause : "s"
+                             "such that Modifies(c, v) "; // Relationship Clause : PARENT, STMT_REF, INTEGER="1", STMT_REF, SYNONYM="s"
+//                             "pattern s(_, _\"x+y\"_)"; // Pattern Clause : PATTERN, SYNONYM="s", ENT_REF, WILDCARD, EXPR_WILDCARD="\"x+y\""
+                             // (NOTE: wildcard character is not present. can differentiate <'"' expr'"'=EXPR> vs <'_' '"' expr '"' '_'=EXPR_WILDCARD>)
 
         std::shared_ptr<QPSStrategyList> strategies = std::make_shared<QPSStrategyList>();             //ignore
         std::shared_ptr<QPSTokenList> tokens = std::make_shared<QPSTokenList>();                       //ignore
@@ -29,11 +35,6 @@
 
         std::shared_ptr<IntermediateQuery> intermediateQuery = parser.parse();                   // Will receive this shared pointer
         intermediateQuery->processDeclarations(); // called by validator, ignore
-
-        QueryObjectBuilderTest builder;
-        std::shared_ptr<QueryObject> qo = builder.build(intermediateQuery);
-
-        std::cout << qo->toString();
 
         // Returns a map <synonym=STRING, type=TYPEINFO> of all declared synonyms for easier search, guaranteed declaration synonyms are unique
         std::map<std::string, QPSTokenType::QPSTypeInfo> synonymTypeMap = intermediateQuery->getSynonymTypeMap();
