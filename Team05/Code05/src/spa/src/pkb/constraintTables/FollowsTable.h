@@ -6,7 +6,7 @@
 
 class FollowsTable {
 private:
-    TwoSideMapOneOne<StmtNo, StmtNo> twoSideMap; // actually this can be a twosidemap
+    TwoSideMapOneOne<StmtNo, StmtNo> twoSideMap;
 public:
     FollowsTable();
     // Adds a follows relationship to the follows table, returns true if the relationship is added
