@@ -4,12 +4,14 @@
 #include <utilSpa/SpaTypes.h>
 #include <qps/query_elements/constraint/ParentTConstraint.h>
 #include <memory>
+#include <utility>
 #include "qps/QueryEvaluator/QueryResult/QueryResult.h"
 #include "PKBStorage.h"
 
 // The interface between PKB and QPS
 class QueryPKB {
 private:
+    std::shared_ptr<PKBStorage> pkb;
 public:
     QueryPKB() = default;
     QueryPKB(std::shared_ptr<PKBStorage> p);
@@ -18,7 +20,6 @@ public:
     vector<StmtNo> getChildren(StmtNo parent);
     StmtNo getParent(StmtNo child);
     vector<StmtNo> getSiblings(StmtNo child);
-    std::shared_ptr<PKBStorage> pkb;
 
     bool getFollows(StmtNo before, StmtNo after);
     bool getParent(StmtNo parent, StmtNo child);

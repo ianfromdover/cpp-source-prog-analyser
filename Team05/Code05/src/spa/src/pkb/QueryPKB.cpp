@@ -6,13 +6,11 @@
 #include "qps/query_elements/constraint_argument/StatementEntity.h"
 
 QueryPKB::QueryPKB(std::shared_ptr<PKBStorage> p) {
-    pkb = p;
+    pkb = std::move(p);
 }
 
 QueryPKB::~QueryPKB() {}
 
-PKBStorage pkb;
-ParentTable pt;
 
 bool QueryPKB::getFollows(StmtNo before, StmtNo after) {
     return false;
@@ -22,11 +20,11 @@ bool QueryPKB::getParent(StmtNo parent, StmtNo child) {
 }
 
 vector<StmtNo> QueryPKB::getChildren(StmtNo parent) {
-    return pt.getChildren(parent);
+    return pkb->parentTable->getChildren(parent);
 }
 
 StmtNo QueryPKB::getParent(StmtNo child) {
-    return pt.getParent(child);
+    return pkb->parentTable->getParent(child);
 }
 
 std::shared_ptr<QueryResult> QueryPKB::getResult(Returnable &r, Constraint &c) {
