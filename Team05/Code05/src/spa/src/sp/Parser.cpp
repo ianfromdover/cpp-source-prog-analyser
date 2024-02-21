@@ -6,7 +6,7 @@
 #include "Parser.h"
 
 Program Parser::parse() {
-    Program program = std::make_unique<std::vector<std::unique_ptr<Procedure>>>();
+    Program program = std::make_shared<std::vector<std::shared_ptr<Procedure>>>();
     while (!this->isAtEnd()) {
         program->push_back(this->procedure());
     }
@@ -63,7 +63,7 @@ StmtNo Parser::nextStmtNo() {
     return this->currentStmtNo;
 }
 
-std::unique_ptr<Procedure> Parser::procedure() {
+std::shared_ptr<Procedure> Parser::procedure() {
     // 'procedure' proc_name '{' stmtLst '}'
     this->consume(TokenType::PROCEDURE, "Expect procedure in source file.");
     this->consume(TokenType::NAME, "Expect procedure name after procedure declaration.");
@@ -71,18 +71,18 @@ std::unique_ptr<Procedure> Parser::procedure() {
     this->consume(TokenType::LEFT_BRACE, "Expect '{' after procedure name.");
     auto body = this->stmtList();
     this->consume(TokenType::RIGHT_BRACE, "Expect '}' after procedure body.");
-    return std::make_unique<Procedure>(procName, std::move(body));
+    return std::make_shared<Procedure>(procName, std::move(body));
 }
 
-std::unique_ptr<StmtList> Parser::stmtList() {
-    StmtList stmts = std::vector<std::unique_ptr<Stmt>>();
+std::shared_ptr<StmtList> Parser::stmtList() {
+    StmtList stmts = std::vector<std::shared_ptr<Stmt>>();
     do {
         stmts.push_back(this->stmt());
     } while (!this->check(TokenType::RIGHT_BRACE) && !this->isAtEnd());
-    return std::make_unique<StmtList>(std::move(stmts));
+    return std::make_shared<StmtList>(std::move(stmts));
 }
 
-std::unique_ptr<Stmt> Parser::stmt() {
+std::shared_ptr<Stmt> Parser::stmt() {
     if (this->match({ TokenType::READ })) {
         return this->read();
     }
@@ -106,28 +106,28 @@ std::unique_ptr<Stmt> Parser::stmt() {
     return this->assign();
 }
 
-std::unique_ptr<Stmt> Parser::read() {
+std::shared_ptr<Stmt> Parser::read() {
     this->consume(TokenType::NAME, "Expect variable name after 'read'.");
-    auto variable = std::make_unique<Variable>(this->previous().getLexeme());
+    auto variable = std::make_shared<Variable>(this->previous().getLexeme());
     this->consume(TokenType::SEMICOLON, "Expect ';' at the end of 'read' statement.");
-    return std::make_unique<Read>(this->nextStmtNo(), std::move(variable));
+    return std::make_shared<Read>(this->nextStmtNo(), std::move(variable));
 }
 
-std::unique_ptr<Stmt> Parser::print() {
+std::shared_ptr<Stmt> Parser::print() {
     this->consume(TokenType::NAME, "Expect variable name after 'print'.");
-    auto variable = std::make_unique<Variable>(this->previous().getLexeme());
+    auto variable = std::make_shared<Variable>(this->previous().getLexeme());
     this->consume(TokenType::SEMICOLON, "Expect ';' at the end of 'print' statement.");
-    return std::make_unique<Print>(this->nextStmtNo(), std::move(variable));
+    return std::make_shared<Print>(this->nextStmtNo(), std::move(variable));
 }
 
-std::unique_ptr<Stmt> Parser::call() {
+std::shared_ptr<Stmt> Parser::call() {
     this->consume(TokenType::NAME, "Expect procedure name after 'call'.");
     auto procName = this->previous().getLexeme();
     this->consume(TokenType::SEMICOLON, "Expect ';' at the end of 'call' statement.");
-    return std::make_unique<Call>(this->nextStmtNo(), procName);
+    return std::make_shared<Call>(this->nextStmtNo(), procName);
 }
 
-std::unique_ptr<Stmt> Parser::loop() {
+std::shared_ptr<Stmt> Parser::loop() {
     const auto stmtNo = this->nextStmtNo();
 
     this->consume(TokenType::LEFT_PAREN, "Expect '(' before conditional expression.");
@@ -138,10 +138,10 @@ std::unique_ptr<Stmt> Parser::loop() {
     auto body = this->stmtList();
     this->consume(TokenType::RIGHT_BRACE, "Expect '}' after loop body.");
 
-    return std::make_unique<While>(stmtNo, std::move(condition), std::move(body));
+    return std::make_shared<While>(stmtNo, std::move(condition), std::move(body));
 }
 
-std::unique_ptr<Stmt> Parser::cond() {
+std::shared_ptr<Stmt> Parser::cond() {
     const auto stmtNo = this->nextStmtNo();
 
     this->consume(TokenType::LEFT_PAREN, "Expect '(' before conditional expression.");
@@ -158,115 +158,115 @@ std::unique_ptr<Stmt> Parser::cond() {
     auto elseBranch = this->stmtList();
     this->consume(TokenType::RIGHT_BRACE, "Expect '}' at the end of 'else' branch.");
 
-    return std::make_unique<If>(stmtNo, std::move(condition), std::move(thenBranch), std::move(elseBranch));
+    return std::make_shared<If>(stmtNo, std::move(condition), std::move(thenBranch), std::move(elseBranch));
 }
 
-std::unique_ptr<Stmt> Parser::assign() {
+std::shared_ptr<Stmt> Parser::assign() {
     this->consume(TokenType::NAME, "Expect name for assignment.");
-    auto variable = std::make_unique<Variable>(this->previous().getLexeme());
+    auto variable = std::make_shared<Variable>(this->previous().getLexeme());
     this->consume(TokenType::ASSIGN, "Expect '=' after variable name.");
     auto value = this->expr();
     this->consume(TokenType::SEMICOLON, "Expect ';' at the end of assignment statement.");
-    return std::make_unique<Assign>(this->nextStmtNo(), std::move(variable), std::move(value));
+    return std::make_shared<Assign>(this->nextStmtNo(), std::move(variable), std::move(value));
 }
 
-std::unique_ptr<Expr> Parser::condExpr() {
+std::shared_ptr<Expr> Parser::condExpr() {
     // '(' cond_expr ')' ('&&' | '||') '(' cond_expr ')' | '!' '(' cond_expr ')' | rel_expr
     if (this->match({ TokenType::LEFT_PAREN })) {
         auto left = this->condExpr();
         this->consume(TokenType::RIGHT_PAREN, "Expect ')' after expression.");
 
         if (this->match({ TokenType::AND, TokenType::OR })) {
-            auto op = std::make_unique<Token>(this->previous());
+            auto op = std::make_shared<Token>(this->previous());
 
             this->consume(TokenType::LEFT_PAREN, "Expect '(' after logical operator.");
             auto right = this->condExpr();
             this->consume(TokenType::RIGHT_PAREN, "Expect ')' after expression.");
 
-            return std::make_unique<Binary>(std::move(left), std::move(op), std::move(right));
+            return std::make_shared<Binary>(std::move(left), std::move(op), std::move(right));
         }
         // TODO: Unify handling of syntax errors.
         throw "Expect '&&' or '||' after expression.";
     }
 
     if (this->match({ TokenType::BANG })) {
-        auto op = std::make_unique<Token>(this->previous());
+        auto op = std::make_shared<Token>(this->previous());
 
         this->consume(TokenType::LEFT_PAREN, "Expect '(' after 'not' operator.");
         auto right = this->condExpr();
         this->consume(TokenType::RIGHT_PAREN, "Expect ')' after expression.");
 
-        return std::make_unique<Unary>(std::move(op), std::move(right));
+        return std::make_shared<Unary>(std::move(op), std::move(right));
     }
 
     return this->relExpr();
 }
 
-std::unique_ptr<Expr> Parser::relExpr() {
+std::shared_ptr<Expr> Parser::relExpr() {
     // rel_factor ('>' | '>=' | '<' | '<=' | '==' | '!=') rel_factor
     auto left = this->relFactor();
     if (this->match({ TokenType::GREATER, TokenType::GREATER_EQUAL, TokenType::LESSER,
                       TokenType::LESSER_EQUAL, TokenType::EQUAL_EQUAL, TokenType::BANG_EQUAL })) {
-        auto op = std::make_unique<Token>(this->previous());
+        auto op = std::make_shared<Token>(this->previous());
         auto right = this->relFactor();
-        return std::make_unique<Binary>(std::move(left), std::move(op), std::move(right));
+        return std::make_shared<Binary>(std::move(left), std::move(op), std::move(right));
     }
 
     // TODO: Unify handling of syntax errors.
     throw "Expect '>', '>=', '<', '<=', '==', or '!=' after expression.";
 }
 
-std::unique_ptr<Expr> Parser::relFactor() {
+std::shared_ptr<Expr> Parser::relFactor() {
     // var_name | const_value | expr
     if (this->match({ TokenType::NAME })) {
-        return std::make_unique<Variable>(this->previous().getLexeme());
+        return std::make_shared<Variable>(this->previous().getLexeme());
     }
 
     if (this->match({ TokenType::INTEGER })) {
-        return std::make_unique<Literal>(std::stoi(this->previous().getLexeme()));
+        return std::make_shared<Literal>(std::stoi(this->previous().getLexeme()));
     }
 
     return this->expr();
 }
 
-std::unique_ptr<Expr> Parser::expr() {
+std::shared_ptr<Expr> Parser::expr() {
     // term expr_tail
     return this->exprTail(this->term());
 }
 
-std::unique_ptr<Expr> Parser::exprTail(std::unique_ptr<Expr> left) {
+std::shared_ptr<Expr> Parser::exprTail(std::shared_ptr<Expr> left) {
     // ('+' | '-') term expr_tail | empty
     if (this->match({ TokenType::ADD, TokenType::SUBTRACT })) {
-        auto op = std::make_unique<Token>(this->previous());
+        auto op = std::make_shared<Token>(this->previous());
         auto right = this->term();
-        return this->exprTail(std::make_unique<Binary>(std::move(left), std::move(op), std::move(right)));
+        return this->exprTail(std::make_shared<Binary>(std::move(left), std::move(op), std::move(right)));
     }
     return left;
 }
 
-std::unique_ptr<Expr> Parser::term() {
+std::shared_ptr<Expr> Parser::term() {
     // factor term_tail
     return this->termTail(this->factor());
 }
 
-std::unique_ptr<Expr> Parser::termTail(std::unique_ptr<Expr> left) {
+std::shared_ptr<Expr> Parser::termTail(std::shared_ptr<Expr> left) {
     // ('*' | '/' | '%') factor term_tail | empty
     if (this->match({ TokenType::MULTIPLY, TokenType::DIVIDE, TokenType::MOD })) {
-        auto op = std::make_unique<Token>(this->previous());
+        auto op = std::make_shared<Token>(this->previous());
         auto right = this->factor();
-        return this->termTail(std::make_unique<Binary>(std::move(left), std::move(op), std::move(right)));
+        return this->termTail(std::make_shared<Binary>(std::move(left), std::move(op), std::move(right)));
     }
     return left;
 }
 
-std::unique_ptr<Expr> Parser::factor() {
+std::shared_ptr<Expr> Parser::factor() {
     // var_name | const_value | '(' expr ')'
     if (this->match({ TokenType::NAME })) {
-        return std::make_unique<Variable>(this->previous().getLexeme());
+        return std::make_shared<Variable>(this->previous().getLexeme());
     }
 
     if (this->match({ TokenType::INTEGER })) {
-        return std::make_unique<Literal>(std::stoi(this->previous().getLexeme()));
+        return std::make_shared<Literal>(std::stoi(this->previous().getLexeme()));
     }
 
     this->consume(TokenType::LEFT_PAREN, "Expect '(' before expression.");

@@ -99,7 +99,7 @@ void Assign::accept(RelationExtractor& extractor, shared_ptr<Accumulator>& paren
     extractor.visitAssignStmt(*this, parentInfo);
 }
 
-std::unique_ptr<StmtList> const& Procedure::getBody() const {
+std::shared_ptr<StmtList> const& Procedure::getBody() const {
     return this->body;
 }
 
@@ -107,11 +107,11 @@ std::string Procedure::getProcName() const {
     return this->name;
 }
 
-std::unique_ptr<Variable> const& Read::getVariable() const {
+std::shared_ptr<Variable> const& Read::getVariable() const {
     return this->variable;
 }
 
-std::unique_ptr<Variable> const& Print::getVariable() const {
+std::shared_ptr<Variable> const& Print::getVariable() const {
     return this->variable;
 }
 
@@ -119,30 +119,30 @@ std::string Call::getProcName() const {
     return procName;
 }
 
-std::unique_ptr<Expr> const& While::getCondition() const {
+std::shared_ptr<Expr> const& While::getCondition() const {
     return this->condition;
 }
 
-std::unique_ptr<StmtList> const& While::getBody() const {
+std::shared_ptr<StmtList> const& While::getBody() const {
     return this->body;
 }
 
-std::unique_ptr<Expr> const& If::getCondition() const {
+std::shared_ptr<Expr> const& If::getCondition() const {
     return this->condition;
 }
 
-std::unique_ptr<StmtList> const& If::getThenBranch() const {
+std::shared_ptr<StmtList> const& If::getThenBranch() const {
     return this->thenBranch;
 }
 
-std::unique_ptr<StmtList> const& If::getElseBranch() const {
+std::shared_ptr<StmtList> const& If::getElseBranch() const {
     return this->elseBranch;
 }
 
-std::unique_ptr<Expr> const& Assign::getVariable() const {
+std::shared_ptr<Expr> const& Assign::getVariable() const {
     return this->variable;
 }
 
-std::unique_ptr<Expr> const& Assign::getValue() const {
+std::shared_ptr<Expr> const& Assign::getValue() const {
     return this->value;
 }

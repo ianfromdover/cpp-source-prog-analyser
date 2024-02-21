@@ -25,18 +25,18 @@ public:
 
 class Binary : public Expr {
 private:
-    std::unique_ptr<Expr> left;
-    std::unique_ptr<Token> op;
-    std::unique_ptr<Expr> right;
+    std::shared_ptr<Expr> left;
+    std::shared_ptr<Token> op;
+    std::shared_ptr<Expr> right;
 
 public:
-    Binary(std::unique_ptr<Expr> left, std::unique_ptr<Token> op, std::unique_ptr<Expr> right)
+    Binary(std::shared_ptr<Expr> left, std::shared_ptr<Token> op, std::shared_ptr<Expr> right)
         : left(std::move(left)), op(std::move(op)), right(std::move(right)) {}
     void accept(RelationExtractor& extractor, shared_ptr<Accumulator>& parentInfo) override;
     [[nodiscard]] std::string toString() const override;
-    [[nodiscard]] std::unique_ptr<Expr> const& getLeft() const;
-    [[nodiscard]] std::unique_ptr<Token> const& getOP() const;
-    [[nodiscard]] std::unique_ptr<Expr> const& getRight() const;
+    [[nodiscard]] std::shared_ptr<Expr> const& getLeft() const;
+    [[nodiscard]] std::shared_ptr<Token> const& getOP() const;
+    [[nodiscard]] std::shared_ptr<Expr> const& getRight() const;
 };
 
 class Variable : public Expr {
@@ -63,15 +63,15 @@ public:
 
 class Unary : public Expr {
 private:
-    std::unique_ptr<Token> op;
-    std::unique_ptr<Expr> right;
+    std::shared_ptr<Token> op;
+    std::shared_ptr<Expr> right;
 
 public:
-    Unary(std::unique_ptr<Token> op, std::unique_ptr<Expr> right) : op(std::move(op)), right(std::move(right)) {}
+    Unary(std::shared_ptr<Token> op, std::shared_ptr<Expr> right) : op(std::move(op)), right(std::move(right)) {}
     void accept(RelationExtractor& extractor, shared_ptr<Accumulator>& parentInfo) override;
     [[nodiscard]] std::string toString() const override;
-    [[nodiscard]] std::unique_ptr<Token> const& getOP() const;
-    [[nodiscard]] std::unique_ptr<Expr> const& getRight() const;
+    [[nodiscard]] std::shared_ptr<Token> const& getOP() const;
+    [[nodiscard]] std::shared_ptr<Expr> const& getRight() const;
 };
 
 #endif //SPA_EXPR_H
