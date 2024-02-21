@@ -1,12 +1,12 @@
 #pragma once
 #define SPA_QUERYPKB_H
 
-#include <utilSpa/SpaTypes.h>
-#include <qps/query_elements/constraint/ParentTConstraint.h>
 #include <memory>
 #include <utility>
-#include "qps/QueryEvaluator/QueryResult/QueryResult.h"
+#include <utilSpa/SpaTypes.h>
 #include "PKBStorage.h"
+#include "qps/query_elements/constraint/ParentTConstraint.h"
+#include "qps/QueryEvaluator/QueryResult/QueryResult.h"
 
 // The interface between PKB and QPS
 class QueryPKB {
