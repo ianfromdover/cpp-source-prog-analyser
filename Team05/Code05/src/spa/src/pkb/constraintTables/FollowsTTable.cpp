@@ -4,46 +4,67 @@
 
 #include "FollowsTTable.h"
 
-FollowsTable::FollowsTable() = default;
-bool FollowsTable::addFollows(StmtNo before, StmtNo after) {
-    if (isFollows(before, after)) {
+FollowsTTable::FollowsTTable() = default;
+bool FollowsTTable::addFollowsT(StmtNo before, StmtNo after) {
+    if (isFollowsT(before, after)) {
         return false;
     }
-    return twoSideMap.insert(before, after);
+    return twoSideMapMM.insert(before, after);
 }
 
-bool FollowsTable::isFollows(StmtNo before, StmtNo after) {
-    if (!twoSideMap.containsKey(before)
-        || !twoSideMap.containsValue(after)) {
-        return false;
+//bool FollowsTTable::isFollowsT(StmtNo before, StmtNo after) {
+//    if (!twoSideMapMM.containsKey(before)
+//        || !twoSideMapMM.containsValue(after)) {
+//        return false;
+//    }
+//    return twoSideMapMM.getKeys(after).value() == before;
+//}
+
+bool FollowsTTable::isFollowsT(StmtNo before, StmtNo after) {
+    if (!twoSideMapMM.containsKey(after)) {
+        return false;  // The 'after' statement is not present in the map
     }
-    return twoSideMap.getKey(after).value() == before;
-}
 
-bool FollowsTable::hasStmtBefore(StmtNo after) {
-    return twoSideMap.getKey(after).has_value();
-}
-
-bool FollowsTable::hasFollower(StmtNo before) {
-    return twoSideMap.containsKey(before);
-}
-
-StmtNo FollowsTable::getStmtBefore(StmtNo after) {
-    auto k = twoSideMap.getKey(after);
-    if (!k.has_value()) {
-        return -1;
+    // Check if 'before' is in the keys associated with 'after'
+    auto keys = twoSideMapMM.getKeys(after);
+    if (keys.empty()) {
+        return false;  // No keys associated with 'after'
     }
-    return k.value();
+
+    // Check if 'before' is present in the keys associated with 'after'
+    const std::vector<StmtNo>& keyValues = keys;
+    return std::find(keyValues.begin(), keyValues.end(), before) != keyValues.end();
 }
 
-StmtNo FollowsTable::getFollower(StmtNo before) {
-    auto v = twoSideMap.getValue(before);
-    if (!v.has_value()) {
-        return -1;
+//bool FollowsTTable::hasStmtBefore(StmtNo after) {
+//    return twoSideMapMM.getKeys(after).has_value();
+//}
+
+bool FollowsTTable::hasStmtBefore(StmtNo after) {
+    auto keys = twoSideMapMM.getKeys(after);
+    return !keys.empty();
+}
+
+bool FollowsTTable::hasFollowersT(StmtNo before) {
+    return twoSideMapMM.containsKey(before);
+}
+
+std::vector<StmtNo> FollowsTTable::getStmtsBefore(StmtNo after) {
+    auto k = twoSideMapMM.getKeys(after);
+    if (k.empty()) {
+        return {-1};
     }
-    return v.value();
+    return k;
 }
 
-int FollowsTable::getSize() const {
-    return twoSideMap.size();
+std::vector<StmtNo> FollowsTTable::getFollowersT(StmtNo before) {
+    auto v = twoSideMapMM.getValues(before);
+    if (v.empty()) {
+        return {-1};
+    }
+    return v;
+}
+
+int FollowsTTable::getSize() const {
+    return twoSideMapMM.size();
 }

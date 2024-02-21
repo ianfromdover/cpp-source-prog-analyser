@@ -4,27 +4,27 @@ bool ParentTable::addParent(StmtNo parent, StmtNo child) {
     if (isParent(parent, child)) {
         return false;
     }
-    return twoSideMap.insert(parent, child);
+    return twoSideMapOM.insert(parent, child);
 }
 
 bool ParentTable::isParent(StmtNo parent, StmtNo child) {
-    if (!twoSideMap.containsKey(parent)
-        || !twoSideMap.containsValue(child)) {
+    if (!twoSideMapOM.containsKey(parent)
+        || !twoSideMapOM.containsValue(child)) {
         return false;
     }
-    return twoSideMap.getKey(child).value() == parent;
+    return twoSideMapOM.getKey(child).value() == parent;
 }
 
 bool ParentTable::hasParent(StmtNo child) {
-    return twoSideMap.getKey(child).has_value();
+    return twoSideMapOM.getKey(child).has_value();
 }
 
 bool ParentTable::hasChildren(StmtNo parent) {
-    return twoSideMap.containsKey(parent);
+    return twoSideMapOM.containsKey(parent);
 }
 
 StmtNo ParentTable::getParent(StmtNo child) {
-    auto k = twoSideMap.getKey(child);
+    auto k = twoSideMapOM.getKey(child);
     if (!k.has_value()) {
         return -1;
     }
@@ -32,9 +32,9 @@ StmtNo ParentTable::getParent(StmtNo child) {
 }
 
 vector<StmtNo> ParentTable::getChildren(StmtNo parent) {
-    return twoSideMap.getValues(parent);
+    return twoSideMapOM.getValues(parent);
 }
 
 int ParentTable::getSize() const {
-    return twoSideMap.size();
+    return twoSideMapOM.size();
 }
