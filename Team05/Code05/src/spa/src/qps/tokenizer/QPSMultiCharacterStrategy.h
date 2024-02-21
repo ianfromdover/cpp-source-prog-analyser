@@ -16,6 +16,7 @@ public:
 
 private:
     std::string readWhile(std::stringstream &stream, const std::function<bool(char)> &condition);
+    bool starAllowed(const std::string& );
 };
 
 #endif //SPA_QPSMULTICHARACTERSTRATEGY_H

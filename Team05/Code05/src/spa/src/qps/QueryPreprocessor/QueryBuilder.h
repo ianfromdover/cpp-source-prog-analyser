@@ -2,8 +2,8 @@
 // Created by Alex on 8/2/2024.
 //
 
-#ifndef SPA_QUERYBUILDER_H
-#define SPA_QUERYBUILDER_H
+#ifndef SPA_QUERYBUILDER1_H
+#define SPA_QUERYBUILDER1_H
 
 #include <memory>
 #include "qps/query_elements/QueryObject.h"
@@ -24,4 +24,4 @@ private:
     std::shared_ptr<Returnable> returnType;
 };
 
-#endif //SPA_QUERYBUILDER_H
+#endif //SPA_QUERYBUILDER1_H

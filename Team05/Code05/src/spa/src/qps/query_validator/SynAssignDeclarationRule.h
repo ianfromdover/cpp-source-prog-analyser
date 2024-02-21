@@ -7,7 +7,7 @@
 
 #include "Rule.h"
 
-class SynAssignDeclarationRule : Rule{
+class SynAssignDeclarationRule : public Rule{
 private:
     static bool followsSynAssignDeclaration(QueryObject&);
 public:

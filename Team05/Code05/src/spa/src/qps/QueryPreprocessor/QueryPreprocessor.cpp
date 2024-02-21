@@ -4,19 +4,41 @@
 
 #include "QueryPreprocessor.h"
 #include "HandlerChain.h"
+#include "qps/tokenizer/QPSStrategyList.h"
+#include "qps/tokenizer/Tokenizer.h"
+#include "qps/parser/QPSParser.h"
+#include "qps/query_validator/RuleSet.h"
+#include "qps/query_builder/QueryObjectBuilder.h"
+
 
 std::shared_ptr<QueryObject> QueryPreprocessor::processQuery(std::string & queryStr) {
-    HandlerChain handler;
-    std::vector<std::shared_ptr<QueryComponent>> components = handler.handle(queryStr);
 
-    std::shared_ptr<QueryBuilder> builder = std::make_shared<QueryBuilder>();
-    std::shared_ptr<QueryObject> query;
-    for (const std::shared_ptr<QueryComponent>& component : components){
-        component->acceptBuilder(builder);
+    std::shared_ptr<QPSStrategyList> strategies = std::make_shared<QPSStrategyList>();
+    std::shared_ptr<QPSTokenList> tokens = std::make_shared<QPSTokenList>();
+    Tokenizer tokenizer(queryStr, strategies, tokens);
+    tokenizer.tokenize();
+    QPSParser parser(*tokens);
+    std::shared_ptr<IntermediateQuery> intermediateQuery = parser.parse();
+
+    RuleSet ruleSet;
+    std::string validationResults;
+    for (auto& rule : ruleSet.getRules()){
+         std::string result = rule->validate(*intermediateQuery);
+         validationResults.append(result.empty()? "" : result + ", ");
     }
 
-    query = builder->build();
+    if (!validationResults.empty()){
+        std::string msg = "semantic error: " + validationResults;
+        throw std::exception(msg.c_str());
+    }
 
-    return query;
+    intermediateQuery->processDeclarations();
+
+    QueryObjectBuilderTest builder;
+    std::shared_ptr<QueryObject> qo = builder.build(intermediateQuery);
+
+    return qo;
+
+
 
 }
