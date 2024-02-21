@@ -70,79 +70,86 @@ TEST_CASE("singleFollowsConstraint_TokenizertoQOBuilder_returnsCorrect") {
     std::string source = "if f;"
                          "while w;"
                          "Select w "
-                         "such that Parent(f, w)";
+                         "such that Follows(f, w)";
     std::string processed = testHelper(source);
-    std::string output = "{RETURN}: v1 [READ]\n{DECLARATIONS}: v [READ], v1 [READ], v2 [READ], v3 [READ], v4 [READ]";
+    std::string output = "{RETURN}: w [WHILE]\n{DECLARATIONS}: f [IF], w [WHILE]\n{CONSTRAINTS}: Follows(f [IF], w [WHILE])";
     REQUIRE(processed == output);
     cout << processed;
 }
 
 TEST_CASE("singleFollowsTConstraint_TokenizertoQOBuilder_returnsCorrect") {
-    std::string source = "read v, v1, v2, v3;"
-                         "read v4; "
-                         "Select v1";
+    std::string source = "print a;"
+                         "stmt w;"
+                         "Select w "
+                         "such that Follows*(a, w)";
     std::string processed = testHelper(source);
-    std::string output = "{RETURN}: v1 [READ]\n{DECLARATIONS}: v [READ], v1 [READ], v2 [READ], v3 [READ], v4 [READ]";
+    std::string output = "{RETURN}: w [STMT]\n{DECLARATIONS}: a [PRINT], w [STMT]\n{CONSTRAINTS}: FollowsT(a [PRINT], w [STMT])";
     REQUIRE(processed == output);
     cout << processed;
 }
 
 TEST_CASE("singleParentConstraint_TokenizertoQOBuilder_returnsCorrect") {
-    std::string source = "read v, v1, v2, v3;"
-                         "read v4; "
-                         "Select v1";
+    std::string source = "if f;"
+                         "read r; "
+                         "Select r"
+                         "such that Parent(f, r)";
     std::string processed = testHelper(source);
-    std::string output = "{RETURN}: v1 [READ]\n{DECLARATIONS}: v [READ], v1 [READ], v2 [READ], v3 [READ], v4 [READ]";
+    std::string output = "{RETURN}: r [READ]\n{DECLARATIONS}: f [IF], r [READ]\n{CONSTRAINTS}: Parent(f [IF], r [READ])";
     REQUIRE(processed == output);
     cout << processed;
 }
 
 TEST_CASE("singleParentTConstraint_TokenizertoQOBuilder_returnsCorrect") {
-    std::string source = "read v, v1, v2, v3;"
-                         "read v4; "
-                         "Select v1";
+    std::string source = "while w;"
+                         "read r; "
+                         "Select r"
+                         "such that Parent*(w, r)";
     std::string processed = testHelper(source);
-    std::string output = "{RETURN}: v1 [READ]\n{DECLARATIONS}: v [READ], v1 [READ], v2 [READ], v3 [READ], v4 [READ]";
+    std::string output = "{RETURN}: r [READ]\n{DECLARATIONS}: w [WHILE], r [READ]\n{CONSTRAINTS}: ParentT(w [WHILE], r [READ])";
     REQUIRE(processed == output);
     cout << processed;
 }
 
 TEST_CASE("singleUsesSConstraint_TokenizertoQOBuilder_returnsCorrect") {
-    std::string source = "read v, v1, v2, v3;"
-                         "read v4; "
-                         "Select v1";
+    std::string source = "read r;"
+                         "constant c; "
+                         "Select c"
+                         "such that Uses(r, c)";
     std::string processed = testHelper(source);
-    std::string output = "{RETURN}: v1 [READ]\n{DECLARATIONS}: v [READ], v1 [READ], v2 [READ], v3 [READ], v4 [READ]";
+    std::string output = "{RETURN}: c [CONSTANT]\n{DECLARATIONS}: r [READ], c [CONSTANT]\n{CONSTRAINTS}: UsesS(r [READ], c [CONSTANT])";
     REQUIRE(processed == output);
     cout << processed;
 }
 
 TEST_CASE("singleUsesPConstraint_TokenizertoQOBuilder_returnsCorrect") {
-    std::string source = "read v, v1, v2, v3;"
-                         "read v4; "
-                         "Select v1";
+    std::string source = "variable v;"
+                         "procedure p; "
+                         "Select v"
+                         "such that Uses(p, v)";
     std::string processed = testHelper(source);
-    std::string output = "{RETURN}: v1 [READ]\n{DECLARATIONS}: v [READ], v1 [READ], v2 [READ], v3 [READ], v4 [READ]";
+    std::string output = "{RETURN}: v [VARIABLE]\n{DECLARATIONS}: v [VARIABLE], p [PROCEDURE]\n{CONSTRAINTS}: UsesP(p [PROCEDURE], v [VARIABLE])";
     REQUIRE(processed == output);
     cout << processed;
 }
 
 TEST_CASE("singleModifiesSConstraint_TokenizertoQOBuilder_returnsCorrect") {
-    std::string source = "read v, v1, v2, v3;"
-                         "read v4; "
-                         "Select v1";
+    std::string source = "assign a;"
+                         "variable v; "
+                         "Select a"
+                         "such that Modifies(a, v)";
     std::string processed = testHelper(source);
-    std::string output = "{RETURN}: v1 [READ]\n{DECLARATIONS}: v [READ], v1 [READ], v2 [READ], v3 [READ], v4 [READ]";
+    std::string output = "{RETURN}: a [ASSIGN]\n{DECLARATIONS}: a [ASSIGN], v [VARIABLE]\n{CONSTRAINTS}: ModifiesS(a [ASSIGN], v [VARIABLE])";
     REQUIRE(processed == output);
     cout << processed;
 }
 
 TEST_CASE("singleModifiesPConstraint_TokenizertoQOBuilder_returnsCorrect") {
-    std::string source = "read v, v1, v2, v3;"
-                         "read v4; "
-                         "Select v1";
+    std::string source = "procedure p;"
+                         "variable v; "
+                         "Select p"
+                         "such that Modifies(p, v)";
     std::string processed = testHelper(source);
-    std::string output = "{RETURN}: v1 [READ]\n{DECLARATIONS}: v [READ], v1 [READ], v2 [READ], v3 [READ], v4 [READ]";
+    std::string output = "{RETURN}: p [PROCEDURE]\n{DECLARATIONS}: p [PROCEDURE], v [VARIABLE]\n{CONSTRAINTS}: ModifiesP(p [PROCEDURE], v [VARIABLE])";
     REQUIRE(processed == output);
     cout << processed;
 }
