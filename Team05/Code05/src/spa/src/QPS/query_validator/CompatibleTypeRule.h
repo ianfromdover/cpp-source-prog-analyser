@@ -17,6 +17,9 @@ public:
     std::string validate(IntermediateQuery &) override;
 
 private:
+    std::string validateRelationship(RelationshipClause cl, std::map<std::string, QPSTokenType::QPSTypeInfo> declarationMap);
+    std::string validatePattern(PatternClause cl, std::map<std::string, QPSTokenType::QPSTypeInfo> declarationMap);
+
     static inline std::map<QPSTokenType::QPSTypeInfo, std::pair<std::vector<QPSTokenType::QPSTypeInfo>, std::vector<QPSTokenType::QPSTypeInfo>>> typeMap =
             {
                     {QType::PARENT, {{QType::PRINT, QType::READ, QType::WHILE,QType::IF,QType::ASSIGN,QType::INTEGER,QType::WILDCARD},

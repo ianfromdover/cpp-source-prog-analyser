@@ -14,6 +14,8 @@ std::string SynAssignDeclarationRule::validate(QueryObject& qo) {
 }
 
 std::string SynAssignDeclarationRule::validate(IntermediateQuery& query) {
+    if (!query.hasPatternClause()) return "";
+
     std::string patternSyn = query.getPatternClause()->getPatternSynonym(); // Assumed to only have one select element
 
     for (const auto& clause : query.clauses){

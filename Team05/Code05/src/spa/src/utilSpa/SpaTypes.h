@@ -45,7 +45,6 @@
 #define VALIDATION_RULE_WILDCARD_ARGUMENT "WildcardArgumentRule"
 #define VALIDATION_RULE_RELATIONSHIP_ARGUMENT "RelationshipArgumentRule"
 #define VALIDATION_RULE_PATTERN_ARGUMENT "PatternArgumentRule"
-#define VALIDATION_RULE_INCOMPATIBLE_RELATIONSHIP_ARGUMENT_TYPE "Incompatible Relationship Argument Type"
 
 
 #define LNNO "line_number"
