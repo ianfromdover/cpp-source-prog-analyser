@@ -14,12 +14,12 @@ using namespace std;
 #include "qps/query_elements/constraint_argument/statement_reference/IfEntity.h"
 #include "qps/query_elements/constraint_argument/statement_reference/WhileEntity.h"
 #include "qps/query_elements/constraint_argument/statement_reference/IntegerArgument.h"
-#include "qps/query_elements/constraint_argument/statement_reference//StatementRefWildcard.h"
+#include "qps/query_elements/constraint_argument/statement_reference/StatementRefWildcard.h"
 
 //named in the form of [feature]_[scenario]_[result]
 
-// ai-gen start(gpt, 0, e)
-// prompt: https://chat.openai.com/share/1d6a042b-6280-4306-abaf-1ec120a9fef4
+// ai-gen start(gpt, 1, e)
+// prompt: https://platform.openai.com/playground/p/9SCJ5Iuz6Qhdknrd17M6Eh8k?model=gpt-3.5-turbo&mode=chat
 TEST_CASE("entity_statementEntityIsTypeStatement_stringStatement") {
     StatementEntity en = StatementEntity("q");
     REQUIRE(en.getEntityType() == RETURN_TYPE_STATEMENT);
@@ -65,10 +65,6 @@ TEST_CASE("entity_wildCardIsTypeWildcard_stringWildcard") {
     REQUIRE(en.getEntityType() == RETURN_TYPE_WILDCARD);
 }
 
-// ai-gen end
-
-// ai-gen start(gpt, 0, e)
-// prompt: https://chat.openai.com/share/79d15f08-fd88-453e-943a-261fbef441a6
 TEST_CASE("Entity_GetIdentifier_Success") {
     // Arrange
     std::string identifier = "test_identifier";
@@ -81,10 +77,6 @@ TEST_CASE("Entity_GetIdentifier_Success") {
     REQUIRE(retrievedIdentifier == identifier);
 }
 
-//ai-gen end
-
-// ai-gen start(gpt, 0 ,e)
-// prompt: https://chat.openai.com/share/09e67ecb-4081-4912-bb8c-023c7e117580
 TEST_CASE("inheritance_check_statementReference_ReadEntity") {
     ReadEntity readEntity("v");
     bool isInstanceOfStatementReference = dynamic_cast<StatementReference*>(&readEntity) != nullptr;
@@ -132,12 +124,6 @@ TEST_CASE("inheritance_check_statementReference_WildCard") {
     bool isInstanceOfStatementReference = dynamic_cast<StatementReference*>(&wildCard) != nullptr;
     REQUIRE(isInstanceOfStatementReference);
 }
-
-// ai-gen end
-
-
-// ai-gen start(gpt, 0, e)
-// prompt https://chat.openai.com/share/0b30db75-b64f-47a1-942b-1afdad17f2f3
 
 TEST_CASE("StatementEntity_inheritanceCheck_isTrue") {
     REQUIRE(std::is_base_of<Entity, StatementEntity>::value);

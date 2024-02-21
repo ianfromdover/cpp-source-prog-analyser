@@ -115,7 +115,8 @@
     std::shared_ptr<DeclarationClause> QPSParser::declaration() {
         std::vector<std::string> synonyms;
         std::string type;
-        QPSToken declarationType = this->consume(QPSTokenType::STMT1, "Expect declaration type.");
+        this->match({QPSTokenType::QPSTypeInfo::STMT1,QPSTokenType::QPSTypeInfo::ASSIGN,QPSTokenType::QPSTypeInfo::VARIABLE});
+        QPSToken declarationType = this->previous();
         QPSToken entityType = this->synonym(this->consume(QPSTokenType::IDENTIFIER, "Expect identifier."));
         synonyms.push_back(entityType.getLexeme());
         while (this->match({QPSTokenType::COMMA})) {

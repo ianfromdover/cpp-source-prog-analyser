@@ -44,3 +44,18 @@ TEST_CASE("MultipleDeclaration_TokenizertoQOBuilder_ReturnsOneSelectClause") {
     cout << processed;
 }
 
+TEST_CASE("query1_TokenizertoQOBuilder_returnsCorrect") {
+    std::string source = "variable v;" // Declaration Clause 1 : map<STMT,"s">
+                         "stmt s; " // Declaration Clause 2 : map<STMT,"s1">
+                         "Select a " // Select Clause : "s"
+                         "such that Modifies(1, s) " // Relationship Clause : PARENT, STMT_REF, INTEGER="1", STMT_REF, SYNONYM="s"
+                         "pattern s(_, _\"x+y\"_)";
+    std::string processed = testHelper(source);
+    std::string output = "{DECLARATIONS}: s [STMT], c [STMT], p [PRINT]";
+//    REQUIRE(processed == output);
+    cout << processed;
+}
+
+
+
+

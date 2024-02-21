@@ -203,6 +203,30 @@ TEST_CASE("InitializeConstraint_with_StatementReference_subclasses") {
         }
     }
 
+    SECTION("UsesPConstraint") {
+        for (const auto& entityRef1 : entRefEntities) {
+            for (const auto& entityRef : entRefEntities) {
+                REQUIRE_NOTHROW(UsesPConstraint(entityRef1, entityRef));
+            }
+        }
+    }
+
+    SECTION("ModifiesSConstraint") {
+        for (const auto& statementRef : statementRefEntities) {
+            for (const auto& entityRef : entRefEntities) {
+                REQUIRE_NOTHROW(ModifiesSConstraint(statementRef, entityRef));
+            }
+        }
+    }
+
+    SECTION("ModifiesPConstraint") {
+        for (const auto& entityRef1 : entRefEntities) {
+            for (const auto& entityRef : entRefEntities) {
+                REQUIRE_NOTHROW(ModifiesPConstraint(entityRef1, entityRef));
+            }
+        }
+    }
+
 
 }
 
