@@ -2,6 +2,7 @@
 #define SPA_TWOSIDEMAP_H
 
 #include <iostream>
+#include <optional>
 #include <memory>
 #include <unordered_map>
 
