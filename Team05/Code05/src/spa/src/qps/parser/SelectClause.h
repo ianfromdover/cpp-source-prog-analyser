@@ -10,18 +10,17 @@
 #include "Clause.h"
 
 
-    class SelectClause : public Clause {
-    public:
-        SelectClause() : Clause(ClauseType::SELECT) {}
+class SelectClause : public Clause {
+public:
+    SelectClause() : Clause(ClauseType::SELECT) {}
 
-        void addSelect(const std::string &);
+    void addSelect(const std::string &);
 
-        std::vector<std::string> getAllSelect();
+    std::vector<std::string> getAllSelect();
 
-        std::vector<std::string> selectElements;
+    std::vector<std::string> selectElements;
 
-    };
-
+};
 
 
 #endif //SPA_SELECTCLAUSE_H
