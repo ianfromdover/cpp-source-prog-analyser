@@ -1,6 +1,5 @@
 #include "PKBStorage.h"
 #include "QueryPKB.h"
-#include "constraintTables/ParentTable.h"
 #include "qps/QueryEvaluator/QueryResult/IntResult.h"
 #include "qps/query_elements/constraint_argument/IntegerArgument.h"
 #include "qps/query_elements/constraint_argument/StatementEntity.h"
@@ -19,13 +18,13 @@ bool QueryPKB::getParent(StmtNo parent, StmtNo child) {
     return false;
 }
 
-vector<StmtNo> QueryPKB::getChildren(StmtNo parent) {
-    return pkb->parentTable->getChildren(parent);
-}
-
-StmtNo QueryPKB::getParent(StmtNo child) {
-    return pkb->parentTable->getParent(child);
-}
+//vector<StmtNo> QueryPKB::getChildren(StmtNo parent) {
+//    return pkb->parentTable->getChildren(parent);
+//}
+//
+//StmtNo QueryPKB::getParent(StmtNo child) {
+//    return pkb->parentTable->getParent(child);
+//}
 
 std::shared_ptr<QueryResult> QueryPKB::getResult(Returnable &r, Constraint &c) {
     if (r.getReturnType() == RETURN_TYPE_STATEMENT) {
@@ -36,6 +35,8 @@ std::shared_ptr<QueryResult> QueryPKB::getResult(Returnable &r, Constraint &c) {
             finalResult = queryParentTable(argList);
         } else if (type == CONSTRAINT_TYPE_FOLLOWS) {
             finalResult = queryFollowsTable(argList);
+        } else if (type == CONSTRAINT_TYPE_FOLLOWST) {
+            finalResult = queryFollowsTTable(argList);
         } else if (type == CONSTRAINT_TYPE_USESS) {
             finalResult = queryUsesTable(argList);
         } else {
@@ -69,6 +70,23 @@ std::shared_ptr<QueryResult> QueryPKB::queryParentTable(vector<shared_ptr<Constr
     return std::make_shared<IntResult>(res);
 }
 
+//std::shared_ptr<QueryResult> QueryPKB::queryParentTTable(vector<shared_ptr<ConstraintArgument>> argList) {
+//    std::vector<int> results;
+//    if (argList[0]->getEntityType() == RETURN_TYPE_INTEGER) {
+//        // finding children of line number
+//        std::shared_ptr<IntegerArgument> newInt = std::dynamic_pointer_cast<IntegerArgument>(argList[0]);
+//        int i = newInt->value; //get value
+//        results = pkb->parentTable->getChildren(i);
+//    } else {
+//        // finding parent of line number
+//        std::shared_ptr<IntegerArgument> newInt = std::dynamic_pointer_cast<IntegerArgument>(argList[1]);
+//        int i = newInt->value; //get value
+//        results.push_back(pkb->parentTable->getParent(i));
+//    }
+//    IntResult res(results);
+//    return std::make_shared<IntResult>(res);
+//}
+
 std::shared_ptr<QueryResult> QueryPKB::queryFollowsTable(vector<shared_ptr<ConstraintArgument>> argList) {
     std::vector<int> results;
     if (argList[0]->getEntityType() == RETURN_TYPE_INTEGER) {
@@ -81,6 +99,23 @@ std::shared_ptr<QueryResult> QueryPKB::queryFollowsTable(vector<shared_ptr<Const
         std::shared_ptr<IntegerArgument> newInt = std::dynamic_pointer_cast<IntegerArgument>(argList[1]);
         int i = newInt->value; //get value
         results.push_back(pkb->followsTable->getStmtBefore(i));
+    }
+    IntResult res(results);
+    return std::make_shared<IntResult>(res);
+}
+
+std::shared_ptr<QueryResult> QueryPKB::queryFollowsTTable(vector<shared_ptr<ConstraintArgument>> argList) {
+    std::vector<int> results;
+    if (argList[0]->getEntityType() == RETURN_TYPE_INTEGER) {
+        // finding the statement number which Follows argList[0]
+        std::shared_ptr<IntegerArgument> newInt = std::dynamic_pointer_cast<IntegerArgument>(argList[0]);
+        int i = newInt->value; //get value
+        results = pkb->followsTTable->getFollowersT(i);
+    } else {
+        // finding what statement is before argList[1]
+        std::shared_ptr<IntegerArgument> newInt = std::dynamic_pointer_cast<IntegerArgument>(argList[1]);
+        int i = newInt->value; //get value
+        results = pkb->followsTTable->getStmtsBefore(i);
     }
     IntResult res(results);
     return std::make_shared<IntResult>(res);

@@ -6,7 +6,7 @@
 
 class ParentTable {
 private:
-    TwoSideMapOneMany<StmtNo, StmtNo> twoSideMap;
+    TwoSideMapOneMany<StmtNo, StmtNo> twoSideMapOM;
 public:
     ParentTable();
     bool addParent(StmtNo parent, StmtNo child);
