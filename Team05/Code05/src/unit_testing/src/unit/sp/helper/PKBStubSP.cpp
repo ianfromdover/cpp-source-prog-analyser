@@ -126,7 +126,6 @@ public:
             auto it = pairCalls.find(pair);
             if (it == pairCalls.end()) {
                 // If the pair is not found, return false
-                std::cout << "ss" << std::endl;
                 return false;
             } else {
                 // If found, erase one instance of that pair from pairCalls
