@@ -14,6 +14,7 @@
 #include "StatementExtractor.h"
 #include "VariableExtractor.h"
 #include "ConstantExtractor.h"
+#include "FollowsExtractor.h"
 
 void SourceProcessor::exec(const std::string& source) {
     auto tokens = this->scan(source);
@@ -30,7 +31,7 @@ Program SourceProcessor::parse(std::shared_ptr<std::vector<std::shared_ptr<Token
 }
 
 void SourceProcessor::extract(const Program& program) {
-    auto relationExtractor = std::vector<shared_ptr<RelationExtractor>>{
+    auto relationExtractor = std::vector<shared_ptr<ProgramVisitor>>{
             std::make_shared<ReadExtractor>(this->pkb),
             std::make_shared<CallExtractor>(this->pkb),
             std::make_shared<IfExtractor>(this->pkb),
