@@ -3,7 +3,7 @@
 //
 #include "catch.hpp"
 #include "../helper/AstFactory.cpp"
-#include "../helper/SpPKBStub.cpp"
+#include "../helper/PKBStubSP.cpp"
 #include "sp/ReadExtractor.h"
 
 //testZeroNestingLevel
