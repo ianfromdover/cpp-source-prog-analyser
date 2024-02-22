@@ -91,7 +91,7 @@ std::shared_ptr<StmtList> const& Procedure::getBody() const {
     return this->body;
 }
 
-std::string Procedure::getProcName() const {
+std::string Procedure::getName() const {
     return this->name;
 }
 

@@ -4,6 +4,7 @@
 
 #include <string>
 #include "Parser.h"
+#include "ParseException.h"
 
 Program Parser::parse() {
     Program program = std::make_shared<std::vector<std::shared_ptr<Procedure>>>();
@@ -53,9 +54,7 @@ Token Parser::consume(TokenType type, std::string message) {
     if (this->check(type)) {
         return this->advance();
     }
-
-    // TODO: Handle parse errors according to requirements.
-    throw message;
+    throw ParseException(message);
 }
 
 StmtNo Parser::nextStmtNo() {
@@ -185,8 +184,7 @@ std::shared_ptr<Expr> Parser::condExpr() {
 
             return std::make_shared<Binary>(std::move(left), std::move(op), std::move(right));
         }
-        // TODO: Unify handling of syntax errors.
-        throw "Expect '&&' or '||' after expression.";
+        throw ParseException("Expect '&&' or '||' after expression.");
     }
 
     if (this->match({ TokenType::BANG })) {
@@ -211,9 +209,7 @@ std::shared_ptr<Expr> Parser::relExpr() {
         auto right = this->relFactor();
         return std::make_shared<Binary>(std::move(left), std::move(op), std::move(right));
     }
-
-    // TODO: Unify handling of syntax errors.
-    throw "Expect '>', '>=', '<', '<=', '==', or '!=' after expression.";
+    throw ParseException("Expect '>', '>=', '<', '<=', '==', or '!=' after expression.");
 }
 
 std::shared_ptr<Expr> Parser::relFactor() {

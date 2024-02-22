@@ -47,7 +47,7 @@ void PrintExtractor::visitBinaryExpr(const Binary& expr, shared_ptr<Accumulator>
 void PrintExtractor::visitVariableExpr(const Variable& expr, shared_ptr<Accumulator>& parentInfo) {
     for (const auto& stmtNo : parentInfo->info) {
         //std::cout << "pkb.addPrint(" << stmtNo << ", " << expr.getName() << ");" << std::endl;
-        pkb.addPrint(stmtNo, expr.getName());
+        pkb->addPrint(stmtNo, expr.getName());
     }
 }
 

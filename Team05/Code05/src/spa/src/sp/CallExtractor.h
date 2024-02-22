@@ -5,13 +5,15 @@
 #ifndef SPA_CALLEXTRACTOR_H
 #define SPA_CALLEXTRACTOR_H
 
+#include <utility>
+
 #include "RelationExtractor.h"
 #include "Stmt.h"
 
 class CallExtractor: public RelationExtractor {
 public:
     // Constructor
-    explicit CallExtractor(PopulatePKB& pkb) : RelationExtractor(pkb) {}
+    explicit CallExtractor(shared_ptr<BasePKBPopulator> pkb) : RelationExtractor(std::move(pkb)) {}
     // Statement Methods
     void visitReadStmt(const Read& stmt, shared_ptr<Accumulator>& parentInfo) override;
     void visitPrintStmt(const Print& stmt, shared_ptr<Accumulator>& parentInfo) override;

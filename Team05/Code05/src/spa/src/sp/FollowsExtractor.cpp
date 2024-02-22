@@ -16,10 +16,10 @@ void FollowsExtractor::visitReadStmt(const Read& stmt, shared_ptr<Accumulator>& 
     for (const auto& stmtNo : prevStmtInfo->info) {
         if (&stmtNo == &prevStmtInfo->info.back()) {
             //std::cout << "pkb.addFollows(" << stmtNo << ", " << stmt.getStmtNo() << ");" << std::endl;
-            pkb.addFollows(stmtNo, stmt.getStmtNo());
+            pkb->addFollows(stmtNo, stmt.getStmtNo());
         }
         //std::cout << "pkb.addFollowsT(" << stmtNo << ", " << stmt.getStmtNo() << ");" << std::endl;
-        pkb.addFollowsT(stmtNo, stmt.getStmtNo());
+        pkb->addFollowsT(stmtNo, stmt.getStmtNo());
     }
 }
 
@@ -27,10 +27,10 @@ void FollowsExtractor::visitPrintStmt(const Print& stmt, shared_ptr<Accumulator>
     for (const auto& stmtNo : prevStmtInfo->info) {
         if (&stmtNo == &prevStmtInfo->info.back()) {
             //std::cout << "pkb.addFollows(" << stmtNo << ", " << stmt.getStmtNo() << ");" << std::endl;
-            pkb.addFollows(stmtNo, stmt.getStmtNo());
+            pkb->addFollows(stmtNo, stmt.getStmtNo());
         }
         //std::cout << "pkb.addFollowsT(" << stmtNo << ", " << stmt.getStmtNo() << ");" << std::endl;
-        pkb.addFollowsT(stmtNo, stmt.getStmtNo());
+        pkb->addFollowsT(stmtNo, stmt.getStmtNo());
     }
 }
 
@@ -38,10 +38,10 @@ void FollowsExtractor::visitCallStmt(const Call& stmt, shared_ptr<Accumulator>& 
     for (const auto& stmtNo : prevStmtInfo->info) {
         if (&stmtNo == &prevStmtInfo->info.back()) {
             //std::cout << "pkb.addFollows(" << stmtNo << ", " << stmt.getStmtNo() << ");" << std::endl;
-            pkb.addFollows(stmtNo, stmt.getStmtNo());
+            pkb->addFollows(stmtNo, stmt.getStmtNo());
         }
         //std::cout << "pkb.addFollowsT(" << stmtNo << ", " << stmt.getStmtNo() << ");" << std::endl;
-        pkb.addFollowsT(stmtNo, stmt.getStmtNo());
+        pkb->addFollowsT(stmtNo, stmt.getStmtNo());
     }
 }
 
@@ -49,10 +49,10 @@ void FollowsExtractor::visitWhileStmt(const While& stmt, shared_ptr<Accumulator>
     for (const auto& stmtNo : prevStmtInfo->info) {
         if (&stmtNo == &prevStmtInfo->info.back()) {
             //std::cout << "pkb.addFollows(" << stmtNo << ", " << stmt.getStmtNo() << ");" << std::endl;
-            pkb.addFollows(stmtNo, stmt.getStmtNo());
+            pkb->addFollows(stmtNo, stmt.getStmtNo());
         }
         //std::cout << "pkb.addFollowsT(" << stmtNo << ", " << stmt.getStmtNo() << ");" << std::endl;
-        pkb.addFollowsT(stmtNo, stmt.getStmtNo());
+        pkb->addFollowsT(stmtNo, stmt.getStmtNo());
     }
     auto newPrevStmtInfo = std::make_shared<Accumulator>();
     for (const auto& stmtBody : *stmt.getBody()) {
@@ -65,10 +65,10 @@ void FollowsExtractor::visitIfStmt(const If& stmt, shared_ptr<Accumulator>& prev
     for (const auto& stmtNo : prevStmtInfo->info) {
         if (&stmtNo == &prevStmtInfo->info.back()) {
             //std::cout << "pkb.addFollows(" << stmtNo << ", " << stmt.getStmtNo() << ");" << std::endl;
-            pkb.addFollows(stmtNo, stmt.getStmtNo());
+            pkb->addFollows(stmtNo, stmt.getStmtNo());
         }
         //std::cout << "pkb.addFollowsT(" << stmtNo << ", " << stmt.getStmtNo() << ");" << std::endl;
-        pkb.addFollowsT(stmtNo, stmt.getStmtNo());
+        pkb->addFollowsT(stmtNo, stmt.getStmtNo());
     }
     auto newPrevThenStmtInfo = std::make_shared<Accumulator>();
     for (const auto& stmtThen : *stmt.getThenBranch()) {
@@ -86,10 +86,10 @@ void FollowsExtractor::visitAssignStmt(const Assign& stmt, shared_ptr<Accumulato
     for (const auto& stmtNo : prevStmtInfo->info) {
         if (&stmtNo == &prevStmtInfo->info.back()) {
             //std::cout << "pkb.addFollows(" << stmtNo << ", " << stmt.getStmtNo() << ");" << std::endl;
-            pkb.addFollows(stmtNo, stmt.getStmtNo());
+            pkb->addFollows(stmtNo, stmt.getStmtNo());
         }
         //std::cout << "pkb.addFollowsT(" << stmtNo << ", " << stmt.getStmtNo() << ");" << std::endl;
-        pkb.addFollowsT(stmtNo, stmt.getStmtNo());
+        pkb->addFollowsT(stmtNo, stmt.getStmtNo());
     }
 }
 

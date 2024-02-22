@@ -56,7 +56,7 @@ void WhileExtractor::visitBinaryExpr(const Binary& expr, shared_ptr<Accumulator>
 void WhileExtractor::visitVariableExpr(const Variable& expr, shared_ptr<Accumulator>& parentInfo) {
     for (const auto& stmtNo : parentInfo->info) {
         //std::cout << "pkb.addWhile(" << stmtNo << ", " << expr.getName() << ");" << std::endl;
-        pkb.addWhile(stmtNo, expr.getName());
+        pkb->addWhile(stmtNo, expr.getName());
     }
 }
 

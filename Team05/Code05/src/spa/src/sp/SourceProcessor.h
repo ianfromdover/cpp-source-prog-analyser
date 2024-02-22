@@ -5,6 +5,8 @@
 #ifndef SPA_SOURCEPROCESSOR_H
 #define SPA_SOURCEPROCESSOR_H
 
+#include <utility>
+
 #include "Scanner.h"
 #include "RelationExtractor.h"
 #include "ParentExtractor.h"
@@ -12,13 +14,14 @@
 
 class SourceProcessor {
 private:
-    PopulatePKB& pkb;
+    shared_ptr<BasePKBPopulator> pkb;
  
 public:
-    explicit SourceProcessor(PopulatePKB& pkb) : pkb(pkb) {};
+    explicit SourceProcessor(shared_ptr<BasePKBPopulator> pkb) : pkb(std::move(pkb)) {};
     void exec(const std::string& source);
     shared_ptr<std::vector<std::shared_ptr<Token>>> scan(const std::string& source);
     Program parse(std::shared_ptr<std::vector<std::shared_ptr<Token>>>& tokens);
+    void validate(const Program& program);
     void extract(const Program& program);
     SourceProcessor& operator=(const SourceProcessor& other) { return *this; }
 };

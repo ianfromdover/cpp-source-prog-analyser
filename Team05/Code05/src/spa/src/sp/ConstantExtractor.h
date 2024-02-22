@@ -6,13 +6,15 @@
 #define SPA_CONSTANTEXTRACTOR_H
 
 
+#include <utility>
+
 #include "RelationExtractor.h"
 #include "Stmt.h"
 
 class ConstantExtractor: public RelationExtractor {
 public:
     // Constructor
-    explicit ConstantExtractor(PopulatePKB& pkb) : RelationExtractor(pkb) {}
+    explicit ConstantExtractor(shared_ptr<BasePKBPopulator> pkb) : RelationExtractor(std::move(pkb)) {}
     // Statement Methods
     void visitReadStmt(const Read& stmt, shared_ptr<Accumulator>& parentInfo) override;
     void visitPrintStmt(const Print& stmt, shared_ptr<Accumulator>& parentInfo) override;
