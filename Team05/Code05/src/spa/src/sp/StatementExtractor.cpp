@@ -6,22 +6,22 @@
 
 void StatementExtractor::visitReadStmt(const Read& stmt, shared_ptr<Accumulator>& parentInfo) {
     //std::cout << "pkb.addFinalStatementNo(" << stmt.getStmtNo() << ");" << std::endl;
-    pkb.addFinalStatementNo(stmt.getStmtNo());
+    pkb->addFinalStatementNo(stmt.getStmtNo());
 }
 
 void StatementExtractor::visitPrintStmt(const Print& stmt, shared_ptr<Accumulator>& parentInfo) {
     //std::cout << "pkb.addFinalStatementNo(" << stmt.getStmtNo() << ");" << std::endl;
-    pkb.addFinalStatementNo(stmt.getStmtNo());
+    pkb->addFinalStatementNo(stmt.getStmtNo());
 }
 
 void StatementExtractor::visitCallStmt(const Call& stmt, shared_ptr<Accumulator>& parentInfo) {
     //std::cout << "pkb.addFinalStatementNo(" << stmt.getStmtNo() << ");" << std::endl;
-    pkb.addFinalStatementNo(stmt.getStmtNo());
+    pkb->addFinalStatementNo(stmt.getStmtNo());
 }
 
 void StatementExtractor::visitWhileStmt(const While& stmt, shared_ptr<Accumulator>& parentInfo) {
     //std::cout << "pkb.addFinalStatementNo(" << stmt.getStmtNo() << ");" << std::endl;
-    pkb.addFinalStatementNo(stmt.getStmtNo());
+    pkb->addFinalStatementNo(stmt.getStmtNo());
     for (const auto& childStmt: *stmt.getBody()) {
         auto parentInfoCopy = std::make_shared<Accumulator>(*parentInfo);
         childStmt->accept(*this, parentInfoCopy);
@@ -30,7 +30,7 @@ void StatementExtractor::visitWhileStmt(const While& stmt, shared_ptr<Accumulato
 
 void StatementExtractor::visitIfStmt(const If& stmt, shared_ptr<Accumulator>& parentInfo) {
     //std::cout << "pkb.addFinalStatementNo(" << stmt.getStmtNo() << ");" << std::endl;
-    pkb.addFinalStatementNo(stmt.getStmtNo());
+    pkb->addFinalStatementNo(stmt.getStmtNo());
     for (const auto& childStmt: *stmt.getThenBranch()) {
         auto parentInfoCopy = std::make_shared<Accumulator>(*parentInfo);
         childStmt->accept(*this, parentInfoCopy);
@@ -43,7 +43,7 @@ void StatementExtractor::visitIfStmt(const If& stmt, shared_ptr<Accumulator>& pa
 
 void StatementExtractor::visitAssignStmt(const Assign& stmt, shared_ptr<Accumulator>& parentInfo) {
     //std::cout << "pkb.addFinalStatementNo(" << stmt.getStmtNo() << ");" << std::endl;
-    pkb.addFinalStatementNo(stmt.getStmtNo());
+    pkb->addFinalStatementNo(stmt.getStmtNo());
 }
 
 void StatementExtractor::visitBinaryExpr(const Binary& expr, shared_ptr<Accumulator>& parentInfo) {

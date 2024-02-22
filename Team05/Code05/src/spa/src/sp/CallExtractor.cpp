@@ -15,7 +15,7 @@ void CallExtractor::visitPrintStmt(const Print& stmt, shared_ptr<Accumulator>& p
 void CallExtractor::visitCallStmt(const Call& stmt, shared_ptr<Accumulator>& parentInfo) {
     std::string procName = stmt.getProcName();
     //std::cout << "pkb.addCallStmt(" << stmt.getStmtNo() << ", " << procName << ");" << std::endl;
-    pkb.addCallStmt(stmt.getStmtNo(), procName );
+    pkb->addCallStmt(stmt.getStmtNo(), procName );
 }
 
 void CallExtractor::visitWhileStmt(const While& stmt, shared_ptr<Accumulator>& parentInfo) {

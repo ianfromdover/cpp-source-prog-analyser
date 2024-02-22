@@ -15,7 +15,7 @@
 class TestWrapper : public AbstractWrapper {
 private:
     std::shared_ptr<PKBStorage> p=std::make_shared<PKBStorage>();
-    PopulatePKB pkb = PopulatePKB(p);;
+    std::shared_ptr<PopulatePKB> pkb = make_shared<PopulatePKB>(p);
     SourceProcessor sp = SourceProcessor(pkb);
     QueryPKB pkb1 = QueryPKB(p);
     QPS qps = QPS(pkb1);

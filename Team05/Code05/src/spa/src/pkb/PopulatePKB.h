@@ -1,47 +1,43 @@
 #pragma once
 #define SPA_POPULATEPKB_H
 #include <memory>
-//#include "utilSpa/SpaTypes.h"
 #include "pkb/PKBStorage.h"
+#include "BasePKBPopulator.h"
 
 using namespace std;
 
 // The interface between PKB and SP
-class PopulatePKB {
+class PopulatePKB : public BasePKBPopulator {
 private:
     shared_ptr<PKBStorage> pkb;
 public:
     PopulatePKB(shared_ptr<PKBStorage> p);
     // Returns true if PKBStorage exists
     bool exists();
+
     // -- Add Entities --
-    // relationships
 
-    bool addRead(StmtNo sNum, VarName name);
-    bool addCallStmt(StmtNo sNum, ProcName name);
-    // implement using set
-    bool addIf(StmtNo sNum, VarName ctrlVarName);
-    // implement using set
-    bool addWhile(StmtNo sNum, VarName ctrlVarName);
-    bool addAssign(StmtNo sNum, VarName LhsVarName);
-    bool addPrint(StmtNo s, VarName name);
-    bool addFinalStatementNo(StmtNo s);
-    bool addProcedure(Str procedureName); // future: should this have an associated StmtList?
-    bool addVar(StmtNo sNum, VarName name);
-    bool addConst(StmtNo sNum, ConstVal c);
-
+    bool addRead(StmtNo sNum, VarName name) override;
+    bool addCallStmt(StmtNo sNum, ProcName name) override;
+    bool addIf(StmtNo sNum, VarName ctrlVarName) override;
+    bool addWhile(StmtNo sNum, VarName ctrlVarName) override;
+    bool addPrint(StmtNo s, VarName name) override;
+    bool addFinalStatementNo(StmtNo s) override;
+    bool addProcedure(Str procedureName) override; // future: should this have an associated StmtList?
+    bool addVar(StmtNo sNum, VarName name) override;
+    bool addConst(StmtNo sNum, ConstVal c) override;
     // -- Add Abstractions --
     // Adds a follows relationship to the follows table
-    bool addFollows(StmtNo before, StmtNo after);
-    bool addFollowsT(StmtNo before, StmtNo after);
+    bool addFollows(StmtNo before, StmtNo after) override;
+    bool addFollowsT(StmtNo before, StmtNo after) override;
     // Adds a parent relationship to the parent table
-    bool addParent(StmtNo parent, StmtNo child); // parent is s1, child is s2
-    bool addParentT(StmtNo ancestor, StmtNo descendant);
+    bool addParent(StmtNo parent, StmtNo child) override;
+    bool addParentT(StmtNo ancestor, StmtNo descendant) override;
     // Adds a uses relationship to the uses table
-    bool addUses(StmtNo sNum, VarName name);
-    bool addUses(ProcName ProcedureName, VarName name);
+    bool addUses(StmtNo sNum, VarName name) override;
+    bool addUses(ProcName ProcedureName, VarName name) override;
     // Adds a modifies relationship to the modifies table
-    bool addModifies(StmtNo sNum, VarName name);
-    bool addModifies(ProcName ProcedureName, VarName name);
-    bool addPatternAsgn(StmtNo sNum, Str lhs, Str rhsBracketed);
+    bool addModifies(StmtNo sNum, VarName name) override;
+    bool addModifies(ProcName ProcedureName, VarName name) override;
+    bool addPatternAsgn(StmtNo sNum, VarName LhsVarName, Str RhsExpression) override;
 };

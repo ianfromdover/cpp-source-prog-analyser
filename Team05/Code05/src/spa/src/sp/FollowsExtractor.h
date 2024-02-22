@@ -5,13 +5,15 @@
 #ifndef SPA_FOLLOWSEXTRACTOR_H
 #define SPA_FOLLOWSEXTRACTOR_H
 
+#include <utility>
+
 #include "RelationExtractor.h"
 #include "Stmt.h"
 
 class FollowsExtractor: public RelationExtractor {
 public:
     // Constructor
-    explicit FollowsExtractor(PopulatePKB& pkb) : RelationExtractor(pkb) {}
+    explicit FollowsExtractor(shared_ptr<BasePKBPopulator> pkb) : RelationExtractor(std::move(pkb)) {}
     // Top-level Methods
     void visitProcedure(const Procedure& procedure) override;
     // Statement Methods

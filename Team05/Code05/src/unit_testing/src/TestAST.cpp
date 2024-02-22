@@ -40,7 +40,7 @@ TEST_CASE("Tokenise sample program") {
     }
     )";
     std::shared_ptr<PKBStorage> p=std::make_shared<PKBStorage>();
-    PopulatePKB pkb = PopulatePKB(p);;
+    auto pkb = make_shared<PopulatePKB>(p);
     auto sp = SourceProcessor(pkb);
     auto tokens = sp.scan(codeSnippet);
     for (auto& token: *tokens) {
@@ -72,7 +72,7 @@ TEST_CASE("Parse sample program") {
     )";
 
     std::shared_ptr<PKBStorage> p=std::make_shared<PKBStorage>();
-    PopulatePKB pkb = PopulatePKB(p);;
+    auto pkb = make_shared<PopulatePKB>(p);
     auto sp = SourceProcessor(pkb);
     auto tokens = sp.scan(codeSnippet);
     const auto parser = new Parser(tokens);
@@ -206,7 +206,7 @@ TEST_CASE("Print with parent extractor") {
     }
     )";
     std::shared_ptr<PKBStorage> p=std::make_shared<PKBStorage>();
-    auto pkb = PopulatePKB(p);
+    auto pkb = make_shared<PopulatePKB>(p);
     auto sp = SourceProcessor(pkb);
     sp.exec(codeSnippet);
 
@@ -225,7 +225,7 @@ TEST_CASE("Print with parent extractor") {
 
 TEST_CASE("Test SIMPLE semantic analysis") {
     std::shared_ptr<PKBStorage> p=std::make_shared<PKBStorage>();
-    auto pkb = PopulatePKB(p);
+    auto pkb = make_shared<PopulatePKB>(p);
     auto sp = SourceProcessor(pkb);
 
     std::string repeatedProcedureName = R"(
