@@ -16,75 +16,79 @@
 #include "IntermediateQuery.h"
 
 
-    class QPSParser {
-    private:
-        //static std::initializer_list<>
-        int current = 0;
-        std::vector<std::shared_ptr<QPSToken>> tokens;
+class QPSParser {
+private:
+    //static std::initializer_list<>
+    int current = 0;
+    std::vector<std::shared_ptr<QPSToken>> tokens;
 
-    public:
-        explicit QPSParser(QPSTokenList &tokens) : tokens(tokens.getTokens()) {};
+public:
+    explicit QPSParser(QPSTokenList &tokens) : tokens(tokens.getTokens()) {};
 
-        std::shared_ptr<IntermediateQuery> parse();
+    std::shared_ptr<IntermediateQuery> parse();
 
-    private:
-        bool match(std::initializer_list<QPSTokenType::QPSTypeInfo> types);
+private:
+    bool match(std::initializer_list<QPSTokenType::QPSTypeInfo> types);
 
-        bool check(QPSTokenType::QPSTypeInfo type);
+    bool check(QPSTokenType::QPSTypeInfo type);
 
-        bool check(std::initializer_list<QPSTokenType::QPSTypeInfo> types);
+    bool check(std::initializer_list<QPSTokenType::QPSTypeInfo> types);
 
-        bool isDeclaration();
+    bool isDeclaration();
 
-        bool isRelationship();
+    bool isRelationship();
 
-        bool isSuchThat();
+    bool isSuchThat();
 
-        bool isAtEnd();
+    bool isAtEnd();
 
-        QPSToken advance();
+    QPSToken advance();
 
-        QPSToken peek();
+    QPSToken peek();
 
-        std::vector<QPSToken> peekAhead(int lookahead);
+    std::vector<QPSToken> peekAhead(int lookahead);
 
-        QPSToken previous();
+    QPSToken previous();
 
-        bool checkPrevious(QPSTokenType::QPSTypeInfo type);
+    bool checkPrevious(QPSTokenType::QPSTypeInfo type);
 
-        QPSToken consume(QPSTokenType::QPSTypeInfo type, const std::string& message);
+    QPSToken consume(QPSTokenType::QPSTypeInfo type, const std::string &message);
 
-        std::shared_ptr<DeclarationClause> declaration();
+    std::shared_ptr<DeclarationClause> declaration();
 
-        std::shared_ptr<SelectClause> select();
+    std::shared_ptr<SelectClause> select();
 
-        std::shared_ptr<RelationshipClause> relationship();
+    std::shared_ptr<RelationshipClause> relationship();
 
-        std::shared_ptr<RelationshipClause> parent();
-        std::shared_ptr<RelationshipClause> follow();
-        std::shared_ptr<RelationshipClause> uses();
-        std::shared_ptr<RelationshipClause> modifies();
+    std::shared_ptr<RelationshipClause> parent();
 
-        std::shared_ptr<PatternClause> pattern();
+    std::shared_ptr<RelationshipClause> follow();
 
-        QPSToken stmtRef();
+    std::shared_ptr<RelationshipClause> uses();
 
-        QPSToken entRef();
+    std::shared_ptr<RelationshipClause> modifies();
 
-        QPSToken synonym(QPSToken t);
+    std::shared_ptr<PatternClause> pattern();
 
-        QPSToken exprSpec();
+    QPSToken stmtRef();
 
-        QPSToken expr();
-        QPSToken exprTail();
+    QPSToken entRef();
 
-        QPSToken term();
-        QPSToken termTail();
+    QPSToken synonym(QPSToken t);
 
-        QPSToken factor();
+    QPSToken exprSpec();
 
-    };
+    QPSToken expr();
 
+    QPSToken exprTail();
+
+    QPSToken term();
+
+    QPSToken termTail();
+
+    QPSToken factor();
+
+};
 
 
 #endif //SPA_QPSPARSER_H

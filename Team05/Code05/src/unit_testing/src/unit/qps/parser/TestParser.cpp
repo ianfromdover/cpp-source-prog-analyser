@@ -2,10 +2,12 @@
 // Created by Alex on 16/2/2024.
 //
 
+#include <iostream>
 #include "catch.hpp"
 #include "qps/parser/QPSParser.h"
 #include "qps/parser/Demo.h"
 #include "TokenListBuilder.h"
+#include "IntermediateBuilder.h"
 
 
 typedef QPSTokenType::QPSTypeInfo type;
@@ -31,7 +33,8 @@ TEST_CASE("singleDeclaration_singleSelect") {
     tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().get();
 
     QPSParser parser(tokens);
-    REQUIRE_NOTHROW(parser.parse());
+    IntermediateQuery query;
+    REQUIRE_NOTHROW(query = *parser.parse());
 }
 
 TEST_CASE("multipleDeclaration_singleSelect") {
@@ -589,21 +592,21 @@ TEST_CASE("singleDeclaration_singleSelect_singleRelationship_singlePattern") {
     }
     SECTION("followsStar_pattern"){
         QPSTokenList tokens;
-        tokens = TokenListBuilder().multiPrintDeclaration().select().identifier().validFollowsStar().validPattern().get();
+        tokens = TokenListBuilder().multiVariableDeclaration().select().identifier().validFollowsStar().validPattern().get();
 
         QPSParser parser(tokens);
         REQUIRE_NOTHROW(parser.parse());
     }
     SECTION("uses_pattern"){
         QPSTokenList tokens;
-        tokens = TokenListBuilder().multiReadDeclaration().select().identifier().validUses().validPattern().get();
+        tokens = TokenListBuilder().multiConstantDeclaration().select().identifier().validUses().validPattern().get();
 
         QPSParser parser(tokens);
         REQUIRE_NOTHROW(parser.parse());
     }
     SECTION("modifies_pattern"){
         QPSTokenList tokens;
-        tokens = TokenListBuilder().multiAssignDeclaration().select().identifier().validModifies().validPattern().get();
+        tokens = TokenListBuilder().multiProcedureDeclaration().select().identifier().validModifies().validPattern().get();
 
         QPSParser parser(tokens);
         REQUIRE_NOTHROW(parser.parse());

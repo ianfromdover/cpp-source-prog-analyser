@@ -20,6 +20,20 @@ public:
     void addDeclaration(const QPSTokenType &, const std::string &);
 
     std::vector<std::pair<QPSTokenType::QPSTypeInfo, std::string>> getAllDeclarations();
+
+    bool operator==(const DeclarationClause &other) const {
+        return declarationMap == other.declarationMap;
+    }
+
+    std::string toString() {
+        std::string result = "Declaration: ";
+        for (const auto &pair : declarationMap) {
+            for (const std::string &s : pair.second) {
+                result += pair.first.toString() + " " + s + " ";
+            }
+        }
+        return result;
+    }
 };
 
 

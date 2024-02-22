@@ -40,6 +40,20 @@ public:
 
     QPSToken &getSecondArg();
 
+    bool operator==(const PatternClause& other) const{
+        return
+        synonym == other.synonym &&
+        *firstArg == *other.firstArg &&
+        firstArgType == other.firstArgType &&
+        *secondArg == *other.secondArg &&
+        secondArgType == other.secondArgType;
+
+    }
+
+    std::string toString() {
+        return "Pattern: []";
+    }
+
 private:
     std::string synonym;
 

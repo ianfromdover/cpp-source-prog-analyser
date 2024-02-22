@@ -36,6 +36,18 @@ public:
 
     QPSToken &getSecondArg();
 
+    bool operator==(const RelationshipClause &other) const {
+        return relationshipType == other.relationshipType &&
+        *firstArg == *other.firstArg &&
+        firstArgRefType == other.firstArgRefType &&
+        *secondArg == *other.secondArg &&
+        secondArgRefType == other.secondArgRefType;
+    }
+
+    std::string toString() {
+        return "Relationship: []";
+    }
+
 private:
     QPSTokenType::QPSTypeInfo relationshipType;
 

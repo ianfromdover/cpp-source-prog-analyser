@@ -20,6 +20,18 @@ public:
 
     std::vector<std::string> selectElements;
 
+    bool operator==(const SelectClause& other) const  {
+        return selectElements == other.selectElements;
+    }
+
+    std::string toString() {
+        std::string result = "Select: ";
+        for (const auto &selectElement : selectElements) {
+            result += selectElement + " ";
+        }
+        return result;
+    }
+
 };
 
 

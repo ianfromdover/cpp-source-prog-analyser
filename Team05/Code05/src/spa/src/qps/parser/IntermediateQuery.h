@@ -37,6 +37,18 @@ public:
 
     std::map<std::string, QPSTokenType::QPSTypeInfo> getSynonymTypeMap();
 
+    bool operator==(const IntermediateQuery &other) const {
+        return clauses == other.clauses;
+    }
+
+    std::string toString() {
+        std::string result = "IntermediateQuery: ";
+        for (const auto &clause : clauses) {
+            result += clause->toString() + " ";
+        }
+        return result;
+    }
+
 private:
     bool hasClauseType(Clause::ClauseType type);
 
