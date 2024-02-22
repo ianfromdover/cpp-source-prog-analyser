@@ -213,8 +213,3 @@ TEST_CASE("Print with parent extractoar") {
 
 
 }
-
-TEST_CASE("intermediate demo") {
-    Demo obj;
-    obj.demonstrate();
-}

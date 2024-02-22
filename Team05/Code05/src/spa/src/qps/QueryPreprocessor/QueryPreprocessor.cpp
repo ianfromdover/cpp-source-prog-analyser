@@ -3,7 +3,6 @@
 //
 
 #include "QueryPreprocessor.h"
-#include "HandlerChain.h"
 #include "qps/tokenizer/QPSStrategyList.h"
 #include "qps/tokenizer/Tokenizer.h"
 #include "qps/parser/QPSParser.h"
