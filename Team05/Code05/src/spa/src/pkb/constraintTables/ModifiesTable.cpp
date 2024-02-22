@@ -17,13 +17,11 @@ bool ModifiesTable::isModifiesS(StmtNo stmtNo, VarName varName) {
         return false;  // The varName is not present in the map
     }
 
-//    // Check if 'stmtNo' is in the keys associated with 'varName'
-//    auto keys = twoSideMapMMStmtNo.getKeys(varName);
-//    if (keys.empty()) {
-//        return false;  // No keys associated with 'varName'
-//    }
-// TODO: fix this problem
-    auto keys = {4};
+    // Check if 'stmtNo' is in the keys associated with 'varName'
+    auto keys = twoSideMapMMStmtNo.getKeys(varName);
+    if (keys.empty()) {
+        return false;  // No keys associated with 'varName'
+    }
 
     // Check if 'stmtNo' is present in the keys associated with 'varName'
     const std::vector<StmtNo>& keyValues = keys;
@@ -31,8 +29,7 @@ bool ModifiesTable::isModifiesS(StmtNo stmtNo, VarName varName) {
 }
 
 bool ModifiesTable::hasModifiersS(VarName varName) {
-//    return twoSideMapMMStmtNo.getKeys(varName).empty();
-    return true; // TODO: check if actually is OM map instead
+    return !twoSideMapMMStmtNo.getKeys(varName).empty();
 }
 
 bool ModifiesTable::hasModifiedS(StmtNo stmtNo) {
@@ -40,12 +37,11 @@ bool ModifiesTable::hasModifiedS(StmtNo stmtNo) {
 }
 
 std::vector<StmtNo> ModifiesTable::getModifiersS(VarName varName) {
-//    std::vector<StmtNo> k = twoSideMapMMStmtNo.getKeys(varName);
-//    if (k.empty()) {
-//        return {-1};
-//    }
-//    return k;
-    return {1}; //TODO: FIX THIS
+    auto k = twoSideMapMMStmtNo.getKeys(varName);
+    if (k.empty()) {
+        return {};
+    }
+    return k;
 }
 
 std::vector<VarName> ModifiesTable::getModifiedS(StmtNo stmtNo) {
@@ -66,16 +62,23 @@ bool ModifiesTable::addModifiesP(ProcName procName, VarName varName) {
 }
 
 bool ModifiesTable::isModifiesP(ProcName procName, VarName varName) {
-    if (!twoSideMapMMProcName.containsKey(procName)
-        || !twoSideMapMMProcName.containsValue(varName)) {
-        return false;
+    if (!twoSideMapMMProcName.containsKey(procName)) {
+        return false;  // The varName is not present in the map
     }
-//    return twoSideMapMMProcName.getKeys(varName).value() == procName;
+
+    // Check if 'stmtNo' is in the keys associated with 'varName'
+    auto keys = twoSideMapMMProcName.getKeys(varName);
+    if (keys.empty()) {
+        return false;  // No keys associated with 'varName'
+    }
+
+    // Check if 'stmtNo' is present in the keys associated with 'varName'
+    const std::vector<ProcName>& keyValues = keys;
+    return std::find(keyValues.begin(), keyValues.end(), procName) != keyValues.end();
 }
 
 bool ModifiesTable::hasModifiersP(VarName varName) {
-//    return twoSideMapMMProcName.getKeys(varName).has_value();
-    return true; //TODO: fix this tmr
+    return !twoSideMapMMProcName.getKeys(varName).empty();
 }
 
 bool ModifiesTable::hasModifiedP(ProcName procName) {

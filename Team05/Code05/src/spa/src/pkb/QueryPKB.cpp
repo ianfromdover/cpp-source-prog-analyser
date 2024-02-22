@@ -1,6 +1,7 @@
 #include "PKBStorage.h"
 #include "QueryPKB.h"
 #include "qps/QueryEvaluator/QueryResult/IntResult.h"
+#include "qps/QueryEvaluator/QueryResult/StringResult.h"
 #include "qps/query_elements/constraint_argument/IntegerArgument.h"
 #include "qps/query_elements/constraint_argument/StatementEntity.h"
 
@@ -42,9 +43,11 @@ std::shared_ptr<QueryResult> QueryPKB::getResult(Returnable &r, Constraint &c) {
         } else if (type == CONSTRAINT_TYPE_USESS) {
             finalResult = queryUsesTable(argList);
         } else if (type == CONSTRAINT_TYPE_MODIFIESS) {
-            finalResult = queryModifiesTable(argList);
+            finalResult = queryModifiesSTable(argList);
+        } else if (type == CONSTRAINT_TYPE_MODIFIESP) {
+            finalResult = queryModifiesPTable(argList);
         } else {
-                finalResult = {};
+            finalResult = {};
         }
 //        std::vector<int> converted;
 
@@ -141,21 +144,43 @@ std::shared_ptr<QueryResult> QueryPKB::queryUsesTable(vector<shared_ptr<Constrai
     IntResult res(results);
     return std::make_shared<IntResult>(res);
 }
-//
-//std::shared_ptr<QueryResult> QueryPKB::queryModifiesTable(vector<shared_ptr<ConstraintArgument>> argList) {
-//    std::vector<int> results;
-//    if (argList[0]->getEntityType() == RETURN_TYPE_INTEGER) {
-//        // finding what variable(s) argList[0] modifies
-//        std::shared_ptr<IntegerArgument> newInt = std::dynamic_pointer_cast<IntegerArgument>(argList[0]);
-//        int i = newInt->value; //get value
-//        results = pkb->modifiesTable->getModifies(i); // glue code
-//    } else {
-//        // finding what variable(s) argList[1] is modified by
-//        std::shared_ptr<IntegerArgument> newInt = std::dynamic_pointer_cast<IntegerArgument>(argList[1]);
-//        int i = newInt->value; //get value
-//        results.push_back(pkb->modifiesTable->getModifiedBy(i)); // glue code
-//    }
-//    IntResult res(results);
-//    return std::make_shared<IntResult>(res);
-//}
-// TODO: change to modifiesS table
+
+std::shared_ptr<QueryResult> QueryPKB::queryModifiesSTable(vector<shared_ptr<ConstraintArgument>> argList) {
+    if (argList[0]->getEntityType() == RETURN_TYPE_INTEGER) {
+        std::vector<VarName> resultsV;
+        // finding what variable(s) argList[0] modifies
+        std::shared_ptr<IntegerArgument> newInt = std::dynamic_pointer_cast<IntegerArgument>(argList[0]);
+        int i = newInt->value; //get value
+        resultsV = pkb->modifiesTable->getModifiedS(i);
+        StringResult res(resultsV);
+        return std::make_shared<StringResult>(res);
+    } else {
+        std::vector<StmtNo> resultsS;
+        // finding what variable(s) argList[1] is modified by
+        std::shared_ptr<StatementEntity> newVar = std::dynamic_pointer_cast<StatementEntity>(argList[1]);
+        VarName v = newVar->value;
+        resultsS = pkb->modifiesTable->getModifiersS(v);
+        IntResult res(resultsS);
+        return std::make_shared<IntResult>(res);
+    }
+}
+
+shared_ptr<QueryResult> QueryPKB::queryModifiesPTable(vector<shared_ptr<ConstraintArgument>> argList) {
+    if (argList[0]->getEntityType() == RETURN_TYPE_WILDCARD) {
+        std::vector<ProcName> resultsP;
+        // finding what variable(s) argList[1] is modified by
+        std::shared_ptr<StatementEntity> newVar = std::dynamic_pointer_cast<StatementEntity>(argList[1]);
+        VarName v = newVar->value;
+        resultsP = pkb->modifiesTable->getModifiersP(v);
+        StringResult res(resultsP);
+        return std::make_shared<StringResult>(res);
+    } else {
+        std::vector<VarName> resultsV;
+        // finding what variable(s) argList[0] modifies
+        std::shared_ptr<StatementEntity> newProc = std::dynamic_pointer_cast<StatementEntity>(argList[1]);
+        ProcName p = newProc->value;
+        resultsV = pkb->modifiesTable->getModifiedP(p);
+        StringResult res(resultsV);
+        return std::make_shared<StringResult>(res);
+    }
+}

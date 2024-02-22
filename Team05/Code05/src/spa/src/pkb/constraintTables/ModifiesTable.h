@@ -11,6 +11,7 @@
 class ModifiesTable {
 private:
     TwoSideMapManyMany<StmtNo, VarName> twoSideMapMMStmtNo;
+    //
     TwoSideMapManyMany<ProcName, VarName> twoSideMapMMProcName;
 public:
     ModifiesTable();

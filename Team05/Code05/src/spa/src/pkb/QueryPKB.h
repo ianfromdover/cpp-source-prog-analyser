@@ -17,9 +17,9 @@ public:
     QueryPKB(std::shared_ptr<PKBStorage> p);
     ~QueryPKB();
 
-    vector<StmtNo> getChildren(StmtNo parent);
-    StmtNo getParent(StmtNo child);
-    vector<StmtNo> getSiblings(StmtNo child);
+//    vector<StmtNo> getChildren(StmtNo parent);
+//    StmtNo getParent(StmtNo child);
+//    vector<StmtNo> getSiblings(StmtNo child);
 
     bool getFollows(StmtNo before, StmtNo after);
     bool getParent(StmtNo parent, StmtNo child);
@@ -35,7 +35,9 @@ public:
 
     shared_ptr<QueryResult> queryUsesTable(vector<shared_ptr<ConstraintArgument>> argList);
 
-    shared_ptr<QueryResult> queryModifiesTable(vector<shared_ptr<ConstraintArgument>> argList);
+    shared_ptr<QueryResult> queryModifiesSTable(vector<shared_ptr<ConstraintArgument>> argList);
+
+    shared_ptr<QueryResult> queryModifiesPTable(vector<shared_ptr<ConstraintArgument>> argList);
 
     shared_ptr<QueryResult> queryParentTTable(vector<shared_ptr<ConstraintArgument>> argList);
 

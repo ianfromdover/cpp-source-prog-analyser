@@ -52,14 +52,14 @@ bool PopulatePKB::addFollows(StmtNo before, StmtNo after) {
     return pkb->followsTable->addFollows(before, after);
 }
 bool PopulatePKB::addFollowsT(StmtNo before, StmtNo after) {
-    return false;
+    return pkb->followsTTable->addFollowsT(before, after);
 }
 
 bool PopulatePKB::addParent(StmtNo parent, StmtNo child) {
     return pkb->parentTable->addParent(parent, child);
 }
 bool PopulatePKB::addParentT(StmtNo ancestor, StmtNo descendant) {
-    return false;
+    return pkb->parentTTable->addParentT(ancestor, descendant);
 }
 bool PopulatePKB::addUses(StmtNo sNum, VarName name) {
     return false;
