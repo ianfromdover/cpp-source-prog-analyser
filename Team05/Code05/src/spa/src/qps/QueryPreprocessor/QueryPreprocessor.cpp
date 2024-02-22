@@ -9,6 +9,7 @@
 #include "qps/parser/QPSParser.h"
 #include "qps/query_validator/RuleSet.h"
 #include "qps/query_builder/QueryObjectBuilder.h"
+#include "qps/query_validator/QueryValidator.h"
 
 
 std::shared_ptr<QueryObject> QueryPreprocessor::processQuery(std::string & queryStr) {
@@ -25,34 +26,11 @@ std::shared_ptr<QueryObject> QueryPreprocessor::processQuery(std::string & query
         throw std::exception("syntax error");
     }
 
-    RuleSet ruleSet;
-    std::string validationResults;
-    for (auto& rule : ruleSet.getDeclarationRules()){
-         std::string result = rule->validate(*intermediateQuery);
-         validationResults.append(result.empty()? "" : result + ", ");
-    }
-
-    if (validationResults.empty()){
-        intermediateQuery->processDeclarations();
-
-        for (auto& rule : ruleSet.getRules()){
-            std::string result = rule->validate(*intermediateQuery);
-            validationResults.append(result.empty()? "" : result + ", ");
-        }
-    }
-
-    if (!validationResults.empty()){
-        std::string msg = "semantic error: " + validationResults;
-        throw std::exception(msg.c_str());
-    }
-
-    intermediateQuery->processDeclarations();
+    QueryValidator validator;
+    validator.validateQuery(*intermediateQuery); // Will throw if semantic error
 
     QueryObjectBuilderTest builder;
     std::shared_ptr<QueryObject> qo = builder.build(intermediateQuery);
 
     return qo;
-
-
-
 }

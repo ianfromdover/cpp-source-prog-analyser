@@ -14,7 +14,7 @@
 class QueryValidator {
 public:
     std::vector<std::string> validateQuery(QueryObject&);
-    std::vector<std::string> validateQuery(IntermediateQuery&);
+    void validateQuery(IntermediateQuery&);
 };
 
 

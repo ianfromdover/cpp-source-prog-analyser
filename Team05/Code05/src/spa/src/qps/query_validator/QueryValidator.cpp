@@ -16,7 +16,34 @@ std::vector<std::string> QueryValidator::validateQuery(QueryObject& qo) {
     return failedRules;
 }
 
-std::vector<std::string> QueryValidator::validateQuery(IntermediateQuery &) {
+void QueryValidator::validateQuery(IntermediateQuery & intermediateQuery) {
 
-    return std::vector<std::string>();
+    auto* ruleSet = new class RuleSet();
+    std::vector<std::string> validationResults;
+
+    for (auto& rule : ruleSet->getDeclarationRules()){
+        std::string result = rule->validate(intermediateQuery);
+        if (!result.empty()){
+            validationResults.push_back(result);
+        }
+    }
+
+    if (validationResults.empty()){
+        intermediateQuery.processDeclarations();
+
+        for (auto& rule : ruleSet->getRules()){
+            std::string result = rule->validate(intermediateQuery);
+            if (!result.empty()){
+                validationResults.push_back(result);
+            }
+        }
+    }
+
+    if (!validationResults.empty()){
+        std::string msg = "semantic error: ";
+        for (auto& result : validationResults){
+            msg += result + " ";
+        }
+        throw std::exception(msg.c_str());
+    }
 }
