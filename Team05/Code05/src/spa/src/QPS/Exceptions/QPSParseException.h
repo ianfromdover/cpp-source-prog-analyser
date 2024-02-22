@@ -10,12 +10,12 @@
 
 class QPSParseException : public BaseException {
 public:
-    QPSParseException(const std::string& message) : BaseException("QPS Parse Error: " + message) {}
-    const char* what() const noexcept override {
-        return msg;
+    explicit QPSParseException(const std::string& message) : BaseException("QPS Parse Error: " + message) {}
+    [[nodiscard]] const char* what() const noexcept override {
+        return message_.c_str();
     }
 private:
-    const char* msg;
+    std::string message_;
 };
 
 #endif //SPA_QPSPARSEEXCEPTION_H

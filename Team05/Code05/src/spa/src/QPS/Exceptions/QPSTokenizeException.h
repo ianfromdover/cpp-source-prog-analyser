@@ -10,12 +10,12 @@
 
 class QPSTokenizeException : public BaseException {
 public:
-    QPSTokenizeException(const std::string& message) : BaseException("QPS Tokenize Error: " + message) {}
-    const char* what() const noexcept override {
-        return msg;
+    explicit QPSTokenizeException(const std::string& message) : BaseException("QPS Tokenize Error: " + message) {}
+    [[nodiscard]] const char* what() const noexcept override {
+        return message_.c_str();
     }
 private:
-    const char* msg;
+    std::string message_;
 };
 
 #endif //SPA_QPSTOKENIZEEXCEPTION_H

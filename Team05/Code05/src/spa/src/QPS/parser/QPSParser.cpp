@@ -396,39 +396,37 @@ QPSToken QPSParser::factor() {
 std::shared_ptr<IntermediateQuery> QPSParser::parse() {
     auto query = std::make_shared<IntermediateQuery>();
 
-    if (isDeclaration()) {
-        while (this->isDeclaration()) {
-            std::shared_ptr<DeclarationClause> declaration = this->declaration();
-            query->addClause(declaration);
-        }
+    do {
+        std::shared_ptr<DeclarationClause> declaration = this->declaration();
+        query->addClause(declaration);
+    } while (isDeclaration());
 
-        if (this->check(QPSTokenType::SELECT)) {
-            std::shared_ptr<SelectClause> select = this->select();
-            query->addClause(select);
-        }
-
-        while (isSuchThat() || this->check({QPSTokenType::PATTERN})) {
-
-            if (isSuchThat()) {
-                this->consume(QPSTokenType::SUCH, "Expect 'such'.");
-                this->consume(QPSTokenType::THAT, "Expect 'that' after 'such'.");
-
-                if (isRelationship()) {
-                    std::shared_ptr<RelationshipClause> relationship = this->relationship();
-
-                    if (relationship) query->addClause(relationship);
-                }
-            }
-
-            if (this->match({QPSTokenType::PATTERN})) {
-                std::shared_ptr<PatternClause> pattern = this->pattern();
-                if (pattern) query->addClause(pattern);
-            }
-        }
-
-        if (!isAtEnd()) throw QPSParseException("at [" + std::to_string(current) + "]: Expect end of file.");
-
-        return query;
+    if (this->check(QPSTokenType::SELECT)) {
+        std::shared_ptr<SelectClause> select = this->select();
+        query->addClause(select);
+    } else {
+        throw QPSParseException("at [" + std::to_string(current) + "]: Expect select clause.");
     }
-    throw QPSParseException("at [" + std::to_string(current) + "]: Expect declaration clause.");
+
+    while (isSuchThat() || this->check({QPSTokenType::PATTERN})) {
+
+        if (isSuchThat()) {
+            this->consume(QPSTokenType::SUCH, "Expect 'such'.");
+            this->consume(QPSTokenType::THAT, "Expect 'that' after 'such'.");
+
+            if (isRelationship()) {
+                std::shared_ptr<RelationshipClause> relationship = this->relationship();
+
+                if (relationship) query->addClause(relationship);
+            }
+        }
+
+        if (this->match({QPSTokenType::PATTERN})) {
+            std::shared_ptr<PatternClause> pattern = this->pattern();
+            if (pattern) query->addClause(pattern);
+        }
+    }
+
+    if (!isAtEnd()) throw QPSParseException("at [" + std::to_string(current) + "]: Expect end of file.");
+    return query;
 }
