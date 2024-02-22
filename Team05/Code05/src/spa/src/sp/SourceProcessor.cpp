@@ -54,7 +54,7 @@ void SourceProcessor::extract(const Program& program) {
     };
     for (const auto& procedure : *program) {
         //std::cout << "pkb.addProcedure(" << procedure->getProcName() << ");" << std::endl;
-        pkb.addProcedure(procedure->getName());
+        pkb->addProcedure(procedure->getName());
         for (const auto& extractor : relationExtractor) {
             procedure->accept(*extractor);
         }

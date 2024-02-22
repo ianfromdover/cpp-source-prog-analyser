@@ -5,13 +5,15 @@
 #ifndef SPA_WHILEEXTRACTOR_H
 #define SPA_WHILEEXTRACTOR_H
 
+#include <utility>
+
 #include "RelationExtractor.h"
 #include "Stmt.h"
 
 class WhileExtractor: public RelationExtractor {
 public:
     // Constructor
-    explicit WhileExtractor(PopulatePKB& pkb) : RelationExtractor(pkb) {}
+    explicit WhileExtractor(shared_ptr<PKBApi> pkb) : RelationExtractor(std::move(pkb)) {}
     // Statement Methods
     void visitReadStmt(const Read& stmt, shared_ptr<Accumulator>& parentInfo) override;
     void visitPrintStmt(const Print& stmt, shared_ptr<Accumulator>& parentInfo) override;

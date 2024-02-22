@@ -7,33 +7,33 @@
 void ParentExtractor::visitReadStmt(const Read& stmt, shared_ptr<Accumulator>& parentInfo) {
     for (const auto& stmtNo : parentInfo->info) {
         //std::cout << "pkb.addParentT(" << stmtNo << ", " << stmt.getStmtNo() << ");" << std::endl;
-        pkb.addParentT(stmtNo, stmt.getStmtNo());
+        pkb->addParentT(stmtNo, stmt.getStmtNo());
     }
 }
 
 void ParentExtractor::visitPrintStmt(const Print& stmt, shared_ptr<Accumulator>& parentInfo) {
     for (const auto& stmtNo : parentInfo->info) {
         //std::cout << "pkb.addParentT(" << stmtNo << ", " << stmt.getStmtNo() << ");" << std::endl;
-        pkb.addParentT(stmtNo, stmt.getStmtNo());
+        pkb->addParentT(stmtNo, stmt.getStmtNo());
     }
 }
 
 void ParentExtractor::visitCallStmt(const Call& stmt, shared_ptr<Accumulator>& parentInfo) {
     for (const auto& stmtNo : parentInfo->info) {
         //std::cout << "pkb.addParentT(" << stmtNo << ", " << stmt.getStmtNo() << ");" << std::endl;
-        pkb.addParentT(stmtNo, stmt.getStmtNo());
+        pkb->addParentT(stmtNo, stmt.getStmtNo());
     }
 }
 
 void ParentExtractor::visitWhileStmt(const While& stmt, shared_ptr<Accumulator>& parentInfo) {
     for (const auto& stmtNo : parentInfo->info) {
         //std::cout << "pkb.addParentT(" << stmtNo << ", " << stmt.getStmtNo() << ");" << std::endl;
-        pkb.addParentT(stmtNo, stmt.getStmtNo());
+        pkb->addParentT(stmtNo, stmt.getStmtNo());
     }
     parentInfo->info.emplace_back(stmt.getStmtNo());
     for (const auto& childStmt : *stmt.getBody()) {
         //std::cout << "pkb.addParent(" << stmt.getStmtNo() << ", " << childStmt->getStmtNo() << ");" << std::endl;
-        pkb.addParent(stmt.getStmtNo(), childStmt->getStmtNo());
+        pkb->addParent(stmt.getStmtNo(), childStmt->getStmtNo());
         auto parentInfoCopy = std::make_shared<Accumulator>(*parentInfo);
         childStmt->accept(*this, parentInfoCopy);
     }
@@ -42,18 +42,18 @@ void ParentExtractor::visitWhileStmt(const While& stmt, shared_ptr<Accumulator>&
 void ParentExtractor::visitIfStmt(const If& stmt, shared_ptr<Accumulator>& parentInfo) {
     for (const auto& stmtNo : parentInfo->info) {
         //std::cout << "pkb.addParentT(" << stmtNo << ", " << stmt.getStmtNo() << ");" << std::endl;
-        pkb.addParentT(stmtNo, stmt.getStmtNo());
+        pkb->addParentT(stmtNo, stmt.getStmtNo());
     }
     parentInfo->info.emplace_back(stmt.getStmtNo());
     for (const auto& childStmt: *stmt.getThenBranch()) {
         //std::cout << "pkb.addParent(" << stmt.getStmtNo() << ", " << childStmt->getStmtNo() << ");" << std::endl;
-        pkb.addParent(stmt.getStmtNo(), childStmt-> getStmtNo());
+        pkb->addParent(stmt.getStmtNo(), childStmt-> getStmtNo());
         auto parentInfoCopy = std::make_shared<Accumulator>(*parentInfo);
         childStmt->accept(*this, parentInfoCopy);
     }
     for (const auto& childStmt: *stmt.getElseBranch()) {
         //std::cout << "pkb.addParent(" << stmt.getStmtNo() << ", " << childStmt->getStmtNo() << ");" << std::endl;
-        pkb.addParent(stmt.getStmtNo(), childStmt-> getStmtNo());
+        pkb->addParent(stmt.getStmtNo(), childStmt-> getStmtNo());
         auto parentInfoCopy = std::make_shared<Accumulator>(*parentInfo);
         childStmt->accept(*this, parentInfoCopy);
     }
@@ -62,7 +62,7 @@ void ParentExtractor::visitIfStmt(const If& stmt, shared_ptr<Accumulator>& paren
 void ParentExtractor::visitAssignStmt(const Assign& stmt, shared_ptr<Accumulator>& parentInfo) {
     for (const auto& stmtNo : parentInfo->info) {
         //std::cout << "pkb.addParentT(" << stmtNo << ", " << stmt.getStmtNo() << ");" << std::endl;
-        pkb.addParentT(stmtNo, stmt.getStmtNo());
+        pkb->addParentT(stmtNo, stmt.getStmtNo());
     }
 }
 

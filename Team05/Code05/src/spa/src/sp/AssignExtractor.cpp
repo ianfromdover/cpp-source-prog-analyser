@@ -47,7 +47,7 @@ void AssignExtractor::visitBinaryExpr(const Binary& expr, shared_ptr<Accumulator
 void AssignExtractor::visitVariableExpr(const Variable& expr, shared_ptr<Accumulator>& parentInfo) {
     for (const auto& stmtNo : parentInfo->info) {
         //std::cout << "pkb.addAssign(" << stmtNo << ", " << expr.getName() << ");" << std::endl;
-        pkb.addAssign(stmtNo, expr.getName());
+        pkb->addAssign(stmtNo, expr.getName());
     }
 }
 

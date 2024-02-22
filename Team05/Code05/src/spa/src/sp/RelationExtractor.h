@@ -5,15 +5,17 @@
 #ifndef SPA_RELATIONEXTRACTOR_H
 #define SPA_RELATIONEXTRACTOR_H
 
+#include <utility>
+
 #include "ProgramVisitor.h"
 #include "pkb/PopulatePKB.h"
 #include "Stmt.h"
 
 class RelationExtractor : public ProgramVisitor {
 protected:
-    PopulatePKB pkb;
+    shared_ptr<PKBApi> pkb;
 public:
-    explicit RelationExtractor(PopulatePKB& pkb) : pkb(pkb) {}
+    explicit RelationExtractor(shared_ptr<PKBApi> pkb) : pkb(std::move(pkb)) {}
     virtual ~RelationExtractor() = default;
     void visitProcedure(const Procedure&) override;
 };
