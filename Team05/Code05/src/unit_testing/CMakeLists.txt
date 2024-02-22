@@ -4,7 +4,8 @@ add_executable(unit_testing ${srcs}
         ../spa/src/utilSpa/base_exception/BaseException.h
         src/unit/sp/test/ReadExtractorTest.cpp
         src/unit/sp/test/CallExtractorTest.cpp
-        src/unit/sp/test/WhileExtractorTest.cpp)
+        src/unit/sp/test/WhileExtractorTest.cpp
+        src/unit/sp/test/VariableExtractorTest.cpp)
 
 target_link_libraries(unit_testing spa)
 
