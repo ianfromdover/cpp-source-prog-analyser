@@ -9,14 +9,26 @@ public:
     static std::shared_ptr<Procedure> createAssignCallPrintRead() {
         auto procedure = AstFactory::createProcedure("AssignCallPrintRead",
         AstFactory::createStmtList({
-            // (1) x = y + 3;
+            // (1) t + 1 = y + 3 * (1 + y);
             AstFactory::createAssign(1,
-                                     AstFactory::createVariable("x"),
-                                     AstFactory::createBinary(
-                                             AstFactory::createVariable("y"),
-                                             AstFactory::createTokens(TokenType::ADD, "+"),
-                                             AstFactory::createLiteral(3)
-                                             )),
+                AstFactory::createBinary(
+                        AstFactory::createVariable("t"),
+                        AstFactory::createTokens(TokenType::ADD, "+"),
+                        AstFactory::createLiteral(1)
+                ),
+                AstFactory::createBinary(
+                        AstFactory::createBinary(
+                        AstFactory::createBinary(
+                                AstFactory::createLiteral(1),
+                                AstFactory::createTokens(TokenType::ADD, "+"),
+                                AstFactory::createVariable("y")
+                        ),
+                        AstFactory::createTokens(TokenType::MULTIPLY, "*"),
+                        AstFactory::createLiteral(3)
+                ),
+                        AstFactory::createTokens(TokenType::ADD, "+"),
+                        AstFactory::createVariable("y")
+            )),
             // (2) call hello;
             AstFactory::createCall(2, "hello"),
             // (3) print t;
@@ -27,6 +39,8 @@ public:
     );
         return procedure;
     }
+
+    // Single Nesting Level
 
     static std::shared_ptr<Procedure> createIfElseWithStmtsBeforeAndInside() {
         auto procedure = AstFactory::createProcedure("IfElseWithStmtsBeforeAndInside",
@@ -54,13 +68,26 @@ public:
                     // then
                     std::make_shared<std::vector<std::shared_ptr<Stmt>>>(
                         std::initializer_list<std::shared_ptr<Stmt>>{
-                                // (6) x = y + 3;
-                                AstFactory::createAssign(6,
-                                                         AstFactory::createVariable("x"),
-                                                         AstFactory::createBinary(
-                                                                 AstFactory::createVariable("y"),
-                                                                 AstFactory::createTokens(TokenType::ADD, "+"),
-                                                                 AstFactory::createLiteral(3))),
+                            // (6) t + 1 = y + 3 * (1 + y);
+                            AstFactory::createAssign(6,
+                            AstFactory::createBinary(
+                                    AstFactory::createVariable("t"),
+                                    AstFactory::createTokens(TokenType::ADD, "+"),
+                                    AstFactory::createLiteral(1)
+                            ),
+                            AstFactory::createBinary(
+                                    AstFactory::createBinary(
+                                    AstFactory::createBinary(
+                                            AstFactory::createLiteral(1),
+                                            AstFactory::createTokens(TokenType::ADD, "+"),
+                                            AstFactory::createVariable("y")
+                                    ),
+                                    AstFactory::createTokens(TokenType::MULTIPLY, "*"),
+                                    AstFactory::createLiteral(3)
+                            ),
+                                    AstFactory::createTokens(TokenType::ADD, "+"),
+                                    AstFactory::createVariable("y")
+                            )),
                                 // (7) call hello;
                                 AstFactory::createCall(7, "hello"),
                                 // (8) print t;
@@ -93,7 +120,6 @@ public:
         return procedure;
     }
 
-    // Single Nesting Level
     static std::shared_ptr<Procedure> createIfElseWithStmtsBeforeAfterAndInside() {
         auto procedure = AstFactory::createProcedure("IfElseWithStmtsBeforeAfterAndInside",
             AstFactory::createStmtList({
@@ -429,13 +455,26 @@ public:
                                 // then
                                 std::make_shared<std::vector<std::shared_ptr<Stmt>>>(
                                     std::initializer_list<std::shared_ptr<Stmt>>{
-                                            // (7) x = y + 3;
-                                            AstFactory::createAssign(7,
-                                                                     AstFactory::createVariable("x"),
-                                                                     AstFactory::createBinary(
-                                                                             AstFactory::createVariable("y"),
-                                                                             AstFactory::createTokens(TokenType::ADD, "+"),
-                                                                             AstFactory::createLiteral(3))),
+                                            // (7) t + 1 = y + 3 * (1 + y);
+                                            AstFactory::createAssign(1,
+                                            AstFactory::createBinary(
+                                                    AstFactory::createVariable("t"),
+                                                    AstFactory::createTokens(TokenType::ADD, "+"),
+                                                    AstFactory::createLiteral(1)
+                                            ),
+                                            AstFactory::createBinary(
+                                                    AstFactory::createBinary(
+                                                    AstFactory::createBinary(
+                                                            AstFactory::createLiteral(1),
+                                                            AstFactory::createTokens(TokenType::ADD, "+"),
+                                                            AstFactory::createVariable("y")
+                                                    ),
+                                                    AstFactory::createTokens(TokenType::MULTIPLY, "*"),
+                                                    AstFactory::createLiteral(3)
+                                            ),
+                                                    AstFactory::createTokens(TokenType::ADD, "+"),
+                                                    AstFactory::createVariable("y")
+                                            )),
                                             // (8) call hello;
                                             AstFactory::createCall(8, "hello"),
                                             // (9) print t;
