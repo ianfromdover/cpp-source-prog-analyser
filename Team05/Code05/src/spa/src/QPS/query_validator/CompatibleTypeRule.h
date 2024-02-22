@@ -22,13 +22,13 @@ private:
 
     static inline std::map<QPSTokenType::QPSTypeInfo, std::pair<std::vector<QPSTokenType::QPSTypeInfo>, std::vector<QPSTokenType::QPSTypeInfo>>> typeMap =
             {
-                    {QType::PARENT, {{QType::PRINT, QType::READ, QType::WHILE,QType::IF,QType::ASSIGN,QType::INTEGER,QType::WILDCARD},
-                                    {QType::PRINT, QType::READ, QType::WHILE,QType::IF,QType::ASSIGN,QType::INTEGER,QType::WILDCARD}}},
-                    {QType::PARENT_T, {{QType::PRINT, QType::READ, QType::WHILE,QType::IF,QType::ASSIGN,QType::INTEGER,QType::WILDCARD},
-                                     {QType::PRINT, QType::READ, QType::WHILE,QType::IF,QType::ASSIGN,QType::INTEGER,QType::WILDCARD}}},
-                    {QType::FOLLOWS, {{QType::PRINT, QType::READ, QType::WHILE,QType::IF,QType::ASSIGN,QType::INTEGER,QType::WILDCARD},
-                                     {QType::PRINT, QType::READ, QType::WHILE,QType::IF,QType::ASSIGN,QType::INTEGER,QType::WILDCARD}}},
-                    {QType::FOLLOWS_T, {{QType::PRINT, QType::READ, QType::WHILE,QType::IF,QType::ASSIGN,QType::INTEGER,QType::WILDCARD},
+                    {QType::PARENT, {{QType::STMT1, QType::PRINT, QType::READ, QType::WHILE,QType::IF,QType::ASSIGN,QType::INTEGER,QType::WILDCARD},
+                                    {QType::STMT1, QType::PRINT, QType::READ, QType::WHILE,QType::IF,QType::ASSIGN,QType::INTEGER,QType::WILDCARD}}},
+                    {QType::PARENT_T, {{QType::STMT1, QType::PRINT, QType::READ, QType::WHILE,QType::IF,QType::ASSIGN,QType::INTEGER,QType::WILDCARD},
+                                     {QType::STMT1, QType::PRINT, QType::READ, QType::WHILE,QType::IF,QType::ASSIGN,QType::INTEGER,QType::WILDCARD}}},
+                    {QType::FOLLOWS, {{QType::STMT1, QType::PRINT, QType::READ, QType::WHILE,QType::IF,QType::ASSIGN,QType::INTEGER,QType::WILDCARD},
+                                     {QType::STMT1, QType::PRINT, QType::READ, QType::WHILE,QType::IF,QType::ASSIGN,QType::INTEGER,QType::WILDCARD}}},
+                    {QType::FOLLOWS_T, {{QType::STMT1, QType::PRINT, QType::READ, QType::WHILE,QType::IF,QType::ASSIGN,QType::INTEGER,QType::WILDCARD},
                                      {QType::PRINT, QType::READ, QType::WHILE,QType::IF,QType::ASSIGN,QType::INTEGER,QType::WILDCARD}}},
                     {QType::MODIFIES_S, {{QType::READ, QType::WHILE,QType::IF,QType::ASSIGN,QType::PROCEDURE,QType::INTEGER,QType::WILDCARD},
                                          {QType::VARIABLE ,QType::WILDCARD, QType::QUOTED_IDENT}}},
