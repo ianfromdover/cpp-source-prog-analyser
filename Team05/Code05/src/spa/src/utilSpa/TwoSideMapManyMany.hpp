@@ -131,7 +131,7 @@ std::vector<B> TwoSideMapManyMany<A, B>::getValues(A key) {
 
 template<typename A, typename B>
 std::vector<A> TwoSideMapManyMany<A, B>::getKeys(B value) {
-    std::vector<B> result;
+    std::vector<A> result;
     if (!containsValue(value)) {
         std::cout << "Warning: TwoSideMapTwoSet-getKeys: Value not found in backward map" << std::endl;
         // TODO: make my own GetException that inherits from BaseException

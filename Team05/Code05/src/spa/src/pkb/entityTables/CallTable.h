@@ -18,7 +18,7 @@ public:
     bool hasVar(VarName name);
     bool hasStmt(StmtNo sNum);
     vector<StmtNo> getCallStmts(VarName name);
-    // Returns the variable read by the statement number, if the variable is not found, returns an empty string.
+    // Returns the variable called by the statement number, if the variable is not found, returns an empty string.
     VarName getCallVar(StmtNo sNum);
     [[nodiscard]] int getSize() const;
 };
