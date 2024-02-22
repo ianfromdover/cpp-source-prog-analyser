@@ -12,6 +12,8 @@ class FollowsExtractor: public RelationExtractor {
 public:
     // Constructor
     explicit FollowsExtractor(PopulatePKB& pkb) : RelationExtractor(pkb) {}
+    // Top-level Methods
+    void visitProcedure(const Procedure& procedure) override;
     // Statement Methods
     void visitReadStmt(const Read& stmt, shared_ptr<Accumulator>& prevStmtInfo) override;
     void visitPrintStmt(const Print& stmt, shared_ptr<Accumulator>& prevStmtInfo) override;

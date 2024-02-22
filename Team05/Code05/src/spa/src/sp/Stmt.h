@@ -5,12 +5,8 @@
 #ifndef SPA_STMT_H
 #define SPA_STMT_H
 
-#include <memory>
 #include <vector>
-#include <variant>
 #include "Expr.h"
-#include "RelationExtractor.h"
-#include "FollowsExtractor.h"
 #include "utilSpa/SpaTypes.h"
 
 class Procedure;
@@ -21,15 +17,13 @@ class While;
 class If;
 class Assign;
 
-//using StmtNo = unsigned long;
-
 class Stmt {
 private:
     StmtNo stmtNo;
 public:
     explicit Stmt(StmtNo stmtNo) : stmtNo(stmtNo) {}
     virtual ~Stmt() = default;
-    virtual void accept(RelationExtractor& extractor, shared_ptr<Accumulator>& parentInfo) = 0;
+    virtual void accept(ProgramVisitor& visitor, shared_ptr<Accumulator>& parentInfo) = 0;
     [[nodiscard]] virtual std::string toString() const = 0;
     [[nodiscard]] std::string prefixStmtNo(std::string text) const;
     [[nodiscard]] StmtNo getStmtNo() const;
@@ -45,7 +39,7 @@ private:
 
 public:
     Procedure(std::string name, std::shared_ptr<StmtList> body) : name(std::move(name)), body(std::move(body)) {}
-    void accept(RelationExtractor& extractor);
+    void accept(ProgramVisitor& visitor) const;
     [[nodiscard]] std::string toString() const;
     [[nodiscard]] std::shared_ptr<StmtList> const& getBody() const;
     [[nodiscard]] std::string getProcName() const;
@@ -57,7 +51,7 @@ private:
 
 public:
     Read(StmtNo stmtNo, std::shared_ptr<Variable> variable) : Stmt(stmtNo), variable(std::move(variable)) {}
-    void accept(RelationExtractor& extractor, shared_ptr<Accumulator>& parentInfo) override;
+    void accept(ProgramVisitor& visitor, shared_ptr<Accumulator>& parentInfo) override;
     [[nodiscard]] std::string toString() const override;
     [[nodiscard]] std::shared_ptr<Variable> const& getVariable() const;
 };
@@ -68,7 +62,7 @@ private:
 
 public:
     Print(StmtNo stmtNo, std::shared_ptr<Variable> variable) : Stmt(stmtNo), variable(std::move(variable)) {}
-    void accept(RelationExtractor& extractor, shared_ptr<Accumulator>& parentInfo) override;
+    void accept(ProgramVisitor& visitor, shared_ptr<Accumulator>& parentInfo) override;
     [[nodiscard]] std::string toString() const override;
     [[nodiscard]] std::shared_ptr<Variable> const& getVariable() const;
 };
@@ -79,7 +73,7 @@ private:
 
 public:
     Call(StmtNo stmtNo, std::string procName) : Stmt(stmtNo), procName(std::move(procName)) {}
-    void accept(RelationExtractor& extractor, shared_ptr<Accumulator>& parentInfo) override;
+    void accept(ProgramVisitor& visitor, shared_ptr<Accumulator>& parentInfo) override;
     [[nodiscard]] std::string toString() const override;
     [[nodiscard]] std::string getProcName() const;
 };
@@ -92,7 +86,7 @@ private:
 public:
     While(StmtNo stmtNo, std::shared_ptr<Expr> condition, std::shared_ptr<StmtList> body)
         : Stmt(stmtNo), condition(std::move(condition)), body(std::move(body)) {}
-    void accept(RelationExtractor& extractor, shared_ptr<Accumulator>& parentInfo) override;
+    void accept(ProgramVisitor& visitor, shared_ptr<Accumulator>& parentInfo) override;
     [[nodiscard]] std::string toString() const override;
     [[nodiscard]] std::shared_ptr<Expr> const& getCondition() const;
     [[nodiscard]] std::shared_ptr<StmtList> const& getBody() const;
@@ -111,7 +105,7 @@ public:
               condition(std::move(condition)),
               thenBranch(std::move(thenBranch)),
               elseBranch(std::move(elseBranch)) {}
-    void accept(RelationExtractor& extractor, shared_ptr<Accumulator>& parentInfo) override;
+    void accept(ProgramVisitor& visitor, shared_ptr<Accumulator>& parentInfo) override;
     [[nodiscard]] std::string toString() const override;
     [[nodiscard]] std::shared_ptr<Expr> const& getCondition() const;
     [[nodiscard]] std::shared_ptr<StmtList> const& getThenBranch() const;
@@ -126,7 +120,7 @@ private:
 public:
     Assign(StmtNo stmtNo, std::shared_ptr<Expr> variable, std::shared_ptr<Expr> value)
         : Stmt(stmtNo), variable(std::move(variable)), value(std::move(value)) {}
-    void accept(RelationExtractor& extractor, shared_ptr<Accumulator>& parentInfo) override;
+    void accept(ProgramVisitor& visitor, shared_ptr<Accumulator>& parentInfo) override;
     [[nodiscard]] std::string toString() const override;
     [[nodiscard]] std::shared_ptr<Expr> const& getVariable() const;
     [[nodiscard]] std::shared_ptr<Expr> const& getValue() const;
