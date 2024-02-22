@@ -103,6 +103,39 @@ TEST_CASE("tokenize_pattern_patternToken") {
     }
 }
 
+TEST_CASE("tokenize_relationship_relationshipToken") {
+    SECTION("parent_parentToken") {
+        std::string source = "Parent";
+        std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+        REQUIRE(compareExpected(tokens, {QPSTokenType::PARENT, QPSTokenType::END_OF_FILE}));
+    }
+    SECTION("lowercasePattern_identifierToken") {
+        std::string source = "parent";
+        std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+        REQUIRE(compareExpected(tokens, {QPSTokenType::IDENTIFIER, QPSTokenType::END_OF_FILE}));
+    }
+    SECTION("parent*_parentTToken") {
+        std::string source = "Parent*";
+        std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+        REQUIRE(compareExpected(tokens, {QPSTokenType::PARENT_T, QPSTokenType::END_OF_FILE}));
+    }
+    SECTION("lowercasePattern*_identifierToken") {
+        std::string source = "parent*";
+        std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+        REQUIRE(compareExpected(tokens, {QPSTokenType::IDENTIFIER, QPSTokenType::STAR, QPSTokenType::END_OF_FILE}));
+    }
+    SECTION("modifies_modifiesToken") {
+        std::string source = "Modifies";
+        std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+        REQUIRE(compareExpected(tokens, {QPSTokenType::MODIFIES_S, QPSTokenType::END_OF_FILE}));
+    }
+    SECTION("lowercasePattern*_identifierToken") {
+        std::string source = "modifies";
+        std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+        REQUIRE(compareExpected(tokens, {QPSTokenType::IDENTIFIER, QPSTokenType::END_OF_FILE}));
+    }
+}
+
 
 static std::vector<std::shared_ptr<QPSToken>> testHelper(const std::string& source) {
     std::shared_ptr<QPSStrategyList> strategies = std::make_shared<QPSStrategyList>();
