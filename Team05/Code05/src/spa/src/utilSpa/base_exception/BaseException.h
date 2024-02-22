@@ -6,16 +6,18 @@
 #define SPA_BASEEXCEPTION_H
 
 #include <exception>
+#include <string>
+#include <utility>
 
 class BaseException : public std::exception {
 public:
-    BaseException(std::string message) : msg(message.c_str()) {}
+    explicit BaseException(std::string message) : msg(message) {}
 
-    const char* what() const noexcept override {
-        return msg;
+    [[nodiscard]] const char* what() const noexcept override {
+        return msg.c_str();
     }
 private:
-    const char* msg;
+    std::string msg;
 };
 
 

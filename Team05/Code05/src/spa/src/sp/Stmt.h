@@ -42,7 +42,7 @@ public:
     void accept(ProgramVisitor& visitor) const;
     [[nodiscard]] std::string toString() const;
     [[nodiscard]] std::shared_ptr<StmtList> const& getBody() const;
-    [[nodiscard]] std::string getProcName() const;
+    [[nodiscard]] std::string getName() const;
 };
 
 class Read : public Stmt {
