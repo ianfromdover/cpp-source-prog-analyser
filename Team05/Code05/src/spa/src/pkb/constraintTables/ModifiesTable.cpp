@@ -71,6 +71,7 @@ bool ModifiesTable::isModifiesP(ProcName procName, VarName varName) {
         return false;
     }
 //    return twoSideMapMMProcName.getKeys(varName).value() == procName;
+    return true;
 }
 
 bool ModifiesTable::hasModifiersP(VarName varName) {

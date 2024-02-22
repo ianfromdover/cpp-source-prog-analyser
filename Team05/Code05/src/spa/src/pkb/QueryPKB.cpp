@@ -41,8 +41,9 @@ std::shared_ptr<QueryResult> QueryPKB::getResult(Returnable &r, Constraint &c) {
             finalResult = queryFollowsTTable(argList);
         } else if (type == CONSTRAINT_TYPE_USESS) {
             finalResult = queryUsesTable(argList);
-        } else if (type == CONSTRAINT_TYPE_MODIFIESS) {
-            finalResult = queryModifiesTable(argList);
+//        } else if (type == CONSTRAINT_TYPE_MODIFIESS) {
+//            finalResult = queryModifiesTable(argList);
+// TODO: uncomment when meng is done
         } else {
                 finalResult = {};
         }

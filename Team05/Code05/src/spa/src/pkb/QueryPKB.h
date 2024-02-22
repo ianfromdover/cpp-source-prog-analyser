@@ -35,7 +35,8 @@ public:
 
     shared_ptr<QueryResult> queryUsesTable(vector<shared_ptr<ConstraintArgument>> argList);
 
-    shared_ptr<QueryResult> queryModifiesTable(vector<shared_ptr<ConstraintArgument>> argList);
+    // shared_ptr<QueryResult> queryModifiesTable(vector<shared_ptr<ConstraintArgument>> argList);
+    // TODO: uncomment when meng is done
 
     shared_ptr<QueryResult> queryParentTTable(vector<shared_ptr<ConstraintArgument>> argList);
 
