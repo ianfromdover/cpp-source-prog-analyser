@@ -11,7 +11,7 @@
 
 std::string NoDeclarationRule::validate(IntermediateQuery & query) {
     std::vector<std::string> usedSyns;
-    usedSyns.push_back(query.getSelectClause()->getAllSelect()[0]); // Assumed to only have one select element
+    if (query.hasSelectClause()) usedSyns.push_back(query.getSelectClause()->getAllSelect()[0]); // Assumed to only have one select element
 
     // find all used declarations in pattern and relationship clause
     for (const auto& clause : query.clauses){

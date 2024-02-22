@@ -69,7 +69,7 @@ std::shared_ptr<SelectClause> IntermediateQuery::getSelectClause() {
             return std::dynamic_pointer_cast<SelectClause>(clause);
         }
     }
-    throw std::runtime_error("No relationship clause found");
+    throw std::runtime_error("No select clause found");
 }
 
 std::shared_ptr<RelationshipClause> IntermediateQuery::getRelationshipClause() {

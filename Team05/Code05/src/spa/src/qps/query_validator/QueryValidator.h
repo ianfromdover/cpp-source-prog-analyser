@@ -13,7 +13,7 @@
 
 class QueryValidator {
 public:
-    void validateQuery(IntermediateQuery&);
+    std::vector<std::string> validateQuery(IntermediateQuery&);
 };
 
 

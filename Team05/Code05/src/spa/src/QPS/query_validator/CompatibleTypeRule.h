@@ -12,8 +12,6 @@ typedef QPSTokenType::QPSTypeInfo QType;
 
 class CompatibleTypeRule : public Rule {
 public:
-    std::string validate(QueryObject &) override;
-
     std::string validate(IntermediateQuery &) override;
 
 private:

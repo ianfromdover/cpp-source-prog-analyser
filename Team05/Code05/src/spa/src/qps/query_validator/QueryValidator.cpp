@@ -4,7 +4,7 @@
 
 #include "QueryValidator.h"
 
-void QueryValidator::validateQuery(IntermediateQuery & intermediateQuery) {
+std::vector<std::string> QueryValidator::validateQuery(IntermediateQuery & intermediateQuery) {
 
     auto* ruleSet = new class RuleSet();
     std::vector<std::string> validationResults;
@@ -26,12 +26,5 @@ void QueryValidator::validateQuery(IntermediateQuery & intermediateQuery) {
             }
         }
     }
-
-    if (!validationResults.empty()){
-        std::string msg = "semantic error: ";
-        for (auto& result : validationResults){
-            msg += result + " ";
-        }
-        throw std::exception(msg.c_str());
-    }
+    return validationResults;
 }

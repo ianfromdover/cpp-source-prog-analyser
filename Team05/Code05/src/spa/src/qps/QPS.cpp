@@ -21,14 +21,6 @@ std::vector<std::string> QPS::evaluate(std::string queryString) {
         return std::vector<std::string>({"SemanticError"});
     }
 
-    QueryValidator validator;
-    std::vector<std::shared_ptr<Entity>> d = query->getDeclarations();
-    std::vector<std::string> errors = validator.validateQuery(*query);
-    if (!errors.empty()){
-        //throw std::runtime_error("symantic error");
-        return std::vector<std::string>({"SemanticError"});
-    }
-
     QueryEvaluator eval(pkb);
     std::shared_ptr<Formattable> results = eval.evaluate(*query);
 

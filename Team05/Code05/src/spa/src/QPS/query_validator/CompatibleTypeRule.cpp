@@ -4,10 +4,6 @@
 
 #include "CompatibleTypeRule.h"
 
-std::string CompatibleTypeRule::validate(QueryObject &) {
-    return std::string();
-}
-
 std::string CompatibleTypeRule::validate(IntermediateQuery & query) {
     std::string results;
     std::map<std::string, QPSTokenType::QPSTypeInfo> declarationMap = query.getSynonymTypeMap();

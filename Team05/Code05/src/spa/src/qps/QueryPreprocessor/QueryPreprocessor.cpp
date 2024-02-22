@@ -26,7 +26,16 @@ std::shared_ptr<QueryObject> QueryPreprocessor::processQuery(std::string & query
     }
 
     QueryValidator validator;
-    validator.validateQuery(*intermediateQuery); // Will throw if semantic error
+
+    auto validataionResults = validator.validateQuery(*intermediateQuery);
+    if (!validataionResults.empty()){
+        std::string msg;
+        for(auto& result : validataionResults){
+            msg+=result;
+        }
+        msg = "Semantic Error: " + msg;
+        throw std::exception(msg.c_str());
+    }
 
     QueryObjectBuilderTest builder;
     std::shared_ptr<QueryObject> qo = builder.build(intermediateQuery);
