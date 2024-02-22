@@ -59,9 +59,6 @@ bool QPSMultiCharacterStrategy::expectSynonymNext(const std::string &name, QPSTo
 
     auto it = declarationKeywords.find(name);
     if (it != declarationKeywords.end()) {
-//        if (it->second == QPSTokenType::PARENT || it->second == QPSTokenType::FOLLOWS){
-//            if ()
-//        }
         if (it->second == QPSTokenType::THAT) {
             if (!tokens.getTokens().empty() && tokens.getTokens().back()->getLexeme() == "such") {
                 QPSToken t = *tokens.getTokens().back();

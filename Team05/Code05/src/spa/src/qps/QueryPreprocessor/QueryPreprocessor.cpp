@@ -6,9 +6,13 @@
 #include "qps/tokenizer/QPSStrategyList.h"
 #include "qps/tokenizer/Tokenizer.h"
 #include "qps/parser/QPSParser.h"
-#include "qps/query_validator/RuleSet.h"
 #include "qps/query_builder/QueryObjectBuilder.h"
 #include "qps/query_validator/QueryValidator.h"
+#include "qps/Exceptions/SyntaxErrorException.h"
+#include "qps/Exceptions/SemanticErrorException.h"
+#include "qps/Exceptions/QPSParseException.h"
+#include "qps/Exceptions/QPSTokenizeException.h"
+#include "qps/Exceptions/QPSException.h"
 
 
 std::shared_ptr<QueryObject> QueryPreprocessor::processQuery(std::string & queryStr) {
@@ -21,8 +25,10 @@ std::shared_ptr<QueryObject> QueryPreprocessor::processQuery(std::string & query
         tokenizer.tokenize();
         QPSParser parser(*tokens);
         intermediateQuery = parser.parse();
-    } catch (std::exception& e){
-        throw std::exception("syntax error");
+    } catch (QPSParseException& e) {
+        throw SyntaxErrorException(e.what());
+    } catch (QPSTokenizeException& e) {
+        throw SyntaxErrorException(e.what());
     }
 
     QueryValidator validator;
@@ -33,8 +39,7 @@ std::shared_ptr<QueryObject> QueryPreprocessor::processQuery(std::string & query
         for(auto& result : validataionResults){
             msg+=result;
         }
-        msg = "Semantic Error: " + msg;
-        throw std::exception(msg.c_str());
+        throw SemanticErrorException(msg);
     }
 
     QueryObjectBuilderTest builder;

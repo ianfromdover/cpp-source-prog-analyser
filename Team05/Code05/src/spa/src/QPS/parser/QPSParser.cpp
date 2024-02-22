@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include "QPSParser.h"
 #include "IntermediateQuery.h"
+#include "qps/Exceptions/QPSParseException.h"
 
 bool QPSParser::match(std::initializer_list<QPSTokenType::QPSTypeInfo> types) {
     for (const auto &type: types) {
@@ -108,8 +109,7 @@ QPSToken QPSParser::consume(QPSTokenType::QPSTypeInfo type, const std::string &m
         return this->advance();
     }
 
-    // TODO: Handle parse errors according to requirements.
-    throw std::runtime_error(message);
+    throw QPSParseException(message + " at [" + std::to_string(current) + "]");
 }
 
 std::shared_ptr<DeclarationClause> QPSParser::declaration() {
@@ -253,7 +253,7 @@ QPSToken QPSParser::stmtRef() {
         if (this->checkPrevious(QPSTokenType::WILDCARD))
             return this->previous();
     }
-    throw std::runtime_error("syntax error: statement reference");
+    throw QPSParseException("at [" + std::to_string(current) + "]: invalid statement reference");
 }
 
 QPSToken QPSParser::entRef() {
@@ -273,7 +273,7 @@ QPSToken QPSParser::entRef() {
             return newToken;
         }
     }
-    throw std::runtime_error("syntax error: statement reference");
+    throw QPSParseException("at [" + std::to_string(current) + "]: invalid statement reference.");
 }
 
 QPSToken QPSParser::synonym(QPSToken t) {
@@ -309,7 +309,7 @@ QPSToken QPSParser::exprSpec() {
         return newToken;
     }
 
-    throw std::runtime_error("syntax error: exprSpec");
+    throw QPSParseException("at [" + std::to_string(current) + "]: invalid expression spec.");
 }
 
 QPSToken QPSParser::expr() {
@@ -388,7 +388,7 @@ QPSToken QPSParser::factor() {
         QPSTokenType type(QPSTokenType::FACTOR);
         QPSToken newToken = QPSToken(type, t.getLexeme());
     }
-    throw std::runtime_error("syntax error: factor");
+    throw QPSParseException("at [" + std::to_string(current) + "]: invalid factor.");
 
 }
 
@@ -410,7 +410,7 @@ std::shared_ptr<IntermediateQuery> QPSParser::parse() {
         while (isSuchThat() || this->check({QPSTokenType::PATTERN})) {
 
             if (isSuchThat()) {
-                this->consume(QPSTokenType::SUCH, "Expect 'such' after select clause.");
+                this->consume(QPSTokenType::SUCH, "Expect 'such'.");
                 this->consume(QPSTokenType::THAT, "Expect 'that' after 'such'.");
 
                 if (isRelationship()) {
@@ -426,9 +426,9 @@ std::shared_ptr<IntermediateQuery> QPSParser::parse() {
             }
         }
 
-        if (!isAtEnd()) throw std::runtime_error("Expect end of file.");
+        if (!isAtEnd()) throw QPSParseException("at [" + std::to_string(current) + "]: Expect end of file.");
 
         return query;
     }
-    throw std::runtime_error("Expect declaration clause.");
+    throw QPSParseException("at [" + std::to_string(current) + "]: Expect declaration clause.");
 }

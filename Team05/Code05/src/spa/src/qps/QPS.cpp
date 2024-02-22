@@ -6,10 +6,10 @@
 #include "qps/query_validator/QueryValidator.h"
 #include "qps/Exceptions/SyntaxErrorException.h"
 #include "qps/Exceptions/SemanticErrorException.h"
+#include "qps/Exceptions/QPSException.h"
 #include <iostream>
 
 std::vector<std::string> QPS::evaluate(std::string queryString) {
-    //std::cout << "QPS Processing query :" << queryString << std::endl;
 
     QueryPreprocessor preprocessor;
     std::shared_ptr<QueryObject> query;
@@ -18,6 +18,8 @@ std::vector<std::string> QPS::evaluate(std::string queryString) {
     } catch (const SyntaxErrorException& e){
         return std::vector<std::string>({"SyntaxError"});
     } catch (const SemanticErrorException& e1){
+        return std::vector<std::string>({"SemanticError"});
+    } catch (const QPSException& e2){
         return std::vector<std::string>({"SemanticError"});
     }
 
