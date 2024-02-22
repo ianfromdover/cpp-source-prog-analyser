@@ -456,7 +456,7 @@ public:
                                 std::make_shared<std::vector<std::shared_ptr<Stmt>>>(
                                     std::initializer_list<std::shared_ptr<Stmt>>{
                                             // (7) t + 1 = y + 3 * (1 + y);
-                                            AstFactory::createAssign(1,
+                                            AstFactory::createAssign(7,
                                             AstFactory::createBinary(
                                                     AstFactory::createVariable("t"),
                                                     AstFactory::createTokens(TokenType::ADD, "+"),
