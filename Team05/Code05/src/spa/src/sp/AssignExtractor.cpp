@@ -35,9 +35,11 @@ void AssignExtractor::visitIfStmt(const If& stmt, shared_ptr<Accumulator>& paren
 }
 
 void AssignExtractor::visitAssignStmt(const Assign& stmt, shared_ptr<Accumulator>& parentInfo) {
-    auto& var = stmt.getVariable();
-    parentInfo->info.emplace_back(stmt.getStmtNo());
-    var->accept(*this, parentInfo);
+    //std::cout << "pkb.addPatternAsgn(" << stmt.getStmtNo() << ", " << stmt.getVariable()->toString() << ", " << stmt.getValue()->toString() << ");" << std::endl;
+    pkb->addPatternAsgn(stmt.getStmtNo(), stmt.getVariable()->toString(), stmt.getValue()->toString());
+    //    auto& var = stmt.getVariable();
+    //    parentInfo->info.emplace_back(stmt.getStmtNo());
+    //    var->accept(*this, parentInfo);
 }
 
 void AssignExtractor::visitBinaryExpr(const Binary& expr, shared_ptr<Accumulator>& parentInfo) {
@@ -45,10 +47,10 @@ void AssignExtractor::visitBinaryExpr(const Binary& expr, shared_ptr<Accumulator
 }
 
 void AssignExtractor::visitVariableExpr(const Variable& expr, shared_ptr<Accumulator>& parentInfo) {
-    for (const auto& stmtNo : parentInfo->info) {
+    //for (const auto& stmtNo : parentInfo->info) {
         //std::cout << "pkb.addAssign(" << stmtNo << ", " << expr.getName() << ");" << std::endl;
-        pkb->addAssign(stmtNo, expr.getName());
-    }
+        //pkb->addAssign(stmtNo, expr.getName());
+    //}
 }
 
 void AssignExtractor::visitLiteralExpr(const Literal& expr, shared_ptr<Accumulator>& parentInfo) {

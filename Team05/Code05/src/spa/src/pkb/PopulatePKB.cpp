@@ -22,9 +22,6 @@ bool PopulatePKB::addIf(StmtNo sNum, VarName ctrlVarName) {
 bool PopulatePKB::addWhile(StmtNo sNum, VarName ctrlVarName) {
     return false;
 }
-bool PopulatePKB::addAssign(StmtNo sNum, VarName LhsVarName) {
-    return false;
-}
 
 bool PopulatePKB::addPrint(StmtNo s, VarName name) {
     return false;
