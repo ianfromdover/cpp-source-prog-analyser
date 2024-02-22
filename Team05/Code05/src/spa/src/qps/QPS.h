@@ -13,11 +13,9 @@
 
 class QPS {
 public:
-    QPS(QueryPKB stub){
-        pkb = stub;
-    }
+    QPS(std::shared_ptr<QueryPKBVirtual> pkbInstance): pkb(std::move(pkb)) {};
     std::vector<std::string> evaluate(std::string);
-    QueryPKB pkb;
+    std::shared_ptr<QueryPKBVirtual> pkb;
 };
 
 
