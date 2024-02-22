@@ -68,7 +68,7 @@ void ConstantExtractor::visitVariableExpr(const Variable& expr, shared_ptr<Accum
 
 void ConstantExtractor::visitLiteralExpr(const Literal& expr, shared_ptr<Accumulator>& parentInfo) {
     for (const auto& stmtNo : parentInfo->info) {
-        //std::cout << "pkb.addConst(" << stmtNo << ", " << expr.getValue() << ");" << std::endl;
+        std::cout << "pkb.addConst(" << stmtNo << ", " << expr.getValue() << ");" << std::endl;
         pkb->addConst(stmtNo, expr.getValue());
     }
 }
