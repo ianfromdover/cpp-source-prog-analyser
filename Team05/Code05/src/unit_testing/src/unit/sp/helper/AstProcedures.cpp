@@ -6,7 +6,7 @@
 class AstProcedures {
 public:
     // Zero Nesting Level
-    static std::shared_ptr<Procedure> createAssignCallPrintRead() {
+    static std::shared_ptr<Procedure> createAssignCallReadPrint() {
         auto procedure = AstFactory::createProcedure("AssignCallPrintRead",
         AstFactory::createStmtList({
             // (1) t + 1 = y + 3 * (1 + y);
