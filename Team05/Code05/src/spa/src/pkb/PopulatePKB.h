@@ -3,12 +3,12 @@
 #include <memory>
 //#include "utilSpa/SpaTypes.h"
 #include "pkb/PKBStorage.h"
-#include "PKBApi.h"
+#include "BasePKBPopulator.h"
 
 using namespace std;
 
 // The interface between PKB and SP
-class PopulatePKB : public PKBApi {
+class PopulatePKB : public BasePKBPopulator {
 private:
     shared_ptr<PKBStorage> pkb;
 public:

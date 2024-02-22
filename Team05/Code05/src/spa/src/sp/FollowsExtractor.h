@@ -13,7 +13,7 @@
 class FollowsExtractor: public RelationExtractor {
 public:
     // Constructor
-    explicit FollowsExtractor(shared_ptr<PKBApi> pkb) : RelationExtractor(std::move(pkb)) {}
+    explicit FollowsExtractor(shared_ptr<BasePKBPopulator> pkb) : RelationExtractor(std::move(pkb)) {}
     // Top-level Methods
     void visitProcedure(const Procedure& procedure) override;
     // Statement Methods

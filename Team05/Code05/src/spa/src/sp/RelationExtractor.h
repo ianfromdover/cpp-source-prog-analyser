@@ -13,9 +13,9 @@
 
 class RelationExtractor : public ProgramVisitor {
 protected:
-    shared_ptr<PKBApi> pkb;
+    shared_ptr<BasePKBPopulator> pkb;
 public:
-    explicit RelationExtractor(shared_ptr<PKBApi> pkb) : pkb(std::move(pkb)) {}
+    explicit RelationExtractor(shared_ptr<BasePKBPopulator> pkb) : pkb(std::move(pkb)) {}
     virtual ~RelationExtractor() = default;
     void visitProcedure(const Procedure&) override;
 };

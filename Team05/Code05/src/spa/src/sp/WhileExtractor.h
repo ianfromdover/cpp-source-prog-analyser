@@ -13,7 +13,7 @@
 class WhileExtractor: public RelationExtractor {
 public:
     // Constructor
-    explicit WhileExtractor(shared_ptr<PKBApi> pkb) : RelationExtractor(std::move(pkb)) {}
+    explicit WhileExtractor(shared_ptr<BasePKBPopulator> pkb) : RelationExtractor(std::move(pkb)) {}
     // Statement Methods
     void visitReadStmt(const Read& stmt, shared_ptr<Accumulator>& parentInfo) override;
     void visitPrintStmt(const Print& stmt, shared_ptr<Accumulator>& parentInfo) override;

@@ -2,12 +2,12 @@
 // Created by sjh_9 on 22/2/2024.
 //
 
-#ifndef SPA_PKBAPI_H
-#define SPA_PKBAPI_H
+#ifndef SPA_BASEPKBPOPULATOR_H
+#define SPA_BASEPKBPOPULATOR_H
 
 #include "utilSpa/SpaTypes.h"
 
-class PKBApi {
+class BasePKBPopulator {
 public:
     virtual bool addRead(StmtNo sNum, VarName name) = 0;
     virtual bool addCallStmt(StmtNo sNum, ProcName name) = 0;
@@ -31,8 +31,8 @@ public:
     virtual bool addModifies(ProcName ProcedureName, VarName name) = 0;
     virtual bool addPatternAsgn(StmtNo sNum, Str lhs, Str rhsBracketed) = 0;
 
-    virtual ~PKBApi() = default; // Ensure there's a virtual destructor
+    virtual ~BasePKBPopulator() = default; // Ensure there's a virtual destructor
 };
 
-#endif //SPA_PKBAPI_H
+#endif //SPA_BASEPKBPOPULATOR_H
 
