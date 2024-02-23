@@ -21,7 +21,7 @@
 #include "qps/parser/IntermediateQuery.h"
 #include "constrain_builder/RelationshipConstraintDirector.h"
 
-class QueryObjectBuilderTest {
+class QueryObjectBuilder {
 private:
     std::shared_ptr<QueryObject> qo;
     std::shared_ptr<IntermediateQuery> intermediateObject;

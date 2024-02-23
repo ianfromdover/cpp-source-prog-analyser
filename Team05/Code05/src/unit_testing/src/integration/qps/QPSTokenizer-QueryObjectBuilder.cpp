@@ -23,7 +23,7 @@ std::string testHelper(std::string source) {
     std::shared_ptr<IntermediateQuery> intermediateQuery = parser.parse();
     intermediateQuery->processDeclarations();
 
-    QueryObjectBuilderTest builder;
+    QueryObjectBuilder builder;
     std::shared_ptr<QueryObject> qo = builder.build(intermediateQuery);
     return qo->toString();
 }

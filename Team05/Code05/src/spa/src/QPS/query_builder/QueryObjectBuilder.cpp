@@ -6,23 +6,23 @@
 
 #include <utility>
 
-void QueryObjectBuilderTest::reset() {
+void QueryObjectBuilder::reset() {
     intermediateObject.reset();
     qo.reset();
 }
 
-void QueryObjectBuilderTest::setSingleRelationshipConstraint(std::shared_ptr<RelationshipClause> relationship, std::shared_ptr<QueryObject> qo) {
+void QueryObjectBuilder::setSingleRelationshipConstraint(std::shared_ptr<RelationshipClause> relationship, std::shared_ptr<QueryObject> qo) {
     shared_ptr<Constraint> ptr = RelationshipConstraintDirector::process(std::move(relationship), qo);
     qo->addConstraint(ptr);
 }
 
-void QueryObjectBuilderTest::setSinglePatternClause(std::shared_ptr<PatternClause> patternClause, shared_ptr<QueryObject> qo) {
+void QueryObjectBuilder::setSinglePatternClause(std::shared_ptr<PatternClause> patternClause, shared_ptr<QueryObject> qo) {
     ConcretePatternConstraintBuilder builder;
     qo->addConstraint(builder.buildPatternConstraint(std::move(patternClause), std::move(qo)));
 }
 
 
-void QueryObjectBuilderTest::setSingleSelectClause() {
+void QueryObjectBuilder::setSingleSelectClause() {
     if (!intermediateObject->hasSelectClause()) {
         return;
     }
@@ -31,7 +31,7 @@ void QueryObjectBuilderTest::setSingleSelectClause() {
 }
 
 //only need one relationship for milestone 1
-void QueryObjectBuilderTest::setAllRelationshipConstraint() {
+void QueryObjectBuilder::setAllRelationshipConstraint() {
     if (!intermediateObject->hasRelationshipClause()) {
         return;
     }
@@ -39,7 +39,7 @@ void QueryObjectBuilderTest::setAllRelationshipConstraint() {
 }
 
 //only need one pattern for milestone 1
-void QueryObjectBuilderTest::setAllPatternClauses() {
+void QueryObjectBuilder::setAllPatternClauses() {
     if (!intermediateObject->hasPatternClause()) {
         return;
     }
@@ -47,7 +47,7 @@ void QueryObjectBuilderTest::setAllPatternClauses() {
 }
 
 
-void QueryObjectBuilderTest::setAllDeclarationClauses() {
+void QueryObjectBuilder::setAllDeclarationClauses() {
     if (!intermediateObject->hasDeclarationClause()) {
         return;
     }
@@ -62,11 +62,11 @@ void QueryObjectBuilderTest::setAllDeclarationClauses() {
     }
 }
 
-std::shared_ptr<QueryObject> QueryObjectBuilderTest::getQueryObjectRepresentation() {
+std::shared_ptr<QueryObject> QueryObjectBuilder::getQueryObjectRepresentation() {
     return qo;
 }
 
-std::shared_ptr<QueryObject> QueryObjectBuilderTest::build(shared_ptr<IntermediateQuery> inter) {
+std::shared_ptr<QueryObject> QueryObjectBuilder::build(shared_ptr<IntermediateQuery> inter) {
     reset();
     intermediateObject = std::move(inter);
     qo = make_shared<QueryObject>();

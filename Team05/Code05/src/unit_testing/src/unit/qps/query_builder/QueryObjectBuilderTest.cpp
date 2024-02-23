@@ -13,7 +13,7 @@
 using namespace std;
 
 TEST_CASE("queryObjectBuilder_onlyOneDeclaration_returnsQO") {
-    QueryObjectBuilderTest builder;
+    QueryObjectBuilder builder;
     IntermediateQuery intQuery;
     std::shared_ptr<DeclarationClause> dec;
     dec->addDeclaration(QPSTokenType(QPSTokenType::QPSTypeInfo::PRINT), "p");
