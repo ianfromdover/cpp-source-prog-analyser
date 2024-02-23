@@ -159,7 +159,7 @@ std::vector<A> TwoSideMapManyMany<A, B>::getKeys(B value) {
 }
 
 template<typename A, typename B>
-vector<A> TwoSideMapManyMany<A, B>::getAllKeys() {
+std::vector<A> TwoSideMapManyMany<A, B>::getAllKeys() {
     std::vector<A> keys;
     for (const auto& pair : forwardMap) {
         keys.push_back(pair.first);
@@ -168,7 +168,7 @@ vector<A> TwoSideMapManyMany<A, B>::getAllKeys() {
 }
 
 template<typename A, typename B>
-vector<B> TwoSideMapManyMany<A, B>::getAllValues() {
+std::vector<B> TwoSideMapManyMany<A, B>::getAllValues() {
     std::vector<B> values;
     for (const auto& pair : forwardMap) {
         values.push_back(pair.second);

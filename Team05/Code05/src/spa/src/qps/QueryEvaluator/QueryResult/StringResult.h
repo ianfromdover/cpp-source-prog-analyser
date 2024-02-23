@@ -15,10 +15,11 @@
 
 class StringResult : public QueryResult {
 public:
-    StringResult(std::vector<std::string>&);
+    explicit StringResult(std::vector<std::string>& res);
     QueryResultEnum getType() override;
     std::vector<std::string> getResults();
     std::vector<std::string> format() override;
+    std::vector<std::string> intersect(std::shared_ptr<StringResult>);
 private:
     std::vector<std::string> results;
 

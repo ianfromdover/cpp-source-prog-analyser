@@ -1,0 +1,18 @@
+//
+// Created by tohzh on 8/2/2024.
+//
+
+#include "IntegerArgument.h"
+
+std::string IntegerArgument::getArgumentValue() {
+    return TYPE_INTEGER;
+}
+
+std::string IntegerArgument::getEntityType() {
+    return TYPE_INTEGER;
+}
+
+std::string IntegerArgument::toString() {
+    return to_string(this->value) + " [INTEGER]";
+}
+

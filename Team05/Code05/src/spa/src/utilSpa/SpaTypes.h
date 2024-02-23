@@ -7,15 +7,24 @@
 #include <unordered_map>
 
 // for QPS to check the constraint's arg type
-#define RETURN_TYPE_STATEMENT "Statement"
-#define RETURN_TYPE_READ "Read"
-#define RETURN_TYPE_PRINT "Print"
-#define RETURN_TYPE_ASSIGN "Assign"
-#define RETURN_TYPE_CALL "Call"
-#define RETURN_TYPE_IF "If"
-#define RETURN_TYPE_WHILE "While"
-#define RETURN_TYPE_INTEGER "Integer"
-#define RETURN_TYPE_WILDCARD "WildCard"
+#define TYPE_STATEMENT "Statement"
+#define TYPE_READ "Read"
+#define TYPE_PRINT "Print"
+#define TYPE_ASSIGN "Assign"
+#define TYPE_CALL "Call"
+#define TYPE_IF "If"
+#define TYPE_WHILE "While"
+#define TYPE_INTEGER "Integer"
+#define TYPE_WILDCARD "EntityRefWildCard"
+#define TYPE_PROCEDURE "Procedure"
+#define TYPE_VARIABLE "Variable"
+#define TYPE_CONSTANT "Constant"
+#define TYPE_EXPRESSION "Expression"
+#define TYPE_EXPRESSION_W_WILDCARD "ExpressionWithWildcard"
+#define TYPE_QUOTED_IDENT "QuotedIdentity"
+
+#define RETURN_INT_RESULT "IntResult"
+#define RETURN_STR_RESULT "StrResult"
 
 #define REFERENCE_TYPE_EXPRESSION "ExpressionReference"
 #define REFERENCE_TYPE_ENTITY "EntityReference"
@@ -43,7 +52,7 @@
 
 #define LNNO "line_number"
 #define PROC "procedure"
-#define STMT "stmt"
+//#define STMT "stmt" (used in Team05/Code05/src/spa/src/qps/QueryPreprocessor/QueryBuilder.cpp)
 //#define ASGN "assign"
 //#define READ "read"
 //#define CALL "call"

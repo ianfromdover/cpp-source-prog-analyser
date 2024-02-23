@@ -1,0 +1,21 @@
+//
+// Created by tohzh on 8/2/2024.
+//
+
+#include "CallEntity.h"
+
+std::string CallEntity::getReturnType() {
+    return RETURN_INT_RESULT;
+}
+
+std::string CallEntity::getEntityType() {
+    return TYPE_CALL;
+}
+
+CallEntity::CallEntity(std::string s) {
+    identifier = std::move(s);
+}
+
+std::string CallEntity::toString() {
+    return this->identifier + " [CALL]";
+}

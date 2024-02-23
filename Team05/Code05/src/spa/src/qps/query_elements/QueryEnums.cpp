@@ -13,7 +13,7 @@ static const char *ENUM_RETURN_TYPE[9] ={
         "If",
         "While",
         "Integer",
-        "WildCard"
+        "EntityRefWildCard"
 };
 
 static const char *ENUM_STATEMENT_REF[3] = {
