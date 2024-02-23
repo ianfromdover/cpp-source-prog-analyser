@@ -6,6 +6,11 @@
 
 // method under test, always return fixed QueryResult based on constraint.
 std::shared_ptr<QueryResult> QueryPKBStub::getResult(Returnable &r, std::shared_ptr<Constraint> c) {
+    if (c==nullptr){
+        std::vector<std::string> vector = {};
+        auto strResult = make_shared<StringResult>(vector);
+        return strResult;
+    }
     if (c->getConstraintType() == CONSTRAINT_TYPE_PARENT) {
         std::vector<std::string> vector = {"a", "b", "c", "f"};
         auto strResult = make_shared<StringResult>(vector);
