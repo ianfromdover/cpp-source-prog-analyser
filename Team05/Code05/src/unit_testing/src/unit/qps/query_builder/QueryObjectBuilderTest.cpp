@@ -15,7 +15,7 @@ using namespace std;
 TEST_CASE("queryObjectBuilder_onlyOneDeclaration_returnsQO") {
     QueryObjectBuilder builder;
     IntermediateQuery intQuery;
-    std::shared_ptr<DeclarationClause> dec;
+    std::shared_ptr<DeclarationClause> dec = std::make_shared<DeclarationClause>();
     dec->addDeclaration(QPSTokenType(QPSTokenType::QPSTypeInfo::PRINT), "p");
     intQuery.addClause(dec);
     std::shared_ptr<QueryObject> qo = builder.build(std::make_shared<IntermediateQuery>(intQuery));

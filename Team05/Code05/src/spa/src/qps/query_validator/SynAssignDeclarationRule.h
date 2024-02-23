@@ -8,10 +8,7 @@
 #include "Rule.h"
 
 class SynAssignDeclarationRule : public Rule{
-private:
-    static bool followsSynAssignDeclaration(QueryObject&);
 public:
-    std::string validate(QueryObject&) override;
     std::string validate(IntermediateQuery&) override;
 };
 

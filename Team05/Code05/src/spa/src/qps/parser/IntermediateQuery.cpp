@@ -8,9 +8,10 @@
 #include "SelectClause.h"
 #include "RelationshipClause.h"
 #include "PatternClause.h"
+#include "qps/Exceptions/QPSException.h"
 
 
-void IntermediateQuery::addClause(const std::shared_ptr<Clause>& clause) {
+void IntermediateQuery::addClause(const std::shared_ptr<Clause> &clause) {
     clauses.push_back(clause);
 }
 
@@ -31,27 +32,27 @@ bool IntermediateQuery::hasPatternClause() {
 }
 
 bool IntermediateQuery::hasClauseType(Clause::ClauseType type) {
-    return std::any_of(clauses.begin(), clauses.end(), [type](const std::shared_ptr<Clause>& clause) {
+    return std::any_of(clauses.begin(), clauses.end(), [type](const std::shared_ptr<Clause> &clause) {
         return clause->getType() == type;
     });
 }
 
 void IntermediateQuery::processDeclarations() {
     std::vector<std::shared_ptr<DeclarationClause>> declarationClauses;
-    for (const std::shared_ptr<Clause>& clause : clauses) {
+    for (const std::shared_ptr<Clause> &clause: clauses) {
         if (clause->getType() == Clause::ClauseType::DECLARATION) {
             declarationClauses.push_back(std::dynamic_pointer_cast<DeclarationClause>(clause));
         }
     }
 
-    for (const auto& declarationCl : declarationClauses) {
-        for (const auto& kvp : declarationCl->getAllDeclarations()) {
+    for (const auto &declarationCl: declarationClauses) {
+        for (const auto &kvp: declarationCl->getAllDeclarations()) {
             addDeclaration(kvp.first, kvp.second);
         }
     }
 }
 
-void IntermediateQuery::addDeclaration(QPSTokenType::QPSTypeInfo type, const std::string& synonym) {
+void IntermediateQuery::addDeclaration(QPSTokenType::QPSTypeInfo type, const std::string &synonym) {
     if (typeSynonymMap->find(type) == typeSynonymMap->end()) {
         typeSynonymMap->insert(std::make_pair(type, std::vector<std::string>()));
     }
@@ -64,30 +65,30 @@ std::map<std::string, QPSTokenType::QPSTypeInfo> IntermediateQuery::getSynonymTy
 }
 
 std::shared_ptr<SelectClause> IntermediateQuery::getSelectClause() {
-    for (const auto& clause : clauses) {
+    for (const auto &clause: clauses) {
         if (clause->getType() == Clause::ClauseType::SELECT) {
             return std::dynamic_pointer_cast<SelectClause>(clause);
         }
     }
-    throw std::runtime_error("No relationship clause found");
+    throw QPSException("No select clause found");
 }
 
 std::shared_ptr<RelationshipClause> IntermediateQuery::getRelationshipClause() {
-    for (const auto& clause : clauses) {
+    for (const auto &clause: clauses) {
         if (clause->getType() == Clause::ClauseType::RELATIONSHIP) {
             return std::dynamic_pointer_cast<RelationshipClause>(clause);
         }
     }
-    throw std::runtime_error("No relationship clause found");
+    throw QPSException("No relationship clause found");
 }
 
 std::shared_ptr<PatternClause> IntermediateQuery::getPatternClause() {
-    for (const auto& clause : clauses) {
+    for (const auto &clause: clauses) {
         if (clause->getType() == Clause::ClauseType::PATTERN) {
             return std::dynamic_pointer_cast<PatternClause>(clause);
         }
     }
-    throw std::runtime_error("No relationship clause found");
+    throw QPSException("No pattern clause found");
 }
 
 

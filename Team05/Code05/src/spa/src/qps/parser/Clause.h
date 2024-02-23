@@ -5,6 +5,7 @@
 #ifndef SPA_CLAUSE_H
 #define SPA_CLAUSE_H
 
+#include <string>
 
 class Clause {
 public:
@@ -19,8 +20,12 @@ public:
     };
 public:
     explicit Clause(ClauseType type) : type_(type) {}
+
     [[nodiscard]] ClauseType getType() const { return type_; }
+
     virtual ~Clause() = default;
+
+    virtual std::string toString() = 0;
 
 private:
     ClauseType type_;

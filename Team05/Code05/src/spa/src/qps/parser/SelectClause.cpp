@@ -5,10 +5,10 @@
 #include "SelectClause.h"
 
 
-    void SelectClause::addSelect(const std::string &selectElement) {
-        selectElements.push_back(selectElement);
-    }
+void SelectClause::addSelect(const std::string &selectElement) {
+    selectElements.push_back(selectElement);
+}
 
-    std::vector<std::string> SelectClause::getAllSelect() {
-        return this->selectElements;
-    }
+std::vector<std::string> SelectClause::getAllSelect() {
+    return this->selectElements;
+}

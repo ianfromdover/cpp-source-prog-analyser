@@ -26,8 +26,18 @@ std::shared_ptr<QueryResult> QueryPKBStub::getResult(Returnable &r, Constraint &
         std::vector<std::string> vector = {"c", "d", "e" , "f"};
         auto strResult = make_shared<StringResult>(vector);
         return strResult;
+    } else if (c.getConstraintType() == CONSTRAINT_TYPE_MODIFIESS) {
+        std::vector<int> vector = {2, 3, 4};
+        auto intResult = make_shared<IntResult>(vector);
+        return intResult;
+    } else if (c.getConstraintType() == CONSTRAINT_TYPE_USESS) {
+        std::vector<int> vector = {2, 4, 3};
+        auto intResult = make_shared<IntResult>(vector);
+        return intResult;
     } else {
-        return nullptr;
+        std::vector<std::string> vector = {};
+        auto emptyResult = make_shared<StringResult>(vector);
+        return emptyResult;
     }
 
 }

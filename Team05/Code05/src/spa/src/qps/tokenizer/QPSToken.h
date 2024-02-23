@@ -24,6 +24,14 @@ public:
     [[nodiscard]] std::string getLexeme() const;
 
     [[nodiscard]] std::string toString() const;
+
+    bool operator==(const QPSToken &other) {
+        return type == other.type && lexeme == other.lexeme;
+    }
+
+    std::string toString() {
+        return "QPSToken:{" + type.toString() + "," + lexeme + "}";
+    }
 };
 
 

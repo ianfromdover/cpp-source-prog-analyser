@@ -14,7 +14,6 @@
 
 class Rule {
 public:
-    virtual std::string validate(QueryObject&) = 0;
     virtual std::string validate(IntermediateQuery&) = 0;
 };
 
