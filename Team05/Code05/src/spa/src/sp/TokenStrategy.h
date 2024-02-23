@@ -10,6 +10,7 @@
 #include <cctype>
 #include <map>
 #include "Token.h"
+#include "TokenException.h"
 
 class TokenStrategy {
 public:
