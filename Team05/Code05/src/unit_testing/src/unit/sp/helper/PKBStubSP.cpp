@@ -8,6 +8,7 @@
 class PKBStubSP : public BasePKBPopulator {
     std::multiset<std::tuple<std::string, std::string, std::string>> tupleCalls;
     std::multiset<std::pair<std::string, std::string>> pairCalls;
+    std::multiset<std::pair<std::string, std::string>> pairCallsT;
     std::multiset<std::string> singleCalls;
 
 public:
@@ -73,7 +74,7 @@ public:
 
     bool addFollowsT(StmtNo before, StmtNo after) override {
         std::cout << "addFollowsT called" << std::endl;
-        pairCalls.insert({std::to_string(before), std::to_string(after)});
+        pairCallsT.insert({std::to_string(before), std::to_string(after)});
         return true;
     }
 
@@ -85,7 +86,7 @@ public:
 
     bool addParentT(StmtNo ancestor, StmtNo descendant) override {
         std::cout << "addParentT called" << std::endl;
-        pairCalls.insert({std::to_string(ancestor), std::to_string(descendant)});
+        pairCallsT.insert({std::to_string(ancestor), std::to_string(descendant)});
         return true;
     }
 
@@ -134,6 +135,23 @@ public:
         }
         // If all pairs are found and removed, return true
         return pairCalls.empty();
+    }
+
+    bool checkIfExistPairT(const std::multiset<std::pair<std::string, std::string>>& pairVector) {
+        // Iterate through each pair in pairVector
+        for (const auto& pair : pairVector) {
+            // Try to find the pair in pairCalls
+            auto it = pairCallsT.find(pair);
+            if (it == pairCallsT.end()) {
+                // If the pair is not found, return false
+                return false;
+            } else {
+                // If found, erase one instance of that pair from pairCalls
+                pairCallsT.erase(it);
+            }
+        }
+        // If all pairs are found and removed, return true
+        return pairCallsT.empty();
     }
 
     bool checkIfExistSingle(const std::multiset<std::string>& stringVector) {
