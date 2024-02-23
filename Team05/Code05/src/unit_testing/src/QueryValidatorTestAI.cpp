@@ -8,8 +8,8 @@ using namespace std;
 #include "qps/query_elements/constraint/Constraint.h"
 #include "qps/query_elements/constraint/ParentConstraint.h"
 
-#include "qps/query_elements/constraint_argument/AssignEntity.h"
-#include "qps/query_elements/constraint_argument/PrintEntity.h"
+#include "qps/query_elements/constraint_argument/statement_reference/AssignEntity.h"
+#include "qps/query_elements/constraint_argument/statement_reference/PrintEntity.h"
 #include "qps/query_validator/QueryValidator.h"
 #include "qps/query_elements/QueryObject.h"
 
@@ -18,16 +18,20 @@ using namespace std;
 // prompt: https://chat.openai.com/share/b79012a9-d6db-4272-a8f5-d4e4e167dd91
 TEST_CASE("QueryValidator_ValidateQuery_NoErrors") {
     // Create a QueryObject with valid unique declarations and no constraint violations
-    QueryObject qo;
-    std::shared_ptr<AssignEntity> assignEntity = std::make_shared<AssignEntity>("x");
-    std::shared_ptr<PrintEntity> printEntity = std::make_shared<PrintEntity>("y");
+    IntermediateQuery qo;
+    auto assignEntity = std::make_shared<DeclarationClause>(DeclarationClause());
+    assignEntity->addDeclaration(QPSTokenType(QPSTokenType::QPSTypeInfo::ASSIGN), "x");
+    auto printEntity = std::make_shared<DeclarationClause>(DeclarationClause());
+    printEntity->addDeclaration(QPSTokenType(QPSTokenType::QPSTypeInfo::PRINT), "y");
 
-    qo.addDeclaration(assignEntity);
-    qo.addDeclaration(printEntity);
+    qo.addClause(assignEntity);
+    qo.addClause(printEntity);
 
-    std::shared_ptr<ParentConstraint> parentConstraint = std::make_shared<ParentConstraint>(assignEntity, printEntity);
+    auto t1 = QPSToken(QPSTokenType(QPSTokenType::QPSTypeInfo::SYNONYM), "x");
+    auto t2 = QPSToken(QPSTokenType(QPSTokenType::QPSTypeInfo::SYNONYM), "y");
+    auto parentConstraint = std::make_shared<RelationshipClause>(QPSTokenType::QPSTypeInfo::PARENT, t1, QPSTokenType::QPSTypeInfo::STMT_REF, t2, QPSTokenType::QPSTypeInfo::STMT_REF);
 
-    qo.addConstraint(parentConstraint);
+    qo.addClause(parentConstraint);
 
     // Apply QueryValidator to validate the QueryObject
     QueryValidator validator;
@@ -39,13 +43,15 @@ TEST_CASE("QueryValidator_ValidateQuery_NoErrors") {
 
 TEST_CASE("QueryValidator_ValidateQuery_SingleDeclarationRuleViolation") {
     // Create a QueryObject violating the SingleDeclarationRule
-    QueryObject qo;
+    IntermediateQuery qo;
 
-    std::shared_ptr<AssignEntity> assignEntity1 = std::make_shared<AssignEntity>("x");
-    std::shared_ptr<AssignEntity> assignEntity2 = std::make_shared<AssignEntity>("x");
+    auto assignEntity1 = std::make_shared<DeclarationClause>(DeclarationClause());
+    assignEntity1->addDeclaration(QPSTokenType(QPSTokenType::QPSTypeInfo::ASSIGN), "x");
+    auto assignEntity2 = std::make_shared<DeclarationClause>(DeclarationClause());
+    assignEntity2->addDeclaration(QPSTokenType(QPSTokenType::QPSTypeInfo::ASSIGN), "x");
 
-    qo.addDeclaration(assignEntity1);
-    qo.addDeclaration(assignEntity2);
+    qo.addClause(assignEntity1);
+    qo.addClause(assignEntity2);
 
     // Apply QueryValidator to validate the QueryObject
     QueryValidator validator;
@@ -58,12 +64,18 @@ TEST_CASE("QueryValidator_ValidateQuery_SingleDeclarationRuleViolation") {
 
 TEST_CASE("QueryValidator_ValidateQuery_NoDeclarationRuleViolation") {
     // Create a QueryObject violating the NoDeclarationRule
-    QueryObject qo;
-    std::shared_ptr<AssignEntity> assignEntity = std::make_shared<AssignEntity>("x");
-    std::shared_ptr<AssignEntity> printEntity = std::make_shared<AssignEntity>("y");
+    IntermediateQuery qo;
 
-    std::shared_ptr<ParentConstraint> parentConstraint = std::make_shared<ParentConstraint>(assignEntity, printEntity); // Using undeclared entities
-    qo.addConstraint(parentConstraint);
+    auto assignEntity = std::make_shared<DeclarationClause>(DeclarationClause());
+    assignEntity->addDeclaration(QPSTokenType(QPSTokenType::QPSTypeInfo::ASSIGN), "x");
+    auto printEntity = std::make_shared<DeclarationClause>(DeclarationClause());
+    printEntity->addDeclaration(QPSTokenType(QPSTokenType::QPSTypeInfo::PRINT), "y");
+
+    auto t1 = QPSToken(QPSTokenType(QPSTokenType::QPSTypeInfo::SYNONYM), "x");
+    auto t2 = QPSToken(QPSTokenType(QPSTokenType::QPSTypeInfo::SYNONYM), "y");
+    auto pConstraint = std::make_shared<RelationshipClause>(QPSTokenType::QPSTypeInfo::PARENT, t1, QPSTokenType::QPSTypeInfo::STMT_REF, t2, QPSTokenType::QPSTypeInfo::STMT_REF);
+
+    qo.addClause(pConstraint);
 
     // Apply QueryValidator to validate the QueryObject
     QueryValidator validator;
@@ -76,16 +88,23 @@ TEST_CASE("QueryValidator_ValidateQuery_NoDeclarationRuleViolation") {
 
 TEST_CASE("QueryValidator_ValidateQuery_MultipleRuleViolations") {
     // Create a QueryObject violating both SingleDeclarationRule and NoDeclarationRule
-    QueryObject qo;
+    IntermediateQuery qo;
 
-    std::shared_ptr<AssignEntity> assignEntity1 = std::make_shared<AssignEntity>("x");
-    std::shared_ptr<AssignEntity> assignEntity2 = std::make_shared<AssignEntity>("x");
-    std::shared_ptr<PrintEntity> printEntity = std::make_shared<PrintEntity>("y");
-    std::shared_ptr<ParentConstraint> parentConstraint = std::make_shared<ParentConstraint>(assignEntity1, printEntity); // Using undeclared entities
+    auto assignEntity1 = std::make_shared<DeclarationClause>(DeclarationClause());
+    assignEntity1->addDeclaration(QPSTokenType(QPSTokenType::QPSTypeInfo::ASSIGN), "x");
+    auto assignEntity2 = std::make_shared<DeclarationClause>(DeclarationClause());
+    assignEntity2->addDeclaration(QPSTokenType(QPSTokenType::QPSTypeInfo::ASSIGN), "x");
+    auto printEntity = std::make_shared<DeclarationClause>(DeclarationClause());
+    printEntity->addDeclaration(QPSTokenType(QPSTokenType::QPSTypeInfo::PRINT), "y");
 
-    qo.addDeclaration(assignEntity1);
-    qo.addDeclaration(assignEntity2);
-    qo.addConstraint(parentConstraint);
+    qo.addClause(assignEntity1);
+    qo.addClause(assignEntity2);
+
+    auto t1 = QPSToken(QPSTokenType(QPSTokenType::QPSTypeInfo::SYNONYM), "x");
+    auto t2 = QPSToken(QPSTokenType(QPSTokenType::QPSTypeInfo::SYNONYM), "y");
+
+    auto pConstraint = std::make_shared<RelationshipClause>(QPSTokenType::QPSTypeInfo::PARENT, t1, QPSTokenType::QPSTypeInfo::STMT_REF, t2, QPSTokenType::QPSTypeInfo::STMT_REF);
+    qo.addClause(pConstraint);
 
     // Apply QueryValidator to validate the QueryObject
     QueryValidator validator;
@@ -99,7 +118,7 @@ TEST_CASE("QueryValidator_ValidateQuery_MultipleRuleViolations") {
 
 TEST_CASE("QueryValidator_ValidateQuery_EmptyQueryObject") {
     // Create an empty QueryObject
-    QueryObject qo;
+    IntermediateQuery qo;
 
     // Apply QueryValidator to validate the QueryObject
     QueryValidator validator;

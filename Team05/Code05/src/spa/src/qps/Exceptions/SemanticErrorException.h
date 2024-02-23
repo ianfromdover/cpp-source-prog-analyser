@@ -10,11 +10,11 @@
 
 class SemanticErrorException : public BaseException {
 public:
-    SemanticErrorException(std::string message) : BaseException(message) {}
-    const char* what() const noexcept override {
-        return msg;
+    explicit SemanticErrorException(const std::string& message) : BaseException("Semantic Error: " + message) {}
+    [[nodiscard]] const char* what() const noexcept override {
+        return message_.c_str();
     }
 private:
-    const char* msg;
+    std::string message_;
 };
 #endif //SPA_SEMANTICERROREXCEPTION_H

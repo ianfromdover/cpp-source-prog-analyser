@@ -5,6 +5,6 @@
 #include "PatternConstraint.h"
 
 
-std::string PatternConstrain::getConstraintClass() {
+std::string PatternConstraint::getConstraintClass() {
     return CONSTRAINT_CLASS_PATTERN;
 }

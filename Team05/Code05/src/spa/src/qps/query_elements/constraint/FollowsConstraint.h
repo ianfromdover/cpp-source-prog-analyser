@@ -6,13 +6,13 @@
 #define SPA_FOLLOWSCONSTRAINT_H
 
 #include "RelationshipConstraint.h"
-#include "qps/query_elements/constraint_argument/StatementReference.h"
+#include "qps/query_elements/constraint_argument/statement_reference/StatementReference.h"
 
 class FollowsConstraint : public RelationshipConstraint{
 private:
     std::vector<std::shared_ptr<ConstraintArgument>> constraintArguments;
 public:
-    FollowsConstraint(std::shared_ptr<ConstraintArgument>, std::shared_ptr<ConstraintArgument>);
+    FollowsConstraint(std::shared_ptr<StatementReference>, std::shared_ptr<StatementReference>);
     std::string getConstraintType() override;
     std::vector<std::shared_ptr<ConstraintArgument>>  getConstraintArguments() override;
 };

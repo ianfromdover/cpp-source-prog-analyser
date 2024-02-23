@@ -7,18 +7,61 @@
 #include "PKBStub.h"
 #include "qps/QueryEvaluator/QueryResult/IntResult.h"
 
-std::shared_ptr<Formattable> QueryEvaluator::evaluate(QueryObject & query) {
 
+
+std::shared_ptr<Formattable> QueryEvaluator::evaluate(QueryObject & query) {
     std::shared_ptr<Returnable> r = query.getReturnType();
     std::vector<std::shared_ptr<Constraint>> constraints = query.getConstraints();
 
+    std::vector<shared_ptr<QueryResult>> listOfResults;
+    listOfResults.reserve(constraints.size());
 
-    std::shared_ptr<QueryResult> result = pkb.getResult(*r,*constraints[0]);
+    if (constraints.empty()) {
+        return pkb.getResult(*r, nullptr);
+    }
 
-    std::vector<int> results;
-    IntResult res(results);
-    std::shared_ptr<QueryResult> result1 = std::make_shared<IntResult>(res);
+    //query pkb and store all results into a listOfResults
+    for (std::shared_ptr<Constraint> c : constraints) {
+            listOfResults.push_back(pkb.getResult(*r, c));
+    }
 
-    // end stub
-    return result;
+    // Intersect all results
+    if (listOfResults.empty()) {
+        return getEmptyResult();
+    }
+
+    std::shared_ptr<QueryResult> intersection = listOfResults[0];
+
+    if (listOfResults.size() > 1) {
+        for (int i = 1; i < listOfResults.size(); i++) {
+            intersection = intersect(intersection, listOfResults[i]);
+        }
+    }
+
+    return intersection;
+
 }
+
+std::shared_ptr<Formattable> QueryEvaluator::getEmptyResult() {
+    vector<std::string> s;
+    return std::make_shared<StringResult>(s);
+}
+
+
+std::shared_ptr<QueryResult> QueryEvaluator::intersect(std::shared_ptr<QueryResult> r1, std::shared_ptr<QueryResult> r2) {
+    if (r1->getType() != r2->getType()) {
+        throw std::invalid_argument("mismatch return type for return queries");
+    }
+    if (r1->getType() == QueryResultEnum::INTEGER) {
+        std::shared_ptr<IntResult> int1 = dynamic_pointer_cast<IntResult>(r1);
+        std::shared_ptr<IntResult> int2 = dynamic_pointer_cast<IntResult>(r1);
+        vector<int> results = int1->intersect(int2);
+        return std::make_shared<IntResult>(results);
+    } else {
+        std::shared_ptr<StringResult> str1 = dynamic_pointer_cast<StringResult>(r1);
+        std::shared_ptr<StringResult> str2 = dynamic_pointer_cast<StringResult>(r1);
+        vector<std::string> result = str1->intersect(str2);
+        return std::make_shared<StringResult>(result);
+    }
+}
+

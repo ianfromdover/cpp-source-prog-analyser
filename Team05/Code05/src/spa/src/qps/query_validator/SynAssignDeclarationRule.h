@@ -7,11 +7,9 @@
 
 #include "Rule.h"
 
-class SynAssignDeclarationRule : Rule{
-private:
-    static bool followsSynAssignDeclaration(QueryObject&);
+class SynAssignDeclarationRule : public Rule{
 public:
-    std::string validate(QueryObject&) override;
+    std::string validate(IntermediateQuery&) override;
 };
 
 

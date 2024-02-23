@@ -18,7 +18,7 @@ private:
     std::shared_ptr<PopulatePKB> pkb = make_shared<PopulatePKB>(p);
     SourceProcessor sp = SourceProcessor(pkb);
     QueryPKB pkb1 = QueryPKB(p);
-    QPS qps = QPS(pkb1);
+    QPS qps = QPS(std::make_shared<QueryPKB>(pkb1));
 
 //    PKB pkb;
 //    PopulatePKB popPkb;
