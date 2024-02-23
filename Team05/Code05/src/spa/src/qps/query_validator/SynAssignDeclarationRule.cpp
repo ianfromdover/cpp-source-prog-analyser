@@ -4,16 +4,22 @@
 
 #include "SynAssignDeclarationRule.h"
 
-std::string SynAssignDeclarationRule::validate(QueryObject& qo) {
-    bool followsRule = followsSynAssignDeclaration(qo);
-    if (followsRule) {
-        return "";
-    } else {
-        return VALIDATION_RULE_SYN_ASSIGN_DECLARATION;
-    }
-}
+std::string SynAssignDeclarationRule::validate(IntermediateQuery& query) {
+    if (!query.hasPatternClause()) return "";
 
-//to be implemented in next sprint
-bool SynAssignDeclarationRule::followsSynAssignDeclaration(QueryObject& qo) {
-    return true;
+    std::string patternSyn = query.getPatternClause()->getPatternSynonym(); // Assumed to only have one select element
+
+    for (const auto& clause : query.clauses){
+        if (clause->getType() == Clause::ClauseType::DECLARATION) {
+            std::shared_ptr<DeclarationClause> declarationCl = std::dynamic_pointer_cast<DeclarationClause>(clause);
+            for (const auto& kvp : declarationCl->getAllDeclarations()){
+                if (kvp.first == QPSTokenType::QPSTypeInfo::ASSIGN && kvp.second == patternSyn) {
+                    return "";
+                }
+
+            }
+        }
+    }
+
+    return VALIDATION_RULE_SYN_ASSIGN_DECLARATION;
 }
