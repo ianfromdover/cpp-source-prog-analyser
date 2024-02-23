@@ -29,7 +29,7 @@ public:
 
     vector<shared_ptr<ConstraintArgument>> getContraintArgs();
 
-    std::shared_ptr<QueryResult> getResult(Returnable& r, Constraint& c) override;
+    std::shared_ptr<QueryResult> getResult(Returnable& r, std::shared_ptr<Constraint> c) override;
     // IntResult for now
 
     shared_ptr<QueryResult> queryParentTable(Returnable &r, vector<shared_ptr<ConstraintArgument>> argList);

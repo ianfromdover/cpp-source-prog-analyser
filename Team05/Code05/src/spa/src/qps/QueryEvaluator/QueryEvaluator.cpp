@@ -7,20 +7,7 @@
 #include "PKBStub.h"
 #include "qps/QueryEvaluator/QueryResult/IntResult.h"
 
-std::shared_ptr<Formattable> QueryEvaluator::evaluateOld(QueryObject & query) {
 
-    std::shared_ptr<Returnable> r = query.getReturnType();
-    std::vector<std::shared_ptr<Constraint>> constraints = query.getConstraints();
-
-    std::shared_ptr<QueryResult> result = pkb.getResult(*r,*constraints[0]);
-
-    std::vector<int> results;
-    IntResult res(results);
-    std::shared_ptr<QueryResult> result1 = std::make_shared<IntResult>(res);
-
-    // end stub
-    return result;
-}
 
 std::shared_ptr<Formattable> QueryEvaluator::evaluate(QueryObject & query) {
     std::shared_ptr<Returnable> r = query.getReturnType();
@@ -35,7 +22,7 @@ std::shared_ptr<Formattable> QueryEvaluator::evaluate(QueryObject & query) {
 
     //query pkb and store all results into a listOfResults
     for (std::shared_ptr<Constraint> c : constraints) {
-            listOfResults.push_back(pkb.getResult(*r, *c));
+            listOfResults.push_back(pkb.getResult(*r, c));
     }
 
     // Intersect all results

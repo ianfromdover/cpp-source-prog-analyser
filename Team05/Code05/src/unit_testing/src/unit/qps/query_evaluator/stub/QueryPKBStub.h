@@ -25,7 +25,7 @@ class QueryPKBStub : public QueryPKBVirtual {
 
     vector<shared_ptr<ConstraintArgument>> getContraintArgs();
 
-    std::shared_ptr<QueryResult> getResult(Returnable& r, Constraint& c) override;
+    std::shared_ptr<QueryResult> getResult(Returnable& r, std::shared_ptr<Constraint> c) override;
 
 };
 

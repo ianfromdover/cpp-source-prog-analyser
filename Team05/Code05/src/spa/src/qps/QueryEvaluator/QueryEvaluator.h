@@ -16,7 +16,6 @@ class QueryEvaluator {
 public:
     explicit QueryEvaluator(QueryPKBVirtual& stub) : pkb(stub) {} ;
     std::shared_ptr<Formattable> evaluate(QueryObject&);
-    std::shared_ptr<Formattable> evaluateOld(QueryObject&);
 private:
     QueryPKBVirtual& pkb;
     shared_ptr<QueryResult> intersect(shared_ptr<QueryResult> r1, shared_ptr<QueryResult> r2);

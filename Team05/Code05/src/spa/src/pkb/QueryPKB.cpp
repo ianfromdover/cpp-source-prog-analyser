@@ -27,11 +27,14 @@ QueryPKB::~QueryPKB() {}
 //    return pkb->parentTable->getParent(child);
 //}
 
-std::shared_ptr<QueryResult> QueryPKB::getResult(Returnable &r, Constraint &c) {
+std::shared_ptr<QueryResult> QueryPKB::getResult(Returnable &r, std::shared_ptr<Constraint> c) {
+    if (c == nullptr) {
+        // do smth with empty constraint
+    }
     if (r.getReturnType() == RETURN_INT_RESULT) {
-        vector<shared_ptr<ConstraintArgument>> argList = c.getConstraintArguments();
+        vector<shared_ptr<ConstraintArgument>> argList = c->getConstraintArguments();
         std::shared_ptr<QueryResult> finalResult;
-        std::string type = c.getConstraintType();
+        std::string type = c->getConstraintType();
         if (type == CONSTRAINT_TYPE_PARENT) {
             finalResult = queryParentTable(r, argList);
         } else if (type == CONSTRAINT_TYPE_PARENTT) {

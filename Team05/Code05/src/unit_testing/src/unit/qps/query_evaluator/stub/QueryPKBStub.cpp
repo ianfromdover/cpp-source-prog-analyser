@@ -5,32 +5,32 @@
 #include "QueryPKBStub.h"
 
 // method under test, always return fixed QueryResult based on constraint.
-std::shared_ptr<QueryResult> QueryPKBStub::getResult(Returnable &r, Constraint &c) {
-    if (c.getConstraintType() == CONSTRAINT_TYPE_PARENT) {
+std::shared_ptr<QueryResult> QueryPKBStub::getResult(Returnable &r, std::shared_ptr<Constraint> c) {
+    if (c->getConstraintType() == CONSTRAINT_TYPE_PARENT) {
         std::vector<std::string> vector = {"a", "b", "c", "f"};
         auto strResult = make_shared<StringResult>(vector);
         return strResult;
-    } else if (c.getConstraintType() == CONSTRAINT_TYPE_PARENTT) {
+    } else if (c->getConstraintType() == CONSTRAINT_TYPE_PARENTT) {
         std::vector<std::string> vector = {"c", "d", "e"};
         auto strResult = make_shared<StringResult>(vector);
         return strResult;
-    } else if (c.getConstraintType() == CONSTRAINT_TYPE_FOLLOWS) {
+    } else if (c->getConstraintType() == CONSTRAINT_TYPE_FOLLOWS) {
         std::vector<int> vector = {1, 2, 3};
         auto intResult = make_shared<IntResult>(vector);
         return intResult;
-    } else if (c.getConstraintType() == CONSTRAINT_TYPE_FOLLOWST) {
+    } else if (c->getConstraintType() == CONSTRAINT_TYPE_FOLLOWST) {
         std::vector<int> vector = {3, 4, 5};
         auto intResult = make_shared<IntResult>(vector);
         return intResult;
-    } else if (c.getConstraintType() == CONSTRAINT_CLASS_PATTERN) {
+    } else if (c->getConstraintType() == CONSTRAINT_CLASS_PATTERN) {
         std::vector<std::string> vector = {"c", "d", "e" , "f"};
         auto strResult = make_shared<StringResult>(vector);
         return strResult;
-    } else if (c.getConstraintType() == CONSTRAINT_TYPE_MODIFIESS) {
+    } else if (c->getConstraintType() == CONSTRAINT_TYPE_MODIFIESS) {
         std::vector<int> vector = {2, 3, 4};
         auto intResult = make_shared<IntResult>(vector);
         return intResult;
-    } else if (c.getConstraintType() == CONSTRAINT_TYPE_USESS) {
+    } else if (c->getConstraintType() == CONSTRAINT_TYPE_USESS) {
         std::vector<int> vector = {2, 4, 3};
         auto intResult = make_shared<IntResult>(vector);
         return intResult;
