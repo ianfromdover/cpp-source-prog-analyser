@@ -14,7 +14,7 @@ public:
     explicit QuotedIdentity(std::string&);
     std::string getEntityType() override;
     std::string toString() override;
-    std::string getVal();
+    std::string getArgumentValue() override;
 };
 
 

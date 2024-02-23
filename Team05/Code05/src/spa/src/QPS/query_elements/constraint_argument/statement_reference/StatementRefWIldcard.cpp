@@ -12,3 +12,7 @@ std::string StatementRefWildCard::getEntityType() {
 std::string StatementRefWildCard::toString() {
     return "_ [STMT WILDCARD]";
 }
+
+std::string StatementRefWildCard::getArgumentValue() {
+    return "_";
+}

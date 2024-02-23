@@ -19,3 +19,7 @@ CallEntity::CallEntity(std::string s) {
 std::string CallEntity::toString() {
     return this->identifier + " [CALL]";
 }
+
+std::string CallEntity::getArgumentValue() {
+    return this->identifier;
+}

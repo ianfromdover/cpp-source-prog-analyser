@@ -11,6 +11,7 @@ class ExpressionRefWildcard : public ExpressionReference {
 public:
     std::string getEntityType() override;
     std::string toString() override;
+    std::string getArgumentValue() override;
 };
 
 

@@ -8,6 +8,3 @@ std::string ExpressionReference::getReferenceType() {
     return REFERENCE_TYPE_EXPRESSION;
 }
 
-std::string ExpressionReference::getArgumentValue() {
-    return "";
-}

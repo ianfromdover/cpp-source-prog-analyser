@@ -12,7 +12,6 @@
 class EntityReference : public ConstraintArgument {
 public:
     std::string getReferenceType() override;
-    std::string getArgumentValue() override;
 };
 
 

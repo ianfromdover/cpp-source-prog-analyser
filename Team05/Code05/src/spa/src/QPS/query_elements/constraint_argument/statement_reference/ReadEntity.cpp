@@ -19,3 +19,7 @@ ReadEntity::ReadEntity(std::string s) {
 std::string ReadEntity::toString() {
     return this->identifier + " [READ]";
 }
+
+std::string ReadEntity::getArgumentValue() {
+    return this->identifier;
+}

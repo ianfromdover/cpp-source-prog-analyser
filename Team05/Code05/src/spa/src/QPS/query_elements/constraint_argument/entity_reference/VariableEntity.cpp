@@ -19,3 +19,7 @@ VariableEntity::VariableEntity(std::string s) {
 std::string VariableEntity::toString() {
     return this->identifier + " [VARIABLE]";
 }
+
+std::string VariableEntity::getArgumentValue() {
+    return this->identifier;
+}

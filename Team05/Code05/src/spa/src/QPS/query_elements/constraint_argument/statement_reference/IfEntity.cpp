@@ -20,3 +20,7 @@ std::string IfEntity::toString() {
     return this->identifier + " [IF]";
 }
 
+std::string IfEntity::getArgumentValue() {
+    return this->identifier;
+}
+

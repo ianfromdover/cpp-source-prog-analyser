@@ -20,3 +20,7 @@ WhileEntity::WhileEntity(std::string s) {
 std::string WhileEntity::toString() {
     return this->identifier + " [WHILE]";
 }
+
+std::string WhileEntity::getArgumentValue() {
+    return this->identifier;
+}

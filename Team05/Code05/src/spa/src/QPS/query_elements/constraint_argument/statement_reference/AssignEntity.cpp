@@ -21,3 +21,8 @@ AssignEntity::AssignEntity(std::string s) {
 std::string AssignEntity::toString() {
     return this->identifier + " [ASSIGN]";
 }
+
+std::string AssignEntity::getArgumentValue() {
+    return this->identifier;
+}
+

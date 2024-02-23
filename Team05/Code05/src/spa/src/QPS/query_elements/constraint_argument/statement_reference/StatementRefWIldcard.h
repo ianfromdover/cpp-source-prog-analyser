@@ -11,6 +11,7 @@ class StatementRefWildCard : public StatementReference {
 public:
     std::string getEntityType() override;
     std::string toString() override;
+    std::string getArgumentValue() override;
 };
 
 

@@ -19,3 +19,7 @@ ConstantEntity::ConstantEntity(std::string s) {
 std::string ConstantEntity::toString() {
     return this->identifier + " [CONST]";
 }
+
+std::string ConstantEntity::getArgumentValue() {
+    return this->identifier;
+}

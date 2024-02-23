@@ -17,7 +17,7 @@ StatementEntity::StatementEntity(std::string s) {
 }
 
 std::string StatementEntity::getArgumentValue() {
-    return StatementReference::getArgumentValue();
+    return this->value;
 }
 
 std::string StatementEntity::toString() {

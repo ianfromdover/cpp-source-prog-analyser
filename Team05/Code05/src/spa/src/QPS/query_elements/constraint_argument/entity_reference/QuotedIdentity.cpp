@@ -16,6 +16,7 @@ QuotedIdentity::QuotedIdentity(std::string& s) {
     this->val = s;
 }
 
-std::string QuotedIdentity::getVal() {
+std::string QuotedIdentity::getArgumentValue() {
     return this->val;
 }
+

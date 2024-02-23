@@ -19,3 +19,7 @@ PrintEntity::PrintEntity(std::string s) {
 std::string PrintEntity::toString() {
     return this->identifier + " [PRINT]";
 }
+
+std::string PrintEntity::getArgumentValue() {
+    return this->identifier;
+}

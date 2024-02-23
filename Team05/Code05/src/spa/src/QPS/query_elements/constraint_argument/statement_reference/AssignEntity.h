@@ -13,6 +13,7 @@ public:
     std::string getReturnType() override;
     std::string getEntityType() override;
     std::string toString() override;
+    std::string getArgumentValue() override;
 };
 
 

@@ -20,4 +20,8 @@ std::string ProcedureEntity::toString() {
     return this->identifier + " [PROCEDURE]";
 }
 
+std::string ProcedureEntity::getArgumentValue() {
+    return this->identifier;
+}
+
 

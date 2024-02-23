@@ -5,7 +5,7 @@
 #include "IntegerArgument.h"
 
 std::string IntegerArgument::getArgumentValue() {
-    return TYPE_INTEGER;
+    return to_string(this->value);
 }
 
 std::string IntegerArgument::getEntityType() {

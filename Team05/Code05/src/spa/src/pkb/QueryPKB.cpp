@@ -67,7 +67,7 @@ std::shared_ptr<QueryResult> QueryPKB::getResult(Returnable &r, std::shared_ptr<
 // TODO: making it return the correct things
 std::shared_ptr<QueryResult> QueryPKB::queryParentTable(Returnable &r, vector<shared_ptr<ConstraintArgument>> argList) {
     // this is assuming that Returnable is statement number
-    if (argList[0]->getEntityType() == RETURN_INT_RESULT) {
+    if (argList[0]->getEntityType() == TYPE_INTEGER) {
 //        if (r.getReturnType() == bool) {
 //            // does not work for now
 //        }
