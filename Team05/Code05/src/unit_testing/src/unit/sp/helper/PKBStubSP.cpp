@@ -13,109 +13,109 @@ class PKBStubSP : public BasePKBPopulator {
 
 public:
     bool addRead(StmtNo sNum, VarName name) override {
-        std::cout << "addRead called" << std::endl;
+        //std::cout << "addRead called" << std::endl;
         pairCalls.insert({std::to_string(sNum), name});
         return true;
     }
 
     bool addCallStmt(StmtNo sNum, ProcName name) override {
-        std::cout << "addCallStmt called" << std::endl;
+        //std::cout << "addCallStmt called" << std::endl;
         pairCalls.insert({std::to_string(sNum), name});
         return true;
     }
 
     bool addIf(StmtNo sNum, VarName ctrlVarName) override {
-        std::cout << "addIf called" << std::endl;
+        //std::cout << "addIf called" << std::endl;
         pairCalls.insert({std::to_string(sNum), ctrlVarName});
         return true;
     }
 
     bool addWhile(StmtNo sNum, VarName ctrlVarName) override {
-        std::cout << "addWhile called" << std::endl;
+        //std::cout << "addWhile called" << std::endl;
         pairCalls.insert({std::to_string(sNum), ctrlVarName});
         return true;
     }
 
     bool addPrint(StmtNo sNum, VarName name) override {
-        std::cout << "addPrint called" << std::endl;
+        //std::cout << "addPrint called" << std::endl;
         pairCalls.insert({std::to_string(sNum), name});
         return true;
     }
 
     bool addFinalStatementNo(StmtNo sNum) override {
-        std::cout << "addFinalStatementNo called" << std::endl;
+        //std::cout << "addFinalStatementNo called" << std::endl;
         singleCalls.insert(std::to_string(sNum));
         return true;
     }
 
     bool addProcedure(Str name) override {
-        std::cout << "addProcedure called" << std::endl;
+        //std::cout << "addProcedure called" << std::endl;
         singleCalls.insert(name);
         return true;
     }
 
     bool addVar(StmtNo sNum, VarName name) override {
-        std::cout << "addVar called" << std::endl;
+        //std::cout << "addVar called" << std::endl;
         pairCalls.insert({std::to_string(sNum), name});
         return true;
     }
 
     bool addConst(StmtNo sNum, ConstVal c) override {
-        std::cout << "addConst called" << std::endl;
+        //std::cout << "addConst called" << std::endl;
         pairCalls.insert({std::to_string(sNum), std::to_string(c)});
         return true;
     }
 
     bool addFollows(StmtNo before, StmtNo after) override {
-        std::cout << "addFollows called" << std::endl;
+        //std::cout << "addFollows called" << std::endl;
         pairCalls.insert({std::to_string(before), std::to_string(after)});
         return true;
     }
 
     bool addFollowsT(StmtNo before, StmtNo after) override {
-        std::cout << "addFollowsT called" << std::endl;
+        //std::cout << "addFollowsT called" << std::endl;
         pairCallsT.insert({std::to_string(before), std::to_string(after)});
         return true;
     }
 
     bool addParent(StmtNo parent, StmtNo child) override {
-        std::cout << "addParent called" << std::endl;
+        //std::cout << "addParent called" << std::endl;
         pairCalls.insert({std::to_string(parent), std::to_string(child)});
         return true;
     }
 
     bool addParentT(StmtNo ancestor, StmtNo descendant) override {
-        std::cout << "addParentT called" << std::endl;
+        //std::cout << "addParentT called" << std::endl;
         pairCallsT.insert({std::to_string(ancestor), std::to_string(descendant)});
         return true;
     }
 
     bool addUses(StmtNo sNum, VarName name) override {
-        std::cout << "addUses called" << std::endl;
+        //std::cout << "addUses called" << std::endl;
         pairCalls.insert({std::to_string(sNum), name});
         return true;
     }
 
     bool addUses(ProcName ProcedureName, VarName name) override {
-        std::cout << "addUses (ProcName) called" << std::endl;
+        //std::cout << "addUses (ProcName) called" << std::endl;
         pairCalls.insert({ProcedureName, name});
         return true;
     }
 
     bool addModifies(StmtNo sNum, VarName name) override {
-        std::cout << "addModifies called" << std::endl;
+        //std::cout << "addModifies called" << std::endl;
         pairCalls.insert({std::to_string(sNum), name});
         return true;
     }
 
     bool addModifies(ProcName ProcedureName, VarName name) override {
-        std::cout << "addModifies (ProcName) called" << std::endl;
+        //std::cout << "addModifies (ProcName) called" << std::endl;
         pairCalls.insert({ProcedureName, name});
         return true;
     }
 
     bool addPatternAsgn(StmtNo sNum, Str lhs, Str rhsBracketed) override {
-        std::cout << "addPatternAsgn called" << std::endl;
+        //std::cout << "addPatternAsgn called" << std::endl;
         tupleCalls.insert({std::to_string(sNum), lhs, rhsBracketed});
         return true;
     }
