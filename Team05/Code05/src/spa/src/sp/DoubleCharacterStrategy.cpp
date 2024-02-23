@@ -27,10 +27,16 @@ bool DoubleCharacterStrategy::tokenize(char character, std::stringstream& stream
         case '|':
             doubleCharacter = stream.peek() == '|';
             type = doubleCharacter ? TokenType::OR : TokenType::UNKNOWN; // Assuming OR only valid as double char
+            if (type == TokenType::UNKNOWN) {
+                throw TokenException("Invalid Token Type");
+            }
             break;
         case '&':
             doubleCharacter = stream.peek() == '&';
             type = doubleCharacter ? TokenType::AND : TokenType::UNKNOWN; // Assuming AND only valid as double char
+            if (type == TokenType::UNKNOWN) {
+                throw TokenException("Invalid Token Type");
+            }
             break;
         default:
             return false; // No single or double character token recognized
