@@ -1,5 +1,5 @@
 //Ai Link: https://chat.openai.com/share/7135ca30-fc9b-47af-abee-8e458da2587a
-
+//Ai Link: https://chat.openai.com/share/a8902a0c-5005-4d5a-a895-337aa882cedc
 #include <iostream>
 #include <set>
 #include <pkb/BasePKBPopulator.h>
@@ -120,6 +120,42 @@ public:
         return true;
     }
 
+
+    template<typename... T>
+    bool checkAgainstResults(const std::multiset<T...>& given, const std::multiset<T...>& expect) {
+        if (given.size() != expect.size()) {
+            return false; // Early return if sizes don't match
+        }
+
+        auto itGiven = given.begin();
+        auto itExpect = expect.begin();
+        while (itGiven != given.end() && itExpect != expect.end()) {
+            if (*itGiven != *itExpect) {
+                return false; // Elements or their counts don't match
+            }
+            ++itGiven;
+            ++itExpect;
+        }
+
+        return true; // All elements and their counts match
+    }
+
+    bool checkAgainstSingleResults(const std::multiset<std::string>& toCheck) {
+        return checkAgainstResults<>(singleCalls, toCheck);
+    }
+
+    bool checkAgainstPairResults(const std::multiset<std::pair<std::string, std::string>> &toCheck) {
+       return checkAgainstResults<>(pairCalls, toCheck);
+    }
+
+    bool checkAgainstPairTResults(const std::multiset<std::pair<std::string, std::string>> &toCheck) {
+        return checkAgainstResults<>(pairCallsT, toCheck);
+    }
+
+    bool checkAgainstTupleResults(const std::multiset<std::tuple<std::string, std::string, std::string>> &toCheck) {
+        return checkAgainstResults<>(tupleCalls, toCheck);
+    }
+
     bool checkIfExistPair(const std::multiset<std::pair<std::string, std::string>>& pairVector) {
         // Iterate through each pair in pairVector
         for (const auto& pair : pairVector) {
@@ -187,4 +223,5 @@ public:
         // If all tuples are found and removed, return true
         return tupleCalls.empty();
     }
+
 };

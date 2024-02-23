@@ -19,7 +19,7 @@ TEST_CASE("Follows_TestAssignCallPrintRead") {
     auto pkb = make_shared<PKBStubSP>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<FollowsExtractor>(pkb);
     procedure->accept(*extractor);
-    REQUIRE(pkb->checkIfExistPair(resultsVector));
+    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
 }
 
 //Follows_TestSingleNestingLevel
@@ -41,7 +41,7 @@ TEST_CASE("Follows_TestIfElseWithStmtsBeforeAndInside") {
     auto pkb = make_shared<PKBStubSP>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<FollowsExtractor>(pkb);
     procedure->accept(*extractor);
-    REQUIRE(pkb->checkIfExistPair(resultsVector));
+    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
 }
 
 TEST_CASE("Follows_TestIfElseWithStmtsBeforeAfterAndInside") {
@@ -66,7 +66,7 @@ TEST_CASE("Follows_TestIfElseWithStmtsBeforeAfterAndInside") {
     auto pkb = make_shared<PKBStubSP>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<FollowsExtractor>(pkb);
     procedure->accept(*extractor);
-    REQUIRE(pkb->checkIfExistPair(resultsVector));
+    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
 }
 
 TEST_CASE("Follows_TestIfElseWithStmtsAfterAndInside") {
@@ -86,7 +86,7 @@ TEST_CASE("Follows_TestIfElseWithStmtsAfterAndInside") {
     auto pkb = make_shared<PKBStubSP>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<FollowsExtractor>(pkb);
     procedure->accept(*extractor);
-    REQUIRE(pkb->checkIfExistPair(resultsVector));
+    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
 }
 
 TEST_CASE("Follows_TestWhileWithStmtsBeforeAndInside") {
@@ -104,7 +104,7 @@ TEST_CASE("Follows_TestWhileWithStmtsBeforeAndInside") {
     auto pkb = make_shared<PKBStubSP>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<FollowsExtractor>(pkb);
     procedure->accept(*extractor);
-    REQUIRE(pkb->checkIfExistPair(resultsVector));
+    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
 }
 
 TEST_CASE("Follows_TestWhileWithStmtsBeforeAfterAndInside") {
@@ -125,7 +125,7 @@ TEST_CASE("Follows_TestWhileWithStmtsBeforeAfterAndInside") {
     auto pkb = make_shared<PKBStubSP>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<FollowsExtractor>(pkb);
     procedure->accept(*extractor);
-    REQUIRE(pkb->checkIfExistPair(resultsVector));
+    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
 }
 
 TEST_CASE("Follows_TestWhileWithStmtsAfterAndInside") {
@@ -143,7 +143,7 @@ TEST_CASE("Follows_TestWhileWithStmtsAfterAndInside") {
     auto pkb = make_shared<PKBStubSP>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<FollowsExtractor>(pkb);
     procedure->accept(*extractor);
-    REQUIRE(pkb->checkIfExistPair(resultsVector));
+    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
 }
 
 //Follows_TestDoubleNestingLevel
@@ -180,7 +180,7 @@ TEST_CASE("Follows_TestIfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside") {
     auto pkb = make_shared<PKBStubSP>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<FollowsExtractor>(pkb);
     procedure->accept(*extractor);
-    REQUIRE(pkb->checkIfExistPair(resultsVector));
+    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
 }
 
 TEST_CASE("Follows_TestIfElseWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside") {
@@ -225,7 +225,7 @@ TEST_CASE("Follows_TestIfElseWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside
     auto pkb = make_shared<PKBStubSP>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<FollowsExtractor>(pkb);
     procedure->accept(*extractor);
-    REQUIRE(pkb->checkIfExistPair(resultsVector));
+    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
 }
 
 TEST_CASE("Follows_TestIfElseWithNestedIfElsePlusNestedStmtsAfterAndInside") {
@@ -263,7 +263,7 @@ TEST_CASE("Follows_TestIfElseWithNestedIfElsePlusNestedStmtsAfterAndInside") {
     auto pkb = make_shared<PKBStubSP>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<FollowsExtractor>(pkb);
     procedure->accept(*extractor);
-    REQUIRE(pkb->checkIfExistPair(resultsVector));
+    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
 }
 
 TEST_CASE("Follows_TestIfElseWithNestedWhilePlusNestedStmtsBeforeAndInside") {
@@ -291,7 +291,7 @@ TEST_CASE("Follows_TestIfElseWithNestedWhilePlusNestedStmtsBeforeAndInside") {
     auto pkb = make_shared<PKBStubSP>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<FollowsExtractor>(pkb);
     procedure->accept(*extractor);
-    REQUIRE(pkb->checkIfExistPair(resultsVector));
+    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
 }
 
 TEST_CASE("Follows_TestIfElseWithNestedWhilePlusNestedStmtsBeforeAfterAndInside") {
@@ -329,7 +329,7 @@ TEST_CASE("Follows_TestIfElseWithNestedWhilePlusNestedStmtsBeforeAfterAndInside"
     auto pkb = make_shared<PKBStubSP>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<FollowsExtractor>(pkb);
     procedure->accept(*extractor);
-    REQUIRE(pkb->checkIfExistPair(resultsVector));
+    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
 }
 
 TEST_CASE("Follows_TestIfElseWithNestedWhilePlusNestedStmtsAfterAndInside") {
@@ -358,7 +358,7 @@ TEST_CASE("Follows_TestIfElseWithNestedWhilePlusNestedStmtsAfterAndInside") {
     auto pkb = make_shared<PKBStubSP>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<FollowsExtractor>(pkb);
     procedure->accept(*extractor);
-    REQUIRE(pkb->checkIfExistPair(resultsVector));
+    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
 }
 
 TEST_CASE("Follows_TestWhileWithNestedIfElsePlusNestedStmtsBeforeAndInside") {
@@ -380,7 +380,7 @@ TEST_CASE("Follows_TestWhileWithNestedIfElsePlusNestedStmtsBeforeAndInside") {
     auto pkb = make_shared<PKBStubSP>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<FollowsExtractor>(pkb);
     procedure->accept(*extractor);
-    REQUIRE(pkb->checkIfExistPair(resultsVector));
+    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
 }
 
 TEST_CASE("Follows_TestWhileWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside") {
@@ -408,7 +408,7 @@ TEST_CASE("Follows_TestWhileWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside"
     auto pkb = make_shared<PKBStubSP>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<FollowsExtractor>(pkb);
     procedure->accept(*extractor);
-    REQUIRE(pkb->checkIfExistPair(resultsVector));
+    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
 }
 
 TEST_CASE("Follows_TestWhileWithNestedIfElsePlusNestedStmtsAfterAndInside") {
@@ -431,7 +431,7 @@ TEST_CASE("Follows_TestWhileWithNestedIfElsePlusNestedStmtsAfterAndInside") {
     auto pkb = make_shared<PKBStubSP>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<FollowsExtractor>(pkb);
     procedure->accept(*extractor);
-    REQUIRE(pkb->checkIfExistPair(resultsVector));
+    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
 }
 
 TEST_CASE("Follows_TestWhileWithNestedWhilePlusNestedStmtsBeforeAndInside") {
@@ -449,7 +449,7 @@ TEST_CASE("Follows_TestWhileWithNestedWhilePlusNestedStmtsBeforeAndInside") {
     auto pkb = make_shared<PKBStubSP>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<FollowsExtractor>(pkb);
     procedure->accept(*extractor);
-    REQUIRE(pkb->checkIfExistPair(resultsVector));
+    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
 }
 
 TEST_CASE("Follows_TestWhileWithNestedWhilePlusNestedStmtsBeforeAfterAndInside") {
@@ -473,7 +473,7 @@ TEST_CASE("Follows_TestWhileWithNestedWhilePlusNestedStmtsBeforeAfterAndInside")
     auto pkb = make_shared<PKBStubSP>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<FollowsExtractor>(pkb);
     procedure->accept(*extractor);
-    REQUIRE(pkb->checkIfExistPair(resultsVector));
+    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
 }
 
 TEST_CASE("Follows_TestWhileWithNestedWhilePlusNestedStmtsAfterAndInside") {
@@ -492,5 +492,5 @@ TEST_CASE("Follows_TestWhileWithNestedWhilePlusNestedStmtsAfterAndInside") {
     auto pkb = make_shared<PKBStubSP>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<FollowsExtractor>(pkb);
     procedure->accept(*extractor);
-    REQUIRE(pkb->checkIfExistPair(resultsVector));
+    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
 }
