@@ -50,6 +50,20 @@ public:
     std::vector<A> getKeys(B value);
 
     /**
+     * @brief Retrieve all the keys in a table
+     *
+     * @return All the keys in the map.
+     */
+    std::vector<A> getAllKeys();
+
+    /**
+     * @brief Retrieve all the keys in a table
+     *
+     * @return All the keys in the map.
+     */
+    std::vector<B> getAllValues();
+
+    /**
      * @brief Check if a key exists in the map.
      *
      * @param key The key to check.
@@ -80,6 +94,7 @@ public:
      */
     [[nodiscard]] int size () const;
 };
+
 
 // ai-gen end
 
@@ -141,6 +156,24 @@ std::vector<A> TwoSideMapManyMany<A, B>::getKeys(B value) {
         result.push_back(*ptr);
     }
     return result;
+}
+
+template<typename A, typename B>
+vector<A> TwoSideMapManyMany<A, B>::getAllKeys() {
+    std::vector<A> keys;
+    for (const auto& pair : forwardMap) {
+        keys.push_back(pair.first);
+    }
+    return keys;
+}
+
+template<typename A, typename B>
+vector<B> TwoSideMapManyMany<A, B>::getAllValues() {
+    std::vector<B> values;
+    for (const auto& pair : forwardMap) {
+        values.push_back(pair.second);
+    }
+    return values;
 }
 
 template<typename A, typename B>
