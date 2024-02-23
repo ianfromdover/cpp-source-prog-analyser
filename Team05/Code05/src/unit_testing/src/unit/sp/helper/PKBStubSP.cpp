@@ -122,106 +122,37 @@ public:
 
 
     template<typename... T>
-    bool checkAgainstResults(const std::multiset<T...>& given, const std::multiset<T...>& expect) {
-        if (given.size() != expect.size()) {
-            return false; // Early return if sizes don't match
-        }
-
-        auto itGiven = given.begin();
-        auto itExpect = expect.begin();
-        while (itGiven != given.end() && itExpect != expect.end()) {
-            if (*itGiven != *itExpect) {
-                return false; // Elements or their counts don't match
-            }
-            ++itGiven;
-            ++itExpect;
-        }
-
-        return true; // All elements and their counts match
-    }
-
-    bool checkAgainstSingleResults(const std::multiset<std::string>& toCheck) {
-        return checkAgainstResults<>(singleCalls, toCheck);
-    }
-
-    bool checkAgainstPairResults(const std::multiset<std::pair<std::string, std::string>> &toCheck) {
-       return checkAgainstResults<>(pairCalls, toCheck);
-    }
-
-    bool checkAgainstPairTResults(const std::multiset<std::pair<std::string, std::string>> &toCheck) {
-        return checkAgainstResults<>(pairCallsT, toCheck);
-    }
-
-    bool checkAgainstTupleResults(const std::multiset<std::tuple<std::string, std::string, std::string>> &toCheck) {
-        return checkAgainstResults<>(tupleCalls, toCheck);
-    }
-
-    bool checkIfExistPair(const std::multiset<std::pair<std::string, std::string>>& pairVector) {
-        // Iterate through each pair in pairVector
-        for (const auto& pair : pairVector) {
-            // Try to find the pair in pairCalls
-            auto it = pairCalls.find(pair);
-            if (it == pairCalls.end()) {
-                // If the pair is not found, return false
+    bool checkAgainstResults(std::multiset<T...>& given, std::multiset<T...>& expect) {
+        // Iterate through each element in the given multiset
+        for (const auto& element : given) {
+            // Try to find the element in expect
+            auto it = expect.find(element);
+            if (it == expect.end()) {
+                // If the element is not found, return false
                 return false;
             } else {
-                // If found, erase one instance of that pair from pairCalls
-                pairCalls.erase(it);
+                // If found, erase one instance of that element from expect
+                expect.erase(it);
             }
         }
-        // If all pairs are found and removed, return true
-        return pairCalls.empty();
+        // If all elements are found and removed, return true if expect is now empty
+        return expect.empty();
     }
 
-    bool checkIfExistPairT(const std::multiset<std::pair<std::string, std::string>>& pairVector) {
-        // Iterate through each pair in pairVector
-        for (const auto& pair : pairVector) {
-            // Try to find the pair in pairCalls
-            auto it = pairCallsT.find(pair);
-            if (it == pairCallsT.end()) {
-                // If the pair is not found, return false
-                return false;
-            } else {
-                // If found, erase one instance of that pair from pairCalls
-                pairCallsT.erase(it);
-            }
-        }
-        // If all pairs are found and removed, return true
-        return pairCallsT.empty();
+    bool checkAgainstSingleResults(std::multiset<std::string>& toCheck) {
+        return checkAgainstResults<>(toCheck, singleCalls);
     }
 
-    bool checkIfExistSingle(const std::multiset<std::string>& stringVector) {
-        // Iterate through each string in stringVector
-        for (const auto& str : stringVector) {
-            // Try to find the string in singleCalls
-            auto it = singleCalls.find(str);
-            if (it == singleCalls.end()) {
-                // If the string is not found, return false
-                return false;
-            } else {
-                // If found, erase one instance of that string from singleCalls
-                singleCalls.erase(it);
-            }
-        }
-        // If all strings are found and removed, return true
-        return singleCalls.empty();
+    bool checkAgainstPairResults(std::multiset<std::pair<std::string, std::string>> &toCheck) {
+       return checkAgainstResults<>(toCheck, pairCalls);
     }
 
-    bool checkIfExistTuple(const std::multiset<std::tuple<std::string, std::string, std::string>>& tupleVector) {
-        // Iterate through each tuple in tupleVector
-        for (const auto& tuple : tupleVector) {
-            // Try to find the tuple in tupleCalls
-            auto it = tupleCalls.find(tuple);
-            if (it == tupleCalls.end()) {
-                // If the tuple is not found, return false
-                return false;
-            } else {
-                // If found, erase one instance of that tuple from tupleCalls
-                tupleCalls.erase(it);
-            }
-        }
-        // If all tuples are found and removed, return true
-        return tupleCalls.empty();
+    bool checkAgainstPairTResults(std::multiset<std::pair<std::string, std::string>> &toCheck) {
+        return checkAgainstResults<>(toCheck, pairCallsT);
+    }
+
+    bool checkAgainstTupleResults(std::multiset<std::tuple<std::string, std::string, std::string>> &toCheck) {
+        return checkAgainstResults<>(toCheck, tupleCalls);
     }
 
 };
