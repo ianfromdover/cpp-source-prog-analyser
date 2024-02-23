@@ -1,9 +1,8 @@
 #include "PKBStorage.h"
 #include "QueryPKB.h"
 #include "qps/QueryEvaluator/QueryResult/IntResult.h"
-#include "qps/QueryEvaluator/QueryResult/StringResult.h"
-#include "qps/query_elements/constraint_argument/IntegerArgument.h"
-#include "qps/query_elements/constraint_argument/StatementEntity.h"
+#include "qps/query_elements/constraint_argument/statement_reference/IntegerArgument.h"
+#include "qps/query_elements/constraint_argument/statement_reference/StatementEntity.h"
 
 QueryPKB::QueryPKB(std::shared_ptr<PKBStorage> p) {
     pkb = std::move(p);
