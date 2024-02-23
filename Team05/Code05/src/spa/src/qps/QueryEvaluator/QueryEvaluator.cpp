@@ -29,6 +29,10 @@ std::shared_ptr<Formattable> QueryEvaluator::evaluate(QueryObject & query) {
     std::vector<shared_ptr<QueryResult>> listOfResults;
     listOfResults.reserve(constraints.size());
 
+//    if (constraints.empty()) {
+//        return pkb.getResult(*r, nullptr);
+//    }
+
     //query pkb and store all results into a listOfResults
     for (std::shared_ptr<Constraint> c : constraints) {
             listOfResults.push_back(pkb.getResult(*r, *c));
