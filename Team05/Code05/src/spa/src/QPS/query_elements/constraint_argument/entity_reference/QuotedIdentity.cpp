@@ -5,7 +5,7 @@
 #include "QuotedIdentity.h"
 
 std::string QuotedIdentity::getEntityType() {
-    return RETURN_TYPE_QUOTED_IDENT;
+    return TYPE_QUOTED_IDENT;
 }
 
 std::string QuotedIdentity::toString() {

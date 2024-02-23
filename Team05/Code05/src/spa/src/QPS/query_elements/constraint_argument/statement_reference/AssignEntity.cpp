@@ -7,11 +7,11 @@
 #include <utility>
 
 std::string AssignEntity::getReturnType() {
-    return RETURN_TYPE_ASSIGN;
+    return RETURN_INT_RESULT;
 }
 
 std::string AssignEntity::getEntityType() {
-    return RETURN_TYPE_ASSIGN;
+    return TYPE_ASSIGN;
 }
 
 AssignEntity::AssignEntity(std::string s) {

@@ -6,11 +6,11 @@
 
 
 std::string WhileEntity::getReturnType() {
-    return RETURN_TYPE_WHILE;
+    return RETURN_INT_RESULT;
 }
 
 std::string WhileEntity::getEntityType() {
-    return RETURN_TYPE_WHILE;
+    return TYPE_WHILE;
 }
 
 WhileEntity::WhileEntity(std::string s) {

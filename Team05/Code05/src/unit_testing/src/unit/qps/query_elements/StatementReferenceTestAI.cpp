@@ -22,47 +22,47 @@ using namespace std;
 // prompt: https://platform.openai.com/playground/p/9SCJ5Iuz6Qhdknrd17M6Eh8k?model=gpt-3.5-turbo&mode=chat
 TEST_CASE("entity_statementEntityIsTypeStatement_stringStatement") {
     StatementEntity en = StatementEntity("q");
-    REQUIRE(en.getEntityType() == RETURN_TYPE_STATEMENT);
+    REQUIRE(en.getEntityType() == TYPE_STATEMENT);
 }
 
 TEST_CASE("entity_readEntityIsTypeStatement_stringRead") {
     ReadEntity en = ReadEntity("o");
-    REQUIRE(en.getEntityType() == RETURN_TYPE_READ);
+    REQUIRE(en.getEntityType() == TYPE_READ);
 }
 
 TEST_CASE("entity_printEntityIsTypePrint_stringPrint") {
     PrintEntity en = PrintEntity("r");
-    REQUIRE(en.getEntityType() == RETURN_TYPE_PRINT);
+    REQUIRE(en.getEntityType() == TYPE_PRINT);
 }
 
 TEST_CASE("entity_assignEntityIsTypeAssign_stringAssign") {
     AssignEntity en = AssignEntity("a");
-    REQUIRE(en.getEntityType() == RETURN_TYPE_ASSIGN);
+    REQUIRE(en.getEntityType() == TYPE_ASSIGN);
 }
 
 TEST_CASE("entity_callEntityIsTypeCall_stringCall") {
     CallEntity en = CallEntity("b");
-    REQUIRE(en.getEntityType() == RETURN_TYPE_CALL);
+    REQUIRE(en.getEntityType() == TYPE_CALL);
 }
 
 TEST_CASE("entity_ifEntityIsTypeIf_stringIf") {
     IfEntity en = IfEntity("c");
-    REQUIRE(en.getEntityType() == RETURN_TYPE_IF);
+    REQUIRE(en.getEntityType() == TYPE_IF);
 }
 
 TEST_CASE("entity_whileEntityIsTypeWhile_stringWhile") {
     WhileEntity en = WhileEntity("d");
-    REQUIRE(en.getEntityType() == RETURN_TYPE_WHILE);
+    REQUIRE(en.getEntityType() == TYPE_WHILE);
 }
 
 TEST_CASE("entity_integerArgumentIsTypeInteger_stringInteger") {
     IntegerArgument en = IntegerArgument();
-    REQUIRE(en.getEntityType() == RETURN_TYPE_INTEGER);
+    REQUIRE(en.getEntityType() == TYPE_INTEGER);
 }
 
 TEST_CASE("entity_wildCardIsTypeWildcard_stringWildcard") {
     StatementRefWildCard en = StatementRefWildCard();
-    REQUIRE(en.getEntityType() == RETURN_TYPE_WILDCARD);
+    REQUIRE(en.getEntityType() == TYPE_WILDCARD);
 }
 
 TEST_CASE("Entity_GetIdentifier_Success") {

@@ -5,11 +5,11 @@
 #include "ReadEntity.h"
 
 std::string ReadEntity::getReturnType() {
-    return RETURN_TYPE_READ;
+    return RETURN_INT_RESULT;
 }
 
 std::string ReadEntity::getEntityType() {
-    return RETURN_TYPE_READ;
+    return TYPE_READ;
 }
 
 ReadEntity::ReadEntity(std::string s) {

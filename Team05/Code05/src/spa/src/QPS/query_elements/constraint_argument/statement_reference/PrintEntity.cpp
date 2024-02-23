@@ -5,11 +5,11 @@
 #include "PrintEntity.h"
 
 std::string PrintEntity::getReturnType() {
-    return RETURN_TYPE_PRINT;
+    return RETURN_INT_RESULT;
 }
 
 std::string PrintEntity::getEntityType() {
-    return RETURN_TYPE_PRINT;
+    return TYPE_PRINT;
 }
 
 PrintEntity::PrintEntity(std::string s) {

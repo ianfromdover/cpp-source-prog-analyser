@@ -5,11 +5,11 @@
 #include "ConstantEntity.h"
 
 std::string ConstantEntity::getReturnType() {
-    return RETURN_TYPE_CONSTANT;
+    return RETURN_INT_RESULT;
 }
 
 std::string ConstantEntity::getEntityType() {
-    return RETURN_TYPE_CONSTANT;
+    return TYPE_CONSTANT;
 }
 
 ConstantEntity::ConstantEntity(std::string s) {

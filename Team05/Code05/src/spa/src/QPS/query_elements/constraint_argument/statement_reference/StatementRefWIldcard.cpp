@@ -6,7 +6,7 @@
 
 
 std::string StatementRefWildCard::getEntityType() {
-    return RETURN_TYPE_WILDCARD;
+    return TYPE_WILDCARD;
 }
 
 std::string StatementRefWildCard::toString() {

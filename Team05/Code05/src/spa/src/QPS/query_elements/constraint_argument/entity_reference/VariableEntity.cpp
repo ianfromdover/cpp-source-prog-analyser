@@ -5,11 +5,11 @@
 #include "VariableEntity.h"
 
 std::string VariableEntity::getReturnType() {
-    return RETURN_TYPE_VARIABLE;
+    return RETURN_STR_RESULT;
 }
 
 std::string VariableEntity::getEntityType() {
-    return RETURN_TYPE_VARIABLE;
+    return TYPE_VARIABLE;
 }
 
 VariableEntity::VariableEntity(std::string s) {

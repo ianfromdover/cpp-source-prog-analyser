@@ -5,7 +5,7 @@
 #include "EntityRefWildCard.h"
 
 std::string EntityRefWildCard::getEntityType() {
-    return RETURN_TYPE_WILDCARD;
+    return TYPE_WILDCARD;
 }
 
 std::string EntityRefWildCard::toString() {

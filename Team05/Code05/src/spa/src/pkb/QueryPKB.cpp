@@ -30,11 +30,11 @@ StmtNo QueryPKB::getParent(StmtNo child) {
 }
 
 std::shared_ptr<QueryResult> QueryPKB::getResult(Returnable &r, Constraint &c) {
-    if (r.getReturnType() == RETURN_TYPE_STATEMENT
+    if (r.getReturnType() == TYPE_STATEMENT
             && c.getConstraintType() == CONSTRAINT_TYPE_PARENT) {
         vector<shared_ptr<ConstraintArgument>> argList = c.getConstraintArguments();
         std::vector<int > results;
-        if (argList[0]->getEntityType() == RETURN_TYPE_INTEGER) {
+        if (argList[0]->getEntityType() == TYPE_INTEGER) {
             // finding children of line number
             std::shared_ptr<IntegerArgument> newInt = std::dynamic_pointer_cast<IntegerArgument>(argList[0]);
             int i = newInt->value; //get value

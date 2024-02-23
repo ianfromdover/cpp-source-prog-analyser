@@ -5,11 +5,11 @@
 #include "IfEntity.h"
 
 std::string IfEntity::getReturnType() {
-    return RETURN_TYPE_IF;
+    return RETURN_INT_RESULT;
 }
 
 std::string IfEntity::getEntityType() {
-    return RETURN_TYPE_IF;
+    return TYPE_IF;
 }
 
 IfEntity::IfEntity(std::string s) {

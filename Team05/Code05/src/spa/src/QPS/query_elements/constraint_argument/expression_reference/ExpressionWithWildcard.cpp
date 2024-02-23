@@ -9,7 +9,7 @@ std::string ExpressionWithWildcard::getArgumentValue() {
 }
 
 std::string ExpressionWithWildcard::getEntityType() {
-    return RETURN_TYPE_EXPRESSION_W_WILDCARD;
+    return TYPE_EXPRESSION_W_WILDCARD;
 }
 
 ExpressionWithWildcard::ExpressionWithWildcard(std::string s) {

@@ -11,7 +11,7 @@ std::string Expression::getArgumentValue() {
 }
 
 std::string Expression::getEntityType() {
-    return RETURN_TYPE_EXPRESSION;
+    return TYPE_EXPRESSION;
 }
 
 Expression::Expression(std::string s) {

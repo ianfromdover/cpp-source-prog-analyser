@@ -5,11 +5,11 @@
 #include "StatementEntity.h"
 
 std::string StatementEntity::getReturnType() {
-    return RETURN_TYPE_STATEMENT;
+    return RETURN_INT_RESULT;
 }
 
 std::string StatementEntity::getEntityType() {
-    return RETURN_TYPE_STATEMENT;
+    return TYPE_STATEMENT;
 }
 
 StatementEntity::StatementEntity(std::string s) {

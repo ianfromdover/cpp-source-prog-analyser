@@ -5,11 +5,11 @@
 #include "CallEntity.h"
 
 std::string CallEntity::getReturnType() {
-    return RETURN_TYPE_CALL;
+    return RETURN_INT_RESULT;
 }
 
 std::string CallEntity::getEntityType() {
-    return RETURN_TYPE_CALL;
+    return TYPE_CALL;
 }
 
 CallEntity::CallEntity(std::string s) {

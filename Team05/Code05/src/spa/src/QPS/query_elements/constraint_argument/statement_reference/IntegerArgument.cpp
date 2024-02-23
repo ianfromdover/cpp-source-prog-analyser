@@ -5,11 +5,11 @@
 #include "IntegerArgument.h"
 
 std::string IntegerArgument::getArgumentValue() {
-    return RETURN_TYPE_INTEGER;
+    return TYPE_INTEGER;
 }
 
 std::string IntegerArgument::getEntityType() {
-    return RETURN_TYPE_INTEGER;
+    return TYPE_INTEGER;
 }
 
 std::string IntegerArgument::toString() {

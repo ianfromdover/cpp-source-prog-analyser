@@ -5,11 +5,11 @@
 #include "ProcedureEntity.h"
 
 std::string ProcedureEntity::getReturnType() {
-    return RETURN_TYPE_PROCEDURE;
+    return RETURN_INT_RESULT;
 }
 
 std::string ProcedureEntity::getEntityType() {
-    return RETURN_TYPE_PROCEDURE;
+    return TYPE_PROCEDURE;
 }
 
 ProcedureEntity::ProcedureEntity(std::string s) {
