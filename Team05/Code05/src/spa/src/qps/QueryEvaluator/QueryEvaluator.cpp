@@ -6,7 +6,7 @@
 #include "qps/QueryEvaluator/QueryResult/StringResult.h"
 #include "PKBStub.h"
 #include "qps/QueryEvaluator/QueryResult/IntResult.h"
-
+#include "qps/Exceptions/QPSException.h"
 
 
 std::shared_ptr<Formattable> QueryEvaluator::evaluate(QueryObject & query) {
@@ -50,16 +50,16 @@ std::shared_ptr<Formattable> QueryEvaluator::getEmptyResult() {
 
 std::shared_ptr<QueryResult> QueryEvaluator::intersect(std::shared_ptr<QueryResult> r1, std::shared_ptr<QueryResult> r2) {
     if (r1->getType() != r2->getType()) {
-        throw std::invalid_argument("mismatch return type for return queries");
+        throw QPSException("mismatch return type for return queries");
     }
     if (r1->getType() == QueryResultEnum::INTEGER) {
         std::shared_ptr<IntResult> int1 = dynamic_pointer_cast<IntResult>(r1);
-        std::shared_ptr<IntResult> int2 = dynamic_pointer_cast<IntResult>(r1);
+        std::shared_ptr<IntResult> int2 = dynamic_pointer_cast<IntResult>(r2);
         vector<int> results = int1->intersect(int2);
         return std::make_shared<IntResult>(results);
     } else {
         std::shared_ptr<StringResult> str1 = dynamic_pointer_cast<StringResult>(r1);
-        std::shared_ptr<StringResult> str2 = dynamic_pointer_cast<StringResult>(r1);
+        std::shared_ptr<StringResult> str2 = dynamic_pointer_cast<StringResult>(r2);
         vector<std::string> result = str1->intersect(str2);
         return std::make_shared<StringResult>(result);
     }

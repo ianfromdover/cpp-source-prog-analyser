@@ -10,7 +10,7 @@ bool MultiCharacterStrategy::tokenize(char character, std::stringstream& stream,
         std::string name = character + readWhile(stream, [](char ch) { return std::isalnum(ch); });
         prevTokenIsKeyword = isKeyword(name, tokens, prevTokenIsKeyword);
     } else if (std::isdigit(character)) {
-        if (character == '0') {
+        if (character == '0' && std::isalnum(stream.peek())) {
             throw TokenException("Invalid Token Type");
         }
         std::string integer = character + readWhile(stream, [](char ch) { return std::isdigit(ch); });

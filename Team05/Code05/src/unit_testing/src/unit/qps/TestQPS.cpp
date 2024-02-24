@@ -99,7 +99,15 @@ TEST_CASE("[TestQPS] Syntax Error Tests"){
 
         std::vector<std::string> results = testHelper(queryStr);
         REQUIRE(results == expected);
-    }SECTION("AI generated queries"){
+    }
+    SECTION("integer with leading zero"){
+        std::string queryStr = "stmt s; Select s such that Parent (01, s);";
+        std::vector<std::string> expected = {"SyntaxError"};
+
+        std::vector<std::string> results = testHelper(queryStr);
+        REQUIRE(results == expected);
+    }
+    SECTION("AI generated queries"){
         std::vector<std::string> queryLs = {
                 R"(Select stmt s such that Follows(s1, s2))",
                 R"(Select stmt s such that Parent*(s1, s2))",
@@ -151,7 +159,6 @@ TEST_CASE("[TestQPS] Syntax Error Tests"){
         for (auto & s : queryLs){
             std::vector<std::string> expected = {"SyntaxError"};
             std::vector<std::string> results = testHelper(s);
-            std::cout << s << std::endl;
             REQUIRE(results == expected);
         }
 

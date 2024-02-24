@@ -4,6 +4,7 @@
 
 #include <map>
 #include "QPSMultiCharacterStrategy.h"
+#include "qps/Exceptions/QPSTokenizeException.h"
 
 
 bool QPSMultiCharacterStrategy::tokenize(char character, std::stringstream &stream, QPSTokenList &tokens,
@@ -22,6 +23,9 @@ bool QPSMultiCharacterStrategy::tokenize(char character, std::stringstream &stre
             declarationStarted = true;
         }
     } else if (std::isdigit(character)) {
+        if (character == '0' && std::isalnum(stream.peek())) {
+            throw QPSTokenizeException("Invalid Integer with leading zero");
+        }
         std::string integer = character + readWhile(stream, [](char ch) { return std::isdigit(ch); });
         tokens.addToken(QPSTokenType::INTEGER, integer);
     } else if (character != ' ' && character != '\n') {
