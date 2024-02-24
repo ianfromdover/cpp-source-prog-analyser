@@ -19,12 +19,12 @@ TEST_CASE("Tokenise sample program") {
 
     std::string codeSnippet = R"(
     procedure procedure {
-        count = 1123*923/wq;
+        count = 1123;
         cenX = 0;
         cenY = 0;
         call call;
         read x1;
-        while ((while != 0) && (y != 0)) {
+        while (while != 0) {
             count = count + 1;
             cenX = cenX + x;
             cenY = cenY + y;

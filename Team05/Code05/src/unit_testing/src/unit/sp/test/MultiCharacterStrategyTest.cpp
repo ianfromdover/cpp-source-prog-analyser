@@ -160,4 +160,32 @@ TEST_CASE("[TestSP] MultiCharacterStrategy tokenization", "[MultiCharacter]") {
         REQUIRE(tokens->back()->getType() == TokenType::NAME);
         REQUIRE(prevTokenIsKeyword == false);
     }
+
+    SECTION("Tokenize non-alphanumeric characters not part of the syntax ") {
+        stream.str("]");
+        char firstChar;
+        stream.get(firstChar);
+        REQUIRE_THROWS_WITH(strategy.tokenize(firstChar, stream, tokens, prevTokenIsKeyword), "Invalid Token Type");
+    }
+
+    SECTION("Tokenize non-alphanumeric characters not part of the syntax ") {
+        stream.str(",");
+        char firstChar;
+        stream.get(firstChar);
+        REQUIRE_THROWS_WITH(strategy.tokenize(firstChar, stream, tokens, prevTokenIsKeyword), "Invalid Token Type");
+    }
+
+    SECTION("Tokenize leading zeros") {
+        stream.str("013");
+        char firstChar;
+        stream.get(firstChar);
+        REQUIRE_THROWS_WITH(strategy.tokenize(firstChar, stream, tokens, prevTokenIsKeyword), "Invalid Token Type");
+    }
+
+    SECTION("Tokenize leading zeros") {
+        stream.str("000");
+        char firstChar;
+        stream.get(firstChar);
+        REQUIRE_THROWS_WITH(strategy.tokenize(firstChar, stream, tokens, prevTokenIsKeyword), "Invalid Token Type");
+    }
 }

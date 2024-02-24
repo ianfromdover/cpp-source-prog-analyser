@@ -16,8 +16,10 @@ bool MultiCharacterStrategy::tokenize(char character, std::stringstream& stream,
         std::string integer = character + readWhile(stream, [](char ch) { return std::isdigit(ch); });
         this->addToken(TokenType::INTEGER, integer, tokens);
         prevTokenIsKeyword = false;
-    } else if (character != ' ' && character != '\n') {
+    } else if (character == ' ' || character == '\n') {
         //Do nothing
+    } else {
+        throw TokenException("Invalid Token Type");
     }
     return true;
 }
