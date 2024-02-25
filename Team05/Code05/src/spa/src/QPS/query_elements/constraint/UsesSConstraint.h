@@ -8,6 +8,7 @@
 #include "RelationshipConstraint.h"
 #include "qps/query_elements/constraint_argument/statement_reference/StatementReference.h"
 #include "qps/query_elements/constraint_argument/entity_reference/EntityReference.h"
+#include "pkb/apis/QueryPKB.h"
 
 
 class UsesSConstraint : public RelationshipConstraint {
@@ -17,7 +18,7 @@ public:
     UsesSConstraint(std::shared_ptr<StatementReference> , std::shared_ptr<EntityReference> );
     std::string getConstraintType() override;
     std::vector<std::shared_ptr<ConstraintArgument>> getConstraintArguments() override;
-    std::pair<Column<std::string>,Column<std::string>> getRelationshipTable() override;
+    std::vector<std::vector<std::string>> getRelationshipTable(QueryPKB &) override;
 };
 
 

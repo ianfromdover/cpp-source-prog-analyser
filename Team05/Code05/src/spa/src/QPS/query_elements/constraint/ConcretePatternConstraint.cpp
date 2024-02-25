@@ -25,6 +25,6 @@ std::vector<std::shared_ptr<ConstraintArgument>> ConcretePatternConstraint::getC
     return constraintArguments;
 }
 
-std::pair<Column<std::string>, Column<std::string>> ConcretePatternConstraint::getRelationshipTable() {
-    return Constraint::getRelationshipTable();
+std::vector<std::vector<std::string>> ConcretePatternConstraint::getRelationshipTable(QueryPKB &) {
+    return {};
 }

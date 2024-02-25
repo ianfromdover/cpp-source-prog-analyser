@@ -9,6 +9,6 @@ std::string Constraint::toString() {
     + ", " + this->getConstraintArguments()[1]->toString() + ")";
 }
 
-std::pair<Column<std::string>, Column<std::string>> Constraint::getRelationshipTable() {
-    return std::pair<Column<std::string>, Column<std::string>>();
+std::vector<std::vector<std::string>> Constraint::getRelationshipTable(QueryPKB &) {
+    return {};
 }

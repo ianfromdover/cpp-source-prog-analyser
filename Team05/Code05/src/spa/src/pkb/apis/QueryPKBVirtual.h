@@ -7,13 +7,13 @@
 
 #include <memory>
 #include "PKBStorage.h"
-#include "qps/QueryEvaluator/QueryResult/QueryResult.h"
-#include "qps/query_elements/Returnable.h"
-#include "qps/query_elements/constraint/Constraint.h"
+//#include "qps/QueryEvaluator/QueryResult/QueryResult.h"
+//#include "qps/query_elements/Returnable.h"
+//#include "qps/query_elements/constraint/Constraint.h"
 
 class QueryPKBVirtual {
 public:
-    //virtual std::shared_ptr<QueryResult> getResult(Returnable&, std::shared_ptr<Constraint>) = 0;
+//    virtual std::shared_ptr<QueryResult> getResult(Returnable&, std::shared_ptr<Constraint>) = 0;
 };
 
 #endif //SPA_QUERYPKBVIRTUAL_H

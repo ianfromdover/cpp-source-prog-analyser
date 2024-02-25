@@ -6,8 +6,8 @@
 #define SPA_QUERYPKB_H
 
 #include "QueryPKBVirtual.h"
-#include "utilSpa/StringColumn.h"
-#include "utilSpa/IntColumn.h"
+
+class QueryPKBVirtual;
 
 class QueryPKB : public QueryPKBVirtual {
 private:
@@ -15,6 +15,7 @@ private:
 public:
     explicit QueryPKB(std::shared_ptr<PKBStorage> p);
 
+//    std::shared_ptr<QueryResult> getResult(Returnable&, std::shared_ptr<Constraint>) override;
     std::vector<std::vector<std::string>> getRead();
     std::vector<std::vector<std::string>> getCallStmt();
     std::vector<std::vector<std::string>> getIf();

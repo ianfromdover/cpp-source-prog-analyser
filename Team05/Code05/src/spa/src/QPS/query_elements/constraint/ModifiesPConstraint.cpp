@@ -17,6 +17,6 @@ std::vector<std::shared_ptr<ConstraintArgument>> ModifiesPConstraint::getConstra
     return constraintArguments;
 }
 
-std::pair<Column<std::string>, Column<std::string>> ModifiesPConstraint::getRelationshipTable() {
-    return Constraint::getRelationshipTable();
+std::vector<std::vector<std::string>> ModifiesPConstraint::getRelationshipTable(QueryPKB &) {
+    return {};
 }

@@ -17,6 +17,6 @@ std::vector<std::shared_ptr<ConstraintArgument>> ParentConstraint::getConstraint
     return constraintArguments;
 }
 
-std::pair<Column<std::string>, Column<std::string>> ParentConstraint::getRelationshipTable() {
-    return Constraint::getRelationshipTable();
+std::vector<std::vector<std::string>> ParentConstraint::getRelationshipTable(QueryPKB &) {
+    return {};
 }

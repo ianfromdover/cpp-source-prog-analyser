@@ -12,7 +12,7 @@ class PatternConstraint : public Constraint {
 public:
     std::string getConstraintClass() override;
     virtual std::shared_ptr<AssignEntity> getPatternConstraintIdentifier() = 0;
-    std::pair<Column<std::string>,Column<std::string>> getRelationshipTable() override;
+    std::vector<std::vector<std::string>> getRelationshipTable(QueryPKB &) override;
 };
 
 #endif //PROJECT_PATTERNCONSTRAINT_H

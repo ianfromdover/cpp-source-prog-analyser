@@ -22,7 +22,7 @@ std::shared_ptr<Formattable> QueryEvaluator::evaluate(QueryObject & query) {
 
     //query pkb and store all results into a listOfResults
     for (std::shared_ptr<Constraint> c : constraints) {
-            listOfResults.push_back(pkb.getResult(*r, c));
+//            listOfResults.push_back(pkb.getResult(*r, c));
     }
 
     // Intersect all results

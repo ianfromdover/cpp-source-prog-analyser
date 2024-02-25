@@ -18,7 +18,7 @@ public:
     UsesPConstraint(std::shared_ptr<EntityReference> , std::shared_ptr<EntityReference> );
     std::string getConstraintType() override;
     std::vector<std::shared_ptr<ConstraintArgument>> getConstraintArguments() override;
-    std::pair<Column<std::string>,Column<std::string>> getRelationshipTable() override;
+    std::vector<std::vector<std::string>> getRelationshipTable(QueryPKB &) override;
 };
 
 

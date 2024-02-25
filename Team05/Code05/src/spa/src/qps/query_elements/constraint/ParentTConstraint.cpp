@@ -3,6 +3,7 @@
 //
 
 #include "ParentTConstraint.h"
+#include "pkb/apis/QueryPKB.h"
 
 ParentTConstraint::ParentTConstraint(std::shared_ptr<ConstraintArgument> s1, std::shared_ptr<ConstraintArgument> s2) {
     constraintArguments.push_back(s1);
@@ -17,6 +18,6 @@ std::vector<std::shared_ptr<ConstraintArgument>> ParentTConstraint::getConstrain
     return constraintArguments;
 }
 
-std::pair<Column<std::string>, Column<std::string>> ParentTConstraint::getRelationshipTable() {
-    return Constraint::getRelationshipTable();
+std::vector<std::vector<std::string>> ParentTConstraint::getRelationshipTable(QueryPKB &) {
+    return {};
 }

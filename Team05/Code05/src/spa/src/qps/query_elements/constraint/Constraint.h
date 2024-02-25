@@ -11,8 +11,9 @@
 #include "qps/query_elements/constraint_argument/ConstraintArgument.h"
 #include "qps/query_elements/QueryEnums.h"
 #include "utilSpa/SpaTypes.h"
-#include "utilSpa/Column.h"
+#include "pkb/apis/QueryPKB.h"
 
+class QueryPKB;
 
 class Constraint {
 public:
@@ -21,7 +22,8 @@ public:
     virtual std::vector<std::shared_ptr<ConstraintArgument>>  getConstraintArguments() = 0;
     std:: string toString();
 
-    virtual std::pair<Column<std::string>,Column<std::string>> getRelationshipTable();
+    virtual std::vector<std::vector<std::string>> getRelationshipTable(QueryPKB &)=0;
+//    virtual std::vector<std::vector<std::string>> get(QueryPKB &)=0;
 
 
 };

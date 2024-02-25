@@ -12,6 +12,7 @@
 #include "qps/QueryEvaluator/QueryResult/StringResult.h"
 #include "qps/query_elements/constraint_argument/ConstraintArgument.h"
 #include "pkb/apis/PKBStorage.h"
+#include "utilSpa/SpaTypes.h"
 
 class QueryPKBStub : public QueryPKBVirtual {
 
@@ -25,7 +26,7 @@ class QueryPKBStub : public QueryPKBVirtual {
 
     vector<shared_ptr<ConstraintArgument>> getContraintArgs();
 
-    std::shared_ptr<QueryResult> getResult(Returnable& r, std::shared_ptr<Constraint> c) override;
+//    std::shared_ptr<QueryResult> getResult(Returnable& r, std::shared_ptr<Constraint> c) override;
 
 };
 
