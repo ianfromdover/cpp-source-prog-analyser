@@ -14,6 +14,7 @@ private:
 public:
     // Constructor
     Column() {}
+    Str header;
 
     bool addElement(A element) {
         elements.push_back(element);
@@ -46,6 +47,13 @@ public:
         return result;
     }
 
+    std::vector<A> removeElementByIndex(int index) {
+        if (index >= 0 && index < elements.size()) {
+            elements.erase(elements.begin() + index);
+        }
+        return elements;
+    }
+
     // Function to get element at given index
     A getElement(int index) const {
         if (index >= 0 && index < elements.size()) {
@@ -71,7 +79,7 @@ public:
     }
 
     void setHeader(const Str &header) {
-        Column::header = header;
+        this->header = header;
     }
 
     // Function to convert all elements to strings
@@ -96,6 +104,8 @@ public:
         }
         return result;
     }
+
+
 };
 
 #endif //SPA_COLUMN_HPP

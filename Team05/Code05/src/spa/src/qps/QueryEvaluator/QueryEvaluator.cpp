@@ -17,7 +17,7 @@ std::shared_ptr<Formattable> QueryEvaluator::evaluate(QueryObject & query) {
     listOfResults.reserve(constraints.size());
 
     if (constraints.empty()) {
-        return pkb.getResult(*r, nullptr);
+//        return pkb.getResult(*r, nullptr);
     }
 
     //query pkb and store all results into a listOfResults

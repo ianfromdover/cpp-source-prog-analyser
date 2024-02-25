@@ -23,3 +23,12 @@ std::string StatementEntity::getArgumentValue() {
 std::string StatementEntity::toString() {
     return this->identifier + " [STMT]";
 }
+
+//std::pair<Column<std::string>, Column<std::string>> StatementEntity::getPkbTable() {
+//    // query pkb
+//    return {};
+//}
+
+//std::pair<Column<std::string>,Column<std::string>> queryPkb(){
+//    return {};
+//}

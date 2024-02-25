@@ -15,6 +15,7 @@ public:
     std::string getArgumentValue() override;
     std::string toString() override;
     std::string value;
+//    std::pair<Column<std::string>, Column<std::string>> getPkbTable() override;
 };
 
 #endif //SPA_STATEMENTENTITY_H

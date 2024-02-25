@@ -6,7 +6,126 @@
 #define SPA_RESULTTABLE_H
 
 
+#include <vector>
+#include <string>
+#include <algorithm>
+#include <iostream>
+#include <sstream>
+#include "utilSpa/Column.h"
+
+using table = std::vector<std::vector<std::string>>;
+
 class ResultTable {
+public:
+    table _table;
+    ResultTable(table& t): _table(t) {};
+    ResultTable() = default;
+
+    void add(const table& a){
+        if (_table.empty()){
+            _table = a;
+        } else {
+            _table = joinOrCrossProduct(_table, a);
+        }
+    }
+
+    table getTable() {
+        return _table;
+    }
+
+    std::vector<std::string> getDistinctColumn(std::string colName){
+        std::vector<std::string> result;
+        size_t index = findColumnIndex(_table, colName);
+        for (size_t i = 1; i < _table.size(); ++i) {
+            result.push_back(_table[i][index]);
+        }
+        std::sort(result.begin(), result.end());
+        result.erase(std::unique(result.begin(), result.end()), result.end());
+        return result;
+    }
+
+    static vector<string> findCommonHeaders(const table& a, const table& b) {
+        vector<string> commonHeaders;
+        for (const auto& headerA : a[0]) {
+            for (const auto& headerB : b[0]) {
+                if (headerA == headerB) {
+                    commonHeaders.push_back(headerA);
+                }
+            }
+        }
+        return commonHeaders;
+    }
+
+    static size_t findColumnIndex(const table& table, const string& header) {
+        for (size_t i = 0; i < table[0].size(); ++i) {
+            if (table[0][i] == header) {
+                return i;
+            }
+        }
+        return string::npos; // Not found
+    }
+
+    // Code snippet referenced from: https://www.geeksforgeeks.org/joining-tables-using-multimaps/
+    static table joinOrCrossProduct(const table& a, const table& b) {
+        vector<string> commonHeaders = findCommonHeaders(a, b);
+
+        if (!commonHeaders.empty()) {
+            table result;
+
+            // Add header from table A
+            result.push_back({a[0].begin(), a[0].end()});
+            // Extend with header from table B, skipping common headers
+            for (const auto& header : b[0]) {
+                if (std::find(commonHeaders.begin(), commonHeaders.end(), header) == commonHeaders.end()) {
+                    result[0].push_back(header);
+                }
+            }
+
+            size_t columnA = findColumnIndex(a, commonHeaders[0]);
+            size_t columnB = findColumnIndex(b, commonHeaders[0]);
+
+            for (size_t i = 1; i < a.size(); ++i) {
+                for (size_t j = 1; j < b.size(); ++j) {
+                    if (a[i][columnA] == b[j][columnB]) {
+                        vector<string> row(a[i].begin(), a[i].end());
+
+                        // Insert elements from b[j], skipping common columns
+                        for (size_t k = 0; k < b[j].size(); ++k) {
+                            // Only add if the column is not common
+                            if (std::find(commonHeaders.begin(), commonHeaders.end(), b[0][k]) == commonHeaders.end()) {
+                                row.push_back(b[j][k]);
+                            }
+                        }
+
+                        result.push_back(move(row));
+                    }
+                }
+            }
+            return result;
+        }
+        else {
+            // Perform cross product
+            table result;
+            for (size_t i = 1; i < a.size(); ++i) {
+                for (size_t j = 1; j < b.size(); ++j) {
+                    vector<string> row(a[i].begin(), a[i].end());
+                    row.insert(row.end(), b[j].begin(), b[j].end());
+                    result.push_back(move(row));
+                }
+            }
+            return result;
+        }
+    }
+
+    ostream& operator<<(ostream& o) {
+        for (const auto& row : _table) {
+            for (const auto& e : row)
+                o << e << '\t';
+            o << endl;
+        }
+        return o;
+    }
+
 
 };
 

@@ -13,7 +13,7 @@
 
 class QueryPKBVirtual {
 public:
-    virtual std::shared_ptr<QueryResult> getResult(Returnable&, std::shared_ptr<Constraint>) = 0;
+    virtual std::shared_ptr<QueryResult> getResult(Returnable&, std::shared_ptr<Constraint> ) = 0;
 };
 
 #endif //SPA_QUERYPKBVIRTUAL_H
