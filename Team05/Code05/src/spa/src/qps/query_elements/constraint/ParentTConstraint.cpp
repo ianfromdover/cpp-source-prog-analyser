@@ -18,6 +18,6 @@ std::vector<std::shared_ptr<ConstraintArgument>> ParentTConstraint::getConstrain
     return constraintArguments;
 }
 
-std::vector<std::vector<std::string>> ParentTConstraint::getRelationshipTable(QueryPKBVirtual &) {
-    return {};
+std::vector<std::vector<std::string>> ParentTConstraint::getRelationshipTable(QueryPKBVirtual & pkb) {
+    return pkb.getParentT();
 }

@@ -43,7 +43,8 @@ std::shared_ptr<Formattable> QueryEvaluator::evaluate(QueryObject & query) {
 }
 
 void QueryEvaluator::processConstraints(std::shared_ptr<Constraint> c){
-//    c->getRelationshipTable(pkb);
+    c->getRelationshipTable(pkb);
+
 
 
 }

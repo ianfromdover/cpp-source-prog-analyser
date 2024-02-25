@@ -19,8 +19,8 @@ std::vector<std::shared_ptr<ConstraintArgument>> FollowsConstraint::getConstrain
     return constraintArguments;
 }
 
-std::vector<std::vector<std::string>> FollowsConstraint::getRelationshipTable(QueryPKBVirtual &) {
-    return {};
+std::vector<std::vector<std::string>> FollowsConstraint::getRelationshipTable(QueryPKBVirtual & pkb) {
+    return pkb.getFollows();
 }
 
 std::pair<Column<std::string>, Column<std::string>> FollowsConstraint::getFirstArgTable() {
