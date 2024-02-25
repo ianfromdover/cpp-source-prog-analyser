@@ -212,13 +212,13 @@ TEST_CASE("Print with parent extractor") {
 
     std::string query = "stmt s;Select s such that Parent(s, 18)";
 
-//    QueryPKB pkb1(p);
-//    QPS qps(std::make_shared<QueryPKB>(pkb1));
-//    std::vector<std::string> ans = qps.evaluate(query);
-//
-//    for (auto s:ans) {
-//        std::cout << s << std::endl;
-//    }
+    QueryPKB pkb1(p);
+    QPS qps(std::make_shared<QueryPKB>(pkb1));
+    std::vector<std::string> ans = qps.evaluate(query);
+
+    for (auto s:ans) {
+        std::cout << s << std::endl;
+    }
 
 
 }
