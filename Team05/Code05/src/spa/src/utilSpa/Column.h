@@ -5,13 +5,20 @@
 #include <sstream>
 #include "SpaTypes.h"
 
+template <typename A>
 class Column {
+
+private:
+    std::vector<A> elements;
 
 public:
     // Constructor
     Column() {}
 
-
+    bool addElement(A element) {
+        elements.push_back(element);
+        return true;
+    }
 
     // Function to get all elements
     const std::vector<A>& getAllElements() const {

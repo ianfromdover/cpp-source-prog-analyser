@@ -16,3 +16,7 @@ std::string ParentConstraint::getConstraintType() {
 std::vector<std::shared_ptr<ConstraintArgument>> ParentConstraint::getConstraintArguments() {
     return constraintArguments;
 }
+
+std::pair<Column<std::string>, Column<std::string>> ParentConstraint::getRelationshipTable() {
+    return Constraint::getRelationshipTable();
+}

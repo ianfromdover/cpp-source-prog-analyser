@@ -15,6 +15,7 @@ public:
     ParentTConstraint(std::shared_ptr<ConstraintArgument>, std::shared_ptr<ConstraintArgument>);
     std::string getConstraintType() override;
     std::vector<std::shared_ptr<ConstraintArgument>>  getConstraintArguments() override;
+    std::pair<Column<std::string>,Column<std::string>> getRelationshipTable() override;
 };
 
 

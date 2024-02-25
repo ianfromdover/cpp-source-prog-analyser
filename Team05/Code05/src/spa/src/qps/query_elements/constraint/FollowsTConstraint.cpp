@@ -16,3 +16,7 @@ std::string FollowsTConstraint::getConstraintType() {
 std::vector<std::shared_ptr<ConstraintArgument>> FollowsTConstraint::getConstraintArguments() {
     return constraintArguments;
 }
+
+std::pair<Column<std::string>, Column<std::string>> FollowsTConstraint::getRelationshipTable() {
+    return Constraint::getRelationshipTable();
+}
