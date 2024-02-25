@@ -6,12 +6,12 @@
 #define SPA_QUERYPKBSTUB_H
 
 
-#include "pkb/QueryPKBVirtual.h"
+#include "pkb/apis/QueryPKBVirtual.h"
 #include "qps/QueryEvaluator/QueryResult/QueryResult.h"
 #include "qps/QueryEvaluator/QueryResult/IntResult.h"
 #include "qps/QueryEvaluator/QueryResult/StringResult.h"
 #include "qps/query_elements/constraint_argument/ConstraintArgument.h"
-#include "pkb/PKBStorage.h"
+#include "pkb/apis/PKBStorage.h"
 
 class QueryPKBStub : public QueryPKBVirtual {
 

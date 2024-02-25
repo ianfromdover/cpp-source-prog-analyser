@@ -41,6 +41,39 @@ std::shared_ptr<Formattable> QueryEvaluator::evaluate(QueryObject & query) {
     return intersection;
 
 }
+//
+//std::shared_ptr<Formattable> QueryEvaluator::evaluate(QueryObject & query) {
+//    std::shared_ptr<Returnable> r = query.getReturnType();
+//    std::vector<std::shared_ptr<Constraint>> constraints = query.getConstraints();
+//
+//    std::vector<shared_ptr<QueryResult>> listOfResults;
+//    listOfResults.reserve(constraints.size());
+//
+//    if (constraints.empty()) {
+//        return pkb.getResult(*r, nullptr);
+//    }
+//
+//    //query pkb and store all results into a listOfResults
+//    for (std::shared_ptr<Constraint> c : constraints) {
+//            listOfResults.push_back(pkb.getResult(*r, c));
+//    }
+//
+//    // Intersect all results
+//    if (listOfResults.empty()) {
+//        return getEmptyResult();
+//    }
+//
+//    std::shared_ptr<QueryResult> intersection = listOfResults[0];
+//
+//    if (listOfResults.size() > 1) {
+//        for (int i = 1; i < listOfResults.size(); i++) {
+//            intersection = intersect(intersection, listOfResults[i]);
+//        }
+//    }
+//
+//    return intersection;
+//
+//}
 
 std::shared_ptr<Formattable> QueryEvaluator::getEmptyResult() {
     vector<std::string> s;

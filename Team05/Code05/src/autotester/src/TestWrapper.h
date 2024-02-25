@@ -9,7 +9,7 @@
 #include "AbstractWrapper.h"
 #include "sp/SourceProcessor.h"
 #include "sp/RelationExtractor.h"
-#include "pkb/QueryPKB.h"
+#include "pkb/apis/QueryPKB.h"
 #include "qps/QPS.h"
 
 class TestWrapper : public AbstractWrapper {

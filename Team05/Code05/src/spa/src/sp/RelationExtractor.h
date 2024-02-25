@@ -8,7 +8,7 @@
 #include <utility>
 
 #include "ProgramVisitor.h"
-#include "pkb/PopulatePKB.h"
+#include "pkb/apis/PopulatePKB.h"
 #include "Stmt.h"
 
 class RelationExtractor : public ProgramVisitor {
