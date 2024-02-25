@@ -4,6 +4,7 @@
 
 #ifndef SPA_ASSIGNTABLE_H
 #define SPA_ASSIGNTABLE_H
+
 #include "pkb/tables/base/Table.h"
 
 class AssignTable : public Table {

@@ -5,9 +5,9 @@
 #ifndef SPA_USESTABLE_H
 #define SPA_USESTABLE_H
 
-#include "RelationTable.h"
+#include "pkb/tables/base/Table.h"
 
-class UsesTable : public RelationTable {
+class UsesTable : public Table {
 
 public:
     UsesTable() = default;

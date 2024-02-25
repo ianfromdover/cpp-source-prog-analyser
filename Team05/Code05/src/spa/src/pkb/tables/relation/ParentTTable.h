@@ -5,10 +5,9 @@
 #ifndef SPA_PARENTTTABLE_H
 #define SPA_PARENTTTABLE_H
 
+#include "pkb/tables/base/Table.h"
 
-#include "RelationTable.h"
-
-class ParentTTable : public RelationTable {
+class ParentTTable : public Table {
 
 public:
     ParentTTable() = default;

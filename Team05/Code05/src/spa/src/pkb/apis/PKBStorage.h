@@ -19,29 +19,29 @@
 #include "pkb/tables/entity/AssignTable.h"
 #include "pkb/tables/relation/ParentTable.h"
 #include "pkb/tables/relation/ParentTTable.h"
-#include "pkb/tables/relation/Modifies.h"
+#include "pkb/tables/relation/ModifiesTable.h"
 #include "pkb/tables/relation/UsesTable.h"
 
 class PKBStorage {
 public:
     PKBStorage() = default;
-    std::shared_ptr<ReadTable> readTable;
-    std::shared_ptr<CallTable> callTable;
-    std::shared_ptr<IfTable> ifTable;
-    std::shared_ptr<WhileTable> whileTable;
-    std::shared_ptr<PrintTable> printTable;
-    std::shared_ptr<StatementTable> statementTable;
-    std::shared_ptr<ProcedureTable> procedureTable;
-    std::shared_ptr<VariableTable> variableTable;
-    std::shared_ptr<ConstantTable> constantTable;
+    std::shared_ptr<ReadTable> readTable = std::make_shared<ReadTable>();
+    std::shared_ptr<CallTable> callTable = std::make_shared<CallTable>();
+    std::shared_ptr<IfTable> ifTable = std::make_shared<IfTable>();
+    std::shared_ptr<WhileTable> whileTable = std::make_shared<WhileTable>();
+    std::shared_ptr<PrintTable> printTable = std::make_shared<PrintTable>();
+    std::shared_ptr<StatementTable> statementTable = std::make_shared<StatementTable>();
+    std::shared_ptr<ProcedureTable> procedureTable = std::make_shared<ProcedureTable>();
+    std::shared_ptr<VariableTable> variableTable = std::make_shared<VariableTable>();
+    std::shared_ptr<ConstantTable> constantTable = std::make_shared<ConstantTable>();
     std::shared_ptr<AssignTable> assignTable = std::make_shared<AssignTable>();
 
-    std::shared_ptr<FollowsTable> followsTable;
-    std::shared_ptr<FollowsTTable> followsTTable;
-    std::shared_ptr<ParentTable> parentTable;
-    std::shared_ptr<ParentTTable> parentTTable;
-    std::shared_ptr<ModifiesTable> modifiesTable;
-    std::shared_ptr<UsesTable> usesTable;
+    std::shared_ptr<FollowsTable> followsTable = std::make_shared<FollowsTable>();
+    std::shared_ptr<FollowsTTable> followsTTable = std::make_shared<FollowsTTable>();
+    std::shared_ptr<ParentTable> parentTable = std::make_shared<ParentTable>();
+    std::shared_ptr<ParentTTable> parentTTable = std::make_shared<ParentTTable>();
+    std::shared_ptr<ModifiesTable> modifiesTable = std::make_shared<ModifiesTable>();
+    std::shared_ptr<UsesTable> usesTable = std::make_shared<UsesTable>();
 
 };
 

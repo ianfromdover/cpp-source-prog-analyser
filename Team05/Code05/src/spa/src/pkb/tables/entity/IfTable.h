@@ -4,6 +4,7 @@
 
 #ifndef SPA_IFTABLE_H
 #define SPA_IFTABLE_H
+
 #include "pkb/tables/base/Table.h"
 
 class IfTable : public Table {

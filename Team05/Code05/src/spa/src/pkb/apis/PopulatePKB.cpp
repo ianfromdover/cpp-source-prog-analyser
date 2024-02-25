@@ -10,7 +10,6 @@ PopulatePKB::PopulatePKB(std::shared_ptr<PKBStorage> p) {
     pkb = std::move(p);
 }
 
-
 bool PopulatePKB::addRead(int stmtNo, std::string name) {
     return pkb->readTable->addRead(stmtNo, name);
 }
@@ -60,7 +59,7 @@ bool PopulatePKB::addParent(int parent, int child) {
 }
 
 bool PopulatePKB::addUses(int stmtNo, std::string name) {
-    return pkb->usesTable->addUses(stmtNo, name);
+    return pkb->usesTable->addRecord(std::to_string(stmtNo), name);
 }
 
 bool PopulatePKB::addParentT(int parent, int child) {
@@ -68,7 +67,7 @@ bool PopulatePKB::addParentT(int parent, int child) {
 }
 
 bool PopulatePKB::addModifies(int stmtNo, std::string name) {
-    return pkb->modifiesTable->addModifies(stmtNo, name);
+    return pkb->modifiesTable->addRecord(std::to_string(stmtNo), name);
 }
 
 bool PopulatePKB::addPatternAsgn(int stmtNo, std::string lhs, std::string rhs) {
