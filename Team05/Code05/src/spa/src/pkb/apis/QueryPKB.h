@@ -13,24 +13,24 @@ class QueryPKB : public QueryPKBVirtual {
 private:
     std::shared_ptr<PKBStorage> pkb;
 public:
-    QueryPKB(std::shared_ptr<PKBStorage> p);
-
-    pair<IntColumn, StringColumn> getRead();
-    pair<IntColumn, StringColumn> getCallStmt();
-    pair<IntColumn, StringColumn> getIf();
-    pair<IntColumn, StringColumn> getWhile();
-    pair<IntColumn, StringColumn> getPrint();
-    pair<IntColumn, IntColumn> getFinalStatementNo();
-    pair<StringColumn, StringColumn> getProcedure(std::string name);
-    pair<IntColumn, StringColumn> getVar();
-    pair<IntColumn, IntColumn> getConst();
-    pair<IntColumn, IntColumn> getFollows();
-    pair<IntColumn, IntColumn> getFollowsT();
-    pair<IntColumn, IntColumn> getParent();
-    pair<IntColumn, IntColumn> getParentT();
-    pair<IntColumn, StringColumn> getUses();
-    pair<IntColumn, StringColumn> getModifies();
-    pair<IntColumn, StringColumn> getPatternAsgn();
+    explicit QueryPKB(std::shared_ptr<PKBStorage> p);
+//
+      pair<IntColumn, StringColumn> getRead();
+//    pair<IntColumn, StringColumn> getCallStmt();
+//    pair<IntColumn, StringColumn> getIf();
+//    pair<IntColumn, StringColumn> getWhile();
+//    pair<IntColumn, StringColumn> getPrint();
+//    pair<IntColumn, IntColumn> getFinalStatementNo();
+//    pair<StringColumn, StringColumn> getProcedure(std::string name);
+//    pair<IntColumn, StringColumn> getVar();
+//    pair<IntColumn, IntColumn> getConst();
+//    pair<IntColumn, IntColumn> getFollows();
+//    pair<IntColumn, IntColumn> getFollowsT();
+//    pair<IntColumn, IntColumn> getParent();
+//    pair<IntColumn, IntColumn> getParentT();
+//    pair<IntColumn, StringColumn> getUses();
+//    pair<IntColumn, StringColumn> getModifies();
+//    pair<IntColumn, StringColumn> getPatternAsgn();
 };
 
 

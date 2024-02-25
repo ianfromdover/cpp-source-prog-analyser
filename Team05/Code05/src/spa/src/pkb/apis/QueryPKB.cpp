@@ -10,3 +10,6 @@ QueryPKB::QueryPKB(std::shared_ptr<PKBStorage> p) {
     pkb = std::move(p);
 }
 
+pair<IntColumn, StringColumn> QueryPKB::getRead() {
+    pkb->
+}

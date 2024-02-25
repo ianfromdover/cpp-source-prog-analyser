@@ -4,11 +4,17 @@
 
 #ifndef SPA_PKBSTORAGE_H
 #define SPA_PKBSTORAGE_H
-
+#include "pkb/tables/entity/FollowsTable.h"
+#include "pkb/tables/entity/ReadTable.h"
 
 class PKBStorage {
 public:
     PKBStorage() = default;
+
+    FollowsTable followsTable;
+    ReadTable readTable;
+
+
 };
 
 

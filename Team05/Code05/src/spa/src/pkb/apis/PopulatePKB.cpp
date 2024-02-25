@@ -12,7 +12,7 @@ PopulatePKB::PopulatePKB(std::shared_ptr<PKBStorage> p) {
 
 
 bool PopulatePKB::addRead(int stmtNo, std::string name) {
-    return false;
+    return pkb->readTable.addRead(stmtNo, name);
 }
 
 bool PopulatePKB::addCallStmt(int stmtNo, std::string name) {
@@ -48,7 +48,7 @@ bool PopulatePKB::addConst(int stmtNo, int val) {
 }
 
 bool PopulatePKB::addFollows(int before, int after) {
-    return false;
+    return pkb->followsTable.addFollows(before, after);
 }
 
 bool PopulatePKB::addFollowsT(int before, int after) {
