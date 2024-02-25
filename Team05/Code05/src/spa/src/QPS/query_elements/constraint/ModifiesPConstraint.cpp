@@ -16,3 +16,7 @@ std::string ModifiesPConstraint::getConstraintType() {
 std::vector<std::shared_ptr<ConstraintArgument>> ModifiesPConstraint::getConstraintArguments() {
     return constraintArguments;
 }
+
+std::pair<Column<std::string>, Column<std::string>> ModifiesPConstraint::getRelationshipTable() {
+    return Constraint::getRelationshipTable();
+}

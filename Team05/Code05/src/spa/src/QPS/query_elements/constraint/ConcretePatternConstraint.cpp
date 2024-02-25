@@ -24,3 +24,7 @@ std::shared_ptr<AssignEntity> ConcretePatternConstraint::getPatternConstraintIde
 std::vector<std::shared_ptr<ConstraintArgument>> ConcretePatternConstraint::getConstraintArguments() {
     return constraintArguments;
 }
+
+std::pair<Column<std::string>, Column<std::string>> ConcretePatternConstraint::getRelationshipTable() {
+    return Constraint::getRelationshipTable();
+}

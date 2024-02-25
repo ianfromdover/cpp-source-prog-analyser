@@ -16,3 +16,7 @@ std::string UsesSConstraint::getConstraintType() {
 std::vector<std::shared_ptr<ConstraintArgument>> UsesSConstraint::getConstraintArguments() {
     return constraintArguments;
 }
+
+std::pair<Column<std::string>, Column<std::string>> UsesSConstraint::getRelationshipTable() {
+    return Constraint::getRelationshipTable();
+}
