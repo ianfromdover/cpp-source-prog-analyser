@@ -5,19 +5,11 @@
 #ifndef SPA_READTABLE_H
 #define SPA_READTABLE_H
 
+#include "pkb/tables/base/Table.h"
 
-#include "utilSpa/IntColumn.h"
-#include "utilSpa/StringColumn.h"
-
-class ReadTable {
-private:
-    std::pair<IntColumn, StringColumn> table;
+class ReadTable : public Table {
 public:
     ReadTable() = default;
-
-    bool addRead(int stmtNo, const std::string& name);
-
-    std::pair<IntColumn, StringColumn> getRead();
 };
 
 

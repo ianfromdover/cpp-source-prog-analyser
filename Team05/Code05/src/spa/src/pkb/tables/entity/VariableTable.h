@@ -5,19 +5,13 @@
 #ifndef SPA_VARIABLETABLE_H
 #define SPA_VARIABLETABLE_H
 
+#include "pkb/tables/base/Table.h"
 
-#include "utilSpa/IntColumn.h"
-#include "utilSpa/StringColumn.h"
-
-class VariableTable {
-private:
-    std::pair<IntColumn, StringColumn> table;
+class VariableTable : public Table{
+    
 public:
     VariableTable() = default;
 
-    bool addVariable(int stmtNo, const std::string& name);
-
-    std::pair<IntColumn, StringColumn> getVariable();
 };
 
 #endif //SPA_VARIABLETABLE_H

@@ -5,16 +5,12 @@
 #ifndef SPA_PARENTTABLE_H
 #define SPA_PARENTTABLE_H
 
-#include "utilSpa/IntColumn.h"
+#include "RelationTable.h"
 
-class ParentTable  {
-private:
-    std::pair<IntColumn, IntColumn> table;
+class ParentTable : public Table {
+
 public:
     ParentTable() = default;
-
-    bool addParent(int parent, int child);
-    std::pair<IntColumn, IntColumn> getParent();
 };
 
 

@@ -34,7 +34,7 @@ public:
     std::shared_ptr<ProcedureTable> procedureTable;
     std::shared_ptr<VariableTable> variableTable;
     std::shared_ptr<ConstantTable> constantTable;
-    std::shared_ptr<AssignTable> assignTable;
+    std::shared_ptr<AssignTable> assignTable = std::make_shared<AssignTable>();
 
     std::shared_ptr<FollowsTable> followsTable;
     std::shared_ptr<FollowsTTable> followsTTable;

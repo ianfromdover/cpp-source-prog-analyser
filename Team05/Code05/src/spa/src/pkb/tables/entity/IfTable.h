@@ -4,20 +4,11 @@
 
 #ifndef SPA_IFTABLE_H
 #define SPA_IFTABLE_H
+#include "pkb/tables/base/Table.h"
 
-
-#include "utilSpa/IntColumn.h"
-#include "utilSpa/StringColumn.h"
-
-class IfTable {
-private:
-    std::pair<IntColumn, StringColumn> table;
+class IfTable : public Table {
 public:
     IfTable() = default;
-
-    bool addIf(int stmtNo, const std::string& name);
-
-    std::pair<IntColumn, StringColumn> getIf();
 };
 
 

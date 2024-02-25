@@ -5,18 +5,12 @@
 #ifndef SPA_WHILETABLE_H
 #define SPA_WHILETABLE_H
 
-#include "utilSpa/IntColumn.h"
-#include "utilSpa/StringColumn.h"
+#include "pkb/tables/base/Table.h"
 
-class WhileTable {
-private:
-    std::pair<IntColumn, StringColumn> table;
+class WhileTable : public Table {
 public:
     WhileTable() = default;
 
-    bool addWhile(int stmtNo, const std::string& name);
-
-    std::pair<IntColumn, StringColumn> getWhile();
 };
 
 

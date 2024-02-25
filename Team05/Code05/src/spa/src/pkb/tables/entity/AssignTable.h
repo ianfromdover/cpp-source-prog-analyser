@@ -4,20 +4,11 @@
 
 #ifndef SPA_ASSIGNTABLE_H
 #define SPA_ASSIGNTABLE_H
+#include "pkb/tables/base/Table.h"
 
-
-#include "utilSpa/IntColumn.h"
-#include "utilSpa/StringColumn.h"
-
-class AssignTable {
-private:
-    std::pair<IntColumn, StringColumn> table;
+class AssignTable : public Table {
 public:
     AssignTable() = default;
-
-    bool addAssign(int stmtNo, const std::string &expr);
-
-    std::pair<IntColumn, StringColumn> getAssign();
 };
 
 

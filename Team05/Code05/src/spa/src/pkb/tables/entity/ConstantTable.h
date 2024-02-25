@@ -5,17 +5,13 @@
 #ifndef SPA_CONSTANTTABLE_H
 #define SPA_CONSTANTTABLE_H
 
+#include "pkb/tables/base/Table.h"
 
-#include "utilSpa/IntColumn.h"
+class ConstantTable : public Table {
 
-class ConstantTable  {
-private:
-    std::pair<IntColumn, IntColumn> table;
 public:
     ConstantTable() = default;
 
-    bool addConstant(int stmtNo, int val);
-    std::pair<IntColumn, IntColumn> getConstant();
 };
 
 

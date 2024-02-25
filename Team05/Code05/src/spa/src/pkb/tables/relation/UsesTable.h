@@ -5,18 +5,12 @@
 #ifndef SPA_USESTABLE_H
 #define SPA_USESTABLE_H
 
-#include "utilSpa/IntColumn.h"
-#include "utilSpa/StringColumn.h"
+#include "RelationTable.h"
 
-class UsesTable {
-private:
-    std::pair<IntColumn, StringColumn> table;
+class UsesTable : public RelationTable {
+
 public:
     UsesTable() = default;
-
-    bool addUses(int stmtNo, const std::string& name);
-
-    std::pair<IntColumn, StringColumn> getUses();
 };
 
 

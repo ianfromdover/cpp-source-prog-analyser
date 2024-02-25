@@ -5,17 +5,12 @@
 #ifndef SPA_PROCEDURETABLE_H
 #define SPA_PROCEDURETABLE_H
 
+#include "pkb/tables/base/Table.h"
 
-#include "utilSpa/StringColumn.h"
-
-class ProcedureTable  {
-private:
-    std::pair<StringColumn, StringColumn> table;
+class ProcedureTable : public Table {
 public:
     ProcedureTable() = default;
 
-    bool addProcedure(const std::string& name, const std::string& nameCopy);
-    std::pair<StringColumn, StringColumn> getProcedure();
 };
 
 

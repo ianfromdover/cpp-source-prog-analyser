@@ -71,7 +71,8 @@ pair<IntColumn, StringColumn> QueryPKB::getModifies() {
 }
 
 pair<IntColumn, StringColumn> QueryPKB::getPatternAsgn() {
-    return pkb->assignTable->getAssign();
+//    return pkb->assignTable->getAssign();
+
 }
 
 

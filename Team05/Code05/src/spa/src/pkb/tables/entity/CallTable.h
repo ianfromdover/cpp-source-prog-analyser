@@ -5,18 +5,11 @@
 #ifndef SPA_CALLTABLE_H
 #define SPA_CALLTABLE_H
 
-#include "utilSpa/IntColumn.h"
-#include "utilSpa/StringColumn.h"
+#include "pkb/tables/base/Table.h"
 
-class CallTable {
-private:
-    std::pair<IntColumn, StringColumn> table;
+class CallTable : public Table {
 public:
     CallTable() = default;
-
-    bool addCall(int stmtNo, const std::string &name);
-
-    std::pair<IntColumn, StringColumn> getCall();
 };
 
 

@@ -5,16 +5,14 @@
 #ifndef SPA_FOLLOWSTABLE_H
 #define SPA_FOLLOWSTABLE_H
 
-#include "utilSpa/IntColumn.h"
+#include "pkb/tables/base/Table.h"
 
-class FollowsTable  {
-private:
-    std::pair<IntColumn, IntColumn> table;
+class FollowsTable : public Table {
+
 public:
     FollowsTable() = default;
 
-    bool addFollows(int followed, int follower);
-    std::pair<IntColumn, IntColumn> getFollows();
+
 };
 
 

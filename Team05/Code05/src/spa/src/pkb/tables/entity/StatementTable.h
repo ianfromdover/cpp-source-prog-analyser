@@ -5,17 +5,13 @@
 #ifndef SPA_STATEMENTTABLE_H
 #define SPA_STATEMENTTABLE_H
 
+#include "pkb/tables/base/Table.h"
 
-#include "utilSpa/IntColumn.h"
+class StatementTable  : public Table {
 
-class StatementTable  {
-private:
-    std::pair<IntColumn, IntColumn> table;
 public:
     StatementTable() = default;
 
-    bool addStatement(int stmtNo, int stmtNoCopy);
-    std::pair<IntColumn, IntColumn> getStatement();
 };
 
 

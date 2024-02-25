@@ -5,18 +5,12 @@
 #ifndef SPA_PRINTTABLE_H
 #define SPA_PRINTTABLE_H
 
-#include "utilSpa/IntColumn.h"
-#include "utilSpa/StringColumn.h"
+#include "pkb/tables/base/Table.h"
 
-class PrintTable {
-private:
-    std::pair<IntColumn, StringColumn> table;
+class PrintTable : public Table {
 public:
     PrintTable() = default;
 
-    bool addPrint(int stmtNo, const std::string& name);
-
-    std::pair<IntColumn, StringColumn> getPrint();
 };
 
 #endif //SPA_PRINTTABLE_H
