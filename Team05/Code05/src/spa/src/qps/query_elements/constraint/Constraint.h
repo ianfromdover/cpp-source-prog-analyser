@@ -11,6 +11,7 @@
 #include "qps/query_elements/constraint_argument/ConstraintArgument.h"
 #include "qps/query_elements/QueryEnums.h"
 #include "utilSpa/SpaTypes.h"
+#include "utilSpa/Column.h"
 
 
 class Constraint {
@@ -19,6 +20,10 @@ public:
     virtual std::string getConstraintType() = 0;
     virtual std::vector<std::shared_ptr<ConstraintArgument>>  getConstraintArguments() = 0;
     std:: string toString();
+
+    virtual std::pair<Column<std::string>,Column<std::string>> getRelationshipTable();
+
+
 };
 
 

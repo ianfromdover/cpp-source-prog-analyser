@@ -7,6 +7,7 @@
 
 #include "RelationshipConstraint.h"
 #include "qps/query_elements/constraint_argument/statement_reference/StatementReference.h"
+#include "utilSpa/Column.h"
 
 class FollowsConstraint : public RelationshipConstraint{
 private:
@@ -15,6 +16,8 @@ public:
     FollowsConstraint(std::shared_ptr<StatementReference>, std::shared_ptr<StatementReference>);
     std::string getConstraintType() override;
     std::vector<std::shared_ptr<ConstraintArgument>>  getConstraintArguments() override;
+    std::pair<Column<std::string>,Column<std::string>> getRelationshipTable() override;
+    std::pair<Column<std::string>, Column<std::string>> getFirstArgTable();
 };
 
 

@@ -8,6 +8,7 @@
 
 #include "RelationshipConstraint.h"
 #include "qps/query_elements/constraint_argument/statement_reference/StatementReference.h"
+#include "utilSpa/Column.h"
 
 class FollowsTConstraint : public RelationshipConstraint{
 private:

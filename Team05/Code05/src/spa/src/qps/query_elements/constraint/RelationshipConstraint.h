@@ -6,6 +6,7 @@
 #define SPA_RELATIONSHIPCONSTRAINT_H
 
 #include "Constraint.h"
+#include "utilSpa/Column.h"
 
 class RelationshipConstraint : public Constraint {
 public:
