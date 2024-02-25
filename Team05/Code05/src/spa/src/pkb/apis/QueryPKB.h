@@ -15,23 +15,22 @@ private:
 public:
     explicit QueryPKB(std::shared_ptr<PKBStorage> p);
 
-//    std::shared_ptr<QueryResult> getResult(Returnable&, std::shared_ptr<Constraint>) override;
-    std::vector<std::vector<std::string>> getRead();
-    std::vector<std::vector<std::string>> getCallStmt();
-    std::vector<std::vector<std::string>> getIf();
-    std::vector<std::vector<std::string>> getWhile();
-    std::vector<std::vector<std::string>> getPrint();
-    std::vector<std::vector<std::string>> getStatement();
-    std::vector<std::vector<std::string>> getProcedure();
-    std::vector<std::vector<std::string>> getVar();
-    std::vector<std::vector<std::string>> getConst();
-    std::vector<std::vector<std::string>> getFollows();
-    std::vector<std::vector<std::string>> getFollowsT();
-    std::vector<std::vector<std::string>> getParent();
-    std::vector<std::vector<std::string>> getParentT();
-    std::vector<std::vector<std::string>> getUses();
-    std::vector<std::vector<std::string>> getModifies();
-    std::vector<std::vector<std::string>> getPatternAsgn();
+    std::vector<std::vector<std::string>> getRead() override;
+    std::vector<std::vector<std::string>> getCallStmt() override;
+    std::vector<std::vector<std::string>> getIf() override;
+    std::vector<std::vector<std::string>> getWhile() override;
+    std::vector<std::vector<std::string>> getPrint() override;
+    std::vector<std::vector<std::string>> getStatement() override;
+    std::vector<std::vector<std::string>> getProcedure() override;
+    std::vector<std::vector<std::string>> getVar() override;
+    std::vector<std::vector<std::string>> getConst() override;
+    std::vector<std::vector<std::string>> getFollows() override;
+    std::vector<std::vector<std::string>> getFollowsT() override;
+    std::vector<std::vector<std::string>> getParent() override;
+    std::vector<std::vector<std::string>> getParentT() override;
+    std::vector<std::vector<std::string>> getUses() override;
+    std::vector<std::vector<std::string>> getModifies() override;
+    std::vector<std::vector<std::string>> getPatternAsgn() override;
 };
 
 
