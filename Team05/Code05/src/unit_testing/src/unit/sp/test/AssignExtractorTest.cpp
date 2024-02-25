@@ -11,7 +11,7 @@
 
 TEST_CASE("Assign_TestAssignCallPrintRead") {
     std::multiset<tuple<std::string, std::string, std::string>> resultsVector = {
-            {"1", "(t+1)", "(((1+y)*3)+y)"}
+            {"1", "t", "(((1+y)*3)+y)"}
     };
     auto procedure = AstProcedures::createAssignCallReadPrint();
     auto pkb = make_shared<PKBStubSP>();
@@ -25,7 +25,7 @@ TEST_CASE("Assign_TestAssignCallPrintRead") {
 TEST_CASE("Assign_TestIfElseWithStmtsBeforeAndInside") {
     std::multiset<tuple<std::string, std::string, std::string>> resultsVector = {
             {"1", "x", "(y+3)"},
-            {"6", "(t+1)", "(((1+y)*3)+y)"},
+            {"6", "t", "(((1+y)*3)+y)"},
             {"10", "x", "(y+3)"},
     };
     auto procedure = AstProcedures::createIfElseWithStmtsBeforeAndInside();
@@ -104,7 +104,7 @@ TEST_CASE("Assign_TestWhileWithStmtsAfterAndInside") {
 TEST_CASE("Assign_TestIfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside") {
     std::multiset<tuple<std::string, std::string, std::string>> resultsVector = {
             {"2", "x", "(y+3)"},
-            {"7", "(t+1)", "(((1+y)*3)+y)"},
+            {"7", "t", "(((1+y)*3)+y)"},
             {"11", "x", "(y+3)"},
             {"15", "x", "(y+3)"},
             {"20", "x", "(y+3)"},

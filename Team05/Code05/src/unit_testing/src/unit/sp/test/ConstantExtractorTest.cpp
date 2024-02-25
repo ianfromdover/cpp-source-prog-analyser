@@ -12,7 +12,6 @@
 TEST_CASE("Constant_TestAssignCallPrintRead") {
     std::multiset<pair<std::string, std::string>> resultsVector = {
             {"1", "1"},
-            {"1", "1"},
             {"1", "3"}
     };
     auto procedure = AstProcedures::createAssignCallReadPrint();
@@ -28,7 +27,6 @@ TEST_CASE("Constant_TestIfElseWithStmtsBeforeAndInside") {
     std::multiset<pair<std::string, std::string>> resultsVector = {
             {"1", "3"},
             {"5", "1"},
-            {"6", "1"},
             {"6", "1"},
             {"6", "3"},
             {"10", "3"},
@@ -116,7 +114,6 @@ TEST_CASE("Constant_TestIfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside") {
             {"1", "1"},
             {"2", "3"},
             {"6", "1"},
-            {"7", "1"},
             {"7", "3"},
             {"7", "1"},
             {"11", "3"},
