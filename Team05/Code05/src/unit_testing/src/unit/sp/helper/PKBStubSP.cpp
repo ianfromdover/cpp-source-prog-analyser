@@ -2,7 +2,7 @@
 //Ai Link: https://chat.openai.com/share/a8902a0c-5005-4d5a-a895-337aa882cedc
 #include <iostream>
 #include <set>
-#include <pkb/BasePKBPopulator.h>
+#include "pkb/apis/BasePKBPopulator.h"
 #include "utilSpa/SpaTypes.h"
 
 class PKBStubSP : public BasePKBPopulator {
@@ -96,11 +96,6 @@ public:
         return true;
     }
 
-    bool addUses(ProcName ProcedureName, VarName name) override {
-        //std::cout << "addUses (ProcName) called" << std::endl;
-        pairCalls.insert({ProcedureName, name});
-        return true;
-    }
 
     bool addModifies(StmtNo sNum, VarName name) override {
         //std::cout << "addModifies called" << std::endl;
@@ -108,11 +103,6 @@ public:
         return true;
     }
 
-    bool addModifies(ProcName ProcedureName, VarName name) override {
-        //std::cout << "addModifies (ProcName) called" << std::endl;
-        pairCalls.insert({ProcedureName, name});
-        return true;
-    }
 
     bool addPatternAsgn(StmtNo sNum, Str lhs, Str rhsBracketed) override {
         //std::cout << "addPatternAsgn called" << std::endl;

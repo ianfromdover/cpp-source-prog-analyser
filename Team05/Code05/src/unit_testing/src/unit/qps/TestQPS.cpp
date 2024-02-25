@@ -2,6 +2,7 @@
 // include "qps/yourClass.cpp"
 
 #include <utility>
+#include <iostream>
 
 #include "catch.hpp"
 #include "qps/QPS.h"

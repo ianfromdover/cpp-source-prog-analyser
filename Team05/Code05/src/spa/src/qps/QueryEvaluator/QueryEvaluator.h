@@ -9,8 +9,7 @@
 #include <memory>
 #include "../QueryProjector/Formattable.h"
 #include "qps/query_elements/QueryObject.h"
-
-#include "pkb/QueryPKB.h"
+#include "pkb/apis/QueryPKB.h"
 
 class QueryEvaluator {
 public:

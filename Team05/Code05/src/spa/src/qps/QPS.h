@@ -9,7 +9,7 @@
 #include <string>
 #include "QueryPreprocessor/QueryPreprocessor.h"
 #include "QueryEvaluator/QueryEvaluator.h"
-#include "pkb/QueryPKB.h"
+#include "pkb/apis/QueryPKB.h"
 
 class QPS {
 public:
