@@ -1,22 +1,22 @@
+////
+//// Created by tohzh on 21/2/2024.
+////
 //
-// Created by tohzh on 21/2/2024.
+//#include "qps/QueryEvaluator/QueryEvaluator.h"
+//#include "qps/QueryEvaluator/QueryResult/IntResult.h"
+//#include "qps/QueryEvaluator/QueryResult/QueryResult.h"
+//#include "qps/query_elements/QueryObject.h"
+//#include "qps/query_builder/ConstraintArgCreator.h"
+//#include "qps/query_elements/constraint/FollowsConstraint.h"
+//#include "qps/query_elements/constraint/ParentConstraint.h"
+//#include "qps/query_elements/constraint/ConcretePatternConstraint.h"
+//#include "stub/QueryPKBStub.h"
+//#include "catch.hpp"
+//#include <iostream>
 //
-
-#include "qps/QueryEvaluator/QueryEvaluator.h"
-#include "qps/QueryEvaluator/QueryResult/IntResult.h"
-#include "qps/QueryEvaluator/QueryResult/QueryResult.h"
-#include "qps/query_elements/QueryObject.h"
-#include "qps/query_builder/ConstraintArgCreator.h"
-#include "qps/query_elements/constraint/FollowsConstraint.h"
-#include "qps/query_elements/constraint/ParentConstraint.h"
-#include "qps/query_elements/constraint/ConcretePatternConstraint.h"
-#include "stub/QueryPKBStub.h"
-#include "catch.hpp"
-#include <iostream>
-
-using namespace std;
-
-
+//using namespace std;
+//
+//
 //TEST_CASE("QueryEvaluator_singleQuery_returnsResult") {
 //    QueryObject qo;
 //    std::shared_ptr<StatementEntity> s = ConstraintArgCreator::createStatementEntity("s");
@@ -31,7 +31,7 @@ using namespace std;
 //
 //    REQUIRE(formattable->toString() == "a, b, c, f");
 //}
-
+//
 //TEST_CASE("QueryEvaluator_oneConstraintOnePattern_returnsResult") {
 //    QueryObject qo;
 //    std::shared_ptr<StatementEntity> s = ConstraintArgCreator::createStatementEntity("s");
