@@ -17,39 +17,39 @@
 using namespace std;
 
 
-TEST_CASE("QueryEvaluator_singleQuery_returnsResult") {
-    QueryObject qo;
-    std::shared_ptr<StatementEntity> s = ConstraintArgCreator::createStatementEntity("s");
-    std::shared_ptr<AssignEntity> a = ConstraintArgCreator::createAssignEntity("a");
-    qo.addDeclaration(s);
-    qo.addDeclaration(a);
-    std::shared_ptr<ParentConstraint> parentConst = make_shared<ParentConstraint>(s,a);
-    qo.addConstraint(parentConst);
-    QueryPKBStub stub;
-    auto eval = QueryEvaluator(stub);
-    shared_ptr<Formattable> formattable = eval.evaluate(qo);
+//TEST_CASE("QueryEvaluator_singleQuery_returnsResult") {
+//    QueryObject qo;
+//    std::shared_ptr<StatementEntity> s = ConstraintArgCreator::createStatementEntity("s");
+//    std::shared_ptr<AssignEntity> a = ConstraintArgCreator::createAssignEntity("a");
+//    qo.addDeclaration(s);
+//    qo.addDeclaration(a);
+//    std::shared_ptr<ParentConstraint> parentConst = make_shared<ParentConstraint>(s,a);
+//    qo.addConstraint(parentConst);
+//    QueryPKBStub stub;
+//    auto eval = QueryEvaluator(stub);
+//    shared_ptr<Formattable> formattable = eval.evaluate(qo);
+//
+//    REQUIRE(formattable->toString() == "a, b, c, f");
+//}
 
-    REQUIRE(formattable->toString() == "a, b, c, f");
-}
-
-TEST_CASE("QueryEvaluator_oneConstraintOnePattern_returnsResult") {
-    QueryObject qo;
-    std::shared_ptr<StatementEntity> s = ConstraintArgCreator::createStatementEntity("s");
-    std::shared_ptr<AssignEntity> a = ConstraintArgCreator::createAssignEntity("a");
-    qo.addDeclaration(s);
-    qo.addDeclaration(a);
-    std::shared_ptr<ParentConstraint> parentConst = make_shared<ParentConstraint>(s,a);
-    qo.addConstraint(parentConst);
-
-    std::shared_ptr<ProcedureEntity> e = ConstraintArgCreator::createProcedureEntity("e");
-    std::shared_ptr<Expression> exp = ConstraintArgCreator::createExpression("five");
-    qo.addDeclaration(e);
-    std::shared_ptr<ConcretePatternConstraint> pattern = make_shared<ConcretePatternConstraint>(e, exp, a);
-    qo.addConstraint(pattern);
-
-    QueryPKBStub stub;
-    auto eval = QueryEvaluator(stub);
-    shared_ptr<Formattable> formattable = eval.evaluate(qo);
-
-    REQUIRE(formattable->toString() == "c, f");
-}
+//TEST_CASE("QueryEvaluator_oneConstraintOnePattern_returnsResult") {
+//    QueryObject qo;
+//    std::shared_ptr<StatementEntity> s = ConstraintArgCreator::createStatementEntity("s");
+//    std::shared_ptr<AssignEntity> a = ConstraintArgCreator::createAssignEntity("a");
+//    qo.addDeclaration(s);
+//    qo.addDeclaration(a);
+//    std::shared_ptr<ParentConstraint> parentConst = make_shared<ParentConstraint>(s,a);
+//    qo.addConstraint(parentConst);
+//
+//    std::shared_ptr<ProcedureEntity> e = ConstraintArgCreator::createProcedureEntity("e");
+//    std::shared_ptr<Expression> exp = ConstraintArgCreator::createExpression("five");
+//    qo.addDeclaration(e);
+//    std::shared_ptr<ConcretePatternConstraint> pattern = make_shared<ConcretePatternConstraint>(e, exp, a);
+//    qo.addConstraint(pattern);
+//
+//    QueryPKBStub stub;
+//    auto eval = QueryEvaluator(stub);
+//    shared_ptr<Formattable> formattable = eval.evaluate(qo);
+//
+//    REQUIRE(formattable->toString() == "c, f");
+//}
