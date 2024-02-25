@@ -10,69 +10,68 @@ QueryPKB::QueryPKB(std::shared_ptr<PKBStorage> p) {
     pkb = std::move(p);
 }
 
-pair<IntColumn, StringColumn> QueryPKB::getRead() {
-    return pkb->readTable->getRead();
+std::vector<std::vector<std::string>> QueryPKB::getRead() {
+    return pkb->readTable->getTable();
 }
 
-pair<IntColumn, StringColumn> QueryPKB::getCallStmt() {
-    return pkb->callTable->getCall();
+std::vector<std::vector<std::string>> QueryPKB::getCallStmt() {
+    return pkb->callTable->getTable();
 }
 
-pair<IntColumn, StringColumn> QueryPKB::getIf() {
-    return pkb->ifTable->getIf();
+std::vector<std::vector<std::string>> QueryPKB::getIf() {
+    return pkb->ifTable->getTable();
 }
 
-pair<IntColumn, StringColumn> QueryPKB::getWhile() {
-    return pkb->whileTable->getWhile();
+std::vector<std::vector<std::string>> QueryPKB::getWhile() {
+    return pkb->whileTable->getTable();
 }
 
-pair<IntColumn, StringColumn> QueryPKB::getPrint() {
-    return pkb->printTable->getPrint();
+std::vector<std::vector<std::string>> QueryPKB::getPrint() {
+    return pkb->printTable->getTable();
 }
 
-pair<IntColumn, IntColumn> QueryPKB::getStatement() {
-    return pkb->statementTable->getStatement();
+std::vector<std::vector<std::string>> QueryPKB::getStatement() {
+    return pkb->statementTable->getTable();
 }
 
-pair<StringColumn, StringColumn> QueryPKB::getProcedure() {
-    return pkb->procedureTable->getProcedure();
+std::vector<std::vector<std::string>> QueryPKB::getProcedure() {
+    return pkb->procedureTable->getTable();
 }
 
-pair<IntColumn, StringColumn> QueryPKB::getVar() {
-    return pkb->variableTable->getVariable();
+std::vector<std::vector<std::string>> QueryPKB::getVar() {
+    return pkb->variableTable->getTable();
 }
 
-pair<IntColumn, IntColumn> QueryPKB::getConst() {
-    return pkb->constantTable->getConstant();
+std::vector<std::vector<std::string>> QueryPKB::getConst() {
+    return pkb->constantTable->getTable();
 }
 
-pair<IntColumn, IntColumn> QueryPKB::getFollows() {
-    return pkb->followsTable->getFollows();
+std::vector<std::vector<std::string>> QueryPKB::getFollows() {
+    return pkb->followsTable->getTable();
 }
 
-pair<IntColumn, IntColumn> QueryPKB::getFollowsT() {
-    return pkb->followsTTable->getFollowsT();
+std::vector<std::vector<std::string>> QueryPKB::getFollowsT() {
+    return pkb->followsTTable->getTable();
 }
 
-pair<IntColumn, IntColumn> QueryPKB::getParent() {
-    return pkb->parentTable->getParent();
+std::vector<std::vector<std::string>> QueryPKB::getParent() {
+    return pkb->parentTable->getTable();
 }
 
-pair<IntColumn, IntColumn> QueryPKB::getParentT() {
-    return pkb->parentTTable->getParentT();
+std::vector<std::vector<std::string>> QueryPKB::getParentT() {
+    return pkb->parentTTable->getTable();
 }
 
-pair<IntColumn, StringColumn> QueryPKB::getUses() {
-    return pkb->usesTable->getUses();
+std::vector<std::vector<std::string>> QueryPKB::getUses() {
+    return pkb->usesTable->getTable();
 }
 
-pair<IntColumn, StringColumn> QueryPKB::getModifies() {
-    return pkb->modifiesTable->getModifies();
+std::vector<std::vector<std::string>> QueryPKB::getModifies() {
+    return pkb->modifiesTable->getTable();
 }
 
-pair<IntColumn, StringColumn> QueryPKB::getPatternAsgn() {
-//    return pkb->assignTable->getAssign();
-
+std::vector<std::vector<std::string>> QueryPKB::getPatternAsgn() {
+    return pkb->assignTable->getTable();
 }
 
 

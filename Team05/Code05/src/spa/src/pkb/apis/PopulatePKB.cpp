@@ -11,51 +11,51 @@ PopulatePKB::PopulatePKB(std::shared_ptr<PKBStorage> p) {
 }
 
 bool PopulatePKB::addRead(int stmtNo, std::string name) {
-    return pkb->readTable->addRead(stmtNo, name);
+    return pkb->readTable->addRecord(std::to_string(stmtNo), name);
 }
 
 bool PopulatePKB::addCallStmt(int stmtNo, std::string name) {
-    return pkb->callTable->addCall(stmtNo, name);
+    return pkb->callTable->addRecord(std::to_string(stmtNo), name);
 }
 
 bool PopulatePKB::addIf(int stmtNo, std::string name) {
-    return pkb->ifTable->addIf(stmtNo, name);
+    return pkb->ifTable->addRecord(std::to_string(stmtNo), name);
 }
 
 bool PopulatePKB::addWhile(int stmtNo, std::string name) {
-    return pkb->whileTable->addWhile(stmtNo, name);
+    return pkb->whileTable->addRecord(std::to_string(stmtNo), name);
 }
 
 bool PopulatePKB::addPrint(int stmtNo, std::string name) {
-    return pkb->printTable->addPrint(stmtNo, name);
+    return pkb->printTable->addRecord(std::to_string(stmtNo), name);
 }
 
 bool PopulatePKB::addFinalStatementNo(int stmtNo) {
-    return pkb->statementTable->addStatement(stmtNo, stmtNo);
+    return pkb->statementTable->addRecord(std::to_string(stmtNo), std::to_string(stmtNo));
 }
 
 bool PopulatePKB::addProcedure(std::string name) {
-    return pkb->procedureTable->addProcedure(name, name);
+    return pkb->procedureTable->addRecord(name, name);
 }
 
 bool PopulatePKB::addVar(int stmtNo, std::string name) {
-    return pkb->variableTable->addVariable(stmtNo, name);
+    return pkb->variableTable->addRecord(std::to_string(stmtNo), name);
 }
 
 bool PopulatePKB::addConst(int stmtNo, int val) {
-    return pkb->constantTable->addConstant(stmtNo, val);
+    return pkb->constantTable->addRecord(std::to_string(stmtNo), std::to_string(val));
 }
 
 bool PopulatePKB::addFollows(int before, int after) {
-    return pkb->followsTable->addFollows(before, after);
+    return pkb->followsTable->addRecord(std::to_string(before), std::to_string(after));
 }
 
 bool PopulatePKB::addFollowsT(int before, int after) {
-    return pkb->followsTTable->addFollowsT(before, after);
+    return pkb->followsTTable->addRecord(std::to_string(before), std::to_string(after));
 }
 
 bool PopulatePKB::addParent(int parent, int child) {
-    return pkb->parentTable->addParent(parent, child);
+    return pkb->parentTable->addRecord(std::to_string(parent), std::to_string(child));
 }
 
 bool PopulatePKB::addUses(int stmtNo, std::string name) {
@@ -63,7 +63,7 @@ bool PopulatePKB::addUses(int stmtNo, std::string name) {
 }
 
 bool PopulatePKB::addParentT(int parent, int child) {
-    return pkb->parentTTable->addParentT(parent, child);
+    return pkb->parentTTable->addRecord(std::to_string(parent), std::to_string(child));
 }
 
 bool PopulatePKB::addModifies(int stmtNo, std::string name) {
@@ -71,5 +71,5 @@ bool PopulatePKB::addModifies(int stmtNo, std::string name) {
 }
 
 bool PopulatePKB::addPatternAsgn(int stmtNo, std::string lhs, std::string rhs) {
-    return pkb->assignTable->addAssign(stmtNo, lhs + "=" + rhs);
+    return pkb->assignTable->addRecord(std::to_string(stmtNo), lhs + "=" + rhs);
 }

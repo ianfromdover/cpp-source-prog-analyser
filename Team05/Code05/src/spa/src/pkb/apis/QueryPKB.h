@@ -15,22 +15,22 @@ private:
 public:
     explicit QueryPKB(std::shared_ptr<PKBStorage> p);
 
-    pair<IntColumn, StringColumn> getRead();
-    pair<IntColumn, StringColumn> getCallStmt();
-    pair<IntColumn, StringColumn> getIf();
-    pair<IntColumn, StringColumn> getWhile();
-    pair<IntColumn, StringColumn> getPrint();
-    pair<IntColumn, IntColumn> getStatement();
-    pair<StringColumn, StringColumn> getProcedure();
-    pair<IntColumn, StringColumn> getVar();
-    pair<IntColumn, IntColumn> getConst();
-    pair<IntColumn, IntColumn> getFollows();
-    pair<IntColumn, IntColumn> getFollowsT();
-    pair<IntColumn, IntColumn> getParent();
-    pair<IntColumn, IntColumn> getParentT();
-    pair<IntColumn, StringColumn> getUses();
-    pair<IntColumn, StringColumn> getModifies();
-    pair<IntColumn, StringColumn> getPatternAsgn();
+    std::vector<std::vector<std::string>> getRead();
+    std::vector<std::vector<std::string>> getCallStmt();
+    std::vector<std::vector<std::string>> getIf();
+    std::vector<std::vector<std::string>> getWhile();
+    std::vector<std::vector<std::string>> getPrint();
+    std::vector<std::vector<std::string>> getStatement();
+    std::vector<std::vector<std::string>> getProcedure();
+    std::vector<std::vector<std::string>> getVar();
+    std::vector<std::vector<std::string>> getConst();
+    std::vector<std::vector<std::string>> getFollows();
+    std::vector<std::vector<std::string>> getFollowsT();
+    std::vector<std::vector<std::string>> getParent();
+    std::vector<std::vector<std::string>> getParentT();
+    std::vector<std::vector<std::string>> getUses();
+    std::vector<std::vector<std::string>> getModifies();
+    std::vector<std::vector<std::string>> getPatternAsgn();
 };
 
 

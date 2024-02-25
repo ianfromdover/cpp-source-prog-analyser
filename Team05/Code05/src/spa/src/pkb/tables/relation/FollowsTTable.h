@@ -5,7 +5,7 @@
 #ifndef SPA_FOLLOWSTTABLE_H
 #define SPA_FOLLOWSTTABLE_H
 
-#include "RelationTable.h"
+#include "pkb/tables/base/Table.h"
 
 class FollowsTTable : public Table {
 
