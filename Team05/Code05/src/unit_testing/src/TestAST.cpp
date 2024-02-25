@@ -48,6 +48,48 @@ TEST_CASE("Tokenise sample program") {
     }
 }
 
+TEST_CASE("Parse complex while condition") {
+    std::string codeSnippet = R"(
+    procedure procedure {
+        count = 1123*923/wq;
+        cenX = 0;
+        cenY = 0;
+        call call;
+        while ((while != 0) && (y != 0)) {
+            count = count + 1;
+            cenX = cenX + x;
+            cenY = cenY + y;
+            call readPoint;
+        }
+        if (count == 0) then {
+            flag = 1;
+        } else {
+            cenX = cenX / count;
+            cenY = cenY / count;
+
+            while (((x * (2 + 1) == (3 * (2 - x))) || (x == 0)) && (!(y != 5))) {
+                print x;
+            }
+
+            while (x == 0) {
+                x = y + 2;
+            }
+        }
+        normSq = cenX * cenX + cenY * cenY;
+    }
+    )";
+
+    auto sp = SourceProcessor(nullptr);
+    auto tokens = sp.scan(codeSnippet);
+    const auto parser = new Parser(tokens);
+    const auto program = parser->parse();
+    for (const auto& procedures : *program) {
+        std::cout << procedures->toString() << std::endl;
+    }
+
+    require(true);
+}
+
 TEST_CASE("Parse sample program") {
     std::string codeSnippet = R"(
     procedure procedure {

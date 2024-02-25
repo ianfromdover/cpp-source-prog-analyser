@@ -39,6 +39,9 @@ private:
     std::shared_ptr<Stmt> cond();
     std::shared_ptr<Stmt> assign();
 
+    static bool isRelOp(TokenType type);
+    bool lookAheadForRelExpr();
+
     std::shared_ptr<Expr> condExpr();
     std::shared_ptr<Expr> relExpr();
     std::shared_ptr<Expr> relFactor();

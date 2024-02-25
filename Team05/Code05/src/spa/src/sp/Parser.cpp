@@ -169,8 +169,38 @@ std::shared_ptr<Stmt> Parser::assign() {
     return std::make_shared<Assign>(this->nextStmtNo(), std::move(variable), std::move(value));
 }
 
+bool Parser::isRelOp(TokenType type) {
+    return type == TokenType::GREATER || type == TokenType::GREATER_EQUAL ||
+           type == TokenType::LESSER || type == TokenType::LESSER_EQUAL ||
+           type == TokenType::EQUAL_EQUAL || type == TokenType::BANG_EQUAL;
+}
+
+bool Parser::lookAheadForRelExpr() {
+    int lookAheadIndex = this->current;
+    int depth = 0;
+
+    while (lookAheadIndex < this->tokens->size()) {
+        const auto lookAheadType = this->tokens->at(lookAheadIndex)->getType();
+        if (lookAheadType == TokenType::LEFT_PAREN) {
+            depth++;
+        } else if (lookAheadType == TokenType::RIGHT_PAREN) {
+            depth--;
+            if (depth < 0) break;
+        } else if (depth == 0) {
+            if (Parser::isRelOp(lookAheadType)) return true;
+        }
+        lookAheadIndex++;
+    }
+
+    return false;
+}
+
 std::shared_ptr<Expr> Parser::condExpr() {
-    // '(' cond_expr ')' ('&&' | '||') '(' cond_expr ')' | '!' '(' cond_expr ')' | rel_expr
+    // rel_expr | '(' cond_expr ')' ('&&' | '||') '(' cond_expr ')' | '!' '(' cond_expr ')'
+    if (this->lookAheadForRelExpr()) {
+        return this->relExpr();
+    }
+
     if (this->match({ TokenType::LEFT_PAREN })) {
         auto left = this->condExpr();
         this->consume(TokenType::RIGHT_PAREN, "Expect ')' after expression.");
@@ -197,7 +227,7 @@ std::shared_ptr<Expr> Parser::condExpr() {
         return std::make_shared<Unary>(std::move(op), std::move(right));
     }
 
-    return this->relExpr();
+    throw ParseException("Expect a boolean expression.");
 }
 
 std::shared_ptr<Expr> Parser::relExpr() {
@@ -214,14 +244,6 @@ std::shared_ptr<Expr> Parser::relExpr() {
 
 std::shared_ptr<Expr> Parser::relFactor() {
     // var_name | const_value | expr
-    if (this->match({ TokenType::NAME })) {
-        return std::make_shared<Variable>(this->previous().getLexeme());
-    }
-
-    if (this->match({ TokenType::INTEGER })) {
-        return std::make_shared<Literal>(std::stoi(this->previous().getLexeme()));
-    }
-
     return this->expr();
 }
 
