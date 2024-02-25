@@ -396,10 +396,10 @@ QPSToken QPSParser::factor() {
 std::shared_ptr<IntermediateQuery> QPSParser::parse() {
     auto query = std::make_shared<IntermediateQuery>();
 
-    do {
+    while (isDeclaration()) {
         std::shared_ptr<DeclarationClause> declaration = this->declaration();
         query->addClause(declaration);
-    } while (isDeclaration());
+    }
 
     if (this->check(QPSTokenType::SELECT)) {
         std::shared_ptr<SelectClause> select = this->select();
