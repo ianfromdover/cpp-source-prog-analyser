@@ -41,6 +41,12 @@ std::shared_ptr<Formattable> QueryEvaluator::evaluate(QueryObject & query) {
     return intersection;
 
 }
+
+void QueryEvaluator::processConstraints(std::shared_ptr<Constraint> c){
+//    c->getRelationshipTable(pkb);
+
+
+}
 //
 //std::shared_ptr<Formattable> QueryEvaluator::evaluate(QueryObject & query) {
 //    std::shared_ptr<Returnable> r = query.getReturnType();

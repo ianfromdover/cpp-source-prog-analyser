@@ -8,7 +8,6 @@
 
 #include <utility>
 #include <vector>
-#include "qps/QueryProjector/ResultTable/StringResultColumn.h"
 #include "utilSpa/Column.h"
 #include "qps/query_elements/constraint/Constraint.h"
 

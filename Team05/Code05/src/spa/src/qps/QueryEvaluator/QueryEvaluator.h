@@ -11,12 +11,15 @@
 #include "qps/query_elements/QueryObject.h"
 #include "pkb/apis/QueryPKB.h"
 #include "qps/QueryEvaluator/QueryResult/QueryResult.h"
+#include "qps/QueryProjector/ResultTable/ResultTable.h"
 
 class QueryEvaluator {
 public:
     explicit QueryEvaluator(QueryPKBVirtual& stub) : pkb(stub) {} ;
     std::shared_ptr<Formattable> evaluate(QueryObject&);
+    void processConstraints(std::shared_ptr<Constraint> c);
 private:
+    ResultTable results;
     QueryPKBVirtual& pkb;
     shared_ptr<QueryResult> intersect(shared_ptr<QueryResult> r1, shared_ptr<QueryResult> r2);
     std::shared_ptr<Formattable> getEmptyResult();

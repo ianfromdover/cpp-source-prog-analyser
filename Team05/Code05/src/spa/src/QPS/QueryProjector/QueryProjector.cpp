@@ -15,5 +15,6 @@ void processQuery(){
 void QueryProjector::processConstraints(std::shared_ptr<Constraint> c){
     ResultTable table;
 
+
 }
 

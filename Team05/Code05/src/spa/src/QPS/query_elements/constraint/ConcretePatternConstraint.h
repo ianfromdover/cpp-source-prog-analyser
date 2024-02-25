@@ -19,7 +19,7 @@ public:
     std::string getConstraintType() override;
     std::shared_ptr<AssignEntity> getPatternConstraintIdentifier() override;
     std::vector<std::shared_ptr<ConstraintArgument>>  getConstraintArguments() override;
-    std::vector<std::vector<std::string>> getRelationshipTable(QueryPKB &) override;
+    std::vector<std::vector<std::string>> getRelationshipTable(QueryPKBVirtual &) override;
 };
 
 
