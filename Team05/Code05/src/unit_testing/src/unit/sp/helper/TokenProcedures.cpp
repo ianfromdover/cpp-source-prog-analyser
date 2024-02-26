@@ -12,11 +12,7 @@ public:
         AstFactory::createStmtList({
             // (1) t + 1 = y + 3 * (1 + y);
             AstFactory::createAssign(1,
-                AstFactory::createBinary(
-                        AstFactory::createVariable("t"),
-                        AstFactory::createTokens(TokenType::ADD, "+"),
-                        AstFactory::createLiteral(1)
-                ),
+                AstFactory::createVariable("t"),
                 AstFactory::createBinary(
                         AstFactory::createBinary(
                         AstFactory::createBinary(
@@ -39,6 +35,26 @@ public:
         })
     );
         return procedure;
+    }
+
+    static TokenStream createAssignCallReadPrintTokens() {
+        return TokenFactory::createProgram({
+            TokenFactory::createProcedure("AssignCallPrintRead", {
+                TokenFactory::createAssign("t", TokenFactory::createAddExpr(
+                    TokenFactory::createMultiplyExpr(
+                        TokenFactory::createGrouping(TokenFactory::createAddExpr(
+                            TokenFactory::createInt(1),
+                            TokenFactory::createVariable("y")
+                        )),
+                        TokenFactory::createInt(3)
+                    ),
+                    TokenFactory::createVariable("y")
+                )),
+                TokenFactory::createCall("hello"),
+                TokenFactory::createRead("t"),
+                TokenFactory::createPrint("u"),
+            }),
+        });
     }
 
     // Single Nesting Level

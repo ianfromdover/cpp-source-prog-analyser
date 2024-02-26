@@ -4,16 +4,27 @@
 #include "catch.hpp"
 #include "../helper/TokenProcedures.cpp"
 #include "sp/Parser.h"
-#include "sp/SourceProcessor.h"
 
-//Parser_TestSingleNestingLevel
+// Parser_TestZeroNestingLevel
 
-TEST_CASE("Parser_TestIfElseWithStmtsBeforeAndInside") {
-    auto tokens = TokenProcedures::createIfElseWithStmtsBeforeAndInsideTokens();
-    const auto program = Parser(tokens).parse();
+std::string programToString(const Program& program) {
     std::string result;
     for (const auto& procedure : *program) {
         result += procedure->toString();
     }
-    REQUIRE(result == TokenProcedures::createIfElseWithStmtsBeforeAndInside()->toString());
+    return result;
+}
+
+TEST_CASE("Parser_TestAssignCallReadPrint") {
+    auto tokens = TokenProcedures::createAssignCallReadPrintTokens();
+    const auto program = Parser(tokens).parse();
+    REQUIRE(programToString(program) == TokenProcedures::createAssignCallReadPrint()->toString());
+}
+
+// Parser_TestSingleNestingLevel
+
+TEST_CASE("Parser_TestIfElseWithStmtsBeforeAndInside") {
+    auto tokens = TokenProcedures::createIfElseWithStmtsBeforeAndInsideTokens();
+    const auto program = Parser(tokens).parse();
+    REQUIRE(programToString(program) == TokenProcedures::createIfElseWithStmtsBeforeAndInside()->toString());
 }
