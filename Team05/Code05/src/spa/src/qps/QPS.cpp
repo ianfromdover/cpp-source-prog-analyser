@@ -24,10 +24,8 @@ std::vector<std::string> QPS::evaluate(std::string queryString) {
     }
 
     QueryEvaluator eval(*pkb);
-    eval.evaluate(*query);
-    //std::shared_ptr<Formattable> results = eval.evaluate(*query);
+    std::shared_ptr<Formattable> results = eval.evaluate(*query);
 
-    //return results->format();
-    vector<std::string> strVector = {"hello"};
-    return strVector;
+    return results->format();
+
 }

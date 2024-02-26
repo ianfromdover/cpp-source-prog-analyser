@@ -94,26 +94,35 @@ public:
     }
 
     std::vector<std::string> getDistinctColumn(std::string colName){
-        std::vector<std::string> result;
-        size_t index = findColumnIndex(_table, colName);
-        for (size_t i = 1; i < _table.size(); ++i) {
-            result.push_back(_table[i][index]);
+        try {
+            if (_table.empty()) return {};
+            std::vector<std::string> result;
+            size_t index = findColumnIndex(_table, colName);
+            for (size_t i = 1; i < _table.size(); ++i) {
+                result.push_back(_table[i][index]);
+            }
+            std::sort(result.begin(), result.end());
+            result.erase(std::unique(result.begin(), result.end()), result.end());
+            return result;
+        } catch (std::runtime_error& e){
+            return {};
         }
-        std::sort(result.begin(), result.end());
-        result.erase(std::unique(result.begin(), result.end()), result.end());
-        return result;
     }
 
     static vector<string> findCommonHeaders(const table& a, const table& b) {
-        vector<string> commonHeaders;
-        for (const auto& headerA : a[0]) {
-            for (const auto& headerB : b[0]) {
-                if (headerA == headerB) {
-                    commonHeaders.push_back(headerA);
+        try {
+            vector<string> commonHeaders;
+            for (const auto &headerA: a[0]) {
+                for (const auto &headerB: b[0]) {
+                    if (headerA == headerB) {
+                        commonHeaders.push_back(headerA);
+                    }
                 }
             }
+            return commonHeaders;
+        } catch (std::runtime_error& e){
+            return {};
         }
-        return commonHeaders;
     }
 
     static size_t findColumnIndex(const table& table, const string& header) {
@@ -122,7 +131,7 @@ public:
                 return i;
             }
         }
-        return string::npos; // Not found
+        return 0; // Not found
     }
 
     // Code snippet referenced from: https://www.geeksforgeeks.org/joining-tables-using-multimaps/
