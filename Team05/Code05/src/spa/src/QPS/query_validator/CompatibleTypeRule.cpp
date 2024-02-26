@@ -22,7 +22,7 @@ std::string CompatibleTypeRule::validateRelationship(RelationshipClause cl, std:
     QPSTokenType::QPSTypeInfo arg2Type = cl.getSecondArgType()==QPSTokenType::QPSTypeInfo::SYNONYM ? declarationMap.find(cl.getSecondArg().getLexeme())->second : cl.getSecondArgType();
 
     if (typeMap.find(relationshipType) == typeMap.end()){
-        throw std::exception("invalid relationship type");
+        throw std::runtime_error("invalid relationship type");
     }
 
     if (relationshipType == QPSTokenType::QPSTypeInfo::MODIFIES_S || relationshipType == QPSTokenType::QPSTypeInfo::USES_S){
