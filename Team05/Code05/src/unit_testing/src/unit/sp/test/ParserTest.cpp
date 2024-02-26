@@ -28,3 +28,11 @@ TEST_CASE("Parser_TestIfElseWithStmtsBeforeAndInside") {
     const auto program = Parser(tokens).parse();
     REQUIRE(programToString(program) == TokenProcedures::createIfElseWithStmtsBeforeAndInside()->toString());
 }
+
+// Parser_TestDoubleNestingLevel
+
+TEST_CASE("Parser_TestIfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside") {
+    auto tokens = TokenProcedures::createIfElseWithNestedIfElsePlusNestedStmtsBeforeAndInsideTokens();
+    const auto program = Parser(tokens).parse();
+    REQUIRE(programToString(program) == TokenProcedures::createIfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside()->toString());
+}

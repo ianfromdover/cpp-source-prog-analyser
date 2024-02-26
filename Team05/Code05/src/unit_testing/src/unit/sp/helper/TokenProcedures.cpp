@@ -509,11 +509,7 @@ public:
                                     std::initializer_list<std::shared_ptr<Stmt>>{
                                             // (7) t + 1 = y + 3 * (1 + y);
                                             AstFactory::createAssign(7,
-                                            AstFactory::createBinary(
-                                                    AstFactory::createVariable("t"),
-                                                    AstFactory::createTokens(TokenType::ADD, "+"),
-                                                    AstFactory::createLiteral(1)
-                                            ),
+                                            AstFactory::createVariable("t"),
                                             AstFactory::createBinary(
                                                     AstFactory::createBinary(
                                                     AstFactory::createBinary(
@@ -624,6 +620,75 @@ public:
         return procedure;
     }
 
+    static TokenStream createIfElseWithNestedIfElsePlusNestedStmtsBeforeAndInsideTokens() {
+        return TokenFactory::createProgram({
+            TokenFactory::createProcedure("IfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside", {
+                TokenFactory::createIf(TokenFactory::createEqualsExpr(
+                    TokenFactory::createVariable("x"),
+                    TokenFactory::createInt(1)),
+                    {
+                    TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                        TokenFactory::createVariable("y"),
+                        TokenFactory::createInt(3))
+                    ),
+                    TokenFactory::createCall("hello"),
+                    TokenFactory::createRead("t"),
+                    TokenFactory::createPrint("u"),
+                    TokenFactory::createIf(TokenFactory::createEqualsExpr(
+                        TokenFactory::createVariable("x"),
+                        TokenFactory::createInt(1)),
+                        {
+                        TokenFactory::createAssign("t", TokenFactory::createAddExpr(
+                            TokenFactory::createMultiplyExpr(
+                                TokenFactory::createGrouping(TokenFactory::createAddExpr(TokenFactory::createInt(1), TokenFactory::createVariable("y"))),
+                                TokenFactory::createInt(3)
+                            ),
+                            TokenFactory::createVariable("y"))
+                        ),
+                        TokenFactory::createCall("hello"),
+                        TokenFactory::createRead("t"),
+                        TokenFactory::createPrint("u"),
+                        },
+                        {
+                        TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                            TokenFactory::createVariable("y"),
+                            TokenFactory::createInt(3))
+                        ),
+                        TokenFactory::createCall("hello"),
+                        TokenFactory::createRead("t"),
+                        TokenFactory::createPrint("u"),
+                        }
+                    ),
+                    },
+                    {
+                    TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                        TokenFactory::createVariable("y"),
+                        TokenFactory::createInt(3))
+                    ),
+                    TokenFactory::createCall("hello"),
+                    TokenFactory::createRead("t"),
+                    TokenFactory::createPrint("u"),
+                    TokenFactory::createIf(TokenFactory::createEqualsExpr(
+                            TokenFactory::createVariable("x"),
+                            TokenFactory::createInt(1)),
+                        {
+                        TokenFactory::createAssign("x", TokenFactory::createAddExpr(TokenFactory::createVariable("y"), TokenFactory::createInt(3))),
+                        TokenFactory::createCall("hello"),
+                        TokenFactory::createRead("t"),
+                        TokenFactory::createPrint("u"),
+                        },
+                        {
+                        TokenFactory::createAssign("x", TokenFactory::createAddExpr(TokenFactory::createVariable("y"), TokenFactory::createInt(3))),
+                        TokenFactory::createCall("hello"),
+                        TokenFactory::createRead("t"),
+                        TokenFactory::createPrint("u"),
+                        }
+                    ),
+                    }
+                ),
+            }),
+        });
+    }
 
     static std::shared_ptr<Procedure> createIfElseWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside() {
         auto procedure = AstFactory::createProcedure("IfElseWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside",
