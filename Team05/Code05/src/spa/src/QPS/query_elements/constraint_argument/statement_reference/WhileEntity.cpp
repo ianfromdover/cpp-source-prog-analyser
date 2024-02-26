@@ -24,3 +24,7 @@ std::string WhileEntity::toString() {
 std::string WhileEntity::getArgumentValue() {
     return this->identifier;
 }
+
+std::vector<std::vector<std::string>> WhileEntity::getEntityTable(QueryPKBVirtual &pkb) {
+    return pkb.getWhile();
+}

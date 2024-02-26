@@ -3,6 +3,7 @@
 //
 
 #include "StatementEntity.h"
+#include "QPS/Exceptions/QPSException.h"
 
 std::string StatementEntity::getReturnType() {
     return RETURN_INT_RESULT;
@@ -22,6 +23,10 @@ std::string StatementEntity::getArgumentValue() {
 
 std::string StatementEntity::toString() {
     return this->identifier + " [STMT]";
+}
+
+std::vector<std::vector<std::string>> StatementEntity::getEntityTable(QueryPKBVirtual &pkb) {
+    throw QPSException("Invalid QPS Query");
 }
 
 //std::pair<Column<std::string>, Column<std::string>> StatementEntity::getPkbTable() {

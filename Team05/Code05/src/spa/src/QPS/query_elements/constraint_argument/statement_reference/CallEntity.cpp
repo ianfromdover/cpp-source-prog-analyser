@@ -23,3 +23,7 @@ std::string CallEntity::toString() {
 std::string CallEntity::getArgumentValue() {
     return this->identifier;
 }
+
+std::vector<std::vector<std::string>> CallEntity::getEntityTable(QueryPKBVirtual &pkb) {
+    return pkb.getCallStmt();
+}

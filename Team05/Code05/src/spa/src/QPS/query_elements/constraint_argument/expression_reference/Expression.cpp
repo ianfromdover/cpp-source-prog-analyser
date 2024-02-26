@@ -3,6 +3,7 @@
 //
 
 #include "Expression.h"
+#include "QPS/Exceptions/QPSException.h"
 
 #include <utility>
 
@@ -20,4 +21,8 @@ Expression::Expression(std::string s) {
 
 std::string Expression::toString() {
     return this->regularExpression + " [EXPR]";
+}
+
+std::vector<std::vector<std::string>> Expression::getEntityTable(QueryPKBVirtual &pkb) {
+    throw QPSException("Invalid QPS Query");
 }

@@ -3,6 +3,7 @@
 //
 
 #include "QuotedIdentity.h"
+#include "QPS/Exceptions/QPSException.h"
 
 std::string QuotedIdentity::getEntityType() {
     return TYPE_QUOTED_IDENT;
@@ -18,5 +19,9 @@ QuotedIdentity::QuotedIdentity(std::string& s) {
 
 std::string QuotedIdentity::getArgumentValue() {
     return this->val;
+}
+
+std::vector<std::vector<std::string>> QuotedIdentity::getEntityTable(QueryPKBVirtual &pkb) {
+    throw QPSException("Invalid QPS Query");
 }
 

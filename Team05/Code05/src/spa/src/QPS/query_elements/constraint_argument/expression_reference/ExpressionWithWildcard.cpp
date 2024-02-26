@@ -3,6 +3,7 @@
 //
 
 #include "ExpressionWithWildcard.h"
+#include "QPS/Exceptions/QPSException.h"
 
 std::string ExpressionWithWildcard::getArgumentValue() {
     return regularExpression;
@@ -18,4 +19,8 @@ ExpressionWithWildcard::ExpressionWithWildcard(std::string s) {
 
 std::string ExpressionWithWildcard::toString() {
     return this->regularExpression + " [EXPR WITH WILDCARD]";
+}
+
+std::vector<std::vector<std::string>> ExpressionWithWildcard::getEntityTable(QueryPKBVirtual &pkb) {
+    throw QPSException("Invalid QPS Query");
 }

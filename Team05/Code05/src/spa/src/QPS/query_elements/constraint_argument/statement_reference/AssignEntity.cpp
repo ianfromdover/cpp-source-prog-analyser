@@ -26,3 +26,7 @@ std::string AssignEntity::getArgumentValue() {
     return this->identifier;
 }
 
+std::vector<std::vector<std::string>> AssignEntity::getEntityTable(QueryPKBVirtual & pkb ) {
+    return {};
+}
+

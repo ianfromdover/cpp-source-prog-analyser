@@ -23,3 +23,7 @@ std::string PrintEntity::toString() {
 std::string PrintEntity::getArgumentValue() {
     return this->identifier;
 }
+
+std::vector<std::vector<std::string>> PrintEntity::getEntityTable(QueryPKBVirtual &pkb) {
+    return pkb.getPrint();
+}

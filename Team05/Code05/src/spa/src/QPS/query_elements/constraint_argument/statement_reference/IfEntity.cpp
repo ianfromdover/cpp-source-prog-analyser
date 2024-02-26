@@ -24,3 +24,7 @@ std::string IfEntity::getArgumentValue() {
     return this->identifier;
 }
 
+std::vector<std::vector<std::string>> IfEntity::getEntityTable(QueryPKBVirtual &pkb) {
+    return pkb.getIf();
+}
+

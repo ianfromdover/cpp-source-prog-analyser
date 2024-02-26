@@ -6,6 +6,7 @@
 #define SPA_INTEGERARGUMENT_H
 
 #include "StatementReference.h"
+#include "pkb/apis/QueryPKBVirtual.h"
 
 class IntegerArgument : public StatementReference {
 public:
@@ -15,6 +16,7 @@ public:
     std::string getArgumentValue() override;
     int value;
     std::string toString() override;
+    std::vector<std::vector<std::string>> getEntityTable(QueryPKBVirtual & pkb) override;
 };
 
 

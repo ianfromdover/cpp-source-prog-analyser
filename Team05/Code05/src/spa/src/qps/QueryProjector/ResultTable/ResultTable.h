@@ -29,6 +29,66 @@ public:
         }
     }
 
+    void filterByColumnPartial(const string& header, const string& str) {
+        table filteredTab; // Resulting table after filtering
+        int columnNo = -1;
+
+        // Find the column number based on the header name
+        for (size_t i = 0; i < _table[0].size(); ++i) {
+            if (_table[0][i] == header) {
+                columnNo = i;
+                break;
+            }
+        }
+
+        if (columnNo == -1) {
+            cout << "Header not found: " << header << endl;
+            return; // Header not found
+        }
+
+        filteredTab.push_back(_table[0]); // Include headers in the filtered table
+
+        for (size_t i = 1; i < _table.size(); ++i) { // Skip header row
+            if (_table[i][columnNo].find(str) != string::npos) {
+                filteredTab.push_back(_table[i]);
+            }
+        }
+
+        _table = filteredTab; // Replace the original table with the filtered results
+    }
+
+    void filterByColumnExact(const string& header, const string& str) {
+        table filteredTab; // Resulting table after filtering
+        int columnNo = -1;
+
+        // Find the column number based on the header name
+        for (size_t i = 0; i < _table[0].size(); ++i) {
+            if (_table[0][i] == header) {
+                columnNo = i;
+                break;
+            }
+        }
+
+        if (columnNo == -1) {
+            cout << "Header not found: " << header << endl;
+            return; // Header not found
+        }
+
+        filteredTab.push_back(_table[0]); // Include headers in the filtered table
+
+        for (size_t i = 1; i < _table.size(); ++i) { // Skip header row
+            if (_table[i][columnNo] == str) {
+                filteredTab.push_back(_table[i]);
+            }
+        }
+
+        _table = filteredTab; // Replace the original table with the filtered results
+    }
+
+    void filterByColumPartial(const string& header, const string& str) {
+
+    }
+
     table getTable() {
         return _table;
     }

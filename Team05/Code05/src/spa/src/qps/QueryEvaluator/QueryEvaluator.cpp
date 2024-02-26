@@ -3,6 +3,7 @@
 //
 
 #include "QueryEvaluator.h"
+#include <algorithm>
 #include "qps/QueryEvaluator/QueryResult/StringResult.h"
 #include "PKBStub.h"
 #include "qps/QueryEvaluator/QueryResult/IntResult.h"
@@ -22,28 +23,36 @@ std::shared_ptr<Formattable> QueryEvaluator::evaluate(QueryObject & query) {
 
     //query pkb and store all results into a listOfResults
     for (std::shared_ptr<Constraint> c : constraints) {
-//            listOfResults.push_back(pkb.getResult(*r, c));
+        processConstraints(c);
     }
+    std::string s= query.getReturnType()->getArgumentValue();
+    std::vector<string> sk = this->results.getDistinctColumn(s);
+    std::shared_ptr<StringResult> sd = std::make_shared<StringResult>(sk);
+    return sd;
 
-    // Intersect all results
-    if (listOfResults.empty()) {
-        return getEmptyResult();
-    }
 
-    std::shared_ptr<QueryResult> intersection = listOfResults[0];
-
-    if (listOfResults.size() > 1) {
-        for (int i = 1; i < listOfResults.size(); i++) {
-            intersection = intersect(intersection, listOfResults[i]);
-        }
-    }
-
-    return intersection;
+//    std::shared_ptr<QueryResult> intersection = listOfResults[0];
+//
+//    if (listOfResults.size() > 1) {
+//        for (int i = 1; i < listOfResults.size(); i++) {
+//            intersection = intersect(intersection, listOfResults[i]);
+//        }
+//    }
+//
+//    return intersection;
 
 }
 
+bool isQueryable(std::string type){
+    std::vector<std::string> invalidTypes = {TYPE_INTEGER, TYPE_WILDCARD, TYPE_EXPRESSION, TYPE_EXPRESSION_W_WILDCARD, TYPE_QUOTED_IDENT};
+    return (std::find(invalidTypes.begin(), invalidTypes.end(), type)) == invalidTypes.end();
+}
+
 void QueryEvaluator::processConstraints(std::shared_ptr<Constraint> c){
-    c->getRelationshipTable(pkb);
+     results.add(c->getRelationshipTable(pkb));
+     std::vector<std::shared_ptr<ConstraintArgument>> args = c->getConstraintArguments();
+
+
 
 
 

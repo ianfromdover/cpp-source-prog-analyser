@@ -23,3 +23,7 @@ std::string ReadEntity::toString() {
 std::string ReadEntity::getArgumentValue() {
     return this->identifier;
 }
+
+std::vector<std::vector<std::string>> ReadEntity::getEntityTable(QueryPKBVirtual &pkb) {
+    return pkb.getRead();
+}

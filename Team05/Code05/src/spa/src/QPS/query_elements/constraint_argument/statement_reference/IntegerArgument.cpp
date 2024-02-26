@@ -3,6 +3,7 @@
 //
 
 #include "IntegerArgument.h"
+#include "QPS/Exceptions/QPSException.h"
 
 std::string IntegerArgument::getArgumentValue() {
     return to_string(this->value);
@@ -14,5 +15,9 @@ std::string IntegerArgument::getEntityType() {
 
 std::string IntegerArgument::toString() {
     return to_string(this->value) + " [INTEGER]";
+}
+
+std::vector<std::vector<std::string>> IntegerArgument::getEntityTable(QueryPKBVirtual &pkb) {
+    throw QPSException("Invalid PKB Query");
 }
 

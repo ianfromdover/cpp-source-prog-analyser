@@ -23,8 +23,6 @@ public:
     std:: string toString();
 
     virtual std::vector<std::vector<std::string>> getRelationshipTable(QueryPKBVirtual &) =0;
-//    virtual std::vector<std::vector<std::string>> get(QueryPKB &)=0;
-
 
 };
 

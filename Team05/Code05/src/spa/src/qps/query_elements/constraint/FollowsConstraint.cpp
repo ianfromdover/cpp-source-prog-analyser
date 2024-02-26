@@ -20,9 +20,9 @@ std::vector<std::shared_ptr<ConstraintArgument>> FollowsConstraint::getConstrain
 }
 
 std::vector<std::vector<std::string>> FollowsConstraint::getRelationshipTable(QueryPKBVirtual & pkb) {
-    return pkb.getFollows();
+    std::vector<std::vector<std::string>> res = pkb.getFollows();
+    std::vector<std::shared_ptr<ConstraintArgument>> args = getConstraintArguments();
+//    res.insert(res.begin(),{constraintIdentifier->getIdentifier(),"pattern assign adasdsadasa"});
+    return res;
 }
 
-std::pair<Column<std::string>, Column<std::string>> FollowsConstraint::getFirstArgTable() {
-    return {};
-}

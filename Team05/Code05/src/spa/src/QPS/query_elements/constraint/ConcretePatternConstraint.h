@@ -14,6 +14,7 @@ class ConcretePatternConstraint : public PatternConstraint {
 private:
     std::vector<std::shared_ptr<ConstraintArgument>> constraintArguments;
     std::shared_ptr<AssignEntity> constraintIdentifier;
+    std::string& stripCharacters(std::string& str, const std::string& chars);
 public:
     ConcretePatternConstraint(std::shared_ptr<EntityReference>, std::shared_ptr<ExpressionReference> , std::shared_ptr<AssignEntity>);
     std::string getConstraintType() override;

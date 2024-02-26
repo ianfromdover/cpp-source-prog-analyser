@@ -6,6 +6,7 @@
 #define SPA_EXPRESSIONWITHWILDCARD_H
 
 #include "ExpressionReference.h"
+#include "pkb/apis/QueryPKBVirtual.h"
 
 class ExpressionWithWildcard : public ExpressionReference {
 protected:
@@ -15,6 +16,8 @@ public:
     std::string getEntityType() override;
     std::string getArgumentValue() override;
     std::string toString() override;
+
+    std::vector<std::vector<std::string>> getEntityTable(QueryPKBVirtual & pkb) override;
 };
 
 

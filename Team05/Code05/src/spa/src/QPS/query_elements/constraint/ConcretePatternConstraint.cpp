@@ -3,6 +3,7 @@
 //
 
 #include "ConcretePatternConstraint.h"
+#include "QPS/QueryProjector/ResultTable/ResultTable.h"
 
 #include <utility>
 
@@ -26,5 +27,60 @@ std::vector<std::shared_ptr<ConstraintArgument>> ConcretePatternConstraint::getC
 }
 
 std::vector<std::vector<std::string>> ConcretePatternConstraint::getRelationshipTable(QueryPKBVirtual & pkb) {
-    return pkb.getPatternAsgn();
+    std::vector<std::vector<std::string>> temp = pkb.getPatternAsgn();
+    std::vector<std::vector<std::string>> res;
+
+    for (const auto& entry : temp){
+        // guaranteed 2 columns
+        std::string stmtNo = entry[0];
+        std::string lhs = entry[1].substr(0, entry[1].find('='));
+        std::string rhs = entry[1].substr(entry[1].find('=')+1);
+        res.push_back({stmtNo, lhs,rhs});
+    }
+
+    std::vector<std::shared_ptr<ConstraintArgument>> args = getConstraintArguments();
+    std::string rightHeader = args[0]->getEntityType() == TYPE_VARIABLE ? args[0]->getArgumentValue() : "WILDCARD";
+
+
+    std::string stmtHeader = constraintIdentifier->getIdentifier();
+    std::string lhsHeader = args[0]->getEntityType() == TYPE_VARIABLE ? args[0]->getArgumentValue() : "WILDCARD";
+    std::string rhsHeader = args[1]->getEntityType() == TYPE_WILDCARD ? "WILDCARD" : args[1]->getEntityType();
+
+    res.insert(res.begin(), {stmtHeader, lhsHeader, rhsHeader});
+    ResultTable table(res);
+
+    if (args[0]->getEntityType() == TYPE_VARIABLE){
+        std::vector<std::vector<std::string>> t = args[0]->getEntityTable(pkb);
+        t.insert(t.begin(),{" ", args[0]->getArgumentValue()});
+        table.add(t);
+    }
+    if (args[1]->getEntityType()== TYPE_EXPRESSION){
+        std::string string1=args[1]->getArgumentValue();
+        string stripped = stripCharacters(string1,"\"");
+        table.filterByColumnExact(args[1]->getEntityType(),stripped);
+    }
+    if (args[1]->getEntityType()==TYPE_EXPRESSION_W_WILDCARD){
+        std::string string1=args[1]->getArgumentValue();
+        string stripped = stripCharacters(string1,"\"");
+        table.filterByColumnPartial(args[1]->getEntityType(),stripped);
+    }
+
+    return table.getTable();
+}
+
+std::string& ConcretePatternConstraint::stripCharacters(std::string& str, const std::string& chars) {
+    // Find the first character position after excluding leading characters
+    std::size_t first = str.find_first_not_of(chars);
+    if (first == std::string::npos) {
+        // If there are no characters other than the ones to strip, return an empty string
+        return str = "";
+    }
+
+    // Find the position of the last character not matching the strip characters
+    std::size_t last = str.find_last_not_of(chars);
+
+    // Erase the leading and trailing characters
+    str = str.substr(first, (last - first + 1));
+
+    return str;
 }

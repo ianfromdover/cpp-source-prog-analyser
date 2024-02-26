@@ -149,60 +149,11 @@ TEST_CASE("Print with parent extractor") {
     )";
 **/
     std::string codeSnippet = R"(
-    procedure main {
-        flag = 0;
-        call computeCentroid;
-        call printResults;
-    }
-    procedure readPoint {
-        read x;
-        read y;
-    }
-    procedure printResults {
-        print flag;
-        print cenX;
-        print cenY;
-        print normSq;
-    }
     procedure computeCentroid {
-        count = uer;
-        cenX = 0;
-        cenY = 0;
-        call readPoint;
-        while ((p != t) && (q != w)) {
-            count = count + 1;
-            cenX = cenX + x;
-            while (t == 1) {
-                x = y+1;
-                while (k == 2) {
-                    x = j+ 3;
-                    print sk;
-                }
-            }
-            cenY = cenY + y;
-            call readPoint;
-        }
-        if (count == 0) then {
-            flag = 1;
-        } else {
-            cenX = cenX / count;
-            cenY = cenY / count;
-        }
-        normSq = cenX * cenX + cenY * cenY;
-    }
-    procedure test {
-        pass = 0;
-        if (pass == 0) then {
-            a = 0;
-        } else {
-            if (meow >= 2) then {
-              ad = sa;
-              print usgdal;
-            } else {
-              sn = 2;
-            }
-            print hello;
-        }
+        print x;
+        x=0;
+        y=1;
+        z=x+y;
     }
     )";
     std::shared_ptr<PKBStorage> p=std::make_shared<PKBStorage>();
@@ -210,7 +161,7 @@ TEST_CASE("Print with parent extractor") {
     auto sp = SourceProcessor(pkb);
     sp.exec(codeSnippet);
 
-    std::string query = "stmt s;Select s such that Parent(s, 18)";
+    std::string query = "assign a;variable v;Select v pattern a(v, _\"x\"_)";
 
     QueryPKB pkb1(p);
     QPS qps(std::make_shared<QueryPKB>(pkb1));

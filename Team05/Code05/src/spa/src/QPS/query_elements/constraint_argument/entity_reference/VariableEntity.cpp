@@ -23,3 +23,7 @@ std::string VariableEntity::toString() {
 std::string VariableEntity::getArgumentValue() {
     return this->identifier;
 }
+
+std::vector<std::vector<std::string>> VariableEntity::getEntityTable(QueryPKBVirtual &pkb) {
+    return pkb.getVar();
+}

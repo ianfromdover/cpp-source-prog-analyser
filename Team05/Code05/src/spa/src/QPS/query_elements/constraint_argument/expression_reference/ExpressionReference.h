@@ -7,10 +7,12 @@
 
 #include "../ConstraintArgument.h"
 #include "utilSpa/SpaTypes.h"
+#include "pkb/apis/QueryPKBVirtual.h"
 
 class ExpressionReference : public ConstraintArgument  {
 public:
     std::string getReferenceType() override;
+    std::vector<std::vector<std::string>> getEntityTable(QueryPKBVirtual & pkb) override;
 };
 
 

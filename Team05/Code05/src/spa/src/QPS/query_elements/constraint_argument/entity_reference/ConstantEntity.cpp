@@ -23,3 +23,7 @@ std::string ConstantEntity::toString() {
 std::string ConstantEntity::getArgumentValue() {
     return this->identifier;
 }
+
+std::vector<std::vector<std::string>> ConstantEntity::getEntityTable(QueryPKBVirtual &pkb) {
+    return pkb.getConst();
+}
