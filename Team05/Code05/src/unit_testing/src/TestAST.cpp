@@ -74,6 +74,22 @@ TEST_CASE("Parse complex while condition") {
             while (x == 0) {
                 x = y + 2;
             }
+
+            while (1>= 1%((0-1)) ) {
+                read k;
+            }
+
+            while (! ((1==0) && (1==0))) {
+                print i;
+            }
+
+            while (1>= 1%((1)) ) {
+                print w;
+            }
+
+            while (x>=(0+0)) {
+                read e;
+            }
         }
         normSq = cenX * cenX + cenY * cenY;
     }
