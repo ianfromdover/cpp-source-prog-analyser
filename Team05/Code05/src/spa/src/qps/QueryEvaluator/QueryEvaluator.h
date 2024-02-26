@@ -20,9 +20,12 @@ public:
     void processConstraints(std::shared_ptr<Constraint> c);
 private:
     ResultTable results;
+    ResultTable select;
     QueryPKBVirtual& pkb;
     shared_ptr<QueryResult> intersect(shared_ptr<QueryResult> r1, shared_ptr<QueryResult> r2);
     std::shared_ptr<Formattable> getEmptyResult();
+
+    void processReturnable(shared_ptr<Returnable> r);
 };
 
 

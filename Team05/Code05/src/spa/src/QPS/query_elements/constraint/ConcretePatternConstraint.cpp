@@ -51,6 +51,8 @@ std::vector<std::vector<std::string>> ConcretePatternConstraint::getRelationship
 
     if (args[0]->getEntityType() == TYPE_VARIABLE){
         std::vector<std::vector<std::string>> t = args[0]->getEntityTable(pkb);
+        // Removal of original headers in our entity table
+        t.erase(t.begin());
         t.insert(t.begin(),{" ", args[0]->getArgumentValue()});
         table.add(t);
     }

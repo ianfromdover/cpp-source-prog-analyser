@@ -26,7 +26,10 @@ std::string StatementEntity::toString() {
 }
 
 std::vector<std::vector<std::string>> StatementEntity::getEntityTable(QueryPKBVirtual &pkb) {
-    return pkb.getStatement();
+    auto entityTable = pkb.getStatement();
+    // Insertion of headers into our entity table
+    entityTable.insert(entityTable.begin(), {TYPE_STATEMENT, getEntityType()});
+    return entityTable;
 }
 
 //std::pair<Column<std::string>, Column<std::string>> StatementEntity::getPkbTable() {

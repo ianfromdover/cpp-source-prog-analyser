@@ -39,6 +39,8 @@ std::vector<std::vector<std::string>> UsesSConstraint::getRelationshipTable(Quer
     if (isStatementSynonym(lhsEntityType)) {
         // Get entity table by type
         std::vector<std::vector<std::string>> entityTable = args[0]->getEntityTable(pkb);
+        // Removal of original headers in our entity table
+        entityTable.erase(entityTable.begin());
         // Insertion of headers into our entity table
         entityTable.insert(entityTable.begin(), {lhsHeader, " "});
         table.add(entityTable);
@@ -49,6 +51,8 @@ std::vector<std::vector<std::string>> UsesSConstraint::getRelationshipTable(Quer
     if (rhsEntityType == TYPE_VARIABLE) {
         // Get entity table by type
         std::vector<std::vector<std::string>> entityTable = args[1]->getEntityTable(pkb);
+        // Removal of original headers in our entity table
+        entityTable.erase(entityTable.begin());
         // Insertion of headers into our entity table
         entityTable.insert(entityTable.begin(), {" ", rhsHeader});
         table.add(entityTable);

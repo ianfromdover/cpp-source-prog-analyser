@@ -25,5 +25,8 @@ std::string VariableEntity::getArgumentValue() {
 }
 
 std::vector<std::vector<std::string>> VariableEntity::getEntityTable(QueryPKBVirtual &pkb) {
-    return pkb.getVar();
+    auto entityTable = pkb.getVar();
+    // Insertion of headers into our entity table
+    entityTable.insert(entityTable.begin(), {TYPE_STATEMENT, getEntityType()});
+    return entityTable;
 }
