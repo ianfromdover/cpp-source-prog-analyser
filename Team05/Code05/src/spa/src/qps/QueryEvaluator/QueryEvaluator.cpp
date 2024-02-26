@@ -35,6 +35,7 @@ std::shared_ptr<Formattable> QueryEvaluator::evaluate(QueryObject & query) {
     std::vector<string> sk = this->results.getDistinctColumn(s);
     // Do another check here
     // If there are no common headers between returnable and constraint arguments
+    /**
     if (ResultTable::findCommonHeaders(results.getTable(), select.getTable()).empty()) {
         // Check if table empty
         if (sk.empty()) {
@@ -50,6 +51,7 @@ std::shared_ptr<Formattable> QueryEvaluator::evaluate(QueryObject & query) {
             return sd;
         };
     };
+     **/
     std::shared_ptr<StringResult> sd = std::make_shared<StringResult>(sk);
     return sd;
 
