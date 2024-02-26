@@ -713,9 +713,10 @@ TEST_CASE("Parent Handler - QPS") {
         REQUIRE(ans == expected);
     }
 
+    /**Error when synonym is the same and I am selecting S2**/
     SECTION("Select s2 such that Parent(s1, s2)") {
         std::string query = "stmt s1; stmt s2; Select s2 such that Parent(s1, s2)";
-        std::vector<std::string> expected = {"2", "6", "7"};
+        std::vector<std::string> expected = {"3", "4", "5", "6", "7", "8", "9", "10", "11"};
         std::vector<std::string> ans = qps.evaluate(query);
         std::sort(ans.begin(), ans.end());
         std::sort(expected.begin(), expected.end());
@@ -829,8 +830,9 @@ TEST_CASE("Parent* Handler - QPS") {
         REQUIRE(ans == expected);
     }
 
+    /**Error when synonym is the same and I am selecting S2**/
     SECTION("Select s2 such that Parent*(s1, s2)") {
-        std::string query = "if s1; stmt s2; Select s2 such that Parent*(s1, s2)";
+        std::string query = "stmt s1; stmt s2; Select s2 such that Parent*(s1, s2)";
         std::vector<std::string> expected = {"3", "4", "5", "6", "7", "8", "9", "10", "11"};
         std::vector<std::string> ans = qps.evaluate(query);
         std::sort(ans.begin(), ans.end());
@@ -946,45 +948,46 @@ TEST_CASE("Follows Handler - QPS") {
         REQUIRE(ans == expected);
     }
 
+    /** Error when synonym is the same and I am selecting S2**/
     SECTION("Select s2 such that Follows(s1, s2)") {
-        std::string query = "stmt s1; stmt s2; Select s2 such that Parent(s1, s2)";
-        std::vector<std::string> expected = {"2", "6", "7"};
+        std::string query = "assign s1; assign s2; Select s2 such that Follows(s1, s2)";
+        std::vector<std::string> expected = {"2", "4", "5", "6", "10", "13", "14"};
         std::vector<std::string> ans = qps.evaluate(query);
         std::sort(ans.begin(), ans.end());
         std::sort(expected.begin(), expected.end());
         REQUIRE(ans == expected);
     }
 
-    SECTION("Select s1 such that Parent(s1, 3)") {
-        std::string query = "stmt s1; stmt s2; Select s1 such that Parent(s1, 3)";
-        std::vector<std::string> expected = {"2"};
+    SECTION("Select s1 such that Follows(s1, 3)") {
+        std::string query = "stmt s1; stmt s2; Select s1 such that Follows(s1, 3)";
+        std::vector<std::string> expected = { };
         std::vector<std::string> ans = qps.evaluate(query);
         std::sort(ans.begin(), ans.end());
         std::sort(expected.begin(), expected.end());
         REQUIRE(ans == expected);
     }
 
-    SECTION("Select s2 such that Parent(3, s2)") {
-        std::string query = "stmt s1; stmt s2; Select s2 such that Parent(3, s2)";
-        std::vector<std::string> expected = {};
+    SECTION("Select s2 such that Follows(3, s2)") {
+        std::string query = "stmt s1; stmt s2; Select s2 such that Follows(3, s2)";
+        std::vector<std::string> expected = {"4"};
         std::vector<std::string> ans = qps.evaluate(query);
         std::sort(ans.begin(), ans.end());
         std::sort(expected.begin(), expected.end());
         REQUIRE(ans == expected);
     }
 
-    SECTION("Select s1 such that Parent(s1, _)") {
-        std::string query = "stmt s1; Select s1 such that Parent(s1, _)";
-        std::vector<std::string> expected = {"2", "6", "7"};
+    SECTION("Select s1 such that Follows(s1, _)") {
+        std::string query = "stmt s1; Select s1 such that Follows(s1, _)";
+        std::vector<std::string> expected = {"1", "2", "3", "4", "5", "7", "12", "13"};
         std::vector<std::string> ans = qps.evaluate(query);
         std::sort(ans.begin(), ans.end());
         std::sort(expected.begin(), expected.end());
         REQUIRE(ans == expected);
     }
 
-    SECTION("Select s2 such that Parent(_, s2)") {
-        std::string query = "stmt s2; Select s2 such that Parent(_, s2)";
-        std::vector<std::string> expected = {"3", "4", "5", "6", "7", "8", "9", "10", "11"};
+    SECTION("Select s2 such that Follows(_, s2)") {
+        std::string query = "stmt s2; Select s2 such that Follows(_, s2)";
+        std::vector<std::string> expected = {"2", "4", "5", "6", "10", "12", "13", "14"};
         std::vector<std::string> ans = qps.evaluate(query);
         std::sort(ans.begin(), ans.end());
         std::sort(expected.begin(), expected.end());
@@ -1003,6 +1006,122 @@ TEST_CASE("Follows Handler - QPS") {
 
 //    SECTION("Select s1 such that Follows(2, 3)") {
 //        std::string query = "stmt s1; Select s1 such that Follows(2, 3)";
+//          std::vector<std::string> expected = {"1", "2", "3", "4", "5", "6",
+//              "7", "8", "9", "10", "11", "12", "13", "14"};
+//        std::vector<std::string> ans = qps.evaluate(query);
+//        std::sort(ans.begin(), ans.end());
+//        std::sort(expected.begin(), expected.end());
+//        REQUIRE(ans == expected);
+//    }
+}
+
+TEST_CASE("Follows* Handler - QPS") {
+    std::string codeSnippet = R"(
+    procedure computeCentroid {
+        print x;
+        if (hello == 0) then {
+            y=1;
+            print t;
+            read f;
+            while (x == 0) {
+                if (i == 1) then {
+                    w = 0;
+                } else {
+                    g = 1;
+                }
+                x=1;
+            }
+        } else {
+            print hello;
+        }
+        x=0;
+        y=1;
+        z=x+y;
+    }
+    )";
+    std::shared_ptr<PKBStorage> p = std::make_shared<PKBStorage>();
+    auto pkb = make_shared<PopulatePKB>(p);
+    auto sp = SourceProcessor(pkb);
+    sp.exec(codeSnippet);
+    QueryPKB pkb1(p);
+    QPS qps(std::make_shared<QueryPKB>(pkb1));
+
+    SECTION("Select s1 such that Follows*(s1, s2)") {
+        std::string query = "stmt s1; stmt s2; Select s1 such that Follows*(s1, s2)";
+        std::vector<std::string> expected = {"1", "2", "3", "4", "5", "7", "12", "13"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+
+    SECTION("Select s2 such that Follows*(i, s2)") {
+        std::string query = "if i; stmt s2; Select s2 such that Follows*(i, s2)";
+        std::vector<std::string> expected = {"10", "12", "13", "14"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+
+        /** Error when synonym is the same and I am selecting S2**/
+    SECTION("Select s2 such that Follows*(s1, s2)") {
+        std::string query = "assign s1; assign s2; Select s2 such that Follows*(s1, s2)";
+        std::vector<std::string> expected = {"2", "4", "5", "6", "10", "13", "14"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+
+    SECTION("Select s1 such that Follows*(s1, 3)") {
+        std::string query = "stmt s1; stmt s2; Select s1 such that Follows*(s1, 3)";
+        std::vector<std::string> expected = { };
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+
+    SECTION("Select s2 such that Follows*(3, s2)") {
+        std::string query = "stmt s1; stmt s2; Select s2 such that Follows*(3, s2)";
+        std::vector<std::string> expected = {"4", "5", "6"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+
+    SECTION("Select s1 such that Follows*(s1, _)") {
+        std::string query = "stmt s1; Select s1 such that Follows*(s1, _)";
+        std::vector<std::string> expected = {"1", "2", "3", "4", "5", "7", "12", "13"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+
+    SECTION("Select s2 such that Follows*(_, s2)") {
+        std::string query = "stmt s2; Select s2 such that Follows*(_, s2)";
+        std::vector<std::string> expected = {"2", "4", "5", "6", "10", "12", "13", "14"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+
+//    SECTION("Select s1 such that Follows*(_, _)") {
+//        std::string query = "stmt s1; Select s1 such that Follows*(_, _)";
+//        std::vector<std::string> expected = {"1", "2", "3", "4", "5", "6",
+//              "7", "8", "9", "10", "11", "12", "13", "14"};
+//        std::vector<std::string> ans = qps.evaluate(query);
+//        std::sort(ans.begin(), ans.end());
+//        std::sort(expected.begin(), expected.end());
+//        REQUIRE(ans == expected);
+//    }
+
+//    SECTION("Select s1 such that Follows*(2, 3)") {
+//        std::string query = "stmt s1; Select s1 such that Follows*(2, 3)";
 //          std::vector<std::string> expected = {"1", "2", "3", "4", "5", "6",
 //              "7", "8", "9", "10", "11", "12", "13", "14"};
 //        std::vector<std::string> ans = qps.evaluate(query);
