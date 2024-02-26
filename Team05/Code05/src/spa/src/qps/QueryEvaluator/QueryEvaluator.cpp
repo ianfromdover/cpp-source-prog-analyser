@@ -52,10 +52,6 @@ void QueryEvaluator::processConstraints(std::shared_ptr<Constraint> c){
      results.add(c->getRelationshipTable(pkb));
      std::vector<std::shared_ptr<ConstraintArgument>> args = c->getConstraintArguments();
 
-
-
-
-
 }
 //
 //std::shared_ptr<Formattable> QueryEvaluator::evaluate(QueryObject & query) {

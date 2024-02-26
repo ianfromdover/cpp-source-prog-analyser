@@ -26,7 +26,7 @@ std::string StatementEntity::toString() {
 }
 
 std::vector<std::vector<std::string>> StatementEntity::getEntityTable(QueryPKBVirtual &pkb) {
-    throw QPSException("Invalid QPS Query");
+    return pkb.getStatement();
 }
 
 //std::pair<Column<std::string>, Column<std::string>> StatementEntity::getPkbTable() {

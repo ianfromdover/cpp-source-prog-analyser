@@ -147,6 +147,13 @@ TEST_CASE("Print with parent extractor") {
     std::string codeSnippet = R"(
     procedure computeCentroid {
         print x;
+        if (hello == 0) then {
+            y=1;
+            print t;
+            read f;
+        } else {
+            print hello;
+        }
         x=0;
         y=1;
         z=x+y;
@@ -166,8 +173,8 @@ TEST_CASE("Print with parent extractor") {
     std::vector<std::string> expected4  = {"4"};
     std::string query5 = "assign a;variable v;Select v pattern a(v, _\"x\"_)";
     std::vector<std::string> expected5  = {"z"};
-    std::string query6 = "stmt s;Select s such that Parent(s, 15)";
-    std::vector<std::string> expected6  = {};
+    std::string query6 = "assign s; variable v; Select s such that Modifies(s, v)";
+    std::vector<std::string> expected6  = {"3", "7", "8", "9"};
 
     std::vector<std::string> queries = {
             //query2,query3,query4, query5,
@@ -360,4 +367,152 @@ TEST_CASE("Test SIMPLE semantic analysis") {
     )";
 
     REQUIRE_NOTHROW(sp.exec(noCyclicCall1));
+}
+
+TEST_CASE("Modifies QPS") {
+    std::string codeSnippet = R"(
+    procedure computeCentroid {
+        print x;
+        if (hello == 0) then {
+            y=1;
+            print t;
+            read f;
+            while (x == 0) {
+                x=1;
+            }
+        } else {
+            print hello;
+        }
+        x=0;
+        y=1;
+        z=x+y;
+    }
+    )";
+    std::shared_ptr<PKBStorage> p=std::make_shared<PKBStorage>();
+    auto pkb = make_shared<PopulatePKB>(p);
+    auto sp = SourceProcessor(pkb);
+    sp.exec(codeSnippet);
+    QueryPKB pkb1(p);
+    QPS qps(std::make_shared<QueryPKB>(pkb1));
+
+    SECTION("Select Statement from Modifies(Statement, Variable)") {
+        std::string query = "stmt s; variable v; Select s such that Modifies(s, v)";
+        std::vector<std::string> expected  = {"2", "3", "5", "6", "7", "9", "10", "11"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans==expected);
+    }
+
+    SECTION("Select Variable from Modifies(Statement, Variable)") {
+        std::string query = "stmt s; variable v; Select v such that Modifies(s, v)";
+        std::vector<std::string> expected  = {"f", "x", "y", "z"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans==expected);
+    }
+
+    SECTION("Select Assign from Modifies(Assign, Variable)") {
+        std::string query = "assign s; variable v; Select s such that Modifies(s, v)";
+        std::vector<std::string> expected  = {"3", "7", "9", "10", "11"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans==expected);
+    }
+
+    SECTION("Select Variable from Modifies(Assign, Variable)") {
+        std::string query = "assign s; variable v; Select v such that Modifies(s, v)";
+        std::vector<std::string> expected  = {"x", "y", "z"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans==expected);
+    }
+
+    SECTION("Select While from Modifies(While, Variable)") {
+        std::string query = "while s; variable v; Select s such that Modifies(s, v)";
+        std::vector<std::string> expected  = {"6"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans==expected);
+    }
+
+    SECTION("Select Variable from Modifies(While, Variable)") {
+        std::string query = "while s; variable v; Select v such that Modifies(s, v)";
+        std::vector<std::string> expected  = {"x"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans==expected);
+    }
+
+    SECTION("Select If from Modifies(If, Variable)") {
+        std::string query = "if s; variable v; Select s such that Modifies(s, v)";
+        std::vector<std::string> expected  = {"2"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans==expected);
+    }
+
+    SECTION("Select Variable from Modifies(If, Variable)") {
+        std::string query = "if s; variable v; Select v such that Modifies(s, v)";
+        std::vector<std::string> expected  = {"f", "x", "y"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans==expected);
+    }
+
+    SECTION("Select Variable from Modifies(2, Variable)") {
+        std::string query = "variable v; Select v such that Modifies(2, v)";
+        std::vector<std::string> expected  = {"f", "x", "y"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans==expected);
+    }
+
+    SECTION("Select s from Modifies(2, quoted(x))") {
+        std::string query = "stmt s; Select s such that Modifies(s, \"x\")";
+        std::vector<std::string> expected  = {"2", "6", "7", "9"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans==expected);
+    }
+
+    SECTION("Select s from Modifies(2, _)") {
+        std::string query = "stmt s; Select s such that Modifies(s, _)";
+        std::vector<std::string> expected  = {"2", "3", "5", "6", "7", "9", "10", "11"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans==expected);
+    }
+
+    /**
+std::string codeSnippet = R"(
+procedure computeCentroid {
+    (1) print x;
+    (2) if (hello == 0) then {
+        (3) y=1;
+        (4) print t;
+        (5) read f;
+        (6) while (x == 0) {
+               (7) x=1;
+            }
+    } else {
+        (8) print hello;
+    }
+    (9) x=0;
+    (10) y=1;
+    (11) z=x+y;
+}
+
+)";
+**/
 }

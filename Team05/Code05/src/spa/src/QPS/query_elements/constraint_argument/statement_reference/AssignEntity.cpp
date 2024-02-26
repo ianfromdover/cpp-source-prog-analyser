@@ -27,6 +27,6 @@ std::string AssignEntity::getArgumentValue() {
 }
 
 std::vector<std::vector<std::string>> AssignEntity::getEntityTable(QueryPKBVirtual & pkb ) {
-    return {};
+    return pkb.getPatternAsgn();
 }
 

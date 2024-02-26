@@ -19,6 +19,9 @@ public:
     std::string getConstraintType() override;
     std::vector<std::shared_ptr<ConstraintArgument>> getConstraintArguments() override;
     std::vector<std::vector<std::string>> getRelationshipTable(QueryPKBVirtual &) override;
+    bool isStatementSynonym(std::string type);
+
+    string &stripCharacters(string &str, const string &chars);
 };
 
 
