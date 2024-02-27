@@ -18,15 +18,43 @@ using table = std::vector<std::vector<std::string>>;
 class ResultTable {
 public:
     table _table;
-    ResultTable(table& t): _table(t) {};
+    ResultTable(table& t): _table(removeDuplicateColumn(t)) {};
     ResultTable() = default;
 
     void add(const table& a){
         if (_table.empty()){
-            _table = a;
+            _table = removeDuplicateColumn(a);
         } else {
-            _table = joinOrCrossProduct(_table, a);
+            _table = joinOrCrossProduct(removeDuplicateColumn(_table), a);
         }
+    }
+
+    bool hasDuplicatedHeaders(table& t){
+        std::vector<std::string> headers = t[0];
+        std::sort(headers.begin(), headers.end());
+        auto last = std::unique(headers.begin(), headers.end());
+        return last != headers.end();
+    }
+
+    table removeDuplicateColumn(table t){
+        if (hasDuplicatedHeaders(t)){
+            std::vector<std::string> headers = t[0];
+            std::sort(headers.begin(), headers.end());
+            auto last = std::unique(headers.begin(), headers.end());
+            headers.erase(last, headers.end());
+            table result;
+            result.push_back(headers);
+            for (size_t i = 1; i < t.size(); ++i) {
+                std::vector<std::string> row;
+                for (const auto& header: headers){
+                    size_t index = findColumnIndex(t, header);
+                    row.push_back(t[i][index]);
+                }
+                result.push_back(row);
+            }
+            return result;
+        }
+        return t;
     }
 
     void filterByColumnPartial(const string& header, const string& str) {
@@ -55,6 +83,45 @@ public:
         }
 
         _table = filteredTab; // Replace the original table with the filtered results
+    }
+
+    void filterByColumnValues(std::string& header, std::vector<std::string>& values) {
+        // given a header and a list of values, filter the table to only include rows where the value in the header column is in the list of values
+
+        table filteredTab; // Resulting table after filtering
+        int columnNo = -1;
+
+        // Find the column number based on the header name
+        for (size_t i = 0; i < _table[0].size(); ++i) {
+            if (_table[0][i] == header) {
+                columnNo = i;
+                break;
+            }
+        }
+
+        if (columnNo == -1) {
+            cout << "Header not found: " << header << endl;
+            return; // Header not found
+        }
+
+        filteredTab.push_back(_table[0]); // Include headers in the filtered table
+
+        for (size_t i = 1; i < _table.size(); ++i) { // Skip header row
+            if (std::find(values.begin(), values.end(), _table[i][columnNo]) != values.end()) {
+                filteredTab.push_back(_table[i]);
+            }
+        }
+
+        _table = filteredTab; // Replace the original table with the filtered results
+    }
+
+    void removeColumn(std::string& header){
+        size_t index = findColumnIndex(_table, header);
+        if (index != 0){
+            for (size_t i = 0; i < _table.size(); ++i) {
+                _table[i].erase(_table[i].begin() + index);
+            }
+        }
     }
 
     void filterByColumnExact(const string& header, const string& str) {

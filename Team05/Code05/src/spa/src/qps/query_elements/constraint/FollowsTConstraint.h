@@ -23,6 +23,7 @@ public:
     string &stripCharacters(string &str, const string &chars);
 
     bool isStatementSynonym(string type);
+
 };
 
 
