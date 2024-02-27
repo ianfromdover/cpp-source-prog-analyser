@@ -29,8 +29,8 @@ std::vector<std::vector<std::string>> FollowsTConstraint::getRelationshipTable(Q
     std::string lhsEntityType = args[0] -> getEntityType();
     std::string rhsEntityType = args[1] -> getEntityType();
 
-    std::string lhsHeader = isStatementSynonym(lhsEntityType) ? args[0]->getArgumentValue() : "FollowsLHS";
-    std::string rhsHeader = isStatementSynonym(rhsEntityType) ? args[1]->getArgumentValue() : "FollowsRHS";
+    std::string lhsHeader = isStatementSynonym(lhsEntityType) ? args[0]->getArgumentValue() : "FollowsTLHS";
+    std::string rhsHeader = isStatementSynonym(rhsEntityType) ? args[1]->getArgumentValue() : "FollowsTRHS";
 
     // Insertion of headers into our results table
     result.insert(result.begin(), {lhsHeader, rhsHeader});

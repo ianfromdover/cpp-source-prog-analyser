@@ -39,12 +39,10 @@ std::vector<std::vector<std::string>> ConcretePatternConstraint::getRelationship
     }
 
     std::vector<std::shared_ptr<ConstraintArgument>> args = getConstraintArguments();
-    std::string rightHeader = args[0]->getEntityType() == TYPE_VARIABLE ? args[0]->getArgumentValue() : "WILDCARD";
-
 
     std::string stmtHeader = constraintIdentifier->getIdentifier();
-    std::string lhsHeader = args[0]->getEntityType() == TYPE_VARIABLE ? args[0]->getArgumentValue() : "WILDCARD";
-    std::string rhsHeader = args[1]->getEntityType() == TYPE_WILDCARD ? "WILDCARD" : args[1]->getEntityType();
+    std::string lhsHeader = args[0]->getEntityType() == TYPE_VARIABLE ? args[0]->getArgumentValue() : "ASSIGNLHS";
+    std::string rhsHeader = "ASSIGNRHS";
 
     res.insert(res.begin(), {stmtHeader, lhsHeader, rhsHeader});
     ResultTable table(res);
@@ -53,18 +51,22 @@ std::vector<std::vector<std::string>> ConcretePatternConstraint::getRelationship
         std::vector<std::vector<std::string>> t = args[0]->getEntityTable(pkb);
         // Removal of original headers in our entity table
         t.erase(t.begin());
-        t.insert(t.begin(),{" ", args[0]->getArgumentValue()});
+        t.insert(t.begin(),{args[0]->getArgumentValue()});
         table.add(t);
+    } else if (args[0]->getEntityType() == TYPE_QUOTED_IDENT){
+        std::string string1=args[0]->getArgumentValue();
+        string stripped = stripCharacters(string1,"\"");
+        table.filterByColumnExact(lhsHeader,stripped);
     }
+
     if (args[1]->getEntityType()== TYPE_EXPRESSION){
         std::string string1=args[1]->getArgumentValue();
         string stripped = stripCharacters(string1,"\"");
-        table.filterByColumnExact(args[1]->getEntityType(),stripped);
-    }
-    if (args[1]->getEntityType()==TYPE_EXPRESSION_W_WILDCARD){
+        table.filterByColumnExact(rhsHeader,stripped);
+    } else if (args[1]->getEntityType()==TYPE_EXPRESSION_W_WILDCARD){
         std::string string1=args[1]->getArgumentValue();
         string stripped = stripCharacters(string1,"\"");
-        table.filterByColumnPartial(args[1]->getEntityType(),stripped);
+        table.filterByColumnPartial(rhsHeader,stripped);
     }
 
     return table.getTable();
