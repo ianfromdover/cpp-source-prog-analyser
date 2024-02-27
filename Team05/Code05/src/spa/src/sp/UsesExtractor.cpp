@@ -67,7 +67,10 @@ void UsesExtractor::visitVariableExpr(const Variable& expr, shared_ptr<Accumulat
 }
 
 void UsesExtractor::visitLiteralExpr(const Literal& expr, shared_ptr<Accumulator>& parentInfo) {
-    // Pending Implementation for Sprint 2
+    for (const auto& stmtNo : parentInfo->info) {
+        //std::cout << "pkb.addModifies(" << stmtNo << ", " << expr.getName() << ");" << std::endl;
+        pkb->addUses(stmtNo, std::to_string(expr.getValue()));
+    }
 }
 
 void UsesExtractor::visitUnaryExpr(const Unary& expr, shared_ptr<Accumulator>& parentInfo) {
