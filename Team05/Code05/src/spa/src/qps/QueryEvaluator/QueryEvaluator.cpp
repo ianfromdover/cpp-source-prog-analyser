@@ -17,10 +17,6 @@ std::shared_ptr<Formattable> QueryEvaluator::evaluate(QueryObject & query) {
     std::vector<shared_ptr<QueryResult>> listOfResults;
     listOfResults.reserve(constraints.size());
 
-    if (constraints.empty()) {
-//        return pkb.getResult(*r, nullptr);
-    }
-
     //query pkb and store all results into a listOfResults
     for (std::shared_ptr<Constraint> c : constraints) {
         processConstraints(c);
@@ -29,14 +25,12 @@ std::shared_ptr<Formattable> QueryEvaluator::evaluate(QueryObject & query) {
     // Store select clause result into select
     processReturnable(returnable);
 
-    if (ResultTable::findCommonHeaders(results.getTable(), select.getTable()).empty()) {
-        // Check if table empty
-
-            // Get the return type column that we want
-            std::string column = returnable->getArgumentValue();
-            std::vector<string> val = this->select.getDistinctColumn(column);
-            std::shared_ptr<StringResult> sd = std::make_shared<StringResult>(val);
-            return sd;
+    if (!results.isEmpty() && ResultTable::findCommonHeaders(results.getTable(), select.getTable()).empty()) {
+        // Get the return type column that we want
+        std::string column = returnable->getArgumentValue();
+        std::vector<string> val = this->select.getDistinctColumn(column);
+        std::shared_ptr<StringResult> sd = std::make_shared<StringResult>(val);
+        return sd;
     } else {
         this->results.add(select.getTable());
         std::string column = returnable->getArgumentValue();
@@ -44,19 +38,6 @@ std::shared_ptr<Formattable> QueryEvaluator::evaluate(QueryObject & query) {
         std::shared_ptr<StringResult> sd = std::make_shared<StringResult>(val);
         return sd;
     }
-
-
-
-//    std::shared_ptr<QueryResult> intersection = listOfResults[0];
-//
-//    if (listOfResults.size() > 1) {
-//        for (int i = 1; i < listOfResults.size(); i++) {
-//            intersection = intersect(intersection, listOfResults[i]);
-//        }
-//    }
-//
-//    return intersection;
-
 }
 
 bool isQueryable(std::string type){
@@ -66,46 +47,11 @@ bool isQueryable(std::string type){
 
 void QueryEvaluator::processConstraints(std::shared_ptr<Constraint> c){
      results.add(c->getRelationshipTable(pkb));
-     std::vector<std::shared_ptr<ConstraintArgument>> args = c->getConstraintArguments();
-
 }
 
 void QueryEvaluator::processReturnable(std::shared_ptr<Returnable> r) {
      select.add(r->getEntityTable(pkb));
 }
-//
-//std::shared_ptr<Formattable> QueryEvaluator::evaluate(QueryObject & query) {
-//    std::shared_ptr<Returnable> r = query.getReturnType();
-//    std::vector<std::shared_ptr<Constraint>> constraints = query.getConstraints();
-//
-//    std::vector<shared_ptr<QueryResult>> listOfResults;
-//    listOfResults.reserve(constraints.size());
-//
-//    if (constraints.empty()) {
-//        return pkb.getResult(*r, nullptr);
-//    }
-//
-//    //query pkb and store all results into a listOfResults
-//    for (std::shared_ptr<Constraint> c : constraints) {
-//            listOfResults.push_back(pkb.getResult(*r, c));
-//    }
-//
-//    // Intersect all results
-//    if (listOfResults.empty()) {
-//        return getEmptyResult();
-//    }
-//
-//    std::shared_ptr<QueryResult> intersection = listOfResults[0];
-//
-//    if (listOfResults.size() > 1) {
-//        for (int i = 1; i < listOfResults.size(); i++) {
-//            intersection = intersect(intersection, listOfResults[i]);
-//        }
-//    }
-//
-//    return intersection;
-//
-//}
 
 std::shared_ptr<Formattable> QueryEvaluator::getEmptyResult() {
     vector<std::string> s;

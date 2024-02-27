@@ -64,7 +64,7 @@ std::vector<std::vector<std::string>> ModifiesSConstraint::getRelationshipTable(
         table.add(entityTable);
     }
     if (rhsEntityType == TYPE_QUOTED_IDENT) {
-        std::string string = rhsHeader;
+        std::string string = args[1]->getArgumentValue();
         std::string rhsHeaderNew = stripCharacters(string,"\"");
         table.filterByColumnExact(rhsHeader,rhsHeaderNew);
     }

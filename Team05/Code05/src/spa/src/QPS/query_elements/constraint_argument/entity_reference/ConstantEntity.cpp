@@ -27,6 +27,10 @@ std::string ConstantEntity::getArgumentValue() {
 std::vector<std::vector<std::string>> ConstantEntity::getEntityTable(QueryPKBVirtual &pkb) {
     auto entityTable = pkb.getConst();
     // Insertion of headers into our entity table
-    entityTable.insert(entityTable.begin(), {TYPE_STATEMENT, getEntityType()});
+    entityTable.insert(entityTable.begin(), {"CONSTANTLHS", this->identifier});
+    // TODO: HOTFIX - remove first column
+    for (auto &row : entityTable) {
+        row.erase(row.begin());
+    }
     return entityTable;
 }

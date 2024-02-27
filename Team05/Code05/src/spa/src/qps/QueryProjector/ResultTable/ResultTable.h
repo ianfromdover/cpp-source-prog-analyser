@@ -21,6 +21,10 @@ public:
     ResultTable(table& t): _table(removeDuplicateColumn(t)) {};
     ResultTable() = default;
 
+    bool isEmpty(){
+        return _table.empty();
+    }
+
     void add(const table& a){
         if (_table.empty()){
             _table = removeDuplicateColumn(a);
@@ -116,6 +120,15 @@ public:
     }
 
     void removeColumn(std::string& header){
+        size_t index = findColumnIndex(_table, header);
+        if (index != 0){
+            for (size_t i = 0; i < _table.size(); ++i) {
+                _table[i].erase(_table[i].begin() + index);
+            }
+        }
+    }
+
+    void removeColumn(std::string header){
         size_t index = findColumnIndex(_table, header);
         if (index != 0){
             for (size_t i = 0; i < _table.size(); ++i) {

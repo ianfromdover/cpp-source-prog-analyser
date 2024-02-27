@@ -32,11 +32,3 @@ std::vector<std::vector<std::string>> StatementEntity::getEntityTable(QueryPKBVi
     return entityTable;
 }
 
-//std::pair<Column<std::string>, Column<std::string>> StatementEntity::getPkbTable() {
-//    // query pkb
-//    return {};
-//}
-
-//std::pair<Column<std::string>,Column<std::string>> queryPkb(){
-//    return {};
-//}

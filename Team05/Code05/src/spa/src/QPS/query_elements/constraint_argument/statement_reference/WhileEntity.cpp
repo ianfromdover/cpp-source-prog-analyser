@@ -28,6 +28,6 @@ std::string WhileEntity::getArgumentValue() {
 std::vector<std::vector<std::string>> WhileEntity::getEntityTable(QueryPKBVirtual &pkb) {
     auto entityTable = pkb.getWhile();
     // Insertion of headers into our entity table
-    entityTable.insert(entityTable.begin(), {TYPE_STATEMENT, getEntityType()});
+    entityTable.insert(entityTable.begin(), {this->identifier, "WHILERHS"});
     return entityTable;
 }

@@ -27,7 +27,11 @@ std::string ProcedureEntity::getArgumentValue() {
 std::vector<std::vector<std::string>> ProcedureEntity::getEntityTable(QueryPKBVirtual &pkb) {
     auto entityTable = pkb.getProcedure();
     // Insertion of headers into our entity table
-    entityTable.insert(entityTable.begin(), {getEntityType(), getEntityType()});
+    entityTable.insert(entityTable.begin(), {"PROCEDURELHS", this->identifier});
+    // TODO: HOTFIX - remove first column
+    for (auto &row : entityTable) {
+        row.erase(row.begin());
+    }
     return entityTable;
 }
 
