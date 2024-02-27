@@ -29,31 +29,22 @@ std::shared_ptr<Formattable> QueryEvaluator::evaluate(QueryObject & query) {
     // Store select clause result into select
     processReturnable(returnable);
 
-
-    std::string s= query.getReturnType()->getArgumentValue();
-    // Might still return index 0 of the table even if there is no common column
-    std::vector<string> sk = this->results.getDistinctColumn(s);
-    // Do another check here
-    // If there are no common headers between returnable and constraint arguments
-    /**
     if (ResultTable::findCommonHeaders(results.getTable(), select.getTable()).empty()) {
         // Check if table empty
-        if (sk.empty()) {
-            // Check None
-            std::vector<std::string> empty = {};
-            std::shared_ptr<StringResult> sd = std::make_shared<StringResult>(empty);
-            return sd;
-        } else {
+
             // Get the return type column that we want
-            std::string column = returnable->getReturnType();
+            std::string column = returnable->getArgumentValue();
             std::vector<string> val = this->select.getDistinctColumn(column);
             std::shared_ptr<StringResult> sd = std::make_shared<StringResult>(val);
             return sd;
-        };
-    };
-     **/
-    std::shared_ptr<StringResult> sd = std::make_shared<StringResult>(sk);
-    return sd;
+    } else {
+        this->results.add(select.getTable());
+        std::string column = returnable->getArgumentValue();
+        std::vector<string> val = this->results.getDistinctColumn(column);
+        std::shared_ptr<StringResult> sd = std::make_shared<StringResult>(val);
+        return sd;
+    }
+
 
 
 //    std::shared_ptr<QueryResult> intersection = listOfResults[0];

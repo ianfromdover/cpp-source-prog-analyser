@@ -19,46 +19,55 @@ std::vector<std::shared_ptr<ConstraintArgument>> FollowsTConstraint::getConstrai
 }
 
 
+
 std::vector<std::vector<std::string>> FollowsTConstraint::getRelationshipTable(QueryPKBVirtual & pkb) {
     // Get follows table and populate it into our results table
     std::vector<std::vector<std::string>> result = pkb.getFollowsT();
 
     // Get constraint arguments and initialise it as our table headers
     std::vector<std::shared_ptr<ConstraintArgument>> args = getConstraintArguments();
-    std::string lhsHeader = args[0]->getArgumentValue();
-    std::string rhsHeader = args[1]->getArgumentValue();
+    std::string lhsEntityType = args[0] -> getEntityType();
+    std::string rhsEntityType = args[1] -> getEntityType();
+
+    std::string lhsHeader = isStatementSynonym(lhsEntityType) ? args[0]->getArgumentValue() : "FollowsLHS";
+    std::string rhsHeader = isStatementSynonym(rhsEntityType) ? args[1]->getArgumentValue() : "FollowsRHS";
 
     // Insertion of headers into our results table
     result.insert(result.begin(), {lhsHeader, rhsHeader});
     ResultTable table(result);
 
     // Handling LHS by Entity Type
-    std::string lhsEntityType = args[0] -> getEntityType();
     if (lhsEntityType == TYPE_INTEGER) {
-        table.filterByColumnExact(lhsHeader,lhsHeader);
+        std::vector<std::string> intVals = {args[0]->getArgumentValue()};
+        table.filterByColumnValues(lhsHeader, intVals);
     }
     if (isStatementSynonym(lhsEntityType)) {
         // Get entity table by type
         std::vector<std::vector<std::string>> entityTable = args[0]->getEntityTable(pkb);
+        std::string lHeader = lhsHeader;;
+        std::string rHeader = entityTable.at(0).at(1) + "1";
         // Removal of original headers in our entity table
         entityTable.erase(entityTable.begin());
         // Insertion of headers into our entity table
-        entityTable.insert(entityTable.begin(), {lhsHeader, " "});
+        entityTable.insert(entityTable.begin(), {lHeader, rHeader});
         table.add(entityTable);
     }
 
     // Handling RHS by Entity Type
-    std::string rhsEntityType = args[1] -> getEntityType();
     if (rhsEntityType == TYPE_INTEGER) {
-        table.filterByColumnExact(rhsHeader,rhsHeader);
+        std::vector<std::string> intVals = {args[1]->getArgumentValue()};
+        table.filterByColumnValues(rhsHeader, intVals);
     }
+
     if (isStatementSynonym(rhsEntityType)) {
         // Get entity table by type
         std::vector<std::vector<std::string>> entityTable = args[1]->getEntityTable(pkb);
+        std::string lHeader = rhsHeader;
+        std::string rHeader = entityTable.at(0).at(1) + "2";
         // Removal of original headers in our entity table
         entityTable.erase(entityTable.begin());
         // Insertion of headers into our entity table
-        entityTable.insert(entityTable.begin(), {" ", rhsHeader});
+        entityTable.insert(entityTable.begin(), {lHeader, rHeader});
         table.add(entityTable);
     }
 
