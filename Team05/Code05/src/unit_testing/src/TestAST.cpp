@@ -1005,8 +1005,17 @@ TEST_CASE("Follows Handler - QPS") {
 
     SECTION("Select s1 such that Follows(2, 3)") {
         std::string query = "stmt s1; Select s1 such that Follows(2, 3)";
-          std::vector<std::string> expected = {"1", "2", "3", "4", "5", "6",
-              "7", "8", "9", "10", "11", "12", "13", "14"};
+          std::vector<std::string> expected = {};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+
+    SECTION("Select s1 such that Follows(2, 3)") {
+        std::string query = "stmt s1; Select s1 such that Follows(3,4)";
+        std::vector<std::string> expected = {"1", "2", "3", "4", "5", "6",
+                                             "7", "8", "9", "10", "11", "12", "13", "14"};
         std::vector<std::string> ans = qps.evaluate(query);
         std::sort(ans.begin(), ans.end());
         std::sort(expected.begin(), expected.end());
@@ -1121,8 +1130,17 @@ TEST_CASE("Follows* Handler - QPS") {
 
     SECTION("Select s1 such that Follows*(2, 3)") {
         std::string query = "stmt s1; Select s1 such that Follows*(2, 3)";
-          std::vector<std::string> expected = {"1", "2", "3", "4", "5", "6",
-              "7", "8", "9", "10", "11", "12", "13", "14"};
+          std::vector<std::string> expected = {};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+
+    SECTION("Select s1 such that Follows*(2, 3)") {
+        std::string query = "stmt s1; Select s1 such that Follows*(3, 4)";
+        std::vector<std::string> expected = {"1", "2", "3", "4", "5", "6",
+                                             "7", "8", "9", "10", "11", "12", "13", "14"};
         std::vector<std::string> ans = qps.evaluate(query);
         std::sort(ans.begin(), ans.end());
         std::sort(expected.begin(), expected.end());

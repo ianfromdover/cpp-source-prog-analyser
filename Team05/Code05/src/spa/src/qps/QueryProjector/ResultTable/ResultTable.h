@@ -30,7 +30,13 @@ public:
             _table = removeDuplicateColumn(a);
         } else {
             _table = joinOrCrossProduct(removeDuplicateColumn(_table), a);
+            removeDuplicateEntires(_table);
         }
+    }
+
+    bool hasEntries(){
+        if (isEmpty()) return false;
+        return _table.size() > 1;
     }
 
     bool hasDuplicatedHeaders(table& t){
@@ -212,6 +218,16 @@ public:
             }
         }
         return 0; // Not found
+    }
+
+    static void removeDuplicateEntires(table& a){
+        for (size_t i = 1; i < a.size(); ++i) {
+            for (size_t j = i + 1; j < a.size(); ++j) {
+                if (a[i] == a[j]){
+                    a.erase(a.begin() + j);
+                }
+            }
+        }
     }
 
     // Code snippet referenced from: https://www.geeksforgeeks.org/joining-tables-using-multimaps/

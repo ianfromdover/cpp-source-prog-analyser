@@ -25,13 +25,16 @@ std::shared_ptr<Formattable> QueryEvaluator::evaluate(QueryObject & query) {
     // Store select clause result into select
     processReturnable(returnable);
 
-    if (!results.isEmpty() && ResultTable::findCommonHeaders(results.getTable(), select.getTable()).empty()) {
+    if (results.hasEntries() && ResultTable::findCommonHeaders(results.getTable(), select.getTable()).empty()) {
         // Get the return type column that we want
         std::string column = returnable->getArgumentValue();
         std::vector<string> val = this->select.getDistinctColumn(column);
         std::shared_ptr<StringResult> sd = std::make_shared<StringResult>(val);
         return sd;
     } else {
+        if (!results.isEmpty() && !results.hasEntries()) {
+            return getEmptyResult();
+        }
         this->results.add(select.getTable());
         std::string column = returnable->getArgumentValue();
         std::vector<string> val = this->results.getDistinctColumn(column);
