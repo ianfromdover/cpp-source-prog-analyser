@@ -636,7 +636,7 @@ TEST_CASE("Uses Handler - QPS") {
 
     SECTION("Select s such that Uses(s, _)") {
         std::string query = "stmt s; Select s such that Uses(s, _)";
-        std::vector<std::string> expected = {"1", "2", "4", "6", "8", "11"};
+        std::vector<std::string> expected = { "1", "10", "11", "2", "3", "4", "6", "7", "8", "9" };
         std::vector<std::string> ans = qps.evaluate(query);
         std::sort(ans.begin(), ans.end());
         std::sort(expected.begin(), expected.end());
