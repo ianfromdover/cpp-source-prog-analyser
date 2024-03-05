@@ -2,19 +2,18 @@
 // Created by sjh_9 on 17/2/2024.
 //
 
-#ifndef SPA_READEXTRACTOR_H
-#define SPA_READEXTRACTOR_H
-
+#ifndef SPA_PROCEDURE_H
+#define SPA_PROCEDURE_H
 
 #include <utility>
 
-#include "RelationExtractor.h"
-#include "Stmt.h"
+#include "sp/extractor/RelationExtractor.h"
+#include "sp/parser/ast/Stmt.h"
 
-class ReadExtractor: public RelationExtractor {
+class VariableExtractor: public RelationExtractor {
 public:
     // Constructor
-    explicit ReadExtractor(shared_ptr<BasePKBPopulator> pkb) : RelationExtractor(std::move(pkb)) {}
+    explicit VariableExtractor(shared_ptr<BasePKBPopulator> pkb) : RelationExtractor(std::move(pkb)) {}
     // Statement Methods
     void visitReadStmt(const Read& stmt, shared_ptr<Accumulator>& parentInfo) override;
     void visitPrintStmt(const Print& stmt, shared_ptr<Accumulator>& parentInfo) override;
@@ -29,4 +28,4 @@ public:
     void visitUnaryExpr(const Unary& expr, shared_ptr<Accumulator>& parentInfo) override;
 };
 
-#endif //SPA_READEXTRACTOR_H
+#endif //SPA_PROCEDURE_H

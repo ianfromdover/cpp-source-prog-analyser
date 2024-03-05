@@ -1,19 +1,19 @@
 //
-// Created by sjh_9 on 16/2/2024.
+// Created by sjh_9 on 17/2/2024.
 //
 
-#ifndef SPA_USESEXTRACTOR_H
-#define SPA_USESEXTRACTOR_H
+#ifndef SPA_IFEXTRACTOR_H
+#define SPA_IFEXTRACTOR_H
 
 #include <utility>
 
-#include "RelationExtractor.h"
-#include "Stmt.h"
+#include "sp/extractor/RelationExtractor.h"
+#include "sp/parser/ast/Stmt.h"
 
-class UsesExtractor: public RelationExtractor {
+class IfExtractor: public RelationExtractor {
 public:
     // Constructor
-    explicit UsesExtractor(shared_ptr<BasePKBPopulator> pkb) : RelationExtractor(std::move(pkb)) {}
+    explicit IfExtractor(shared_ptr<BasePKBPopulator> pkb) : RelationExtractor(std::move(pkb)) {}
     // Statement Methods
     void visitReadStmt(const Read& stmt, shared_ptr<Accumulator>& parentInfo) override;
     void visitPrintStmt(const Print& stmt, shared_ptr<Accumulator>& parentInfo) override;
@@ -29,4 +29,4 @@ public:
 };
 
 
-#endif //SPA_USESEXTRACTOR_H
+#endif //SPA_IFEXTRACTOR_H

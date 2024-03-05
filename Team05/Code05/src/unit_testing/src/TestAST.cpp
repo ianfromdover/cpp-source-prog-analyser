@@ -1,13 +1,11 @@
 
-#include "sp/ScannerTemp.cpp"
-#include "sp/Scanner.cpp"
-#include "sp/Parser.h"
-#include "sp/TokenStrategy.cpp"
-#include "sp/PrettyPrinter.h"
+#include "sp/tokeniser/Scanner.cpp"
+#include "sp/parser/Parser.h"
+#include "sp/tokeniser/strategy/TokenStrategy.cpp"
 #include "sp/SourceProcessor.h"
 #include "catch.hpp"
 #include "qps/QPS.h"
-#include "sp/SemanticAnalysisException.h"
+#include "sp/exception/SemanticAnalysisException.h"
 #include "catch.hpp"
 
 using namespace std;

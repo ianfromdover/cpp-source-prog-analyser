@@ -5,7 +5,7 @@
 #ifndef SPA_PROGRAMVISITOR_H
 #define SPA_PROGRAMVISITOR_H
 
-#include "Accumulator.h"
+#include "sp/extractor/Accumulator.h"
 
 class Procedure;
 class Read;

@@ -4,7 +4,7 @@
 #include "catch.hpp"
 #include "../helper/AstProcedures.cpp"
 #include "../helper/PKBStubSP.cpp"
-#include "sp/PrintExtractor.h"
+#include "sp/extractor/node_extractor/PrintExtractor.h"
 
 //Print_TestZeroNestingLevel
 

@@ -4,7 +4,7 @@
 #include "catch.hpp"
 #include "../helper/AstProcedures.cpp"
 #include "../helper/PKBStubSP.cpp"
-#include "sp/IfExtractor.h"
+#include "sp/extractor/node_extractor/IfExtractor.h"
 
 //If_TestZeroNestingLevel
 

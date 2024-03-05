@@ -4,7 +4,7 @@
 #include "catch.hpp"
 #include "../helper/AstProcedures.cpp"
 #include "../helper/PKBStubSP.cpp"
-#include "sp/ReadExtractor.h"
+#include "sp/extractor/node_extractor/ReadExtractor.h"
 
 
 //Read_TestZeroNestingLevel

@@ -8,7 +8,7 @@
 // include your other headers here
 #include "AbstractWrapper.h"
 #include "sp/SourceProcessor.h"
-#include "sp/RelationExtractor.h"
+#include "sp/extractor/RelationExtractor.h"
 #include "pkb/apis/QueryPKB.h"
 #include "qps/QPS.h"
 

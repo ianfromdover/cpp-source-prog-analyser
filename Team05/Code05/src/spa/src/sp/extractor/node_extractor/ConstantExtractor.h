@@ -1,21 +1,20 @@
 //
-// Created by sjh_9 on 17/2/2024.
+// Created by sjh_9 on 18/2/2024.
 //
 
-#ifndef SPA_STATEMENTEXTRACTOR_H
-#define SPA_STATEMENTEXTRACTOR_H
-
+#ifndef SPA_CONSTANTEXTRACTOR_H
+#define SPA_CONSTANTEXTRACTOR_H
 
 
 #include <utility>
 
-#include "RelationExtractor.h"
-#include "Stmt.h"
+#include "sp/extractor/RelationExtractor.h"
+#include "sp/parser/ast/Stmt.h"
 
-class StatementExtractor: public RelationExtractor {
+class ConstantExtractor: public RelationExtractor {
 public:
     // Constructor
-    explicit StatementExtractor(shared_ptr<BasePKBPopulator> pkb) : RelationExtractor(std::move(pkb)) {}
+    explicit ConstantExtractor(shared_ptr<BasePKBPopulator> pkb) : RelationExtractor(std::move(pkb)) {}
     // Statement Methods
     void visitReadStmt(const Read& stmt, shared_ptr<Accumulator>& parentInfo) override;
     void visitPrintStmt(const Print& stmt, shared_ptr<Accumulator>& parentInfo) override;
@@ -31,5 +30,4 @@ public:
 };
 
 
-
-#endif //SPA_STATEMENTEXTRACTOR_H
+#endif //SPA_CONSTANTEXTRACTOR_H

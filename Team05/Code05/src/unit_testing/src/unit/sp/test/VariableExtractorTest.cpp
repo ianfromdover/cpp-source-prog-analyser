@@ -4,7 +4,7 @@
 #include "catch.hpp"
 #include "../helper/AstProcedures.cpp"
 #include "../helper/PKBStubSP.cpp"
-#include "sp/VariableExtractor.h"
+#include "sp/extractor/node_extractor/VariableExtractor.h"
 
 
 //Variable_TestZeroNestingLevel

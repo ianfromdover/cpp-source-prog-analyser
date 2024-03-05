@@ -3,7 +3,7 @@
 //
 
 #include "SemanticAnalyzer.h"
-#include "SemanticAnalysisException.h"
+#include "sp/exception/SemanticAnalysisException.h"
 
 void SemanticAnalyzer::check(const Program& program) {
     this->preprocess(program);

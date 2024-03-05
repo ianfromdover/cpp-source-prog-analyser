@@ -9,8 +9,8 @@
 #include <functional>
 #include <cctype>
 #include <map>
-#include "Token.h"
-#include "TokenException.h"
+#include "sp/tokeniser/token/Token.h"
+#include "sp/exception/TokenException.h"
 
 class TokenStrategy {
 public:

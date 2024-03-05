@@ -3,19 +3,19 @@
 //
 
 #include "SourceProcessor.h"
-#include "UsesExtractor.h"
-#include "ModifiesExtractor.h"
-#include "ReadExtractor.h"
-#include "CallExtractor.h"
-#include "IfExtractor.h"
-#include "WhileExtractor.h"
-#include "PrintExtractor.h"
-#include "AssignExtractor.h"
-#include "StatementExtractor.h"
-#include "VariableExtractor.h"
-#include "ConstantExtractor.h"
-#include "FollowsExtractor.h"
-#include "SemanticAnalyzer.h"
+#include "sp/extractor/relation_extractor/UsesExtractor.h"
+#include "sp/extractor/relation_extractor/ModifiesExtractor.h"
+#include "sp/extractor/node_extractor/ReadExtractor.h"
+#include "sp/extractor/node_extractor/CallExtractor.h"
+#include "sp/extractor/node_extractor/IfExtractor.h"
+#include "sp/extractor/node_extractor/WhileExtractor.h"
+#include "sp/extractor/node_extractor/PrintExtractor.h"
+#include "sp/extractor/node_extractor/AssignExtractor.h"
+#include "sp/extractor/node_extractor/StatementExtractor.h"
+#include "sp/extractor/node_extractor/VariableExtractor.h"
+#include "sp/extractor/node_extractor/ConstantExtractor.h"
+#include "sp/extractor/relation_extractor/FollowsExtractor.h"
+#include "sp/parser/semantic_analyser/SemanticAnalyzer.h"
 
 void SourceProcessor::exec(const std::string& source) {
     auto tokens = this->scan(source);

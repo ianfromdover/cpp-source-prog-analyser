@@ -3,7 +3,7 @@
 //
 
 #include "catch.hpp"
-#include "sp/DoubleCharacterStrategy.h"
+#include "sp/tokeniser/strategy/DoubleCharacterStrategy.h"
 
 
 TEST_CASE("DoubleCharacterStrategy tokenization", "[DoubleCharacter]") {

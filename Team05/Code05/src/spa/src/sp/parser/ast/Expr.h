@@ -6,8 +6,8 @@
 #define SPA_EXPR_H
 
 #include <vector>
-#include "Token.h"
-#include "ProgramVisitor.h"
+#include "sp/tokeniser/token/Token.h"
+#include "sp/visitor/ProgramVisitor.h"
 
 class Expr;
 class Binary;

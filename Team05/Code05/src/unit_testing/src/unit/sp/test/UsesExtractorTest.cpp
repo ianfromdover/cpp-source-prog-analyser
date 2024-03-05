@@ -4,7 +4,7 @@
 #include "catch.hpp"
 #include "../helper/AstProcedures.cpp"
 #include "../helper/PKBStubSP.cpp"
-#include "sp/UsesExtractor.h"
+#include "sp/extractor/relation_extractor/UsesExtractor.h"
 
 
 //Uses_TestZeroNestingLevel

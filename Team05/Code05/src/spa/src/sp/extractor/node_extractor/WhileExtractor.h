@@ -7,8 +7,8 @@
 
 #include <utility>
 
-#include "RelationExtractor.h"
-#include "Stmt.h"
+#include "sp/extractor/RelationExtractor.h"
+#include "sp/parser/ast/Stmt.h"
 
 class WhileExtractor: public RelationExtractor {
 public:

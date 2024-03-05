@@ -4,7 +4,7 @@
 
 #include <string>
 #include "Parser.h"
-#include "ParseException.h"
+#include "sp/exception/ParseException.h"
 
 Program Parser::parse() {
     Program program = std::make_shared<std::vector<std::shared_ptr<Procedure>>>();

@@ -3,7 +3,7 @@
 //
 #include "catch.hpp"
 #include "../helper/TokenProcedures.cpp"
-#include "sp/Parser.h"
+#include "sp/parser/Parser.h"
 
 // Parser_TestZeroNestingLevel
 

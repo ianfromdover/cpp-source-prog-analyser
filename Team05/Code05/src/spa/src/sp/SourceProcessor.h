@@ -7,10 +7,10 @@
 
 #include <utility>
 
-#include "Scanner.h"
-#include "RelationExtractor.h"
-#include "ParentExtractor.h"
-#include "Parser.h"
+#include "sp/tokeniser/Scanner.h"
+#include "sp/extractor/RelationExtractor.h"
+#include "sp/extractor/relation_extractor/ParentExtractor.h"
+#include "sp/parser/Parser.h"
 
 class SourceProcessor {
 private:
