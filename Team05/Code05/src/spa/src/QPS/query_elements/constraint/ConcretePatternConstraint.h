@@ -14,11 +14,13 @@ class ConcretePatternConstraint : public PatternConstraint {
 private:
     std::vector<std::shared_ptr<ConstraintArgument>> constraintArguments;
     std::shared_ptr<AssignEntity> constraintIdentifier;
+    std::string& stripCharacters(std::string& str, const std::string& chars);
 public:
     ConcretePatternConstraint(std::shared_ptr<EntityReference>, std::shared_ptr<ExpressionReference> , std::shared_ptr<AssignEntity>);
     std::string getConstraintType() override;
     std::shared_ptr<AssignEntity> getPatternConstraintIdentifier() override;
     std::vector<std::shared_ptr<ConstraintArgument>>  getConstraintArguments() override;
+    std::vector<std::vector<std::string>> getRelationshipTable(QueryPKBVirtual &) override;
 };
 
 

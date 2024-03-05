@@ -3,27 +3,15 @@
 //
 
 #include "QueryEvaluator.h"
+#include <algorithm>
 #include "qps/QueryEvaluator/QueryResult/StringResult.h"
 #include "PKBStub.h"
 #include "qps/QueryEvaluator/QueryResult/IntResult.h"
+#include "qps/Exceptions/QPSException.h"
 
-std::shared_ptr<Formattable> QueryEvaluator::evaluateOld(QueryObject & query) {
-
-    std::shared_ptr<Returnable> r = query.getReturnType();
-    std::vector<std::shared_ptr<Constraint>> constraints = query.getConstraints();
-
-    std::shared_ptr<QueryResult> result = pkb.getResult(*r,*constraints[0]);
-
-    std::vector<int> results;
-    IntResult res(results);
-    std::shared_ptr<QueryResult> result1 = std::make_shared<IntResult>(res);
-
-    // end stub
-    return result;
-}
 
 std::shared_ptr<Formattable> QueryEvaluator::evaluate(QueryObject & query) {
-    std::shared_ptr<Returnable> r = query.getReturnType();
+    std::shared_ptr<Returnable> returnable = query.getReturnType();
     std::vector<std::shared_ptr<Constraint>> constraints = query.getConstraints();
 
     std::vector<shared_ptr<QueryResult>> listOfResults;
@@ -31,24 +19,41 @@ std::shared_ptr<Formattable> QueryEvaluator::evaluate(QueryObject & query) {
 
     //query pkb and store all results into a listOfResults
     for (std::shared_ptr<Constraint> c : constraints) {
-            listOfResults.push_back(pkb.getResult(*r, *c));
+        processConstraints(c);
     }
 
-    // Intersect all results
-    if (listOfResults.empty()) {
-        return getEmptyResult();
-    }
+    // Store select clause result into select
+    processReturnable(returnable);
 
-    std::shared_ptr<QueryResult> intersection = listOfResults[0];
-
-    if (listOfResults.size() > 1) {
-        for (int i = 1; i < listOfResults.size(); i++) {
-            intersection = intersect(intersection, listOfResults[i]);
+    if (results.hasEntries() && ResultTable::findCommonHeaders(results.getTable(), select.getTable()).empty()) {
+        // Get the return type column that we want
+        std::string column = returnable->getArgumentValue();
+        std::vector<string> val = this->select.getDistinctColumn(column);
+        std::shared_ptr<StringResult> sd = std::make_shared<StringResult>(val);
+        return sd;
+    } else {
+        if (!results.isEmpty() && !results.hasEntries()) {
+            return getEmptyResult();
         }
+        this->results.add(select.getTable());
+        std::string column = returnable->getArgumentValue();
+        std::vector<string> val = this->results.getDistinctColumn(column);
+        std::shared_ptr<StringResult> sd = std::make_shared<StringResult>(val);
+        return sd;
     }
+}
 
-    return intersection;
+bool isQueryable(std::string type){
+    std::vector<std::string> invalidTypes = {TYPE_INTEGER, TYPE_WILDCARD, TYPE_EXPRESSION, TYPE_EXPRESSION_W_WILDCARD, TYPE_QUOTED_IDENT};
+    return (std::find(invalidTypes.begin(), invalidTypes.end(), type)) == invalidTypes.end();
+}
 
+void QueryEvaluator::processConstraints(std::shared_ptr<Constraint> c){
+     results.add(c->getRelationshipTable(pkb));
+}
+
+void QueryEvaluator::processReturnable(std::shared_ptr<Returnable> r) {
+     select.add(r->getEntityTable(pkb));
 }
 
 std::shared_ptr<Formattable> QueryEvaluator::getEmptyResult() {
@@ -59,16 +64,16 @@ std::shared_ptr<Formattable> QueryEvaluator::getEmptyResult() {
 
 std::shared_ptr<QueryResult> QueryEvaluator::intersect(std::shared_ptr<QueryResult> r1, std::shared_ptr<QueryResult> r2) {
     if (r1->getType() != r2->getType()) {
-        throw std::invalid_argument("mismatch return type for return queries");
+        throw QPSException("mismatch return type for return queries");
     }
     if (r1->getType() == QueryResultEnum::INTEGER) {
         std::shared_ptr<IntResult> int1 = dynamic_pointer_cast<IntResult>(r1);
-        std::shared_ptr<IntResult> int2 = dynamic_pointer_cast<IntResult>(r1);
+        std::shared_ptr<IntResult> int2 = dynamic_pointer_cast<IntResult>(r2);
         vector<int> results = int1->intersect(int2);
         return std::make_shared<IntResult>(results);
     } else {
         std::shared_ptr<StringResult> str1 = dynamic_pointer_cast<StringResult>(r1);
-        std::shared_ptr<StringResult> str2 = dynamic_pointer_cast<StringResult>(r1);
+        std::shared_ptr<StringResult> str2 = dynamic_pointer_cast<StringResult>(r2);
         vector<std::string> result = str1->intersect(str2);
         return std::make_shared<StringResult>(result);
     }

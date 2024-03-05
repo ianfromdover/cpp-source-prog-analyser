@@ -37,3 +37,70 @@ std::shared_ptr<Entity> QueryObject::getEntityInDeclaration(std::string toFind) 
     return nullptr;
 }
 
+std::string QueryObject::toString() {
+    std::string returnString = getReturnString();
+    std::string declarationString = getDeclarationString();
+    std::string constraintString = getConstraintString();
+    return combineString(returnString, declarationString, constraintString);
+}
+
+std::string QueryObject::combineString(std::string returnString, std::string declarationString, std::string constraintString) {
+    std::string out = "";
+    if (!returnString.empty()) {
+        out += returnString ;
+    }
+    if (!declarationString.empty()) {
+        if (!returnString.empty()) {
+            out += "\n" + declarationString;
+        } else {
+            out += declarationString;
+        }
+    }
+    if (!constraintString.empty()) {
+        if (!out.empty()) {
+            out += "\n" + constraintString;
+        } else {
+            out += constraintString;
+        }
+    }
+    return out;
+}
+
+std::string QueryObject::getReturnString() {
+    if (this->returnType == nullptr) {
+        return "";
+    } else {
+        return "{RETURN}: " + this->getReturnType()->toString();
+    }
+
+}
+
+std::string QueryObject::getDeclarationString() {
+    if (this->declarations.empty()) {
+        return "";
+    }
+    std::string declarationString = "{DECLARATIONS}: ";
+    for (auto it = declarations.begin(); it != declarations.end(); ++it) {
+        declarationString += (*it)->toString();
+        if (std::next(it) != declarations.end()){
+            declarationString += ", ";
+        }
+    }
+    return declarationString;
+}
+
+std::string QueryObject::getConstraintString() {
+    if (this->constraints.empty()) {
+        return "";
+    }
+    std::string constraintString = "{CONSTRAINTS}: ";
+
+    for (auto it = constraints.begin(); it != constraints.end(); ++it) {
+        constraintString += (*it)->toString();
+        if (std::next(it) != constraints.end()){
+            constraintString += ", ";
+        }
+    }
+    return constraintString;
+}
+

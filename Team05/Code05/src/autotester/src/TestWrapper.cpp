@@ -28,7 +28,13 @@ void TestWrapper::parse(std::string filename) {
         input += line + "\n";
     }
     theFile.close();
-    sp.exec(input);
+    try {
+        sp.exec(input);
+    } catch (BaseException& exception) {
+        // handle exception
+        std::cerr << "Caught BaseException: " << exception.what() << std::endl;
+        exit(0); // exit silently
+    }
 }
 
 // method to evaluating a query

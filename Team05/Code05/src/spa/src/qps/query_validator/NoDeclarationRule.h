@@ -9,10 +9,8 @@
 
 // All the synonyms used in clauses must be declared exactly once.
 class NoDeclarationRule : public Rule {
-private:
-    bool followsNoDeclaration(QueryObject&);
 public:
-    std::string validate(QueryObject&) override;
+    std::string validate(IntermediateQuery&) override;
 };
 
 

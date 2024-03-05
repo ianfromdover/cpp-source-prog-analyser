@@ -9,18 +9,23 @@
 #include <memory>
 #include "../QueryProjector/Formattable.h"
 #include "qps/query_elements/QueryObject.h"
-
-#include "pkb/QueryPKB.h"
+#include "pkb/apis/QueryPKB.h"
+#include "qps/QueryEvaluator/QueryResult/QueryResult.h"
+#include "qps/QueryProjector/ResultTable/ResultTable.h"
 
 class QueryEvaluator {
 public:
-    explicit QueryEvaluator(QueryPKB& stub) : pkb(stub) {} ;
+    explicit QueryEvaluator(QueryPKBVirtual& stub) : pkb(stub) {} ;
     std::shared_ptr<Formattable> evaluate(QueryObject&);
-    std::shared_ptr<Formattable> evaluateOld(QueryObject&);
+    void processConstraints(std::shared_ptr<Constraint> c);
 private:
-    QueryPKB& pkb;
+    ResultTable results;
+    ResultTable select;
+    QueryPKBVirtual& pkb;
     shared_ptr<QueryResult> intersect(shared_ptr<QueryResult> r1, shared_ptr<QueryResult> r2);
     std::shared_ptr<Formattable> getEmptyResult();
+
+    void processReturnable(shared_ptr<Returnable> r);
 };
 
 

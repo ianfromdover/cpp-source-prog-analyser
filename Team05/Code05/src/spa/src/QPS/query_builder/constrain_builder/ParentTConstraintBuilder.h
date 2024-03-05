@@ -13,7 +13,7 @@ private:
     shared_ptr<StatementReference> arg1;
     shared_ptr<StatementReference> arg2;
 public:
-    void addConstraintClause(shared_ptr<qps::RelationshipClause>) override;
+    void addConstraintClause(shared_ptr<RelationshipClause>, shared_ptr<QueryObject>) override;
 };
 
 #endif //SPA_PARENTTCONSTRAINTBUILDER_H

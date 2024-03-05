@@ -1,0 +1,233 @@
+//
+// Created by tohzh on 10/2/2024.
+//
+
+#include "catch.hpp"
+using namespace std;
+
+#define CATCH_CONFIG_MAIN
+#include "catch.hpp"
+
+#include "qps/query_elements/constraint/Constraint.h"
+#include "qps/query_elements/constraint/FollowsConstraint.h"
+#include "qps/query_elements/constraint/FollowsTConstraint.h"
+#include "qps/query_elements/constraint/ParentConstraint.h"
+#include "qps/query_elements/constraint/ParentTConstraint.h"
+#include "qps/query_elements/constraint/UsesPConstraint.h"
+#include "qps/query_elements/constraint/UsesSConstraint.h"
+#include "qps/query_elements/constraint/ModifiesPConstraint.h"
+#include "qps/query_elements/constraint/ModifiesSConstraint.h"
+
+#include "qps/query_elements/constraint_argument/statement_reference/StatementEntity.h"
+#include "qps/query_elements/constraint_argument/statement_reference/ReadEntity.h"
+#include "qps/query_elements/constraint_argument/statement_reference/PrintEntity.h"
+#include "qps/query_elements/constraint_argument/statement_reference/AssignEntity.h"
+#include "qps/query_elements/constraint_argument/statement_reference/CallEntity.h"
+#include "qps/query_elements/constraint_argument/statement_reference/IfEntity.h"
+#include "qps/query_elements/constraint_argument/statement_reference/WhileEntity.h"
+#include "qps/query_elements/constraint_argument/statement_reference/IntegerArgument.h"
+#include "qps/query_elements/constraint_argument/statement_reference/StatementRefWildcard.h"
+#include "qps/query_elements/constraint_argument/entity_reference/ProcedureEntity.h"
+#include "qps/query_elements/constraint_argument/entity_reference/VariableEntity.h"
+#include "qps/query_elements/constraint_argument/entity_reference/ConstantEntity.h"
+#include "qps/query_elements/constraint_argument/entity_reference/EntityRefWildCard.h"
+
+// ai-gen start(gpt, 1, e)
+// prompt: https://platform.openai.com/playground/p/kRR1UQyUxzRLr95Mnxz0MCoG?model=gpt-3.5-turbo&mode=chat
+TEST_CASE("dynamic_cast_inheritance_relationship_constraint") {
+    std::shared_ptr<StatementEntity> s = std::make_shared<StatementEntity>("q");
+    std::shared_ptr<ReadEntity> r = std::make_shared<ReadEntity>("f");
+    std::shared_ptr<ProcedureEntity> a = std::make_shared<ProcedureEntity>("k");
+    FollowsConstraint follows_constraint(s, r);
+    FollowsTConstraint follows_t_constraint(s, r);
+    ParentConstraint parent_constraint(s, r);
+    ParentTConstraint parent_t_constraint(s, r);
+    UsesPConstraint uses_p_constraint(a, a);
+    UsesSConstraint uses_s_constraint(s, a);
+    ModifiesPConstraint modifies_p_constraint(a, a);
+    ModifiesSConstraint modifies_s_constraint(r, a);
+
+    SECTION("UsesPConstraint is a RelationshipConstraint") {
+        Constraint* constraint_ptr = &uses_p_constraint;
+        REQUIRE(dynamic_cast<RelationshipConstraint*>(constraint_ptr) != nullptr);
+    }
+
+    SECTION("UsesSConstraint is a RelationshipConstraint") {
+        Constraint* constraint_ptr = &uses_s_constraint;
+        REQUIRE(dynamic_cast<RelationshipConstraint*>(constraint_ptr) != nullptr);
+
+    SECTION("FollowsConstraint is a RelationshipConstraint") {
+        Constraint* constraint_ptr = &follows_constraint;
+        REQUIRE(dynamic_cast<RelationshipConstraint*>(constraint_ptr) != nullptr);
+    }
+
+    SECTION("FollowsTConstraint is a RelationshipConstraint") {
+        Constraint* constraint_ptr = &follows_t_constraint;
+        REQUIRE(dynamic_cast<RelationshipConstraint*>(constraint_ptr) != nullptr);
+    }
+
+    SECTION("ParentConstraint is a RelationshipConstraint") {
+        Constraint* constraint_ptr = &parent_constraint;
+        REQUIRE(dynamic_cast<RelationshipConstraint*>(constraint_ptr) != nullptr);
+    }
+
+    SECTION("ParentTConstraint is a RelationshipConstraint") {
+        Constraint* constraint_ptr = &parent_t_constraint;
+        REQUIRE(dynamic_cast<RelationshipConstraint*>(constraint_ptr) != nullptr);
+    }
+
+    SECTION("ModifiesPConstraint is a RelationshipConstraint") {
+        Constraint* constraint_ptr = &modifies_p_constraint;
+        REQUIRE(dynamic_cast<RelationshipConstraint*>(constraint_ptr) != nullptr);
+    }
+
+    SECTION("ModifiesSConstraint is a RelationshipConstraint") {
+        Constraint* constraint_ptr = &modifies_s_constraint;
+        REQUIRE(dynamic_cast<RelationshipConstraint*>(constraint_ptr) != nullptr);
+    }
+}
+}
+
+
+TEST_CASE("getConstraintClass_returns_CONSTRAINT_CLASS_RELATIONSHIP") {
+    std::shared_ptr<StatementEntity> s = std::make_shared<StatementEntity>("o");
+    std::shared_ptr<ReadEntity> r = std::make_shared<ReadEntity>("p");
+
+    SECTION("FollowsConstraint") {
+    FollowsConstraint follows_constraint(s, r);
+    REQUIRE(follows_constraint.getConstraintClass() == CONSTRAINT_CLASS_RELATIONSHIP);
+    }
+
+    SECTION("FollowsTConstraint") {
+    FollowsTConstraint follows_t_constraint(s, r);
+    REQUIRE(follows_t_constraint.getConstraintClass() == CONSTRAINT_CLASS_RELATIONSHIP);
+    }
+
+    SECTION("ParentConstraint") {
+    ParentConstraint parent_constraint(s, r);
+    REQUIRE(parent_constraint.getConstraintClass() == CONSTRAINT_CLASS_RELATIONSHIP);
+    }
+
+    SECTION("ParentTConstraint") {
+    ParentTConstraint parent_t_constraint(s, r);
+    REQUIRE(parent_t_constraint.getConstraintClass() == CONSTRAINT_CLASS_RELATIONSHIP);
+    }
+
+    std::shared_ptr<ProcedureEntity> a = std::make_shared<ProcedureEntity>("k");
+
+    SECTION("UsesPConstraint") {
+        UsesPConstraint uses_p_constraint(a, a);
+        REQUIRE(uses_p_constraint.getConstraintClass() == CONSTRAINT_CLASS_RELATIONSHIP);
+    }
+
+    SECTION("UsesSConstraint") {
+        UsesSConstraint uses_s_constraint(s, a);
+        REQUIRE(uses_s_constraint.getConstraintClass() == CONSTRAINT_CLASS_RELATIONSHIP);
+    }
+
+    SECTION("ModifiesPConstraint") {
+        ModifiesPConstraint modifies_p_constraint(a, a);
+        REQUIRE(modifies_p_constraint.getConstraintClass() == CONSTRAINT_CLASS_RELATIONSHIP);
+    }
+
+    SECTION("ModifiesSConstraint") {
+        ModifiesSConstraint modifies_s_constraint(r, a);
+        REQUIRE(modifies_s_constraint.getConstraintClass() == CONSTRAINT_CLASS_RELATIONSHIP);
+    }
+
+}
+
+
+TEST_CASE("InitializeConstraint_with_StatementReference_subclasses") {
+    // All possible StatementReference subclasses
+    std::vector<std::shared_ptr<StatementReference>> statementRefEntities;
+
+    statementRefEntities.push_back(std::make_shared<StatementEntity>("q"));
+    statementRefEntities.push_back(std::make_shared<ReadEntity>("w"));
+    statementRefEntities.push_back(std::make_shared<PrintEntity>("e"));
+    statementRefEntities.push_back(std::make_shared<AssignEntity>("r"));
+    statementRefEntities.push_back(std::make_shared<CallEntity>("t"));
+    statementRefEntities.push_back(std::make_shared<IfEntity>("y"));
+    statementRefEntities.push_back(std::make_shared<WhileEntity>("u"));
+    statementRefEntities.push_back(std::make_shared<IntegerArgument>(12));
+    statementRefEntities.push_back(std::make_shared<StatementRefWildCard>());
+
+    // All possible EntityReference subclasses
+    std::vector<std::shared_ptr<EntityReference>> entRefEntities;
+    entRefEntities.push_back(std::make_shared<ProcedureEntity>("p"));
+    entRefEntities.push_back(std::make_shared<VariableEntity>("v"));
+    entRefEntities.push_back(std::make_shared<ConstantEntity>("c"));
+    entRefEntities.push_back(std::make_shared<EntityRefWildCard>());
+
+    SECTION("FollowsConstraint") {
+        // Pairwise testing for FollowsConstraint initialization
+        for (auto it1 = std::begin(statementRefEntities); it1 != std::end(statementRefEntities); ++it1) {
+            for (auto it2 = it1 + 1; it2 != std::end(statementRefEntities); ++it2) {
+                REQUIRE_NOTHROW(FollowsConstraint(*it1, *it2));
+            }
+        }
+    }
+
+    SECTION("FollowsTConstraint") {
+        // Pairwise testing for FollowsTConstraint initialization
+        for (auto it1 = std::begin(statementRefEntities); it1 != std::end(statementRefEntities); ++it1) {
+            for (auto it2 = it1 + 1; it2 != std::end(statementRefEntities); ++it2) {
+                REQUIRE_NOTHROW(FollowsTConstraint(*it1, *it2));
+            }
+        }
+    }
+
+    SECTION("ParentConstraint") {
+        // Pairwise testing for ParentConstraint initialization
+        for (auto it1 = std::begin(statementRefEntities); it1 != std::end(statementRefEntities); ++it1) {
+            for (auto it2 = it1 + 1; it2 != std::end(statementRefEntities); ++it2) {
+                REQUIRE_NOTHROW(ParentConstraint(*it1, *it2));
+            }
+        }
+    }
+
+    SECTION("ParentTConstraint") {
+        // Pairwise testing for ParentTConstraint initialization
+        for (auto it1 = std::begin(statementRefEntities); it1 != std::end(statementRefEntities); ++it1) {
+            for (auto it2 = it1 + 1; it2 != std::end(statementRefEntities); ++it2) {
+                REQUIRE_NOTHROW(ParentTConstraint(*it1, *it2));
+            }
+        }
+    }
+
+    SECTION("UsesSConstraint") {
+        for (const auto& statementRef : statementRefEntities) {
+            for (const auto& entityRef : entRefEntities) {
+                REQUIRE_NOTHROW(UsesSConstraint(statementRef, entityRef));
+            }
+        }
+    }
+
+    SECTION("UsesPConstraint") {
+        for (const auto& entityRef1 : entRefEntities) {
+            for (const auto& entityRef : entRefEntities) {
+                REQUIRE_NOTHROW(UsesPConstraint(entityRef1, entityRef));
+            }
+        }
+    }
+
+    SECTION("ModifiesSConstraint") {
+        for (const auto& statementRef : statementRefEntities) {
+            for (const auto& entityRef : entRefEntities) {
+                REQUIRE_NOTHROW(ModifiesSConstraint(statementRef, entityRef));
+            }
+        }
+    }
+
+    SECTION("ModifiesPConstraint") {
+        for (const auto& entityRef1 : entRefEntities) {
+            for (const auto& entityRef : entRefEntities) {
+                REQUIRE_NOTHROW(ModifiesPConstraint(entityRef1, entityRef));
+            }
+        }
+    }
+
+
+}
+
+// ai-gen end

@@ -6,12 +6,17 @@
 #define SPA_ASSIGNENTITY_H
 
 #include "StatementReference.h"
+#include "pkb/apis/QueryPKBVirtual.h"
 
 class AssignEntity : public StatementReference, public Entity {
 public:
     explicit AssignEntity(std::string);
     std::string getReturnType() override;
     std::string getEntityType() override;
+    std::string toString() override;
+    std::string getArgumentValue() override;
+
+    std::vector<std::vector<std::string>> getEntityTable(QueryPKBVirtual & pkb) override;
 };
 
 

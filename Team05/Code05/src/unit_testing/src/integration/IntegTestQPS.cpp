@@ -6,7 +6,7 @@ using namespace std;
 
 // Integration Tests for QPS
 TEST_CASE("[IntegTestQPS] Replace with your Integration tests") {
-    // TODO: Initialize Stub for PKB
+    // Initialize Stub for PKB
 
     SECTION("Use Stub to test a feature") {
         REQUIRE(1 == 1);

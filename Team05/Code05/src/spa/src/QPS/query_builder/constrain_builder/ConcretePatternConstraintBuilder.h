@@ -13,9 +13,9 @@ private:
     shared_ptr<EntityReference> arg1;
     shared_ptr<ExpressionReference> arg2;
     shared_ptr<AssignEntity> syn;
-    void addPatternClause(std::shared_ptr<qps::PatternClause>);
+    void addPatternClause(std::shared_ptr<PatternClause>, shared_ptr<QueryObject>);
 public:
-    shared_ptr<ConcretePatternConstraint> buildPatternConstraint(std::shared_ptr<qps::PatternClause>);
+    shared_ptr<ConcretePatternConstraint> buildPatternConstraint(std::shared_ptr<PatternClause>, shared_ptr<QueryObject> qo);
 };
 
 #endif //SPA_CONCRETEPATTERNCONSTRAINTBUILDER_H

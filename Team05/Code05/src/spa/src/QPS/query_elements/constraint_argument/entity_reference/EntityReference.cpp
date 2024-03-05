@@ -7,7 +7,3 @@
 std::string EntityReference::getReferenceType() {
     return REFERENCE_TYPE_ENTITY;
 }
-
-std::string EntityReference::getArgumentValue() {
-    return "";
-}

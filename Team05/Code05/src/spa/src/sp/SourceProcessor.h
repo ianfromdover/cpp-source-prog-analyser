@@ -5,30 +5,25 @@
 #ifndef SPA_SOURCEPROCESSOR_H
 #define SPA_SOURCEPROCESSOR_H
 
-#include "TokenList.h"
-#include "StrategyList.h"
-#include "Scanner.h"
-#include "RelationExtractor.h"
-#include "ParentExtractor.h"
-#include "Parser.h"
+#include <utility>
+
+#include "sp/tokeniser/Scanner.h"
+#include "sp/extractor/RelationExtractor.h"
+#include "sp/extractor/relation_extractor/ParentExtractor.h"
+#include "sp/parser/Parser.h"
 
 class SourceProcessor {
 private:
-    StrategyList strategies;
-    TokenList tokens;
-    PopulatePKB& pkb;
-
+    shared_ptr<BasePKBPopulator> pkb;
+ 
 public:
-    explicit SourceProcessor(PopulatePKB& pkb) : pkb(pkb) {};
+    explicit SourceProcessor(shared_ptr<BasePKBPopulator> pkb) : pkb(std::move(pkb)) {};
     void exec(const std::string& source);
+    shared_ptr<std::vector<std::shared_ptr<Token>>> scan(const std::string& source);
+    Program parse(std::shared_ptr<std::vector<std::shared_ptr<Token>>>& tokens);
+    void validate(const Program& program);
+    void extract(const Program& program);
     SourceProcessor& operator=(const SourceProcessor& other) { return *this; }
-
-
-public:
-    // TODO: Make private or something.
-    void runScanner(const std::string& source);
-    Program parse();
-    void runRelationExtractor(const Program& program);
 };
 
 

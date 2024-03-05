@@ -6,13 +6,28 @@
 
 
 std::string WhileEntity::getReturnType() {
-    return RETURN_TYPE_WHILE;
+    return RETURN_INT_RESULT;
 }
 
 std::string WhileEntity::getEntityType() {
-    return RETURN_TYPE_WHILE;
+    return TYPE_WHILE;
 }
 
 WhileEntity::WhileEntity(std::string s) {
     identifier = std::move(s);
+}
+
+std::string WhileEntity::toString() {
+    return this->identifier + " [WHILE]";
+}
+
+std::string WhileEntity::getArgumentValue() {
+    return this->identifier;
+}
+
+std::vector<std::vector<std::string>> WhileEntity::getEntityTable(QueryPKBVirtual &pkb) {
+    auto entityTable = pkb.getWhile();
+    // Insertion of headers into our entity table
+    entityTable.insert(entityTable.begin(), {this->identifier, "WHILERHS"});
+    return entityTable;
 }

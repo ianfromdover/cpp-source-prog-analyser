@@ -5,13 +5,28 @@
 #include "CallEntity.h"
 
 std::string CallEntity::getReturnType() {
-    return RETURN_TYPE_CALL;
+    return RETURN_INT_RESULT;
 }
 
 std::string CallEntity::getEntityType() {
-    return RETURN_TYPE_CALL;
+    return TYPE_CALL;
 }
 
 CallEntity::CallEntity(std::string s) {
     identifier = std::move(s);
+}
+
+std::string CallEntity::toString() {
+    return this->identifier + " [CALL]";
+}
+
+std::string CallEntity::getArgumentValue() {
+    return this->identifier;
+}
+
+std::vector<std::vector<std::string>> CallEntity::getEntityTable(QueryPKBVirtual &pkb) {
+    auto entityTable = pkb.getCallStmt();
+    // Insertion of headers into our entity table
+    entityTable.insert(entityTable.begin(), {this->identifier, "CALLRHS"});
+    return entityTable;
 }

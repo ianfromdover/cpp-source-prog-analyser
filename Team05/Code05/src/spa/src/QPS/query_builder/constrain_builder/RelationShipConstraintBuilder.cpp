@@ -6,9 +6,9 @@
 
 #include <utility>
 
-std::shared_ptr<Constraint> RelationshipConstraintBuilder::buildRelationConstraint(shared_ptr<qps::RelationshipClause> rsClause) {
+std::shared_ptr<Constraint> RelationshipConstraintBuilder::buildRelationConstraint(shared_ptr<RelationshipClause> rsClause, shared_ptr<QueryObject> qo) {
     this->reset();
-    this->addConstraintClause(std::move(rsClause));
+    this->addConstraintClause(std::move(rsClause), qo);
     return this->build();
 }
 

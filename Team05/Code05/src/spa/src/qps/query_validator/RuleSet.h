@@ -14,6 +14,7 @@ private:
 public:
     RuleSet();
     std::vector<Rule*> getRules();
+    std::vector<Rule*> getDeclarationRules();
 };
 
 

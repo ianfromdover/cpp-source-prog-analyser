@@ -4643,8 +4643,6 @@ public:
     }
 };
 
-// TODO: Ideally this would be also constrained against the various char types,
-//       but I don't expect users to run into that in practice.
 template <typename T>
 typename std::enable_if<std::is_integral<T>::value && !std::is_same<T, bool>::value,
 GeneratorWrapper<T>>::type
@@ -6508,7 +6506,6 @@ namespace Catch {
             // thanks @milleniumbug
             *reinterpret_cast<char volatile*>(p) = *reinterpret_cast<char const volatile*>(p);
         }
-        // TODO equivalent keep_memory()
 #pragma optimize("", on)
 
         namespace Detail {
@@ -9220,7 +9217,7 @@ namespace detail {
 
     enum class Optionality { Optional, Required };
 
-    struct Parser;
+    struct QPSParser;
 
     class ParserBase {
     public:
@@ -9238,10 +9235,10 @@ namespace detail {
     class ComposableParserImpl : public ParserBase {
     public:
         template<typename T>
-        auto operator|( T const &other ) const -> Parser;
+        auto operator|( T const &other ) const -> QPSParser;
 
 		template<typename T>
-        auto operator+( T const &other ) const -> Parser;
+        auto operator+( T const &other ) const -> QPSParser;
     };
 
     // Common code and state for Args and Opts
@@ -9488,43 +9485,43 @@ namespace detail {
         }
     };
 
-    struct Parser : ParserBase {
+    struct QPSParser : ParserBase {
 
         mutable ExeName m_exeName;
         std::vector<Opt> m_options;
         std::vector<Arg> m_args;
 
-        auto operator|=( ExeName const &exeName ) -> Parser & {
+        auto operator|=( ExeName const &exeName ) -> QPSParser & {
             m_exeName = exeName;
             return *this;
         }
 
-        auto operator|=( Arg const &arg ) -> Parser & {
+        auto operator|=( Arg const &arg ) -> QPSParser & {
             m_args.push_back(arg);
             return *this;
         }
 
-        auto operator|=( Opt const &opt ) -> Parser & {
+        auto operator|=( Opt const &opt ) -> QPSParser & {
             m_options.push_back(opt);
             return *this;
         }
 
-        auto operator|=( Parser const &other ) -> Parser & {
+        auto operator|=( QPSParser const &other ) -> QPSParser & {
             m_options.insert(m_options.end(), other.m_options.begin(), other.m_options.end());
             m_args.insert(m_args.end(), other.m_args.begin(), other.m_args.end());
             return *this;
         }
 
         template<typename T>
-        auto operator|( T const &other ) const -> Parser {
-            return Parser( *this ) |= other;
+        auto operator|( T const &other ) const -> QPSParser {
+            return QPSParser( *this ) |= other;
         }
 
         // Forward deprecated interface with '+' instead of '|'
         template<typename T>
-        auto operator+=( T const &other ) -> Parser & { return operator|=( other ); }
+        auto operator+=( T const &other ) -> QPSParser & { return operator|=( other ); }
         template<typename T>
-        auto operator+( T const &other ) const -> Parser { return operator|( other ); }
+        auto operator+( T const &other ) const -> QPSParser { return operator|( other ); }
 
         auto getHelpColumns() const -> std::vector<HelpColumns> {
             std::vector<HelpColumns> cols;
@@ -9576,7 +9573,7 @@ namespace detail {
             }
         }
 
-        friend auto operator<<( std::ostream &os, Parser const &parser ) -> std::ostream& {
+        friend auto operator<<( std::ostream &os, QPSParser const &parser ) -> std::ostream& {
             parser.writeToStream( os );
             return os;
         }
@@ -9646,13 +9643,13 @@ namespace detail {
 
     template<typename DerivedT>
     template<typename T>
-    auto ComposableParserImpl<DerivedT>::operator|( T const &other ) const -> Parser {
-        return Parser() | static_cast<DerivedT const &>( *this ) | other;
+    auto ComposableParserImpl<DerivedT>::operator|( T const &other ) const -> QPSParser {
+        return QPSParser() | static_cast<DerivedT const &>( *this ) | other;
     }
 } // namespace detail
 
 // A Combined parser
-using detail::Parser;
+using detail::QPSParser;
 
 // A parser for options
 using detail::Opt;
@@ -9691,7 +9688,7 @@ using detail::ParserResult;
 // end catch_clara.h
 namespace Catch {
 
-    clara::Parser makeCommandLineParser( ConfigData& config );
+    clara::QPSParser makeCommandLineParser( ConfigData& config );
 
 } // end namespace Catch
 
@@ -9701,7 +9698,7 @@ namespace Catch {
 
 namespace Catch {
 
-    clara::Parser makeCommandLineParser( ConfigData& config ) {
+    clara::QPSParser makeCommandLineParser( ConfigData& config ) {
 
         using namespace clara;
 
@@ -13241,14 +13238,14 @@ namespace Catch {
 
         int run();
 
-        clara::Parser const& cli() const;
-        void cli( clara::Parser const& newParser );
+        clara::QPSParser const& cli() const;
+        void cli( clara::QPSParser const& newParser );
         ConfigData& configData();
         Config& config();
     private:
         int runInternal();
 
-        clara::Parser m_cli;
+        clara::QPSParser m_cli;
         ConfigData m_configData;
         std::shared_ptr<Config> m_config;
         bool m_startupExceptions = false;
@@ -13521,10 +13518,10 @@ namespace Catch {
         return exitCode;
     }
 
-    clara::Parser const& Session::cli() const {
+    clara::QPSParser const& Session::cli() const {
         return m_cli;
     }
-    void Session::cli( clara::Parser const& newParser ) {
+    void Session::cli( clara::QPSParser const& newParser ) {
         m_cli = newParser;
     }
     ConfigData& Session::configData() {
@@ -17427,7 +17424,6 @@ namespace Catch {
 
     void XmlReporter::testGroupEnded( TestGroupStats const& testGroupStats ) {
         StreamingReporterBase::testGroupEnded( testGroupStats );
-        // TODO: Check testGroupStats.aborting and act accordingly.
         m_xml.scopedElement( "OverallResults" )
             .writeAttribute( "successes", testGroupStats.totals.assertions.passed )
             .writeAttribute( "failures", testGroupStats.totals.assertions.failed )

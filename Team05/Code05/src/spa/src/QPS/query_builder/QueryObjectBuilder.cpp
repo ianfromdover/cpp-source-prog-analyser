@@ -11,39 +11,52 @@ void QueryObjectBuilder::reset() {
     qo.reset();
 }
 
-void QueryObjectBuilder::setSingleRelationshipConstraint(std::shared_ptr<qps::RelationshipClause> relationship) {
-    shared_ptr<Constraint> ptr = RelationshipConstraintDirector::process(std::move(relationship));
+void QueryObjectBuilder::setSingleRelationshipConstraint(std::shared_ptr<RelationshipClause> relationship, std::shared_ptr<QueryObject> qo) {
+    shared_ptr<Constraint> ptr = RelationshipConstraintDirector::process(std::move(relationship), qo);
     qo->addConstraint(ptr);
 }
 
-void QueryObjectBuilder::setSinglePatternClause(std::shared_ptr<qps::PatternClause> patternClause) {
+void QueryObjectBuilder::setSinglePatternClause(std::shared_ptr<PatternClause> patternClause, shared_ptr<QueryObject> qo) {
     ConcretePatternConstraintBuilder builder;
-    qo->addConstraint(builder.buildPatternConstraint(std::move(patternClause)));
+    qo->addConstraint(builder.buildPatternConstraint(std::move(patternClause), std::move(qo)));
 }
 
 
 void QueryObjectBuilder::setSingleSelectClause() {
+    if (!intermediateObject->hasSelectClause()) {
+        return;
+    }
     std::string name = intermediateObject->getSelectClause()->selectElements[0];
     qo->setReturnType(qo->getEntityInDeclaration(name));
 }
 
 //only need one relationship for milestone 1
 void QueryObjectBuilder::setAllRelationshipConstraint() {
-    setSingleRelationshipConstraint(intermediateObject->getRelationshipClause());
+    if (!intermediateObject->hasRelationshipClause()) {
+        return;
+    }
+    setSingleRelationshipConstraint(intermediateObject->getRelationshipClause(), this->getQueryObjectRepresentation());
 }
 
 //only need one pattern for milestone 1
 void QueryObjectBuilder::setAllPatternClauses() {
-    setSinglePatternClause(intermediateObject->getPatternClause());
+    if (!intermediateObject->hasPatternClause()) {
+        return;
+    }
+    setSinglePatternClause(intermediateObject->getPatternClause(), this->getQueryObjectRepresentation());
 }
 
 
 void QueryObjectBuilder::setAllDeclarationClauses() {
-    std::map<std::string, qps::TokenType::TypeInfo> synonymTypeMap = intermediateObject->getSynonymTypeMap();
-    std::map<std::string, qps::TokenType::TypeInfo>::iterator it;
+    if (!intermediateObject->hasDeclarationClause()) {
+        return;
+    }
+
+    std::map<std::string, QPSTokenType::QPSTypeInfo> synonymTypeMap = intermediateObject->getSynonymTypeMap();
+    std::map<std::string, QPSTokenType::QPSTypeInfo>::iterator it;
     for (it = synonymTypeMap.begin(); it != synonymTypeMap.end(); it++) {
         std::string synName = it->first;
-        qps::TokenType::TypeInfo typeInfo = it->second;
+        QPSTokenType::QPSTypeInfo typeInfo = it->second;
         std::shared_ptr<Entity> declaration = ConstraintArgCreator::buildEntity(typeInfo, synName);
         qo->addDeclaration(declaration);
     }

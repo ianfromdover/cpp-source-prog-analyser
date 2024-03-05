@@ -5,13 +5,29 @@
 #include "IfEntity.h"
 
 std::string IfEntity::getReturnType() {
-    return RETURN_TYPE_IF;
+    return RETURN_INT_RESULT;
 }
 
 std::string IfEntity::getEntityType() {
-    return RETURN_TYPE_IF;
+    return TYPE_IF;
 }
 
 IfEntity::IfEntity(std::string s) {
     identifier = std::move(s);
 }
+
+std::string IfEntity::toString() {
+    return this->identifier + " [IF]";
+}
+
+std::string IfEntity::getArgumentValue() {
+    return this->identifier;
+}
+
+std::vector<std::vector<std::string>> IfEntity::getEntityTable(QueryPKBVirtual &pkb) {
+    auto entityTable = pkb.getIf();
+    // Insertion of headers into our entity table
+    entityTable.insert(entityTable.begin(), {this->identifier, "IFRHS"});
+    return entityTable;
+}
+

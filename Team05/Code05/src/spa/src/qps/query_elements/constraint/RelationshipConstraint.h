@@ -6,10 +6,12 @@
 #define SPA_RELATIONSHIPCONSTRAINT_H
 
 #include "Constraint.h"
+#include "utilSpa/Column.h"
 
 class RelationshipConstraint : public Constraint {
 public:
     std::string getConstraintClass() override;
+    std::vector<std::vector<std::string>> getRelationshipTable(QueryPKBVirtual &) override;
 };
 
 

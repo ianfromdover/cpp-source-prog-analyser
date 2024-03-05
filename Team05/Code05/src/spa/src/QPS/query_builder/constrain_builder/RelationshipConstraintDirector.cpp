@@ -3,49 +3,51 @@
 //
 
 #include "RelationshipConstraintDirector.h"
+#include "../../query_elements/QueryObject.h"
 
 
-std::shared_ptr<Constraint> RelationshipConstraintDirector::process(shared_ptr<qps::RelationshipClause> r) {
-    qps::TokenType::TypeInfo type = r->getRelationshipType();
+std::shared_ptr<Constraint> RelationshipConstraintDirector::process(shared_ptr<RelationshipClause> r,
+                                                                    shared_ptr<QueryObject> qo) {
+    QPSTokenType::QPSTypeInfo type = r->getRelationshipType();
     switch (type) {
-        case (qps::TokenType::FOLLOWS): {
+        case (QPSTokenType::FOLLOWS): {
             FollowsConstraintBuilder b;
-            b.addConstraintClause(r);
+            b.addConstraintClause(r, qo);
             return b.build();
         }
-        case (qps::TokenType::FOLLOWS_T): {
+        case (QPSTokenType::FOLLOWS_T): {
             FollowsTConstraintBuilder b;
-            b.addConstraintClause(r);
+            b.addConstraintClause(r, qo);
             return b.build();
         }
-        case (qps::TokenType::PARENT): {
+        case (QPSTokenType::PARENT): {
             ParentConstraintBuilder b;
-            b.addConstraintClause(r);
+            b.addConstraintClause(r, qo);
             return b.build();
         }
-        case (qps::TokenType::PARENT_T): {
+        case (QPSTokenType::PARENT_T): {
             ParentTConstraintBuilder b;
-            b.addConstraintClause(r);
+            b.addConstraintClause(r, qo);
             return b.build();
         }
-        case (qps::TokenType::USES_S): {
+        case (QPSTokenType::USES_S): {
             UsesSConstraintBuilder b;
-            b.addConstraintClause(r);
+            b.addConstraintClause(r, qo);
             return b.build();
         }
-        case (qps::TokenType::USES_T): {
+        case (QPSTokenType::USES_P): {
             UsesPConstraintBuilder b;
-            b.addConstraintClause(r);
+            b.addConstraintClause(r, qo);
             return b.build();
         }
-        case (qps::TokenType::MODIFIES_T): {
+        case (QPSTokenType::MODIFIES_P): {
             ModifiesPConstraintBuilder b;
-            b.addConstraintClause(r);
+            b.addConstraintClause(r, qo);
             return b.build();
         }
-        case (qps::TokenType::MODIFIES_S): {
+        case (QPSTokenType::MODIFIES_S): {
             ModifiesSConstraintBuilder b;
-            b.addConstraintClause(r);
+            b.addConstraintClause(r, qo);
             return b.build();
         }
         default: {

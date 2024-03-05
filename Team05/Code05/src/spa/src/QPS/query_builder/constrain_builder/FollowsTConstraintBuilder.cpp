@@ -4,12 +4,12 @@
 
 #include "FollowsTConstraintBuilder.h"
 
-void FollowsTConstraintBuilder::addConstraintClause(shared_ptr<qps::RelationshipClause> rs) {
-    if (rs->getRelationshipType() != qps::TokenType::FOLLOWS_T) {
+void FollowsTConstraintBuilder::addConstraintClause(shared_ptr<RelationshipClause> rs, shared_ptr<QueryObject> qo) {
+    if (rs->getRelationshipType() != QPSTokenType::FOLLOWS_T) {
         throw std::invalid_argument( "Not followsT argument" );
     }
 
-    arg1 = buildArgAsStatementRef(rs->getFirstArg(), rs->getFirstReferenceType());
-    arg2 = buildArgAsStatementRef(rs->getSecondArg(), rs->getSecondReferenceType());
+    arg1 = buildArgAsStatementRef(rs->getFirstArg(), rs->getFirstReferenceType(), qo);
+    arg2 = buildArgAsStatementRef(rs->getSecondArg(), rs->getSecondReferenceType(), qo);
     constraintClause = make_shared<FollowsTConstraint>(arg1, arg2);
 }

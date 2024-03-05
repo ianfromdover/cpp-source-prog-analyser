@@ -12,7 +12,6 @@
 class StatementReference : public ConstraintArgument {
 public:
     std::string getReferenceType() override;
-    std::string getArgumentValue() override;
 };
 
 #endif //SPA_STATEMENTREFERENCE_H

@@ -5,5 +5,13 @@
 #include "ExpressionRefWildcard.h"
 
 std::string ExpressionRefWildcard::getEntityType() {
-    return RETURN_TYPE_WILDCARD;
+    return TYPE_WILDCARD;
+}
+
+std::string ExpressionRefWildcard::toString() {
+    return "_ [EXPR WILDCARD]";
+}
+
+std::string ExpressionRefWildcard::getArgumentValue() {
+    return "_";
 }

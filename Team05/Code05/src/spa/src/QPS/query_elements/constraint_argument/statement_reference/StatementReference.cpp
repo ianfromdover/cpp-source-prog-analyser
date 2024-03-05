@@ -7,7 +7,3 @@
 std::string StatementReference::getReferenceType() {
     return REFERENCE_TYPE_STATEMENT;
 }
-
-std::string StatementReference::getArgumentValue() {
-    return "";
-}

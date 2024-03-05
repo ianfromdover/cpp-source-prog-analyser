@@ -16,3 +16,7 @@ std::string ModifiesPConstraint::getConstraintType() {
 std::vector<std::shared_ptr<ConstraintArgument>> ModifiesPConstraint::getConstraintArguments() {
     return constraintArguments;
 }
+
+std::vector<std::vector<std::string>> ModifiesPConstraint::getRelationshipTable(QueryPKBVirtual & pkb) {
+    return pkb.getModifies();
+}

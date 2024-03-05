@@ -4,67 +4,80 @@
 
 #include "ConstraintArgCreator.h"
 
-std::shared_ptr<ConstraintArgument> ConstraintArgCreator::buildArg(qps::TokenType::TypeInfo type, qps::TokenType::TypeInfo ref,
-                                                                   std::string identifier) {
+
+std::shared_ptr<ConstraintArgument> ConstraintArgCreator::buildArg(QPSTokenType::QPSTypeInfo type, QPSTokenType::QPSTypeInfo ref,
+                                                                   std::string identifier, std::shared_ptr<QueryObject> qo) {
     switch (type) {
-        case qps::TokenType::EXPR_REF:
-            return ConstraintArgCreator::createExpressionSpec(identifier);
+        case QPSTokenType::QUOTED_IDENT:
+            return ConstraintArgCreator::createQuotedIdentity(identifier);
+        case QPSTokenType::EXPR:
+            return ConstraintArgCreator::createExpression(identifier);
             break;
-        case qps::TokenType::PROCEDURE:
+        case QPSTokenType::EXPR_WILDCARD:
+            return ConstraintArgCreator::createExpressionWithWildcard(identifier);
+            break;
+        case QPSTokenType::PROCEDURE:
             return ConstraintArgCreator::createProcedureEntity(identifier);
             break;
-        case qps::TokenType::VARIABLE:
+        case QPSTokenType::VARIABLE:
             return ConstraintArgCreator::createVariableEntity(identifier);
             break;
-        case qps::TokenType::CONSTANT:
+        case QPSTokenType::CONSTANT:
             return ConstraintArgCreator::createConstantEntity(identifier);
             break;
-        case qps::TokenType::WILDCARD:
+        case QPSTokenType::WILDCARD:
             // need to check what type of wild card
-            if (ref == qps::TokenType::ENT_REF) {
+            if (ref == QPSTokenType::ENT_REF) {
                 return ConstraintArgCreator::createEntityRefWildCard();
-            } else if (ref == qps::TokenType::STMT_REF) {
+            } else if (ref == QPSTokenType::STMT_REF) {
                 return ConstraintArgCreator::createStatementRefWildCard();
             } else {
                 return ConstraintArgCreator::createExpressionRefWildCard();
             }
             break;
-        case qps::TokenType::STMT:
+        case QPSTokenType::STMT1:
             return ConstraintArgCreator::createStatementEntity(identifier);
             break;
-        case qps::TokenType::PRINT:
+        case QPSTokenType::PRINT:
             return ConstraintArgCreator::createPrintEntity(identifier);
             break;
-        case qps::TokenType::ASSIGN:
+        case QPSTokenType::ASSIGN:
             return ConstraintArgCreator::createAssignEntity(identifier);
             break;
-        case qps::TokenType::CALL:
+        case QPSTokenType::CALL:
             return ConstraintArgCreator::createCallEntity(identifier);
             break;
-        case qps::TokenType::IF:
+        case QPSTokenType::IF:
             return ConstraintArgCreator::createIfEntity(identifier);
             break;
-        case qps::TokenType::READ:
+        case QPSTokenType::READ:
             return ConstraintArgCreator::createReadEntity(identifier);
             break;
-        case qps::TokenType::WHILE:
+        case QPSTokenType::WHILE:
             return ConstraintArgCreator::createWhileEntity(identifier);
             break;
-        case qps::TokenType::INTEGER:
+        case QPSTokenType::INTEGER:
             return ConstraintArgCreator::createIntegerArgument(identifier);
+        case QPSTokenType::SYNONYM:
+            return dynamic_pointer_cast<ConstraintArgument>(qo->getEntityInDeclaration(identifier));
         default:
             throw std::invalid_argument( "invalid constraint argument flag" );
     }
 }
 
 // ref is only used to distinguish what type of wildcard is the constraint argument.
-std::shared_ptr<ConstraintArgument> ConstraintArgCreator::buildArgFromToken(qps::Token& token, qps::TokenType::TypeInfo ref) {
+std::shared_ptr<ConstraintArgument> ConstraintArgCreator::buildArgFromToken(QPSToken& token, QPSTokenType::QPSTypeInfo ref, shared_ptr<QueryObject> qo) {
     std::string identifier = token.getLexeme();
-    return buildArg(token.getType().getInfo(), ref, identifier);
+    auto x=  buildArg(token.getType().getInfo(), ref, identifier, qo);
+    return x;
 }
 
-std::shared_ptr<ExpressionSpec> ConstraintArgCreator::createExpressionSpec(std::string s) {
-    return std::make_shared<ExpressionSpec>(s);
+std::shared_ptr<Expression> ConstraintArgCreator::createExpression(std::string s) {
+    return std::make_shared<Expression>(s);
+}
+
+std::shared_ptr<ExpressionWithWildcard> ConstraintArgCreator::createExpressionWithWildcard(std::string s) {
+    return std::make_shared<ExpressionWithWildcard>(s);
 }
 
 std::shared_ptr<ProcedureEntity> ConstraintArgCreator::createProcedureEntity(std::string s) {
@@ -124,39 +137,45 @@ std::shared_ptr<ExpressionRefWildcard> ConstraintArgCreator::createExpressionRef
     return std::make_shared<ExpressionRefWildcard>();
 }
 
-shared_ptr<Entity> ConstraintArgCreator::buildEntity(qps::TokenType::TypeInfo type, string identifier) {
+std::shared_ptr<QuotedIdentity> ConstraintArgCreator::createQuotedIdentity(std::string s) {
+    return std::make_shared<QuotedIdentity>(s);
+}
+
+shared_ptr<Entity> ConstraintArgCreator::buildEntity(QPSTokenType::QPSTypeInfo type, string identifier) {
     switch (type) {
-        case qps::TokenType::PROCEDURE:
+        case QPSTokenType::PROCEDURE:
             return ConstraintArgCreator::createProcedureEntity(identifier);
             break;
-        case qps::TokenType::VARIABLE:
+        case QPSTokenType::VARIABLE:
             return ConstraintArgCreator::createVariableEntity(identifier);
             break;
-        case qps::TokenType::CONSTANT:
+        case QPSTokenType::CONSTANT:
             return ConstraintArgCreator::createConstantEntity(identifier);
             break;
-        case qps::TokenType::STMT:
+        case QPSTokenType::STMT1:
             return ConstraintArgCreator::createStatementEntity(identifier);
             break;
-        case qps::TokenType::PRINT:
+        case QPSTokenType::PRINT:
             return ConstraintArgCreator::createPrintEntity(identifier);
             break;
-        case qps::TokenType::ASSIGN:
+        case QPSTokenType::ASSIGN:
             return ConstraintArgCreator::createAssignEntity(identifier);
             break;
-        case qps::TokenType::CALL:
+        case QPSTokenType::CALL:
             return ConstraintArgCreator::createCallEntity(identifier);
             break;
-        case qps::TokenType::IF:
+        case QPSTokenType::IF:
             return ConstraintArgCreator::createIfEntity(identifier);
             break;
-        case qps::TokenType::READ:
+        case QPSTokenType::READ:
             return ConstraintArgCreator::createReadEntity(identifier);
             break;
-        case qps::TokenType::WHILE:
+        case QPSTokenType::WHILE:
             return ConstraintArgCreator::createWhileEntity(identifier);
             break;
         default:
             throw std::invalid_argument( "invalid entity flag" );
     }
 }
+
+

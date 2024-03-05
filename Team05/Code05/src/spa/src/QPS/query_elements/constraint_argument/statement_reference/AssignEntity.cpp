@@ -7,13 +7,29 @@
 #include <utility>
 
 std::string AssignEntity::getReturnType() {
-    return RETURN_TYPE_ASSIGN;
+    return RETURN_INT_RESULT;
 }
 
 std::string AssignEntity::getEntityType() {
-    return RETURN_TYPE_ASSIGN;
+    return TYPE_ASSIGN;
 }
 
 AssignEntity::AssignEntity(std::string s) {
     identifier = std::move(s);
 }
+
+std::string AssignEntity::toString() {
+    return this->identifier + " [ASSIGN]";
+}
+
+std::string AssignEntity::getArgumentValue() {
+    return this->identifier;
+}
+
+std::vector<std::vector<std::string>> AssignEntity::getEntityTable(QueryPKBVirtual & pkb ) {
+    auto entityTable = pkb.getPatternAsgn();
+    // Insertion of headers into our entity table
+    entityTable.insert(entityTable.begin(), {this->identifier, "ASSIGNRHS"});
+    return entityTable;
+}
+
