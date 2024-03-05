@@ -2,6 +2,8 @@
 // Created by Alex on 20/2/2024.
 //
 
+#include <algorithm>
+
 #include "CompatibleTypeRule.h"
 
 std::string CompatibleTypeRule::validate(IntermediateQuery & query) {

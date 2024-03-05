@@ -4,6 +4,8 @@
 
 #ifndef SPA_TOKENSTRATEGY_H
 #define SPA_TOKENSTRATEGY_H
+
+#include <memory>
 #include <iostream>
 #include <sstream>
 #include <functional>

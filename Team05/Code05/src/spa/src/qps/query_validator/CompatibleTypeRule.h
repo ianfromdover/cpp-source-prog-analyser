@@ -5,7 +5,6 @@
 #ifndef SPA_COMPATIBLETYPERULE_H
 #define SPA_COMPATIBLETYPERULE_H
 
-
 #include "Rule.h"
 
 typedef QPSTokenType::QPSTypeInfo QType;
