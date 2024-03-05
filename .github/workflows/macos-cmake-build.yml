@@ -1,6 +1,6 @@
 # This starter workflow is for a CMake project running on a single platform. There is a different starter workflow if you need cross-platform coverage.
 # See: https://github.com/actions/starter-workflows/blob/main/ci/cmake-multi-platform.yml
-name: CMake Build and Unit Test
+name: macOS CMake Build
 
 on:
   push:
@@ -14,13 +14,10 @@ env:
 
 jobs:
   build:
-    strategy:
-        matrix:
-            os: [windows-latest, macos-latest]
     # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
     # You can convert this to a matrix build if you need cross-platform coverage.
     # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
-    runs-on: ${{ matrix.os }}
+    runs-on: [macos-latest]
 
     steps:
     - uses: actions/checkout@v4
@@ -37,30 +34,3 @@ jobs:
     - name: Build(Unit Testing)
       # Build your program with the given configuration
       run: cmake --build ${{github.workspace}}/Team05/Code05/cmake-cli --target unit_testing --config ${{env.BUILD_TYPE}}
-
-    - name: Upload Artifact (Unit Testing)
-      uses: actions/upload-artifact@v4
-      with:
-          name: unit_testing_${{matrix.os}}.exe
-          path: ${{github.workspace}}/Team05/Code05/cmake-cli/src/unit_testing/Debug/unit_testing.exe
-
-    - name: Upload Artifact (AutoTester)
-      uses: actions/upload-artifact@v4
-      with:
-          name: autotester_${{matrix.os}}.exe
-          path: ${{github.workspace}}/Team05/Code05/cmake-cli/src/autotester/Debug/autotester.exe
-
-  test:
-    needs: build
-    runs-on: windows-latest
-
-    steps:
-    - name: Download Artifact
-      uses: actions/download-artifact@v4
-      with:
-        name: unit_testing_windows-latest.exe
-        path: ${{github.workspace}}/Team05/Code05/cmake-cli/src/unit_testing/Debug
-        
-    - name: Unit Test
-      # runs unit test
-      run: ${{github.workspace}}/Team05/Code05/cmake-cli/src/unit_testing/Debug/unit_testing.exe
