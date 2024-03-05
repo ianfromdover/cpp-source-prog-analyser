@@ -3,7 +3,7 @@
 //
 
 #include "IntegerArgument.h"
-#include "QPS/Exceptions/QPSException.h"
+#include "qps/Exceptions/QPSException.h"
 
 std::string IntegerArgument::getArgumentValue() {
     return to_string(this->value);

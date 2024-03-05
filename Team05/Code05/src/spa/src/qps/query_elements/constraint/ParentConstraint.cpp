@@ -3,7 +3,7 @@
 //
 
 #include "ParentConstraint.h"
-#include "QPS/QueryProjector/ResultTable/ResultTable.h"
+#include "qps/QueryProjector/ResultTable/ResultTable.h"
 
 ParentConstraint::ParentConstraint(std::shared_ptr<StatementReference>  s1, std::shared_ptr<StatementReference>  s2) {
     constraintArguments.push_back(s1);

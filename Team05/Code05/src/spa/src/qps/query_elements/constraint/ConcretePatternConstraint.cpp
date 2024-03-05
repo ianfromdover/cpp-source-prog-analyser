@@ -3,7 +3,7 @@
 //
 
 #include "ConcretePatternConstraint.h"
-#include "QPS/QueryProjector/ResultTable/ResultTable.h"
+#include "qps/QueryProjector/ResultTable/ResultTable.h"
 
 #include <utility>
 

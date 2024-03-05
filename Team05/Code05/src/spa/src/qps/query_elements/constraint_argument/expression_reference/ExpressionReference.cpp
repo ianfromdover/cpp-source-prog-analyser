@@ -3,7 +3,7 @@
 //
 
 #include "ExpressionReference.h"
-#include "QPS/Exceptions/QPSException.h"
+#include "qps/Exceptions/QPSException.h"
 
 std::string ExpressionReference::getReferenceType() {
     return REFERENCE_TYPE_EXPRESSION;

@@ -3,7 +3,7 @@
 //
 
 #include "ExpressionWithWildcard.h"
-#include "QPS/Exceptions/QPSException.h"
+#include "qps/Exceptions/QPSException.h"
 
 std::string ExpressionWithWildcard::getArgumentValue() {
     return regularExpression;

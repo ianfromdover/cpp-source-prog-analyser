@@ -3,7 +3,7 @@
 //
 
 #include "EntityRefWildCard.h"
-#include "QPS/Exceptions/QPSException.h"
+#include "qps/Exceptions/QPSException.h"
 
 std::string EntityRefWildCard::getEntityType() {
     return TYPE_WILDCARD;

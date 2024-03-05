@@ -3,7 +3,7 @@
 //
 
 #include "Expression.h"
-#include "QPS/Exceptions/QPSException.h"
+#include "qps/Exceptions/QPSException.h"
 
 #include <utility>
 

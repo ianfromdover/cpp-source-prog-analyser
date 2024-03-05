@@ -3,7 +3,7 @@
 //
 
 #include "StatementEntity.h"
-#include "QPS/Exceptions/QPSException.h"
+#include "qps/Exceptions/QPSException.h"
 
 std::string StatementEntity::getReturnType() {
     return RETURN_INT_RESULT;

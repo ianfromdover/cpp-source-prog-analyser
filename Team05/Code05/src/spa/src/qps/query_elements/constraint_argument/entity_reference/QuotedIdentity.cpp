@@ -3,7 +3,7 @@
 //
 
 #include "QuotedIdentity.h"
-#include "QPS/Exceptions/QPSException.h"
+#include "qps/Exceptions/QPSException.h"
 
 std::string QuotedIdentity::getEntityType() {
     return TYPE_QUOTED_IDENT;
