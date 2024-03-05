@@ -5,7 +5,7 @@
 #ifndef SPA_POPULATEPKB_H
 #define SPA_POPULATEPKB_H
 
-#include "BasePKBPopulator.h"
+#include "pkb/apis/BasePKBPopulator.h"
 #include "PKBStorage.h"
 
 class PopulatePKB : public BasePKBPopulator {
