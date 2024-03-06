@@ -1,7 +1,7 @@
 #include <fstream>
 #include "TestWrapper.h"
 #include "qps/QPS.h"
-#include "../../spa/src/utilSpa/base_exception/BaseException.h"
+#include "../../spa/src/common/base_exception/BaseException.h"
 
 // implementation code of WrapperFactory - do NOT modify the next 5 lines
 AbstractWrapper* WrapperFactory::wrapper = 0;
