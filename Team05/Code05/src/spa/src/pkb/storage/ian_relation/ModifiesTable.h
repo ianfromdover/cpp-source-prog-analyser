@@ -8,37 +8,25 @@
 #include "utilSpa/SpaTypes.h"
 #include "pkb/storage/base/TwoSideMap.hpp"
 
+/**
+ * TODO: Should split this up into 2 tables
+ */
 class ModifiesTable {
 private:
-    TwoSideMap<StmtNo, VarName> twoSideMapMMStmtNo;
-    //
-    TwoSideMap<ProcName, VarName> twoSideMapMMProcName;
+    TwoSideMap<StmtNo, VarName> stmtMap;
+    TwoSideMap<ProcName, VarName> procMap;
 public:
     ModifiesTable();
 
-    // For twoSideMapOMStmtNo
     bool addModifiesS(StmtNo stmtNo, VarName varName);
-    bool isModifiesS(StmtNo stmtNo, VarName varName);
-    // Returns true if the var has a modifier
-    bool hasModifiersS(VarName varName);
-    // Returns true if the var has a modified
-    bool hasModifiedS(StmtNo stmtNo);
     std::vector<StmtNo> getModifiersS(VarName varName);
     // Returns a list of modified variables
     std::vector<VarName> getModifiedS(StmtNo stmtNo);
-    int getSizeS() const;
 
-    // For twoSideMapOMProcName
     bool addModifiesP(ProcName procName, VarName varName);
-    bool isModifiesP(ProcName procName, VarName varName);
-    // Returns true if the var has a modifier
-    bool hasModifiersP(VarName varName);
-    // Returns true if the var has a modified
-    bool hasModifiedP(ProcName procName);
     std::vector<ProcName> getModifiersP(VarName varName);
     // Returns a list of modified variables
     vector<VarName> getModifiedP(ProcName procName);
-    int getSizeP() const;
 };
 
 

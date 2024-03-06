@@ -1,15 +1,18 @@
 #include "ReadTable.h"
 
-#include <utility>
-
 ReadTable::ReadTable() = default;
 
 bool ReadTable::addRead(StmtNo sNum, VarName name) {
-    return twoSideMapOM.insert(sNum, name);
+    return map.insert(sNum, name);
 }
 vector<StmtNo> ReadTable::getReadStmts(VarName name) {
-    return twoSideMapOM.getKeys(std::move(name));
+    return map.getKeys(std::move(name));
 }
 vector<VarName> ReadTable::getReadVar(StmtNo sNum) {
-    return twoSideMapOM.getValues(sNum);
+    return map.getValues(sNum);
+}
+
+vector<vector<Str>> ReadTable::getAllAsStrings() {
+    return {};
+    // return map.getAll(); // type not compatible?
 }

@@ -6,14 +6,17 @@
 
 FollowsTTable::FollowsTTable() = default;
 bool FollowsTTable::addFollowsT(StmtNo before, StmtNo after) {
-    return twoSideMapMM.insert(before, after);
+    return map.insert(before, after);
 }
 
 std::vector<StmtNo> FollowsTTable::getStmtsBefore(StmtNo after) {
-    return twoSideMapMM.getKeys(after);
+    return map.getKeys(after);
 }
 
 std::vector<StmtNo> FollowsTTable::getFollowersT(StmtNo before) {
-    return twoSideMapMM.getValues(before);
+    return map.getValues(before);
 }
 
+vector<vector<Str>> FollowsTTable::getAll() {
+    return map.getAll();
+}

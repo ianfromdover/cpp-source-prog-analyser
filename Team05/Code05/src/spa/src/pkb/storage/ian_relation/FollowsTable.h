@@ -6,7 +6,7 @@
 
 class FollowsTable {
 private:
-    TwoSideMap<StmtNo, StmtNo> twoSideMap;
+    TwoSideMap<StmtNo, StmtNo> map;
 public:
     FollowsTable();
     // Adds a follows relationship to the follows table, returns true if the relationship is added
@@ -15,6 +15,6 @@ public:
     vector<StmtNo> getStmtBefore(StmtNo after);
     // Returns the follower of this statement. Returns -1 if there is no follower
     vector<StmtNo> getFollower(StmtNo before);
-    // Gets a table with 2 columns, the first column is the before statement, the second column is the after statement, as strings
+    // Gets a table with 2 columns, Before | After
     vector<vector<Str>> getAll();
 };

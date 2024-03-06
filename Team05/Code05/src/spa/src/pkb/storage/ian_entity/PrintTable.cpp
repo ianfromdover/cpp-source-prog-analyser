@@ -1,15 +1,18 @@
 #include "PrintTable.h"
 
-#include <utility>
-
 PrintTable::PrintTable() = default;
 
 bool PrintTable::addPrint(StmtNo sNum, VarName name) {
-    return twoSideMapOM.insert(sNum, name);
+    return map.insert(sNum, std::move(name));
 }
 vector<StmtNo> PrintTable::getPrintStmts(VarName name) {
-    return twoSideMapOM.getKeys(std::move(name));
+    return map.getKeys(std::move(name));
 }
 vector<VarName> PrintTable::getPrintVar(StmtNo sNum) {
-    return twoSideMapOM.getValues(sNum);
+    return map.getValues(sNum);
+}
+
+vector<vector<Str>> PrintTable::getAllAsStrings() {
+    return {};
+    // return map.getAll(); // type not compatible?
 }

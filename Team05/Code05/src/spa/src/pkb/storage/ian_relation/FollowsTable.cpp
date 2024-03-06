@@ -2,17 +2,17 @@
 
 FollowsTable::FollowsTable() = default;
 bool FollowsTable::addFollows(StmtNo before, StmtNo after) {
-    return twoSideMap.insert(before, after);
+    return map.insert(before, after);
 }
 
 vector<StmtNo> FollowsTable::getStmtBefore(StmtNo after) {
-    return twoSideMap.getKeys(after);
+    return map.getKeys(after);
 }
 
 vector<StmtNo> FollowsTable::getFollower(StmtNo before) {
-    return twoSideMap.getValues(before);
+    return map.getValues(before);
 }
 
 vector<vector<Str>> FollowsTable::getAll() {
-    return twoSideMap.getAll();
+    return map.getAll();
 }

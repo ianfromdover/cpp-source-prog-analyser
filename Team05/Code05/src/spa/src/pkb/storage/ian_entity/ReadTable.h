@@ -11,11 +11,15 @@
  */
 class ReadTable {
 private:
-    TwoSideMap<StmtNo, VarName> twoSideMapOM;
+    TwoSideMap<StmtNo, VarName> map;
 public:
     ReadTable();
+    // Adds a read statement to the table, returns false if it already exists
     bool addRead(StmtNo sNum, VarName name);
+    // Returns the statement numbers of the statements that read a variable
     vector<StmtNo> getReadStmts(VarName name);
-    // Returns the variable read by the statement number, if the variable is not found, returns an empty string.
+    // Returns the variable read by the statement number, if the variable is not found, returns an empty vector.
     vector<VarName> getReadVar(StmtNo sNum);
+    // Returns all the read statements and read vars as strings in 2 columns: StmtNo | VarName
+    vector<vector<Str>> getAllAsStrings();
 };

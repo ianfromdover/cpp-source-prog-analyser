@@ -3,13 +3,13 @@
 IfTable::IfTable() = default;
 
 bool IfTable::addIf(StmtNo sNum, VarName var) {
-    return twoSideMapMM.insert(sNum, var);
+    return map.insert(sNum, std::move(var));
 }
 vector<StmtNo> IfTable::getIfStmts(VarName var) {
-    return twoSideMapMM.getKeys(var);
+    return map.getKeys(std::move(var));
 }
 vector<VarName> IfTable::getIfVars(StmtNo sNum) {
-    return twoSideMapMM.getValues(sNum);
+    return map.getValues(sNum);
 }
 
 vector<vector<Str>> IfTable::getAllAsStrings() {

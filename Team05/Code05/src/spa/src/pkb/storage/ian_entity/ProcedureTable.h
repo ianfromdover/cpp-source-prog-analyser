@@ -12,8 +12,10 @@ private:
     vector<ProcName> procList;
 public:
     ProcedureTable();
+    // Adds a procedure name to the table, returns false if it already exists
     bool addProc(ProcName name);
-    bool hasProc(ProcName name);
+    // Returns all the procedure names
     vector<ProcName> getAllProcs();
-    [[nodiscard]] int getSize() const;
+    // Returns all the procedure names as strings
+    vector<Str> getAllAsStrings();
 };

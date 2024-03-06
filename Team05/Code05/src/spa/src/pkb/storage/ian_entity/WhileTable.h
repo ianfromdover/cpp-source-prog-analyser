@@ -9,15 +9,15 @@
  */
 class WhileTable {
 private:
-    TwoSideMap<StmtNo, VarName> twoSideMapMM;
+    TwoSideMap<StmtNo, VarName> map;
 public:
     WhileTable();
+    // Adds a while statement to the table, returns false if it already exists
     bool addWhile(StmtNo sNum, VarName ctrlVarNames);
-    bool hasWhileAtStmt(StmtNo sNum, VarName ctrlVarNames);
-    bool hasWhile(VarName ctrlVarNames);
-    bool hasStmt(StmtNo sNum);
+    // Returns the statement numbers of the while-statements that have the control variable
     vector<StmtNo> getWhileStmts(VarName ctrlVarNames);
-    // Returns the constant values by the statement number, if the constant is not found, returns empty vector
-    vector<VarName> getWhiles(StmtNo sNum);
-    [[nodiscard]] int getSize() const;
+    // Returns the control variables in this while-statement, if not found, returns empty vector
+    vector<VarName> getWhileVars(StmtNo sNum);
+    // Returns all the while statements and ctrl vars as strings in 2 columns: StmtNo | VarName
+    vector<vector<Str>> getAllAsStrings();
 };
