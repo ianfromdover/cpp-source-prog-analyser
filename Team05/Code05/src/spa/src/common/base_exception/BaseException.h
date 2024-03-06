@@ -7,6 +7,7 @@
 
 #include <exception>
 #include <utility>
+#include <string>
 
 class BaseException : public std::exception {
 public:
