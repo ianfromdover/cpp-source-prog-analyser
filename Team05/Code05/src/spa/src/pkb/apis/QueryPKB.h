@@ -31,6 +31,8 @@ public:
     std::vector<std::vector<std::string>> getUses() override;
     std::vector<std::vector<std::string>> getModifies() override;
     std::vector<std::vector<std::string>> getPatternAsgn() override;
+    std::vector<std::vector<std::string>> getCalls() override;
+    std::vector<std::vector<std::string>> getCallsT() override;
 };
 
 

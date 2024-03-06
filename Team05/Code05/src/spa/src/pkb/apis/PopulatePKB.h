@@ -30,6 +30,8 @@ public:
     bool addUses(int stmtNo, std::string name) override;
     bool addModifies(int stmtNo, std::string name) override;
     bool addPatternAsgn(int stmtNo, std::string lhs, std::string rhs) override;
+    bool addCalls(std::string caller, std::string called) override;
+    bool addCallsT(std::string caller, std::string called) override;
 };
 
 
