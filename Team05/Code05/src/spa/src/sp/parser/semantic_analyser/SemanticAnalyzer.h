@@ -6,7 +6,7 @@
 #define SPA_SEMANTICANALYZER_H
 
 
-#include "sp/parser/ast/Stmt.h"
+#include "sp/ast/Stmt.h"
 
 class SemanticAnalyzer : public ProgramVisitor {
 private:

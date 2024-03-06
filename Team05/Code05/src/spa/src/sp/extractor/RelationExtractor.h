@@ -9,7 +9,7 @@
 
 #include "sp/visitor/ProgramVisitor.h"
 #include "pkb/apis/PopulatePKB.h"
-#include "sp/parser/ast/Stmt.h"
+#include "sp/ast/Stmt.h"
 
 class RelationExtractor : public ProgramVisitor {
 protected:
