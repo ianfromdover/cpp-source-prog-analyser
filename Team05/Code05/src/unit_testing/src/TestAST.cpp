@@ -99,7 +99,7 @@ TEST_CASE("Parse complex while condition") {
     auto tokens = sp.scan(codeSnippet);
     const auto parser = new Parser(tokens);
     const auto program = parser->parse();
-    for (const auto& procedures : *program) {
+    for (const auto& procedures : *program->getProcedures()) {
         std::cout << procedures->toString() << std::endl;
     }
 
@@ -135,7 +135,7 @@ TEST_CASE("Parse sample program") {
     auto tokens = sp.scan(codeSnippet);
     const auto parser = new Parser(tokens);
     const auto program = parser->parse();
-    for (const auto& procedures : *program) {
+    for (const auto& procedures : *program->getProcedures()) {
         std::cout << procedures->toString() << std::endl;
     }
 

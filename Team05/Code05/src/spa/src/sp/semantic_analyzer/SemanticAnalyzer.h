@@ -6,14 +6,15 @@
 #define SPA_SEMANTICANALYZER_H
 
 #include "sp/ast/Stmt.h"
+#include "sp/ast/Program.h"
 
 class SemanticAnalyzer : public ProgramVisitor {
 private:
     unordered_map<std::string, std::vector<std::string>> callGraph;
     std::string currentProcedure;
 private:
-    void setupCallGraph(const Program& program);
-    void populateCallGraph(const Program& program);
+    void setupCallGraph(const std::shared_ptr<Program>& program);
+    void populateCallGraph(const std::shared_ptr<Program>& program);
     void detectCyclicCalls();
     bool isCyclic();
     bool isCyclicHelper(const std::string& caller, std::unordered_set<std::string>& visited, std::unordered_set<std::string>& inPath);
@@ -30,7 +31,7 @@ private:
     void visitLiteralExpr(const Literal&, std::shared_ptr<Accumulator>&) override;
     void visitUnaryExpr(const Unary&, std::shared_ptr<Accumulator>&) override;
 public:
-    void check(const Program& program);
+    void check(const std::shared_ptr<Program>& program);
 };
 
 #endif //SPA_SEMANTICANALYZER_H

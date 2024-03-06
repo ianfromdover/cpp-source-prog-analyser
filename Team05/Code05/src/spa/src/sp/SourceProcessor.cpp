@@ -28,15 +28,15 @@ std::shared_ptr<std::vector<std::shared_ptr<Token>>> SourceProcessor::scan(const
     return Scanner(source).scanTokens();
 }
 
-Program SourceProcessor::parse(std::shared_ptr<std::vector<std::shared_ptr<Token>>>& tokens) {
+std::shared_ptr<Program> SourceProcessor::parse(std::shared_ptr<std::vector<std::shared_ptr<Token>>>& tokens) {
     return Parser(tokens).parse();
 }
 
-void SourceProcessor::validate(const Program &program) {
+void SourceProcessor::validate(const std::shared_ptr<Program>& program) {
     SemanticAnalyzer().check(program);
 }
 
-void SourceProcessor::extract(const Program& program) {
+void SourceProcessor::extract(const std::shared_ptr<Program>& program) {
     auto relationExtractor = std::vector<shared_ptr<ProgramVisitor>>{
             std::make_shared<ReadExtractor>(this->pkb),
             std::make_shared<CallExtractor>(this->pkb),
@@ -52,7 +52,7 @@ void SourceProcessor::extract(const Program& program) {
             std::make_shared<ModifiesExtractor>(this->pkb),
             std::make_shared<FollowsExtractor>(this->pkb)
     };
-    for (const auto& procedure : *program) {
+    for (const auto& procedure : *program->getProcedures()) {
         //std::cout << "pkb.addProcedure(" << procedure->getProcName() << ");" << std::endl;
         pkb->addProcedure(procedure->getName());
         for (const auto& extractor : relationExtractor) {

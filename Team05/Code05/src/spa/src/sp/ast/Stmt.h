@@ -29,7 +29,6 @@ public:
     [[nodiscard]] StmtNo getStmtNo() const;
 };
 
-using Program = std::shared_ptr<std::vector<std::shared_ptr<Procedure>>>;
 using StmtList = std::vector<std::shared_ptr<Stmt>>;
 
 class Procedure {

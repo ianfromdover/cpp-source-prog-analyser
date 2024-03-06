@@ -7,9 +7,9 @@
 
 // Parser_TestZeroNestingLevel
 
-std::string programToString(const Program& program) {
+std::string programToString(const std::shared_ptr<Program>& program) {
     std::string result;
-    for (const auto& procedure : *program) {
+    for (const auto& procedure : *program->getProcedures()) {
         result += procedure->toString();
     }
     return result;

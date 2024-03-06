@@ -6,12 +6,12 @@
 #include "Parser.h"
 #include "sp/exception/ParseException.h"
 
-Program Parser::parse() {
-    Program program = std::make_shared<std::vector<std::shared_ptr<Procedure>>>();
+std::shared_ptr<Program> Parser::parse() {
+    auto procedures = std::make_shared<Procedures>();
     while (!this->isAtEnd()) {
-        program->push_back(this->procedure());
+        procedures->push_back(this->procedure());
     }
-    return program;
+    return std::make_shared<Program>(procedures);
 }
 
 bool Parser::match(std::initializer_list<TokenType> types) {
