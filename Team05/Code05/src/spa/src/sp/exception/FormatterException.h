@@ -7,7 +7,7 @@
 
 #include <utility>
 
-#include "utilSpa/base_exception/BaseException.h"
+#include "common/base_exception/BaseException.h"
 
 class FormatterException : public BaseException {
 public:

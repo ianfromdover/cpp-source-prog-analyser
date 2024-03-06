@@ -3,7 +3,7 @@
 //
 
 #include "ExprFormatter.h"
-#include "../../tokeniser/Scanner.h"
+#include "../../tokenizer/Scanner.h"
 #include "../../parser/Parser.h"
 #include "../../exception/FormatterException.h"
 
