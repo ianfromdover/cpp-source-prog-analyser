@@ -3,13 +3,13 @@
 CallTable::CallTable() = default;
 
 bool CallTable::addCall(StmtNo sNum, ProcName name) {
-    return map.insert(std::move(name), sNum);
+    return map.insert(sNum, std::move(name));
 }
 vector<StmtNo> CallTable::getStmts(ProcName name) {
-    return map.getValues(std::move(name));
+    return map.getKeys(std::move(name));
 }
 vector<ProcName> CallTable::getProc(StmtNo sNum) {
-    return map.getKeys(sNum);
+    return map.getValues(sNum);
 }
 vector<vector<Str>> CallTable::getAllAsStrings() {
     return {};
