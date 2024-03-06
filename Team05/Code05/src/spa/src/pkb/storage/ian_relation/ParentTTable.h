@@ -11,20 +11,17 @@
 
 class ParentTTable {
 private:
-    TwoSideMap<StmtNo, StmtNo> twoSideMapMM;
+    TwoSideMap<StmtNo, StmtNo> map;
 public:
     ParentTTable();
     // Adds a follows relationship to the follows table, returns true if the relationship is added
     bool addParentT(StmtNo parent, StmtNo child);
-    bool isParentT(StmtNo parent, StmtNo child);
-    // Returns true if the statement has a parent
-    bool hasParentT(StmtNo child);
-    // Returns true if the statement has a child
-    bool hasChildrenT(StmtNo parent);
+    // Returns a list of parents of the child, unsorted. Returns an empty list if the child does not exist
     std::vector<StmtNo> getParentsT(StmtNo child);
-    // Returns a list of children of the parent, unsorted
+    // Returns a list of children of the parent, unsorted. Returns an empty list if the parent does not exist
     std::vector<StmtNo> getChildrenT(StmtNo parent);
-    int getSize() const;
+    // Gets a table with 2 columns, Parent* | Child*
+    std::vector<std::vector<Str>> getAll();
 };
 
 

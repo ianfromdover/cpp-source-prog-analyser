@@ -13,38 +13,32 @@
  */
 class PatternAssignTable {
 private:
-    TwoSideMap<StmtNo, VarName> twoSideMapMMStmtLhs; // name is key then value
-    TwoSideMap<StmtNo, VarName> twoSideMapMMStmtRhs;
-    TwoSideMap<VarName, VarName> twoSideMapMMLhsRhs;
+    TwoSideMap<StmtNo, VarName> stmtLhsMap;
+    TwoSideMap<StmtNo, VarName> stmtRhsMap;
+    TwoSideMap<VarName, VarName> lhsRhsMap;
 public:
     PatternAssignTable();
 
     // -------- For StmtNo | VarName LHS table
     bool addStmtLhs(StmtNo stmtNo, VarName varName); // Adds
-    bool isStmtLhs(StmtNo stmtNo, VarName varName); // Checks pair
-    bool hasLhsFromStmt(StmtNo stmtNo); // Checks if key exists
-    bool hasLhs(VarName varName); // Checks if value exists
     std::vector<StmtNo> getStmtsFromLhs(VarName varName); // Gets keys
     std::vector<VarName> getLhsVarsFromStmt(StmtNo stmtNo); // Gets values
-    int getSizeStmtLhs() const; // Gets size
+    // Gets a table with 2 columns, StmtNo | VarName
+    std::vector<std::vector<Str>> getAllStmtLhs();
 
     // -------- For StmtNo | VarName RHS table
     bool addStmtRhs(StmtNo stmtNo, VarName varName);
-    bool isStmtRhs(StmtNo stmtNo, VarName varName);
-    bool hasRhsFromStmt(StmtNo stmtNo);
-    bool hasRhs(VarName varName);
     std::vector<StmtNo> getStmtsFromRhs(VarName varName);
     std::vector<VarName> getRhsVarsFromStmt(StmtNo stmtNo);
-    int getSizeStmtRhs() const;
+    // Gets a table with 2 columns, StmtNo | VarName
+    std::vector<std::vector<Str>> getAllStmtRhs();
 
 
     // -------- For VarName LHS | VarName RHS table
     bool addLhsRhs(VarName lhs, VarName rhs);
-    bool isLhsRhs(VarName lhs, VarName rhs);
-    bool hasLhsFromRhs(VarName rhs);
-    bool hasRhsFromLhs(VarName lhs);
     std::vector<VarName> getLhsFromRhs(VarName rhs);
     std::vector<VarName> getRhsFromLhs(VarName lhs);
-    int getSizeLhsRhs() const;
+    // Gets a table with 2 columns, VarName | VarName
+    std::vector<std::vector<Str>> getAllLhsRhs();
 };
 

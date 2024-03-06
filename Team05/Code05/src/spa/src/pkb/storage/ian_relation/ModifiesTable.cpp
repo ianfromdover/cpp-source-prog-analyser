@@ -17,6 +17,11 @@ std::vector<VarName> ModifiesTable::getModifiedS(StmtNo stmtNo) {
     return stmtMap.getValues(stmtNo);
 }
 
+vector<vector<Str>> ModifiesTable::getAllS() {
+    return {};
+    // return stmtMap.getAll();
+}
+
 // ProcName map
 
 bool ModifiesTable::addModifiesP(ProcName procName, VarName varName) {
@@ -31,3 +36,7 @@ vector<VarName> ModifiesTable::getModifiedP(ProcName procName) {
     return procMap.getValues(procName);
 }
 
+vector<vector<Str>> ModifiesTable::getAllP() {
+    return {};
+    // return procMap.getAll();
+}
