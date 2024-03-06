@@ -5,15 +5,15 @@
 #ifndef SPA_PKBSTORAGE_H
 #define SPA_PKBSTORAGE_H
 #include <memory>
-#include "pkb/storage/entity/ReadTable.h"
-#include "pkb/storage/entity/CallTable.h"
-#include "pkb/storage/entity/IfTable.h"
-#include "pkb/storage/entity/WhileTable.h"
-#include "pkb/storage/entity/PrintTable.h"
-#include "pkb/storage/entity/StatementTable.h"
-#include "pkb/storage/entity/ProcedureTable.h"
-#include "pkb/storage/entity/VariableTable.h"
-#include "pkb/storage/entity/ConstantTable.h"
+//#include "pkb/storage/entity/ReadTable.h"
+//#include "pkb/storage/entity/CallTable.h"
+//#include "pkb/storage/entity/IfTable.h"
+//#include "pkb/storage/entity/WhileTable.h"
+//#include "pkb/storage/entity/PrintTable.h"
+//#include "pkb/storage/entity/StatementTable.h"
+//#include "pkb/storage/entity/ProcedureTable.h"
+//#include "pkb/storage/entity/VariableTable.h"
+//#include "pkb/storage/entity/ConstantTable.h"
 #include "pkb/storage/relation/FollowsTable.h"
 #include "pkb/storage/relation/FollowsTTable.h"
 #include "pkb/storage/entity/AssignTable.h"
@@ -28,6 +28,17 @@
 #include "pkb/storage/relation/CallsTable.h"
 #include "pkb/storage/relation/CallsTTable.h"
 
+// refactor
+#include "pkb/storage/ian_entity/CallTable.h"
+#include "pkb/storage/ian_entity/ReadTable.h"
+#include "pkb/storage/ian_entity/IfTable.h"
+#include "pkb/storage/ian_entity/WhileTable.h"
+#include "pkb/storage/ian_entity/PrintTable.h"
+//#include "pkb/storage/ian_entity/StmtTable.h"
+#include "pkb/storage/ian_entity/ProcedureTable.h"
+//#include "pkb/storage/ian_entity/VariableTable.h"
+#include "pkb/storage/ian_entity/ConstTable.h"
+
 class PKBStorage {
 public:
     PKBStorage() = default;
@@ -36,10 +47,10 @@ public:
     std::shared_ptr<IfTable> ifTable = std::make_shared<IfTable>();
     std::shared_ptr<WhileTable> whileTable = std::make_shared<WhileTable>();
     std::shared_ptr<PrintTable> printTable = std::make_shared<PrintTable>();
-    std::shared_ptr<StatementTable> statementTable = std::make_shared<StatementTable>();
+//    std::shared_ptr<StatementTable> statementTable = std::make_shared<StatementTable>();
     std::shared_ptr<ProcedureTable> procedureTable = std::make_shared<ProcedureTable>();
-    std::shared_ptr<VariableTable> variableTable = std::make_shared<VariableTable>();
-    std::shared_ptr<ConstantTable> constantTable = std::make_shared<ConstantTable>();
+//    std::shared_ptr<VariableTable> variableTable = std::make_shared<VariableTable>();
+    std::shared_ptr<ConstTable> constTable = std::make_shared<ConstTable>();
     std::shared_ptr<AssignTable> assignTable = std::make_shared<AssignTable>();
 
     std::shared_ptr<FollowsTable> followsTable = std::make_shared<FollowsTable>();

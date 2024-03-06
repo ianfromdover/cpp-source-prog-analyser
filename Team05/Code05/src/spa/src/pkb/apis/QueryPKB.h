@@ -6,6 +6,7 @@
 #define SPA_QUERYPKB_H
 
 #include "QueryPKBVirtual.h"
+#include "pkb/storage/base/TwoSideMap.hpp"
 
 class QueryPKBVirtual;
 
@@ -33,6 +34,31 @@ public:
     std::vector<std::vector<std::string>> getModifies() override;
     std::vector<std::vector<std::string>> getModifiesP() override;
     std::vector<std::vector<std::string>> getPatternAsgn() override;
+
+    // methods to convert to vec<vec<string>>
+    template <typename A>
+    std::vector<std::vector<std::string>> toVecVecStr(std::vector<A> vec);
+    vector<vector<std::string>> toVecVecStr(vector<std::string> vec);
+    template <typename A, typename B>
+    vector<vector<std::string>> toVecVecStr(TwoSideMap<A, B> map);
+    vector<vector<std::string>> toVecVecStr(string element);
+
+    // refactor get
+    std::vector<std::vector<std::string>> getCallByProc(ProcName name);
+    std::vector<std::vector<std::string>> getProc(StmtNo sNum);
+    std::vector<std::vector<std::string>> getReadByNum(int StmtNo);
+    std::vector<std::vector<std::string>> getReadByVar(VarName var);
+    std::vector<std::vector<std::string>> getIfByNum(int StmtNo);
+    std::vector<std::vector<std::string>> getWhileByNum(int StmtNo);
+    std::vector<std::vector<std::string>> getWhileByVar(string var);
+    std::vector<std::vector<std::string>> getPrintByNum(int StmtNo);
+    std::vector<std::vector<std::string>> getPrintByVar(string var);
+    std::vector<std::vector<std::string>> getStmtByNum(int StmtNo);
+    std::vector<std::vector<std::string>> getProcByName(string proc);
+    std::vector<std::vector<std::string>> getVarByName(string var);
+    std::vector<std::vector<std::string>> getConstByName(string var);
+    std::vector<std::vector<std::string>> getFollowsByBefore(int StmtNo);
+    std::vector<std::vector<std::string>> getFollowsByAfter(int StmtNo);
     std::vector<std::vector<std::string>> getCalls() override;
     std::vector<std::vector<std::string>> getCallsT() override;
 };

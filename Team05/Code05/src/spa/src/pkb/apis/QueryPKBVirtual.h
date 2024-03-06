@@ -7,6 +7,7 @@
 
 #include <memory>
 #include "PKBStorage.h"
+#include "common/SpaTypes.h"
 //#include "qps/QueryEvaluator/QueryResult/QueryResult.h"
 //#include "qps/query_elements/Returnable.h"
 //#include "qps/query_elements/constraint/Constraint.h"
@@ -34,7 +35,6 @@ public:
     virtual std::vector<std::vector<std::string>> getPatternAsgn() = 0;
     virtual std::vector<std::vector<std::string>> getCalls() = 0;
     virtual std::vector<std::vector<std::string>> getCallsT() = 0;
-
 };
 
 #endif //SPA_QUERYPKBVIRTUAL_H
