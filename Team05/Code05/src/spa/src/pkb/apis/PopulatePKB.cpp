@@ -89,3 +89,11 @@ bool PopulatePKB::addCalls(std::string caller, std::string called) {
 bool PopulatePKB::addCallsT(std::string caller, std::string called) {
     return pkb->callsTTable->addRecord(caller, called);
 }
+
+bool PopulatePKB::addCalls(std::string caller, std::string called) {
+    return pkb->callsTable->addRecord(caller, called);
+}
+
+bool PopulatePKB::addCallsT(std::string caller, std::string called) {
+    return pkb->callsTTable->addRecord(caller, called);
+}

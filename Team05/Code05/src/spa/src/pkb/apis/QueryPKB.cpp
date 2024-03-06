@@ -3,6 +3,7 @@
 //
 
 #include "QueryPKB.h"
+#include "pkb/storage/base/TwoSideMap.hpp"
 
 #include <utility>
 
@@ -114,6 +115,10 @@ std::vector<std::vector<std::string>> QueryPKB::getIfByNum(int StmtNo) {
     return toVecVecStr(pkb->ifTable->getIfVars(StmtNo));
 }
 
+std::vector<std::vector<std::string>> QueryPKB::getIfByVar(VarName var) {
+    return toVecVecStr(pkb->ifTable->getIfStmts(var));
+}
+
 std::vector<std::vector<std::string>> QueryPKB::getWhileByNum(int StmtNo) {
     return toVecVecStr(pkb->whileTable->getWhiles(StmtNo));
 }
@@ -197,26 +202,46 @@ std::vector<std::vector<std::string>> QueryPKB::toVecVecStr(std::vector<A> vec) 
     return result;
 }
 
-template <typename A, typename B>
-std::vector<std::vector<std::string>> QueryPKB::toVecVecStr(TwoSideMap<A, B> map) {
-
-    std::vector<std::vector<std::string>> result;
-
-    return result;
-}
-
-std::vector<std::vector<std::string>> QueryPKB::toVecVecStr(std::string element) {
-
-    std::vector<std::vector<std::string>> result;
-
-    // Create a vector<string> to hold the current element
-    std::vector<std::string> strElem;
-
-    // Put the element into the str vector
-    strElem.push_back((element));
-
-    return result;
-}
+//template <typename A, typename B>
+//std::vector<std::vector<std::string>> QueryPKB::toVecVecStr(TwoSideMap<A, B> map) {
+//
+//    std::vector<std::vector<std::string>> result;
+//
+//    return result;
+//}
+//
+//std::vector<std::vector<std::string>> QueryPKB::toVecVecStr(std::string element) {
+//
+//    std::vector<std::vector<std::string>> result;
+//
+//    // Create a vector<string> to hold the current element
+//    std::vector<std::string> strElem;
+//
+//    // Put the element into the str vector
+//    strElem.push_back((element));
+//
+//    return result;
+//}
+//template <typename A, typename B>
+//std::vector<std::vector<std::string>> QueryPKB::toVecVecStr(TwoSideMap<A, B> map) {
+//
+//    std::vector<std::vector<std::string>> result;
+//
+//    return result;
+//}
+//
+//std::vector<std::vector<std::string>> QueryPKB::toVecVecStr(std::string element) {
+//
+//    std::vector<std::vector<std::string>> result;
+//
+//    // Create a vector<string> to hold the current element
+//    std::vector<std::string> strElem;
+//
+//    // Put the element into the str vector
+//    strElem.push_back((element));
+//
+//    return result;
+//}
 
 //std::shared_ptr<QueryResult> QueryPKB::getResult(Returnable &, std::shared_ptr<Constraint>) {
 //    return std::shared_ptr<QueryResult>();

@@ -34,7 +34,7 @@
 #include "pkb/storage/ian_entity/IfTable.h"
 #include "pkb/storage/ian_entity/WhileTable.h"
 #include "pkb/storage/ian_entity/PrintTable.h"
-//#include "pkb/storage/ian_entity/StmtTable.h"
+#include "pkb/storage/ian_entity/StatementTable.h"
 #include "pkb/storage/ian_entity/ProcedureTable.h"
 //#include "pkb/storage/ian_entity/VariableTable.h"
 #include "pkb/storage/ian_entity/ConstTable.h"
@@ -47,7 +47,7 @@ public:
     std::shared_ptr<IfTable> ifTable = std::make_shared<IfTable>();
     std::shared_ptr<WhileTable> whileTable = std::make_shared<WhileTable>();
     std::shared_ptr<PrintTable> printTable = std::make_shared<PrintTable>();
-//    std::shared_ptr<StatementTable> statementTable = std::make_shared<StatementTable>();
+    std::shared_ptr<StatementTable> statementTable = std::make_shared<StatementTable>();
     std::shared_ptr<ProcedureTable> procedureTable = std::make_shared<ProcedureTable>();
 //    std::shared_ptr<VariableTable> variableTable = std::make_shared<VariableTable>();
     std::shared_ptr<ConstTable> constTable = std::make_shared<ConstTable>();
