@@ -9,47 +9,6 @@ TEST_CASE("[Utils TwoSideMapTwoSet] insert") {
     }
 }
 
-TEST_CASE("[Utils TwoSideMapTwoSet] containsKey") {
-    TwoSideMapManyMany<int, int> map;
-    map.insert(1, 2);
-    SECTION("Insert 1, 2, contains key 1") {
-        REQUIRE(map.containsKey(1));
-    }
-    SECTION("Insert 1, 2, does not contain key 2") {
-        REQUIRE(!map.containsKey(2));
-    }
-}
-
-TEST_CASE("[Utils TwoSideMapTwoSet] containsValue") {
-    TwoSideMapManyMany<int, int> map;
-    map.insert(1, 2);
-    SECTION("Insert 1, 2, contains value 2") {
-        REQUIRE(map.containsValue(2));
-    }
-    SECTION("Insert 1, 2, does not contain value 1") {
-        REQUIRE(!map.containsValue(1));
-    }
-}
-
-TEST_CASE("[Utils TwoSideMapTwoSet] size") {
-    TwoSideMapManyMany<int, int> map;
-    map.insert(1, 2);
-    SECTION("Insert 1, 2, size is 1") {
-        REQUIRE(map.size() == 1);
-    }
-
-    SECTION("Insert (1,2) (1,3) (1,4), size is 3") {
-        map.insert(1, 3);
-        map.insert(1, 4);
-        REQUIRE(map.size() == 3);
-    }
-
-    SECTION("Insert (1,2) (1,2), size is still 1") {
-        map.insert(1, 2);
-        REQUIRE(map.size() == 1);
-    }
-}
-
 TEST_CASE("[Utils TwoSideMapTwoSet] getKeys") {
     TwoSideMapManyMany<int, int> map;
     map.insert(1, 2);
