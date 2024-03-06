@@ -9,15 +9,15 @@
  */
 class ConstTable {
 private:
-    TwoSideMap<StmtNo, ConstVal> twoSideMapMM;
+    TwoSideMap<StmtNo, ConstVal> map;
 public:
     ConstTable();
+    // Adds a constant to the table, returns false if it already exists
     bool addConst(StmtNo sNum, ConstVal val);
-    bool hasConstAtStmt(StmtNo sNum, ConstVal val);
-    bool hasConst(ConstVal val);
-    bool hasStmt(StmtNo sNum);
+    // Returns the statement numbers that the constants are on
     vector<StmtNo> getConstStmts(ConstVal val);
     // Returns the constant values by the statement number, if the constant is not found, returns empty vector
     vector<ConstVal> getConsts(StmtNo sNum);
-    [[nodiscard]] int getSize() const;
+    // Returns all the constants as strings in 2 columns: StmtNo | ConstVal
+    vector<vector<Str>> getAllAsStrings();
 };

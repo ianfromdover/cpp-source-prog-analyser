@@ -7,6 +7,7 @@
 #include <vector>
 #include <unordered_map>
 #include <memory>
+#include <string>
 
 /**
  * @brief A double-sided map for O(1) retrieval of elements that have Many-Many relations.

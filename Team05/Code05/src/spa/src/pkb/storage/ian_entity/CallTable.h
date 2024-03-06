@@ -5,17 +5,20 @@
 #include "pkb/storage/base/TwoSideMap.hpp"
 
 /**
- * Stores the call statements and the procnames that are called in the program.
- * Note that the keys are variable names, and the values are statement numbers.
+ * Stores the call statements and the ProcNames that are called in the program.
+ * TODO: reverse ProcName StmtNo in tests
  */
 class CallTable {
 private:
-    TwoSideMap<ProcName, StmtNo> twoSideMapOM;
+    TwoSideMap<StmtNo, ProcName> map;
 public:
     CallTable();
+    // Adds a call statement to the call table, returns false if it already exists
     bool addCall(StmtNo sNum, ProcName name);
+    // Returns the statement numbers of the call statements based on what they call
     vector<StmtNo> getStmts(ProcName name);
-    // Returns the variable called by the statement number, if the variable is not found, returns an empty string.
+    // Returns the procedures that are called by this statement number
     vector<ProcName> getProc(StmtNo sNum);
-    [[nodiscard]] int getSize() const;
+    // Returns all the call statements as strings in 2 columns: ProcName | StmtNo
+    vector<vector<Str>> getAllAsStrings();
 };

@@ -12,12 +12,12 @@ private:
     TwoSideMap<StmtNo, VarName> twoSideMapMM;
 public:
     IfTable();
-    bool addIf(StmtNo sNum, VarName ctrlVarNames);
-    bool hasIfAtStmt(StmtNo sNum, VarName ctrlVarNames);
-    bool hasIf(VarName ctrlVarNames);
-    bool hasStmt(StmtNo sNum);
-    vector<StmtNo> getIfStmts(VarName ctrlVarNames);
-    // Returns the constant values by the statement number, if the constant is not found, returns empty vector
-    vector<VarName> getIfs(StmtNo sNum);
-    [[nodiscard]] int getSize() const;
+    // Adds an if statement to the table, returns false if it already exists
+    bool addIf(StmtNo sNum, VarName ctrlVarName);
+    // Returns the statement numbers of the if-statements that have the control variable
+    vector<StmtNo> getIfStmts(VarName ctrlVarName);
+    // Returns the control variables in this if-statement, if the constant is not found, returns empty vector
+    vector<VarName> getIfVars(StmtNo sNum);
+    // Returns all the if statements and ctrl vars as strings in 2 columns: StmtNo | VarName
+    vector<vector<Str>> getAllAsStrings();
 };
