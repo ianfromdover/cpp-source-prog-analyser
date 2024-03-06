@@ -7,7 +7,7 @@
 
 #include <utility>
 
-#include "sp/tokeniser/Scanner.h"
+#include "sp/tokenizer/Scanner.h"
 #include "sp/extractor/RelationExtractor.h"
 #include "sp/extractor/relation_extractor/ParentExtractor.h"
 #include "sp/parser/Parser.h"

@@ -5,8 +5,8 @@
 #ifndef SPA_PARSER_H
 #define SPA_PARSER_H
 
-#include "sp/parser/ast/Expr.h"
-#include "sp/parser/ast/Stmt.h"
+#include "sp/ast/Expr.h"
+#include "sp/ast/Stmt.h"
 
 class Parser {
 private:

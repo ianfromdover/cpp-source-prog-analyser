@@ -8,7 +8,7 @@
 #include <vector>
 #include <iostream>
 #include <memory>
-#include "utilSpa/SpaTypes.h"
+#include "common/SpaTypes.h"
 
 class Accumulator {
 public:

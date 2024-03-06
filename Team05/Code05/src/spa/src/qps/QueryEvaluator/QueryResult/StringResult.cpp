@@ -3,7 +3,7 @@
 //
 
 #include "StringResult.h"
-#include "utilSpa/StringUtils.h"
+#include "common/StringUtils.h"
 #include <algorithm>
 #include <iterator>
 

@@ -8,7 +8,7 @@
 #include <string>
 #include "../query_elements/QueryObject.h"
 #include "../query_elements/QueryEnums.h"
-#include "../../utilSpa/SpaTypes.h"
+#include "../../common/SpaTypes.h"
 #include "qps/parser/IntermediateQuery.h"
 
 

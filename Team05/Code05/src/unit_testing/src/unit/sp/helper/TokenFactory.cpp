@@ -5,7 +5,7 @@
 #include <string>
 #include <utility>
 #include <vector>
-#include "sp/tokeniser/token/Token.h"
+#include "sp/tokenizer/token/Token.h"
 
 using TokenStream = std::shared_ptr<std::vector<std::shared_ptr<Token>>>;
 

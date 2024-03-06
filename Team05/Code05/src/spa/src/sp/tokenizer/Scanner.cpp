@@ -3,7 +3,7 @@
 //
 
 #include "Scanner.h"
-#include "../tokeniser/strategy/TokenStrategy.h"
+#include "../tokenizer/strategy/TokenStrategy.h"
 
 Scanner::Scanner(const std::string& source) {
     this->source = source;

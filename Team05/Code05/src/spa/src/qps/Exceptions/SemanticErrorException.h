@@ -6,7 +6,7 @@
 #define SPA_SEMANTICERROREXCEPTION_H
 
 #include <exception>
-#include "../../utilSpa/base_exception/BaseException.h"
+#include "../../common/base_exception/BaseException.h"
 
 class SemanticErrorException : public BaseException {
 public:

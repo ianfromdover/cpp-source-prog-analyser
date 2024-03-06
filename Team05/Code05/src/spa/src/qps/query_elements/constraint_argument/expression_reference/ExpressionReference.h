@@ -6,7 +6,7 @@
 #define SPA_EXPRESSIONREFERENCE_H
 
 #include "../ConstraintArgument.h"
-#include "utilSpa/SpaTypes.h"
+#include "common/SpaTypes.h"
 #include "pkb/apis/QueryPKBVirtual.h"
 
 class ExpressionReference : public ConstraintArgument  {

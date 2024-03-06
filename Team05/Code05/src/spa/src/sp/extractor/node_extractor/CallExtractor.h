@@ -8,7 +8,6 @@
 #include <utility>
 
 #include "sp/extractor/RelationExtractor.h"
-#include "sp/parser/ast/Stmt.h"
 
 class CallExtractor: public RelationExtractor {
 public:

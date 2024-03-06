@@ -6,7 +6,7 @@
 #define SPA_QPSPARSEEXCEPTION_H
 
 #include <string>
-#include "utilSpa/base_exception/BaseException.h"
+#include "common/base_exception/BaseException.h"
 
 class QPSParseException : public BaseException {
 public:

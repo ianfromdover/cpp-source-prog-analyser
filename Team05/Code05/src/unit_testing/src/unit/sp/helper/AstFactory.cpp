@@ -9,9 +9,9 @@
 #include <memory>
 #include <string>
 #include <algorithm>
-#include "sp/parser/ast/Expr.h"
-#include "sp/parser/ast/Stmt.h"
-#include "sp/tokeniser/token/Token.h"
+#include "sp/ast/Expr.h"
+#include "sp/ast/Stmt.h"
+#include "sp/tokenizer/token/Token.h"
 
 class AstFactory {
 public:

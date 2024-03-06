@@ -3,7 +3,7 @@
 #include <iostream>
 #include <set>
 #include "pkb/apis/BasePKBPopulator.h"
-#include "utilSpa/SpaTypes.h"
+#include "common/SpaTypes.h"
 
 class PKBStubSP : public BasePKBPopulator {
     std::multiset<std::tuple<std::string, std::string, std::string>> tupleCalls;

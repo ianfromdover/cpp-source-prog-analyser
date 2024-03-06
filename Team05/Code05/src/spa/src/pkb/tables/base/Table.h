@@ -6,7 +6,7 @@
 #define SPA_TABLE_H
 
 #include <iostream>
-#include "utilSpa/StringColumn.h"
+#include "common/StringColumn.h"
 
 
 class Table {

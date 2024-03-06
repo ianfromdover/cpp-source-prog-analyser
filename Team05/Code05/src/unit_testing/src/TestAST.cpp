@@ -1,7 +1,7 @@
 
-#include "sp/tokeniser/Scanner.cpp"
+#include "sp/tokenizer/Scanner.cpp"
 #include "sp/parser/Parser.h"
-#include "sp/tokeniser/strategy/TokenStrategy.cpp"
+#include "sp/tokenizer/strategy/TokenStrategy.cpp"
 #include "sp/SourceProcessor.h"
 #include "catch.hpp"
 #include "qps/QPS.h"

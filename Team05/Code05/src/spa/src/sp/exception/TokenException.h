@@ -5,7 +5,7 @@
 #ifndef SPA_TOKENEXCEPTION_H
 #define SPA_TOKENEXCEPTION_H
 
-#include "utilSpa/base_exception/BaseException.h"
+#include "common/base_exception/BaseException.h"
 
 
 class TokenException : public BaseException {

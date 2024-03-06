@@ -5,7 +5,7 @@
 #ifndef SPA_SEMANTICANALYSISEXCEPTION_H
 #define SPA_SEMANTICANALYSISEXCEPTION_H
 
-#include "utilSpa/base_exception/BaseException.h"
+#include "common/base_exception/BaseException.h"
 
 class SemanticAnalysisException : public BaseException {
 public:
