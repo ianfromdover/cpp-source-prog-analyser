@@ -55,14 +55,21 @@ QueryPKB::QueryPKB(std::shared_ptr<PKBStorage> p) {
 //    return pkb->followsTTable->getTable();
 //}
 
-std::vector<std::vector<std::string>> QueryPKB::getParent() {
-    return pkb->parentTable->getTable();
-}
+//std::vector<std::vector<std::string>> QueryPKB::getParent() {
+//    return pkb->parentTable->getTable();
+//}
+//
+//std::vector<std::vector<std::string>> QueryPKB::getParentT() {
+//    return pkb->parentTTable->getTable();
+//}
 
-std::vector<std::vector<std::string>> QueryPKB::getParentT() {
-    return pkb->parentTTable->getTable();
-}
-
+//std::vector<std::vector<std::string>> QueryPKB::getUses() {
+//    return pkb->usesTable->getTable();
+//}
+//
+//std::vector<std::vector<std::string>> QueryPKB::getModifies() {
+//    return pkb->modifiesTable->getTable();
+//}
 std::vector<std::vector<std::string>> QueryPKB::getUses() {
     return pkb->usesSTable->getTable();
 }
@@ -71,6 +78,9 @@ std::vector<std::vector<std::string>> QueryPKB::getUsesP() {
     return pkb->usesPTable->getTable();
 }
 
+//std::vector<std::vector<std::string>> QueryPKB::getPatternAsgn() {
+//    return pkb->assignTable->getTable();
+//}
 std::vector<std::vector<std::string>> QueryPKB::getModifies() {
     return pkb->modifiesSTable->getTable();
 }
@@ -93,15 +103,34 @@ std::vector<std::vector<std::string>> QueryPKB::getCallsT() {
     return pkb->callsTTable->getTable();
 }
 
-// CallTable methods
+// CallStmt
+
+std::vector<std::vector<std::string>> QueryPKB::getCallByNum(int StmtNo) {
+    return toVecVecStr(pkb->callTable->getProc(StmtNo));
+}
 
 std::vector<std::vector<std::string>> QueryPKB::getCallByProc(ProcName name) {
     return toVecVecStr(pkb->callTable->getStmts(name));
 }
 
-std::vector<std::vector<std::string>> QueryPKB::getProc(StmtNo sNum) {
-    return toVecVecStr(pkb->callTable->getProc(sNum));
+// TODO: not actually implemented yet
+std::vector<std::vector<std::string>> QueryPKB::getCallTable() {
+    return pkb->callTable->getAllAsStrings();
 }
+
+// Proc
+
+// TODO: not actually implemented yet
+std::vector<std::vector<std::string>> QueryPKB::getProcByName(ProcName name) {
+//    return toVecVecStr(pkb->procedureTable->getAllProcs());
+}
+
+// TODO: not actually implemented yet
+std::vector<std::vector<std::string>> QueryPKB::getProcTable() {
+//    return toVecVecStr(pkb->procedureTable->getAllAsStrings());
+}
+
+// Read
 
 std::vector<std::vector<std::string>> QueryPKB::getReadByNum(int StmtNo) {
     return toVecVecStr(pkb->readTable->getReadVar(StmtNo));
@@ -111,6 +140,13 @@ std::vector<std::vector<std::string>> QueryPKB::getReadByVar(VarName var) {
     return toVecVecStr(pkb->readTable->getReadStmts(var));
 }
 
+// TODO: not actually implemented yet
+std::vector<std::vector<std::string>> QueryPKB::getReadTable() {
+//    return pkb->readTable->getAllAsStrings();
+}
+
+// If
+
 std::vector<std::vector<std::string>> QueryPKB::getIfByNum(int StmtNo) {
     return toVecVecStr(pkb->ifTable->getIfVars(StmtNo));
 }
@@ -119,13 +155,25 @@ std::vector<std::vector<std::string>> QueryPKB::getIfByVar(VarName var) {
     return toVecVecStr(pkb->ifTable->getIfStmts(var));
 }
 
+std::vector<std::vector<std::string>> QueryPKB::getIfTable() {
+//    return std::vector<std::vector<std::string>>();
+}
+
+// While
+
 std::vector<std::vector<std::string>> QueryPKB::getWhileByNum(int StmtNo) {
-    return toVecVecStr(pkb->whileTable->getWhiles(StmtNo));
+    return toVecVecStr(pkb->whileTable->getWhileVars(StmtNo));
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getWhileByVar(string var) {
     return toVecVecStr(pkb->whileTable->getWhileStmts(var));
 }
+
+std::vector<std::vector<std::string>> QueryPKB::getWhileTable() {
+//    return std::vector<std::vector<std::string>>();
+}
+
+// Print
 
 std::vector<std::vector<std::string>> QueryPKB::getPrintByNum(int StmtNo) {
     return toVecVecStr(pkb->printTable->getPrintVar(StmtNo));
@@ -135,31 +183,70 @@ std::vector<std::vector<std::string>> QueryPKB::getPrintByVar(string var) {
     return toVecVecStr(pkb->printTable->getPrintStmts(var));
 }
 
+std::vector<std::vector<std::string>> QueryPKB::getPrintTable() {
+//    return std::vector<std::vector<std::string>>();
+}
+
+// Stmt
+
 // TODO
 std::vector<std::vector<std::string>> QueryPKB::getStmtByNum(int StmtNo) {
     return {{}};
+//    return toVecVecStr(pkb->statementTable->getAllStmts());
 }
 
-std::vector<std::vector<std::string>> QueryPKB::getProcByName(string proc) {
-    return toVecVecStr(pkb->procedureTable->getAllProcs());
+std::vector<std::vector<std::string>> QueryPKB::getStmtTable() {
+    return toVecVecStr(pkb->statementTable->getAllStmts());
 }
+
+// Var
 
 // TODO
 std::vector<std::vector<std::string>> QueryPKB::getVarByName(string var) {
-    return {{}};
+//    return toVecVecStr(pkb.varTable.get);
 }
+
+std::vector<std::vector<std::string>> QueryPKB::getVarTable() {
+//    return toVecVecStr(pkb->varTable->getAllVars());
+}
+
+// Const
 
 // TODO
 std::vector<std::vector<std::string>> QueryPKB::getConstByName(string var) {
     return {{}};
 }
 
+std::vector<std::vector<std::string>> QueryPKB::getConstTable() {
+    return pkb->constTable->getAllAsStrings();
+}
+
+// Follows
+
 std::vector<std::vector<std::string>> QueryPKB::getFollowsByBefore(int StmtNo) {
-    return std::vector<std::vector<std::string>>();
+    return toVecVecStr(pkb->followsTable->getFollower(StmtNo));
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getFollowsByAfter(int StmtNo) {
-    return std::vector<std::vector<std::string>>();
+    return toVecVecStr(pkb->followsTable->getStmtBefore(StmtNo));
+}
+
+std::vector<std::vector<std::string>> QueryPKB::getFollowsTable() {
+    return pkb->followsTable->getAll();
+}
+
+// FollowsT
+
+std::vector<std::vector<std::string>> QueryPKB::getFollowsTByBefore(int StmtNo) {
+    return toVecVecStr(pkb->followsTTable->getFollowersT(StmtNo));
+}
+
+std::vector<std::vector<std::string>> QueryPKB::getFollowsTByAfter(int StmtNo) {
+    return toVecVecStr(pkb->followsTTable->getStmtsBefore(StmtNo));
+}
+
+std::vector<std::vector<std::string>> QueryPKB::getFollowsTTable() {
+    return pkb->followsTTable->getAll();
 }
 
 // Conversion methods
@@ -188,7 +275,7 @@ std::vector<std::vector<std::string>> QueryPKB::toVecVecStr(std::vector<A> vec) 
 
     std::vector<std::vector<std::string>> result;
 
-    for (const A& element : vec) {
+    for (const auto& element : vec) {
         // Create a vector<string> to hold the current element
         std::vector<std::string> strElem;
 
@@ -229,7 +316,7 @@ std::vector<std::vector<std::string>> QueryPKB::toVecVecStr(std::vector<A> vec) 
 //
 //    return result;
 //}
-//
+
 //std::vector<std::vector<std::string>> QueryPKB::toVecVecStr(std::string element) {
 //
 //    std::vector<std::vector<std::string>> result;

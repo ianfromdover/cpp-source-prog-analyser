@@ -14,8 +14,8 @@
 //#include "pkb/storage/entity/ProcedureTable.h"
 //#include "pkb/storage/entity/VariableTable.h"
 //#include "pkb/storage/entity/ConstantTable.h"
-#include "pkb/storage/relation/FollowsTable.h"
-#include "pkb/storage/relation/FollowsTTable.h"
+//#include "pkb/storage/relation/FollowsTable.h"
+//#include "pkb/storage/relation/FollowsTTable.h"
 #include "pkb/storage/entity/AssignTable.h"
 #include "pkb/storage/relation/ParentTable.h"
 #include "pkb/storage/relation/ParentTTable.h"
@@ -36,10 +36,14 @@
 #include "pkb/storage/ian_entity/PrintTable.h"
 #include "pkb/storage/ian_entity/StatementTable.h"
 #include "pkb/storage/ian_entity/ProcedureTable.h"
+// TODO: remove comment once implemented
 //#include "pkb/storage/ian_entity/VariableTable.h"
 #include "pkb/storage/ian_entity/ConstTable.h"
 #include "pkb/storage/ian_relation/ModifiesPTable.h"
 #include "pkb/storage/ian_relation/ModifiesSTable.h"
+
+#include "pkb/storage/ian_relation/FollowsTable.h"
+#include "pkb/storage/ian_relation/FollowsTTable.h"
 
 class PKBStorage {
 public:
