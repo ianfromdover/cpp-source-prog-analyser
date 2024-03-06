@@ -1,16 +1,15 @@
 #pragma once
 #define SPA_WHILETABLE_H
 
-#include <optional>
 #include "utilSpa/SpaTypes.h"
-#include "pkb/storage/base/TwoSideMapManyMany.hpp"
+#include "pkb/storage/base/TwoSideMap.hpp"
 
 /**
  * Stores the while statements and the variables in their predicates in the program.
  */
 class WhileTable {
 private:
-    TwoSideMapManyMany<StmtNo, VarName> twoSideMapMM;
+    TwoSideMap<StmtNo, VarName> twoSideMapMM;
 public:
     WhileTable();
     bool addWhile(StmtNo sNum, VarName ctrlVarNames);

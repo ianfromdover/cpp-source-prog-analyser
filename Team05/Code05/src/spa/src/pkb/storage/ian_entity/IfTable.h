@@ -1,16 +1,15 @@
 #pragma once
 #define SPA_IFTABLE_H
 
-#include <optional>
 #include "utilSpa/SpaTypes.h"
-#include "pkb/storage/base/TwoSideMapManyMany.hpp"
+#include "pkb/storage/base/TwoSideMap.hpp"
 
 /**
  * Stores the if statements and the variables in their predicates in the program.
  */
 class IfTable {
 private:
-    TwoSideMapManyMany<StmtNo, VarName> twoSideMapMM;
+    TwoSideMap<StmtNo, VarName> twoSideMapMM;
 public:
     IfTable();
     bool addIf(StmtNo sNum, VarName ctrlVarNames);

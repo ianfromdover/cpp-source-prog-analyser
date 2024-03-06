@@ -2,11 +2,11 @@
 #define SPA_PARENT_TABLE
 
 #include "utilSpa/SpaTypes.h"
-#include "pkb/storage/base/TwoSideMapOneMany.hpp"
+#include "pkb/storage/base/TwoSideMap.hpp"
 
 class ParentTable {
 private:
-    TwoSideMapOneMany<StmtNo, StmtNo> twoSideMapOM;
+    TwoSideMap<StmtNo, StmtNo> twoSideMapOM;
 public:
     ParentTable();
     bool addParent(StmtNo parent, StmtNo child);

@@ -6,13 +6,13 @@
 #define SPA_MODIFIESTABLE_H
 
 #include "utilSpa/SpaTypes.h"
-#include "pkb/storage/base/TwoSideMapManyMany.hpp"
+#include "pkb/storage/base/TwoSideMap.hpp"
 
 class ModifiesTable {
 private:
-    TwoSideMapManyMany<StmtNo, VarName> twoSideMapMMStmtNo;
+    TwoSideMap<StmtNo, VarName> twoSideMapMMStmtNo;
     //
-    TwoSideMapManyMany<ProcName, VarName> twoSideMapMMProcName;
+    TwoSideMap<ProcName, VarName> twoSideMapMMProcName;
 public:
     ModifiesTable();
 

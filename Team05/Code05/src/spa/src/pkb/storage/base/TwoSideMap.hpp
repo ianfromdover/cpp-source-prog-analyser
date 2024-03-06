@@ -7,7 +7,6 @@
 #include <vector>
 #include <unordered_map>
 #include <memory>
-#include <optional>
 
 /**
  * @brief A double-sided map for O(1) retrieval of elements that have Many-Many relations.
@@ -17,7 +16,7 @@
  * @tparam B The type of the values.
  */
 template<typename A, typename B>
-class TwoSideMapManyMany { // TODO: rename to TableMM
+class TwoSideMap {
 private:
     std::unordered_map<A, std::set<std::shared_ptr<B>>> forwardMap; // TODO: print out addr to see if ptr is pointing to the key objects
     std::unordered_map<B, std::set<std::shared_ptr<A>>> backwardMap; // TODO: change to weak_ptr to prevent memory leak
@@ -32,7 +31,7 @@ private:
     bool containsPair(A key, B value);
 
 public:
-    TwoSideMapManyMany();
+    TwoSideMap();
 
     /**
      * @brief Insert a mapping from key to value. If the mapping already exists, nothing is done.
@@ -61,20 +60,20 @@ public:
 // ---------------------------- Implementation ----------------------------
 
 template<typename A, typename B>
-TwoSideMapManyMany<A, B>::TwoSideMapManyMany() {};
+TwoSideMap<A, B>::TwoSideMap() {};
 
 template<typename A, typename B>
-bool TwoSideMapManyMany<A, B>::containsKey(const A key) {
+bool TwoSideMap<A, B>::containsKey(const A key) {
     return forwardMap.find(key) != forwardMap.end();
 }
 
 template<typename A, typename B>
-bool TwoSideMapManyMany<A, B>::containsValue(const B value) {
+bool TwoSideMap<A, B>::containsValue(const B value) {
     return backwardMap.find(value) != backwardMap.end();
 }
 
 template<typename A, typename B>
-bool TwoSideMapManyMany<A, B>::containsPair(A key, B value) {
+bool TwoSideMap<A, B>::containsPair(A key, B value) {
     // check if the key and value are in the maps
     if (!containsKey(key) || !containsValue(value)) {
         return false;
@@ -96,7 +95,7 @@ bool TwoSideMapManyMany<A, B>::containsPair(A key, B value) {
 }
 
 template<typename A, typename B>
-bool TwoSideMapManyMany<A, B>::insert(const A key, const B value) {
+bool TwoSideMap<A, B>::insert(const A key, const B value) {
     // ai-gen start (copilot, 1, e)
     // prompt: used copilot
     if (containsPair(key, value)) {
@@ -123,7 +122,7 @@ bool TwoSideMapManyMany<A, B>::insert(const A key, const B value) {
 }
 
 template<typename A, typename B>
-std::vector<B> TwoSideMapManyMany<A, B>::getValues(A key) {
+std::vector<B> TwoSideMap<A, B>::getValues(A key) {
     std::vector<B> result;
     if (!containsKey(key)) {
         std::cout << "Warning: TwoSideMapTwoSet-getValues: Key not found in forward map" << std::endl;
@@ -137,7 +136,7 @@ std::vector<B> TwoSideMapManyMany<A, B>::getValues(A key) {
 }
 
 template<typename A, typename B>
-std::vector<A> TwoSideMapManyMany<A, B>::getKeys(B value) {
+std::vector<A> TwoSideMap<A, B>::getKeys(B value) {
     std::vector<A> result;
     if (!containsValue(value)) {
         std::cout << "Warning: TwoSideMapTwoSet-getKeys: Value not found in backward map" << std::endl;
@@ -151,26 +150,14 @@ std::vector<A> TwoSideMapManyMany<A, B>::getKeys(B value) {
 }
 
 template<typename A, typename B>
-std::vector<std::vector<std::string>> TwoSideMapManyMany<A, B>::getAll() {
+std::vector<std::vector<std::string>> TwoSideMap<A, B>::getAll() {
     std::vector<std::vector<std::string>> result;
-    for (const auto& pair : forwardMap) {
-        std::string key = convertToString(pair.first);
+    for (const auto& pair : forwardMap) { // what does the & do here?
+        std::string key = std::to_string(pair.first);
         for (const auto& ptr : pair.second) { // second is a set<pointer>
-            std::string item = convertToString(*ptr);
+            std::string item = std::to_string(*ptr);
             result.push_back({key, item});
         }
     }
     return result;
-}
-
-// TODO: move this to utils folder and include it into this file
-// #include <iostream>
-// #include <sstream>
-
-// if doing for objects, the object needs a operator<< overload
-template<typename T>
-std::string convertToString(const T& value) {
-    std::stringstream ss;
-    ss << value;
-    return ss.str();
 }

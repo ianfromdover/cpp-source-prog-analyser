@@ -2,7 +2,7 @@
 #define SPA_PATTERN_ASGN_TABLE_H
 
 #include "utilSpa/SpaTypes.h"
-#include "pkb/storage/base/TwoSideMapManyMany.hpp"
+#include "pkb/storage/base/TwoSideMap.hpp"
 
 /**
  * Stores the pattern relationship for assign statements.
@@ -13,9 +13,9 @@
  */
 class PatternAssignTable {
 private:
-    TwoSideMapManyMany<StmtNo, VarName> twoSideMapMMStmtLhs; // name is key then value
-    TwoSideMapManyMany<StmtNo, VarName> twoSideMapMMStmtRhs;
-    TwoSideMapManyMany<VarName, VarName> twoSideMapMMLhsRhs;
+    TwoSideMap<StmtNo, VarName> twoSideMapMMStmtLhs; // name is key then value
+    TwoSideMap<StmtNo, VarName> twoSideMapMMStmtRhs;
+    TwoSideMap<VarName, VarName> twoSideMapMMLhsRhs;
 public:
     PatternAssignTable();
 

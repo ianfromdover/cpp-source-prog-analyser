@@ -1,16 +1,15 @@
 #pragma once
 #define SPA_CONSTTABLE_H
 
-#include <optional>
 #include "utilSpa/SpaTypes.h"
-#include "pkb/storage/base/TwoSideMapManyMany.hpp"
+#include "pkb/storage/base/TwoSideMap.hpp"
 
 /**
  * Stores the const values statements and the corresponding stmtNos that are in the program.
  */
 class ConstTable {
 private:
-    TwoSideMapManyMany<StmtNo, ConstVal> twoSideMapMM;
+    TwoSideMap<StmtNo, ConstVal> twoSideMapMM;
 public:
     ConstTable();
     bool addConst(StmtNo sNum, ConstVal val);

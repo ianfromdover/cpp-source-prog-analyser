@@ -6,12 +6,12 @@
 #define SPA_PARENTTTABLE_H
 
 #include "utilSpa/SpaTypes.h"
-#include "pkb/storage/base/TwoSideMapManyMany.hpp"
+#include "pkb/storage/base/TwoSideMap.hpp"
 
 
 class ParentTTable {
 private:
-    TwoSideMapManyMany<StmtNo, StmtNo> twoSideMapMM;
+    TwoSideMap<StmtNo, StmtNo> twoSideMapMM;
 public:
     ParentTTable();
     // Adds a follows relationship to the follows table, returns true if the relationship is added
