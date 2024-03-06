@@ -11,7 +11,7 @@
 #include <algorithm>
 #include "sp/ast/Expr.h"
 #include "sp/ast/Stmt.h"
-#include "sp/tokeniser/token/Token.h"
+#include "sp/tokenizer/token/Token.h"
 
 class AstFactory {
 public:
