@@ -6,6 +6,8 @@
 #include "catch.hpp"
 #include "qps/QPS.h"
 #include "sp/exception/SemanticAnalysisException.h"
+#include "sp/api/formatter/ExprFormatter.h"
+#include "sp/exception/FormatterException.h"
 #include "catch.hpp"
 
 using namespace std;
@@ -1144,4 +1146,18 @@ TEST_CASE("Follows* Handler - QPS") {
         std::sort(expected.begin(), expected.end());
         REQUIRE(ans == expected);
     }
+}
+
+TEST_CASE("Test ExprFormatter API") {
+    REQUIRE(ExprFormatter::format("x") == "x");
+    REQUIRE(ExprFormatter::format("x + 1") == "(x+1)");
+    REQUIRE(ExprFormatter::format("x + 1 * 2") == "(x+(1*2))");
+    REQUIRE_THROWS_WITH(ExprFormatter::format(""), InvalidExprString::ERR_MSG);
+    REQUIRE_THROWS_WITH(ExprFormatter::format(" "), InvalidExprString::ERR_MSG);
+    REQUIRE_THROWS_WITH(ExprFormatter::format("()"), InvalidExprString::ERR_MSG);
+    REQUIRE_THROWS_WITH(ExprFormatter::format("(x"), InvalidExprString::ERR_MSG);
+    REQUIRE_THROWS_WITH(ExprFormatter::format(";"), InvalidExprString::ERR_MSG);
+    REQUIRE_THROWS_WITH(ExprFormatter::format("x + 1;"), InvalidExprString::ERR_MSG);
+    REQUIRE_THROWS_WITH(ExprFormatter::format("x + 1; y = x + 2;"), InvalidExprString::ERR_MSG);
+    REQUIRE_THROWS_WITH(ExprFormatter::format("print x"), InvalidExprString::ERR_MSG);
 }

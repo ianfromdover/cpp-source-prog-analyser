@@ -15,7 +15,7 @@ private:
     std::shared_ptr<std::vector<std::shared_ptr<Token>>> tokens;
 
 public:
-    explicit Parser(std::shared_ptr<std::vector<std::shared_ptr<Token>>>& tokens) : tokens(tokens) {};
+    explicit Parser(const std::shared_ptr<std::vector<std::shared_ptr<Token>>>& tokens) : tokens(tokens) {};
     Program parse();
 
 private:

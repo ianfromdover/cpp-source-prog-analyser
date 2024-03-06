@@ -5,12 +5,12 @@
 #ifndef SPA_TOKENEXCEPTION_H
 #define SPA_TOKENEXCEPTION_H
 
+#include <utility>
 #include "common/base_exception/BaseException.h"
-
 
 class TokenException : public BaseException {
 public:
-    explicit TokenException(std::string message) : BaseException(message) {}
+    explicit TokenException(std::string message) : BaseException(std::move(message)) {}
 };
 
 
