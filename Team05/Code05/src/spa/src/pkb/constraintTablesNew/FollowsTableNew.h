@@ -5,8 +5,8 @@
 #ifndef FOLLOWS_TABLE_NEW_HPP
 #define FOLLOWS_TABLE_NEW_HPP
 
-#include "utilSpa/SpaTypes.h"
-#include "utilSpa/Column.h"
+#include "common/SpaTypes.h"
+#include "common/Column.h"
 
 class FollowsTableNew {
 public:

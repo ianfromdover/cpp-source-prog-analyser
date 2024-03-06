@@ -10,7 +10,7 @@
 #include <memory>
 #include "qps/query_elements/constraint_argument/ConstraintArgument.h"
 #include "qps/query_elements/QueryEnums.h"
-#include "utilSpa/SpaTypes.h"
+#include "common/SpaTypes.h"
 #include "pkb/apis/QueryPKB.h"
 
 class QueryPKBVirtual;

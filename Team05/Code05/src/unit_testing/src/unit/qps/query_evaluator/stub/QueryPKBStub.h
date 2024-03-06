@@ -12,7 +12,7 @@
 #include "qps/QueryEvaluator/QueryResult/StringResult.h"
 #include "qps/query_elements/constraint_argument/ConstraintArgument.h"
 #include "pkb/apis/PKBStorage.h"
-#include "utilSpa/SpaTypes.h"
+#include "common/SpaTypes.h"
 
 class QueryPKBStub : public QueryPKBVirtual {
 

@@ -7,7 +7,7 @@
 
 #include <vector>
 #include "Expr.h"
-#include "utilSpa/SpaTypes.h"
+#include "common/SpaTypes.h"
 
 class Procedure;
 class Read;
