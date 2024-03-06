@@ -30,6 +30,7 @@ public:
     virtual std::vector<std::vector<std::string>> getUses()= 0;
     virtual std::vector<std::vector<std::string>> getModifies()= 0;
     virtual std::vector<std::vector<std::string>> getPatternAsgn() = 0;
+    virtual std::vector<std::vector<std::string>> getCalls() = 0;
 
 };
 

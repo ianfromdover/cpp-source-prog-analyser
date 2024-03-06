@@ -31,6 +31,7 @@ public:
         FOLLOWS, FOLLOWS_T,
         MODIFIES_S, MODIFIES_P,
         USES_S, USES_P,
+        CALLS, CALLS_T,
 
         // Entity References
         ENT_REF,
