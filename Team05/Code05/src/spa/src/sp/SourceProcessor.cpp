@@ -15,7 +15,7 @@
 #include "sp/extractor/node_extractor/VariableExtractor.h"
 #include "sp/extractor/node_extractor/ConstantExtractor.h"
 #include "sp/extractor/relation_extractor/FollowsExtractor.h"
-#include "sp/parser/semantic_analyser/SemanticAnalyzer.h"
+#include "sp/semantic_analyser/SemanticAnalyzer.h"
 
 void SourceProcessor::exec(const std::string& source) {
     auto tokens = this->scan(source);
