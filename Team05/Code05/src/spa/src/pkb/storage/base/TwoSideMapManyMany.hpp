@@ -2,6 +2,7 @@
 #define SPA_TWO_SIDE_MAP_TWO_SET_H
 
 #include <iostream>
+#include <sstream> // for convertToString
 #include <set>
 #include <vector>
 #include <unordered_map>
@@ -50,6 +51,11 @@ public:
      * @return The key associated with the value. Returns an empty vector if the value does not exist.
      */
     std::vector<A> getKeys(B value);
+
+    /**
+     * @return Returns a 2-column table of all the key-value pairs in the map as strings
+     */
+    std::vector<std::vector<std::string>> getAll();
 };
 
 // ---------------------------- Implementation ----------------------------
@@ -142,4 +148,29 @@ std::vector<A> TwoSideMapManyMany<A, B>::getKeys(B value) {
         result.push_back(*ptr);
     }
     return result;
+}
+
+template<typename A, typename B>
+std::vector<std::vector<std::string>> TwoSideMapManyMany<A, B>::getAll() {
+    std::vector<std::vector<std::string>> result;
+    for (const auto& pair : forwardMap) {
+        std::string key = convertToString(pair.first);
+        for (const auto& ptr : pair.second) { // second is a set<pointer>
+            std::string item = convertToString(*ptr);
+            result.push_back({key, item});
+        }
+    }
+    return result;
+}
+
+// TODO: move this to utils folder and include it into this file
+// #include <iostream>
+// #include <sstream>
+
+// if doing for objects, the object needs a operator<< overload
+template<typename T>
+std::string convertToString(const T& value) {
+    std::stringstream ss;
+    ss << value;
+    return ss.str();
 }
