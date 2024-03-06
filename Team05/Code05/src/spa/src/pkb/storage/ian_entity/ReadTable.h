@@ -7,10 +7,11 @@
 /**
  * Stores the read statements and the variables that are read in the program.
  * Note that the keys are variable names, and the values are statement numbers.
+ * TODO: reverse VarName StmtNo in tests
  */
 class ReadTable {
 private:
-    TwoSideMap<VarName, StmtNo> twoSideMapOM;
+    TwoSideMap<StmtNo, VarName> twoSideMapOM;
 public:
     ReadTable();
     bool addRead(StmtNo sNum, VarName name);

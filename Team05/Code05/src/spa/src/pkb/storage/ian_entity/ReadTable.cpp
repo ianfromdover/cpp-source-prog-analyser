@@ -5,11 +5,11 @@
 ReadTable::ReadTable() = default;
 
 bool ReadTable::addRead(StmtNo sNum, VarName name) {
-    return twoSideMapOM.insert(name, sNum);
+    return twoSideMapOM.insert(sNum, name);
 }
 vector<StmtNo> ReadTable::getReadStmts(VarName name) {
-    return twoSideMapOM.getValues(std::move(name));
+    return twoSideMapOM.getKeys(std::move(name));
 }
 vector<VarName> ReadTable::getReadVar(StmtNo sNum) {
-    return twoSideMapOM.getKeys(sNum);
+    return twoSideMapOM.getValues(sNum);
 }

@@ -7,10 +7,11 @@
 /**
  * Stores the print statements and the variables that are printed in the program.
  * Note that the keys are variable names, and the values are statement numbers.
+ * TODO: reverse VarName StmtNo in tests
  */
 class PrintTable {
 private:
-    TwoSideMap<VarName, StmtNo> twoSideMapOM;
+    TwoSideMap<StmtNo, VarName> twoSideMapOM;
 public:
     PrintTable();
     bool addPrint(StmtNo sNum, VarName name);

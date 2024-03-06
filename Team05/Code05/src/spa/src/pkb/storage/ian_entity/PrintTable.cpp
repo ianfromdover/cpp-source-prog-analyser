@@ -5,11 +5,11 @@
 PrintTable::PrintTable() = default;
 
 bool PrintTable::addPrint(StmtNo sNum, VarName name) {
-    return twoSideMapOM.insert(name, sNum);
+    return twoSideMapOM.insert(sNum, name);
 }
 vector<StmtNo> PrintTable::getPrintStmts(VarName name) {
-    return twoSideMapOM.getValues(std::move(name));
+    return twoSideMapOM.getKeys(std::move(name));
 }
 vector<VarName> PrintTable::getPrintVar(StmtNo sNum) {
-    return twoSideMapOM.getKeys(sNum);
+    return twoSideMapOM.getValues(sNum);
 }
