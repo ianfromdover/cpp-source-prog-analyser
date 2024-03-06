@@ -38,6 +38,8 @@
 #include "pkb/storage/ian_entity/ProcedureTable.h"
 //#include "pkb/storage/ian_entity/VariableTable.h"
 #include "pkb/storage/ian_entity/ConstTable.h"
+#include "pkb/storage/ian_relation/ModifiesPTable.h"
+#include "pkb/storage/ian_relation/ModifiesSTable.h"
 
 class PKBStorage {
 public:
