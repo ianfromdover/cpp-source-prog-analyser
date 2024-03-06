@@ -110,6 +110,17 @@ public:
         return true;
     }
 
+    bool addCalls(ProcName caller, ProcName called) override {
+        //std::cout << "addCalls called" << std::endl;
+        pairCalls.insert({caller, called});
+        return true;
+    }
+
+    bool addCallsT(ProcName caller, ProcName called) override {
+        //std::cout << "addCalls called" << std::endl;
+        pairCalls.insert({caller, called});
+        return true;
+    }
 
     template<typename... T>
     bool checkAgainstResults(std::multiset<T...>& given, std::multiset<T...>& expect) {
