@@ -34,11 +34,7 @@ std::vector<std::vector<std::string>> CallsConstraint::getRelationshipTable(Quer
     ResultTable table(result);
 
     // Handling LHS by Entity Type
-    if (lhsEntityType == TYPE_INTEGER) {
-        std::vector<std::string> intVals = {args[0]->getArgumentValue()};
-        table.filterByColumnValues(lhsHeader, intVals);
-    }
-    if (isStatementSynonym(lhsEntityType)) {
+    if (rhsEntityType == TYPE_PROCEDURE) {
         // Get entity table by type
         std::vector<std::vector<std::string>> entityTable = args[0]->getEntityTable(pkb);
         const std::string& lHeader = lhsHeader;
@@ -49,13 +45,14 @@ std::vector<std::vector<std::string>> CallsConstraint::getRelationshipTable(Quer
         entityTable.insert(entityTable.begin(), {lHeader, rHeader});
         table.add(entityTable);
     }
+    if (lhsEntityType == TYPE_QUOTED_IDENT){
+        std::string string1=args[0]->getArgumentValue();
+        string stripped = stripCharacters(string1,"\"");
+        table.filterByColumnExact(lhsHeader,stripped);
+    }
 
     // Handling RHS by Entity Type
-    if (rhsEntityType == TYPE_INTEGER) {
-        std::vector<std::string> intVals = {args[1]->getArgumentValue()};
-        table.filterByColumnValues(rhsHeader, intVals);
-    }
-    if (isStatementSynonym(rhsEntityType)) {
+    if (rhsEntityType == TYPE_PROCEDURE) {
         // Get entity table by type
         std::vector<std::vector<std::string>> entityTable = args[1]->getEntityTable(pkb);
         // Removal of original headers in our entity table
@@ -63,6 +60,11 @@ std::vector<std::vector<std::string>> CallsConstraint::getRelationshipTable(Quer
         // Insertion of headers into our entity table
         entityTable.insert(entityTable.begin(), {rhsHeader, rhsHeader});
         table.add(entityTable);
+    }
+    if (rhsEntityType == TYPE_QUOTED_IDENT){
+        std::string string1=args[1]->getArgumentValue();
+        string stripped = stripCharacters(string1,"\"");
+        table.filterByColumnExact(lhsHeader,stripped);
     }
 
     return table.getTable();
