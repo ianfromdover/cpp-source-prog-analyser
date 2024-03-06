@@ -73,3 +73,11 @@ bool PopulatePKB::addModifies(int stmtNo, std::string name) {
 bool PopulatePKB::addPatternAsgn(int stmtNo, std::string lhs, std::string rhs) {
     return pkb->assignTable->addRecord(std::to_string(stmtNo), lhs + "=" + rhs);
 }
+
+bool PopulatePKB::addCalls(std::string caller, std::string called) {
+    return pkb->callsTable->addRecord(caller, called);
+}
+
+bool PopulatePKB::addCallsT(std::string caller, std::string called) {
+    return pkb->callsTTable->addRecord(caller, called);
+}

@@ -30,6 +30,8 @@ public:
     virtual bool addUses(int stmtNo, std::string name) = 0;
     virtual bool addModifies(int stmtNo, std::string name) = 0;
     virtual bool addPatternAsgn(int stmtNo, std::string lhs, std::string rhs) = 0;
+    virtual bool addCalls(std::string caller, std::string called) = 0;
+    virtual bool addCallsT(std::string caller, std::string called) = 0;
 };
 
 #endif //SPA_BASEPKBPOPULATOR_H
