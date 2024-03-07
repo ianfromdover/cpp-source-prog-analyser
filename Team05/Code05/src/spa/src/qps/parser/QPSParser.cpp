@@ -151,10 +151,8 @@ std::shared_ptr<RelationshipClause> QPSParser::relationship() {
         relationshipClause = this->parent();
     } else if (this->check({QPSTokenType::FOLLOWS, QPSTokenType::FOLLOWS_T})) {
         relationshipClause = this->follow();
-    } else if (this->check(QPSTokenType::USES_S)) {
-        relationshipClause = this->uses();
-    } else if (this->check(QPSTokenType::MODIFIES_S)) {
-        relationshipClause = this->modifies();
+    } else if (this->check({QPSTokenType::USES_S, QPSTokenType::MODIFIES_S})) {
+        relationshipClause = this->usesModifies();
     } else {
         relationshipClause = nullptr;
     }
@@ -194,38 +192,18 @@ std::shared_ptr<RelationshipClause> QPSParser::follow() {
     return std::make_shared<RelationshipClause>(parentCl);
 }
 
-std::shared_ptr<RelationshipClause> QPSParser::uses() {
-
-    this->match({QPSTokenType::USES_S});
+std::shared_ptr<RelationshipClause> QPSParser::usesModifies() {
+    this->match({QPSTokenType::USES_S, QPSTokenType::MODIFIES_S});
     QPSToken relationshipType = this->previous();
     this->consume(QPSTokenType::LEFT_PAREN, "Expect '(' after relationship type.");
     auto t1 = stmtRef();
     this->consume(QPSTokenType::COMMA, "Expect ',' after stmtRef.");
     auto t2 = entRef();
     this->consume(QPSTokenType::RIGHT_PAREN, "Expect ')' after relationship type.");
-
-    RelationshipClause parentCl(relationshipType.getType().getInfo(), t1, QPSTokenType::STMT_REF, t2,
-                                QPSTokenType::ENT_REF);
-
-    return std::make_shared<RelationshipClause>(parentCl);
+    RelationshipClause relCl(relationshipType.getType().getInfo(), t1, QPSTokenType::STMT_REF, t2,
+                             QPSTokenType::ENT_REF);
+    return std::make_shared<RelationshipClause>(relCl);
 }
-
-std::shared_ptr<RelationshipClause> QPSParser::modifies() {
-
-    this->match({QPSTokenType::MODIFIES_S});
-    QPSToken relationshipType = this->previous();
-    this->consume(QPSTokenType::LEFT_PAREN, "Expect '(' after relationship type.");
-    auto t1 = stmtRef();
-    this->consume(QPSTokenType::COMMA, "Expect ',' after stmtRef.");
-    auto t2 = entRef();
-    this->consume(QPSTokenType::RIGHT_PAREN, "Expect ')' after relationship type.");
-
-    RelationshipClause parentCl(relationshipType.getType().getInfo(), t1, QPSTokenType::STMT_REF, t2,
-                                QPSTokenType::ENT_REF);
-
-    return std::make_shared<RelationshipClause>(parentCl);
-}
-
 
 std::shared_ptr<PatternClause> QPSParser::pattern() {
     QPSToken synAssign = this->synonym(this->consume(QPSTokenType::IDENTIFIER, "Expect identifier."));
