@@ -12,6 +12,7 @@ void UsesExtractor::visitProcedure(const Procedure& procedure) {
         visitedProcedures.insert(procedure.getName());
         for (const auto& stmt : *procedure.getBody()) {
             auto parentInfo = std::make_shared<Accumulator>();
+            parentInfo->stringInfo.emplace_back(procedure.getName());
             stmt->accept(*this, parentInfo);
         }
     }
@@ -27,6 +28,7 @@ void UsesExtractor::visitCallStmt(const Call& stmt, shared_ptr<Accumulator>& par
     visitedProcedures.insert(stmt.getProcName());
     auto procedure = program->getProcedure(stmt.getProcName());
     parentInfo->info.emplace_back(stmt.getStmtNo());
+    parentInfo->stringInfo.emplace_back(stmt.getProcName());
     this->visitStmtList(procedure->getBody(), parentInfo);
 }
 
@@ -60,8 +62,12 @@ void UsesExtractor::visitBinaryExpr(const Binary& expr, shared_ptr<Accumulator>&
 
 void UsesExtractor::visitVariableExpr(const Variable& expr, shared_ptr<Accumulator>& parentInfo) {
     for (const auto& stmtNo : parentInfo->info) {
-        //std::cout << "pkb.addUsesS(" << stmtNo << ", " << expr.getName() << ");" << std::endl;
+        std::cout << "pkb.addUsesS(" << stmtNo << ", " << expr.getName() << ");" << std::endl;
         pkb->addUsesS(stmtNo, expr.getName());
+    }
+    for (const auto& procName : parentInfo->stringInfo) {
+        std::cout << "pkb.addUsesP(" << procName << ", " << expr.getName() << ");" << std::endl;
+        pkb->addUsesP(procName, expr.getName());
     }
 }
 
