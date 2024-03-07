@@ -18,10 +18,6 @@ public:
     explicit RelationExtractor(shared_ptr<BasePKBPopulator> pkb) : pkb(std::move(pkb)) {}
     virtual ~RelationExtractor() = default;
     void visitProcedure(const Procedure&) override;
-
-    void visitAssignStmt(const Assign &stmt, shared_ptr<Accumulator> &parentInfo) override;
-
-    void visitBinaryExpr(const Binary &expr, shared_ptr<Accumulator> &parentInfo) override;
 };
 
 

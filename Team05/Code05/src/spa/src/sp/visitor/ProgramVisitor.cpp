@@ -11,7 +11,3 @@ void ProgramVisitor::visitStmtList(const shared_ptr<vector<shared_ptr<Stmt>>>& s
         childStmt->accept(*this, infoCopy);
     }
 }
-
-void ProgramVisitor::visitExpr(const shared_ptr<Expr> &expr, shared_ptr<Accumulator> &info) {
-    expr->accept(*this, info);
-}

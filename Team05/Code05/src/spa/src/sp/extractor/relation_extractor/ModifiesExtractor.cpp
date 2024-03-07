@@ -36,6 +36,13 @@ void ModifiesExtractor::visitAssignStmt(const Assign& stmt, shared_ptr<Accumulat
     lhsExpr->accept(*this, parentInfo);
 }
 
+void ModifiesExtractor::visitBinaryExpr(const Binary& expr, shared_ptr<Accumulator>& parentInfo) {
+    auto& leftExpr = expr.getLeft();
+    auto& rightExpr = expr.getRight();
+    leftExpr->accept(*this, parentInfo);
+    rightExpr->accept(*this, parentInfo);
+}
+
 void ModifiesExtractor::visitVariableExpr(const Variable& expr, shared_ptr<Accumulator>& parentInfo) {
     for (const auto& stmtNo : parentInfo->info) {
         //std::cout << "pkb.addModifies(" << stmtNo << ", " << expr.getName() << ");" << std::endl;
