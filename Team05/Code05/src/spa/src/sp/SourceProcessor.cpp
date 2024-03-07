@@ -48,7 +48,7 @@ void SourceProcessor::extract(const std::shared_ptr<Program>& program) {
             std::make_shared<VariableExtractor>(this->pkb),
             std::make_shared<ConstantExtractor>(this->pkb),
             std::make_shared<ParentExtractor>(this->pkb),
-            std::make_shared<UsesExtractor>(this->pkb),
+            std::make_shared<UsesExtractor>(this->pkb, program),
             std::make_shared<ModifiesExtractor>(this->pkb, program),
             std::make_shared<FollowsExtractor>(this->pkb)
     };

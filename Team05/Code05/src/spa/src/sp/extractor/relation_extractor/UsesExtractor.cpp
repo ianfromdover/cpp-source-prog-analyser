@@ -4,6 +4,19 @@
 
 #include "UsesExtractor.h"
 
+void UsesExtractor::visitProcedure(const Procedure& procedure) {
+    // If procedure has been visited
+    if (visitedProcedures.find(procedure.getName()) != visitedProcedures.end()) {
+
+    } else {
+        visitedProcedures.insert(procedure.getName());
+        for (const auto& stmt : *procedure.getBody()) {
+            auto parentInfo = std::make_shared<Accumulator>();
+            stmt->accept(*this, parentInfo);
+        }
+    }
+}
+
 void UsesExtractor::visitPrintStmt(const Print& stmt, shared_ptr<Accumulator>& parentInfo) {
     auto& var = stmt.getVariable();
     parentInfo->info.emplace_back(stmt.getStmtNo());
@@ -11,7 +24,10 @@ void UsesExtractor::visitPrintStmt(const Print& stmt, shared_ptr<Accumulator>& p
 }
 
 void UsesExtractor::visitCallStmt(const Call& stmt, shared_ptr<Accumulator>& parentInfo) {
-    // Pending Implementation for Sprint 2
+    visitedProcedures.insert(stmt.getProcName());
+    auto procedure = program->getProcedure(stmt.getProcName());
+    parentInfo->info.emplace_back(stmt.getStmtNo());
+    this->visitStmtList(procedure->getBody(), parentInfo);
 }
 
 void UsesExtractor::visitWhileStmt(const While& stmt, shared_ptr<Accumulator>& parentInfo) {
@@ -46,13 +62,6 @@ void UsesExtractor::visitVariableExpr(const Variable& expr, shared_ptr<Accumulat
     for (const auto& stmtNo : parentInfo->info) {
         //std::cout << "pkb.addUses(" << stmtNo << ", " << expr.getName() << ");" << std::endl;
         pkb->addUses(stmtNo, expr.getName());
-    }
-}
-
-void UsesExtractor::visitLiteralExpr(const Literal& expr, shared_ptr<Accumulator>& parentInfo) {
-    for (const auto& stmtNo : parentInfo->info) {
-        //std::cout << "pkb.addModifies(" << stmtNo << ", " << expr.getName() << ");" << std::endl;
-        pkb->addUses(stmtNo, std::to_string(expr.getValue()));
     }
 }
 

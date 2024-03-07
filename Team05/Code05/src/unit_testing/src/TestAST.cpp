@@ -1162,7 +1162,7 @@ TEST_CASE("Test ExprFormatter API") {
     REQUIRE_THROWS_WITH(ExprFormatter::format("print x"), InvalidExprString::ERR_MSG);
 }
 
-TEST_CASE("Test Modifies Extractor") {
+TEST_CASE("Test Extractor") {
     std::string codeSnippet = R"(
         procedure main {
             flag = 0;
