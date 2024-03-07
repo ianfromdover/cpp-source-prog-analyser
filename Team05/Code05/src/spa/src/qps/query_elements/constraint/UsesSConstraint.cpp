@@ -4,7 +4,7 @@
 
 #include "UsesSConstraint.h"
 #include "qps/QueryProjector/ResultTable/ResultTable.h"
-#include "utilSpa/StringUtils.h"
+#include "common/StringUtils.h"
 
 UsesSConstraint::UsesSConstraint(std::shared_ptr<StatementReference> s1, std::shared_ptr<EntityReference> s2) {
     constraintArguments.push_back(s1);
