@@ -68,6 +68,8 @@ private:
 
     std::shared_ptr<RelationshipClause> modifies();
 
+    std::shared_ptr<RelationshipClause> calls();
+
     std::shared_ptr<PatternClause> pattern();
 
     QPSToken stmtRef();

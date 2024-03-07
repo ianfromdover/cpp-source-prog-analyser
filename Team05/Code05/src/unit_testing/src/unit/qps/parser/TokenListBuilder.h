@@ -80,6 +80,14 @@ public:
         return suchThat().parentStar().leftParen().identifier().comma().identifier().rightParen();
     }
 
+    TokenListBuilder validCalls(){
+        return suchThat().calls().leftParen().identifier().comma().identifier().rightParen();
+    }
+
+    TokenListBuilder validCallsStar(){
+        return suchThat().callsStar().leftParen().identifier().comma().identifier().rightParen();
+    }
+
     TokenListBuilder validUses(){
         return suchThat().uses().leftParen().identifier().comma().identifier().rightParen();
     }
@@ -120,6 +128,16 @@ public:
 
     TokenListBuilder modifies() {
         tokenList.addToken(type::MODIFIES_S, "Modifies");
+        return *this;
+    };
+
+    TokenListBuilder calls() {
+        tokenList.addToken(type::CALLS, "Calls");
+        return *this;
+    };
+
+    TokenListBuilder callsStar() {
+        tokenList.addToken(type::CALLS_T, "Calls*");
         return *this;
     };
 
