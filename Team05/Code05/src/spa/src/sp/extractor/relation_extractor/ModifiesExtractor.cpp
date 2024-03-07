@@ -4,6 +4,19 @@
 
 #include "ModifiesExtractor.h"
 
+void ModifiesExtractor::visitProcedure(const Procedure& procedure) {
+    // If procedure has been visited
+    if (visitedProcedures.find(procedure.getName()) != visitedProcedures.end()) {
+
+    } else {
+        visitedProcedures.insert(procedure.getName());
+        for (const auto& stmt : *procedure.getBody()) {
+            auto parentInfo = std::make_shared<Accumulator>();
+            stmt->accept(*this, parentInfo);
+        }
+    }
+}
+
 void ModifiesExtractor::visitReadStmt(const Read& stmt, shared_ptr<Accumulator>& parentInfo) {
     auto& var = stmt.getVariable();
     parentInfo->info.emplace_back(stmt.getStmtNo());
@@ -11,7 +24,8 @@ void ModifiesExtractor::visitReadStmt(const Read& stmt, shared_ptr<Accumulator>&
 }
 
 void ModifiesExtractor::visitCallStmt(const Call& stmt, shared_ptr<Accumulator>& parentInfo) {
-    // Pending Implementation for Sprint 2
+//    visitedProcedures.insert(stmt.getProcName());
+//    program->getProcedure(stmt.getProcName());
 }
 
 void ModifiesExtractor::visitWhileStmt(const While& stmt, shared_ptr<Accumulator>& parentInfo) {

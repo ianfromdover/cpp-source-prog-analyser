@@ -6,19 +6,18 @@
 #define SPA_PROGRAM_H
 
 #include <vector>
-#include "Stmt.h"
+#include "ProcedureMapAccess.h"
 
 using ProcedureMap = std::unordered_map<std::string, std::shared_ptr<Procedure>>;
-using Procedures = std::vector<std::shared_ptr<Procedure>>;
 
-class Program {
+class Program : public ProcedureMapAccess {
 private:
     std::shared_ptr<Procedures> procedures;
     std::shared_ptr<ProcedureMap> procedureMap;
 public:
     explicit Program(const std::shared_ptr<Procedures>& procedures);
-    std::shared_ptr<Procedure> getProcedure(std::string name);
-    std::shared_ptr<Procedures> getProcedures();
+    std::shared_ptr<Procedure> getProcedure(std::string name) override;
+    std::shared_ptr<Procedures> getProcedures() override;
 };
 
 
