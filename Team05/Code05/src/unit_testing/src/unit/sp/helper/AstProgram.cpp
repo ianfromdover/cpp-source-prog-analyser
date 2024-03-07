@@ -1758,4 +1758,240 @@ public:
         );
         return program;
     }
+
+    // Multiple Procedures in a Program
+    static std::shared_ptr<Program> createSequentialNestingChain() {
+        auto program = AstFactory::createProgram(
+            Procedures(
+                std::initializer_list<std::shared_ptr<Procedure>>{
+                    AstFactory::createProcedure("AssignCallPrintRead",
+                            AstFactory::createStmtList({
+                                // (1) t = y + 3 * (1 + y);
+                                AstFactory::createAssign(1,
+                                                         AstFactory::createVariable("t"),
+                                    AstFactory::createBinary(
+                                            AstFactory::createBinary(
+                                            AstFactory::createBinary(
+                                                    AstFactory::createLiteral(1),
+                                                    AstFactory::createTokens(TokenType::ADD, "+"),
+                                                    AstFactory::createVariable("y")
+                                            ),
+                                            AstFactory::createTokens(TokenType::MULTIPLY, "*"),
+                                            AstFactory::createLiteral(3)
+                                    ),
+                                            AstFactory::createTokens(TokenType::ADD, "+"),
+                                            AstFactory::createVariable("y")
+                                )),
+                                // (2) call IfElseWithStmtsBeforeAndInside;
+                                AstFactory::createCall(2, "IfElseWithStmtsBeforeAndInside"),
+                                // (3) print t;
+                                AstFactory::createRead(3, AstFactory::createVariable("t")),
+                                // (4) read u;
+                                AstFactory::createPrint(4, AstFactory::createVariable("u")),
+                            })
+                    ),
+                    AstFactory::createProcedure("IfElseWithStmtsBeforeAndInside",
+                        AstFactory::createStmtList({
+                            // (5) x = y + 3;
+                            AstFactory::createAssign(5,
+                                                     AstFactory::createVariable("x"),
+                                                     AstFactory::createBinary(
+                                                             AstFactory::createVariable("y"),
+                                                             AstFactory::createTokens(TokenType::ADD, "+"),
+                                                             AstFactory::createLiteral(3))),
+                            // (6) call IfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside;
+                            AstFactory::createCall(6, "IfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside"),
+                            // (7) print t;
+                            AstFactory::createRead(7, AstFactory::createVariable("t")),
+                            // (8) read u;
+                            AstFactory::createPrint(8, AstFactory::createVariable("u")),
+                            // (9) if (x == 1)
+                            AstFactory::createIf(9,
+                                AstFactory::createBinary(
+                                    AstFactory::createVariable("x"),
+                                    AstFactory::createTokens(TokenType::EQUAL_EQUAL, "=="),
+                                    AstFactory::createLiteral(1)
+                                ),
+                                // then
+                                std::make_shared<std::vector<std::shared_ptr<Stmt>>>(
+                                    std::initializer_list<std::shared_ptr<Stmt>>{
+                                        // (10) t = y + 3 * (1 + y);
+                                        AstFactory::createAssign(10,
+                                                AstFactory::createVariable("t"),
+                                        AstFactory::createBinary(
+                                                AstFactory::createBinary(
+                                                AstFactory::createBinary(
+                                                        AstFactory::createLiteral(1),
+                                                        AstFactory::createTokens(TokenType::ADD, "+"),
+                                                        AstFactory::createVariable("y")
+                                                ),
+                                                AstFactory::createTokens(TokenType::MULTIPLY, "*"),
+                                                AstFactory::createLiteral(3)
+                                        ),
+                                                AstFactory::createTokens(TokenType::ADD, "+"),
+                                                AstFactory::createVariable("y")
+                                        )),
+                                            // (11) print t;
+                                            AstFactory::createRead(11, AstFactory::createVariable("t")),
+                                            // (12) read u;
+                                            AstFactory::createPrint(12, AstFactory::createVariable("u")),
+                                    }
+                                ),
+                                // else
+                                std::make_shared<std::vector<std::shared_ptr<Stmt>>>(
+                                    std::initializer_list<std::shared_ptr<Stmt>>{
+                                            // (13) x = y + 3;
+                                            AstFactory::createAssign(13,
+                                                                     AstFactory::createVariable("x"),
+                                                                     AstFactory::createBinary(
+                                                                             AstFactory::createVariable("y"),
+                                                                             AstFactory::createTokens(TokenType::ADD, "+"),
+                                                                             AstFactory::createLiteral(3))),
+                                            // (14) print t;
+                                            AstFactory::createRead(14, AstFactory::createVariable("t")),
+                                            // (15) read u;
+                                            AstFactory::createPrint(15, AstFactory::createVariable("u")),
+                                    }
+                                )
+                            )
+                        })
+                    ),
+                    AstFactory::createProcedure("IfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside",
+                        AstFactory::createStmtList({
+                            // (16) if (x == 1)
+                            AstFactory::createIf(16,
+                                AstFactory::createBinary(
+                                    AstFactory::createVariable("x"),
+                                    AstFactory::createTokens(TokenType::EQUAL_EQUAL, "=="),
+                                    AstFactory::createLiteral(1)
+                                ),
+                                // then
+                                std::make_shared<std::vector<std::shared_ptr<Stmt>>>(
+                                    std::initializer_list<std::shared_ptr<Stmt>>{
+                                        // (17) x = y + 3;
+                                        AstFactory::createAssign(17,
+                                                                 AstFactory::createVariable("x"),
+                                                                 AstFactory::createBinary(
+                                                                         AstFactory::createVariable("y"),
+                                                                         AstFactory::createTokens(TokenType::ADD, "+"),
+                                                                         AstFactory::createLiteral(3))),
+                                        // (18) print t;
+                                        AstFactory::createRead(18, AstFactory::createVariable("t")),
+                                        // (19) read u;
+                                        AstFactory::createPrint(19, AstFactory::createVariable("u")),
+                                        // (20) if (x == 1)
+                                        AstFactory::createIf(20,
+                                            AstFactory::createBinary(
+                                                AstFactory::createVariable("x"),
+                                                AstFactory::createTokens(TokenType::EQUAL_EQUAL, "=="),
+                                                AstFactory::createLiteral(1)
+                                            ),
+                                            // then
+                                            std::make_shared<std::vector<std::shared_ptr<Stmt>>>(
+                                                std::initializer_list<std::shared_ptr<Stmt>>{
+                                                        // (21) t = y + 3 * (1 + y);
+                                                        AstFactory::createAssign(21,
+                                                                AstFactory::createVariable("t"),
+                                                        AstFactory::createBinary(
+                                                                AstFactory::createBinary(
+                                                                AstFactory::createBinary(
+                                                                        AstFactory::createLiteral(1),
+                                                                        AstFactory::createTokens(TokenType::ADD, "+"),
+                                                                        AstFactory::createVariable("y")
+                                                                ),
+                                                                AstFactory::createTokens(TokenType::MULTIPLY, "*"),
+                                                                AstFactory::createLiteral(3)
+                                                        ),
+                                                                AstFactory::createTokens(TokenType::ADD, "+"),
+                                                                AstFactory::createVariable("y")
+                                                        )),
+                                                        // (22) print t;
+                                                        AstFactory::createRead(22, AstFactory::createVariable("t")),
+                                                        // (23) read u;
+                                                        AstFactory::createPrint(23, AstFactory::createVariable("u")),
+                                                }
+                                            ),
+                                            // else
+                                            std::make_shared<std::vector<std::shared_ptr<Stmt>>>(
+                                                std::initializer_list<std::shared_ptr<Stmt>>{
+                                                        // (24) x = y + 3;
+                                                        AstFactory::createAssign(24,
+                                                                                 AstFactory::createVariable("x"),
+                                                                                 AstFactory::createBinary(
+                                                                                         AstFactory::createVariable("y"),
+                                                                                         AstFactory::createTokens(TokenType::ADD, "+"),
+                                                                                         AstFactory::createLiteral(3))),
+                                                        // (25) print t;
+                                                        AstFactory::createRead(25, AstFactory::createVariable("t")),
+                                                        // (26) read u;
+                                                        AstFactory::createPrint(26, AstFactory::createVariable("u")),
+                                                }
+                                            )
+                                        )
+                                    }
+                                ),
+                                // else
+                                std::make_shared<std::vector<std::shared_ptr<Stmt>>>(
+                                    std::initializer_list<std::shared_ptr<Stmt>>{
+                                        // (27) x = y + 3;
+                                        AstFactory::createAssign(27,
+                                                                 AstFactory::createVariable("x"),
+                                                                 AstFactory::createBinary(
+                                                                         AstFactory::createVariable("y"),
+                                                                         AstFactory::createTokens(TokenType::ADD, "+"),
+                                                                         AstFactory::createLiteral(3))),
+                                        // (28) print t;
+                                        AstFactory::createRead(28, AstFactory::createVariable("t")),
+                                        // (29) read u;
+                                        AstFactory::createPrint(29, AstFactory::createVariable("u")),
+                                        // (30) if (x == 1)
+                                        AstFactory::createIf(30,
+                                            AstFactory::createBinary(
+                                                AstFactory::createVariable("x"),
+                                                AstFactory::createTokens(TokenType::EQUAL_EQUAL, "=="),
+                                                AstFactory::createLiteral(1)
+                                            ),
+                                            // then
+                                            std::make_shared<std::vector<std::shared_ptr<Stmt>>>(
+                                                std::initializer_list<std::shared_ptr<Stmt>>{
+                                                        // (31) x = y + 3;
+                                                        AstFactory::createAssign(31,
+                                                                                 AstFactory::createVariable("x"),
+                                                                                 AstFactory::createBinary(
+                                                                                         AstFactory::createVariable("y"),
+                                                                                         AstFactory::createTokens(TokenType::ADD, "+"),
+                                                                                         AstFactory::createLiteral(3))),
+                                                        // (32) print t;
+                                                        AstFactory::createRead(32, AstFactory::createVariable("t")),
+                                                        // (33) read u;
+                                                        AstFactory::createPrint(33, AstFactory::createVariable("u")),
+                                                }
+                                            ),
+                                            // else
+                                            std::make_shared<std::vector<std::shared_ptr<Stmt>>>(
+                                                std::initializer_list<std::shared_ptr<Stmt>>{
+                                                        // (34) x = y + 3;
+                                                        AstFactory::createAssign(34,
+                                                                                 AstFactory::createVariable("x"),
+                                                                                 AstFactory::createBinary(
+                                                                                         AstFactory::createVariable("y"),
+                                                                                         AstFactory::createTokens(TokenType::ADD, "+"),
+                                                                                         AstFactory::createLiteral(3))),
+                                                        // (35) print t;
+                                                        AstFactory::createRead(35, AstFactory::createVariable("t")),
+                                                        // (36) read u;
+                                                        AstFactory::createPrint(36, AstFactory::createVariable("u")),
+                                                }
+                                            )
+                                        )
+                                    }
+                                )
+                            )
+                        })
+                    )
+                }
+            )
+        );
+        return program;
+    }
 };
