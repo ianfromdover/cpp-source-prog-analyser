@@ -4,6 +4,7 @@
 
 #include "ModifiesSConstraint.h"
 #include "qps/QueryProjector/ResultTable/ResultTable.h"
+#include "utilSpa/StringUtils.h"
 
 ModifiesSConstraint::ModifiesSConstraint(std::shared_ptr<StatementReference> s1, std::shared_ptr<EntityReference> s2) {
     constraintArguments.push_back(s1);
@@ -65,7 +66,7 @@ std::vector<std::vector<std::string>> ModifiesSConstraint::getRelationshipTable(
     }
     if (rhsEntityType == TYPE_QUOTED_IDENT) {
         std::string string = args[1]->getArgumentValue();
-        std::string rhsHeaderNew = stripCharacters(string,"\"");
+        std::string rhsHeaderNew = StringUtils::stripCharacters(string,"\"");
         table.filterByColumnExact(rhsHeader,rhsHeaderNew);
     }
 
@@ -75,24 +76,7 @@ std::vector<std::vector<std::string>> ModifiesSConstraint::getRelationshipTable(
 bool ModifiesSConstraint::isStatementSynonym(std::string type) {
     vector<std::string> statementVector = {
             TYPE_STATEMENT, TYPE_READ, TYPE_ASSIGN,
-            TYPE_CALL, TYPE_WHILE, TYPE_IF
+            TYPE_CALL, TYPE_WHILE, TYPE_IF, TYPE_PRINT
     };
     return std::find(statementVector.begin(), statementVector.end(), type) != statementVector.end();
-}
-
-std::string& ModifiesSConstraint::stripCharacters(std::string& str, const std::string& chars) {
-    // Find the first character position after excluding leading characters
-    std::size_t first = str.find_first_not_of(chars);
-    if (first == std::string::npos) {
-        // If there are no characters other than the ones to strip, return an empty string
-        return str = "";
-    }
-
-    // Find the position of the last character not matching the strip characters
-    std::size_t last = str.find_last_not_of(chars);
-
-    // Erase the leading and trailing characters
-    str = str.substr(first, (last - first + 1));
-
-    return str;
 }

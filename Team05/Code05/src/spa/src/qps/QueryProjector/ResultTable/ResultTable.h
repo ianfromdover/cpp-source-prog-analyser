@@ -134,15 +134,6 @@ public:
         }
     }
 
-    void removeColumn(std::string header){
-        size_t index = findColumnIndex(_table, header);
-        if (index != 0){
-            for (size_t i = 0; i < _table.size(); ++i) {
-                _table[i].erase(_table[i].begin() + index);
-            }
-        }
-    }
-
     void filterByColumnExact(const string& header, const string& str) {
         table filteredTab; // Resulting table after filtering
         int columnNo = -1;
@@ -169,10 +160,6 @@ public:
         }
 
         _table = filteredTab; // Replace the original table with the filtered results
-    }
-
-    void filterByColumPartial(const string& header, const string& str) {
-
     }
 
     table getTable() {

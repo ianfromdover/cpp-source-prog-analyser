@@ -418,6 +418,8 @@ std::shared_ptr<IntermediateQuery> QPSParser::parse() {
                 std::shared_ptr<RelationshipClause> relationship = this->relationship();
 
                 if (relationship) query->addClause(relationship);
+            } else {
+                throw QPSParseException("at [" + std::to_string(current) + "]: Expect relationship.");
             }
         }
 
