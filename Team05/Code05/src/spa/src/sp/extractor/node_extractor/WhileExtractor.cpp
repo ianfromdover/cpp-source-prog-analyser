@@ -5,7 +5,6 @@
 #include "WhileExtractor.h"
 
 void WhileExtractor::visitWhileStmt(const While& stmt, shared_ptr<Accumulator>& parentInfo) {
-    auto& stmtList = stmt.getBody();
     this->visitStmtList(stmt.getBody(), parentInfo);
     parentInfo->info.emplace_back(stmt.getStmtNo());
     auto& condition = stmt.getCondition();

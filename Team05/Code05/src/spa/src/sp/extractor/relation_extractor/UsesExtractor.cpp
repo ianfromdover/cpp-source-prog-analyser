@@ -26,8 +26,6 @@ void UsesExtractor::visitIfStmt(const If& stmt, shared_ptr<Accumulator>& parentI
     parentInfo->info.emplace_back(stmt.getStmtNo());
     auto& condition = stmt.getCondition();
     condition->accept(*this, parentInfo);
-    auto& thenStmtList = stmt.getThenBranch();
-    auto& elseStmtList = stmt.getElseBranch();
     this->visitStmtList(stmt.getThenBranch(), parentInfo);
     this->visitStmtList(stmt.getElseBranch(), parentInfo);
 }
