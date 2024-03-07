@@ -61,14 +61,6 @@ void ModifiesExtractor::visitVariableExpr(const Variable& expr, shared_ptr<Accum
     }
 }
 
-void ModifiesExtractor::visitLiteralExpr(const Literal& expr, shared_ptr<Accumulator>& parentInfo) {
-    for (const auto& stmtNo : parentInfo->info) {
-        //std::cout << "pkb.addModifiesS(" << stmtNo << ", " << expr.getName() << ");" << std::endl;
-        pkb->addModifiesS(stmtNo, std::to_string(expr.getValue()));
-    }
-
-}
-
 void ModifiesExtractor::visitUnaryExpr(const Unary& expr, shared_ptr<Accumulator>& parentInfo) {
     auto& rightExpr = expr.getRight();
     rightExpr->accept(*this, parentInfo);
