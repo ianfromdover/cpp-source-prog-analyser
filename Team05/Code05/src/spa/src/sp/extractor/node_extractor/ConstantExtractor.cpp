@@ -4,18 +4,6 @@
 
 #include "ConstantExtractor.h"
 
-void ConstantExtractor::visitReadStmt(const Read& stmt, shared_ptr<Accumulator>& parentInfo) {
-    auto& var = stmt.getVariable();
-    parentInfo->info.emplace_back(stmt.getStmtNo());
-    var->accept(*this, parentInfo);
-}
-
-void ConstantExtractor::visitPrintStmt(const Print& stmt, shared_ptr<Accumulator>& parentInfo) {
-    auto& var = stmt.getVariable();
-    parentInfo->info.emplace_back(stmt.getStmtNo());
-    var->accept(*this, parentInfo);
-}
-
 void ConstantExtractor::visitWhileStmt(const While& stmt, shared_ptr<Accumulator>& parentInfo) {
     this->visitStmtList(stmt.getBody(), parentInfo);
     parentInfo->info.emplace_back(stmt.getStmtNo());

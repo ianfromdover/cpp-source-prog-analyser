@@ -17,7 +17,6 @@ public:
     void visitCallStmt(const Call& stmt, shared_ptr<Accumulator>& parentInfo) override;
     void visitWhileStmt(const While& stmt, shared_ptr<Accumulator>& parentInfo) override;
     void visitIfStmt(const If& stmt, shared_ptr<Accumulator>& parentInfo) override;
-    // Expression Methods
 };
 
 #endif //SPA_CALLEXTRACTOR_H
