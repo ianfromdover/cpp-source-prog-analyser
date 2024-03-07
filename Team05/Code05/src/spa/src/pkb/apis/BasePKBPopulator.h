@@ -27,8 +27,10 @@ public:
     virtual bool addFollowsT(int before, int after) = 0;
     virtual bool addParent(int parent, int child) = 0;
     virtual bool addParentT(int parent, int child) = 0;
-    virtual bool addUses(int stmtNo, std::string name) = 0;
-    virtual bool addModifies(int stmtNo, std::string name) = 0;
+    virtual bool addUsesS(int stmtNo, std::string name) = 0;
+    virtual bool addUsesP(std::string procName, std::string name) = 0;
+    virtual bool addModifiesS(int stmtNo, std::string name) = 0;
+    virtual bool addModifiesP(std::string procName, std::string name) = 0;
     virtual bool addPatternAsgn(int stmtNo, std::string lhs, std::string rhs) = 0;
     virtual bool addCalls(std::string caller, std::string called) = 0;
     virtual bool addCallsT(std::string caller, std::string called) = 0;
