@@ -17,21 +17,12 @@ void AssignExtractor::visitCallStmt(const Call& stmt, shared_ptr<Accumulator>& p
 }
 
 void AssignExtractor::visitWhileStmt(const While& stmt, shared_ptr<Accumulator>& parentInfo) {
-    for (const auto& childStmt: *stmt.getBody()) {
-        auto parentInfoCopy = std::make_shared<Accumulator>(*parentInfo);
-        childStmt->accept(*this, parentInfoCopy);
-    }
+    this->visitStmtList(stmt.getBody(), parentInfo);
 }
 
 void AssignExtractor::visitIfStmt(const If& stmt, shared_ptr<Accumulator>& parentInfo) {
-    for (const auto& childStmt: *stmt.getThenBranch()) {
-        auto parentInfoCopy = std::make_shared<Accumulator>(*parentInfo);
-        childStmt->accept(*this, parentInfoCopy);
-    }
-    for (const auto& childStmt: *stmt.getElseBranch()) {
-        auto parentInfoCopy = std::make_shared<Accumulator>(*parentInfo);
-        childStmt->accept(*this, parentInfoCopy);
-    }
+    this->visitStmtList(stmt.getThenBranch(), parentInfo);
+    this->visitStmtList(stmt.getElseBranch(), parentInfo);
 }
 
 void AssignExtractor::visitAssignStmt(const Assign& stmt, shared_ptr<Accumulator>& parentInfo) {
@@ -47,10 +38,7 @@ void AssignExtractor::visitBinaryExpr(const Binary& expr, shared_ptr<Accumulator
 }
 
 void AssignExtractor::visitVariableExpr(const Variable& expr, shared_ptr<Accumulator>& parentInfo) {
-    //for (const auto& stmtNo : parentInfo->info) {
-        //std::cout << "pkb.addAssign(" << stmtNo << ", " << expr.getName() << ");" << std::endl;
-        //pkb->addAssign(stmtNo, expr.getName());
-    //}
+    // Do Nothing
 }
 
 void AssignExtractor::visitLiteralExpr(const Literal& expr, shared_ptr<Accumulator>& parentInfo) {

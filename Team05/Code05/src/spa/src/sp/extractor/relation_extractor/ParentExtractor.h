@@ -25,6 +25,8 @@ public:
     void visitVariableExpr(const Variable& expr, shared_ptr<Accumulator>& parentInfo) override;
     void visitLiteralExpr(const Literal& expr, shared_ptr<Accumulator>& parentInfo) override;
     void visitUnaryExpr(const Unary& expr, shared_ptr<Accumulator>& parentInfo) override;
+
+    void visitStmtList(const shared_ptr<vector<shared_ptr<Stmt>>> &stmts, shared_ptr<Accumulator> &info);
 };
 
 #endif //SPA_PARENTEXTRACTOR_H

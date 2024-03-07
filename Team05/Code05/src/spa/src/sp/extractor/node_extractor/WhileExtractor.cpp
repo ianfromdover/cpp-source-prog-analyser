@@ -18,26 +18,15 @@ void WhileExtractor::visitCallStmt(const Call& stmt, shared_ptr<Accumulator>& pa
 
 void WhileExtractor::visitWhileStmt(const While& stmt, shared_ptr<Accumulator>& parentInfo) {
     auto& stmtList = stmt.getBody();
-    for (auto& childStmt : *stmtList) {
-        auto parentInfoCopy = std::make_shared<Accumulator>(*parentInfo);
-        childStmt->accept(*this, parentInfoCopy);
-    }
+    this->visitStmtList(stmt.getBody(), parentInfo);
     parentInfo->info.emplace_back(stmt.getStmtNo());
     auto& condition = stmt.getCondition();
     condition->accept(*this, parentInfo);
 }
 
 void WhileExtractor::visitIfStmt(const If& stmt, shared_ptr<Accumulator>& parentInfo) {
-    auto& thenStmtList = stmt.getThenBranch();
-    auto& elseStmtList = stmt.getElseBranch();
-    for (auto& childStmt : *thenStmtList) {
-        auto parentInfoCopy = std::make_shared<Accumulator>(*parentInfo);
-        childStmt->accept(*this, parentInfoCopy);
-    }
-    for (auto& childStmt : *elseStmtList) {
-        auto parentInfoCopy = std::make_shared<Accumulator>(*parentInfo);
-        childStmt->accept(*this, parentInfoCopy);
-    }
+    this->visitStmtList(stmt.getThenBranch(), parentInfo);
+    this->visitStmtList(stmt.getElseBranch(), parentInfo);
     auto& condition = stmt.getCondition();
     condition->accept(*this, parentInfo);
 }

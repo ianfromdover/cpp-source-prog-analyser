@@ -27,6 +27,8 @@ public:
     void visitVariableExpr(const Variable& expr, shared_ptr<Accumulator>& prevStmtInfo) override;
     void visitLiteralExpr(const Literal& expr, shared_ptr<Accumulator>& prevStmtInfo) override;
     void visitUnaryExpr(const Unary& expr, shared_ptr<Accumulator>& prevStmtInfo) override;
+
+    void visitStmtList(const shared_ptr<vector<shared_ptr<Stmt>>> &stmts, shared_ptr<Accumulator> &info);
 };
 
 

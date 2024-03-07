@@ -19,21 +19,12 @@ void PrintExtractor::visitCallStmt(const Call& stmt, shared_ptr<Accumulator>& pa
 }
 
 void PrintExtractor::visitWhileStmt(const While& stmt, shared_ptr<Accumulator>& parentInfo) {
-    for (const auto& childStmt: *stmt.getBody()) {
-        auto parentInfoCopy = std::make_shared<Accumulator>(*parentInfo);
-        childStmt->accept(*this, parentInfoCopy);
-    }
+    this->visitStmtList(stmt.getBody(), parentInfo);
 }
 
 void PrintExtractor::visitIfStmt(const If& stmt, shared_ptr<Accumulator>& parentInfo) {
-    for (const auto& childStmt: *stmt.getThenBranch()) {
-        auto parentInfoCopy = std::make_shared<Accumulator>(*parentInfo);
-        childStmt->accept(*this, parentInfoCopy);
-    }
-    for (const auto& childStmt: *stmt.getElseBranch()) {
-        auto parentInfoCopy = std::make_shared<Accumulator>(*parentInfo);
-        childStmt->accept(*this, parentInfoCopy);
-    }
+    this->visitStmtList(stmt.getThenBranch(), parentInfo);
+    this->visitStmtList(stmt.getElseBranch(), parentInfo);
 }
 
 void PrintExtractor::visitAssignStmt(const Assign& stmt, shared_ptr<Accumulator>& parentInfo) {

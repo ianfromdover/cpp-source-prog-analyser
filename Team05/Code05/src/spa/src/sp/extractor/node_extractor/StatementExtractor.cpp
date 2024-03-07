@@ -22,23 +22,14 @@ void StatementExtractor::visitCallStmt(const Call& stmt, shared_ptr<Accumulator>
 void StatementExtractor::visitWhileStmt(const While& stmt, shared_ptr<Accumulator>& parentInfo) {
     //std::cout << "pkb.addFinalStatementNo(" << stmt.getStmtNo() << ");" << std::endl;
     pkb->addFinalStatementNo(stmt.getStmtNo());
-    for (const auto& childStmt: *stmt.getBody()) {
-        auto parentInfoCopy = std::make_shared<Accumulator>(*parentInfo);
-        childStmt->accept(*this, parentInfoCopy);
-    }
+    this->visitStmtList(stmt.getBody(), parentInfo);
 }
 
 void StatementExtractor::visitIfStmt(const If& stmt, shared_ptr<Accumulator>& parentInfo) {
     //std::cout << "pkb.addFinalStatementNo(" << stmt.getStmtNo() << ");" << std::endl;
     pkb->addFinalStatementNo(stmt.getStmtNo());
-    for (const auto& childStmt: *stmt.getThenBranch()) {
-        auto parentInfoCopy = std::make_shared<Accumulator>(*parentInfo);
-        childStmt->accept(*this, parentInfoCopy);
-    }
-    for (const auto& childStmt: *stmt.getElseBranch()) {
-        auto parentInfoCopy = std::make_shared<Accumulator>(*parentInfo);
-        childStmt->accept(*this, parentInfoCopy);
-    }
+    this->visitStmtList(stmt.getThenBranch(), parentInfo);
+    this->visitStmtList(stmt.getElseBranch(), parentInfo);
 }
 
 void StatementExtractor::visitAssignStmt(const Assign& stmt, shared_ptr<Accumulator>& parentInfo) {
