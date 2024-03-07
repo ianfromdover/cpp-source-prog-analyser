@@ -10,10 +10,6 @@ void ModifiesExtractor::visitReadStmt(const Read& stmt, shared_ptr<Accumulator>&
     var->accept(*this, parentInfo);
 }
 
-void ModifiesExtractor::visitPrintStmt(const Print& stmt, shared_ptr<Accumulator>& parentInfo) {
-    // Do Nothing
-}
-
 void ModifiesExtractor::visitCallStmt(const Call& stmt, shared_ptr<Accumulator>& parentInfo) {
     // Pending Implementation for Sprint 2
 }

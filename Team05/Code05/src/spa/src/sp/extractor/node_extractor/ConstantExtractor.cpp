@@ -16,10 +16,6 @@ void ConstantExtractor::visitPrintStmt(const Print& stmt, shared_ptr<Accumulator
     var->accept(*this, parentInfo);
 }
 
-void ConstantExtractor::visitCallStmt(const Call& stmt, shared_ptr<Accumulator>& parentInfo) {
-    // Do Nothing
-}
-
 void ConstantExtractor::visitWhileStmt(const While& stmt, shared_ptr<Accumulator>& parentInfo) {
     this->visitStmtList(stmt.getBody(), parentInfo);
     parentInfo->info.emplace_back(stmt.getStmtNo());
@@ -51,10 +47,6 @@ void ConstantExtractor::visitBinaryExpr(const Binary& expr, shared_ptr<Accumulat
     auto& rightExpr = expr.getRight();
     leftExpr->accept(*this, parentInfo);
     rightExpr->accept(*this, parentInfo);
-}
-
-void ConstantExtractor::visitVariableExpr(const Variable& expr, shared_ptr<Accumulator>& parentInfo) {
-    // Do Nothing
 }
 
 void ConstantExtractor::visitLiteralExpr(const Literal& expr, shared_ptr<Accumulator>& parentInfo) {

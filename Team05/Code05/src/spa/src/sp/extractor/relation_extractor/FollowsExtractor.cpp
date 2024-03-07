@@ -81,22 +81,6 @@ void FollowsExtractor::visitAssignStmt(const Assign& stmt, shared_ptr<Accumulato
     }
 }
 
-void FollowsExtractor::visitBinaryExpr(const Binary& expr, shared_ptr<Accumulator>& prevStmtInfo) {
-    // Do Nothing
-}
-
-void FollowsExtractor::visitVariableExpr(const Variable& expr, shared_ptr<Accumulator>& prevStmtInfo) {
-    // Do Nothing
-}
-
-void FollowsExtractor::visitLiteralExpr(const Literal& expr, shared_ptr<Accumulator>& prevStmtInfo) {
-    // Do Nothing
-}
-
-void FollowsExtractor::visitUnaryExpr(const Unary& expr, shared_ptr<Accumulator>& prevStmtInfo) {
-    // Do Nothing
-}
-
 void FollowsExtractor::visitStmtList(const shared_ptr<vector<shared_ptr<Stmt>>>& stmts, shared_ptr<Accumulator> &info) {
     auto newStmtInfo = std::make_shared<Accumulator>();
     for (const auto& childStmt : *stmts) {

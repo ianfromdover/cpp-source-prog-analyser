@@ -51,23 +51,6 @@ void ParentExtractor::visitAssignStmt(const Assign& stmt, shared_ptr<Accumulator
     }
 }
 
-void ParentExtractor::visitBinaryExpr(const Binary& expr, shared_ptr<Accumulator>& parentInfo) {
-    // Do Nothing
-}
-
-void ParentExtractor::visitVariableExpr(const Variable& expr, shared_ptr<Accumulator>& parentInfo) {
-    // Do Nothing
-}
-
-void ParentExtractor::visitLiteralExpr(const Literal& expr, shared_ptr<Accumulator>& parentInfo) {
-    // Do Nothing
-}
-
-void ParentExtractor::visitUnaryExpr(const Unary& expr, shared_ptr<Accumulator>& parentInfo) {
-    // Do Nothing
-}
-
-
 void ParentExtractor::visitStmtList(const shared_ptr<vector<shared_ptr<Stmt>>>& stmts, shared_ptr<Accumulator> &info) {
     auto stmtNo = 0;
     if (!info->info.empty()) {

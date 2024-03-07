@@ -36,19 +36,3 @@ void StatementExtractor::visitAssignStmt(const Assign& stmt, shared_ptr<Accumula
     //std::cout << "pkb.addFinalStatementNo(" << stmt.getStmtNo() << ");" << std::endl;
     pkb->addFinalStatementNo(stmt.getStmtNo());
 }
-
-void StatementExtractor::visitBinaryExpr(const Binary& expr, shared_ptr<Accumulator>& parentInfo) {
-    // Do Nothing
-}
-
-void StatementExtractor::visitVariableExpr(const Variable& expr, shared_ptr<Accumulator>& parentInfo) {
-    // Do Nothing
-}
-
-void StatementExtractor::visitLiteralExpr(const Literal& expr, shared_ptr<Accumulator>& parentInfo) {
-    // Do Nothing
-}
-
-void StatementExtractor::visitUnaryExpr(const Unary& expr, shared_ptr<Accumulator>& parentInfo) {
-    // Do Nothing
-}

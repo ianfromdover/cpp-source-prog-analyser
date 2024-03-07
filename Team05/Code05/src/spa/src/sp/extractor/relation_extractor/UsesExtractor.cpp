@@ -4,10 +4,6 @@
 
 #include "UsesExtractor.h"
 
-void UsesExtractor::visitReadStmt(const Read& stmt, shared_ptr<Accumulator>& parentInfo) {
-    // Do Nothing
-}
-
 void UsesExtractor::visitPrintStmt(const Print& stmt, shared_ptr<Accumulator>& parentInfo) {
     auto& var = stmt.getVariable();
     parentInfo->info.emplace_back(stmt.getStmtNo());

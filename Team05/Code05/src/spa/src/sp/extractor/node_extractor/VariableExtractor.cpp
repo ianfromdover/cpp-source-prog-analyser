@@ -16,10 +16,6 @@ void VariableExtractor::visitPrintStmt(const Print& stmt, shared_ptr<Accumulator
     var->accept(*this, parentInfo);
 }
 
-void VariableExtractor::visitCallStmt(const Call& stmt, shared_ptr<Accumulator>& parentInfo) {
-    // Do Nothing
-}
-
 void VariableExtractor::visitWhileStmt(const While& stmt, shared_ptr<Accumulator>& parentInfo) {
     this->visitStmtList(stmt.getBody(), parentInfo);
     parentInfo->info.emplace_back(stmt.getStmtNo());
@@ -58,10 +54,6 @@ void VariableExtractor::visitVariableExpr(const Variable& expr, shared_ptr<Accum
         //std::cout << "pkb.addVar(" << stmtNo << ", " << expr.getName() << ");" << std::endl;
         pkb->addVar(stmtNo, expr.getName());
     }
-}
-
-void VariableExtractor::visitLiteralExpr(const Literal& expr, shared_ptr<Accumulator>& parentInfo) {
-    // Do Nothing
 }
 
 void VariableExtractor::visitUnaryExpr(const Unary& expr, shared_ptr<Accumulator>& parentInfo) {
