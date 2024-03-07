@@ -10,10 +10,6 @@ void ModifiesExtractor::visitReadStmt(const Read& stmt, shared_ptr<Accumulator>&
     var->accept(*this, parentInfo);
 }
 
-void ModifiesExtractor::visitPrintStmt(const Print& stmt, shared_ptr<Accumulator>& parentInfo) {
-    // Do Nothing
-}
-
 void ModifiesExtractor::visitCallStmt(const Call& stmt, shared_ptr<Accumulator>& parentInfo) {
     // Pending Implementation for Sprint 2
 }
@@ -21,24 +17,13 @@ void ModifiesExtractor::visitCallStmt(const Call& stmt, shared_ptr<Accumulator>&
 void ModifiesExtractor::visitWhileStmt(const While& stmt, shared_ptr<Accumulator>& parentInfo) {
     parentInfo->info.emplace_back(stmt.getStmtNo());
     auto& stmtList = stmt.getBody();
-    for (auto& childStmt : *stmtList) {
-        auto parentInfoCopy = std::make_shared<Accumulator>(*parentInfo);
-        childStmt->accept(*this, parentInfoCopy);
-    }
+    this->visitStmtList(stmt.getBody(), parentInfo);
 }
 
 void ModifiesExtractor::visitIfStmt(const If& stmt, shared_ptr<Accumulator>& parentInfo) {
     parentInfo->info.emplace_back(stmt.getStmtNo());
-    auto& thenStmtList = stmt.getThenBranch();
-    auto& elseStmtList = stmt.getElseBranch();
-    for (auto& childStmt : *thenStmtList) {
-        auto parentInfoCopy = std::make_shared<Accumulator>(*parentInfo);
-        childStmt->accept(*this, parentInfoCopy);
-    }
-    for (auto& childStmt : *elseStmtList) {
-        auto parentInfoCopy = std::make_shared<Accumulator>(*parentInfo);
-        childStmt->accept(*this, parentInfoCopy);
-    }
+    this->visitStmtList(stmt.getThenBranch(), parentInfo);
+    this->visitStmtList(stmt.getElseBranch(), parentInfo);
 }
 
 void ModifiesExtractor::visitAssignStmt(const Assign& stmt, shared_ptr<Accumulator>& parentInfo) {
