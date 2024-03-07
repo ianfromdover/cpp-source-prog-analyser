@@ -39,11 +39,17 @@
 // TODO: remove comment once implemented
 //#include "pkb/storage/ian_entity/VariableTable.h"
 #include "pkb/storage/ian_entity/ConstTable.h"
-#include "pkb/storage/ian_relation/ModifiesPTable.h"
-#include "pkb/storage/ian_relation/ModifiesSTable.h"
 
 #include "pkb/storage/ian_relation/FollowsTable.h"
 #include "pkb/storage/ian_relation/FollowsTTable.h"
+#include "pkb/storage/ian_relation/ParentTable.h"
+#include "pkb/storage/ian_relation/ParentTTable.h"
+#include "pkb/storage/ian_relation/ModifiesPTable.h"
+#include "pkb/storage/ian_relation/ModifiesSTable.h"
+// TODO: remove comment once implemented
+//#include "pkb/storage/ian_relation/UsesPTable.h"
+#include "pkb/storage/ian_relation/UsesSTable.h"
+#include "pkb/storage/ian_relation/PatternAssignTable.h"
 
 class PKBStorage {
 public:
@@ -57,7 +63,7 @@ public:
     std::shared_ptr<ProcedureTable> procedureTable = std::make_shared<ProcedureTable>();
 //    std::shared_ptr<VariableTable> variableTable = std::make_shared<VariableTable>();
     std::shared_ptr<ConstTable> constTable = std::make_shared<ConstTable>();
-    std::shared_ptr<AssignTable> assignTable = std::make_shared<AssignTable>();
+    std::shared_ptr<PatternAssignTable> assignTable = std::make_shared<PatternAssignTable>();
 
     std::shared_ptr<FollowsTable> followsTable = std::make_shared<FollowsTable>();
     std::shared_ptr<FollowsTTable> followsTTable = std::make_shared<FollowsTTable>();
