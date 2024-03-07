@@ -43,31 +43,30 @@ std::vector<std::vector<std::string>> ModifiesSConstraint::getRelationshipTable(
     if (isStatementSynonym(lhsEntityType)) {
         // Get entity table by type
         std::vector<std::vector<std::string>> entityTable = args[0]->getEntityTable(pkb);
-        const std::string& lHeader = lhsHeader;
-        std::string rHeader = entityTable.at(0).at(1);
-        // Removal of original headers in our entity table
-        entityTable.erase(entityTable.begin());
-        // Insertion of headers into our entity table
-        entityTable.insert(entityTable.begin(), {lHeader, rHeader});
-        table.add(entityTable);
+        ResultTable entityTableResult(entityTable);
+        entityTableResult.removeColumnByIndex(0);
+        table.add(entityTableResult.getTable());
     }
 
     // Handling RHS by Entity Type
     if (rhsEntityType == TYPE_VARIABLE) {
         // Get entity table by type
         std::vector<std::vector<std::string>> entityTable = args[1]->getEntityTable(pkb);
-        std::string lHeader = entityTable.at(0).at(0);
-        const std::string& rHeader = rhsHeader;
-        // Removal of original headers in our entity table
-        entityTable.erase(entityTable.begin());
-        // Insertion of headers into our entity table
-        entityTable.insert(entityTable.begin(), {lHeader, rHeader});
-        table.add(entityTable);
+        ResultTable entityTableResult(entityTable);
+        entityTableResult.removeColumnByIndex(0);
+        table.add(entityTableResult.getTable());
     }
     if (rhsEntityType == TYPE_QUOTED_IDENT) {
         std::string string = args[1]->getArgumentValue();
         std::string rhsHeaderNew = StringUtils::stripCharacters(string,"\"");
         table.filterByColumnExact(rhsHeader,rhsHeaderNew);
+    }
+
+    if (lhsHeader == "ModifiesLHS") {
+        table.removeColumnByHeader(lhsHeader);
+    }
+    if (rhsHeader == "ModifiesRHS") {
+        table.removeColumnByHeader(rhsHeader);
     }
 
     return table.getTable();
