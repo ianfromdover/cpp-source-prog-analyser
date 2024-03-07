@@ -18,7 +18,6 @@ void UsesExtractor::visitWhileStmt(const While& stmt, shared_ptr<Accumulator>& p
     parentInfo->info.emplace_back(stmt.getStmtNo());
     auto& condition = stmt.getCondition();
     condition->accept(*this, parentInfo);
-    auto& stmtList = stmt.getBody();
     this->visitStmtList(stmt.getBody(), parentInfo);
 }
 

@@ -17,7 +17,6 @@ public:
     void visitWhileStmt(const While& stmt, shared_ptr<Accumulator>& parentInfo) override;
     void visitIfStmt(const If& stmt, shared_ptr<Accumulator>& parentInfo) override;
     void visitAssignStmt(const Assign& stmt, shared_ptr<Accumulator>& parentInfo) override;
-    // Expression Methods
 };
 
 
