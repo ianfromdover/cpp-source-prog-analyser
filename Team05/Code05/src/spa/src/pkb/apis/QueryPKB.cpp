@@ -74,6 +74,14 @@ std::vector<std::vector<std::string>> QueryPKB::getPatternAsgn() {
     return pkb->assignTable->getTable();
 }
 
+std::vector<std::vector<std::string>> QueryPKB::getCalls() {
+    return pkb->callsTable->getTable();
+}
+
+std::vector<std::vector<std::string>> QueryPKB::getCallsT() {
+    return pkb->callsTTable->getTable();
+}
+
 //std::shared_ptr<QueryResult> QueryPKB::getResult(Returnable &, std::shared_ptr<Constraint>) {
 //    return std::shared_ptr<QueryResult>();
 //}

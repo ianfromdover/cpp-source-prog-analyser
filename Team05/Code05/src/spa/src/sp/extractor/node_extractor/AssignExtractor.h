@@ -5,12 +5,9 @@
 #ifndef SPA_ASSIGNEXTRACTOR_H
 #define SPA_ASSIGNEXTRACTOR_H
 
-
-
 #include <utility>
 
 #include "sp/extractor/RelationExtractor.h"
-#include "sp/parser/ast/Stmt.h"
 
 class AssignExtractor: public RelationExtractor {
 public:

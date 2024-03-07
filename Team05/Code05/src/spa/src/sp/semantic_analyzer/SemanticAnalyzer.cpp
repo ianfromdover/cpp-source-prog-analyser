@@ -6,12 +6,12 @@
 #include "sp/exception/SemanticAnalysisException.h"
 
 void SemanticAnalyzer::check(const Program& program) {
-    this->preprocess(program);
+    this->setupCallGraph(program);
     this->populateCallGraph(program);
     this->detectCyclicCalls();
 }
 
-void SemanticAnalyzer::preprocess(const Program &program) {
+void SemanticAnalyzer::setupCallGraph(const Program &program) {
     for (const auto& procedure : *program) {
         const auto name = procedure->getName();
         if (this->callGraph.find(name) != this->callGraph.end()) {

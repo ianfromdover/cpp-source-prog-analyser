@@ -11,7 +11,7 @@
 #include <algorithm>
 #include <iostream>
 #include <sstream>
-#include "utilSpa/Column.h"
+#include "common/Column.h"
 
 using table = std::vector<std::vector<std::string>>;
 
@@ -273,7 +273,7 @@ public:
                             }
                         }
 
-                        result.push_back(move(row));
+                        result.push_back(std::move(row));
                     }
                 }
             }
@@ -294,7 +294,7 @@ public:
                 for (size_t j = 1; j < b.size(); ++j) {
                     vector<string> row(a[i].begin(), a[i].end());
                     row.insert(row.end(), b[j].begin(), b[j].end());
-                    result.push_back(move(row));
+                    result.push_back(std::move(row));
                 }
             }
             return result;

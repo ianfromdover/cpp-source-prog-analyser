@@ -7,7 +7,7 @@
 
 #include "qps/query_elements/constraint_argument/ConstraintArgument.h"
 #include "qps/query_elements/Entity.h"
-#include "utilSpa/SpaTypes.h"
+#include "common/SpaTypes.h"
 
 class StatementReference : public ConstraintArgument {
 public:

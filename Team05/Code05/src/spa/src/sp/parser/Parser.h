@@ -5,8 +5,8 @@
 #ifndef SPA_PARSER_H
 #define SPA_PARSER_H
 
-#include "sp/parser/ast/Expr.h"
-#include "sp/parser/ast/Stmt.h"
+#include "sp/ast/Expr.h"
+#include "sp/ast/Stmt.h"
 
 class Parser {
 private:
@@ -15,7 +15,7 @@ private:
     std::shared_ptr<std::vector<std::shared_ptr<Token>>> tokens;
 
 public:
-    explicit Parser(std::shared_ptr<std::vector<std::shared_ptr<Token>>>& tokens) : tokens(tokens) {};
+    explicit Parser(const std::shared_ptr<std::vector<std::shared_ptr<Token>>>& tokens) : tokens(tokens) {};
     Program parse();
 
 private:

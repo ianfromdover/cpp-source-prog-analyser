@@ -5,7 +5,7 @@
 #include <iostream>
 #include "catch.hpp"
 #include "qps/QPS.h"
-#include "utilSpa/StringUtils.h"
+#include "common/StringUtils.h"
 
 using namespace std;
 

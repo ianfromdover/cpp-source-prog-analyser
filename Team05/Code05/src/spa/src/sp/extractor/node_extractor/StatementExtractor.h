@@ -5,12 +5,9 @@
 #ifndef SPA_STATEMENTEXTRACTOR_H
 #define SPA_STATEMENTEXTRACTOR_H
 
-
-
 #include <utility>
 
 #include "sp/extractor/RelationExtractor.h"
-#include "sp/parser/ast/Stmt.h"
 
 class StatementExtractor: public RelationExtractor {
 public:

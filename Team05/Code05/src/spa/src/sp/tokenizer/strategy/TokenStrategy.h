@@ -11,7 +11,7 @@
 #include <functional>
 #include <cctype>
 #include <map>
-#include "sp/tokeniser/token/Token.h"
+#include "sp/tokenizer/token/Token.h"
 #include "sp/exception/TokenException.h"
 
 class TokenStrategy {

@@ -3,7 +3,6 @@
 //
 
 #include "FollowsConstraint.h"
-#include "pkb/constraintTablesNew/FollowsTableNew.h"
 #include "pkb/apis/QueryPKB.h"
 #include "qps/QueryProjector/ResultTable/ResultTable.h"
 
