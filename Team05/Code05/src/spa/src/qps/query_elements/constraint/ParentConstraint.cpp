@@ -46,12 +46,10 @@ std::vector<std::vector<std::string>> ParentConstraint::getRelationshipTable(Que
     if (isStatementSynonym(lhsEntityType)) {
         // Get entity table by type
         std::vector<std::vector<std::string>> entityTable = args[0]->getEntityTable(pkb);
-        std::string lHeader = lhsHeader;;
-        std::string rHeader = entityTable.at(0).at(1) + "1";
-        // Removal of original headers in our entity table
-        entityTable.erase(entityTable.begin());
-        // Insertion of headers into our entity table
-        entityTable.insert(entityTable.begin(), {lHeader, rHeader});
+        ResultTable entityTableResult(entityTable);
+        if (lhsEntityType != TYPE_STATEMENT) {
+            entityTableResult.removeColumnByIndex(1);
+        }
         table.add(entityTable);
     }
 
@@ -63,12 +61,10 @@ std::vector<std::vector<std::string>> ParentConstraint::getRelationshipTable(Que
     if (isStatementSynonym(rhsEntityType)) {
         // Get entity table by type
         std::vector<std::vector<std::string>> entityTable = args[1]->getEntityTable(pkb);
-        std::string lHeader = rhsHeader;
-        std::string rHeader = entityTable.at(0).at(1) + "2";
-        // Removal of original headers in our entity table
-        entityTable.erase(entityTable.begin());
-        // Insertion of headers into our entity table
-        entityTable.insert(entityTable.begin(), {lHeader, rHeader});
+        ResultTable entityTableResult(entityTable);
+        if (lhsEntityType != TYPE_STATEMENT) {
+            entityTableResult.removeColumnByIndex(1);
+        }
         table.add(entityTable);
     }
 

@@ -44,7 +44,9 @@ std::vector<std::vector<std::string>> ModifiesSConstraint::getRelationshipTable(
         // Get entity table by type
         std::vector<std::vector<std::string>> entityTable = args[0]->getEntityTable(pkb);
         ResultTable entityTableResult(entityTable);
-        entityTableResult.removeColumnByIndex(0);
+        if (lhsEntityType != TYPE_STATEMENT) {
+            entityTableResult.removeColumnByIndex(1);
+        }
         table.add(entityTableResult.getTable());
     }
 

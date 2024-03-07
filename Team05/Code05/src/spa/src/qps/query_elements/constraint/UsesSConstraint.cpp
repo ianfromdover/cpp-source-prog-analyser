@@ -44,10 +44,8 @@ std::vector<std::vector<std::string>> UsesSConstraint::getRelationshipTable(Quer
         // Get entity table by type
         std::vector<std::vector<std::string>> entityTable = args[0]->getEntityTable(pkb);
         ResultTable entityTableResult(entityTable);
-        if (lhsEntityType == TYPE_ASSIGN || lhsEntityType == TYPE_WHILE || lhsEntityType == TYPE_IF){
-            entityTableResult.removeAllColumnsExceptIndex(0);
-        } else {
-            entityTableResult.removeAllColumnsExceptIndex(1);
+        if (lhsEntityType != TYPE_STATEMENT) {
+            entityTableResult.removeColumnByIndex(1);
         }
         table.add(entityTableResult.getTable());
     }
