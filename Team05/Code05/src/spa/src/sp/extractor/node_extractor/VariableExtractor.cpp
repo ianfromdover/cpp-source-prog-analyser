@@ -35,23 +35,6 @@ void VariableExtractor::visitIfStmt(const If& stmt, shared_ptr<Accumulator>& par
     condition->accept(*this, parentInfo);
 }
 
-void VariableExtractor::visitAssignStmt(const Assign& stmt, shared_ptr<Accumulator>& parentInfo) {
-    auto parentInfoLHSCopy = std::make_shared<Accumulator>(*parentInfo);
-    auto parentInfoRHSCopy = std::make_shared<Accumulator>(*parentInfo);
-    auto& lhs = stmt.getVariable();
-    parentInfoLHSCopy->info.emplace_back(stmt.getStmtNo());
-    lhs->accept(*this, parentInfoLHSCopy);
-    auto& rhs = stmt.getValue();
-    parentInfoRHSCopy->info.emplace_back(stmt.getStmtNo());
-    rhs->accept(*this, parentInfoRHSCopy);
-}
-
-void VariableExtractor::visitBinaryExpr(const Binary& expr, shared_ptr<Accumulator>& parentInfo) {
-    auto& leftExpr = expr.getLeft();
-    auto& rightExpr = expr.getRight();
-    leftExpr->accept(*this, parentInfo);
-    rightExpr->accept(*this, parentInfo);
-}
 
 void VariableExtractor::visitVariableExpr(const Variable& expr, shared_ptr<Accumulator>& parentInfo) {
     for (const auto& stmtNo : parentInfo->info) {

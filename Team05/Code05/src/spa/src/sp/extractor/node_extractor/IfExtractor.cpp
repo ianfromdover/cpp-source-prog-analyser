@@ -34,13 +34,6 @@ void IfExtractor::visitAssignStmt(const Assign& stmt, shared_ptr<Accumulator>& p
     // Do nothing
 }
 
-void IfExtractor::visitBinaryExpr(const Binary& expr, shared_ptr<Accumulator>& parentInfo) {
-    auto& leftExpr = expr.getLeft();
-    auto& rightExpr = expr.getRight();
-    leftExpr->accept(*this, parentInfo);
-    rightExpr->accept(*this, parentInfo);
-}
-
 void IfExtractor::visitVariableExpr(const Variable& expr, shared_ptr<Accumulator>& parentInfo) {
     for (const auto& stmtNo : parentInfo->info) {
         //std::cout << "pkb.addIf(" << stmtNo << ", " << expr.getName() << ");" << std::endl;

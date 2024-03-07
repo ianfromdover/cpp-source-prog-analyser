@@ -24,6 +24,7 @@ class Stmt;
 class ProgramVisitor {
 protected:
     virtual void visitStmtList(const shared_ptr<vector<shared_ptr<Stmt>>> &stmts, shared_ptr<Accumulator>& info);
+    virtual void visitExpr(const shared_ptr<Expr>& expr, shared_ptr<Accumulator>& info);
 public:
     // Top-level Methods.
     virtual void visitProcedure(const Procedure&) = 0;

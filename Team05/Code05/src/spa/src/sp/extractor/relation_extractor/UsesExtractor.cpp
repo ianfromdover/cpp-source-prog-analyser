@@ -42,13 +42,6 @@ void UsesExtractor::visitAssignStmt(const Assign& stmt, shared_ptr<Accumulator>&
     rhsExpr->accept(*this, parentInfo);
 }
 
-void UsesExtractor::visitBinaryExpr(const Binary& expr, shared_ptr<Accumulator>& parentInfo) {
-    auto& leftExpr = expr.getLeft();
-    auto& rightExpr = expr.getRight();
-    leftExpr->accept(*this, parentInfo);
-    rightExpr->accept(*this, parentInfo);
-}
-
 void UsesExtractor::visitVariableExpr(const Variable& expr, shared_ptr<Accumulator>& parentInfo) {
     for (const auto& stmtNo : parentInfo->info) {
         //std::cout << "pkb.addUses(" << stmtNo << ", " << expr.getName() << ");" << std::endl;

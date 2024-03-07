@@ -35,13 +35,6 @@ void WhileExtractor::visitAssignStmt(const Assign& stmt, shared_ptr<Accumulator>
     // Do nothing
 }
 
-void WhileExtractor::visitBinaryExpr(const Binary& expr, shared_ptr<Accumulator>& parentInfo) {
-    auto& leftExpr = expr.getLeft();
-    auto& rightExpr = expr.getRight();
-    leftExpr->accept(*this, parentInfo);
-    rightExpr->accept(*this, parentInfo);
-}
-
 void WhileExtractor::visitVariableExpr(const Variable& expr, shared_ptr<Accumulator>& parentInfo) {
     for (const auto& stmtNo : parentInfo->info) {
         //std::cout << "pkb.addWhile(" << stmtNo << ", " << expr.getName() << ");" << std::endl;
