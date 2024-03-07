@@ -2,7 +2,7 @@
 // Created by sjh_9 on 21/2/2024.
 //
 #include "catch.hpp"
-#include "../helper/AstProcedures.cpp"
+#include "../helper/AstProgram.cpp"
 #include "../helper/PKBStubSP.cpp"
 #include "sp/extractor/relation_extractor/UsesExtractor.h"
 
@@ -19,8 +19,8 @@ TEST_CASE("Uses_TestAssignCallPrintRead") {
             {"1", "y"},
             {"4", "u"},
     };
-    auto procedure = AstProcedures::createAssignCallReadPrint();
-    auto procedures = std::make_shared<Procedures>();
+    auto program = AstProgram::createAssignCallReadPrint();
+    auto programs = std::make_shared<Procedures>();
     procedures->push_back(procedure);
     auto program = std::make_shared<Program>(procedures);
     auto pkb = make_shared<PKBStubSP>();
@@ -52,8 +52,8 @@ TEST_CASE("Uses_TestIfElseWithStmtsBeforeAndInside") {
             {"10", "3"},
             {"13", "u"},
     };
-    auto procedure = AstProcedures::createIfElseWithStmtsBeforeAndInside();
-    auto procedures = std::make_shared<Procedures>();
+    auto program = AstProgram::createIfElseWithStmtsBeforeAndInside();
+    auto programs = std::make_shared<Procedures>();
     procedures->push_back(procedure);
     auto program = std::make_shared<Program>(procedures);
     auto pkb = make_shared<PKBStubSP>();
@@ -78,8 +78,8 @@ TEST_CASE("Uses_TestIfElseWithStmtsBeforeAfterAndInside") {
             {"14", "y"},
             {"17", "u"}
     };
-    auto procedure = AstProcedures::createIfElseWithStmtsBeforeAfterAndInside();
-    auto procedures = std::make_shared<Procedures>();
+    auto program = AstProgram::createIfElseWithStmtsBeforeAfterAndInside();
+    auto programs = std::make_shared<Procedures>();
     procedures->push_back(procedure);
     auto program = std::make_shared<Program>(procedures);
     auto pkb = make_shared<PKBStubSP>();
@@ -102,8 +102,8 @@ TEST_CASE("Uses_TestIfElseWithStmtsAfterAndInside") {
             {"10", "y"},
             {"13", "u"}
     };
-    auto procedure = AstProcedures::createIfElseWithStmtsAfterAndInside();
-    auto procedures = std::make_shared<Procedures>();
+    auto program = AstProgram::createIfElseWithStmtsAfterAndInside();
+    auto programs = std::make_shared<Procedures>();
     procedures->push_back(procedure);
     auto program = std::make_shared<Program>(procedures);
     auto pkb = make_shared<PKBStubSP>();
@@ -122,8 +122,8 @@ TEST_CASE("Uses_TestWhileWithStmtsBeforeAndInside") {
             {"6", "y"},
             {"9", "u"},
     };
-    auto procedure = AstProcedures::createWhileWithStmtsBeforeAndInside();
-    auto procedures = std::make_shared<Procedures>();
+    auto program = AstProgram::createWhileWithStmtsBeforeAndInside();
+    auto programs = std::make_shared<Procedures>();
     procedures->push_back(procedure);
     auto program = std::make_shared<Program>(procedures);
     auto pkb = make_shared<PKBStubSP>();
@@ -144,8 +144,8 @@ TEST_CASE("Uses_TestWhileWithStmtsBeforeAfterAndInside") {
             {"10", "y"},
             {"13", "u"},
     };
-    auto procedure = AstProcedures::createWhileWithStmtsBeforeAfterAndInside();
-    auto procedures = std::make_shared<Procedures>();
+    auto program = AstProgram::createWhileWithStmtsBeforeAfterAndInside();
+    auto programs = std::make_shared<Procedures>();
     procedures->push_back(procedure);
     auto program = std::make_shared<Program>(procedures);
     auto pkb = make_shared<PKBStubSP>();
@@ -164,8 +164,8 @@ TEST_CASE("Uses_TestWhileWithStmtsAfterAndInside") {
             {"6", "y"},
             {"9", "u"},
     };
-    auto procedure = AstProcedures::createWhileWithStmtsAfterAndInside();
-    auto procedures = std::make_shared<Procedures>();
+    auto program = AstProgram::createWhileWithStmtsAfterAndInside();
+    auto programs = std::make_shared<Procedures>();
     procedures->push_back(procedure);
     auto program = std::make_shared<Program>(procedures);
     auto pkb = make_shared<PKBStubSP>();
@@ -219,8 +219,8 @@ TEST_CASE("Uses_TestIfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside") {
             {"24", "y"},
             {"27", "u"},
     };
-    auto procedure = AstProcedures::createIfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside();
-    auto procedures = std::make_shared<Procedures>();
+    auto program = AstProgram::createIfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside();
+    auto programs = std::make_shared<Procedures>();
     procedures->push_back(procedure);
     auto program = std::make_shared<Program>(procedures);
     auto pkb = make_shared<PKBStubSP>();
@@ -277,8 +277,8 @@ TEST_CASE("Uses_TestIfElseWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside") 
             {"32", "y"},
             {"35", "u"},
     };
-    auto procedure = AstProcedures::createIfElseWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside();
-    auto procedures = std::make_shared<Procedures>();
+    auto program = AstProgram::createIfElseWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside();
+    auto programs = std::make_shared<Procedures>();
     procedures->push_back(procedure);
     auto program = std::make_shared<Program>(procedures);
     auto pkb = make_shared<PKBStubSP>();
@@ -327,8 +327,8 @@ TEST_CASE("Uses_TestIfElseWithNestedIfElsePlusNestedStmtsAfterAndInside") {
             {"24", "y"},
             {"27", "u"},
     };
-    auto procedure = AstProcedures::createIfElseWithNestedIfElsePlusNestedStmtsAfterAndInside();
-    auto procedures = std::make_shared<Procedures>();
+    auto program = AstProgram::createIfElseWithNestedIfElsePlusNestedStmtsAfterAndInside();
+    auto programs = std::make_shared<Procedures>();
     procedures->push_back(procedure);
     auto program = std::make_shared<Program>(procedures);
     auto pkb = make_shared<PKBStubSP>();
@@ -365,8 +365,8 @@ TEST_CASE("Uses_TestIfElseWithNestedWhilePlusNestedStmtsBeforeAndInside") {
             {"16", "y"},
             {"19", "u"},
     };
-    auto procedure = AstProcedures::createIfElseWithNestedWhilePlusNestedStmtsBeforeAndInside();
-    auto procedures = std::make_shared<Procedures>();
+    auto program = AstProgram::createIfElseWithNestedWhilePlusNestedStmtsBeforeAndInside();
+    auto programs = std::make_shared<Procedures>();
     procedures->push_back(procedure);
     auto program = std::make_shared<Program>(procedures);
     auto pkb = make_shared<PKBStubSP>();
@@ -411,8 +411,8 @@ TEST_CASE("Uses_TestIfElseWithNestedWhilePlusNestedStmtsBeforeAfterAndInside") {
             {"24", "y"},
             {"27", "u"},
     };
-    auto procedure = AstProcedures::createIfElseWithNestedWhilePlusNestedStmtsBeforeAfterAndInside();
-    auto procedures = std::make_shared<Procedures>();
+    auto program = AstProgram::createIfElseWithNestedWhilePlusNestedStmtsBeforeAfterAndInside();
+    auto programs = std::make_shared<Procedures>();
     procedures->push_back(procedure);
     auto program = std::make_shared<Program>(procedures);
     auto pkb = make_shared<PKBStubSP>();
@@ -449,8 +449,8 @@ TEST_CASE("Uses_TestIfElseWithNestedWhilePlusNestedStmtsAfterAndInside") {
             {"16", "y"},
             {"19", "u"},
     };
-    auto procedure = AstProcedures::createIfElseWithNestedWhilePlusNestedStmtsAfterAndInside();
-    auto procedures = std::make_shared<Procedures>();
+    auto program = AstProgram::createIfElseWithNestedWhilePlusNestedStmtsAfterAndInside();
+    auto programs = std::make_shared<Procedures>();
     procedures->push_back(procedure);
     auto program = std::make_shared<Program>(procedures);
     auto pkb = make_shared<PKBStubSP>();
@@ -481,8 +481,8 @@ TEST_CASE("Uses_TestWhileWithNestedIfElsePlusNestedStmtsBeforeAndInside") {
             {"11", "y"},
             {"14", "u"},
     };
-    auto procedure = AstProcedures::createWhileWithNestedIfElsePlusNestedStmtsBeforeAndInside();
-    auto procedures = std::make_shared<Procedures>();
+    auto program = AstProgram::createWhileWithNestedIfElsePlusNestedStmtsBeforeAndInside();
+    auto programs = std::make_shared<Procedures>();
     procedures->push_back(procedure);
     auto program = std::make_shared<Program>(procedures);
     auto pkb = make_shared<PKBStubSP>();
@@ -517,8 +517,8 @@ TEST_CASE("Uses_TestWhileWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside") {
             {"15", "y"},
             {"18", "u"},
     };
-    auto procedure = AstProcedures::createWhileWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside();
-    auto procedures = std::make_shared<Procedures>();
+    auto program = AstProgram::createWhileWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside();
+    auto programs = std::make_shared<Procedures>();
     procedures->push_back(procedure);
     auto program = std::make_shared<Program>(procedures);
     auto pkb = make_shared<PKBStubSP>();
@@ -549,8 +549,8 @@ TEST_CASE("Uses_TestWhileWithNestedIfElsePlusNestedStmtsAfterAndInside") {
             {"11", "y"},
             {"14", "u"},
     };
-    auto procedure = AstProcedures::createWhileWithNestedIfElsePlusNestedStmtsAfterAndInside();
-    auto procedures = std::make_shared<Procedures>();
+    auto program = AstProgram::createWhileWithNestedIfElsePlusNestedStmtsAfterAndInside();
+    auto programs = std::make_shared<Procedures>();
     procedures->push_back(procedure);
     auto program = std::make_shared<Program>(procedures);
     auto pkb = make_shared<PKBStubSP>();
@@ -575,8 +575,8 @@ TEST_CASE("Uses_TestWhileWithNestedWhilePlusNestedStmtsBeforeAndInside") {
             {"7", "y"},
             {"10", "u"},
     };
-    auto procedure = AstProcedures::createWhileWithNestedWhilePlusNestedStmtsBeforeAndInside();
-    auto procedures = std::make_shared<Procedures>();
+    auto program = AstProgram::createWhileWithNestedWhilePlusNestedStmtsBeforeAndInside();
+    auto programs = std::make_shared<Procedures>();
     procedures->push_back(procedure);
     auto program = std::make_shared<Program>(procedures);
     auto pkb = make_shared<PKBStubSP>();
@@ -605,8 +605,8 @@ TEST_CASE("Uses_TestWhileWithNestedWhilePlusNestedStmtsBeforeAfterAndInside") {
             {"11", "y"},
             {"14", "u"},
     };
-    auto procedure = AstProcedures::createWhileWithNestedWhilePlusNestedStmtsBeforeAfterAndInside();
-    auto procedures = std::make_shared<Procedures>();
+    auto program = AstProgram::createWhileWithNestedWhilePlusNestedStmtsBeforeAfterAndInside();
+    auto programs = std::make_shared<Procedures>();
     procedures->push_back(procedure);
     auto program = std::make_shared<Program>(procedures);
     auto pkb = make_shared<PKBStubSP>();
@@ -631,8 +631,8 @@ TEST_CASE("Uses_TestWhileWithNestedWhilePlusNestedStmtsAfterAndInside") {
             {"7", "y"},
             {"10", "u"},
     };
-    auto procedure = AstProcedures::createWhileWithNestedWhilePlusNestedStmtsAfterAndInside();
-    auto procedures = std::make_shared<Procedures>();
+    auto program = AstProgram::createWhileWithNestedWhilePlusNestedStmtsAfterAndInside();
+    auto programs = std::make_shared<Procedures>();
     procedures->push_back(procedure);
     auto program = std::make_shared<Program>(procedures);
     auto pkb = make_shared<PKBStubSP>();
