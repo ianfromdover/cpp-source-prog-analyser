@@ -24,13 +24,14 @@ void ModifiesExtractor::visitReadStmt(const Read& stmt, shared_ptr<Accumulator>&
 }
 
 void ModifiesExtractor::visitCallStmt(const Call& stmt, shared_ptr<Accumulator>& parentInfo) {
-//    visitedProcedures.insert(stmt.getProcName());
-//    program->getProcedure(stmt.getProcName());
+    visitedProcedures.insert(stmt.getProcName());
+    auto procedure = program->getProcedure(stmt.getProcName());
+    parentInfo->info.emplace_back(stmt.getStmtNo());
+    this->visitStmtList(procedure->getBody(), parentInfo);
 }
 
 void ModifiesExtractor::visitWhileStmt(const While& stmt, shared_ptr<Accumulator>& parentInfo) {
     parentInfo->info.emplace_back(stmt.getStmtNo());
-    auto& stmtList = stmt.getBody();
     this->visitStmtList(stmt.getBody(), parentInfo);
 }
 
@@ -55,14 +56,14 @@ void ModifiesExtractor::visitBinaryExpr(const Binary& expr, shared_ptr<Accumulat
 
 void ModifiesExtractor::visitVariableExpr(const Variable& expr, shared_ptr<Accumulator>& parentInfo) {
     for (const auto& stmtNo : parentInfo->info) {
-        //std::cout << "pkb.addModifies(" << stmtNo << ", " << expr.getName() << ");" << std::endl;
+        std::cout << "pkb.addModifies(" << stmtNo << ", " << expr.getName() << ");" << std::endl;
         pkb->addModifies(stmtNo, expr.getName());
     }
 }
 
 void ModifiesExtractor::visitLiteralExpr(const Literal& expr, shared_ptr<Accumulator>& parentInfo) {
     for (const auto& stmtNo : parentInfo->info) {
-        //std::cout << "pkb.addModifies(" << stmtNo << ", " << expr.getName() << ");" << std::endl;
+        std::cout << "pkb.addModifies(" << stmtNo << ", " << expr.getValue() << ");" << std::endl;
         pkb->addModifies(stmtNo, std::to_string(expr.getValue()));
     }
 
