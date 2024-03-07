@@ -12,6 +12,7 @@ void ModifiesExtractor::visitProcedure(const Procedure& procedure) {
         visitedProcedures.insert(procedure.getName());
         for (const auto& stmt : *procedure.getBody()) {
             auto parentInfo = std::make_shared<Accumulator>();
+            parentInfo->stringInfo.emplace_back(procedure.getName());
             stmt->accept(*this, parentInfo);
         }
     }
@@ -27,6 +28,7 @@ void ModifiesExtractor::visitCallStmt(const Call& stmt, shared_ptr<Accumulator>&
     visitedProcedures.insert(stmt.getProcName());
     auto procedure = program->getProcedure(stmt.getProcName());
     parentInfo->info.emplace_back(stmt.getStmtNo());
+    parentInfo->stringInfo.emplace_back(stmt.getProcName());
     this->visitStmtList(procedure->getBody(), parentInfo);
 }
 
@@ -58,6 +60,10 @@ void ModifiesExtractor::visitVariableExpr(const Variable& expr, shared_ptr<Accum
     for (const auto& stmtNo : parentInfo->info) {
         //std::cout << "pkb.addModifiesS(" << stmtNo << ", " << expr.getName() << ");" << std::endl;
         pkb->addModifiesS(stmtNo, expr.getName());
+    }
+    for (const auto& procName : parentInfo->stringInfo) {
+        //std::cout << "pkb.addModifiesP(" << procName << ", " << expr.getName() << ");" << std::endl;
+        pkb->addModifiesP(procName, expr.getName());
     }
 }
 

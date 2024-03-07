@@ -62,11 +62,11 @@ void UsesExtractor::visitBinaryExpr(const Binary& expr, shared_ptr<Accumulator>&
 
 void UsesExtractor::visitVariableExpr(const Variable& expr, shared_ptr<Accumulator>& parentInfo) {
     for (const auto& stmtNo : parentInfo->info) {
-        std::cout << "pkb.addUsesS(" << stmtNo << ", " << expr.getName() << ");" << std::endl;
+        //std::cout << "pkb.addUsesS(" << stmtNo << ", " << expr.getName() << ");" << std::endl;
         pkb->addUsesS(stmtNo, expr.getName());
     }
     for (const auto& procName : parentInfo->stringInfo) {
-        std::cout << "pkb.addUsesP(" << procName << ", " << expr.getName() << ");" << std::endl;
+        //std::cout << "pkb.addUsesP(" << procName << ", " << expr.getName() << ");" << std::endl;
         pkb->addUsesP(procName, expr.getName());
     }
 }
