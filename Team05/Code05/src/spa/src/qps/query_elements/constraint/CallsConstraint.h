@@ -7,7 +7,7 @@
 
 #include "RelationshipConstraint.h"
 #include "qps/query_elements/constraint_argument/entity_reference/EntityReference.h"
-#include "utilSpa/Column.h"
+#include "common/Column.h"
 #include "pkb/constraintTablesNew/FollowsTableNew.h"
 #include "pkb/apis/QueryPKB.h"
 #include "qps/QueryProjector/ResultTable/ResultTable.h"
