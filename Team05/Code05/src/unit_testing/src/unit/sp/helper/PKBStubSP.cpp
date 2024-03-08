@@ -90,19 +90,29 @@ public:
         return true;
     }
 
-    bool addUses(StmtNo sNum, VarName name) override {
-        //std::cout << "addUses called" << std::endl;
+    bool addUsesS(StmtNo sNum, VarName name) override {
+        //std::cout << "addUsesS called" << std::endl;
         pairCalls.insert({std::to_string(sNum), name});
         return true;
     }
 
+    bool addUsesP(std::string procName, std::string name) override {
+        //std::cout << "addUsesP called" << std::endl;
+        pairCalls.insert({procName, name});
+        return true;
+    }
 
-    bool addModifies(StmtNo sNum, VarName name) override {
-        //std::cout << "addModifies called" << std::endl;
+    bool addModifiesS(StmtNo sNum, VarName name) override {
+        //std::cout << "addModifiesS called" << std::endl;
         pairCalls.insert({std::to_string(sNum), name});
         return true;
     }
 
+    bool addModifiesP(std::string procName, std::string name) override {
+        //std::cout << "addModifiesP called" << std::endl;
+        pairCalls.insert({procName, name});
+        return true;
+    }
 
     bool addPatternAsgn(StmtNo sNum, Str lhs, Str rhsBracketed) override {
         //std::cout << "addPatternAsgn called" << std::endl;

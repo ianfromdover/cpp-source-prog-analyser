@@ -63,12 +63,22 @@ std::vector<std::vector<std::string>> QueryPKB::getParentT() {
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getUses() {
-    return pkb->usesTable->getTable();
+    return pkb->usesSTable->getTable();
+}
+
+std::vector<std::vector<std::string>> QueryPKB::getUsesP() {
+    return pkb->usesPTable->getTable();
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getModifies() {
-    return pkb->modifiesTable->getTable();
+    return pkb->modifiesSTable->getTable();
 }
+
+std::vector<std::vector<std::string>> QueryPKB::getModifiesP() {
+    return pkb->modifiesPTable->getTable();
+}
+
+
 
 std::vector<std::vector<std::string>> QueryPKB::getPatternAsgn() {
     return pkb->assignTable->getTable();

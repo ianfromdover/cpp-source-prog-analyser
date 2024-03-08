@@ -19,8 +19,10 @@
 #include "pkb/tables/entity/AssignTable.h"
 #include "pkb/tables/relation/ParentTable.h"
 #include "pkb/tables/relation/ParentTTable.h"
-#include "pkb/tables/relation/ModifiesTable.h"
-#include "pkb/tables/relation/UsesTable.h"
+#include "pkb/tables/relation/ModifiesSTable.h"
+#include "pkb/tables/relation/ModifiesPTable.h"
+#include "pkb/tables/relation/UsesSTable.h"
+#include "pkb/tables/relation/UsesPTable.h"
 #include "pkb/tables/relation/CallsTable.h"
 #include "pkb/tables/relation/CallsTTable.h"
 
@@ -42,8 +44,10 @@ public:
     std::shared_ptr<FollowsTTable> followsTTable = std::make_shared<FollowsTTable>();
     std::shared_ptr<ParentTable> parentTable = std::make_shared<ParentTable>();
     std::shared_ptr<ParentTTable> parentTTable = std::make_shared<ParentTTable>();
-    std::shared_ptr<ModifiesTable> modifiesTable = std::make_shared<ModifiesTable>();
-    std::shared_ptr<UsesTable> usesTable = std::make_shared<UsesTable>();
+    std::shared_ptr<ModifiesSTable> modifiesSTable = std::make_shared<ModifiesSTable>();
+    std::shared_ptr<ModifiesPTable> modifiesPTable = std::make_shared<ModifiesPTable>();
+    std::shared_ptr<UsesSTable> usesSTable = std::make_shared<UsesSTable>();
+    std::shared_ptr<UsesPTable> usesPTable = std::make_shared<UsesPTable>();
     std::shared_ptr<CallsTable> callsTable = std::make_shared<CallsTable>();
     std::shared_ptr<CallsTTable> callsTTable = std::make_shared<CallsTTable>();
 
