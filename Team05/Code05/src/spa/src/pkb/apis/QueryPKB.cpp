@@ -190,7 +190,7 @@ std::vector<std::vector<std::string>> QueryPKB::getProcByName(ProcName proc) {
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getProcTable() {
-    return toVecVecStr(pkb->procedureTable->getAllAsStrings());
+    return pkb->procedureTable->getAllAsStrings();
 }
 
 // Read
@@ -258,7 +258,7 @@ std::vector<std::vector<std::string>> QueryPKB::getStmtByNum(int StmtNo) {
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getStmtTable() {
-    return toVecVecStr(pkb->statementTable->getAllAsStrings());
+    return pkb->statementTable->getAllAsStrings();
 }
 
 // Var
@@ -269,7 +269,7 @@ std::vector<std::vector<std::string>> QueryPKB::getVarByName(VarName var) {
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getVarTable() {
-    return toVecVecStr(pkb->varTable->getAllAsStrings());
+    return pkb->varTable->getAllAsStrings();
 }
 
 // Const
