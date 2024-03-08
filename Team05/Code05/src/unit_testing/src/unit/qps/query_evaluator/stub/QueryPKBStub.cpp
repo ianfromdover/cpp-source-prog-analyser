@@ -4,71 +4,164 @@
 
 #include "QueryPKBStub.h"
 
-// method under test, always return fixed QueryResult based on constraint.
-//std::shared_ptr<QueryResult> QueryPKBStub::getResult(Returnable &r, std::shared_ptr<Constraint> c) {
-//    if (c==nullptr){
-//        std::vector<std::string> vector = {};
-//        auto strResult = make_shared<StringResult>(vector);
-//        return strResult;
-//    }
-//    if (c->getConstraintType() == CONSTRAINT_TYPE_PARENT) {
-//        std::vector<std::string> vector = {"a", "b", "c", "f"};
-//        auto strResult = make_shared<StringResult>(vector);
-//        return strResult;
-//    } else if (c->getConstraintType() == CONSTRAINT_TYPE_PARENTT) {
-//        std::vector<std::string> vector = {"c", "d", "e"};
-//        auto strResult = make_shared<StringResult>(vector);
-//        return strResult;
-//    } else if (c->getConstraintType() == CONSTRAINT_TYPE_FOLLOWS) {
-//        std::vector<int> vector = {1, 2, 3};
-//        auto intResult = make_shared<IntResult>(vector);
-//        return intResult;
-//    } else if (c->getConstraintType() == CONSTRAINT_TYPE_FOLLOWST) {
-//        std::vector<int> vector = {3, 4, 5};
-//        auto intResult = make_shared<IntResult>(vector);
-//        return intResult;
-//    } else if (c->getConstraintType() == CONSTRAINT_CLASS_PATTERN) {
-//        std::vector<std::string> vector = {"c", "d", "e" , "f"};
-//        auto strResult = make_shared<StringResult>(vector);
-//        return strResult;
-//    } else if (c->getConstraintType() == CONSTRAINT_TYPE_MODIFIESS) {
-//        std::vector<int> vector = {2, 3, 4};
-//        auto intResult = make_shared<IntResult>(vector);
-//        return intResult;
-//    } else if (c->getConstraintType() == CONSTRAINT_TYPE_USESS) {
-//        std::vector<int> vector = {2, 4, 3};
-//        auto intResult = make_shared<IntResult>(vector);
-//        return intResult;
-//    } else {
-//        std::vector<std::string> vector = {};
-//        auto emptyResult = make_shared<StringResult>(vector);
-//        return emptyResult;
-//    }
-//
-//}
+#include <utility>
 
-
-vector<StmtNo> QueryPKBStub::getChildren(StmtNo parent) {
-    return {};
+std::vector<std::vector<std::string>> QueryPKBStub::getRead() {
+    return readTable;
 }
 
-vector<shared_ptr<ConstraintArgument>> QueryPKBStub::getContraintArgs() {
-    return {};
+std::vector<std::vector<std::string>> QueryPKBStub::getCallStmt() {
+    return callStmtTable;
 }
 
-bool QueryPKBStub::getParent(StmtNo parent, StmtNo child) {
-    return true;
+std::vector<std::vector<std::string>> QueryPKBStub::getWhile() {
+    return whileTable;
 }
 
-bool QueryPKBStub::getFollows(StmtNo before, StmtNo after) {
-    return true;
+std::vector<std::vector<std::string>> QueryPKBStub::getIf() {
+    return ifTable;
 }
 
-vector<StmtNo> QueryPKBStub::getSiblings(StmtNo child) {
-    return {};
+std::vector<std::vector<std::string>> QueryPKBStub::getPrint() {
+    return printTable;
 }
 
-StmtNo QueryPKBStub::getParent(StmtNo child) {
-    return 0;
+std::vector<std::vector<std::string>> QueryPKBStub::getStatement() {
+    return statementTable;
 }
 
+std::vector<std::vector<std::string>> QueryPKBStub::getProcedure() {
+    return procedureTable;
+}
+
+std::vector<std::vector<std::string>> QueryPKBStub::getVar() {
+    return varTable;
+}
+
+std::vector<std::vector<std::string>> QueryPKBStub::getConst() {
+    return constTable;
+}
+
+std::vector<std::vector<std::string>> QueryPKBStub::getFollows() {
+    return followsTable;
+}
+
+std::vector<std::vector<std::string>> QueryPKBStub::getFollowsT() {
+    return followsTTable;
+}
+
+std::vector<std::vector<std::string>> QueryPKBStub::getParent() {
+    return parentTable;
+}
+
+std::vector<std::vector<std::string>> QueryPKBStub::getParentT() {
+    return parentTTable;
+}
+
+std::vector<std::vector<std::string>> QueryPKBStub::getUses() {
+    return usesTable;
+}
+
+std::vector<std::vector<std::string>> QueryPKBStub::getModifies() {
+    return modifiesTable;
+}
+
+std::vector<std::vector<std::string>> QueryPKBStub::getPatternAsgn() {
+    return assignTable;
+}
+
+void QueryPKBStub::setRead(std::vector<std::vector<std::string>> t) {
+    readTable = std::move(t);
+}
+
+void QueryPKBStub::setCallStmt(std::vector<std::vector<std::string>> t) {
+    callStmtTable = std::move(t);
+}
+
+void QueryPKBStub::setWhile(std::vector<std::vector<std::string>> t) {
+    whileTable = std::move(t);
+}
+
+void QueryPKBStub::setIf(std::vector<std::vector<std::string>> t) {
+    ifTable = std::move(t);
+}
+
+void QueryPKBStub::setPrint(std::vector<std::vector<std::string>> t) {
+    printTable = std::move(t);
+}
+
+void QueryPKBStub::setStatement(std::vector<std::vector<std::string>> t) {
+    statementTable = std::move(t);
+}
+
+void QueryPKBStub::setProcedure(std::vector<std::vector<std::string>> t) {
+    procedureTable = std::move(t);
+}
+
+void QueryPKBStub::setVar(std::vector<std::vector<std::string>> t) {
+    varTable = std::move(t);
+}
+
+void QueryPKBStub::setConst(std::vector<std::vector<std::string>> t) {
+    constTable = std::move(t);
+}
+
+void QueryPKBStub::setFollows(std::vector<std::vector<std::string>> t) {
+    followsTable = std::move(t);
+}
+
+void QueryPKBStub::setFollowsT(std::vector<std::vector<std::string>> t) {
+    followsTTable = std::move(t);
+}
+
+void QueryPKBStub::setParent(std::vector<std::vector<std::string>> t) {
+    parentTable = std::move(t);
+}
+
+void QueryPKBStub::setParentT(std::vector<std::vector<std::string>> t) {
+    parentTTable = std::move(t);
+}
+
+void QueryPKBStub::setUses(std::vector<std::vector<std::string>> t) {
+    usesTable = std::move(t);
+}
+
+void QueryPKBStub::setModifies(std::vector<std::vector<std::string>> t) {
+    modifiesTable = std::move(t);
+}
+
+void QueryPKBStub::setPatternAsgn(std::vector<std::vector<std::string>> t) {
+    assignTable = std::move(t);
+}
+
+std::vector<std::vector<std::string>> QueryPKBStub::getUsesP() {
+    return usesPTable;
+}
+
+std::vector<std::vector<std::string>> QueryPKBStub::getModifiesP() {
+    return modifiesPTable;
+}
+
+std::vector<std::vector<std::string>> QueryPKBStub::getCalls() {
+    return callsTable;
+}
+
+std::vector<std::vector<std::string>> QueryPKBStub::getCallsT() {
+    return callsTTable;
+}
+
+void QueryPKBStub::setUsesP(std::vector<std::vector<std::string>> t) {
+    usesPTable = std::move(t);
+}
+
+void QueryPKBStub::setModifiesP(std::vector<std::vector<std::string>> t) {
+    modifiesPTable = std::move(t);
+}
+
+void QueryPKBStub::setCalls(std::vector<std::vector<std::string>> t) {
+    callsTable = std::move(t);
+}
+
+void QueryPKBStub::setCallsT(std::vector<std::vector<std::string>> t) {
+    callsTTable = std::move(t);
+}
