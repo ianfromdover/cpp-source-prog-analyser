@@ -63,7 +63,7 @@ std::vector<std::vector<std::string>> ParentTConstraint::getRelationshipTable(Qu
         // Get entity table by type
         std::vector<std::vector<std::string>> entityTable = args[1]->getEntityTable(pkb);
         ResultTable entityTableResult(entityTable);
-        if (lhsEntityType != TYPE_STATEMENT) {
+        if (rhsEntityType != TYPE_STATEMENT) {
             entityTableResult.removeColumnByIndex(1);
         }
         table.add(entityTable);
