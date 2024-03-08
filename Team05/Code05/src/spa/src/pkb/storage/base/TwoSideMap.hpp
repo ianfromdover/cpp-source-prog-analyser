@@ -8,6 +8,7 @@
 #include <unordered_map>
 #include <memory>
 #include <string>
+#include <type_traits>
 
 /**
  * @brief A double-sided map for O(1) retrieval of elements that have Many-Many relations.
@@ -30,6 +31,14 @@ private:
 
     // Check if a pair exists in the map.
     bool containsPair(A key, B value);
+
+    // Combines pairs in the forward map of type string into a 2-column table in the result
+    void add(const std::shared_ptr<std::vector<std::vector<std::string>>>& result,
+             const std::string& key, std::set<std::shared_ptr<std::string>>& strPtrSet);
+
+    // Combines pairs in the forward map of any type into a 2-column table in the result
+    void addAndConvert(const std::shared_ptr<std::vector<std::vector<std::string>>>& result,
+                       const std::string& key, std::set<std::shared_ptr<B>>& tPtrSet);
 
 public:
     TwoSideMap();
@@ -95,6 +104,25 @@ bool TwoSideMap<A, B>::containsPair(A key, B value) {
     return keyHasThisValue && valueHasThisKey;
 }
 
+// helper for getAll
+void add(const std::shared_ptr<std::vector<std::vector<std::string>>>& result,
+         const std::string& key, std::set<std::shared_ptr<std::string>>& strPtrSet) {
+    for (const auto& ptr : strPtrSet) {
+        result->push_back({key, *ptr});
+    }
+}
+
+// helper for getAll
+// assumes that TwoSideMap is only used on primitives
+template<typename B>
+void addAndConvert(const std::shared_ptr<std::vector<std::vector<std::string>>>& result,
+                   const std::string& key, std::set<std::shared_ptr<B>>& tPtrSet) {
+    for (const auto& ptr : tPtrSet) {
+        std::string item = std::to_string(*ptr); // T needs to have an overloaded std::to_string defined
+        result->push_back({key, item});
+    }
+}
+
 template<typename A, typename B>
 bool TwoSideMap<A, B>::insert(const A key, const B value) {
     // ai-gen start (copilot, 1, e)
@@ -152,13 +180,32 @@ std::vector<A> TwoSideMap<A, B>::getKeys(B value) {
 
 template<typename A, typename B>
 std::vector<std::vector<std::string>> TwoSideMap<A, B>::getAll() {
-    std::vector<std::vector<std::string>> result;
-    for (const auto& pair : forwardMap) { // what does the & do here?
-        std::string key = std::to_string(pair.first);
-        for (const auto& ptr : pair.second) { // second is a set<pointer>
-            std::string item = std::to_string(*ptr);
-            result.push_back({key, item});
+    auto result = make_shared<std::vector<std::vector<std::string>>>();
+
+    // check if A is string, B is string
+    bool AStrBStr = std::is_same_v<A, std::string> && std::is_same_v<B, std::string>;
+    bool AStrBNotStr = !std::is_same_v<B, std::string>;
+    bool ANotStrBStr = !std::is_same_v<A, std::string>;
+
+    if (AStrBStr) {
+        for (const auto& pair : forwardMap) {
+            add(result, pair.first, pair.second);
+        }
+    } else if (AStrBNotStr) {
+        for (const auto& pair : forwardMap) {
+            addAndConvert(result, pair.first, pair.second);
+        }
+    } else if (ANotStrBStr) {
+        for (const auto& pair : forwardMap) {
+            std::string key = std::to_string(pair.first);
+            add(result, key, pair.second);
+        }
+    } else {
+        // A and B are not strings
+        for (const auto& pair : forwardMap) {
+            std::string key = std::to_string(pair.first);
+            addAndConvert(result, key, pair.second);
         }
     }
-    return result;
+    return *result;
 }
