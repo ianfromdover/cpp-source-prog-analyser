@@ -135,7 +135,7 @@ std::vector<std::vector<std::string>> QueryPKB::toVecVecStr(std::vector<A> vec) 
         std::vector<std::string> strElem;
 
         // Put the element into the str vector
-        strElem.push_back(std::to_string(element));
+        strElem.push_back(std::to_string(element)); // TODO: ian's CLion says to_string not found here
 
         // Add the vector to the result
         result.push_back(strElem);
@@ -185,9 +185,8 @@ std::vector<std::vector<std::string>> QueryPKB::getCallTable() {
 
 // Proc
 
-// TODO: not actually implemented yet
 std::vector<std::vector<std::string>> QueryPKB::getProcByName(ProcName proc) {
-//    return toVecVecStr(pkb->procedureTable->getAllProcs());
+    return toVecVecStr(pkb->procedureTable->getProcByName(proc));
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getProcTable() {
@@ -276,6 +275,10 @@ std::vector<std::vector<std::string>> QueryPKB::getVarTable() {
 // Const
 
 // TODO
+// constants don't have names
+// shouldn't it be getConstByNum(StmtNo sNum) and
+// getConstByValue(ConstVal val) instead?
+// and will QPS actually use this API?
 std::vector<std::vector<std::string>> QueryPKB::getConstByName(VarName var) {
     return {{}};
 }
@@ -406,7 +409,7 @@ std::vector<std::vector<std::string>> QueryPKB::getModifiesPByVar(VarName modifi
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getModifiesPTable() {
-    return pkb->modifiesPTable->getAllP();
+    return pkb->modifiesPTable->getAllAsStrings();
 }
 
 // PatternAssign

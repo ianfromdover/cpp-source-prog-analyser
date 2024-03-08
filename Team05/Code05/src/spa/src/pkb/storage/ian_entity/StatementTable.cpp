@@ -6,6 +6,9 @@ bool StatementTable::addFinalStatementNo(StmtNo sNum) {
     finalStatementNum = sNum;
     return true;
 }
+vector<StmtNo> StatementTable::getStmtByNum(StmtNo sNum) {
+    return sNum > finalStatementNum ? vector<StmtNo>{} : vector<StmtNo>{sNum};
+}
 
 vector<StmtNo> StatementTable::getAllStmts() {
     vector<StmtNo> stmts;
