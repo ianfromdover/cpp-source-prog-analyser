@@ -16,17 +16,25 @@
 
 class QueryPKBStub : public QueryPKBVirtual {
 
-    vector<StmtNo> getChildren(StmtNo parent);
-    StmtNo getParent(StmtNo child);
-    vector<StmtNo> getSiblings(StmtNo child);
     std::shared_ptr<PKBStorage> pkb;
 
-    bool getFollows(StmtNo before, StmtNo after);
-    bool getParent(StmtNo parent, StmtNo child);
+    std::vector<std::vector<std::string>> getRead() override;
+    std::vector<std::vector<std::string>> getCallStmt() override;
+    std::vector<std::vector<std::string>> getIf() override;
+    std::vector<std::vector<std::string>> getWhile() override;
+    std::vector<std::vector<std::string>> getPrint() override;
+    std::vector<std::vector<std::string>> getStatement() override;
+    std::vector<std::vector<std::string>> getProcedure() override;
+    std::vector<std::vector<std::string>> getVar() override;
+    std::vector<std::vector<std::string>> getConst() override;
+    std::vector<std::vector<std::string>> getFollows() override;
+    std::vector<std::vector<std::string>> getFollowsT() override;
+    std::vector<std::vector<std::string>> getParent() override;
+    std::vector<std::vector<std::string>> getParentT() override;
+    std::vector<std::vector<std::string>> getUses() override;
+    std::vector<std::vector<std::string>> getModifies() override;
+    std::vector<std::vector<std::string>> getPatternAsgn() override;
 
-    vector<shared_ptr<ConstraintArgument>> getContraintArgs();
-
-//    std::shared_ptr<QueryResult> getResult(Returnable& r, std::shared_ptr<Constraint> c) override;
 
 };
 

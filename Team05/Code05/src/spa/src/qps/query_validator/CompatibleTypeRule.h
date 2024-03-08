@@ -31,6 +31,10 @@ private:
                                          {QType::VARIABLE ,QType::WILDCARD, QType::QUOTED_IDENT}}},
                     {QType::USES_S, {{QType::STMT1, QType::READ, QType::PRINT, QType::WHILE,QType::IF,QType::ASSIGN,QType::PROCEDURE,QType::INTEGER,QType::WILDCARD},
                                      {QType::STMT1, QType::VARIABLE ,QType::WILDCARD, QType::QUOTED_IDENT}}},
+                    {QType::CALLS, {{QType::STMT1, QType::READ, QType::PRINT, QType::WHILE,QType::IF,QType::ASSIGN,QType::PROCEDURE,QType::INTEGER,QType::WILDCARD},
+                                            {QType::PROCEDURE ,QType::WILDCARD, QType::QUOTED_IDENT}}},
+                    {QType::CALLS, {{QType::STMT1, QType::READ, QType::PRINT, QType::WHILE,QType::IF,QType::ASSIGN,QType::PROCEDURE,QType::INTEGER,QType::WILDCARD},
+                                           {QType::PROCEDURE ,QType::WILDCARD, QType::QUOTED_IDENT}}},
             };
 };
 
