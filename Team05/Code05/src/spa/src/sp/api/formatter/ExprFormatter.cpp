@@ -15,7 +15,7 @@ std::string ExprFormatter::format(const std::string& exprStr) {
     try {
         const auto ast = Parser(Scanner(source).scanTokens()).parse();
         const auto stmt = ast->at(0)->getBody()->at(0);
-        return dynamic_cast<Assign&>(*stmt).getValue()->toString();
+        return "( " + dynamic_cast<Assign&>(*stmt).getValue()->toString() + " )";
     } catch (BaseException& _) {
         throw InvalidExprString();
     }
