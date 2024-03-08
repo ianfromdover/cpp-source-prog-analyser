@@ -15,6 +15,8 @@
 #include "qps/query_elements/constraint/ModifiesSConstraint.h"
 #include "qps/query_elements/constraint/ModifiesPConstraint.h"
 #include "qps/query_elements/constraint/ConcretePatternConstraint.h"
+#include "qps/query_elements/constraint/CallsConstraint.h"
+#include "qps/query_elements/constraint/CallsTConstraint.h"
 #include <stdexcept>
 
 class ConstraintBuilderTemplate {

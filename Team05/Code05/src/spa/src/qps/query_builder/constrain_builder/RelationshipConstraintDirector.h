@@ -13,6 +13,8 @@
 #include "ModifiesPConstraintBuilder.h"
 #include "UsesSConstraintBuilder.h"
 #include "UsesPConstraintBuilder.h"
+#include "CallsConstraintBuilder.h"
+#include "CallsTConstraintBuilder.h"
 
 class RelationshipConstraintDirector {
 public:
