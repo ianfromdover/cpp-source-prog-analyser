@@ -16,29 +16,16 @@ void VariableExtractor::visitPrintStmt(const Print& stmt, shared_ptr<Accumulator
     var->accept(*this, parentInfo);
 }
 
-void VariableExtractor::visitCallStmt(const Call& stmt, shared_ptr<Accumulator>& parentInfo) {
-    // Do Nothing
-}
-
 void VariableExtractor::visitWhileStmt(const While& stmt, shared_ptr<Accumulator>& parentInfo) {
-    for (const auto& childStmt: *stmt.getBody()) {
-        auto parentInfoCopy = std::make_shared<Accumulator>(*parentInfo);
-        childStmt->accept(*this, parentInfoCopy);
-    }
+    this->visitStmtList(stmt.getBody(), parentInfo);
     parentInfo->info.emplace_back(stmt.getStmtNo());
     auto& condition = stmt.getCondition();
     condition->accept(*this, parentInfo);
 }
 
 void VariableExtractor::visitIfStmt(const If& stmt, shared_ptr<Accumulator>& parentInfo) {
-    for (const auto& childStmt: *stmt.getThenBranch()) {
-        auto parentInfoCopy = std::make_shared<Accumulator>(*parentInfo);
-        childStmt->accept(*this, parentInfoCopy);
-    }
-    for (const auto& childStmt: *stmt.getElseBranch()) {
-        auto parentInfoCopy = std::make_shared<Accumulator>(*parentInfo);
-        childStmt->accept(*this, parentInfoCopy);
-    }
+    this->visitStmtList(stmt.getThenBranch(), parentInfo);
+    this->visitStmtList(stmt.getElseBranch(), parentInfo);
     parentInfo->info.emplace_back(stmt.getStmtNo());
     auto& condition = stmt.getCondition();
     condition->accept(*this, parentInfo);
@@ -67,10 +54,6 @@ void VariableExtractor::visitVariableExpr(const Variable& expr, shared_ptr<Accum
         //std::cout << "pkb.addVar(" << stmtNo << ", " << expr.getName() << ");" << std::endl;
         pkb->addVar(stmtNo, expr.getName());
     }
-}
-
-void VariableExtractor::visitLiteralExpr(const Literal& expr, shared_ptr<Accumulator>& parentInfo) {
-    // Do Nothing
 }
 
 void VariableExtractor::visitUnaryExpr(const Unary& expr, shared_ptr<Accumulator>& parentInfo) {

@@ -4,41 +4,16 @@
 
 #include "ConstantExtractor.h"
 
-void ConstantExtractor::visitReadStmt(const Read& stmt, shared_ptr<Accumulator>& parentInfo) {
-    auto& var = stmt.getVariable();
-    parentInfo->info.emplace_back(stmt.getStmtNo());
-    var->accept(*this, parentInfo);
-}
-
-void ConstantExtractor::visitPrintStmt(const Print& stmt, shared_ptr<Accumulator>& parentInfo) {
-    auto& var = stmt.getVariable();
-    parentInfo->info.emplace_back(stmt.getStmtNo());
-    var->accept(*this, parentInfo);
-}
-
-void ConstantExtractor::visitCallStmt(const Call& stmt, shared_ptr<Accumulator>& parentInfo) {
-    // Do Nothing
-}
-
 void ConstantExtractor::visitWhileStmt(const While& stmt, shared_ptr<Accumulator>& parentInfo) {
-    for (const auto& childStmt: *stmt.getBody()) {
-        auto parentInfoCopy = std::make_shared<Accumulator>(*parentInfo);
-        childStmt->accept(*this, parentInfoCopy);
-    }
+    this->visitStmtList(stmt.getBody(), parentInfo);
     parentInfo->info.emplace_back(stmt.getStmtNo());
     auto& condition = stmt.getCondition();
     condition->accept(*this, parentInfo);
 }
 
 void ConstantExtractor::visitIfStmt(const If& stmt, shared_ptr<Accumulator>& parentInfo) {
-    for (const auto& childStmt: *stmt.getThenBranch()) {
-        auto parentInfoCopy = std::make_shared<Accumulator>(*parentInfo);
-        childStmt->accept(*this, parentInfoCopy);
-    }
-    for (const auto& childStmt: *stmt.getElseBranch()) {
-        auto parentInfoCopy = std::make_shared<Accumulator>(*parentInfo);
-        childStmt->accept(*this, parentInfoCopy);
-    }
+    this->visitStmtList(stmt.getThenBranch(), parentInfo);
+    this->visitStmtList(stmt.getElseBranch(), parentInfo);
     parentInfo->info.emplace_back(stmt.getStmtNo());
     auto& condition = stmt.getCondition();
     condition->accept(*this, parentInfo);
@@ -60,10 +35,6 @@ void ConstantExtractor::visitBinaryExpr(const Binary& expr, shared_ptr<Accumulat
     auto& rightExpr = expr.getRight();
     leftExpr->accept(*this, parentInfo);
     rightExpr->accept(*this, parentInfo);
-}
-
-void ConstantExtractor::visitVariableExpr(const Variable& expr, shared_ptr<Accumulator>& parentInfo) {
-    // Do Nothing
 }
 
 void ConstantExtractor::visitLiteralExpr(const Literal& expr, shared_ptr<Accumulator>& parentInfo) {

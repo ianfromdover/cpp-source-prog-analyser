@@ -4,8 +4,13 @@
 
 #include "UsesExtractor.h"
 
-void UsesExtractor::visitReadStmt(const Read& stmt, shared_ptr<Accumulator>& parentInfo) {
-    // Do Nothing
+void UsesExtractor::visitProcedure(const Procedure& procedure, std::shared_ptr<Accumulator>& info) {
+    if (this->visitedProcedures.find(procedure.getName()) == this->visitedProcedures.end()) {
+        this->visitedProcedures.insert(procedure.getName());
+        auto parentInfo = std::make_shared<Accumulator>(*info);
+        parentInfo->stringInfo.emplace_back(procedure.getName());
+        this->visitStmtList(procedure.getBody(), parentInfo);
+    }
 }
 
 void UsesExtractor::visitPrintStmt(const Print& stmt, shared_ptr<Accumulator>& parentInfo) {
@@ -15,35 +20,23 @@ void UsesExtractor::visitPrintStmt(const Print& stmt, shared_ptr<Accumulator>& p
 }
 
 void UsesExtractor::visitCallStmt(const Call& stmt, shared_ptr<Accumulator>& parentInfo) {
-    // Pending Implementation for Sprint 2
+    parentInfo->info.emplace_back(stmt.getStmtNo());
+    this->visitProcedure(*this->program->getProcedure(stmt.getProcName()), parentInfo);
 }
 
 void UsesExtractor::visitWhileStmt(const While& stmt, shared_ptr<Accumulator>& parentInfo) {
     parentInfo->info.emplace_back(stmt.getStmtNo());
     auto& condition = stmt.getCondition();
     condition->accept(*this, parentInfo);
-    auto& stmtList = stmt.getBody();
-    for (auto& childStmt : *stmtList) {
-        auto parentInfoCopy = std::make_shared<Accumulator>(*parentInfo);
-        childStmt->accept(*this, parentInfoCopy);
-    }
-
+    this->visitStmtList(stmt.getBody(), parentInfo);
 }
 
 void UsesExtractor::visitIfStmt(const If& stmt, shared_ptr<Accumulator>& parentInfo) {
     parentInfo->info.emplace_back(stmt.getStmtNo());
     auto& condition = stmt.getCondition();
     condition->accept(*this, parentInfo);
-    auto& thenStmtList = stmt.getThenBranch();
-    auto& elseStmtList = stmt.getElseBranch();
-    for (auto& childStmt : *thenStmtList) {
-        auto parentInfoCopy = std::make_shared<Accumulator>(*parentInfo);
-        childStmt->accept(*this, parentInfoCopy);
-    }
-    for (auto& childStmt : *elseStmtList) {
-        auto parentInfoCopy = std::make_shared<Accumulator>(*parentInfo);
-        childStmt->accept(*this, parentInfoCopy);
-    }
+    this->visitStmtList(stmt.getThenBranch(), parentInfo);
+    this->visitStmtList(stmt.getElseBranch(), parentInfo);
 }
 
 void UsesExtractor::visitAssignStmt(const Assign& stmt, shared_ptr<Accumulator>& parentInfo) {
@@ -64,12 +57,9 @@ void UsesExtractor::visitVariableExpr(const Variable& expr, shared_ptr<Accumulat
         //std::cout << "pkb.addUsesS(" << stmtNo << ", " << expr.getName() << ");" << std::endl;
         pkb->addUsesS(stmtNo, expr.getName());
     }
-}
-
-void UsesExtractor::visitLiteralExpr(const Literal& expr, shared_ptr<Accumulator>& parentInfo) {
-    for (const auto& stmtNo : parentInfo->info) {
-        //std::cout << "pkb.addUsesS(" << stmtNo << ", " << expr.getName() << ");" << std::endl;
-        pkb->addUsesS(stmtNo, std::to_string(expr.getValue()));
+    for (const auto& procName : parentInfo->stringInfo) {
+        //std::cout << "pkb.addUsesP(" << procName << ", " << expr.getName() << ");" << std::endl;
+        pkb->addUsesP(procName, expr.getName());
     }
 }
 

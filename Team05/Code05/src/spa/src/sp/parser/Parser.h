@@ -7,6 +7,7 @@
 
 #include "sp/ast/Expr.h"
 #include "sp/ast/Stmt.h"
+#include "sp/ast/Program.h"
 
 class Parser {
 private:
@@ -16,7 +17,7 @@ private:
 
 public:
     explicit Parser(const std::shared_ptr<std::vector<std::shared_ptr<Token>>>& tokens) : tokens(tokens) {};
-    Program parse();
+    std::shared_ptr<Program> parse();
 
 private:
     bool match(std::initializer_list<TokenType> types);

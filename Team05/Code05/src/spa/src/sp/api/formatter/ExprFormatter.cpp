@@ -13,8 +13,8 @@ std::string ExprFormatter::format(const std::string& exprStr) {
     }
     const auto source = "procedure main {"s + " expr = " + exprStr + "; }";
     try {
-        const auto ast = Parser(Scanner(source).scanTokens()).parse();
-        const auto stmt = ast->at(0)->getBody()->at(0);
+        const auto program = Parser(Scanner(source).scanTokens()).parse();
+        const auto stmt = program->getProcedures()->at(0)->getBody()->at(0);
         return dynamic_cast<Assign&>(*stmt).getValue()->toString();
     } catch (BaseException& _) {
         throw InvalidExprString();

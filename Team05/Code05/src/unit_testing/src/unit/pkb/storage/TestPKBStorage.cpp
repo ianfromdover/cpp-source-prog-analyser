@@ -25,6 +25,8 @@ TEST_CASE("Test PKBStorage class") {
         REQUIRE(pkb.parentTTable != nullptr);
         REQUIRE(pkb.modifiesSTable != nullptr);
         REQUIRE(pkb.usesSTable != nullptr);
+        REQUIRE(pkb.modifiesPTable != nullptr);
+        REQUIRE(pkb.usesPTable != nullptr);
     }
 
     SECTION("Test adding records to tables") {
