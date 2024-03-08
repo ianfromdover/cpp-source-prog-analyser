@@ -31,12 +31,7 @@ void ParentExtractor::visitWhileStmt(const While& stmt, shared_ptr<Accumulator>&
         pkb->addParentT(stmtNo, stmt.getStmtNo());
     }
     parentInfo->info.emplace_back(stmt.getStmtNo());
-    for (const auto& childStmt : *stmt.getBody()) {
-        //std::cout << "pkb.addParent(" << stmt.getStmtNo() << ", " << childStmt->getStmtNo() << ");" << std::endl;
-        pkb->addParent(stmt.getStmtNo(), childStmt->getStmtNo());
-        auto parentInfoCopy = std::make_shared<Accumulator>(*parentInfo);
-        childStmt->accept(*this, parentInfoCopy);
-    }
+    this->visitStmtList(stmt.getBody(), parentInfo);
 }
 
 void ParentExtractor::visitIfStmt(const If& stmt, shared_ptr<Accumulator>& parentInfo) {
@@ -45,18 +40,8 @@ void ParentExtractor::visitIfStmt(const If& stmt, shared_ptr<Accumulator>& paren
         pkb->addParentT(stmtNo, stmt.getStmtNo());
     }
     parentInfo->info.emplace_back(stmt.getStmtNo());
-    for (const auto& childStmt: *stmt.getThenBranch()) {
-        //std::cout << "pkb.addParent(" << stmt.getStmtNo() << ", " << childStmt->getStmtNo() << ");" << std::endl;
-        pkb->addParent(stmt.getStmtNo(), childStmt-> getStmtNo());
-        auto parentInfoCopy = std::make_shared<Accumulator>(*parentInfo);
-        childStmt->accept(*this, parentInfoCopy);
-    }
-    for (const auto& childStmt: *stmt.getElseBranch()) {
-        //std::cout << "pkb.addParent(" << stmt.getStmtNo() << ", " << childStmt->getStmtNo() << ");" << std::endl;
-        pkb->addParent(stmt.getStmtNo(), childStmt-> getStmtNo());
-        auto parentInfoCopy = std::make_shared<Accumulator>(*parentInfo);
-        childStmt->accept(*this, parentInfoCopy);
-    }
+    this->visitStmtList(stmt.getThenBranch(), parentInfo);
+    this->visitStmtList(stmt.getElseBranch(), parentInfo);
 }
 
 void ParentExtractor::visitAssignStmt(const Assign& stmt, shared_ptr<Accumulator>& parentInfo) {
@@ -66,18 +51,10 @@ void ParentExtractor::visitAssignStmt(const Assign& stmt, shared_ptr<Accumulator
     }
 }
 
-void ParentExtractor::visitBinaryExpr(const Binary& expr, shared_ptr<Accumulator>& parentInfo) {
-    // Do Nothing
-}
-
-void ParentExtractor::visitVariableExpr(const Variable& expr, shared_ptr<Accumulator>& parentInfo) {
-    // Do Nothing
-}
-
-void ParentExtractor::visitLiteralExpr(const Literal& expr, shared_ptr<Accumulator>& parentInfo) {
-    // Do Nothing
-}
-
-void ParentExtractor::visitUnaryExpr(const Unary& expr, shared_ptr<Accumulator>& parentInfo) {
-    // Do Nothing
+void ParentExtractor::visitStmtList(const shared_ptr<vector<shared_ptr<Stmt>>>& stmts, shared_ptr<Accumulator> &info) {
+    for (const auto& childStmt : *stmts) {
+        pkb->addParent(info->info.back(), childStmt->getStmtNo());
+        auto infoCopy = std::make_shared<Accumulator>(*info);
+        childStmt->accept(*this, infoCopy);
+    }
 }

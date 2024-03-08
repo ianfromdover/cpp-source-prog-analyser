@@ -13,10 +13,12 @@
 class Accumulator {
 public:
     std::vector<StmtNo> info;
+    std::vector<std::string> stringInfo;
     Accumulator() = default;
 
     Accumulator(Accumulator& copy) {
         info = copy.info;
+        stringInfo = copy.stringInfo;
     }
 };
 

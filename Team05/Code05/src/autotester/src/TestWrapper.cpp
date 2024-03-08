@@ -33,7 +33,7 @@ void TestWrapper::parse(std::string filename) {
     } catch (BaseException& exception) {
         // handle exception
         std::cerr << "Caught BaseException: " << exception.what() << std::endl;
-        exit(0); // exit silently
+        exit(1); // exit silently
     }
 }
 
@@ -51,7 +51,7 @@ void TestWrapper::evaluate(std::string query, std::list<std::string>& results) {
     } catch (const BaseException& exception) {
         // handle exception
         std::cerr << "Caught BaseException: " << exception.what() << std::endl;
-        exit(0); // exit silently
+        exit(1); // exit silently
     }
 }
 

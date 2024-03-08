@@ -10,38 +10,13 @@ void ReadExtractor::visitReadStmt(const Read& stmt, shared_ptr<Accumulator>& par
     var->accept(*this, parentInfo);
 }
 
-void ReadExtractor::visitPrintStmt(const Print& stmt, shared_ptr<Accumulator>& parentInfo) {
-    // Do Nothing
-}
-
-void ReadExtractor::visitCallStmt(const Call& stmt, shared_ptr<Accumulator>& parentInfo) {
-    // Do Nothing
-}
-
 void ReadExtractor::visitWhileStmt(const While& stmt, shared_ptr<Accumulator>& parentInfo) {
-    for (const auto& childStmt: *stmt.getBody()) {
-        auto parentInfoCopy = std::make_shared<Accumulator>(*parentInfo);
-        childStmt->accept(*this, parentInfoCopy);
-    }
+    this->visitStmtList(stmt.getBody(), parentInfo);
 }
 
 void ReadExtractor::visitIfStmt(const If& stmt, shared_ptr<Accumulator>& parentInfo) {
-    for (const auto& childStmt: *stmt.getThenBranch()) {
-        auto parentInfoCopy = std::make_shared<Accumulator>(*parentInfo);
-        childStmt->accept(*this, parentInfoCopy);
-    }
-    for (const auto& childStmt: *stmt.getElseBranch()) {
-        auto parentInfoCopy = std::make_shared<Accumulator>(*parentInfo);
-        childStmt->accept(*this, parentInfoCopy);
-    }
-}
-
-void ReadExtractor::visitAssignStmt(const Assign& stmt, shared_ptr<Accumulator>& parentInfo) {
-    // Do nothing
-}
-
-void ReadExtractor::visitBinaryExpr(const Binary& expr, shared_ptr<Accumulator>& parentInfo) {
-    // Do Nothing
+    this->visitStmtList(stmt.getThenBranch(), parentInfo);
+    this->visitStmtList(stmt.getElseBranch(), parentInfo);
 }
 
 void ReadExtractor::visitVariableExpr(const Variable& expr, shared_ptr<Accumulator>& parentInfo) {
@@ -49,12 +24,4 @@ void ReadExtractor::visitVariableExpr(const Variable& expr, shared_ptr<Accumulat
         //std::cout << "pkb.addRead(" << stmtNo << ", " << expr.getName() << ");" << std::endl;
         pkb->addRead(stmtNo, expr.getName());
     }
-}
-
-void ReadExtractor::visitLiteralExpr(const Literal& expr, shared_ptr<Accumulator>& parentInfo) {
-    // Do Nothing
-}
-
-void ReadExtractor::visitUnaryExpr(const Unary& expr, shared_ptr<Accumulator>& parentInfo) {
-    // Do Nothing
 }

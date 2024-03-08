@@ -14,7 +14,7 @@ public:
     // Constructor
     explicit FollowsExtractor(shared_ptr<BasePKBPopulator> pkb) : RelationExtractor(std::move(pkb)) {}
     // Top-level Methods
-    void visitProcedure(const Procedure& procedure) override;
+    void visitProcedure(const Procedure& procedure, std::shared_ptr<Accumulator>&) override;
     // Statement Methods
     void visitReadStmt(const Read& stmt, shared_ptr<Accumulator>& prevStmtInfo) override;
     void visitPrintStmt(const Print& stmt, shared_ptr<Accumulator>& prevStmtInfo) override;
@@ -22,11 +22,7 @@ public:
     void visitWhileStmt(const While& stmt, shared_ptr<Accumulator>& prevStmtInfo) override;
     void visitIfStmt(const If& stmt, shared_ptr<Accumulator>& prevStmtInfo) override;
     void visitAssignStmt(const Assign& stmt, shared_ptr<Accumulator>& prevStmtInfo) override;
-    // Expression Methods
-    void visitBinaryExpr(const Binary& expr, shared_ptr<Accumulator>& prevStmtInfo) override;
-    void visitVariableExpr(const Variable& expr, shared_ptr<Accumulator>& prevStmtInfo) override;
-    void visitLiteralExpr(const Literal& expr, shared_ptr<Accumulator>& prevStmtInfo) override;
-    void visitUnaryExpr(const Unary& expr, shared_ptr<Accumulator>& prevStmtInfo) override;
+    void visitStmtList(const shared_ptr<vector<shared_ptr<Stmt>>> &stmts, shared_ptr<Accumulator> &info) override;
 };
 
 

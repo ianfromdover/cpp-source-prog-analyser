@@ -8,13 +8,18 @@
 #include <utility>
 
 #include "sp/extractor/RelationExtractor.h"
+#include "sp/ast/Program.h"
 
 class UsesExtractor: public RelationExtractor {
+private:
+    std::unordered_set<std::string> visitedProcedures;
+    std::shared_ptr<Program> program;
 public:
     // Constructor
-    explicit UsesExtractor(shared_ptr<BasePKBPopulator> pkb) : RelationExtractor(std::move(pkb)) {}
+    explicit UsesExtractor(shared_ptr<BasePKBPopulator> pkb, shared_ptr<Program> program)
+    : RelationExtractor(std::move(pkb)), program(std::move(program)) {}
+    void visitProcedure(const Procedure &procedure, std::shared_ptr<Accumulator>&) override;
     // Statement Methods
-    void visitReadStmt(const Read& stmt, shared_ptr<Accumulator>& parentInfo) override;
     void visitPrintStmt(const Print& stmt, shared_ptr<Accumulator>& parentInfo) override;
     void visitCallStmt(const Call& stmt, shared_ptr<Accumulator>& parentInfo) override;
     void visitWhileStmt(const While& stmt, shared_ptr<Accumulator>& parentInfo) override;
@@ -23,7 +28,6 @@ public:
     // Expression Methods
     void visitBinaryExpr(const Binary& expr, shared_ptr<Accumulator>& parentInfo) override;
     void visitVariableExpr(const Variable& expr, shared_ptr<Accumulator>& parentInfo) override;
-    void visitLiteralExpr(const Literal& expr, shared_ptr<Accumulator>& parentInfo) override;
     void visitUnaryExpr(const Unary& expr, shared_ptr<Accumulator>& parentInfo) override;
 };
 

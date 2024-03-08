@@ -5,14 +5,14 @@
 #include "SemanticAnalyzer.h"
 #include "sp/exception/SemanticAnalysisException.h"
 
-void SemanticAnalyzer::check(const Program& program) {
+void SemanticAnalyzer::check(const std::shared_ptr<Program>& program) {
     this->setupCallGraph(program);
     this->populateCallGraph(program);
     this->detectCyclicCalls();
 }
 
-void SemanticAnalyzer::setupCallGraph(const Program &program) {
-    for (const auto& procedure : *program) {
+void SemanticAnalyzer::setupCallGraph(const std::shared_ptr<Program>& program) {
+    for (const auto& procedure : *program->getProcedures()) {
         const auto name = procedure->getName();
         if (this->callGraph.find(name) != this->callGraph.end()) {
             const auto errMsg = "Repeated procedure names \"" + name + "\" is not allowed";
@@ -22,8 +22,8 @@ void SemanticAnalyzer::setupCallGraph(const Program &program) {
     }
 }
 
-void SemanticAnalyzer::populateCallGraph(const Program &program) {
-    for (const auto& procedure : *program) {
+void SemanticAnalyzer::populateCallGraph(const std::shared_ptr<Program>& program) {
+    for (const auto& procedure : *program->getProcedures()) {
         procedure->accept(*this);
     }
 }
@@ -69,7 +69,7 @@ bool SemanticAnalyzer::isCyclicHelper(const std::string& caller, std::unordered_
     return false;
 }
 
-void SemanticAnalyzer::visitProcedure(const Procedure& procedure) {
+void SemanticAnalyzer::visitProcedure(const Procedure& procedure, std::shared_ptr<Accumulator>& info) {
     this->currentProcedure = procedure.getName();
     for (const auto& stmt : *procedure.getBody()) {
         auto _ = std::make_shared<Accumulator>();

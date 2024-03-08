@@ -4,11 +4,10 @@
 
 #include "FollowsExtractor.h"
 
-void FollowsExtractor::visitProcedure(const Procedure &procedure) {
-    auto prevStmtInfo = std::make_shared<Accumulator>();
+void FollowsExtractor::visitProcedure(const Procedure &procedure, std::shared_ptr<Accumulator>& info) {
     for (const auto& stmt : *procedure.getBody()) {
-        stmt->accept(*this, prevStmtInfo);
-        prevStmtInfo->info.emplace_back(stmt->getStmtNo());
+        stmt->accept(*this, info);
+        info->info.emplace_back(stmt->getStmtNo());
     }
 }
 
@@ -54,11 +53,7 @@ void FollowsExtractor::visitWhileStmt(const While& stmt, shared_ptr<Accumulator>
         //std::cout << "pkb.addFollowsT(" << stmtNo << ", " << stmt.getStmtNo() << ");" << std::endl;
         pkb->addFollowsT(stmtNo, stmt.getStmtNo());
     }
-    auto newPrevStmtInfo = std::make_shared<Accumulator>();
-    for (const auto& stmtBody : *stmt.getBody()) {
-        stmtBody->accept(*this, newPrevStmtInfo);
-        newPrevStmtInfo->info.emplace_back(stmtBody->getStmtNo());
-    }
+    this->visitStmtList(stmt.getBody(), prevStmtInfo);
 }
 
 void FollowsExtractor::visitIfStmt(const If& stmt, shared_ptr<Accumulator>& prevStmtInfo) {
@@ -70,16 +65,8 @@ void FollowsExtractor::visitIfStmt(const If& stmt, shared_ptr<Accumulator>& prev
         //std::cout << "pkb.addFollowsT(" << stmtNo << ", " << stmt.getStmtNo() << ");" << std::endl;
         pkb->addFollowsT(stmtNo, stmt.getStmtNo());
     }
-    auto newPrevThenStmtInfo = std::make_shared<Accumulator>();
-    for (const auto& stmtThen : *stmt.getThenBranch()) {
-        stmtThen->accept(*this, newPrevThenStmtInfo);
-        newPrevThenStmtInfo->info.emplace_back(stmtThen->getStmtNo());
-    }
-    auto newPrevElseStmtInfo = std::make_shared<Accumulator>();
-    for (const auto& stmtThen : *stmt.getElseBranch()) {
-        stmtThen->accept(*this, newPrevElseStmtInfo);
-        newPrevElseStmtInfo->info.emplace_back(stmtThen->getStmtNo());
-    }
+    this->visitStmtList(stmt.getThenBranch(), prevStmtInfo);
+    this->visitStmtList(stmt.getElseBranch(), prevStmtInfo);
 }
 
 void FollowsExtractor::visitAssignStmt(const Assign& stmt, shared_ptr<Accumulator>& prevStmtInfo) {
@@ -93,18 +80,10 @@ void FollowsExtractor::visitAssignStmt(const Assign& stmt, shared_ptr<Accumulato
     }
 }
 
-void FollowsExtractor::visitBinaryExpr(const Binary& expr, shared_ptr<Accumulator>& prevStmtInfo) {
-    // Do Nothing
-}
-
-void FollowsExtractor::visitVariableExpr(const Variable& expr, shared_ptr<Accumulator>& prevStmtInfo) {
-    // Do Nothing
-}
-
-void FollowsExtractor::visitLiteralExpr(const Literal& expr, shared_ptr<Accumulator>& prevStmtInfo) {
-    // Do Nothing
-}
-
-void FollowsExtractor::visitUnaryExpr(const Unary& expr, shared_ptr<Accumulator>& prevStmtInfo) {
-    // Do Nothing
+void FollowsExtractor::visitStmtList(const shared_ptr<vector<shared_ptr<Stmt>>>& stmts, shared_ptr<Accumulator> &info) {
+    auto newStmtInfo = std::make_shared<Accumulator>();
+    for (const auto& childStmt : *stmts) {
+        childStmt->accept(*this, newStmtInfo);
+        newStmtInfo->info.emplace_back(childStmt->getStmtNo());
+    }
 }

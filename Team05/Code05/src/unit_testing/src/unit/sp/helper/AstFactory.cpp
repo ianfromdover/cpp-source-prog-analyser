@@ -11,6 +11,7 @@
 #include <algorithm>
 #include "sp/ast/Expr.h"
 #include "sp/ast/Stmt.h"
+#include "sp/ast/Program.h"
 #include "sp/tokenizer/token/Token.h"
 
 class AstFactory {
@@ -77,12 +78,8 @@ public:
     }
 
     // Create a Program from a vector of shared_ptr to Procedure
-    static Program createProgram(std::vector<std::shared_ptr<Procedure>> procedures) {
-        auto program = std::make_shared<std::vector<std::shared_ptr<Procedure>>>();
-        for (auto& procedure : procedures) {
-            program->push_back(std::move(procedure));
-        }
-        return program;
+    static std::shared_ptr<Program> createProgram(Procedures procedures) {
+        return std::make_shared<Program>(std::make_shared<Procedures>(procedures));
     }
 };
 
