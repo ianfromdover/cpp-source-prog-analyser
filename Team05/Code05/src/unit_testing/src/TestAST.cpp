@@ -1149,9 +1149,9 @@ TEST_CASE("Follows* Handler - QPS") {
 }
 
 TEST_CASE("Test ExprFormatter API") {
-    REQUIRE(ExprFormatter::format("x") == "( x )");
-    REQUIRE(ExprFormatter::format("x + 1") == "( ( x + 1 ) )");
-    REQUIRE(ExprFormatter::format("x + 1 * 2") == "( ( x + ( 1 * 2 ) ) )");
+    REQUIRE(ExprFormatter::format("x") == "x");
+    REQUIRE(ExprFormatter::format("x + 1") == "( x + 1 )");
+    REQUIRE(ExprFormatter::format("x + 1 * 2") == "( x + ( 1 * 2 ) )");
     REQUIRE_THROWS_WITH(ExprFormatter::format(""), InvalidExprString::ERR_MSG);
     REQUIRE_THROWS_WITH(ExprFormatter::format(" "), InvalidExprString::ERR_MSG);
     REQUIRE_THROWS_WITH(ExprFormatter::format("()"), InvalidExprString::ERR_MSG);
