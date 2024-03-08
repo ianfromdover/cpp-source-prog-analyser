@@ -19,6 +19,8 @@ public:
     void visitProcedure(const Procedure &procedure, std::shared_ptr<Accumulator>& info) override;
     // Statement Methods
     void visitCallStmt(const Call& stmt, shared_ptr<Accumulator>& parentInfo) override;
+    void visitWhileStmt(const While &stmt, shared_ptr<Accumulator> &parentInfo) override;
+    void visitIfStmt(const If &stmt, shared_ptr<Accumulator> &parentInfo) override;
 };
 
 

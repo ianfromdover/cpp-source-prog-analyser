@@ -13,6 +13,16 @@ void CallsExtractor::visitProcedure(const Procedure &procedure, std::shared_ptr<
     }
 }
 
+void CallsExtractor::visitWhileStmt(const While& stmt, shared_ptr<Accumulator>& parentInfo) {
+    this->visitStmtList(stmt.getBody(), parentInfo);
+}
+
+void CallsExtractor::visitIfStmt(const If& stmt, shared_ptr<Accumulator>& parentInfo) {
+    this->visitStmtList(stmt.getThenBranch(), parentInfo);
+    this->visitStmtList(stmt.getElseBranch(), parentInfo);
+}
+
+
 void CallsExtractor::visitCallStmt(const Call &stmt, shared_ptr<Accumulator> &parentInfo) {
     if (this->visitedProcedures.find(stmt.getProcName()) == this->visitedProcedures.end()) {
         for (auto& procName : parentInfo->stringInfo) {
