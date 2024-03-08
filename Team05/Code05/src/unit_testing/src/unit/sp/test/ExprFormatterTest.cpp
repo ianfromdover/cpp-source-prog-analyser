@@ -25,28 +25,28 @@ TEST_CASE("ExprFormatter_TestFormatInteger") {
 
 TEST_CASE("ExprFormatter_TestFormatBinaryExpression") {
     SECTION("Addition") {
-        REQUIRE(ExprFormatter::format("x + 1") == "( x + 1 )");
+        REQUIRE(ExprFormatter::format("x + 1") == "(x+1)");
     }
     SECTION("Subtraction") {
-        REQUIRE(ExprFormatter::format("x - 1") == "( x - 1 )");
+        REQUIRE(ExprFormatter::format("x - 1") == "(x-1)");
     }
     SECTION("Multiplication") {
-        REQUIRE(ExprFormatter::format("x * 1") == "( x * 1 )");
+        REQUIRE(ExprFormatter::format("x * 1") == "(x*1)");
     }
     SECTION("Division") {
-        REQUIRE(ExprFormatter::format("x / 1") == "( x / 1 )");
+        REQUIRE(ExprFormatter::format("x / 1") == "(x/1)");
     }
     SECTION("Modulo") {
-        REQUIRE(ExprFormatter::format("x % 1") == "( x % 1 )");
+        REQUIRE(ExprFormatter::format("x % 1") == "(x%1)");
     }
 }
 
 TEST_CASE("ExprFormatter_TestFormatNestedExpression") {
     SECTION("Implicit nesting") {
-        REQUIRE(ExprFormatter::format("x + 1 * 2") == "( x + ( 1 * 2 ) )");
+        REQUIRE(ExprFormatter::format("x + 1 * 2") == "(x+(1*2))");
     }
     SECTION("Explicit nesting") {
-        REQUIRE(ExprFormatter::format("(x + 1) * 2") == "( ( x + 1 ) * 2 )");
+        REQUIRE(ExprFormatter::format("(x + 1) * 2") == "((x+1)*2)");
     }
 }
 
