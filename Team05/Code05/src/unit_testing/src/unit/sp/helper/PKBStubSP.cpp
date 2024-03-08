@@ -96,7 +96,7 @@ public:
         return true;
     }
 
-    bool addUsesP(std::string procName, std::string name) override {
+    bool addUsesP(ProcName procName, VarName name) override {
         //std::cout << "addUsesP called" << std::endl;
         pairCalls.insert({procName, name});
         return true;
@@ -108,7 +108,7 @@ public:
         return true;
     }
 
-    bool addModifiesP(std::string procName, std::string name) override {
+    bool addModifiesP(ProcName procName, VarName name) override {
         //std::cout << "addModifiesP called" << std::endl;
         pairCalls.insert({procName, name});
         return true;

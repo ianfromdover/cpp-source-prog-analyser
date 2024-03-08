@@ -4,35 +4,25 @@
 
 #include "CallsExtractor.h"
 
-void CallsExtractor::visitProcedure(const Procedure &procedure) {
-    // If procedure has been visited
-    if (visitedProcedures.find(procedure.getName()) != visitedProcedures.end()) {
-        // Do Nothing
-    } else {
-        visitedProcedures.insert(procedure.getName());
-        for (const auto& stmt : *procedure.getBody()) {
-            auto parentInfo = std::make_shared<Accumulator>();
-            parentInfo->stringInfo.emplace_back(procedure.getName());
-            stmt->accept(*this, parentInfo);
-        }
+void CallsExtractor::visitProcedure(const Procedure &procedure, std::shared_ptr<Accumulator>& info) {
+    if (this->visitedProcedures.find(procedure.getName()) == this->visitedProcedures.end()) {
+        this->visitedProcedures.insert(procedure.getName());
+        auto parentInfo = std::make_shared<Accumulator>(*info);
+        parentInfo->stringInfo.emplace_back(procedure.getName());
+        this->visitStmtList(procedure.getBody(), parentInfo);
     }
 }
 
 void CallsExtractor::visitCallStmt(const Call &stmt, shared_ptr<Accumulator> &parentInfo) {
-    if (visitedProcedures.find(stmt.getProcName()) != visitedProcedures.end()) {
-        // Do Nothing
-    } else {
+    if (this->visitedProcedures.find(stmt.getProcName()) == this->visitedProcedures.end()) {
         for (auto& procName : parentInfo->stringInfo) {
             if (&procName == &parentInfo->stringInfo.back()) {
                 //std::cout << "pkb.addCalls(" << procName << ", " << stmt.getProcName() << ");" << std::endl;
                 pkb->addCalls(procName, stmt.getProcName());
             }
-            std::cout << "pkb.addCallsT(" << procName << ", " << stmt.getProcName() << ");" << std::endl;
+            //std::cout << "pkb.addCallsT(" << procName << ", " << stmt.getProcName() << ");" << std::endl;
             pkb->addCallsT(procName, stmt.getProcName());
         }
-        visitedProcedures.insert(stmt.getProcName());
-        auto procedure = program->getProcedure(stmt.getProcName());
-        parentInfo->stringInfo.emplace_back(stmt.getProcName());
-        this->visitStmtList(procedure->getBody(), parentInfo);
+        this->visitProcedure(*this->program->getProcedure(stmt.getProcName()), parentInfo);
     }
 }

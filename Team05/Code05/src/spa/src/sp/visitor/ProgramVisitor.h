@@ -26,7 +26,7 @@ protected:
     virtual void visitStmtList(const shared_ptr<vector<shared_ptr<Stmt>>> &stmts, shared_ptr<Accumulator>& info);
 public:
     // Top-level Methods.
-    virtual void visitProcedure(const Procedure&) = 0;
+    virtual void visitProcedure(const Procedure&, std::shared_ptr<Accumulator>&) = 0;
     // Statement Methods
     virtual void visitReadStmt(const Read&, std::shared_ptr<Accumulator>&);
     virtual void visitPrintStmt(const Print&, std::shared_ptr<Accumulator>&);

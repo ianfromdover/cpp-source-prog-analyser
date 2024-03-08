@@ -8,16 +8,17 @@
 #include <utility>
 
 #include "sp/extractor/RelationExtractor.h"
-#include "sp/ast/ProcedureMapAccess.h"
+#include "sp/ast/Program.h"
 
 class UsesExtractor: public RelationExtractor {
+private:
     std::unordered_set<std::string> visitedProcedures;
-    std::shared_ptr<ProcedureMapAccess> program;
+    std::shared_ptr<Program> program;
 public:
     // Constructor
-    explicit UsesExtractor(shared_ptr<BasePKBPopulator> pkb, shared_ptr<ProcedureMapAccess> program)
+    explicit UsesExtractor(shared_ptr<BasePKBPopulator> pkb, shared_ptr<Program> program)
     : RelationExtractor(std::move(pkb)), program(std::move(program)) {}
-    void visitProcedure(const Procedure &procedure) override;
+    void visitProcedure(const Procedure &procedure, std::shared_ptr<Accumulator>&) override;
     // Statement Methods
     void visitPrintStmt(const Print& stmt, shared_ptr<Accumulator>& parentInfo) override;
     void visitCallStmt(const Call& stmt, shared_ptr<Accumulator>& parentInfo) override;

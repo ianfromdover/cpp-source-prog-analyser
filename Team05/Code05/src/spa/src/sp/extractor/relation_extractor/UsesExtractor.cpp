@@ -4,17 +4,12 @@
 
 #include "UsesExtractor.h"
 
-void UsesExtractor::visitProcedure(const Procedure& procedure) {
-    // If procedure has been visited
-    if (visitedProcedures.find(procedure.getName()) != visitedProcedures.end()) {
-
-    } else {
-        visitedProcedures.insert(procedure.getName());
-        for (const auto& stmt : *procedure.getBody()) {
-            auto parentInfo = std::make_shared<Accumulator>();
-            parentInfo->stringInfo.emplace_back(procedure.getName());
-            stmt->accept(*this, parentInfo);
-        }
+void UsesExtractor::visitProcedure(const Procedure& procedure, std::shared_ptr<Accumulator>& info) {
+    if (this->visitedProcedures.find(procedure.getName()) == this->visitedProcedures.end()) {
+        this->visitedProcedures.insert(procedure.getName());
+        auto parentInfo = std::make_shared<Accumulator>(*info);
+        parentInfo->stringInfo.emplace_back(procedure.getName());
+        this->visitStmtList(procedure.getBody(), parentInfo);
     }
 }
 
@@ -25,11 +20,8 @@ void UsesExtractor::visitPrintStmt(const Print& stmt, shared_ptr<Accumulator>& p
 }
 
 void UsesExtractor::visitCallStmt(const Call& stmt, shared_ptr<Accumulator>& parentInfo) {
-    visitedProcedures.insert(stmt.getProcName());
-    auto procedure = program->getProcedure(stmt.getProcName());
     parentInfo->info.emplace_back(stmt.getStmtNo());
-    parentInfo->stringInfo.emplace_back(stmt.getProcName());
-    this->visitStmtList(procedure->getBody(), parentInfo);
+    this->visitProcedure(*this->program->getProcedure(stmt.getProcName()), parentInfo);
 }
 
 void UsesExtractor::visitWhileStmt(const While& stmt, shared_ptr<Accumulator>& parentInfo) {

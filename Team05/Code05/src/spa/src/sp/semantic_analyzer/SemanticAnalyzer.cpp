@@ -69,7 +69,7 @@ bool SemanticAnalyzer::isCyclicHelper(const std::string& caller, std::unordered_
     return false;
 }
 
-void SemanticAnalyzer::visitProcedure(const Procedure& procedure) {
+void SemanticAnalyzer::visitProcedure(const Procedure& procedure, std::shared_ptr<Accumulator>& info) {
     this->currentProcedure = procedure.getName();
     for (const auto& stmt : *procedure.getBody()) {
         auto _ = std::make_shared<Accumulator>();
