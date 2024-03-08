@@ -11,7 +11,7 @@
 
 TEST_CASE("Assign_TestAssignCallPrintRead") {
     std::multiset<tuple<std::string, std::string, std::string>> resultsVector = {
-            {"1", "t", "( ( ( 1 + y ) * 3 ) + y )"}
+            {"1", "t", "(((1+y)*3)+y)"}
     };
     auto program = AstProgram::createAssignCallPrintRead();
     auto pkb = make_shared<PKBStubSP>();
@@ -26,9 +26,9 @@ TEST_CASE("Assign_TestAssignCallPrintRead") {
 
 TEST_CASE("Assign_TestIfElseWithStmtsBeforeAndInside") {
     std::multiset<tuple<std::string, std::string, std::string>> resultsVector = {
-            {"1", "x", "( y + 3 )"},
-            {"6", "t", "( ( ( 1 + y ) * 3 ) + y )"},
-            {"10", "x", "( y + 3 )"},
+            {"1", "x", "(y+3)"},
+            {"6", "t", "(((1+y)*3)+y)"},
+            {"10", "x", "(y+3)"},
     };
     auto program = AstProgram::createIfElseWithStmtsBeforeAndInside();
     auto pkb = make_shared<PKBStubSP>();
@@ -41,10 +41,10 @@ TEST_CASE("Assign_TestIfElseWithStmtsBeforeAndInside") {
 
 TEST_CASE("Assign_TestIfElseWithStmtsBeforeAfterAndInside") {
     std::multiset<tuple<std::string, std::string, std::string>> resultsVector = {
-            {"1", "x", "( y + 3 )"},
-            {"6", "x", "( y + 3 )"},
-            {"10", "x", "( y + 3 )"},
-            {"14", "x", "( y + 3 )"},
+            {"1", "x", "(y+3)"},
+            {"6", "x", "(y+3)"},
+            {"10", "x", "(y+3)"},
+            {"14", "x", "(y+3)"},
     };
     auto program = AstProgram::createIfElseWithStmtsBeforeAfterAndInside();
     auto pkb = make_shared<PKBStubSP>();
@@ -57,9 +57,9 @@ TEST_CASE("Assign_TestIfElseWithStmtsBeforeAfterAndInside") {
 
 TEST_CASE("Assign_TestIfElseWithStmtsAfterAndInside") {
     std::multiset<tuple<std::string, std::string, std::string>> resultsVector = {
-            {"2", "x", "( y + 3 )"},
-            {"6", "x", "( y + 3 )"},
-            {"10", "x", "( y + 3 )"},
+            {"2", "x", "(y+3)"},
+            {"6", "x", "(y+3)"},
+            {"10", "x", "(y+3)"},
     };
     auto program = AstProgram::createIfElseWithStmtsAfterAndInside();
     auto pkb = make_shared<PKBStubSP>();
@@ -72,8 +72,8 @@ TEST_CASE("Assign_TestIfElseWithStmtsAfterAndInside") {
 
 TEST_CASE("Assign_TestWhileWithStmtsBeforeAndInside") {
     std::multiset<tuple<std::string, std::string, std::string>> resultsVector = {
-            {"1", "x", "( y + 3 )"},
-            {"6", "x", "( y + 3 )"},
+            {"1", "x", "(y+3)"},
+            {"6", "x", "(y+3)"},
     };
     auto program = AstProgram::createWhileWithStmtsBeforeAndInside();
     auto pkb = make_shared<PKBStubSP>();
@@ -86,9 +86,9 @@ TEST_CASE("Assign_TestWhileWithStmtsBeforeAndInside") {
 
 TEST_CASE("Assign_TestWhileWithStmtsBeforeAfterAndInside") {
     std::multiset<tuple<std::string, std::string, std::string>> resultsVector = {
-            {"1", "x", "( y + 3 )"},
-            {"6", "x", "( y + 3 )"},
-            {"10", "x", "( y + 3 )"},
+            {"1", "x", "(y+3)"},
+            {"6", "x", "(y+3)"},
+            {"10", "x", "(y+3)"},
     };
     auto program = AstProgram::createWhileWithStmtsBeforeAfterAndInside();
     auto pkb = make_shared<PKBStubSP>();
@@ -101,8 +101,8 @@ TEST_CASE("Assign_TestWhileWithStmtsBeforeAfterAndInside") {
 
 TEST_CASE("Assign_TestWhileWithStmtsAfterAndInside") {
     std::multiset<tuple<std::string, std::string, std::string>> resultsVector = {
-            {"2", "x", "( y + 3 )"},
-            {"6", "x", "( y + 3 )"},
+            {"2", "x", "(y+3)"},
+            {"6", "x", "(y+3)"},
     };
     auto program = AstProgram::createWhileWithStmtsAfterAndInside();
     auto pkb = make_shared<PKBStubSP>();
@@ -117,12 +117,12 @@ TEST_CASE("Assign_TestWhileWithStmtsAfterAndInside") {
 
 TEST_CASE("Assign_TestIfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside") {
     std::multiset<tuple<std::string, std::string, std::string>> resultsVector = {
-            {"2", "x", "( y + 3 )"},
-            {"7", "t", "( ( ( 1 + y ) * 3 ) + y )"},
-            {"11", "x", "( y + 3 )"},
-            {"15", "x", "( y + 3 )"},
-            {"20", "x", "( y + 3 )"},
-            {"24", "x", "( y + 3 )"},
+            {"2", "x", "(y+3)"},
+            {"7", "t", "(((1+y)*3)+y)"},
+            {"11", "x", "(y+3)"},
+            {"15", "x", "(y+3)"},
+            {"20", "x", "(y+3)"},
+            {"24", "x", "(y+3)"},
     };
     auto program = AstProgram::createIfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside();
     auto pkb = make_shared<PKBStubSP>();
@@ -135,14 +135,14 @@ TEST_CASE("Assign_TestIfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside") {
 
 TEST_CASE("Assign_TestIfElseWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside") {
     std::multiset<tuple<std::string, std::string, std::string>> resultsVector = {
-            {"2", "x", "( y + 3 )"},
-            {"7", "x", "( y + 3 )"},
-            {"11", "x", "( y + 3 )"},
-            {"15", "x", "( y + 3 )"},
-            {"19", "x", "( y + 3 )"},
-            {"24", "x", "( y + 3 )"},
-            {"28", "x", "( y + 3 )"},
-            {"32", "x", "( y + 3 )"},
+            {"2", "x", "(y+3)"},
+            {"7", "x", "(y+3)"},
+            {"11", "x", "(y+3)"},
+            {"15", "x", "(y+3)"},
+            {"19", "x", "(y+3)"},
+            {"24", "x", "(y+3)"},
+            {"28", "x", "(y+3)"},
+            {"32", "x", "(y+3)"},
     };
     auto program = AstProgram::createIfElseWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside();
     auto pkb = make_shared<PKBStubSP>();
@@ -155,12 +155,12 @@ TEST_CASE("Assign_TestIfElseWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside"
 
 TEST_CASE("Assign_TestIfElseWithNestedIfElsePlusNestedStmtsAfterAndInside") {
     std::multiset<tuple<std::string, std::string, std::string>> resultsVector = {
-            {"3", "x", "( y + 3 )"},
-            {"7", "x", "( y + 3 )"},
-            {"11", "x", "( y + 3 )"},
-            {"16", "x", "( y + 3 )"},
-            {"20", "x", "( y + 3 )"},
-            {"24", "x", "( y + 3 )"},
+            {"3", "x", "(y+3)"},
+            {"7", "x", "(y+3)"},
+            {"11", "x", "(y+3)"},
+            {"16", "x", "(y+3)"},
+            {"20", "x", "(y+3)"},
+            {"24", "x", "(y+3)"},
     };
     auto program = AstProgram::createIfElseWithNestedIfElsePlusNestedStmtsAfterAndInside();
     auto pkb = make_shared<PKBStubSP>();
@@ -173,10 +173,10 @@ TEST_CASE("Assign_TestIfElseWithNestedIfElsePlusNestedStmtsAfterAndInside") {
 
 TEST_CASE("Assign_TestIfElseWithNestedWhilePlusNestedStmtsBeforeAndInside") {
     std::multiset<tuple<std::string, std::string, std::string>> resultsVector = {
-            {"2", "x", "( y + 3 )"},
-            {"7", "x", "( y + 3 )"},
-            {"11", "x", "( y + 3 )"},
-            {"16", "x", "( y + 3 )"},
+            {"2", "x", "(y+3)"},
+            {"7", "x", "(y+3)"},
+            {"11", "x", "(y+3)"},
+            {"16", "x", "(y+3)"},
     };
     auto program = AstProgram::createIfElseWithNestedWhilePlusNestedStmtsBeforeAndInside();
     auto pkb = make_shared<PKBStubSP>();
@@ -189,12 +189,12 @@ TEST_CASE("Assign_TestIfElseWithNestedWhilePlusNestedStmtsBeforeAndInside") {
 
 TEST_CASE("Assign_TestIfElseWithNestedWhilePlusNestedStmtsBeforeAfterAndInside") {
     std::multiset<tuple<std::string, std::string, std::string>> resultsVector = {
-            {"2", "x", "( y + 3 )"},
-            {"7", "x", "( y + 3 )"},
-            {"11", "x", "( y + 3 )"},
-            {"15", "x", "( y + 3 )"},
-            {"20", "x", "( y + 3 )"},
-            {"24", "x", "( y + 3 )"},
+            {"2", "x", "(y+3)"},
+            {"7", "x", "(y+3)"},
+            {"11", "x", "(y+3)"},
+            {"15", "x", "(y+3)"},
+            {"20", "x", "(y+3)"},
+            {"24", "x", "(y+3)"},
     };
     auto program = AstProgram::createIfElseWithNestedWhilePlusNestedStmtsBeforeAfterAndInside();
     auto pkb = make_shared<PKBStubSP>();
@@ -207,10 +207,10 @@ TEST_CASE("Assign_TestIfElseWithNestedWhilePlusNestedStmtsBeforeAfterAndInside")
 
 TEST_CASE("Assign_TestIfElseWithNestedWhilePlusNestedStmtsAfterAndInside") {
     std::multiset<tuple<std::string, std::string, std::string>> resultsVector = {
-            {"3", "x", "( y + 3 )"},
-            {"7", "x", "( y + 3 )"},
-            {"12", "x", "( y + 3 )"},
-            {"16", "x", "( y + 3 )"},
+            {"3", "x", "(y+3)"},
+            {"7", "x", "(y+3)"},
+            {"12", "x", "(y+3)"},
+            {"16", "x", "(y+3)"},
     };
     auto program = AstProgram::createIfElseWithNestedWhilePlusNestedStmtsAfterAndInside();
     auto pkb = make_shared<PKBStubSP>();
@@ -223,9 +223,9 @@ TEST_CASE("Assign_TestIfElseWithNestedWhilePlusNestedStmtsAfterAndInside") {
 
 TEST_CASE("Assign_TestWhileWithNestedIfElsePlusNestedStmtsBeforeAndInside") {
     std::multiset<tuple<std::string, std::string, std::string>> resultsVector = {
-            {"2", "x", "( y + 3 )"},
-            {"7", "x", "( y + 3 )"},
-            {"11", "x", "( y + 3 )"},
+            {"2", "x", "(y+3)"},
+            {"7", "x", "(y+3)"},
+            {"11", "x", "(y+3)"},
     };
     auto program = AstProgram::createWhileWithNestedIfElsePlusNestedStmtsBeforeAndInside();
     auto pkb = make_shared<PKBStubSP>();
@@ -238,10 +238,10 @@ TEST_CASE("Assign_TestWhileWithNestedIfElsePlusNestedStmtsBeforeAndInside") {
 
 TEST_CASE("Assign_TestWhileWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside") {
     std::multiset<tuple<std::string, std::string, std::string>> resultsVector = {
-            {"2", "x", "( y + 3 )"},
-            {"7", "x", "( y + 3 )"},
-            {"11", "x", "( y + 3 )"},
-            {"15", "x", "( y + 3 )"},
+            {"2", "x", "(y+3)"},
+            {"7", "x", "(y+3)"},
+            {"11", "x", "(y+3)"},
+            {"15", "x", "(y+3)"},
     };
     auto program = AstProgram::createWhileWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside();
     auto pkb = make_shared<PKBStubSP>();
@@ -254,9 +254,9 @@ TEST_CASE("Assign_TestWhileWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside")
 
 TEST_CASE("Assign_TestWhileWithNestedIfElsePlusNestedStmtsAfterAndInside") {
     std::multiset<tuple<std::string, std::string, std::string>> resultsVector = {
-            {"3", "x", "( y + 3 )"},
-            {"7", "x", "( y + 3 )"},
-            {"11", "x", "( y + 3 )"},
+            {"3", "x", "(y+3)"},
+            {"7", "x", "(y+3)"},
+            {"11", "x", "(y+3)"},
     };
     auto program = AstProgram::createWhileWithNestedIfElsePlusNestedStmtsAfterAndInside();
     auto pkb = make_shared<PKBStubSP>();
@@ -269,8 +269,8 @@ TEST_CASE("Assign_TestWhileWithNestedIfElsePlusNestedStmtsAfterAndInside") {
 
 TEST_CASE("Assign_TestWhileWithNestedWhilePlusNestedStmtsBeforeAndInside") {
     std::multiset<tuple<std::string, std::string, std::string>> resultsVector = {
-            {"2", "x", "( y + 3 )"},
-            {"7", "x", "( y + 3 )"},
+            {"2", "x", "(y+3)"},
+            {"7", "x", "(y+3)"},
     };
     auto program = AstProgram::createWhileWithNestedWhilePlusNestedStmtsBeforeAndInside();
     auto pkb = make_shared<PKBStubSP>();
@@ -283,9 +283,9 @@ TEST_CASE("Assign_TestWhileWithNestedWhilePlusNestedStmtsBeforeAndInside") {
 
 TEST_CASE("Assign_TestWhileWithNestedWhilePlusNestedStmtsBeforeAfterAndInside") {
     std::multiset<tuple<std::string, std::string, std::string>> resultsVector = {
-            {"2", "x", "( y + 3 )"},
-            {"7", "x", "( y + 3 )"},
-            {"11", "x", "( y + 3 )"},
+            {"2", "x", "(y+3)"},
+            {"7", "x", "(y+3)"},
+            {"11", "x", "(y+3)"},
     };
     auto program = AstProgram::createWhileWithNestedWhilePlusNestedStmtsBeforeAfterAndInside();
     auto pkb = make_shared<PKBStubSP>();
@@ -298,8 +298,8 @@ TEST_CASE("Assign_TestWhileWithNestedWhilePlusNestedStmtsBeforeAfterAndInside") 
 
 TEST_CASE("Assign_TestWhileWithNestedWhilePlusNestedStmtsAfterAndInside") {
     std::multiset<tuple<std::string, std::string, std::string>> resultsVector = {
-            {"3", "x", "( y + 3 )"},
-            {"7", "x", "( y + 3 )"},
+            {"3", "x", "(y+3)"},
+            {"7", "x", "(y+3)"},
     };
     auto program = AstProgram::createWhileWithNestedWhilePlusNestedStmtsAfterAndInside();
     auto pkb = make_shared<PKBStubSP>();
