@@ -312,6 +312,8 @@ std::vector<std::vector<std::string>> QueryPKB::getFollowsTTable() {
     return pkb->followsTTable->getAll();
 }
 
+// Parent
+
 std::vector<std::vector<std::string>> QueryPKB::getParentByParent(StmtNo parent) {
     return toVecVecStr(pkb->parentTable->getChildren(parent));
 }
@@ -324,6 +326,8 @@ std::vector<std::vector<std::string>> QueryPKB::getParentTable() {
     return pkb->parentTable->getAll();
 }
 
+// ParentT
+
 std::vector<std::vector<std::string>> QueryPKB::getParentTByParent(StmtNo parent) {
     return toVecVecStr(pkb->parentTTable->getChildrenT(parent));
 }
@@ -335,6 +339,8 @@ std::vector<std::vector<std::string>> QueryPKB::getParentTByChild(StmtNo child) 
 std::vector<std::vector<std::string>> QueryPKB::getParentTTable() {
     return pkb->parentTTable->getAll();
 }
+
+// UsesS
 
 std::vector<std::vector<std::string>> QueryPKB::getUsesSByNum(StmtNo user) {
     return std::vector<std::vector<std::string>>();
@@ -375,6 +381,8 @@ std::vector<std::vector<std::string>> QueryPKB::getUsesSTable() {
     return std::vector<std::vector<std::string>>();
 }
 
+// ModifiesS
+
 std::vector<std::vector<std::string>> QueryPKB::getModifiesSByNum(StmtNo modifier) {
     return toVecVecStr(pkb->modifiesSTable->getModifiedS(modifier));
 }
@@ -386,6 +394,112 @@ std::vector<std::vector<std::string>> QueryPKB::getModifiesSByVar(VarName modifi
 std::vector<std::vector<std::string>> QueryPKB::getModifiesSTable() {
     return pkb->modifiesSTable->getAllS();
 }
+
+// ModifiesP
+
+std::vector<std::vector<std::string>> QueryPKB::getModifiesPByProc(ProcName modifier) {
+    return toVecVecStr(pkb->modifiesPTable->getModifiedP(modifier));
+}
+
+std::vector<std::vector<std::string>> QueryPKB::getModifiesPByVar(VarName modified) {
+    return toVecVecStr(pkb->modifiesPTable->getModifiersP(modified));
+}
+
+std::vector<std::vector<std::string>> QueryPKB::getModifiesPTable() {
+    return pkb->modifiesPTable->getAllP();
+}
+
+// PatternAssign
+// TODO: patternAssign methods in the class are not ready
+std::vector<std::vector<std::string>> QueryPKB::getPatternByNum(StmtNo sNum) {
+//    return toVecVecStr(pkb->patternAssignTable.get);
+}
+
+std::vector<std::vector<std::string>> QueryPKB::getPatternByLhs(std::string Lhs) {
+//    return toVecVecStr(pkb->patternAssignTable->getRhsFromLhs(Lhs));
+}
+
+std::vector<std::vector<std::string>> QueryPKB::getPatternByRhs(std::string Rhs) {
+//    return toVecVecStr(pkb->patternAssignTable->getLhsFromRhs(Rhs));
+}
+
+std::vector<std::vector<std::string>> QueryPKB::getPatternByLhsPartial(std::string LhsPartial) {
+//    return toVecVecStr(pkb->patternAssignTable.get);
+}
+
+std::vector<std::vector<std::string>> QueryPKB::getPatternByRhsPartial(std::string RhsPartial) {
+//    return std::vector<std::vector<std::string>>();
+}
+
+std::vector<std::vector<std::string>> QueryPKB::getPatternTable() {
+//    return pkb->patternAssignTable
+    return std::vector<std::vector<std::string>>();
+}
+
+// Calls
+
+std::vector<std::vector<std::string>> QueryPKB::getCallsByCaller(ProcName caller) {
+    return std::vector<std::vector<std::string>>();
+}
+
+std::vector<std::vector<std::string>> QueryPKB::getCallsByCalled(ProcName called) {
+    return std::vector<std::vector<std::string>>();
+}
+
+std::vector<std::vector<std::string>> QueryPKB::getCallsTable() {
+    return std::vector<std::vector<std::string>>();
+}
+
+std::vector<std::vector<std::string>> QueryPKB::getCallsTByCaller(ProcName caller) {
+    return std::vector<std::vector<std::string>>();
+}
+
+std::vector<std::vector<std::string>> QueryPKB::getCallsTByCalled(ProcName called) {
+    return std::vector<std::vector<std::string>>();
+}
+
+std::vector<std::vector<std::string>> QueryPKB::getCallsTTable() {
+    return std::vector<std::vector<std::string>>();
+}
+
+std::vector<std::vector<std::string>> QueryPKB::getNextByBefore(StmtNo before) {
+    return std::vector<std::vector<std::string>>();
+}
+
+std::vector<std::vector<std::string>> QueryPKB::getNextByAfter(StmtNo after) {
+    return std::vector<std::vector<std::string>>();
+}
+
+std::vector<std::vector<std::string>> QueryPKB::getNextTable() {
+    return std::vector<std::vector<std::string>>();
+}
+
+std::vector<std::vector<std::string>> QueryPKB::getNextTByBefore(StmtNo before) {
+    return std::vector<std::vector<std::string>>();
+}
+
+std::vector<std::vector<std::string>> QueryPKB::getNextTByAfter(StmtNo after) {
+    return std::vector<std::vector<std::string>>();
+}
+
+std::vector<std::vector<std::string>> QueryPKB::getNextTTable() {
+    return std::vector<std::vector<std::string>>();
+}
+
+std::vector<std::vector<std::string>> QueryPKB::getAffectsByBefore(StmtNo before) {
+    return std::vector<std::vector<std::string>>();
+}
+
+std::vector<std::vector<std::string>> QueryPKB::getAffectsByAfter(StmtNo after) {
+    return std::vector<std::vector<std::string>>();
+}
+
+std::vector<std::vector<std::string>> QueryPKB::getAffectsTable() {
+    return std::vector<std::vector<std::string>>();
+}
+
+
+
 
 
 

@@ -50,6 +50,13 @@
 //#include "pkb/storage/ian_relation/UsesPTable.h"
 #include "pkb/storage/ian_relation/UsesSTable.h"
 #include "pkb/storage/ian_relation/PatternAssignTable.h"
+//#include "pkb/storage/ian_relation/CallsTable.h"
+//#include "pkb/storage/ian_relation/CallsTTable.h"
+//#include "pkb/storage/ian_relation/NextTable.h"
+//#include "pkb/storage/ian_relation/NextTTable.h"
+//#include "pkb/storage/ian_relation/AffectsTable.h"
+
+
 
 class PKBStorage {
 public:
@@ -63,7 +70,6 @@ public:
     std::shared_ptr<ProcedureTable> procedureTable = std::make_shared<ProcedureTable>();
 //    std::shared_ptr<VariableTable> variableTable = std::make_shared<VariableTable>();
     std::shared_ptr<ConstTable> constTable = std::make_shared<ConstTable>();
-    std::shared_ptr<PatternAssignTable> assignTable = std::make_shared<PatternAssignTable>();
 
     std::shared_ptr<FollowsTable> followsTable = std::make_shared<FollowsTable>();
     std::shared_ptr<FollowsTTable> followsTTable = std::make_shared<FollowsTTable>();
@@ -72,6 +78,10 @@ public:
     std::shared_ptr<ModifiesSTable> modifiesSTable = std::make_shared<ModifiesSTable>();
     std::shared_ptr<ModifiesPTable> modifiesPTable = std::make_shared<ModifiesPTable>();
     std::shared_ptr<UsesSTable> usesSTable = std::make_shared<UsesSTable>();
+    // std::shared_ptr<UsesPTable> usesPTable = std::make_shared<UsesPTable>(); // not yet implemented
+    std::shared_ptr<PatternAssignTable> patternAssignTable = std::make_shared<PatternAssignTable>();
+//    std::shared_ptr<CallsTable> callsTable = std::make_shared<CallsTable>(); // bug: no include
+//    std::shared_ptr<CallsTTable> callsTTable = std::make_shared<CallsTTable>(); // bug: no include
     std::shared_ptr<UsesPTable> usesPTable = std::make_shared<UsesPTable>();
     std::shared_ptr<CallsTable> callsTable = std::make_shared<CallsTable>();
     std::shared_ptr<CallsTTable> callsTTable = std::make_shared<CallsTTable>();

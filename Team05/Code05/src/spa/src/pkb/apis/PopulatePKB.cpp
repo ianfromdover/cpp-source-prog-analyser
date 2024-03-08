@@ -79,7 +79,7 @@ bool PopulatePKB::addModifiesP(std::string procName, std::string name) {
 }
 
 bool PopulatePKB::addPatternAsgn(int stmtNo, std::string lhs, std::string rhs) {
-    return pkb->assignTable->addRecord(std::to_string(stmtNo), lhs + "=" + rhs);
+    return pkb->patternAssignTable->addRecord(std::to_string(stmtNo), lhs + "=" + rhs);
 }
 
 bool PopulatePKB::addCalls(std::string caller, std::string called) {

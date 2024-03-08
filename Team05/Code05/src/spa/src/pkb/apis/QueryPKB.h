@@ -86,6 +86,31 @@ public:
     std::vector<std::vector<std::string>> getModifiesSByNum(StmtNo modifier) override;
     std::vector<std::vector<std::string>> getModifiesSByVar(VarName modified) override;
     std::vector<std::vector<std::string>> getModifiesSTable() override;
+    std::vector<std::vector<std::string>> getModifiesPByProc(ProcName modifier) override;
+    std::vector<std::vector<std::string>> getModifiesPByVar(VarName modified) override;
+    std::vector<std::vector<std::string>> getModifiesPTable() override;
+    std::vector<std::vector<std::string>> getPatternByNum(StmtNo sNum) override;
+    std::vector<std::vector<std::string>> getPatternByLhs(std::string Lhs) override;
+    std::vector<std::vector<std::string>> getPatternByRhs(std::string Rhs) override;
+    std::vector<std::vector<std::string>> getPatternByLhsPartial(std::string LhsPartial) override;
+    std::vector<std::vector<std::string>> getPatternByRhsPartial(std::string RhsPartial) override;
+    std::vector<std::vector<std::string>> getPatternTable() override;
+    // TODO: Calls
+    std::vector<std::vector<std::string>> getCallsByCaller(ProcName caller) override;
+    std::vector<std::vector<std::string>> getCallsByCalled(ProcName called) override;
+    std::vector<std::vector<std::string>> getCallsTable() override;
+    std::vector<std::vector<std::string>> getCallsTByCaller(ProcName caller) override;
+    std::vector<std::vector<std::string>> getCallsTByCalled(ProcName called) override;
+    std::vector<std::vector<std::string>> getCallsTTable() override;
+    std::vector<std::vector<std::string>> getNextByBefore(StmtNo before) override;
+    std::vector<std::vector<std::string>> getNextByAfter(StmtNo after) override;
+    std::vector<std::vector<std::string>> getNextTable() override;
+    std::vector<std::vector<std::string>> getNextTByBefore(StmtNo before) override;
+    std::vector<std::vector<std::string>> getNextTByAfter(StmtNo after) override;
+    std::vector<std::vector<std::string>> getNextTTable() override;
+    std::vector<std::vector<std::string>> getAffectsByBefore(StmtNo before) override;
+    std::vector<std::vector<std::string>> getAffectsByAfter(StmtNo after) override;
+    std::vector<std::vector<std::string>> getAffectsTable() override;
 };
 
 
