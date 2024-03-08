@@ -18,7 +18,10 @@ using table = std::vector<std::vector<std::string>>;
 class ResultTable {
 public:
     table _table;
-    ResultTable(table& t): _table(removeDuplicateColumn(t)) {};
+    ResultTable(table& t){
+        removeDuplicateEntires(t);
+        _table = t;
+    };
     ResultTable() = default;
 
     bool isEmpty(){
@@ -27,11 +30,16 @@ public:
 
     void add(const table& a){
         if (_table.empty()){
-            _table = removeDuplicateColumn(a);
+            _table = removeDuplicateColumn(a); // TODO: remove 'removeDuplicateColumn' after pkb patch
         } else {
             _table = joinOrCrossProduct(removeDuplicateColumn(_table), a);
             removeDuplicateEntires(_table);
         }
+    }
+
+    std::vector<std::string> getHeaders(){
+        if (isEmpty()) return {};
+        return _table[0];
     }
 
     bool hasEntries(){
@@ -125,23 +133,29 @@ public:
         _table = filteredTab; // Replace the original table with the filtered results
     }
 
-    void removeColumn(std::string& header){
+    void removeColumnByHeader(std::string& header){
         size_t index = findColumnIndex(_table, header);
-        if (index != 0){
-            for (size_t i = 0; i < _table.size(); ++i) {
-                _table[i].erase(_table[i].begin() + index);
+        removeColumnByIndex(index);
+    }
+
+    void removeColumnByIndex(int i){
+        if (i >= 0 && i < _table[0].size()) {
+            for (int j = 0; j < _table.size(); ++j) {
+                _table[j].erase(_table[j].begin() + i);
+            }
+        }
+        removeDuplicateEntires(_table);
+    }
+
+    void removeAllColumnsExceptIndex(int i){
+        for (int j = 0; j < _table[0].size(); ++j) {
+            if (j != i){
+                removeColumnByIndex(j);
             }
         }
     }
 
-    void removeColumn(std::string header){
-        size_t index = findColumnIndex(_table, header);
-        if (index != 0){
-            for (size_t i = 0; i < _table.size(); ++i) {
-                _table[i].erase(_table[i].begin() + index);
-            }
-        }
-    }
+
 
     void filterByColumnExact(const string& header, const string& str) {
         table filteredTab; // Resulting table after filtering
@@ -171,11 +185,8 @@ public:
         _table = filteredTab; // Replace the original table with the filtered results
     }
 
-    void filterByColumPartial(const string& header, const string& str) {
-
-    }
-
     table getTable() {
+        removeDuplicateEntires(_table);
         return _table;
     }
 
@@ -271,6 +282,14 @@ public:
         else {
             // Perform cross product
             table result;
+
+            // Add header from table A
+            result.push_back({a[0].begin(), a[0].end()});
+            // Extend with header from table B
+            for (const auto header : b[0]) {
+                result[0].push_back(header);
+            }
+
             for (size_t i = 1; i < a.size(); ++i) {
                 for (size_t j = 1; j < b.size(); ++j) {
                     vector<string> row(a[i].begin(), a[i].end());
@@ -289,6 +308,16 @@ public:
             o << endl;
         }
         return o;
+    }
+
+    std::string toString() {
+        std::stringstream ss;
+        for (const auto& row : _table) {
+            for (const auto& e : row)
+                ss << e << ' ';
+            ss << std::endl;
+        }
+        return ss.str();
     }
 
 

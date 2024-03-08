@@ -31,6 +31,10 @@ std::vector<std::vector<std::string>> ParentTConstraint::getRelationshipTable(Qu
     std::string lhsHeader = isStatementSynonym(lhsEntityType) ? args[0]->getArgumentValue() : "PARENTTLHS";
     std::string rhsHeader = isStatementSynonym(rhsEntityType) ? args[1]->getArgumentValue() : "PARENTTRHS";
 
+    if (lhsHeader==rhsHeader) {
+        return {{lhsHeader}};
+    }
+
     // Insertion of headers into our results table
     result.insert(result.begin(), {lhsHeader, rhsHeader});
     ResultTable table(result);
@@ -43,12 +47,10 @@ std::vector<std::vector<std::string>> ParentTConstraint::getRelationshipTable(Qu
     if (isStatementSynonym(lhsEntityType)) {
         // Get entity table by type
         std::vector<std::vector<std::string>> entityTable = args[0]->getEntityTable(pkb);
-        std::string lHeader = lhsHeader;;
-        std::string rHeader = entityTable.at(0).at(1) + "1";
-        // Removal of original headers in our entity table
-        entityTable.erase(entityTable.begin());
-        // Insertion of headers into our entity table
-        entityTable.insert(entityTable.begin(), {lHeader, rHeader});
+        ResultTable entityTableResult(entityTable);
+        if (lhsEntityType != TYPE_STATEMENT) {
+            entityTableResult.removeColumnByIndex(1);
+        }
         table.add(entityTable);
     }
 
@@ -60,12 +62,10 @@ std::vector<std::vector<std::string>> ParentTConstraint::getRelationshipTable(Qu
     if (isStatementSynonym(rhsEntityType)) {
         // Get entity table by type
         std::vector<std::vector<std::string>> entityTable = args[1]->getEntityTable(pkb);
-        std::string lHeader = rhsHeader;
-        std::string rHeader = entityTable.at(0).at(1) + "2";
-        // Removal of original headers in our entity table
-        entityTable.erase(entityTable.begin());
-        // Insertion of headers into our entity table
-        entityTable.insert(entityTable.begin(), {lHeader, rHeader});
+        ResultTable entityTableResult(entityTable);
+        if (rhsEntityType != TYPE_STATEMENT) {
+            entityTableResult.removeColumnByIndex(1);
+        }
         table.add(entityTable);
     }
 
@@ -78,21 +78,4 @@ bool ParentTConstraint::isStatementSynonym(std::string type) {
             TYPE_CALL, TYPE_WHILE, TYPE_IF
     };
     return std::find(statementVector.begin(), statementVector.end(), type) != statementVector.end();
-}
-
-std::string& ParentTConstraint::stripCharacters(std::string& str, const std::string& chars) {
-    // Find the first character position after excluding leading characters
-    std::size_t first = str.find_first_not_of(chars);
-    if (first == std::string::npos) {
-        // If there are no characters other than the ones to strip, return an empty string
-        return str = "";
-    }
-
-    // Find the position of the last character not matching the strip characters
-    std::size_t last = str.find_last_not_of(chars);
-
-    // Erase the leading and trailing characters
-    str = str.substr(first, (last - first + 1));
-
-    return str;
 }

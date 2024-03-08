@@ -49,7 +49,8 @@ bool isQueryable(std::string type){
 }
 
 void QueryEvaluator::processConstraints(std::shared_ptr<Constraint> c){
-     results.add(c->getRelationshipTable(pkb));
+    table t = c->getRelationshipTable(pkb);
+    results.add(t);
 }
 
 void QueryEvaluator::processReturnable(std::shared_ptr<Returnable> r) {

@@ -17,6 +17,7 @@ public:
     static void trimTrailing(std::string& str);
     static void trimAll(std::string& str);
     static void removePrefix(std::string& str, const std::string& prefix);
+    static std::string& stripCharacters(std::string& str, const std::string& chars);
 };
 
 

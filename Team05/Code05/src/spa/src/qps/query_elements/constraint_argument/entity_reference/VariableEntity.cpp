@@ -28,9 +28,5 @@ std::vector<std::vector<std::string>> VariableEntity::getEntityTable(QueryPKBVir
     auto entityTable = pkb.getVar();
     // Insertion of headers into our entity table
     entityTable.insert(entityTable.begin(), {"VARIABLELHS", this->identifier});
-    // TODO: HOTFIX - remove first column
-    for (auto &row : entityTable) {
-        row.erase(row.begin());
-    }
     return entityTable;
 }

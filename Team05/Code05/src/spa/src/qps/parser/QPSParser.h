@@ -66,6 +66,8 @@ private:
 
     std::shared_ptr<RelationshipClause> uses();
 
+    std::shared_ptr<RelationshipClause> usesModifies();
+
     std::shared_ptr<RelationshipClause> modifies();
 
     std::shared_ptr<PatternClause> pattern();

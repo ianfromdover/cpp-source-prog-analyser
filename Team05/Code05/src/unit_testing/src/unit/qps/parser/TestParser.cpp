@@ -614,7 +614,14 @@ TEST_CASE("singleDeclaration_singleSelect_singleRelationship_singlePattern") {
 
 }
 
-
+TEST_CASE("invalid syntax"){
+    SECTION("suchThat_pattern"){
+        QPSTokenList tokens;
+        tokens = TokenListBuilder().multiStmtDeclaration().select().identifier().suchThat().validPattern().get();
+        QPSParser parser(tokens);
+        REQUIRE_THROWS(parser.parse());
+    }
+}
 
 
 static QPSTokenList

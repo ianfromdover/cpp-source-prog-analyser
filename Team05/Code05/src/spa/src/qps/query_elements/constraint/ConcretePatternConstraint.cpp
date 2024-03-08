@@ -49,10 +49,9 @@ std::vector<std::vector<std::string>> ConcretePatternConstraint::getRelationship
 
     if (args[0]->getEntityType() == TYPE_VARIABLE){
         std::vector<std::vector<std::string>> t = args[0]->getEntityTable(pkb);
-        // Removal of original headers in our entity table
-        t.erase(t.begin());
-        t.insert(t.begin(),{args[0]->getArgumentValue()});
-        table.add(t);
+        ResultTable entityTable(t);
+        entityTable.removeColumnByIndex(0);
+        table.add(entityTable.getTable());
     } else if (args[0]->getEntityType() == TYPE_QUOTED_IDENT){
         std::string string1=args[0]->getArgumentValue();
         string stripped = stripCharacters(string1,"\"");
@@ -67,6 +66,10 @@ std::vector<std::vector<std::string>> ConcretePatternConstraint::getRelationship
         std::string string1=args[1]->getArgumentValue();
         string stripped = stripCharacters(string1,"\"");
         table.filterByColumnPartial(rhsHeader,stripped);
+    }
+
+    for (const std::string& header : {"ASSIGNLHS", "ASSIGNRHS"}){
+        table.removeColumnByHeader(const_cast<string &>(header));
     }
 
     return table.getTable();

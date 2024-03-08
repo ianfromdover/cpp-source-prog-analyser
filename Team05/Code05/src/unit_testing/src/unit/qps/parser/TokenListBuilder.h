@@ -61,7 +61,7 @@ public:
     };
 
     TokenListBuilder validPattern(){
-        return suchThat().pattern().identifier().leftParen().identifier().comma().wildcard().rightParen();
+        return pattern().identifier().leftParen().identifier().comma().wildcard().rightParen();
     };
 
     TokenListBuilder validFollows(){

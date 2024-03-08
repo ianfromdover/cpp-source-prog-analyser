@@ -19,8 +19,6 @@ public:
     std::vector<std::vector<std::string>> getRelationshipTable(QueryPKBVirtual &) override;
 
     bool isStatementSynonym(string type);
-
-    string &stripCharacters(string &str, const string &chars);
 };
 
 
