@@ -11,7 +11,7 @@ TEST_CASE("CallsT_TestSequentialNestingChain") {
     std::multiset<pair<std::string, std::string>> resultsVector = {
             {"AssignCallPrintRead", "IfElseWithStmtsBeforeAndInside"},
             {"AssignCallPrintRead", "IfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside"},
-            {"IfElseWithStmtsBeforeAndInside", "IfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside"},
+            {"IfElseWithStmtsBeforeAndInside", "IfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside"}
     };
     auto program = AstProgram::createSequentialNestingChain();
     auto pkb = make_shared<PKBStubSP>();
@@ -19,5 +19,5 @@ TEST_CASE("CallsT_TestSequentialNestingChain") {
     for (const auto& procedure : *program->getProcedures()) {
         procedure->accept(*extractor);
     }
-    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
+    REQUIRE(pkb->checkAgainstPairTResults(resultsVector));
 }

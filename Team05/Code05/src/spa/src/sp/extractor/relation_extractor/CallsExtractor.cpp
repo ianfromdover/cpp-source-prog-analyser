@@ -27,7 +27,7 @@ void CallsExtractor::visitCallStmt(const Call &stmt, shared_ptr<Accumulator> &pa
                 //std::cout << "pkb.addCalls(" << procName << ", " << stmt.getProcName() << ");" << std::endl;
                 pkb->addCalls(procName, stmt.getProcName());
             }
-            //std::cout << "pkb.addCallsT(" << procName << ", " << stmt.getProcName() << ");" << std::endl;
+            std::cout << "pkb.addCallsT(" << procName << ", " << stmt.getProcName() << ");" << std::endl;
             pkb->addCallsT(procName, stmt.getProcName());
         }
         visitedProcedures.insert(stmt.getProcName());
