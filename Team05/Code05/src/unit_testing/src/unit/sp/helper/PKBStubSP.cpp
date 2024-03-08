@@ -127,8 +127,8 @@ public:
     }
 
     bool addCallsT(ProcName caller, ProcName called) override {
-        //std::cout << "addCalls called" << std::endl;
-        pairCalls.insert({caller, called});
+        //std::cout << "addCallsT called" << std::endl;
+        pairCallsT.insert({caller, called});
         return true;
     }
 

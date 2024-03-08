@@ -5,639 +5,179 @@
 #include "../helper/AstProgram.cpp"
 #include "../helper/PKBStubSP.cpp"
 #include "sp/extractor/relation_extractor/UsesExtractor.h"
+#include "sp/ast/Program.h"
 
-// Test removed for now after new implementation for uses
-/**
-//Uses_TestZeroNestingLevel
-using Procedures = std::vector<std::shared_ptr<Procedure>>;
-
-TEST_CASE("Uses_TestAssignCallPrintRead") {
+TEST_CASE("Uses_TestSequentialNestingChain") {
     std::multiset<pair<std::string, std::string>> resultsVector = {
             {"1", "y"},
-            {"1", "3"},
-            {"1", "1"},
+            {"AssignCallPrintRead", "y"},
             {"1", "y"},
-            {"4", "u"},
-    };
-    auto program = AstProgram::createAssignCallReadPrint();
-    auto programs = std::make_shared<Procedures>();
-    procedures->push_back(procedure);
-    auto program = std::make_shared<Program>(procedures);
-    auto pkb = make_shared<PKBStubSP>();
-    shared_ptr<ProgramVisitor> extractor = std::make_shared<UsesExtractor>(pkb, program);
-    procedure->accept(*extractor);
-    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
-}
-
-//Uses_TestSingleNestingLevel
-TEST_CASE("Uses_TestIfElseWithStmtsBeforeAndInside") {
-    std::multiset<pair<std::string, std::string>> resultsVector = {
-            {"1", "y"},
-            {"1", "3"},
-            {"1", "1"},
-            {"1", "y"},
-            {"4", "u"},
-            {"5", "x"},
-            {"5", "y"},
-            {"5", "y"},
-            {"5", "u"},
-            {"5", "y"},
-            {"5", "u"},
-            {"6", "y"},
-            {"6", "y"},
-            {"6", "1"},
-            {"6", "3"},
-            {"9", "u"},
-            {"10", "y"},
-            {"10", "3"},
-            {"13", "u"},
-    };
-    auto program = AstProgram::createIfElseWithStmtsBeforeAndInside();
-    auto programs = std::make_shared<Procedures>();
-    procedures->push_back(procedure);
-    auto program = std::make_shared<Program>(procedures);
-    auto pkb = make_shared<PKBStubSP>();
-    shared_ptr<ProgramVisitor> extractor = std::make_shared<UsesExtractor>(pkb, program);
-    procedure->accept(*extractor);
-    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
-}
-
-TEST_CASE("Uses_TestIfElseWithStmtsBeforeAfterAndInside") {
-    std::multiset<pair<std::string, std::string>> resultsVector = {
-            {"1", "y"},
-            {"4", "u"},
-            {"5", "x"},
-            {"5", "y"},
-            {"5", "u"},
-            {"5", "y"},
-            {"5", "u"},
-            {"6", "y"},
-            {"9", "u"},
-            {"10", "y"},
-            {"13", "u"},
-            {"14", "y"},
-            {"17", "u"}
-    };
-    auto program = AstProgram::createIfElseWithStmtsBeforeAfterAndInside();
-    auto programs = std::make_shared<Procedures>();
-    procedures->push_back(procedure);
-    auto program = std::make_shared<Program>(procedures);
-    auto pkb = make_shared<PKBStubSP>();
-    shared_ptr<ProgramVisitor> extractor = std::make_shared<UsesExtractor>(pkb, program);
-    procedure->accept(*extractor);
-    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
-}
-
-TEST_CASE("Uses_TestIfElseWithStmtsAfterAndInside") {
-    std::multiset<pair<std::string, std::string>> resultsVector = {
-            {"1", "x"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "y"},
-            {"1", "u"},
+            {"AssignCallPrintRead", "y"},
             {"2", "y"},
-            {"5", "u"},
-            {"6", "y"},
-            {"9", "u"},
-            {"10", "y"},
-            {"13", "u"}
-    };
-    auto program = AstProgram::createIfElseWithStmtsAfterAndInside();
-    auto programs = std::make_shared<Procedures>();
-    procedures->push_back(procedure);
-    auto program = std::make_shared<Program>(procedures);
-    auto pkb = make_shared<PKBStubSP>();
-    shared_ptr<ProgramVisitor> extractor = std::make_shared<UsesExtractor>(pkb, program);
-    procedure->accept(*extractor);
-    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
-}
-
-TEST_CASE("Uses_TestWhileWithStmtsBeforeAndInside") {
-    std::multiset<pair<std::string, std::string>> resultsVector = {
-            {"1", "y"},
-            {"4", "u"},
-            {"5", "x"},
             {"5", "y"},
-            {"5", "u"},
-            {"6", "y"},
-            {"9", "u"},
-    };
-    auto program = AstProgram::createWhileWithStmtsBeforeAndInside();
-    auto programs = std::make_shared<Procedures>();
-    procedures->push_back(procedure);
-    auto program = std::make_shared<Program>(procedures);
-    auto pkb = make_shared<PKBStubSP>();
-    shared_ptr<ProgramVisitor> extractor = std::make_shared<UsesExtractor>(pkb, program);
-    procedure->accept(*extractor);
-    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
-}
-
-TEST_CASE("Uses_TestWhileWithStmtsBeforeAfterAndInside") {
-    std::multiset<pair<std::string, std::string>> resultsVector = {
-            {"1", "y"},
-            {"4", "u"},
-            {"5", "x"},
-            {"5", "y"},
-            {"5", "u"},
-            {"6", "y"},
-            {"9", "u"},
-            {"10", "y"},
-            {"13", "u"},
-    };
-    auto program = AstProgram::createWhileWithStmtsBeforeAfterAndInside();
-    auto programs = std::make_shared<Procedures>();
-    procedures->push_back(procedure);
-    auto program = std::make_shared<Program>(procedures);
-    auto pkb = make_shared<PKBStubSP>();
-    shared_ptr<ProgramVisitor> extractor = std::make_shared<UsesExtractor>(pkb, program);
-    procedure->accept(*extractor);
-    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
-}
-
-TEST_CASE("Uses_TestWhileWithStmtsAfterAndInside") {
-    std::multiset<pair<std::string, std::string>> resultsVector = {
-            {"1", "x"},
-            {"1", "y"},
-            {"1", "u"},
-            {"2", "y"},
-            {"5", "u"},
-            {"6", "y"},
-            {"9", "u"},
-    };
-    auto program = AstProgram::createWhileWithStmtsAfterAndInside();
-    auto programs = std::make_shared<Procedures>();
-    procedures->push_back(procedure);
-    auto program = std::make_shared<Program>(procedures);
-    auto pkb = make_shared<PKBStubSP>();
-    shared_ptr<ProgramVisitor> extractor = std::make_shared<UsesExtractor>(pkb, program);
-    procedure->accept(*extractor);
-    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
-}
-
-//Uses_TestDoubleNestingLevel
-
-TEST_CASE("Uses_TestIfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside") {
-    std::multiset<pair<std::string, std::string>> resultsVector = {
-            {"1", "x"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "x"},
-            {"1", "y"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "x"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "y"},
-            {"1", "u"},
-            {"2", "y"},
-            {"5", "u"},
-            {"6", "x"},
-            {"6", "y"},
-            {"6", "y"},
-            {"6", "u"},
-            {"6", "y"},
-            {"6", "u"},
-            {"7", "y"},
-            {"7", "y"},
-            {"10", "u"},
-            {"11", "y"},
-            {"14", "u"},
-            {"15", "y"},
-            {"18", "u"},
-            {"19", "x"},
-            {"19", "y"},
-            {"19", "u"},
-            {"19", "y"},
-            {"19", "u"},
-            {"20", "y"},
-            {"23", "u"},
-            {"24", "y"},
-            {"27", "u"},
-    };
-    auto program = AstProgram::createIfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside();
-    auto programs = std::make_shared<Procedures>();
-    procedures->push_back(procedure);
-    auto program = std::make_shared<Program>(procedures);
-    auto pkb = make_shared<PKBStubSP>();
-    shared_ptr<ProgramVisitor> extractor = std::make_shared<UsesExtractor>(pkb, program);
-    procedure->accept(*extractor);
-    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
-}
-
-TEST_CASE("Uses_TestIfElseWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside") {
-    std::multiset<pair<std::string, std::string>> resultsVector = {
-            {"1", "x"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "x"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "x"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "y"},
-            {"1", "u"},
-            {"2", "y"},
-            {"5", "u"},
-            {"6", "x"},
-            {"6", "y"},
-            {"6", "u"},
-            {"6", "y"},
-            {"6", "u"},
-            {"7", "y"},
-            {"10", "u"},
-            {"11", "y"},
-            {"14", "u"},
-            {"15", "y"},
-            {"18", "u"},
-            {"19", "y"},
-            {"22", "u"},
-            {"23", "x"},
-            {"23", "y"},
-            {"23", "u"},
-            {"23", "y"},
-            {"23", "u"},
-            {"24", "y"},
-            {"27", "u"},
-            {"28", "y"},
-            {"31", "u"},
-            {"32", "y"},
-            {"35", "u"},
-    };
-    auto program = AstProgram::createIfElseWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside();
-    auto programs = std::make_shared<Procedures>();
-    procedures->push_back(procedure);
-    auto program = std::make_shared<Program>(procedures);
-    auto pkb = make_shared<PKBStubSP>();
-    shared_ptr<ProgramVisitor> extractor = std::make_shared<UsesExtractor>(pkb, program);
-    procedure->accept(*extractor);
-    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
-}
-
-TEST_CASE("Uses_TestIfElseWithNestedIfElsePlusNestedStmtsAfterAndInside") {
-    std::multiset<pair<std::string, std::string>> resultsVector = {
-            {"1", "x"},
-            {"1", "x"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "x"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "y"},
-            {"1", "u"},
+            {"AssignCallPrintRead", "y"},
+            {"IfElseWithStmtsBeforeAndInside", "y"},
             {"2", "x"},
+            {"6", "x"},
+            {"16", "x"},
+            {"AssignCallPrintRead", "x"},
+            {"IfElseWithStmtsBeforeAndInside", "x"},
+            {"IfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside", "x"},
             {"2", "y"},
-            {"2", "u"},
-            {"2", "y"},
-            {"2", "u"},
-            {"3", "y"},
-            {"6", "u"},
-            {"7", "y"},
-            {"10", "u"},
-            {"11", "y"},
-            {"14", "u"},
-            {"15", "x"},
-            {"15", "y"},
-            {"15", "u"},
-            {"15", "y"},
-            {"15", "u"},
+            {"6", "y"},
             {"16", "y"},
-            {"19", "u"},
-            {"20", "y"},
-            {"23", "u"},
-            {"24", "y"},
-            {"27", "u"},
-    };
-    auto program = AstProgram::createIfElseWithNestedIfElsePlusNestedStmtsAfterAndInside();
-    auto programs = std::make_shared<Procedures>();
-    procedures->push_back(procedure);
-    auto program = std::make_shared<Program>(procedures);
-    auto pkb = make_shared<PKBStubSP>();
-    shared_ptr<ProgramVisitor> extractor = std::make_shared<UsesExtractor>(pkb, program);
-    procedure->accept(*extractor);
-    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
-}
-
-TEST_CASE("Uses_TestIfElseWithNestedWhilePlusNestedStmtsBeforeAndInside") {
-    std::multiset<pair<std::string, std::string>> resultsVector = {
-            {"1", "x"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "x"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "x"},
-            {"1", "y"},
-            {"1", "u"},
-            {"2", "y"},
-            {"5", "u"},
-            {"6", "x"},
-            {"6", "y"},
+            {"17", "y"},
+            {"AssignCallPrintRead", "y"},
+            {"IfElseWithStmtsBeforeAndInside", "y"},
+            {"IfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside", "y"},
+            {"2", "u"},
             {"6", "u"},
-            {"7", "y"},
-            {"10", "u"},
-            {"11", "y"},
-            {"14", "u"},
-            {"15", "x"},
-            {"15", "y"},
-            {"15", "u"},
+            {"16", "u"},
+            {"19", "u"},
+            {"AssignCallPrintRead", "u"},
+            {"IfElseWithStmtsBeforeAndInside", "u"},
+            {"IfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside", "u"},
+            {"2", "x"},
+            {"6", "x"},
+            {"16", "x"},
+            {"20", "x"},
+            {"AssignCallPrintRead", "x"},
+            {"IfElseWithStmtsBeforeAndInside", "x"},
+            {"IfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside", "x"},
+            {"2", "y"},
+            {"6", "y"},
             {"16", "y"},
-            {"19", "u"},
-    };
-    auto program = AstProgram::createIfElseWithNestedWhilePlusNestedStmtsBeforeAndInside();
-    auto programs = std::make_shared<Procedures>();
-    procedures->push_back(procedure);
-    auto program = std::make_shared<Program>(procedures);
-    auto pkb = make_shared<PKBStubSP>();
-    shared_ptr<ProgramVisitor> extractor = std::make_shared<UsesExtractor>(pkb, program);
-    procedure->accept(*extractor);
-    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
-}
-
-TEST_CASE("Uses_TestIfElseWithNestedWhilePlusNestedStmtsBeforeAfterAndInside") {
-    std::multiset<pair<std::string, std::string>> resultsVector = {
-            {"1", "x"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "x"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "x"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "y"},
-            {"1", "u"},
-            {"2", "y"},
-            {"5", "u"},
-            {"6", "x"},
-            {"6", "y"},
-            {"6", "u"},
-            {"7", "y"},
-            {"10", "u"},
-            {"11", "y"},
-            {"14", "u"},
-            {"15", "y"},
-            {"18", "u"},
-            {"19", "x"},
-            {"19", "y"},
-            {"19", "u"},
             {"20", "y"},
-            {"23", "u"},
-            {"24", "y"},
-            {"27", "u"},
-    };
-    auto program = AstProgram::createIfElseWithNestedWhilePlusNestedStmtsBeforeAfterAndInside();
-    auto programs = std::make_shared<Procedures>();
-    procedures->push_back(procedure);
-    auto program = std::make_shared<Program>(procedures);
-    auto pkb = make_shared<PKBStubSP>();
-    shared_ptr<ProgramVisitor> extractor = std::make_shared<UsesExtractor>(pkb, program);
-    procedure->accept(*extractor);
-    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
-}
-
-TEST_CASE("Uses_TestIfElseWithNestedWhilePlusNestedStmtsAfterAndInside") {
-    std::multiset<pair<std::string, std::string>> resultsVector = {
-            {"1", "x"},
-            {"1", "x"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "x"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "y"},
-            {"1", "u"},
-            {"2", "x"},
+            {"21", "y"},
+            {"AssignCallPrintRead", "y"},
+            {"IfElseWithStmtsBeforeAndInside", "y"},
+            {"IfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside", "y"},
             {"2", "y"},
-            {"2", "u"},
-            {"3", "y"},
-            {"6", "u"},
-            {"7", "y"},
-            {"10", "u"},
-            {"11", "x"},
-            {"11", "y"},
-            {"11", "u"},
-            {"12", "y"},
-            {"15", "u"},
+            {"6", "y"},
             {"16", "y"},
-            {"19", "u"},
-    };
-    auto program = AstProgram::createIfElseWithNestedWhilePlusNestedStmtsAfterAndInside();
-    auto programs = std::make_shared<Procedures>();
-    procedures->push_back(procedure);
-    auto program = std::make_shared<Program>(procedures);
-    auto pkb = make_shared<PKBStubSP>();
-    shared_ptr<ProgramVisitor> extractor = std::make_shared<UsesExtractor>(pkb, program);
-    procedure->accept(*extractor);
-    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
-}
-
-TEST_CASE("Uses_TestWhileWithNestedIfElsePlusNestedStmtsBeforeAndInside") {
-    std::multiset<pair<std::string, std::string>> resultsVector = {
-            {"1", "x"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "x"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "y"},
-            {"1", "u"},
+            {"20", "y"},
+            {"21", "y"},
+            {"AssignCallPrintRead", "y"},
+            {"IfElseWithStmtsBeforeAndInside", "y"},
+            {"IfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside", "y"},
+            {"2", "u"},
+            {"6", "u"},
+            {"16", "u"},
+            {"20", "u"},
+            {"23", "u"},
+            {"AssignCallPrintRead", "u"},
+            {"IfElseWithStmtsBeforeAndInside", "u"},
+            {"IfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside", "u"},
             {"2", "y"},
-            {"5", "u"},
-            {"6", "x"},
             {"6", "y"},
+            {"16", "y"},
+            {"20", "y"},
+            {"24", "y"},
+            {"AssignCallPrintRead", "y"},
+            {"IfElseWithStmtsBeforeAndInside", "y"},
+            {"IfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside", "y"},
+            {"2", "u"},
             {"6", "u"},
-            {"6", "y"},
-            {"6", "u"},
-            {"7", "y"},
-            {"10", "u"},
-            {"11", "y"},
-            {"14", "u"},
-    };
-    auto program = AstProgram::createWhileWithNestedIfElsePlusNestedStmtsBeforeAndInside();
-    auto programs = std::make_shared<Procedures>();
-    procedures->push_back(procedure);
-    auto program = std::make_shared<Program>(procedures);
-    auto pkb = make_shared<PKBStubSP>();
-    shared_ptr<ProgramVisitor> extractor = std::make_shared<UsesExtractor>(pkb, program);
-    procedure->accept(*extractor);
-    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
-}
-
-TEST_CASE("Uses_TestWhileWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside") {
-    std::multiset<pair<std::string, std::string>> resultsVector = {
-            {"1", "x"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "x"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "y"},
-            {"1", "u"},
+            {"16", "u"},
+            {"20", "u"},
+            {"26", "u"},
+            {"AssignCallPrintRead", "u"},
+            {"IfElseWithStmtsBeforeAndInside", "u"},
+            {"IfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside", "u"},
             {"2", "y"},
-            {"5", "u"},
-            {"6", "x"},
             {"6", "y"},
+            {"16", "y"},
+            {"27", "y"},
+            {"AssignCallPrintRead", "y"},
+            {"IfElseWithStmtsBeforeAndInside", "y"},
+            {"IfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside", "y"},
+            {"2", "u"},
             {"6", "u"},
-            {"6", "y"},
-            {"6", "u"},
-            {"7", "y"},
-            {"10", "u"},
-            {"11", "y"},
-            {"14", "u"},
-            {"15", "y"},
-            {"18", "u"},
-    };
-    auto program = AstProgram::createWhileWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside();
-    auto programs = std::make_shared<Procedures>();
-    procedures->push_back(procedure);
-    auto program = std::make_shared<Program>(procedures);
-    auto pkb = make_shared<PKBStubSP>();
-    shared_ptr<ProgramVisitor> extractor = std::make_shared<UsesExtractor>(pkb, program);
-    procedure->accept(*extractor);
-    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
-}
-
-TEST_CASE("Uses_TestWhileWithNestedIfElsePlusNestedStmtsAfterAndInside") {
-    std::multiset<pair<std::string, std::string>> resultsVector = {
-            {"1", "x"},
-            {"1", "x"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "y"},
-            {"1", "u"},
+            {"16", "u"},
+            {"29", "u"},
+            {"AssignCallPrintRead", "u"},
+            {"IfElseWithStmtsBeforeAndInside", "u"},
+            {"IfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside", "u"},
             {"2", "x"},
-            {"2", "y"},
-            {"2", "u"},
-            {"2", "y"},
-            {"2", "u"},
-            {"3", "y"},
-            {"6", "u"},
-            {"7", "y"},
-            {"10", "u"},
-            {"11", "y"},
-            {"14", "u"},
-    };
-    auto program = AstProgram::createWhileWithNestedIfElsePlusNestedStmtsAfterAndInside();
-    auto programs = std::make_shared<Procedures>();
-    procedures->push_back(procedure);
-    auto program = std::make_shared<Program>(procedures);
-    auto pkb = make_shared<PKBStubSP>();
-    shared_ptr<ProgramVisitor> extractor = std::make_shared<UsesExtractor>(pkb, program);
-    procedure->accept(*extractor);
-    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
-}
-
-TEST_CASE("Uses_TestWhileWithNestedWhilePlusNestedStmtsBeforeAndInside") {
-    std::multiset<pair<std::string, std::string>> resultsVector = {
-            {"1", "x"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "x"},
-            {"1", "y"},
-            {"1", "u"},
-            {"2", "y"},
-            {"5", "u"},
             {"6", "x"},
-            {"6", "y"},
-            {"6", "u"},
-            {"7", "y"},
-            {"10", "u"},
-    };
-    auto program = AstProgram::createWhileWithNestedWhilePlusNestedStmtsBeforeAndInside();
-    auto programs = std::make_shared<Procedures>();
-    procedures->push_back(procedure);
-    auto program = std::make_shared<Program>(procedures);
-    auto pkb = make_shared<PKBStubSP>();
-    shared_ptr<ProgramVisitor> extractor = std::make_shared<UsesExtractor>(pkb, program);
-    procedure->accept(*extractor);
-    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
-}
-
-TEST_CASE("Uses_TestWhileWithNestedWhilePlusNestedStmtsBeforeAfterAndInside") {
-    std::multiset<pair<std::string, std::string>> resultsVector = {
-            {"1", "x"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "x"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "y"},
-            {"1", "u"},
+            {"16", "x"},
+            {"30", "x"},
+            {"AssignCallPrintRead", "x"},
+            {"IfElseWithStmtsBeforeAndInside", "x"},
+            {"IfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside", "x"},
             {"2", "y"},
-            {"5", "u"},
-            {"6", "x"},
             {"6", "y"},
+            {"16", "y"},
+            {"30", "y"},
+            {"31", "y"},
+            {"AssignCallPrintRead", "y"},
+            {"IfElseWithStmtsBeforeAndInside", "y"},
+            {"IfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside", "y"},
+            {"2", "u"},
             {"6", "u"},
-            {"7", "y"},
-            {"10", "u"},
-            {"11", "y"},
-            {"14", "u"},
-    };
-    auto program = AstProgram::createWhileWithNestedWhilePlusNestedStmtsBeforeAfterAndInside();
-    auto programs = std::make_shared<Procedures>();
-    procedures->push_back(procedure);
-    auto program = std::make_shared<Program>(procedures);
-    auto pkb = make_shared<PKBStubSP>();
-    shared_ptr<ProgramVisitor> extractor = std::make_shared<UsesExtractor>(pkb, program);
-    procedure->accept(*extractor);
-    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
-}
-
-TEST_CASE("Uses_TestWhileWithNestedWhilePlusNestedStmtsAfterAndInside") {
-    std::multiset<pair<std::string, std::string>> resultsVector = {
-            {"1", "x"},
-            {"1", "x"},
-            {"1", "y"},
-            {"1", "u"},
-            {"1", "y"},
-            {"1", "u"},
+            {"16", "u"},
+            {"30", "u"},
+            {"33", "u"},
+            {"AssignCallPrintRead", "u"},
+            {"IfElseWithStmtsBeforeAndInside", "u"},
+            {"IfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside", "u"},
+            {"2", "y"},
+            {"6", "y"},
+            {"16", "y"},
+            {"30", "y"},
+            {"34", "y"},
+            {"AssignCallPrintRead", "y"},
+            {"IfElseWithStmtsBeforeAndInside", "y"},
+            {"IfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside", "y"},
+            {"2", "u"},
+            {"6", "u"},
+            {"16", "u"},
+            {"30", "u"},
+            {"36", "u"},
+            {"AssignCallPrintRead", "u"},
+            {"IfElseWithStmtsBeforeAndInside", "u"},
+            {"IfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside", "u"},
+            {"2", "u"},
+            {"8", "u"},
+            {"AssignCallPrintRead", "u"},
+            {"IfElseWithStmtsBeforeAndInside", "u"},
             {"2", "x"},
+            {"9", "x"},
+            {"AssignCallPrintRead", "x"},
+            {"IfElseWithStmtsBeforeAndInside", "x"},
             {"2", "y"},
+            {"9", "y"},
+            {"10", "y"},
+            {"AssignCallPrintRead", "y"},
+            {"IfElseWithStmtsBeforeAndInside", "y"},
+            {"2", "y"},
+            {"9", "y"},
+            {"10", "y"},
+            {"AssignCallPrintRead", "y"},
+            {"IfElseWithStmtsBeforeAndInside", "y"},
             {"2", "u"},
-            {"3", "y"},
-            {"6", "u"},
-            {"7", "y"},
-            {"10", "u"},
+            {"9", "u"},
+            {"12", "u"},
+            {"AssignCallPrintRead", "u"},
+            {"IfElseWithStmtsBeforeAndInside", "u"},
+            {"2", "y"},
+            {"9", "y"},
+            {"13", "y"},
+            {"AssignCallPrintRead", "y"},
+            {"IfElseWithStmtsBeforeAndInside", "y"},
+            {"2", "u"},
+            {"9", "u"},
+            {"15", "u"},
+            {"AssignCallPrintRead", "u"},
+            {"IfElseWithStmtsBeforeAndInside", "u"},
+            {"4", "u"},
+            {"AssignCallPrintRead", "u"},
     };
-    auto program = AstProgram::createWhileWithNestedWhilePlusNestedStmtsAfterAndInside();
-    auto programs = std::make_shared<Procedures>();
-    procedures->push_back(procedure);
-    auto program = std::make_shared<Program>(procedures);
+    auto program = AstProgram::createSequentialNestingChain();
     auto pkb = make_shared<PKBStubSP>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<UsesExtractor>(pkb, program);
-    procedure->accept(*extractor);
+    for (const auto& procedure : *program->getProcedures()) {
+        procedure->accept(*extractor);
+    }
     REQUIRE(pkb->checkAgainstPairResults(resultsVector));
 }
-**/
