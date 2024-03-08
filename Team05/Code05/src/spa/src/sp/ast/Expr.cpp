@@ -22,7 +22,7 @@ void Unary::accept(ProgramVisitor& visitor, shared_ptr<Accumulator>& parentInfo)
 }
 
 std::string Binary::toString() const {
-    return "(" + this->left->toString() + this->op->getLexeme() + this->right->toString() + ")";
+    return "( " + this->left->toString() + " " + this->op->getLexeme() + " " + this->right->toString() + " )";
 }
 
 std::string Variable::toString() const {
@@ -34,7 +34,7 @@ std::string Literal::toString() const {
 }
 
 std::string Unary::toString() const {
-    return "(" + this->op->getLexeme() + this->right->toString() + ")";
+    return "( " + this->op->getLexeme() + " " + this->right->toString() + " )";
 }
 
 std::shared_ptr<Expr> const& Binary::getLeft() const {
