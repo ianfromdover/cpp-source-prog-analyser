@@ -265,11 +265,11 @@ std::vector<std::vector<std::string>> QueryPKB::getStmtTable() {
 
 // TODO
 std::vector<std::vector<std::string>> QueryPKB::getVarByName(VarName var) {
-//    return toVecVecStr(pkb.varTable.get);
+    // return toVecVecStr(pkb->varTable->getVarByName(var));
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getVarTable() {
-//    return toVecVecStr(pkb->varTable->getAllAsStrings());
+    return toVecVecStr(pkb->varTable->getAllAsStrings());
 }
 
 // Const

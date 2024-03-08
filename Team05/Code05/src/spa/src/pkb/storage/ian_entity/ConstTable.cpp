@@ -2,14 +2,14 @@
 
 ConstTable::ConstTable() = default;
 
-bool ConstTable::addConst(StmtNo sNum, ConstVal name) {
-    return map.insert(name, sNum);
+bool ConstTable::addConst(StmtNo sNum, ConstVal value) {
+    return map.insert(sNum, value);
 }
-vector<StmtNo> ConstTable::getConstStmts(ConstVal name) {
-    return map.getValues(name);
+vector<StmtNo> ConstTable::getConstStmts(ConstVal value) {
+    return map.getKeys(value);
 }
 vector<ConstVal> ConstTable::getConsts(StmtNo sNum) {
-    return map.getKeys(sNum);
+    return map.getValues(sNum);
 }
 
 vector<vector<Str>> ConstTable::getAllAsStrings() {
