@@ -58,16 +58,24 @@ bool PopulatePKB::addParent(int parent, int child) {
     return pkb->parentTable->addRecord(std::to_string(parent), std::to_string(child));
 }
 
-bool PopulatePKB::addUses(int stmtNo, std::string name) {
-    return pkb->usesTable->addRecord(std::to_string(stmtNo), name);
+bool PopulatePKB::addUsesS(int stmtNo, std::string name) {
+    return pkb->usesSTable->addRecord(std::to_string(stmtNo), name);
+}
+
+bool PopulatePKB::addUsesP(std::string procName, std::string name) {
+    return pkb->usesPTable->addRecord(procName, name);
 }
 
 bool PopulatePKB::addParentT(int parent, int child) {
     return pkb->parentTTable->addRecord(std::to_string(parent), std::to_string(child));
 }
 
-bool PopulatePKB::addModifies(int stmtNo, std::string name) {
-    return pkb->modifiesTable->addRecord(std::to_string(stmtNo), name);
+bool PopulatePKB::addModifiesS(int stmtNo, std::string name) {
+    return pkb->modifiesSTable->addRecord(std::to_string(stmtNo), name);
+}
+
+bool PopulatePKB::addModifiesP(std::string procName, std::string name) {
+    return pkb->modifiesPTable->addRecord(procName, name);
 }
 
 bool PopulatePKB::addPatternAsgn(int stmtNo, std::string lhs, std::string rhs) {

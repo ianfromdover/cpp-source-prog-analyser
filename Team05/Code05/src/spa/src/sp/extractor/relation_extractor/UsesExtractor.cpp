@@ -4,6 +4,15 @@
 
 #include "UsesExtractor.h"
 
+void UsesExtractor::visitProcedure(const Procedure& procedure, std::shared_ptr<Accumulator>& info) {
+    if (this->visitedProcedures.find(procedure.getName()) == this->visitedProcedures.end()) {
+        this->visitedProcedures.insert(procedure.getName());
+        auto parentInfo = std::make_shared<Accumulator>(*info);
+        parentInfo->stringInfo.emplace_back(procedure.getName());
+        this->visitStmtList(procedure.getBody(), parentInfo);
+    }
+}
+
 void UsesExtractor::visitPrintStmt(const Print& stmt, shared_ptr<Accumulator>& parentInfo) {
     auto& var = stmt.getVariable();
     parentInfo->info.emplace_back(stmt.getStmtNo());
@@ -11,7 +20,8 @@ void UsesExtractor::visitPrintStmt(const Print& stmt, shared_ptr<Accumulator>& p
 }
 
 void UsesExtractor::visitCallStmt(const Call& stmt, shared_ptr<Accumulator>& parentInfo) {
-    // Pending Implementation for Sprint 2
+    parentInfo->info.emplace_back(stmt.getStmtNo());
+    this->visitProcedure(*this->program->getProcedure(stmt.getProcName()), parentInfo);
 }
 
 void UsesExtractor::visitWhileStmt(const While& stmt, shared_ptr<Accumulator>& parentInfo) {
@@ -44,15 +54,12 @@ void UsesExtractor::visitBinaryExpr(const Binary& expr, shared_ptr<Accumulator>&
 
 void UsesExtractor::visitVariableExpr(const Variable& expr, shared_ptr<Accumulator>& parentInfo) {
     for (const auto& stmtNo : parentInfo->info) {
-        //std::cout << "pkb.addUses(" << stmtNo << ", " << expr.getName() << ");" << std::endl;
-        pkb->addUses(stmtNo, expr.getName());
+        //std::cout << "pkb.addUsesS(" << stmtNo << ", " << expr.getName() << ");" << std::endl;
+        pkb->addUsesS(stmtNo, expr.getName());
     }
-}
-
-void UsesExtractor::visitLiteralExpr(const Literal& expr, shared_ptr<Accumulator>& parentInfo) {
-    for (const auto& stmtNo : parentInfo->info) {
-        //std::cout << "pkb.addModifies(" << stmtNo << ", " << expr.getName() << ");" << std::endl;
-        pkb->addUses(stmtNo, std::to_string(expr.getValue()));
+    for (const auto& procName : parentInfo->stringInfo) {
+        //std::cout << "pkb.addUsesP(" << procName << ", " << expr.getName() << ");" << std::endl;
+        pkb->addUsesP(procName, expr.getName());
     }
 }
 

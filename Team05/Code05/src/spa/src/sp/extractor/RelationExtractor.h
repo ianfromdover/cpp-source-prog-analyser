@@ -17,7 +17,7 @@ protected:
 public:
     explicit RelationExtractor(shared_ptr<BasePKBPopulator> pkb) : pkb(std::move(pkb)) {}
     virtual ~RelationExtractor() = default;
-    void visitProcedure(const Procedure&) override;
+    void visitProcedure(const Procedure&, std::shared_ptr<Accumulator>&) override;
 };
 
 

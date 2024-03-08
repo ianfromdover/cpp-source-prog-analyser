@@ -14,7 +14,7 @@ public:
     // Constructor
     explicit FollowsExtractor(shared_ptr<BasePKBPopulator> pkb) : RelationExtractor(std::move(pkb)) {}
     // Top-level Methods
-    void visitProcedure(const Procedure& procedure) override;
+    void visitProcedure(const Procedure& procedure, std::shared_ptr<Accumulator>&) override;
     // Statement Methods
     void visitReadStmt(const Read& stmt, shared_ptr<Accumulator>& prevStmtInfo) override;
     void visitPrintStmt(const Print& stmt, shared_ptr<Accumulator>& prevStmtInfo) override;

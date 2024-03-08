@@ -6,7 +6,8 @@
 #include "Stmt.h"
 
 void Procedure::accept(ProgramVisitor& visitor) const {
-    visitor.visitProcedure(*this);
+    auto info = std::make_shared<Accumulator>();
+    visitor.visitProcedure(*this, info);
 }
 
 std::string Procedure::toString() const {

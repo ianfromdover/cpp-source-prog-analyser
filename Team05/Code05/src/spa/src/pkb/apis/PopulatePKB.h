@@ -27,8 +27,10 @@ public:
     bool addFollowsT(int before, int after) override;
     bool addParent(int parent, int child) override;
     bool addParentT(int parent, int child) override;
-    bool addUses(int stmtNo, std::string name) override;
-    bool addModifies(int stmtNo, std::string name) override;
+    bool addUsesS(int stmtNo, std::string name) override;
+    bool addUsesP(std::string procName, std::string name) override;
+    bool addModifiesS(int stmtNo, std::string name) override;
+    bool addModifiesP(std::string procName, std::string name) override;
     bool addPatternAsgn(int stmtNo, std::string lhs, std::string rhs) override;
     bool addCalls(std::string caller, std::string called) override;
     bool addCallsT(std::string caller, std::string called) override;

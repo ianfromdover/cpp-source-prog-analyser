@@ -19,7 +19,7 @@ private:
     bool isCyclic();
     bool isCyclicHelper(const std::string& caller, std::unordered_set<std::string>& visited, std::unordered_set<std::string>& inPath);
 private:
-    void visitProcedure(const Procedure&) override;
+    void visitProcedure(const Procedure&, std::shared_ptr<Accumulator>&) override;
     void visitReadStmt(const Read&, std::shared_ptr<Accumulator>&) override;
     void visitPrintStmt(const Print&, std::shared_ptr<Accumulator>&) override;
     void visitCallStmt(const Call&, std::shared_ptr<Accumulator>&)override;

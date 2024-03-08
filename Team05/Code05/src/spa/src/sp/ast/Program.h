@@ -5,6 +5,7 @@
 #ifndef SPA_PROGRAM_H
 #define SPA_PROGRAM_H
 
+#include <memory>
 #include <vector>
 #include "Stmt.h"
 

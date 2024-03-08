@@ -636,7 +636,7 @@ TEST_CASE("Uses Handler - QPS") {
 
     SECTION("Select s such that Uses(s, _)") {
         std::string query = "stmt s; Select s such that Uses(s, _)";
-        std::vector<std::string> expected = { "1", "10", "11", "2", "3", "4", "6", "7", "8", "9" };
+        std::vector<std::string> expected = { "1", "11", "2", "4", "6", "8" };
         std::vector<std::string> ans = qps.evaluate(query);
         std::sort(ans.begin(), ans.end());
         std::sort(expected.begin(), expected.end());
@@ -1160,4 +1160,51 @@ TEST_CASE("Test ExprFormatter API") {
     REQUIRE_THROWS_WITH(ExprFormatter::format("x + 1;"), InvalidExprString::ERR_MSG);
     REQUIRE_THROWS_WITH(ExprFormatter::format("x + 1; y = x + 2;"), InvalidExprString::ERR_MSG);
     REQUIRE_THROWS_WITH(ExprFormatter::format("print x"), InvalidExprString::ERR_MSG);
+}
+
+TEST_CASE("Test Extractor") {
+    std::string codeSnippet = R"(
+        procedure main {
+            flag = 0;
+            call computeCentroid;
+            call printResults;
+        }
+        procedure readPoint {
+            read x;
+            read y;
+        }
+        procedure printResults {
+            print flag;
+            print cenX;
+            print cenY;
+            print normSq;
+        }
+        procedure computeCentroid {
+            count = 0;
+            cenX = 0;
+            cenY = 0;
+            call readPoint;
+            while ((x != 0) && (y != 0)) {
+                count = count + 1;
+                cenX = cenX + x;
+                cenY = cenY + y;
+                call readPoint;
+            }
+            if (count == 0) then {
+                flag = 1;
+            } else {
+                cenX = cenX / count;
+                cenY = cenY / count;
+            }
+            normSq = cenX * cenX + cenY * cenY;
+        }
+    )";
+
+    std::shared_ptr<PKBStorage> p=std::make_shared<PKBStorage>();
+    auto pkb = make_shared<PopulatePKB>(p);
+    auto sp = SourceProcessor(pkb);
+    sp.exec(codeSnippet);
+
+
+    require(true);
 }

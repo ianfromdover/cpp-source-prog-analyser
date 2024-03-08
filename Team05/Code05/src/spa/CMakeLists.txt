@@ -14,9 +14,7 @@ add_library(spa ${srcs} ${headers}
         src/pkb/tables/base/Table.h
         src/sp/api/formatter/ExprFormatter.cpp
         src/sp/api/formatter/ExprFormatter.h
-        src/sp/exception/FormatterException.h
-        src/sp/ast/Program.cpp
-        src/sp/ast/Program.h)
+        src/sp/exception/FormatterException.h)
 
 # this makes the headers accessible for other projects which uses spa lib
 target_include_directories(spa PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)

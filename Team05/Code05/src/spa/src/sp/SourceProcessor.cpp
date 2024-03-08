@@ -16,6 +16,7 @@
 #include "sp/extractor/node_extractor/ConstantExtractor.h"
 #include "sp/extractor/relation_extractor/FollowsExtractor.h"
 #include "sp/semantic_analyzer/SemanticAnalyzer.h"
+#include "sp/extractor/relation_extractor/CallsExtractor.h"
 
 void SourceProcessor::exec(const std::string& source) {
     auto tokens = this->scan(source);
@@ -48,9 +49,10 @@ void SourceProcessor::extract(const std::shared_ptr<Program>& program) {
             std::make_shared<VariableExtractor>(this->pkb),
             std::make_shared<ConstantExtractor>(this->pkb),
             std::make_shared<ParentExtractor>(this->pkb),
-            std::make_shared<UsesExtractor>(this->pkb),
-            std::make_shared<ModifiesExtractor>(this->pkb),
-            std::make_shared<FollowsExtractor>(this->pkb)
+            std::make_shared<UsesExtractor>(this->pkb, program),
+            std::make_shared<ModifiesExtractor>(this->pkb, program),
+            std::make_shared<FollowsExtractor>(this->pkb),
+            std::make_shared<CallsExtractor>(this->pkb, program)
     };
     for (const auto& procedure : *program->getProcedures()) {
         //std::cout << "pkb.addProcedure(" << procedure->getProcName() << ");" << std::endl;

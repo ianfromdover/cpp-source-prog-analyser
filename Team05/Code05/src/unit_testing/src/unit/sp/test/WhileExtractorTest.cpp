@@ -2,7 +2,7 @@
 // Created by sjh_9 on 21/2/2024.
 //
 #include "catch.hpp"
-#include "../helper/AstProcedures.cpp"
+#include "../helper/AstProgram.cpp"
 #include "../helper/PKBStubSP.cpp"
 #include "sp/extractor/node_extractor/WhileExtractor.h"
 
@@ -12,10 +12,12 @@ TEST_CASE("While_TestAssignCallReadPrint") {
     std::multiset<pair<std::string, std::string>> resultsVector = {
 
     };
-    auto procedure = AstProcedures::createAssignCallReadPrint();
+    auto program = AstProgram::createAssignCallPrintRead();
     auto pkb = make_shared<PKBStubSP>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<WhileExtractor>(pkb);
-    procedure->accept(*extractor);
+    for (const auto& procedure : *program->getProcedures()) {
+        procedure->accept(*extractor);
+    }
     REQUIRE(pkb->checkAgainstPairResults(resultsVector));
 }
 
@@ -25,10 +27,12 @@ TEST_CASE("While_TestIfElseWithStmtsBeforeAndInside") {
     std::multiset<pair<std::string, std::string>> resultsVector = {
 
     };
-    auto procedure = AstProcedures::createIfElseWithStmtsBeforeAndInside();
+    auto program = AstProgram::createIfElseWithStmtsBeforeAndInside();
     auto pkb = make_shared<PKBStubSP>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<WhileExtractor>(pkb);
-    procedure->accept(*extractor);
+    for (const auto& procedure : *program->getProcedures()) {
+        procedure->accept(*extractor);
+    }
     REQUIRE(pkb->checkAgainstPairResults(resultsVector));
 }
 
@@ -36,10 +40,12 @@ TEST_CASE("While_TestIfElseWithStmtsBeforeAfterAndInside") {
     std::multiset<pair<std::string, std::string>> resultsVector = {
 
     };
-    auto procedure = AstProcedures::createIfElseWithStmtsBeforeAfterAndInside();
+    auto program = AstProgram::createIfElseWithStmtsBeforeAfterAndInside();
     auto pkb = make_shared<PKBStubSP>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<WhileExtractor>(pkb);
-    procedure->accept(*extractor);
+    for (const auto& procedure : *program->getProcedures()) {
+        procedure->accept(*extractor);
+    }
     REQUIRE(pkb->checkAgainstPairResults(resultsVector));
 }
 
@@ -47,10 +53,12 @@ TEST_CASE("While_TestIfElseWithStmtsAfterAndInside") {
     std::multiset<pair<std::string, std::string>> resultsVector = {
 
     };
-    auto procedure = AstProcedures::createIfElseWithStmtsAfterAndInside();
+    auto program = AstProgram::createIfElseWithStmtsAfterAndInside();
     auto pkb = make_shared<PKBStubSP>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<WhileExtractor>(pkb);
-    procedure->accept(*extractor);
+    for (const auto& procedure : *program->getProcedures()) {
+        procedure->accept(*extractor);
+    }
     REQUIRE(pkb->checkAgainstPairResults(resultsVector));
 }
 
@@ -58,10 +66,12 @@ TEST_CASE("While_TestWhileWithStmtsBeforeAndInside") {
     std::multiset<pair<std::string, std::string>> resultsVector = {
             {"5", "x"},
     };
-    auto procedure = AstProcedures::createWhileWithStmtsBeforeAndInside();
+    auto program = AstProgram::createWhileWithStmtsBeforeAndInside();
     auto pkb = make_shared<PKBStubSP>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<WhileExtractor>(pkb);
-    procedure->accept(*extractor);
+    for (const auto& procedure : *program->getProcedures()) {
+        procedure->accept(*extractor);
+    }
     REQUIRE(pkb->checkAgainstPairResults(resultsVector));
 }
 
@@ -69,10 +79,12 @@ TEST_CASE("While_TestWhileWithStmtsBeforeAfterAndInside") {
     std::multiset<pair<std::string, std::string>> resultsVector = {
             {"5", "x"},
     };
-    auto procedure = AstProcedures::createWhileWithStmtsBeforeAfterAndInside();
+    auto program = AstProgram::createWhileWithStmtsBeforeAfterAndInside();
     auto pkb = make_shared<PKBStubSP>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<WhileExtractor>(pkb);
-    procedure->accept(*extractor);
+    for (const auto& procedure : *program->getProcedures()) {
+        procedure->accept(*extractor);
+    }
     REQUIRE(pkb->checkAgainstPairResults(resultsVector));
 }
 
@@ -80,10 +92,12 @@ TEST_CASE("While_TestWhileWithStmtsAfterAndInside") {
     std::multiset<pair<std::string, std::string>> resultsVector = {
             {"1", "x"},
     };
-    auto procedure = AstProcedures::createWhileWithStmtsAfterAndInside();
+    auto program = AstProgram::createWhileWithStmtsAfterAndInside();
     auto pkb = make_shared<PKBStubSP>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<WhileExtractor>(pkb);
-    procedure->accept(*extractor);
+    for (const auto& procedure : *program->getProcedures()) {
+        procedure->accept(*extractor);
+    }
     REQUIRE(pkb->checkAgainstPairResults(resultsVector));
 }
 
@@ -93,10 +107,12 @@ TEST_CASE("While_TestIfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside") {
     std::multiset<pair<std::string, std::string>> resultsVector = {
 
     };
-    auto procedure = AstProcedures::createIfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside();
+    auto program = AstProgram::createIfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside();
     auto pkb = make_shared<PKBStubSP>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<WhileExtractor>(pkb);
-    procedure->accept(*extractor);
+    for (const auto& procedure : *program->getProcedures()) {
+        procedure->accept(*extractor);
+    }
     REQUIRE(pkb->checkAgainstPairResults(resultsVector));
 }
 
@@ -104,10 +120,12 @@ TEST_CASE("While_TestIfElseWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside")
     std::multiset<pair<std::string, std::string>> resultsVector = {
 
     };
-    auto procedure = AstProcedures::createIfElseWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside();
+    auto program = AstProgram::createIfElseWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside();
     auto pkb = make_shared<PKBStubSP>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<WhileExtractor>(pkb);
-    procedure->accept(*extractor);
+    for (const auto& procedure : *program->getProcedures()) {
+        procedure->accept(*extractor);
+    }
     REQUIRE(pkb->checkAgainstPairResults(resultsVector));
 }
 
@@ -115,10 +133,12 @@ TEST_CASE("While_TestIfElseWithNestedIfElsePlusNestedStmtsAfterAndInside") {
     std::multiset<pair<std::string, std::string>> resultsVector = {
 
     };
-    auto procedure = AstProcedures::createIfElseWithNestedIfElsePlusNestedStmtsAfterAndInside();
+    auto program = AstProgram::createIfElseWithNestedIfElsePlusNestedStmtsAfterAndInside();
     auto pkb = make_shared<PKBStubSP>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<WhileExtractor>(pkb);
-    procedure->accept(*extractor);
+    for (const auto& procedure : *program->getProcedures()) {
+        procedure->accept(*extractor);
+    }
     REQUIRE(pkb->checkAgainstPairResults(resultsVector));
 }
 
@@ -127,10 +147,12 @@ TEST_CASE("While_TestIfElseWithNestedWhilePlusNestedStmtsBeforeAndInside") {
             {"6", "x"},
             {"15", "x"},
     };
-    auto procedure = AstProcedures::createIfElseWithNestedWhilePlusNestedStmtsBeforeAndInside();
+    auto program = AstProgram::createIfElseWithNestedWhilePlusNestedStmtsBeforeAndInside();
     auto pkb = make_shared<PKBStubSP>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<WhileExtractor>(pkb);
-    procedure->accept(*extractor);
+    for (const auto& procedure : *program->getProcedures()) {
+        procedure->accept(*extractor);
+    }
     REQUIRE(pkb->checkAgainstPairResults(resultsVector));
 }
 
@@ -139,10 +161,12 @@ TEST_CASE("While_TestIfElseWithNestedWhilePlusNestedStmtsBeforeAfterAndInside") 
             {"6", "x"},
             {"19", "x"},
     };
-    auto procedure = AstProcedures::createIfElseWithNestedWhilePlusNestedStmtsBeforeAfterAndInside();
+    auto program = AstProgram::createIfElseWithNestedWhilePlusNestedStmtsBeforeAfterAndInside();
     auto pkb = make_shared<PKBStubSP>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<WhileExtractor>(pkb);
-    procedure->accept(*extractor);
+    for (const auto& procedure : *program->getProcedures()) {
+        procedure->accept(*extractor);
+    }
     REQUIRE(pkb->checkAgainstPairResults(resultsVector));
 }
 
@@ -151,10 +175,12 @@ TEST_CASE("While_TestIfElseWithNestedWhilePlusNestedStmtsAfterAndInside") {
             {"2", "x"},
             {"11", "x"},
     };
-    auto procedure = AstProcedures::createIfElseWithNestedWhilePlusNestedStmtsAfterAndInside();
+    auto program = AstProgram::createIfElseWithNestedWhilePlusNestedStmtsAfterAndInside();
     auto pkb = make_shared<PKBStubSP>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<WhileExtractor>(pkb);
-    procedure->accept(*extractor);
+    for (const auto& procedure : *program->getProcedures()) {
+        procedure->accept(*extractor);
+    }
     REQUIRE(pkb->checkAgainstPairResults(resultsVector));
 }
 
@@ -162,10 +188,12 @@ TEST_CASE("While_TestWhileWithNestedIfElsePlusNestedStmtsBeforeAndInside") {
     std::multiset<pair<std::string, std::string>> resultsVector = {
             {"1", "x"},
     };
-    auto procedure = AstProcedures::createWhileWithNestedIfElsePlusNestedStmtsBeforeAndInside();
+    auto program = AstProgram::createWhileWithNestedIfElsePlusNestedStmtsBeforeAndInside();
     auto pkb = make_shared<PKBStubSP>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<WhileExtractor>(pkb);
-    procedure->accept(*extractor);
+    for (const auto& procedure : *program->getProcedures()) {
+        procedure->accept(*extractor);
+    }
     REQUIRE(pkb->checkAgainstPairResults(resultsVector));
 }
 
@@ -173,10 +201,12 @@ TEST_CASE("While_TestWhileWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside") 
     std::multiset<pair<std::string, std::string>> resultsVector = {
             {"1", "x"},
     };
-    auto procedure = AstProcedures::createWhileWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside();
+    auto program = AstProgram::createWhileWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside();
     auto pkb = make_shared<PKBStubSP>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<WhileExtractor>(pkb);
-    procedure->accept(*extractor);
+    for (const auto& procedure : *program->getProcedures()) {
+        procedure->accept(*extractor);
+    }
     REQUIRE(pkb->checkAgainstPairResults(resultsVector));
 }
 
@@ -184,10 +214,12 @@ TEST_CASE("While_TestWhileWithNestedIfElsePlusNestedStmtsAfterAndInside") {
     std::multiset<pair<std::string, std::string>> resultsVector = {
             {"1", "x"},
     };
-    auto procedure = AstProcedures::createWhileWithNestedIfElsePlusNestedStmtsAfterAndInside();
+    auto program = AstProgram::createWhileWithNestedIfElsePlusNestedStmtsAfterAndInside();
     auto pkb = make_shared<PKBStubSP>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<WhileExtractor>(pkb);
-    procedure->accept(*extractor);
+    for (const auto& procedure : *program->getProcedures()) {
+        procedure->accept(*extractor);
+    }
     REQUIRE(pkb->checkAgainstPairResults(resultsVector));
 }
 
@@ -196,10 +228,12 @@ TEST_CASE("While_TestWhileWithNestedWhilePlusNestedStmtsBeforeAndInside") {
             {"1", "x"},
             {"6", "x"},
     };
-    auto procedure = AstProcedures::createWhileWithNestedWhilePlusNestedStmtsBeforeAndInside();
+    auto program = AstProgram::createWhileWithNestedWhilePlusNestedStmtsBeforeAndInside();
     auto pkb = make_shared<PKBStubSP>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<WhileExtractor>(pkb);
-    procedure->accept(*extractor);
+    for (const auto& procedure : *program->getProcedures()) {
+        procedure->accept(*extractor);
+    }
     REQUIRE(pkb->checkAgainstPairResults(resultsVector));
 }
 
@@ -208,10 +242,12 @@ TEST_CASE("While_TestWhileWithNestedWhilePlusNestedStmtsBeforeAfterAndInside") {
             {"1", "x"},
             {"6", "x"},
     };
-    auto procedure = AstProcedures::createWhileWithNestedWhilePlusNestedStmtsBeforeAfterAndInside();
+    auto program = AstProgram::createWhileWithNestedWhilePlusNestedStmtsBeforeAfterAndInside();
     auto pkb = make_shared<PKBStubSP>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<WhileExtractor>(pkb);
-    procedure->accept(*extractor);
+    for (const auto& procedure : *program->getProcedures()) {
+        procedure->accept(*extractor);
+    }
     REQUIRE(pkb->checkAgainstPairResults(resultsVector));
 }
 
@@ -220,9 +256,11 @@ TEST_CASE("While_TestWhileWithNestedWhilePlusNestedStmtsAfterAndInside") {
             {"1", "x"},
             {"2", "x"},
     };
-    auto procedure = AstProcedures::createWhileWithNestedWhilePlusNestedStmtsAfterAndInside();
+    auto program = AstProgram::createWhileWithNestedWhilePlusNestedStmtsAfterAndInside();
     auto pkb = make_shared<PKBStubSP>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<WhileExtractor>(pkb);
-    procedure->accept(*extractor);
+    for (const auto& procedure : *program->getProcedures()) {
+        procedure->accept(*extractor);
+    }
     REQUIRE(pkb->checkAgainstPairResults(resultsVector));
 }
