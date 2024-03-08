@@ -13,6 +13,6 @@ vector<StmtNo> FollowsTable::getFollower(StmtNo before) {
     return map.getValues(before);
 }
 
-vector<vector<Str>> FollowsTable::getAll() {
-    return map.getAll();
+vector<vector<Str>> FollowsTable::getAllAsStrings() {
+    return map.getAllForAB();
 }

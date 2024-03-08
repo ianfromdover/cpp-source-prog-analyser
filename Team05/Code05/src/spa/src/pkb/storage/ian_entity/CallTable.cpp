@@ -12,6 +12,5 @@ vector<ProcName> CallTable::getProc(StmtNo sNum) {
     return map.getValues(sNum);
 }
 vector<vector<Str>> CallTable::getAllAsStrings() {
-    return {};
-    // return map.getAll(); // isit no ProcName to string?
+    return map.getAllForAStr();
 }

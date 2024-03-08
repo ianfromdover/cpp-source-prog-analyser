@@ -259,7 +259,7 @@ std::vector<std::vector<std::string>> QueryPKB::getStmtByNum(int StmtNo) {
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getStmtTable() {
-    return toVecVecStr(pkb->statementTable->getAllStmts());
+    return toVecVecStr(pkb->statementTable->getAllAsStrings());
 }
 
 // Var
@@ -270,7 +270,7 @@ std::vector<std::vector<std::string>> QueryPKB::getVarByName(VarName var) {
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getVarTable() {
-//    return toVecVecStr(pkb->varTable->getAllVars());
+//    return toVecVecStr(pkb->varTable->getAllAsStrings());
 }
 
 // Const
@@ -295,7 +295,7 @@ std::vector<std::vector<std::string>> QueryPKB::getFollowsByAfter(StmtNo after) 
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getFollowsTable() {
-    return pkb->followsTable->getAll();
+    return pkb->followsTable->getAllAsStrings();
 }
 
 // FollowsT
@@ -309,7 +309,7 @@ std::vector<std::vector<std::string>> QueryPKB::getFollowsTByAfter(StmtNo after)
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getFollowsTTable() {
-    return pkb->followsTTable->getAll();
+    return pkb->followsTTable->getAllAsStrings();
 }
 
 // Parent
@@ -323,7 +323,7 @@ std::vector<std::vector<std::string>> QueryPKB::getParentByChild(StmtNo child) {
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getParentTable() {
-    return pkb->parentTable->getAll();
+    return pkb->parentTable->getAllAsStrings();
 }
 
 // ParentT
@@ -337,7 +337,7 @@ std::vector<std::vector<std::string>> QueryPKB::getParentTByChild(StmtNo child) 
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getParentTTable() {
-    return pkb->parentTTable->getAll();
+    return pkb->parentTTable->getAllAsStrings();
 }
 
 // UsesS
@@ -392,7 +392,7 @@ std::vector<std::vector<std::string>> QueryPKB::getModifiesSByVar(VarName modifi
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getModifiesSTable() {
-    return pkb->modifiesSTable->getAllS();
+    return pkb->modifiesSTable->getAllAsStrings();
 }
 
 // ModifiesP

@@ -17,6 +17,6 @@ std::vector<StmtNo> ParentTTable::getChildrenT(StmtNo parent) {
     return map.getValues(parent);
 }
 
-vector<vector<Str>> ParentTTable::getAll() {
-    return map.getAll();
+vector<vector<Str>> ParentTTable::getAllAsStrings() {
+    return map.getAllForAB();
 }

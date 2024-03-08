@@ -12,6 +12,6 @@ vector<StmtNo> ParentTable::getChildren(StmtNo parent) {
     return map.getValues(parent);
 }
 
-vector<vector<Str>> ParentTable::getAll() {
-    return map.getAll();
+vector<vector<Str>> ParentTable::getAllAsStrings() {
+    return map.getAllForAB();
 }

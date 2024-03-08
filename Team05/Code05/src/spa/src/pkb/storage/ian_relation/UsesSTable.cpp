@@ -16,8 +16,7 @@ vector<ProcName> UsesSTable::getProcFromVar(VarName name) {
 }
 
 std::vector<std::vector<Str>> UsesSTable::getAllProc() {
-    return {};
-    // return procNameMap.getAll();
+    return procNameMap.getAllForStrStr();
 }
 
 bool UsesSTable::addPrint(StmtNo sNum, VarName name) {
@@ -33,8 +32,7 @@ vector<StmtNo> UsesSTable::getPrintStmtNo(VarName name) {
 }
 
 std::vector<std::vector<Str>> UsesSTable::getAllPrint() {
-    return {};
-    // return printMap.getAll();
+    return printMap.getAllForAStr();
 }
 
 bool UsesSTable::addAsgn(StmtNo sNum, VarName name) {
@@ -50,8 +48,7 @@ vector<StmtNo> UsesSTable::getAsgnStmtNo(VarName name) {
 }
 
 std::vector<std::vector<Str>> UsesSTable::getAllAsgn() {
-    return {};
-    // return asgnMap.getAll();
+    return asgnMap.getAllForAStr();
 }
 
 bool UsesSTable::addCall(StmtNo sNum, VarName name) {
@@ -67,8 +64,7 @@ vector<StmtNo> UsesSTable::getCallStmtNo(VarName name) {
 }
 
 std::vector<std::vector<Str>> UsesSTable::getAllCall() {
-    return {};
-    // return callMap.getAll();
+    return callMap.getAllForAStr();
 }
 
 bool UsesSTable::addIfWhileContainer(StmtNo sNum, VarName name) {
@@ -84,8 +80,7 @@ vector<StmtNo> UsesSTable::getIfWhileContainerStmtNo(VarName name) {
 }
 
 std::vector<std::vector<Str>> UsesSTable::getAllWhiles() {
-    return {};
-    // return ifWhileContainerMap.getAll();
+    return ifWhileContainerMap.getAllForAStr();
 }
 
 // ai-gen end

@@ -21,7 +21,7 @@ public:
     // Returns a list of children of the parent, unsorted. Returns an empty list if the parent does not exist
     std::vector<StmtNo> getChildrenT(StmtNo parent);
     // Gets a table with 2 columns, Parent* | Child*
-    std::vector<std::vector<Str>> getAll();
+    std::vector<std::vector<Str>> getAllAsStrings();
 };
 
 

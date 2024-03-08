@@ -13,6 +13,5 @@ vector<VarName> PrintTable::getPrintVar(StmtNo sNum) {
 }
 
 vector<vector<Str>> PrintTable::getAllAsStrings() {
-    return {};
-    // return map.getAll(); // type not compatible?
+    return map.getAllForAStr();
 }

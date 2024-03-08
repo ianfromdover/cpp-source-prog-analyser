@@ -13,6 +13,5 @@ vector<VarName> WhileTable::getWhileVars(StmtNo sNum) {
 }
 
 vector<vector<Str>> WhileTable::getAllAsStrings() {
-    return {};
-    // return map.getAll(); // type not compatible?
+    return map.getAllForAStr();
 }

@@ -14,7 +14,6 @@ vector<VarName> ModifiesPTable::getModifiedP(ProcName procName) {
     return procMap.getValues(procName);
 }
 
-vector<vector<Str>> ModifiesPTable::getAllP() {
-    return {};
-    // return procMap.getAll();
+vector<vector<Str>> ModifiesPTable::getAllAsStrings() {
+    return procMap.getAllForStrStr();
 }

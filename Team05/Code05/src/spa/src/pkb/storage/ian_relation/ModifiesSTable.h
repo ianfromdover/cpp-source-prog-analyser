@@ -20,5 +20,5 @@ public:
     std::vector<VarName> getModifiedS(StmtNo stmtNo);
 
     // Gets a table with 2 columns, StmtNo | VarName
-    vector<vector<Str>> getAllS();
+    vector<vector<Str>> getAllAsStrings();
 };

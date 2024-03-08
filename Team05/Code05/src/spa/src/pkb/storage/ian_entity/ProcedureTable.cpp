@@ -10,10 +10,10 @@ bool ProcedureTable::addProc(ProcName name) {
     procList.push_back(name);
     return true;
 }
-vector<ProcName> ProcedureTable::getAllProcs() {
-    vector<ProcName> copy = procList;
-    return copy;
-}
-vector<Str> ProcedureTable::getAllAsStrings() {
-    return getAllProcs();
+vector<vector<Str>> ProcedureTable::getAllAsStrings() {
+    vector<vector<Str>> stmts;
+    for (auto name : procList) {
+        stmts.push_back({name});
+    }
+    return stmts;
 }

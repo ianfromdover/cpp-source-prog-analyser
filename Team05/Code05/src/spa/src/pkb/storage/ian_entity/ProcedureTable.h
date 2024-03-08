@@ -15,7 +15,5 @@ public:
     // Adds a procedure name to the table, returns false if it already exists
     bool addProc(ProcName name);
     // Returns all the procedure names
-    vector<ProcName> getAllProcs();
-    // Returns all the procedure names as strings
-    vector<Str> getAllAsStrings();
+    vector<vector<Str>> getAllAsStrings();
 };

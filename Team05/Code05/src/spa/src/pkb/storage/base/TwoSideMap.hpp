@@ -33,12 +33,14 @@ private:
     bool containsPair(A key, B value);
 
     // Combines pairs in the forward map of type string into a 2-column table in the result
-    void add(const std::shared_ptr<std::vector<std::vector<std::string>>>& result,
-             const std::string& key, std::set<std::shared_ptr<std::string>>& strPtrSet);
+    /*
+    void add(std::shared_ptr<std::vector<std::vector<std::string>>>& result,
+             std::string& key, std::set<std::shared_ptr<std::string>>& strPtrSet);
 
     // Combines pairs in the forward map of any type into a 2-column table in the result
-    void addAndConvert(const std::shared_ptr<std::vector<std::vector<std::string>>>& result,
-                       const std::string& key, std::set<std::shared_ptr<B>>& tPtrSet);
+    void addAndConvert(std::shared_ptr<std::vector<std::vector<std::string>>>& result,
+                       std::string& key, std::set<std::shared_ptr<B>>& tPtrSet);
+    */
 
 public:
     TwoSideMap();
@@ -63,8 +65,12 @@ public:
 
     /**
      * @return Returns a 2-column table of all the key-value pairs in the map as strings
+     * Call the appropriate function based on whether A and B are strings
      */
-    std::vector<std::vector<std::string>> getAll();
+    std::vector<std::vector<std::string>> getAllForStrStr();
+    std::vector<std::vector<std::string>> getAllForStrB();
+    std::vector<std::vector<std::string>> getAllForAStr();
+    std::vector<std::vector<std::string>> getAllForAB();
 };
 
 // ---------------------------- Implementation ----------------------------
@@ -96,7 +102,7 @@ bool TwoSideMap<A, B>::containsPair(A key, B value) {
         return false;
     }
 
-    // eg. does this contains pair(1, "x") in my StmtNo-VarName table?
+    // e.g. does this contains pair(1, "x") in my StmtNo-VarName table?
     // line 1 associated with  [x, y, z], find x
     // var "x" appears on line [1, 2, 3], find 1
     bool keyHasThisValue = std::find(values.begin(), values.end(), value) != values.end();
@@ -104,24 +110,27 @@ bool TwoSideMap<A, B>::containsPair(A key, B value) {
     return keyHasThisValue && valueHasThisKey;
 }
 
-// helper for getAll
-void add(const std::shared_ptr<std::vector<std::vector<std::string>>>& result,
-         const std::string& key, std::set<std::shared_ptr<std::string>>& strPtrSet) {
-    for (const auto& ptr : strPtrSet) {
+// helpers for getAll
+// somehow throws errors when i abstract the logic into functions
+/*
+template<typename A, typename B>
+void TwoSideMap<A, B>::add(std::shared_ptr<std::vector<std::vector<std::string>>>& result,
+         std::string& key, std::set<std::shared_ptr<std::string>>& strPtrSet) {
+    for (auto& ptr : strPtrSet) {
         result->push_back({key, *ptr});
     }
 }
 
-// helper for getAll
 // assumes that TwoSideMap is only used on primitives
-template<typename B>
-void addAndConvert(const std::shared_ptr<std::vector<std::vector<std::string>>>& result,
-                   const std::string& key, std::set<std::shared_ptr<B>>& tPtrSet) {
-    for (const auto& ptr : tPtrSet) {
+template<typename A, typename B>
+void TwoSideMap<A, B>::addAndConvert(std::shared_ptr<std::vector<std::vector<std::string>>>& result,
+                   std::string& key, std::set<std::shared_ptr<B>>& tPtrSet) {
+    for (auto& ptr : tPtrSet) {
         std::string item = std::to_string(*ptr); // T needs to have an overloaded std::to_string defined
         result->push_back({key, item});
     }
 }
+*/
 
 template<typename A, typename B>
 bool TwoSideMap<A, B>::insert(const A key, const B value) {
@@ -179,32 +188,48 @@ std::vector<A> TwoSideMap<A, B>::getKeys(B value) {
 }
 
 template<typename A, typename B>
-std::vector<std::vector<std::string>> TwoSideMap<A, B>::getAll() {
+std::vector<std::vector<std::string>> TwoSideMap<A, B>::getAllForStrStr() {
     auto result = make_shared<std::vector<std::vector<std::string>>>();
+    for (auto &pair: forwardMap) {
+        for (auto& ptr : pair.second) {
+            result->push_back({pair.first, *ptr});
+        }
+    }
+    return *result;
+}
 
-    // check if A is string, B is string
-    bool AStrBStr = std::is_same_v<A, std::string> && std::is_same_v<B, std::string>;
-    bool AStrBNotStr = !std::is_same_v<B, std::string>;
-    bool ANotStrBStr = !std::is_same_v<A, std::string>;
+template<typename A, typename B>
+std::vector<std::vector<std::string>> TwoSideMap<A, B>::getAllForStrB() {
+    auto result = make_shared<std::vector<std::vector<std::string>>>();
+    for (auto& pair : forwardMap) {
+        for (auto& ptr : pair.second) {
+            std::string item = std::to_string(*ptr); // T needs to have an overloaded std::to_string defined
+            result->push_back({pair.first, item});
+        }
+    }
+    return *result;
+}
 
-    if (AStrBStr) {
-        for (const auto& pair : forwardMap) {
-            add(result, pair.first, pair.second);
+template<typename A, typename B>
+std::vector<std::vector<std::string>> TwoSideMap<A, B>::getAllForAStr() {
+    auto result = make_shared<std::vector<std::vector<std::string>>>();
+    for (auto& pair : forwardMap) {
+        std::string key = std::to_string(pair.first);
+        for (auto& ptr : pair.second) {
+            result->push_back({key, *ptr});
         }
-    } else if (AStrBNotStr) {
-        for (const auto& pair : forwardMap) {
-            addAndConvert(result, pair.first, pair.second);
-        }
-    } else if (ANotStrBStr) {
-        for (const auto& pair : forwardMap) {
-            std::string key = std::to_string(pair.first);
-            add(result, key, pair.second);
-        }
-    } else {
-        // A and B are not strings
-        for (const auto& pair : forwardMap) {
-            std::string key = std::to_string(pair.first);
-            addAndConvert(result, key, pair.second);
+    }
+    return *result;
+}
+
+template<typename A, typename B>
+std::vector<std::vector<std::string>> TwoSideMap<A, B>::getAllForAB() {
+    auto result = make_shared<std::vector<std::vector<std::string>>>();
+    for (auto& pair : forwardMap) {
+        std::string key = std::to_string(pair.first);
+        for (auto& ptr : pair.second) {
+            std::string item = std::to_string(*ptr); // T needs to have an overloaded std::to_string defined
+            result->push_back({key, item});
         }
     }
     return *result;

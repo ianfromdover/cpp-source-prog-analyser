@@ -15,4 +15,6 @@ public:
     bool addFinalStatementNo(StmtNo sNum);
     // Returns a vector of statement 1...finalStatementNum
     vector<StmtNo> getAllStmts();
+    // Returns all the statements as strings
+    vector<vector<Str>> getAllAsStrings();
 };

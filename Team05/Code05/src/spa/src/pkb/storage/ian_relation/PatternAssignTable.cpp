@@ -18,8 +18,7 @@ std::vector<VarName> PatternAssignTable::getLhsVarsFromStmt(StmtNo stmtNo) {
     return stmtLhsMap.getValues(stmtNo);
 }
 vector<vector<Str>> PatternAssignTable::getAllStmtLhs() {
-    return {};
-    // return stmtLhsMap.getAll();
+    return stmtLhsMap.getAllForAStr();
 }
 
 // -------- For StmtNo | VarName RHS table
@@ -34,8 +33,7 @@ std::vector<VarName> PatternAssignTable::getRhsVarsFromStmt(StmtNo stmtNo) {
     return stmtRhsMap.getValues(stmtNo);
 }
 vector<vector<Str>> PatternAssignTable::getAllStmtRhs() {
-    return {};
-    // return stmtRhsMap.getAll();
+    return stmtRhsMap.getAllForAStr();
 }
 
 // -------- For VarName LHS | VarName RHS table
@@ -50,6 +48,5 @@ std::vector<VarName> PatternAssignTable::getRhsFromLhs(VarName lhs) {
 }
 // ai-gen end
 vector<vector<Str>> PatternAssignTable::getAllLhsRhs() {
-    return {};
-    // return lhsRhsMap.getAll();
+    return lhsRhsMap.getAllForStrStr();
 }

@@ -13,6 +13,5 @@ vector<VarName> ReadTable::getReadVar(StmtNo sNum) {
 }
 
 vector<vector<Str>> ReadTable::getAllAsStrings() {
-    return {};
-    // return map.getAll(); // type not compatible?
+    return map.getAllForAStr();
 }

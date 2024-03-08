@@ -13,6 +13,5 @@ vector<VarName> IfTable::getIfVars(StmtNo sNum) {
 }
 
 vector<vector<Str>> IfTable::getAllAsStrings() {
-    return {};
-    // return map.getAll(); // type not compatible?
+    return map.getAllForAStr();
 }

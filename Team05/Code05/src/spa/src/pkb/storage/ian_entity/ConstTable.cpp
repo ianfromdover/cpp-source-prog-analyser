@@ -13,5 +13,5 @@ vector<ConstVal> ConstTable::getConsts(StmtNo sNum) {
 }
 
 vector<vector<Str>> ConstTable::getAllAsStrings() {
-    return map.getAll();
+    return map.getAllForAB();
 }
