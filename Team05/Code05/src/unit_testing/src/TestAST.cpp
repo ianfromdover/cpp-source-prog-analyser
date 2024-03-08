@@ -1185,6 +1185,109 @@ TEST_CASE("Follows* Handler - QPS") {
     }
 }
 
+TEST_CASE("Calls relationship"){
+    std::string codeSnippet = R"(
+    procedure f {
+        if (x==1) then {
+            while (y==1) {
+                call f1;
+            }
+        } else {
+            y=3;
+        }
+    }
+
+    procedure f1 {
+        call f2;
+    }
+
+    procedure f2 {
+        x=1;
+    }
+    )";
+
+    // calls(f, f1) -> T
+    // calls(f, f2) -> F
+    // calls(f1, f2) -> T
+    // calls(f2, f) -> F
+
+    // calls*(f, f1) -> T
+    // calls*(f, f2) -> T
+    // calls*(f1, f2) -> T
+
+    std::shared_ptr<PKBStorage> p=std::make_shared<PKBStorage>();
+    auto pkb = make_shared<PopulatePKB>(p);
+    auto sp = SourceProcessor(pkb);
+    sp.exec(codeSnippet);
+    QueryPKB pkb1(p);
+    QPS qps(std::make_shared<QueryPKB>(pkb1));
+
+//    SECTION("call c;Select c such that Calls(_, _)") {
+//        std::string query = "procedure p; Select p such that Calls(_, _)";
+//        std::vector<std::string> expected  = {"f", "f1", "f2"};
+//        std::vector<std::string> ans = qps.evaluate(query);
+//        std::sort(ans.begin(), ans.end());
+//        std::sort(expected.begin(), expected.end());
+//        REQUIRE(ans==expected);
+//    }
+//    SECTION("call c;Select c such that Calls(f, _)") {
+//        std::string query = "call c; Select c such that Calls(\"f\", _)";
+//        std::vector<std::string> expected  = {"f1"};
+//        std::vector<std::string> ans = qps.evaluate(query);
+//        std::sort(ans.begin(), ans.end());
+//        std::sort(expected.begin(), expected.end());
+//        REQUIRE(ans==expected);
+//    }
+//    SECTION("call c;Select c such that Calls(_, f1)") {
+//        std::string query = "call c; Select c such that Calls(_, \"f1\")";
+//        std::vector<std::string> expected  = {"f"};
+//        std::vector<std::string> ans = qps.evaluate(query);
+//        std::sort(ans.begin(), ans.end());
+//        std::sort(expected.begin(), expected.end());
+//        REQUIRE(ans==expected);
+//    }
+//    SECTION("call c;Select c such that Calls(f, f2)") {
+//        std::string query = "call c; Select c such that Calls(\"f\", \"f2\")";
+//        std::vector<std::string> expected  = {};
+//        std::vector<std::string> ans = qps.evaluate(query);
+//        std::sort(ans.begin(), ans.end());
+//        std::sort(expected.begin(), expected.end());
+//        REQUIRE(ans==expected);
+//    }
+//    SECTION("call c;Select c such that Calls*(_, _)") {
+//        std::string query = "call c; Select c such that Calls*(_, _)";
+//        std::vector<std::string> expected  = {"f", "f1", "f2"};
+//        std::vector<std::string> ans = qps.evaluate(query);
+//        std::sort(ans.begin(), ans.end());
+//        std::sort(expected.begin(), expected.end());
+//        REQUIRE(ans==expected);
+//    }
+//    SECTION("call c;Select c such that Calls*(_, _)") {
+//        std::string query = "procedure c; Select c such that Calls*(f, _)";
+//        std::vector<std::string> expected  = {"f1", "f2"};
+//        std::vector<std::string> ans = qps.evaluate(query);
+//        std::sort(ans.begin(), ans.end());
+//        std::sort(expected.begin(), expected.end());
+//        REQUIRE(ans==expected);
+//    }
+//    SECTION("call c;Select c such that Calls*(f1, _)") {
+//        std::string query = "procedure c; Select c such that Calls*(c, _)";
+//        std::vector<std::string> expected  = {"f","f1"};
+//        std::vector<std::string> ans = qps.evaluate(query);
+//        std::sort(ans.begin(), ans.end());
+//        std::sort(expected.begin(), expected.end());
+//        REQUIRE(ans==expected);
+//    }
+    SECTION("call c;Select c such that Calls*(_, f2)") {
+        std::string query = "procedure c; Select c such that Calls*(_,\"f2\")";
+        std::vector<std::string> expected  = {"f1","f"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans==expected);
+    }
+}
+
 TEST_CASE("Test ExprFormatter API") {
     REQUIRE(ExprFormatter::format("x") == "x");
     REQUIRE(ExprFormatter::format("x + 1") == "(x+1)");

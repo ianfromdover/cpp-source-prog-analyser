@@ -11,5 +11,5 @@ void CallsTConstraintBuilder::addConstraintClause(shared_ptr<RelationshipClause>
 
     arg1 = buildArgAsEntityRef(rs->getFirstArg(), rs->getFirstReferenceType(), qo);
     arg2 = buildArgAsEntityRef(rs->getSecondArg(), rs->getSecondReferenceType(), qo);
-    constraintClause = make_shared<CallsConstraint>(arg1, arg2);
+    constraintClause = make_shared<CallsTConstraint>(arg1, arg2);
 }
