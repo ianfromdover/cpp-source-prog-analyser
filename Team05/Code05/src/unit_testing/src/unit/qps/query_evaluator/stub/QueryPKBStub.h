@@ -14,10 +14,33 @@
 #include "pkb/apis/PKBStorage.h"
 #include "common/SpaTypes.h"
 
+using table = std::vector<std::vector<std::string>>;
+
 class QueryPKBStub : public QueryPKBVirtual {
-
+private:
     std::shared_ptr<PKBStorage> pkb;
-
+    table readTable;
+    table callStmtTable;
+    table ifTable;
+    table whileTable;
+    table printTable;
+    table statementTable;
+    table procedureTable;
+    table varTable;
+    table constTable;
+    table followsTable;
+    table followsTTable;
+    table parentTable;
+    table parentTTable;
+    table usesTable;
+    table usesPTable;
+    table modifiesTable;
+    table modifiesPTable;
+    table assignTable;
+    table callsTable;
+    table callsTTable;
+    
+public:
     std::vector<std::vector<std::string>> getRead() override;
     std::vector<std::vector<std::string>> getCallStmt() override;
     std::vector<std::vector<std::string>> getIf() override;
@@ -34,8 +57,31 @@ class QueryPKBStub : public QueryPKBVirtual {
     std::vector<std::vector<std::string>> getUses() override;
     std::vector<std::vector<std::string>> getModifies() override;
     std::vector<std::vector<std::string>> getPatternAsgn() override;
+    std::vector<std::vector<std::string>> getUsesP() override;
+    std::vector<std::vector<std::string>> getModifiesP() override;
+    std::vector<std::vector<std::string>> getCalls() override;
+    std::vector<std::vector<std::string>> getCallsT() override;
 
-
+    void setRead(std::vector<std::vector<std::string>> t);
+    void setCallStmt(std::vector<std::vector<std::string>> t);
+    void setIf(std::vector<std::vector<std::string>> t);
+    void setWhile(std::vector<std::vector<std::string>> t);
+    void setPrint(std::vector<std::vector<std::string>> t);
+    void setStatement(std::vector<std::vector<std::string>> t);
+    void setProcedure(std::vector<std::vector<std::string>> t);
+    void setVar(std::vector<std::vector<std::string>> t);
+    void setConst(std::vector<std::vector<std::string>> t);
+    void setFollows(std::vector<std::vector<std::string>> t);
+    void setFollowsT(std::vector<std::vector<std::string>> t);
+    void setParent(std::vector<std::vector<std::string>> t);
+    void setParentT(std::vector<std::vector<std::string>> t);
+    void setUses(std::vector<std::vector<std::string>> t);
+    void setUsesP(std::vector<std::vector<std::string>> t);
+    void setModifies(std::vector<std::vector<std::string>> t);
+    void setModifiesP(std::vector<std::vector<std::string>> t);
+    void setPatternAsgn(std::vector<std::vector<std::string>> t);
+    void setCalls(std::vector<std::vector<std::string>> t);
+    void setCallsT(std::vector<std::vector<std::string>> t);
 };
 
 
