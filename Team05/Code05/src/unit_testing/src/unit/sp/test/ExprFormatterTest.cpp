@@ -7,46 +7,46 @@
 
 TEST_CASE("ExprFormatter_TestFormatVariable") {
     SECTION("Variable") {
-        REQUIRE(ExprFormatter::format("x") == "x");
+        REQUIRE(ExprFormatter::format("x") == "( x )");
     }
     SECTION("Nested variable") {
-        REQUIRE(ExprFormatter::format("(x)") == "x");
+        REQUIRE(ExprFormatter::format("(x)") == "( x )");
     }
 }
 
 TEST_CASE("ExprFormatter_TestFormatInteger") {
     SECTION("Integer") {
-        REQUIRE(ExprFormatter::format("1") == "1");
+        REQUIRE(ExprFormatter::format("1") == "( 1 )");
     }
     SECTION("Nested integer") {
-        REQUIRE(ExprFormatter::format("(1)") == "1");
+        REQUIRE(ExprFormatter::format("(1)") == "( 1 )");
     }
 }
 
 TEST_CASE("ExprFormatter_TestFormatBinaryExpression") {
     SECTION("Addition") {
-        REQUIRE(ExprFormatter::format("x + 1") == "( x + 1 )");
+        REQUIRE(ExprFormatter::format("x + 1") == "( ( x + 1 ) )");
     }
     SECTION("Subtraction") {
-        REQUIRE(ExprFormatter::format("x - 1") == "( x - 1 )");
+        REQUIRE(ExprFormatter::format("x - 1") == "( ( x - 1 ) )");
     }
     SECTION("Multiplication") {
-        REQUIRE(ExprFormatter::format("x * 1") == "( x * 1 )");
+        REQUIRE(ExprFormatter::format("x * 1") == "( ( x * 1 ) )");
     }
     SECTION("Division") {
-        REQUIRE(ExprFormatter::format("x / 1") == "( x / 1 )");
+        REQUIRE(ExprFormatter::format("x / 1") == "( ( x / 1 ) )");
     }
     SECTION("Modulo") {
-        REQUIRE(ExprFormatter::format("x % 1") == "( x % 1 )");
+        REQUIRE(ExprFormatter::format("x % 1") == "( ( x % 1 ) )");
     }
 }
 
 TEST_CASE("ExprFormatter_TestFormatNestedExpression") {
     SECTION("Implicit nesting") {
-        REQUIRE(ExprFormatter::format("x + 1 * 2") == "( x + ( 1 * 2 ) )");
+        REQUIRE(ExprFormatter::format("x + 1 * 2") == "( ( x + ( 1 * 2 ) ) )");
     }
     SECTION("Explicit nesting") {
-        REQUIRE(ExprFormatter::format("(x + 1) * 2") == "( ( x + 1 ) * 2 )");
+        REQUIRE(ExprFormatter::format("(x + 1) * 2") == "( ( ( x + 1 ) * 2 ) )");
     }
 }
 
