@@ -13,7 +13,7 @@ std::vector<StmtNo> FollowsTTable::getStmtsBefore(StmtNo after) {
     return map.getKeys(after);
 }
 
-std::vector<StmtNo> FollowsTTable::getFollowersT(StmtNo before) {
+std::vector<StmtNo> FollowsTTable::getStmtsAfter(StmtNo before) {
     return map.getValues(before);
 }
 

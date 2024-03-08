@@ -304,7 +304,7 @@ std::vector<std::vector<std::string>> QueryPKB::getFollowsTable() {
 // FollowsT
 
 std::vector<std::vector<std::string>> QueryPKB::getFollowsTByBefore(StmtNo before) {
-    return toVecVecStr(pkb->followsTTable->getFollowersT(before));
+    return toVecVecStr(pkb->followsTTable->getStmtsAfter(before));
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getFollowsTByAfter(StmtNo after) {

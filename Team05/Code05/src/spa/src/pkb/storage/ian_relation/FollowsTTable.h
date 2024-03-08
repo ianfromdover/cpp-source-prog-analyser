@@ -20,7 +20,7 @@ public:
     // Returns the statements that are followedT by this statement
     std::vector<StmtNo> getStmtsBefore(StmtNo after);
     // Returns the followersT of this statement. Returns empty vector if there is no follower
-    std::vector<StmtNo> getFollowersT(StmtNo before);
+    std::vector<StmtNo> getStmtsAfter(StmtNo before);
     // Gets a table with 2 columns, Before* | After*
     vector<vector<Str>> getAllAsStrings();
 };
