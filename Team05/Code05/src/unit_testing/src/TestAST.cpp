@@ -1222,64 +1222,64 @@ TEST_CASE("Calls relationship"){
     QueryPKB pkb1(p);
     QPS qps(std::make_shared<QueryPKB>(pkb1));
 
-//    SECTION("call c;Select c such that Calls(_, _)") {
-//        std::string query = "procedure p; Select p such that Calls(_, _)";
-//        std::vector<std::string> expected  = {"f", "f1", "f2"};
-//        std::vector<std::string> ans = qps.evaluate(query);
-//        std::sort(ans.begin(), ans.end());
-//        std::sort(expected.begin(), expected.end());
-//        REQUIRE(ans==expected);
-//    }
-//    SECTION("call c;Select c such that Calls(f, _)") {
-//        std::string query = "call c; Select c such that Calls(\"f\", _)";
-//        std::vector<std::string> expected  = {"f1"};
-//        std::vector<std::string> ans = qps.evaluate(query);
-//        std::sort(ans.begin(), ans.end());
-//        std::sort(expected.begin(), expected.end());
-//        REQUIRE(ans==expected);
-//    }
-//    SECTION("call c;Select c such that Calls(_, f1)") {
-//        std::string query = "call c; Select c such that Calls(_, \"f1\")";
-//        std::vector<std::string> expected  = {"f"};
-//        std::vector<std::string> ans = qps.evaluate(query);
-//        std::sort(ans.begin(), ans.end());
-//        std::sort(expected.begin(), expected.end());
-//        REQUIRE(ans==expected);
-//    }
-//    SECTION("call c;Select c such that Calls(f, f2)") {
-//        std::string query = "call c; Select c such that Calls(\"f\", \"f2\")";
-//        std::vector<std::string> expected  = {};
-//        std::vector<std::string> ans = qps.evaluate(query);
-//        std::sort(ans.begin(), ans.end());
-//        std::sort(expected.begin(), expected.end());
-//        REQUIRE(ans==expected);
-//    }
-//    SECTION("call c;Select c such that Calls*(_, _)") {
-//        std::string query = "call c; Select c such that Calls*(_, _)";
-//        std::vector<std::string> expected  = {"f", "f1", "f2"};
-//        std::vector<std::string> ans = qps.evaluate(query);
-//        std::sort(ans.begin(), ans.end());
-//        std::sort(expected.begin(), expected.end());
-//        REQUIRE(ans==expected);
-//    }
-//    SECTION("call c;Select c such that Calls*(_, _)") {
-//        std::string query = "procedure c; Select c such that Calls*(f, _)";
-//        std::vector<std::string> expected  = {"f1", "f2"};
-//        std::vector<std::string> ans = qps.evaluate(query);
-//        std::sort(ans.begin(), ans.end());
-//        std::sort(expected.begin(), expected.end());
-//        REQUIRE(ans==expected);
-//    }
-//    SECTION("call c;Select c such that Calls*(f1, _)") {
-//        std::string query = "procedure c; Select c such that Calls*(c, _)";
-//        std::vector<std::string> expected  = {"f","f1"};
-//        std::vector<std::string> ans = qps.evaluate(query);
-//        std::sort(ans.begin(), ans.end());
-//        std::sort(expected.begin(), expected.end());
-//        REQUIRE(ans==expected);
-//    }
-    SECTION("call c;Select c such that Calls*(_, f2)") {
-        std::string query = "procedure c; Select c such that Calls*(_,\"f2\")";
+    SECTION("procedure p; Select p such that Calls(_, _)") {
+        std::string query = "procedure p; Select p such that Calls(_, _)";
+        std::vector<std::string> expected  = {"f", "f1", "f2"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans==expected);
+    }
+    SECTION("procedure p; Select p such that Calls(f, _)") {
+        std::string query = "procedure p; Select p such that Calls(\"f\", p)";
+        std::vector<std::string> expected  = {"f1"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans==expected);
+    }
+    SECTION("procedure p; Select p such that Calls(_, f1)") {
+        std::string query = "procedure p; Select p such that Calls(p, \"f1\")";
+        std::vector<std::string> expected  = {"f"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans==expected);
+    }
+    SECTION("procedure p; Select p such that Calls(f, f2)") {
+        std::string query = "procedure p; Select p such that Calls(\"f\", \"f2\")";
+        std::vector<std::string> expected  = {};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans==expected);
+    }
+    SECTION("procedure p; Select p such that Calls*(_, _)") {
+        std::string query = "procedure p; Select p such that Calls*(_, _)";
+        std::vector<std::string> expected  = {"f", "f1", "f2"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans==expected);
+    }
+    SECTION("procedure p; Select p such that Calls*(_, _)") {
+        std::string query = "procedure p; Select p such that Calls*(_, p)";
+        std::vector<std::string> expected  = {"f1", "f2"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans==expected);
+    }
+    SECTION("procedure p; Select p such that Calls*(f1, _)") {
+        std::string query = "procedure p; Select p such that Calls*(p, _)";
+        std::vector<std::string> expected  = {"f","f1"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans==expected);
+    }
+    SECTION("procedure p; Select p such that Calls*(_, f2)") {
+        std::string query = "procedure p; Select p such that Calls*(p,\"f2\")";
         std::vector<std::string> expected  = {"f1","f"};
         std::vector<std::string> ans = qps.evaluate(query);
         std::sort(ans.begin(), ans.end());

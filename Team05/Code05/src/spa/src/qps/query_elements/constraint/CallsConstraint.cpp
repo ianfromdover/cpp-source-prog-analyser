@@ -26,23 +26,17 @@ std::vector<std::vector<std::string>> CallsConstraint::getRelationshipTable(Quer
     std::string lhsEntityType = args[0] -> getEntityType();
     std::string rhsEntityType = args[1] -> getEntityType();
 
-    std::string lhsHeader = isStatementSynonym(lhsEntityType) ? args[0]->getArgumentValue() : "CallsLHS";
-    std::string rhsHeader = rhsEntityType == TYPE_VARIABLE ? args[1]->getArgumentValue() : "CallsRHS";
+    std::string lhsHeader = lhsEntityType == TYPE_PROCEDURE ? args[0]->getArgumentValue() : "CallsLHS";
+    std::string rhsHeader = rhsEntityType == TYPE_PROCEDURE ? args[1]->getArgumentValue() : "CallsRHS";
 
     // Insertion of headers into our results table
     result.insert(result.begin(), {lhsHeader, rhsHeader});
     ResultTable table(result);
 
     // Handling LHS by Entity Type
-    if (rhsEntityType == TYPE_PROCEDURE) {
+    if (lhsEntityType == TYPE_PROCEDURE) {
         // Get entity table by type
         std::vector<std::vector<std::string>> entityTable = args[0]->getEntityTable(pkb);
-        const std::string& lHeader = lhsHeader;
-        std::string rHeader = entityTable.at(0).at(1);
-        // Removal of original headers in our entity table
-        entityTable.erase(entityTable.begin());
-        // Insertion of headers into our entity table
-        entityTable.insert(entityTable.begin(), {lHeader, rHeader});
         table.add(entityTable);
     }
     if (lhsEntityType == TYPE_QUOTED_IDENT){
@@ -55,16 +49,19 @@ std::vector<std::vector<std::string>> CallsConstraint::getRelationshipTable(Quer
     if (rhsEntityType == TYPE_PROCEDURE) {
         // Get entity table by type
         std::vector<std::vector<std::string>> entityTable = args[1]->getEntityTable(pkb);
-        // Removal of original headers in our entity table
-        entityTable.erase(entityTable.begin());
-        // Insertion of headers into our entity table
-        entityTable.insert(entityTable.begin(), {rhsHeader, rhsHeader});
         table.add(entityTable);
     }
     if (rhsEntityType == TYPE_QUOTED_IDENT){
         std::string string1=args[1]->getArgumentValue();
         string stripped = stripCharacters(string1,"\"");
-        table.filterByColumnExact(lhsHeader,stripped);
+        table.filterByColumnExact(rhsHeader,stripped);
+    }
+
+    if (lhsHeader == "CallsLHS"){
+        table.removeColumnByHeader(lhsHeader);
+    }
+    if (rhsHeader == "CallsRHS"){
+        table.removeColumnByHeader(rhsHeader);
     }
 
     return table.getTable();

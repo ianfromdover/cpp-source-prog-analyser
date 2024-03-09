@@ -57,6 +57,13 @@ std::vector<std::vector<std::string>> CallsTConstraint::getRelationshipTable(Que
         table.filterByColumnExact(rhsHeader,stripped);
     }
 
+    if (lhsHeader == "CallsTLHS"){
+        table.removeColumnByHeader(lhsHeader);
+    }
+    if (rhsHeader == "CallsTRHS"){
+        table.removeColumnByHeader(rhsHeader);
+    }
+
     return table.getTable();
 }
 
