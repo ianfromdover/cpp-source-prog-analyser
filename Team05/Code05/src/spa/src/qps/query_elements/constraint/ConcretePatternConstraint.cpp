@@ -65,7 +65,7 @@ std::vector<std::vector<std::string>> ConcretePatternConstraint::getRelationship
     } else if (args[1]->getEntityType()==TYPE_EXPRESSION_W_WILDCARD){
         std::string string1=args[1]->getArgumentValue();
         string stripped = stripCharacters(string1,"\"");
-        table.filterByColumnPartial(rhsHeader,stripped);
+        table.filterByColumnPartial(rhsHeader,"\\b" + stripped + "\\b");
     }
 
     for (const std::string& header : {"ASSIGNLHS", "ASSIGNRHS"}){

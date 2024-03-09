@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <iostream>
 #include <sstream>
+#include <regex>
 #include "common/Column.h"
 
 using table = std::vector<std::vector<std::string>>;
@@ -75,8 +76,8 @@ public:
         return t;
     }
 
-    void filterByColumnPartial(const string& header, const string& str) {
-        table filteredTab; // Resulting table after filtering
+    void filterByColumnPartial(const string& header, const string& patternStr) {
+        vector<vector<string>> filteredTab; // Resulting table after filtering
         int columnNo = -1;
 
         // Find the column number based on the header name
@@ -92,10 +93,17 @@ public:
             return; // Header not found
         }
 
+        // Compile the regular expression pattern
+        regex pattern(patternStr);
+
         filteredTab.push_back(_table[0]); // Include headers in the filtered table
 
-        for (size_t i = 1; i < _table.size(); ++i) { // Skip header row
-            if (_table[i][columnNo].find(str) != string::npos) {
+        // Iterate through each row of the table, starting from row 1 to skip header
+        for (size_t i = 1; i < _table.size(); ++i) {
+            smatch matches;
+
+            // Use regex_search to find matches in the specified column
+            if (regex_search(_table[i][columnNo], matches, pattern)) {
                 filteredTab.push_back(_table[i]);
             }
         }
