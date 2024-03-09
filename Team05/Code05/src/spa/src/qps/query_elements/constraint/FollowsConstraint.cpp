@@ -67,6 +67,13 @@ std::vector<std::vector<std::string>> FollowsConstraint::getRelationshipTable(Qu
         table.add(entityTable);
     }
 
+    if (lhsHeader == "FollowsLHS"){
+        table.removeColumnByHeader(lhsHeader);
+    }
+    if (rhsHeader == "FollowsRHS"){
+        table.removeColumnByHeader(rhsHeader);
+    }
+
     return table.getTable();
 }
 

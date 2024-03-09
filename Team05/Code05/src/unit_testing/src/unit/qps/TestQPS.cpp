@@ -303,6 +303,12 @@ TEST_CASE("[TestQPS] Multiple Constraints"){
 
             REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
         }
+        SECTION("both wildcard"){
+            std::string queryStr = "assign a;stmt s,s1; Select a such that Follows(_, _) pattern a (_,_)";
+            std::vector<std::string> expected = {"1", "2", "3", "4", "7"};
+
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
         SECTION("common synonym"){
             std::string queryStr = "assign a;stmt s,s1; Select a such that Follows(1, a) pattern a (\"x\",_)";
             std::vector<std::string> expected = {"2"};
@@ -319,241 +325,320 @@ TEST_CASE("[TestQPS] Multiple Constraints"){
 }
 
 TEST_CASE("[TestQPS] Single Constraints") {
-//    SECTION("follows") {
-//        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
-//        pkb->setFollows({{"1", "2"},
-//                         {"1", "3"},
-//                         {"1", "4"},
-//                         {"2", "7"}});
-//        pkb->setStatement({{"1"},
-//                           {"2"},
-//                           {"3"},
-//                           {"4"},
-//                           {"7"}});
-//        QPS qps(pkb);
-//
-//        SECTION("right synonym") {
-//            std::string queryStr = "stmt s; Select s such that Follows(1, s)";
-//            std::vector<std::string> expected = {"2", "3", "4"};
-//
-//            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-//        }
-//
-//        SECTION("left synonym") {
-//            std::string queryStr = "stmt s; Select s such that Follows(s, 7)";
-//            std::vector<std::string> expected = {"2"};
-//
-//            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-//        }
-//
-//        SECTION("both synonym") {
-//            std::string queryStr = "stmt s,s1; Select s such that Follows(s, s1)";
-//            std::vector<std::string> expected = {"1", "2"};
-//
-//            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-//        }
-//
-//        SECTION("left wildcard") {
-//            std::string queryStr = "stmt s; Select s such that Follows(_, s)";
-//            std::vector<std::string> expected = {"2", "3", "4", "7"};
-//
-//            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-//        }
-//
-//        SECTION("right wildcard") {
-//            std::string queryStr = "stmt s,s1; Select s such that Follows(s, _)";
-//            std::vector<std::string> expected = {"1", "2"};
-//
-//            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-//        }
-//
-//        SECTION("empty result") {
-//            std::string queryStr = "stmt s,s1; Select s such that Follows(1, 5)";
-//            std::vector<std::string> expected = {};
-//
-//            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-//        }
-//    }
-//    SECTION("follows T") {
-//        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
-//        pkb->setFollowsT({{"1", "2"},
-//                          {"1", "3"},
-//                          {"1", "4"},
-//                          {"2", "7"}});
-//        pkb->setStatement({{"1"},
-//                           {"2"},
-//                           {"3"},
-//                           {"4"},
-//                           {"7"}});
-//        QPS qps(pkb);
-//
-//        SECTION("right synonym") {
-//            std::string queryStr = "stmt s; Select s such that Follows*(1, s)";
-//            std::vector<std::string> expected = {"2", "3", "4"};
-//
-//            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-//        }SECTION("left synonym") {
-//            std::string queryStr = "stmt s; Select s such that Follows*(s, 7)";
-//            std::vector<std::string> expected = {"2"};
-//
-//            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-//        }SECTION("both synonym") {
-//            std::string queryStr = "stmt s,s1; Select s such that Follows*(s, s1)";
-//            std::vector<std::string> expected = {"1", "2"};
-//
-//            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-//        }SECTION("left wildcard") {
-//            std::string queryStr = "stmt s; Select s such that Follows*(_, s)";
-//            std::vector<std::string> expected = {"2", "3", "4", "7"};
-//
-//            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-//        }SECTION("right wildcard") {
-//            std::string queryStr = "stmt s,s1; Select s such that Follows*(s, _)";
-//            std::vector<std::string> expected = {"1", "2"};
-//
-//            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-//        }SECTION("both wildcard") {
-//            std::string queryStr = "stmt s,s1; Select s such that Follows*(_, _)";
-//            std::vector<std::string> expected = {"1", "2", "3", "4", "7"};
-//
-//            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-//        }SECTION("empty result") {
-//            std::string queryStr = "stmt s,s1; Select s such that Follows*(1, 5)";
-//            std::vector<std::string> expected = {};
-//
-//            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-//        }
-//    }
-//
-//    SECTION("parents") {
-//        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
-//        pkb->setParent({{"1", "2"},
-//                          {"1", "3"},
-//                          {"1", "4"},
-//                          {"2", "7"}});
-//        pkb->setStatement({{"1"},
-//                           {"2"},
-//                           {"3"},
-//                           {"4"},
-//                           {"7"}});
-//        QPS qps(pkb);
-//
-//        SECTION("right synonym") {
-//            std::string queryStr = "stmt s; Select s such that Parent(1, s)";
-//            std::vector<std::string> expected = {"2", "3", "4"};
-//
-//            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-//        }
-//        SECTION("left synonym") {
-//            std::string queryStr = "stmt s; Select s such that Parent(s, 7)";
-//            std::vector<std::string> expected = {"2"};
-//
-//            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-//        }
-//        SECTION("both synonym") {
-//            std::string queryStr = "stmt s,s1; Select s such that Parent(s, s1)";
-//            std::vector<std::string> expected = {"1", "2"};
-//
-//            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-//        }
-//        SECTION("left wildcard") {
-//            std::string queryStr = "stmt s; Select s such that Parent(_, s)";
-//            std::vector<std::string> expected = {"2", "3", "4", "7"};
-//
-//            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-//        }
-//        SECTION("right wildcard") {
-//            std::string queryStr = "stmt s,s1; Select s such that Parent(s, _)";
-//            std::vector<std::string> expected = {"1", "2"};
-//
-//            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-//        }
-//        SECTION("both wildcard") {
-//            std::string queryStr = "stmt s,s1; Select s such that Parent(_, _)";
-//            std::vector<std::string> expected = {"1", "2", "3", "4", "7"};
-//
-//            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-//        }
-//        SECTION("empty result") {
-//            std::string queryStr = "stmt s,s1; Select s such that Parent(1, 5)";
-//            std::vector<std::string> expected = {};
-//
-//            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-//        }
-//    }
-//
-//    SECTION("parents T") {
-//        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
-//        pkb->setParentT({{"1", "2"},
-//                        {"1", "3"},
-//                        {"1", "4"},
-//                        {"2", "7"}});
-//        pkb->setStatement({{"1"},
-//                           {"2"},
-//                           {"3"},
-//                           {"4"},
-//                           {"7"}});
-//        QPS qps(pkb);
-//
-//        SECTION("right synonym") {
-//            std::string queryStr = "stmt s; Select s such that Parent*(1, s)";
-//            std::vector<std::string> expected = {"2", "3", "4"};
-//
-//            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-//        }
-//        SECTION("left synonym") {
-//            std::string queryStr = "stmt s; Select s such that Parent*(s, 7)";
-//            std::vector<std::string> expected = {"2"};
-//
-//            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-//        }
-//        SECTION("both synonym") {
-//            std::string queryStr = "stmt s,s1; Select s such that Parent*(s, s1)";
-//            std::vector<std::string> expected = {"1", "2"};
-//
-//            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-//        }
-//        SECTION("left wildcard") {
-//            std::string queryStr = "stmt s; Select s such that Parent*(_, s)";
-//            std::vector<std::string> expected = {"2", "3", "4", "7"};
-//
-//            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-//        }
-//        SECTION("right wildcard") {
-//            std::string queryStr = "stmt s,s1; Select s such that Parent*(s, _)";
-//            std::vector<std::string> expected = {"1", "2"};
-//
-//            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-//        }
-//        SECTION("both wildcard") {
-//            std::string queryStr = "stmt s,s1; Select s such that Parent*(_, _)";
-//            std::vector<std::string> expected = {"1", "2", "3", "4", "7"};
-//
-//            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-//        }
-//        SECTION("empty result") {
-//            std::string queryStr = "stmt s,s1; Select s such that Parent*(1, 5)";
-//            std::vector<std::string> expected = {};
-//
-//            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-//        }
-//    }
-//
-//    SECTION("modifies"){
-//        std::string queryStr = "stmt s; variable v; Select s such that Modifies(s, v)";
-//        std::vector<std::string> expected = {"2","3","4"};
-//
-//        std::vector<std::string> results = testHelper(queryStr);
-//        REQUIRE(results == expected);
-//
-//    }
-//    SECTION("uses"){
-//        std::string queryStr = "stmt s; variable v; Select s such that Uses(s, v)";
-//        std::vector<std::string> expected = {"2", "4", "3"};
-//
-//        std::vector<std::string> results = testHelper(queryStr);
-//        REQUIRE(results == expected);
-//    }
+    SECTION("follows") {
+        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        pkb->setFollows({{"1", "2"},
+                         {"1", "3"},
+                         {"1", "4"},
+                         {"2", "7"}});
+        pkb->setStatement({{"1"},
+                           {"2"},
+                           {"3"},
+                           {"4"},
+                           {"7"}});
+        QPS qps(pkb);
+
+        SECTION("right synonym") {
+            std::string queryStr = "stmt s; Select s such that Follows(1, s)";
+            std::vector<std::string> expected = {"2", "3", "4"};
+
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+
+        SECTION("left synonym") {
+            std::string queryStr = "stmt s; Select s such that Follows(s, 7)";
+            std::vector<std::string> expected = {"2"};
+
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+
+        SECTION("both synonym") {
+            std::string queryStr = "stmt s,s1; Select s such that Follows(s, s1)";
+            std::vector<std::string> expected = {"1", "2"};
+
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+
+        SECTION("left wildcard") {
+            std::string queryStr = "stmt s; Select s such that Follows(_, s)";
+            std::vector<std::string> expected = {"2", "3", "4", "7"};
+
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+
+        SECTION("right wildcard") {
+            std::string queryStr = "stmt s,s1; Select s such that Follows(s, _)";
+            std::vector<std::string> expected = {"1", "2"};
+
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+
+        SECTION("empty result") {
+            std::string queryStr = "stmt s,s1; Select s such that Follows(1, 5)";
+            std::vector<std::string> expected = {};
+
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+    }
+    SECTION("follows T") {
+        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        pkb->setFollowsT({{"1", "2"},
+                          {"1", "3"},
+                          {"1", "4"},
+                          {"2", "7"}});
+        pkb->setStatement({{"1"},
+                           {"2"},
+                           {"3"},
+                           {"4"},
+                           {"7"}});
+        QPS qps(pkb);
+
+        SECTION("right synonym") {
+            std::string queryStr = "stmt s; Select s such that Follows*(1, s)";
+            std::vector<std::string> expected = {"2", "3", "4"};
+
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }SECTION("left synonym") {
+            std::string queryStr = "stmt s; Select s such that Follows*(s, 7)";
+            std::vector<std::string> expected = {"2"};
+
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }SECTION("both synonym") {
+            std::string queryStr = "stmt s,s1; Select s such that Follows*(s, s1)";
+            std::vector<std::string> expected = {"1", "2"};
+
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }SECTION("left wildcard") {
+            std::string queryStr = "stmt s; Select s such that Follows*(_, s)";
+            std::vector<std::string> expected = {"2", "3", "4", "7"};
+
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }SECTION("right wildcard") {
+            std::string queryStr = "stmt s,s1; Select s such that Follows*(s, _)";
+            std::vector<std::string> expected = {"1", "2"};
+
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }SECTION("both wildcard") {
+            std::string queryStr = "stmt s,s1; Select s such that Follows*(_, _)";
+            std::vector<std::string> expected = {"1", "2", "3", "4", "7"};
+
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }SECTION("empty result") {
+            std::string queryStr = "stmt s,s1; Select s such that Follows*(1, 5)";
+            std::vector<std::string> expected = {};
+
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+    }
+
+    SECTION("parents") {
+        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        pkb->setParent({{"1", "2"},
+                          {"1", "3"},
+                          {"1", "4"},
+                          {"2", "7"}});
+        pkb->setStatement({{"1"},
+                           {"2"},
+                           {"3"},
+                           {"4"},
+                           {"7"}});
+        QPS qps(pkb);
+
+        SECTION("right synonym") {
+            std::string queryStr = "stmt s; Select s such that Parent(1, s)";
+            std::vector<std::string> expected = {"2", "3", "4"};
+
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+        SECTION("left synonym") {
+            std::string queryStr = "stmt s; Select s such that Parent(s, 7)";
+            std::vector<std::string> expected = {"2"};
+
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+        SECTION("both synonym") {
+            std::string queryStr = "stmt s,s1; Select s such that Parent(s, s1)";
+            std::vector<std::string> expected = {"1", "2"};
+
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+        SECTION("left wildcard") {
+            std::string queryStr = "stmt s; Select s such that Parent(_, s)";
+            std::vector<std::string> expected = {"2", "3", "4", "7"};
+
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+        SECTION("right wildcard") {
+            std::string queryStr = "stmt s,s1; Select s such that Parent(s, _)";
+            std::vector<std::string> expected = {"1", "2"};
+
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+        SECTION("both wildcard") {
+            std::string queryStr = "stmt s,s1; Select s such that Parent(_, _)";
+            std::vector<std::string> expected = {"1", "2", "3", "4", "7"};
+
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+        SECTION("empty result") {
+            std::string queryStr = "stmt s,s1; Select s such that Parent(1, 5)";
+            std::vector<std::string> expected = {};
+
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+    }
+
+    SECTION("parents T") {
+        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        pkb->setParentT({{"1", "2"},
+                        {"1", "3"},
+                        {"1", "4"},
+                        {"2", "7"}});
+        pkb->setStatement({{"1"},
+                           {"2"},
+                           {"3"},
+                           {"4"},
+                           {"7"}});
+        QPS qps(pkb);
+
+        SECTION("right synonym") {
+            std::string queryStr = "stmt s; Select s such that Parent*(1, s)";
+            std::vector<std::string> expected = {"2", "3", "4"};
+
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+        SECTION("left synonym") {
+            std::string queryStr = "stmt s; Select s such that Parent*(s, 7)";
+            std::vector<std::string> expected = {"2"};
+
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+        SECTION("both synonym") {
+            std::string queryStr = "stmt s,s1; Select s such that Parent*(s, s1)";
+            std::vector<std::string> expected = {"1", "2"};
+
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+        SECTION("left wildcard") {
+            std::string queryStr = "stmt s; Select s such that Parent*(_, s)";
+            std::vector<std::string> expected = {"2", "3", "4", "7"};
+
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+        SECTION("right wildcard") {
+            std::string queryStr = "stmt s,s1; Select s such that Parent*(s, _)";
+            std::vector<std::string> expected = {"1", "2"};
+
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+        SECTION("both wildcard") {
+            std::string queryStr = "stmt s,s1; Select s such that Parent*(_, _)";
+            std::vector<std::string> expected = {"1", "2", "3", "4", "7"};
+
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+        SECTION("empty result") {
+            std::string queryStr = "stmt s,s1; Select s such that Parent*(1, 5)";
+            std::vector<std::string> expected = {};
+
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+    }
+
+    SECTION("modifies"){
+        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        pkb->setModifies({{"1", "v"},
+                         {"1", "k"},
+                         {"1", "c"},
+                         {"2", "k"}});
+        pkb->setStatement({{"1"},
+                           {"2"},
+                           {"3"},
+                           {"4"},
+                           {"7"}});
+        pkb->setVar({{"1","v"},
+                          {"1","k"},
+                          {"2","c"},
+                          {"2","i"}});
+        QPS qps(pkb);
+
+        SECTION("both synonym") {
+            std::string queryStr = "stmt s; variable v; Select s such that Modifies(s, v)";
+            std::vector<std::string> expected = {"1", "2"};
+
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+        SECTION("right synonym select var") {
+            std::string queryStr = "stmt s; variable v; Select v such that Modifies(1, v)";
+            std::vector<std::string> expected = {"c", "k", "v"};
+
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+        SECTION("right synonym select stmt") {
+            std::string queryStr = "stmt s; variable v; Select s such that Modifies(1, v)";
+            std::vector<std::string> expected = {"1", "2", "3", "4", "7"};
+
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+        SECTION("left synonym right wildcard") {
+            std::string queryStr = "stmt s; variable v; Select s such that Modifies(s, _)";
+            std::vector<std::string> expected = {"1", "2"};
+
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+        SECTION("left synonym right quoted") {
+            std::string queryStr = "stmt s; variable v; Select s such that Modifies(s, \"k\")";
+            std::vector<std::string> expected = {"1", "2"};
+
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+    }
+    SECTION("uses"){
+        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        pkb->setUses({{"1", "v"},
+                          {"1", "k"},
+                          {"1", "c"},
+                          {"2", "k"}});
+        pkb->setStatement({{"1"},
+                           {"2"},
+                           {"3"},
+                           {"4"},
+                           {"7"}});
+        pkb->setVar({{"1","v"},
+                     {"1","k"},
+                     {"2","c"},
+                     {"2","i"}});
+        QPS qps(pkb);
+
+        SECTION("both synonym") {
+            std::string queryStr = "stmt s; variable v; Select s such that Uses(s, v)";
+            std::vector<std::string> expected = {"1", "2"};
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+        SECTION("left int right synonym") {
+            std::string queryStr = "stmt s; variable v; Select v such that Uses(1, v)";
+            std::vector<std::string> expected = {"c", "k", "v"};
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+
+            queryStr = "stmt s; variable v; Select v such that Uses(5, v)";
+            expected = {};
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+        SECTION("left int right synonym") {
+            std::string queryStr = "stmt s; variable v; Select s such that Uses(1, v)";
+            std::vector<std::string> expected = {"1", "2", "3", "4", "7"};
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+        SECTION("left wildcard right quoted") {
+            std::string queryStr = "stmt s; variable v; Select s such that Uses(s, \"v\")";
+            std::vector<std::string> expected = {"1"};
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+
+            queryStr = "stmt s; variable v; Select s such that Uses(s, \"k\")";
+            expected = {"1", "2"};
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+    }
     SECTION("pattern"){
         std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
         pkb->setPatternAsgn({{"1","x=10"}, {"2","x=k"}, {"3","y=c"}, {"4","y=k"}, {"7","z=i"}});
