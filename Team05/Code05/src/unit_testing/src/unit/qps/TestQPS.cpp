@@ -305,36 +305,36 @@ TEST_CASE("[TestQPS] No Constraints"){
 
     SECTION("procedure statements") {
         std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
-        pkb->setProcedure({{"a"}, {"b"}, {"c"}});
+        pkb->setProcedure({{"a", "a"}, {"b", "b"}, {"c", "c"}});
         QPS qps(pkb);
 
         std::string queryStr = "procedure r; Select r";
         std::vector<std::string> expected = {"a", "b", "c"};
 
-        REQUIRE(qps.evaluate(std::move(queryStr)) == expected); //TODO: return expected values instead of crashing
+        REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
 
     }
 
     SECTION("variable statements") {
         std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
-        pkb->setVar({{"1"}, {"2"}, {"3"}});
+        pkb->setVar({{"1", "a"}, {"2", "b"}, {"3", "c"}});
         QPS qps(pkb);
 
         std::string queryStr = "variable r; Select r";
-        std::vector<std::string> expected = {"1", "2", "3"};
+        std::vector<std::string> expected = {"a", "b", "c"};
 
-//        REQUIRE(qps.evaluate(std::move(queryStr)) == expected); //TODO: return expected values instead of crashing
+        REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
     }
 
     SECTION("constant statements") {
         std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
-        pkb->setConst({{"1"}, {"2"}, {"3"}});
+        pkb->setConst({{"1", "a"}, {"2", "b"}, {"3", "c"}});
         QPS qps(pkb);
 
         std::string queryStr = "constant r; Select r";
-        std::vector<std::string> expected = {"1", "2", "3"};
+        std::vector<std::string> expected = {"a", "b", "c"};
 
-//        REQUIRE(qps.evaluate(std::move(queryStr)) == expected); //TODO: return expected values instead of crashing
+        REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
     }
 
 
@@ -742,15 +742,50 @@ TEST_CASE("[TestQPS] Single Constraints") {
 
     SECTION("Calls") {
         std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
-        pkb->setProcedure({{"a"}, {"b"}, {"c"}, {"d"}});
-        pkb->setCalls({{"a", "b"}, {"c", "d"}});
+        pkb->setProcedure({{"a", "a"}, {"b", "b"}, {"c", "c"}, {"d", "d"}, {"f", "f"}, {"g", "g"}});
+        pkb->setCalls({{"a", "b"}, {"c", "d"}, {"b", "c"}, {"f", "g"}});
         QPS qps(pkb);
 
-        SECTION("simple call"){
-            std::string queryStr = "procedure p1, p2; select p1 such that Calls(p1, p2)";
-            std::vector<std::string> expected = {"a, c"};
+        SECTION("simple calls: procedure, procedure"){
+            std::string queryStr = "procedure p1, p2; Select p1 such that Calls(p1, p2)";
+            std::vector<std::string> expected = {"a", "b", "c", "f"};
 
             REQUIRE(qps.evaluate(queryStr) == expected);
+        }
+
+        SECTION("simple calls flipped: procedure, procedure"){
+            std::string queryStr = "procedure p1, p2; Select p1 such that Calls(p2, p1)";
+            std::vector<std::string> expected = {"b", "c", "d", "g"};
+
+            REQUIRE(qps.evaluate(queryStr) == expected);
+        }
+
+        SECTION("simple calls: procedure, wildcard") {
+            std::string queryStr = "procedure p1, p2; Select p1 such that Calls(p1, _)";
+            std::vector<std::string> expected = {"a", "b", "c", "f"};
+
+            REQUIRE(qps.evaluate(queryStr) == expected);
+        }
+
+        SECTION("simple calls: procedure, wildcard") {
+            std::string queryStr = "procedure p1, p2; Select p1 such that Calls(_, p1)";
+            std::vector<std::string> expected = {"b", "c", "d", "g"};
+
+            REQUIRE(qps.evaluate(queryStr) == expected);
+        }
+
+        SECTION("simple calls: wildcard, wildcard") {
+            std::string queryStr = "procedure p1, p2; Select p1 such that Calls(_, _)";
+            std::vector<std::string> expected = {"a", "b", "c", "d", "f", "g"};
+
+            REQUIRE(qps.evaluate(queryStr) == expected);
+        }
+
+        SECTION("recursive: procedure, procedure") {
+            std::string queryStr = "procedure p1; Select p1 such that Calls(p1, p1)";
+            std::vector<std::string> expected = {"SyntaxError"};
+
+//            REQUIRE(qps.evaluate(queryStr) == expected); //TODO: should be syntax error
         }
     }
 }
