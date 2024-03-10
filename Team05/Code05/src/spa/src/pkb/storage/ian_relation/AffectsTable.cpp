@@ -1,16 +1,16 @@
 #include "AffectsTable.h"
 
 AffectsTable::AffectsTable() = default;
-bool AffectsTable::addAffects(StmtNo affector, StmtNo affected) {
-    return map.insert(affector, affected);
+bool AffectsTable::addAffects(StmtNo before, StmtNo after) {
+    return map.insert(before, after);
 }
 
-std::vector<StmtNo> AffectsTable::getAffector(StmtNo affected) {
-    return map.getKeys(affected);
+std::vector<StmtNo> AffectsTable::getAffector(StmtNo after) {
+    return map.getKeys(after);
 }
 
-std::vector<StmtNo> AffectsTable::getAffected(StmtNo affector) {
-    return map.getValues(affector);
+std::vector<StmtNo> AffectsTable::getAffected(StmtNo before) {
+    return map.getValues(before);
 }
 
 vector<vector<Str>> AffectsTable::getAllAsStrings() {
