@@ -269,6 +269,75 @@ TEST_CASE("[TestQPS] No Constraints"){
 
         REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
     }
+
+    SECTION("print statements") {
+        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        pkb->setPrint({{"1"}, {"2"}, {"3"}});
+        QPS qps(pkb);
+
+        std::string queryStr = "print r; Select r";
+        std::vector<std::string> expected = {"1", "2", "3"};
+
+        REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+    }
+
+    SECTION("if statements") {
+        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        pkb->setIf({{"1"}, {"2"}, {"3"}});
+        QPS qps(pkb);
+
+        std::string queryStr = "if r; Select r";
+        std::vector<std::string> expected = {"1", "2", "3"};
+
+        REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+    }
+
+    SECTION("while statements") {
+        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        pkb->setWhile({{"1"}, {"2"}, {"3"}});
+        QPS qps(pkb);
+
+        std::string queryStr = "while r; Select r";
+        std::vector<std::string> expected = {"1", "2", "3"};
+
+        REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+    }
+
+    SECTION("procedure statements") {
+        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        pkb->setProcedure({{"a"}, {"b"}, {"c"}});
+        QPS qps(pkb);
+
+        std::string queryStr = "procedure r; Select r";
+        std::vector<std::string> expected = {"a", "b", "c"};
+
+        REQUIRE(qps.evaluate(std::move(queryStr)) == expected); //TODO: return expected values instead of crashing
+
+    }
+
+    SECTION("variable statements") {
+        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        pkb->setVar({{"1"}, {"2"}, {"3"}});
+        QPS qps(pkb);
+
+        std::string queryStr = "variable r; Select r";
+        std::vector<std::string> expected = {"1", "2", "3"};
+
+//        REQUIRE(qps.evaluate(std::move(queryStr)) == expected); //TODO: return expected values instead of crashing
+    }
+
+    SECTION("constant statements") {
+        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        pkb->setConst({{"1"}, {"2"}, {"3"}});
+        QPS qps(pkb);
+
+        std::string queryStr = "constant r; Select r";
+        std::vector<std::string> expected = {"1", "2", "3"};
+
+//        REQUIRE(qps.evaluate(std::move(queryStr)) == expected); //TODO: return expected values instead of crashing
+    }
+
+
 }
 
 TEST_CASE("[TestQPS] Multiple Constraints"){
@@ -644,15 +713,42 @@ TEST_CASE("[TestQPS] Single Constraints") {
         pkb->setPatternAsgn({{"1","x=10"}, {"2","x=k"}, {"3","y=c"}, {"4","y=k"}, {"7","z=i"}});
         QPS qps(pkb);
 
-        SECTION("substring matching"){
+        SECTION("wildcard, substring matching"){
             std::string queryStr = "assign a; Select a pattern a (_,_\"10\"_)";
             std::vector<std::string> expected = {"1"};
 
             REQUIRE(qps.evaluate(queryStr) == expected);
         }
-        SECTION("substring no match"){
+        SECTION("wildcard, substring no match"){
             std::string queryStr = "assign a; Select a pattern a (_,_\"1\"_)";
             std::vector<std::string> expected = {};
+
+            REQUIRE(qps.evaluate(queryStr) == expected);
+        }
+
+        SECTION("quoted ident, substring matching"){
+            std::string queryStr = R"(assign a; Select a pattern a ("x",_"10"_))";
+            std::vector<std::string> expected = {"1"};
+
+            REQUIRE(qps.evaluate(queryStr) == expected);
+        }
+        SECTION("quoted ident, substring no match"){
+            std::string queryStr = R"(assign a; Select a pattern a ("y",_"1"_))";
+            std::vector<std::string> expected = {};
+
+            REQUIRE(qps.evaluate(queryStr) == expected);
+        }
+    }
+
+    SECTION("Calls") {
+        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        pkb->setProcedure({{"a"}, {"b"}, {"c"}, {"d"}});
+        pkb->setCalls({{"a", "b"}, {"c", "d"}});
+        QPS qps(pkb);
+
+        SECTION("simple call"){
+            std::string queryStr = "procedure p1, p2; select p1 such that Calls(p1, p2)";
+            std::vector<std::string> expected = {"a, c"};
 
             REQUIRE(qps.evaluate(queryStr) == expected);
         }
