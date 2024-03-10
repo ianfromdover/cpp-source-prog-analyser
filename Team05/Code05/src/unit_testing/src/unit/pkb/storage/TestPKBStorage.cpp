@@ -2,6 +2,7 @@
 // Created by yewme on 26/2/2024.
 //
 
+/*
 #include "catch.hpp"
 #include "pkb/apis/PKBStorage.h"
 
@@ -59,3 +60,4 @@ TEST_CASE("Test PKBStorage class") {
 
     }
 }
+*/

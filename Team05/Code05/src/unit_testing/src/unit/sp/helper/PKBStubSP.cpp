@@ -96,6 +96,9 @@ public:
         return true;
     }
 
+
+    bool addModifiesS(StmtNo sNum, VarName name) override {
+        //std::cout << "addModifies called" << std::endl;
     bool addUsesP(ProcName procName, VarName name) override {
         //std::cout << "addUsesP called" << std::endl;
         pairCalls.insert({procName, name});

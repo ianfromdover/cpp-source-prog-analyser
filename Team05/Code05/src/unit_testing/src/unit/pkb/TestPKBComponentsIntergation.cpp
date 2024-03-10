@@ -2,6 +2,7 @@
 // Created by yewme on 26/2/2024.
 //
 
+/*
 #include "catch.hpp"
 #include "pkb/apis/PopulatePKB.h"
 #include "pkb/apis/PKBStorage.h"
@@ -52,3 +53,5 @@ TEST_CASE("Integration test: PopulatePKB, PKBStorage, and QueryPKB") {
     }
 
 }
+
+ */

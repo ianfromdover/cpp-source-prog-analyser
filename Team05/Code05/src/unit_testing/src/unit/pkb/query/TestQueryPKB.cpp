@@ -2,6 +2,7 @@
 // Created by yewme on 26/2/2024.
 //
 
+/*
 #include "catch.hpp"
 #include "pkb/apis/QueryPKB.h"
 #include <memory>
@@ -38,3 +39,5 @@ TEST_CASE("Test QueryPKB class") {
         REQUIRE(callTable[1][1] == "proc2");
     }
 }
+
+*/

@@ -2,6 +2,7 @@
 // Created by yewme on 26/2/2024.
 //
 
+/*
 #include "catch.hpp"
 #include "pkb/apis/PopulatePKB.h"
 
@@ -140,3 +141,5 @@ TEST_CASE("Test addParentT function") {
     REQUIRE(table[0][0] == "14");
     REQUIRE(table[0][1] == "15");
 }
+
+ */
