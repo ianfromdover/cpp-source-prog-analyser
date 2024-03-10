@@ -1,17 +1,23 @@
-//
-// Created by sjh_9 on 25/2/2024.
-//
-
-#ifndef SPA_WHILETABLE_H
+#pragma once
 #define SPA_WHILETABLE_H
 
-#include "pkb/storage/base/Table.h"
+#include "utilSpa/SpaTypes.h"
+#include "pkb/storage/base/TwoSideMap.hpp"
 
-class WhileTable : public Table {
+/**
+ * Stores the while statements and the variables in their predicates in the program.
+ */
+class WhileTable {
+private:
+    TwoSideMap<StmtNo, VarName> map;
 public:
-    WhileTable() = default;
-
+    WhileTable();
+    // Adds a while statement to the table, returns false if it already exists
+    bool addWhile(StmtNo sNum, VarName ctrlVarNames);
+    // Returns the statement numbers of the while-statements that have the control variable
+    vector<StmtNo> getWhileStmts(VarName ctrlVarNames);
+    // Returns the control variables in this while-statement, if not found, returns empty vector
+    vector<VarName> getWhileVars(StmtNo sNum);
+    // Returns all the while statements and ctrl vars as strings in 2 columns: StmtNo | VarName
+    vector<vector<Str>> getAllAsStrings();
 };
-
-
-#endif //SPA_WHILETABLE_H

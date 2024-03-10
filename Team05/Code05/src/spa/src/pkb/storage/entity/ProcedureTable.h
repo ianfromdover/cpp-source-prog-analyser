@@ -1,17 +1,24 @@
-//
-// Created by sjh_9 on 25/2/2024.
-//
-
-#ifndef SPA_PROCEDURETABLE_H
+#pragma once
 #define SPA_PROCEDURETABLE_H
 
-#include "pkb/storage/base/Table.h"
+#include <vector>
+#include "utilSpa/SpaTypes.h"
 
-class ProcedureTable : public Table {
+/**
+ * Stores the procedures in the program.
+ */
+class ProcedureTable {
+private:
+    vector<ProcName> procList;
+
+    bool contains(ProcName name);
+
 public:
-    ProcedureTable() = default;
-
+    ProcedureTable();
+    // Adds a procedure name to the table, returns false if it already exists
+    bool addProc(ProcName name);
+    // Returns all the procedure names
+    vector<Str> getProcByName(ProcName name);
+    // Returns all the procedure names
+    vector<vector<Str>> getAllAsStrings();
 };
-
-
-#endif //SPA_PROCEDURETABLE_H

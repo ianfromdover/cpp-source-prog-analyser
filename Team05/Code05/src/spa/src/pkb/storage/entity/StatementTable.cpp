@@ -1,4 +1,4 @@
-#include "pkb/storage/ian_entity/StatementTable.h"
+#include "StatementTable.h"
 
 StatementTable::StatementTable() {}
 

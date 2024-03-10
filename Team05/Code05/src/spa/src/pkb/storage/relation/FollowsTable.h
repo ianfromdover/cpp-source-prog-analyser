@@ -1,20 +1,20 @@
-//
-// Created by sjh_9 on 25/2/2024.
-//
-
-#ifndef SPA_FOLLOWSTABLE_H
+#pragma once
 #define SPA_FOLLOWSTABLE_H
 
-#include "pkb/storage/base/Table.h"
+#include "utilSpa/SpaTypes.h"
+#include "pkb/storage/base/TwoSideMap.hpp"
 
-class FollowsTable : public Table {
-
+class FollowsTable {
+private:
+    TwoSideMap<StmtNo, StmtNo> map;
 public:
-    FollowsTable() = default;
-
-
+    FollowsTable();
+    // Adds a follows relationship to the follows table, returns true if the relationship is added
+    bool addFollows(StmtNo before, StmtNo after);
+    // Returns the statement that is followed by this statement
+    vector<StmtNo> getStmtBefore(StmtNo after);
+    // Returns the follower of this statement. Returns an empty list if there is no follower
+    vector<StmtNo> getFollower(StmtNo before);
+    // Gets a table with 2 columns, Before | After
+    vector<vector<Str>> getAllAsStrings();
 };
-
-
-
-#endif //SPA_FOLLOWSTABLE_H

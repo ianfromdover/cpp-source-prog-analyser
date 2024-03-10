@@ -1,18 +1,21 @@
-//
-// Created by sjh_9 on 25/2/2024.
-//
+#pragma once
+#define SPA_STMTTABLE_H
 
-#ifndef SPA_STATEMENTTABLE_H
-#define SPA_STATEMENTTABLE_H
+#include "utilSpa/SpaTypes.h"
 
-#include "pkb/storage/base/Table.h"
-
-class StatementTable  : public Table {
-
+/**
+ * Stores statement numbers
+ */
+class StatementTable {
+private:
+    StmtNo finalStatementNum;
 public:
-    StatementTable() = default;
-
+    StatementTable();
+    // Saves the final statement number so the table can generate a list of statements until it
+    bool addFinalStatementNo(StmtNo sNum);
+    // Returns a vector of statement 1...finalStatementNum
+    vector<StmtNo> getStmtByNum(StmtNo sNum);
+    vector<StmtNo> getAllStmts();
+    // Returns all the statements as strings
+    vector<vector<Str>> getAllAsStrings();
 };
-
-
-#endif //SPA_STATEMENTTABLE_H

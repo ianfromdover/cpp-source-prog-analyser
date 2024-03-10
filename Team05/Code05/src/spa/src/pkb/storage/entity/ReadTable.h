@@ -1,16 +1,24 @@
-//
-// Created by sjh_9 on 25/2/2024.
-//
-
-#ifndef SPA_READTABLE_H
+#pragma once
 #define SPA_READTABLE_H
 
-#include "pkb/storage/base/Table.h"
+#include "utilSpa/SpaTypes.h"
+#include "pkb/storage/base/TwoSideMap.hpp"
 
-class ReadTable : public Table {
+/**
+ * Stores the read statements and the variables that are read in the program.
+ * Note that the keys are variable names, and the values are statement numbers.
+ */
+class ReadTable {
+private:
+    TwoSideMap<StmtNo, VarName> map;
 public:
-    ReadTable() = default;
+    ReadTable();
+    // Adds a read statement to the table, returns false if it already exists
+    bool addRead(StmtNo sNum, VarName name);
+    // Returns the statement numbers of the statements that read a variable
+    vector<StmtNo> getReadStmts(VarName name);
+    // Returns the variable read by the statement number, if the variable is not found, returns an empty vector.
+    vector<VarName> getReadVar(StmtNo sNum);
+    // Returns all the read statements and read vars as strings in 2 columns: StmtNo | VarName
+    vector<vector<Str>> getAllAsStrings();
 };
-
-
-#endif //SPA_READTABLE_H

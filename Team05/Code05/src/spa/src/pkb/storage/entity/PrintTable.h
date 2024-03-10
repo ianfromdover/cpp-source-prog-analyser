@@ -1,16 +1,24 @@
-//
-// Created by sjh_9 on 25/2/2024.
-//
-
-#ifndef SPA_PRINTTABLE_H
+#pragma once
 #define SPA_PRINTTABLE_H
 
-#include "pkb/storage/base/Table.h"
+#include "utilSpa/SpaTypes.h"
+#include "pkb/storage/base/TwoSideMap.hpp"
 
-class PrintTable : public Table {
+/**
+ * Stores the print statements and the variables that are printed in the program.
+ * Note that the keys are variable names, and the values are statement numbers.
+ */
+class PrintTable {
+private:
+    TwoSideMap<StmtNo, VarName> map;
 public:
-    PrintTable() = default;
-
+    PrintTable();
+    // Adds a print statement to the table, returns false if it already exists
+    bool addPrint(StmtNo sNum, VarName name);
+    // Returns the statement numbers of the statements that print a variable
+    vector<StmtNo> getPrintStmts(VarName name);
+    // Returns the printed variable by the statement number, if the variable is not found, returns an empty vector.
+    vector<VarName> getPrintVar(StmtNo sNum);
+    // Returns all the print statements and printed vars as strings in 2 columns: StmtNo | VarName
+    vector<vector<Str>> getAllAsStrings();
 };
-
-#endif //SPA_PRINTTABLE_H

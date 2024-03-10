@@ -1,17 +1,27 @@
 //
-// Created by sjh_9 on 25/2/2024.
+// Created by yewme on 21/2/2024.
 //
 
 #ifndef SPA_PARENTTTABLE_H
 #define SPA_PARENTTTABLE_H
 
-#include "pkb/storage/base/Table.h"
+#include "utilSpa/SpaTypes.h"
+#include "pkb/storage/base/TwoSideMap.hpp"
 
-class ParentTTable : public Table {
 
+class ParentTTable {
+private:
+    TwoSideMap<StmtNo, StmtNo> map;
 public:
-    ParentTTable() = default;
-
+    ParentTTable();
+    // Adds a follows relationship to the follows table, returns true if the relationship is added
+    bool addParentT(StmtNo parent, StmtNo child);
+    // Returns a list of parents of the child, unsorted. Returns an empty list if the child does not exist
+    std::vector<StmtNo> getParentsT(StmtNo child);
+    // Returns a list of children of the parent, unsorted. Returns an empty list if the parent does not exist
+    std::vector<StmtNo> getChildrenT(StmtNo parent);
+    // Gets a table with 2 columns, Parent* | Child*
+    std::vector<std::vector<Str>> getAllAsStrings();
 };
 
 
