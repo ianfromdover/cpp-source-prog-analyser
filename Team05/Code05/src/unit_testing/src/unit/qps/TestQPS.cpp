@@ -837,6 +837,104 @@ TEST_CASE("[TestQPS] Single Constraints") {
             REQUIRE(qps.evaluate(queryStr) == expected);
         }
     }
+
+    SECTION("CallsT") {
+        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        pkb->setProcedure({{"a", "a"}, {"b", "b"}, {"c", "c"}, {"d", "d"}, {"f", "f"}, {"g", "g"}});
+        pkb->setCallsT({{"a", "b"}, {"c", "d"}, {"b", "c"}, {"f", "g"}, {"a", "c"}, {"a", "d"}, {"b", "d"}});
+        QPS qps(pkb);
+
+        SECTION("simple callsT: procedure, procedure"){
+            std::string queryStr = "procedure p1, p2; Select p1 such that Calls*(p1, p2)";
+            std::vector<std::string> expected = {"a", "b", "c", "f"};
+
+            REQUIRE(qps.evaluate(queryStr) == expected);
+        }
+
+        SECTION("simple callsT flipped: procedure, procedure"){
+            std::string queryStr = "procedure p1, p2; Select p1 such that Calls*(p2, p1)";
+            std::vector<std::string> expected = {"b", "c", "d", "g"};
+
+            REQUIRE(qps.evaluate(queryStr) == expected);
+        }
+
+        SECTION("simple callsT: procedure, wildcard") {
+            std::string queryStr = "procedure p1, p2; Select p1 such that Calls*(p1, _)";
+            std::vector<std::string> expected = {"a", "b", "c", "f"};
+
+            REQUIRE(qps.evaluate(queryStr) == expected);
+        }
+
+        SECTION("simple callsT: procedure, wildcard") {
+            std::string queryStr = "procedure p1, p2; Select p1 such that Calls*(_, p1)";
+            std::vector<std::string> expected = {"b", "c", "d", "g"};
+
+            REQUIRE(qps.evaluate(queryStr) == expected);
+        }
+
+        SECTION("simple callsT: wildcard, wildcard") {
+            std::string queryStr = "procedure p1, p2; Select p1 such that Calls*(_, _)";
+            std::vector<std::string> expected = {"a", "b", "c", "d", "f", "g"};
+
+            REQUIRE(qps.evaluate(queryStr) == expected);
+        }
+
+        SECTION("recursive: procedure, procedure") {
+            std::string queryStr = "procedure p1; Select p1 such that Calls*(p1, p1)";
+            std::vector<std::string> expected = {"SyntaxError"};
+
+//            REQUIRE(qps.evaluate(queryStr) == expected); //TODO: should be syntax error
+        }
+
+        SECTION("simple callsT: procedure, syn") {
+            std::string queryStr = "procedure p1; Select p1 such that Calls*(p1, \"b\")";
+            std::vector<std::string> expected = {"a"};
+
+            REQUIRE(qps.evaluate(queryStr) == expected);
+        }
+
+        SECTION("simple callsT: syn, syn") {
+            std::string queryStr = R"(procedure p1; Select p1 such that Calls*("a", "b"))";
+            std::vector<std::string> expected = {"a", "b", "c", "d", "f", "g"};
+
+            REQUIRE(qps.evaluate(queryStr) == expected);
+        }
+
+        SECTION("simple callsT: syn, procedure") {
+            std::string queryStr = "procedure p1; Select p1 such that Calls*(\"b\", p1)";
+            std::vector<std::string> expected = {"c", "d"};
+
+            REQUIRE(qps.evaluate(queryStr) == expected);
+        }
+
+        SECTION("simple callsT: syn, wildcard") {
+            std::string queryStr = "procedure p1; Select p1 such that Calls*(\"b\", _)";
+            std::vector<std::string> expected = {"a", "b", "c", "d", "f", "g"};
+
+            REQUIRE(qps.evaluate(queryStr) == expected);
+        }
+
+        SECTION("simple callsT: wildcard, syn") {
+            std::string queryStr = "procedure p1; Select p1 such that Calls*(_, \"b\")";
+            std::vector<std::string> expected = {"a", "b", "c", "d", "f", "g"};
+
+            REQUIRE(qps.evaluate(queryStr) == expected);
+        }
+
+        SECTION("simple callsT: wildcard, syn - negative") {
+            std::string queryStr = "procedure p1; Select p1 such that Calls*(_, \"k\")";
+            std::vector<std::string> expected = {};
+
+            REQUIRE(qps.evaluate(queryStr) == expected);
+        }
+
+        SECTION("simple callsT: syn, syn - transitive property") {
+            std::string queryStr = R"(procedure p1; Select p1 such that Calls*("a", "c"))";
+            std::vector<std::string> expected = {"a", "b", "c", "d", "f", "g"};
+
+            REQUIRE(qps.evaluate(queryStr) == expected);
+        }
+    }
 }
 
 std::vector<std::string> testHelper(std::string queryStr){
