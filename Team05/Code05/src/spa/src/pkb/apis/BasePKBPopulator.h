@@ -2,7 +2,7 @@
 // Created by sjh_9 on 25/2/2024.
 //
 
-#ifndef SPA_BASEPKBPOPULATOR_H
+#pragma once
 #define SPA_BASEPKBPOPULATOR_H
 
 #include <memory>
@@ -35,5 +35,3 @@ public:
     virtual bool addCalls(std::string caller, std::string called) = 0;
     virtual bool addCallsT(std::string caller, std::string called) = 0;
 };
-
-#endif //SPA_BASEPKBPOPULATOR_H

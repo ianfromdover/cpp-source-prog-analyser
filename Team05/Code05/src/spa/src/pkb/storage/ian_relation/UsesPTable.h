@@ -4,11 +4,11 @@
 #include "utilSpa/SpaTypes.h"
 #include "pkb/storage/base/TwoSideMap.hpp"
 
-class UsesSTable {
+class UsesPTable {
 private:
     TwoSideMap<ProcName, VarName> map; // note the Key is a ProcName
 public:
-    UsesSTable() = default;
+    UsesPTable() = default;
 
     bool addProc(ProcName proc, VarName name);
     vector<VarName> getVarFromProc(ProcName proc);

@@ -2,7 +2,7 @@
 // Created by sjh_9 on 25/2/2024.
 //
 
-#ifndef SPA_POPULATEPKB_H
+#pragma once
 #define SPA_POPULATEPKB_H
 
 #include "pkb/apis/BasePKBPopulator.h"
@@ -35,6 +35,3 @@ public:
     bool addCalls(std::string caller, std::string called) override;
     bool addCallsT(std::string caller, std::string called) override;
 };
-
-
-#endif //SPA_POPULATEPKB_H
