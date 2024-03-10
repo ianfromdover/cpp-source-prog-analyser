@@ -1,5 +1,5 @@
 #pragma once
-#define SPA_NEXTTABLE_H
+#define SPA_AFFECTSTABLE_H
 
 #include "utilSpa/SpaTypes.h"
 #include "pkb/storage/base/TwoSideMap.hpp"
