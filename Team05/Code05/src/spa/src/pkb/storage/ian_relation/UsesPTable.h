@@ -1,0 +1,18 @@
+#pragma once
+#define SPA_USESPTABLE_H
+
+#include "utilSpa/SpaTypes.h"
+#include "pkb/storage/base/TwoSideMap.hpp"
+
+class UsesSTable {
+private:
+    TwoSideMap<ProcName, VarName> map; // note the Key is a ProcName
+public:
+    UsesSTable() = default;
+
+    bool addProc(ProcName proc, VarName name);
+    vector<VarName> getVarFromProc(ProcName proc);
+    vector<ProcName> getProcFromVar(VarName name);
+    // Gets a table with 2 columns, ProcName | VarName
+    std::vector<std::vector<Str>> getAllProc();
+};

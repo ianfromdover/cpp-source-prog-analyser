@@ -6,19 +6,13 @@
 
 class UsesSTable {
 private:
-    TwoSideMap<ProcName, VarName> procNameMap; // note the Key is a ProcName
+    // combine into 1 if SP adds only by 1 api
     TwoSideMap<StmtNo, VarName> printMap;
     TwoSideMap<StmtNo, VarName> asgnMap;
     TwoSideMap<StmtNo, VarName> callMap;
     TwoSideMap<StmtNo, VarName> ifWhileContainerMap;
 public:
     UsesSTable() = default;
-
-    bool addProc(ProcName proc, VarName name);
-    vector<VarName> getVarFromProc(ProcName proc);
-    vector<ProcName> getProcFromVar(VarName name);
-    // Gets a table with 2 columns, ProcName | VarName
-    std::vector<std::vector<Str>> getAllProc();
 
     bool addPrint(StmtNo sNum, VarName name);
     vector<VarName> getPrintedVar(StmtNo sNum);

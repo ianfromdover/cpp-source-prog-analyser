@@ -3,22 +3,6 @@
 // ai-gen start (copilot, 0, e)
 // prompt: used copilot
 
-bool UsesSTable::addProc(ProcName proc, VarName name) {
-    return procNameMap.insert(proc, name);
-}
-
-vector<VarName> UsesSTable::getVarFromProc(ProcName proc) {
-    return procNameMap.getValues(proc);
-}
-
-vector<ProcName> UsesSTable::getProcFromVar(VarName name) {
-    return procNameMap.getKeys(name);
-}
-
-std::vector<std::vector<Str>> UsesSTable::getAllProc() {
-    return procNameMap.getAllForStrStr();
-}
-
 bool UsesSTable::addPrint(StmtNo sNum, VarName name) {
     return printMap.insert(sNum, name);
 }
