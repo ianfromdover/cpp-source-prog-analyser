@@ -787,6 +787,55 @@ TEST_CASE("[TestQPS] Single Constraints") {
 
 //            REQUIRE(qps.evaluate(queryStr) == expected); //TODO: should be syntax error
         }
+
+        SECTION("simple calls: procedure, syn") {
+            std::string queryStr = "procedure p1; Select p1 such that Calls(p1, \"b\")";
+            std::vector<std::string> expected = {"a"};
+
+            REQUIRE(qps.evaluate(queryStr) == expected);
+        }
+
+        SECTION("simple calls: syn, syn") {
+            std::string queryStr = R"(procedure p1; Select p1 such that Calls("a", "b"))";
+            std::vector<std::string> expected = {"a", "b", "c", "d", "f", "g"};
+
+            REQUIRE(qps.evaluate(queryStr) == expected);
+        }
+
+        SECTION("simple calls: syn, procedure") {
+            std::string queryStr = "procedure p1; Select p1 such that Calls(\"b\", p1)";
+            std::vector<std::string> expected = {"c"};
+
+            REQUIRE(qps.evaluate(queryStr) == expected);
+        }
+
+        SECTION("simple calls: syn, wildcard") {
+            std::string queryStr = "procedure p1; Select p1 such that Calls(\"b\", _)";
+            std::vector<std::string> expected = {"a", "b", "c", "d", "f", "g"};
+
+            REQUIRE(qps.evaluate(queryStr) == expected);
+        }
+
+        SECTION("simple calls: wildcard, syn") {
+            std::string queryStr = "procedure p1; Select p1 such that Calls(_, \"b\")";
+            std::vector<std::string> expected = {"a", "b", "c", "d", "f", "g"};
+
+            REQUIRE(qps.evaluate(queryStr) == expected);
+        }
+
+        SECTION("simple calls: wildcard, syn - negative") {
+            std::string queryStr = "procedure p1; Select p1 such that Calls(_, \"k\")";
+            std::vector<std::string> expected = {};
+
+            REQUIRE(qps.evaluate(queryStr) == expected);
+        }
+
+        SECTION("simple calls: syn, syn - transitive property not captured") {
+            std::string queryStr = R"(procedure p1; Select p1 such that Calls("a", "c"))";
+            std::vector<std::string> expected = {};
+
+            REQUIRE(qps.evaluate(queryStr) == expected);
+        }
     }
 }
 
