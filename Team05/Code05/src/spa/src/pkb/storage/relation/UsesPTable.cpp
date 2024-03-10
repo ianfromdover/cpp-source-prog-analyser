@@ -1,6 +1,6 @@
 #include "UsesPTable.h"
 
-bool UsesPTable::addProc(ProcName proc, VarName name) {
+bool UsesPTable::addUsesP(ProcName proc, VarName name) {
     return map.insert(proc, name);
 }
 

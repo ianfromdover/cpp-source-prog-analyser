@@ -10,7 +10,7 @@ private:
 public:
     UsesPTable() = default;
 
-    bool addProc(ProcName proc, VarName name);
+    bool addUsesP(ProcName proc, VarName name);
     vector<VarName> getVarFromProc(ProcName proc);
     vector<ProcName> getProcFromVar(VarName name);
     // Gets a table with 2 columns, ProcName | VarName

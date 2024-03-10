@@ -107,11 +107,9 @@ bool PopulatePKB::addPatternWhile(int stmtNo, std::string name) {
 }
 
 bool PopulatePKB::addUsesS(int stmtNo, std::string name) {
-    // TODO, awaiting agreement
-    // return pkb->usesSTable->addUses(stmtNo, name);
-    return false;
+    return pkb->usesSTable->addUsesS(stmtNo, name);
 }
 
 bool PopulatePKB::addUsesP(std::string procName, std::string name) {
-    return pkb->usesPTable->addProc(procName, name);
+    return pkb->usesPTable->addUsesP(procName, name);
 }
