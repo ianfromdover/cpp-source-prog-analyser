@@ -37,6 +37,7 @@ public:
     virtual bool addUsesP(std::string procName, std::string name) = 0;
     virtual bool addModifiesS(int stmtNo, std::string name) = 0;
     virtual bool addModifiesP(std::string procName, std::string name) = 0;
+    virtual bool addParentT(int ancestor, int descendant) = 0;
     virtual bool addPatternAsgn(int stmtNo, std::string lhs, std::string rhs) = 0;
     virtual bool addPatternIf(int stmtNo, std::string name) = 0;
     virtual bool addPatternWhile(int stmtNo, std::string name) = 0;

@@ -2,6 +2,9 @@
 
 PatternAssignTable::PatternAssignTable() = default;
 
+// TODO:
+// do C++ substring match from QPS' string to stored SP string, chatGPT it
+
 // ai-gen start (copilot, 2, e)
 // prompt: used copilot
 // -------- For StmtNo | VarName LHS table

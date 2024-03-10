@@ -40,6 +40,7 @@ public:
     bool addUsesP(std::string procName, std::string name) override;
     bool addModifiesS(int stmtNo, std::string name) override;
     bool addModifiesP(std::string procName, std::string name) override;
+    bool addParentT(int ancestor, int descendant) override;
     bool addPatternAsgn(int stmtNo, std::string lhs, std::string rhs) override;
     bool addPatternIf(int stmtNo, std::string name) override;
     bool addPatternWhile(int stmtNo, std::string name) override;
