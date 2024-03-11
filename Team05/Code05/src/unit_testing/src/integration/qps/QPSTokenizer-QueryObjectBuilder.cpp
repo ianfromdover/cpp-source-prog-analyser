@@ -13,20 +13,7 @@
 using namespace std;
 
 // this testHelper takes in a query in string and returns the query object string representation.
-std::string testHelper(std::string source) {
-    std::shared_ptr<QPSStrategyList> strategies = std::make_shared<QPSStrategyList>();
-    std::shared_ptr<QPSTokenList> tokens = std::make_shared<QPSTokenList>();
-    Tokenizer tokenizer(source, strategies, tokens);
-    tokenizer.tokenize();
-    QPSParser parser(*tokens);
-
-    std::shared_ptr<IntermediateQuery> intermediateQuery = parser.parse();
-    intermediateQuery->processDeclarations();
-
-    QueryObjectBuilder builder;
-    std::shared_ptr<QueryObject> qo = builder.build(intermediateQuery);
-    return qo->toString();
-}
+std::string testHelper(std::string source);
 
 TEST_CASE("OneDeclaration_TokenizertoQOBuilder_ReturnsOneSelectClause") {
     std::string source = "stmt s;"
@@ -540,4 +527,19 @@ TEST_CASE("1ConstraintWithPattern_TokenizertoQOBuilder_returnsCorrect") {
     std::string output = "{RETURN}: r [READ]\n{DECLARATIONS}: a [ASSIGN], f [IF], r [READ]\n{CONSTRAINTS}: Parent(_ [STMT WILDCARD], r [READ]), Pattern(_ [ENT WILDCARD], \"wildcardExpr\" [EXPR WITH WILDCARD])";
     REQUIRE(processed == output);
     cout << processed;
+}
+
+std::string testHelper(std::string source) {
+    std::shared_ptr<QPSStrategyList> strategies = std::make_shared<QPSStrategyList>();
+    std::shared_ptr<QPSTokenList> tokens = std::make_shared<QPSTokenList>();
+    Tokenizer tokenizer(source, strategies, tokens);
+    tokenizer.tokenize();
+    QPSParser parser(*tokens);
+
+    std::shared_ptr<IntermediateQuery> intermediateQuery = parser.parse();
+    intermediateQuery->processDeclarations();
+
+    QueryObjectBuilder builder;
+    std::shared_ptr<QueryObject> qo = builder.build(intermediateQuery);
+    return qo->toString();
 }
