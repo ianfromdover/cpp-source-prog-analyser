@@ -29,6 +29,10 @@ std::vector<std::vector<std::string>> CallsConstraint::getRelationshipTable(Quer
     std::string lhsHeader = lhsEntityType == TYPE_PROCEDURE ? args[0]->getArgumentValue() : "CallsLHS";
     std::string rhsHeader = rhsEntityType == TYPE_PROCEDURE ? args[1]->getArgumentValue() : "CallsRHS";
 
+    if (lhsHeader==rhsHeader) {
+        return {{lhsHeader}};
+    }
+
     // Insertion of headers into our results table
     result.insert(result.begin(), {lhsHeader, rhsHeader});
     ResultTable table(result);

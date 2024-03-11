@@ -783,9 +783,9 @@ TEST_CASE("[TestQPS] Single Constraints") {
 
         SECTION("recursive: procedure, procedure") {
             std::string queryStr = "procedure p1; Select p1 such that Calls(p1, p1)";
-            std::vector<std::string> expected = {"SyntaxError"};
+            std::vector<std::string> expected = {};
 
-//            REQUIRE(qps.evaluate(queryStr) == expected); //TODO: should be syntax error
+            REQUIRE(qps.evaluate(queryStr) == expected);
         }
 
         SECTION("simple calls: procedure, syn") {
@@ -881,9 +881,9 @@ TEST_CASE("[TestQPS] Single Constraints") {
 
         SECTION("recursive: procedure, procedure") {
             std::string queryStr = "procedure p1; Select p1 such that Calls*(p1, p1)";
-            std::vector<std::string> expected = {"SyntaxError"};
+            std::vector<std::string> expected = {};
 
-//            REQUIRE(qps.evaluate(queryStr) == expected); //TODO: should be syntax error
+            REQUIRE(qps.evaluate(queryStr) == expected);
         }
 
         SECTION("simple callsT: procedure, syn") {
