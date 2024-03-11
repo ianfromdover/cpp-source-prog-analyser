@@ -12,6 +12,7 @@
 #include <iostream>
 #include <sstream>
 #include <regex>
+#include <map>
 #include "common/Column.h"
 
 using table = std::vector<std::vector<std::string>>;
@@ -141,9 +142,15 @@ public:
         _table = filteredTab; // Replace the original table with the filtered results
     }
 
+    bool hasHeader(std::string& header){
+        return std::find(_table[0].begin(), _table[0].end(), header) != _table[0].end();
+    }
+
     void removeColumnByHeader(std::string& header){
-        size_t index = findColumnIndex(_table, header);
-        removeColumnByIndex(index);
+        if (hasHeader(header)) {
+            size_t index = findColumnIndex(_table, header);
+            removeColumnByIndex(index);
+        }
     }
 
     void removeColumnByIndex(int i){
@@ -249,43 +256,82 @@ public:
         }
     }
 
+    static std::vector<std::vector<std::string>> nestedLoopJoin(const table& tableA, const table& tableB) {
+        // guaranteed to have common headers
+        table result;
+
+        map<string, size_t> headerIndex;
+        vector<string> headers;
+
+        for (size_t i = 0; i < tableA[0].size(); ++i) {
+            headerIndex[tableA[0][i]] = i;
+            headers.push_back(tableA[0][i]);
+        }
+        size_t offset = tableA[0].size();
+        for (size_t i = 0; i < tableB[0].size(); ++i) {
+            if (headerIndex.find(tableB[0][i]) == headerIndex.end()) {
+                headerIndex[tableB[0][i]] = i + offset;
+                headers.push_back(tableB[0][i]);
+            }
+        }
+
+        // find common headers
+        vector<string> commonHeaders = findCommonHeaders(tableA, tableB);
+
+        map<string, size_t> headerMapA;
+        map<string, size_t> headerMapB;
+
+        for (size_t i = 0; i < commonHeaders.size(); ++i) {
+            headerMapA[commonHeaders[i]] = findColumnIndex(tableA, commonHeaders[i]);
+            headerMapB[commonHeaders[i]] = findColumnIndex(tableB, commonHeaders[i]);
+        }
+
+        // insert all headers
+        result.push_back(headers);
+
+        // iterate through table a
+        for (size_t i = 1; i < tableA.size(); ++i) {
+            // iterate through table b
+            vector<string> entryA = tableA[i];
+            for (size_t j = 1; j < tableB.size(); ++j) {
+                vector<string> entryB = tableB[j];
+
+                bool match = false;
+                for (const auto& header: commonHeaders) {
+                    if (entryA[headerMapA[header]] == entryB[headerMapB[header]]) {
+                        match = true;
+                    } else {
+                        match = false;
+                        break;
+                    }
+                }
+
+                if (match){
+                    // join records
+                    vector<string> row;
+                    for (const auto& e: entryA) {
+                        row.push_back(e);
+                    }
+                    for (int i=0;i<entryB.size();i++){
+                        string header = tableB[0][i];
+                        if (std::find(commonHeaders.begin(), commonHeaders.end(), header) == commonHeaders.end()){
+                            row.push_back(entryB[i]);
+                        }
+                    }
+                    result.push_back(row);
+                }
+            }
+        }
+
+        return result;
+    }
+
     // Code snippet referenced from: https://www.geeksforgeeks.org/joining-tables-using-multimaps/
     static table joinOrCrossProduct(const table& a, const table& b) {
         vector<string> commonHeaders = findCommonHeaders(a, b);
 
         if (!commonHeaders.empty()) {
-            table result;
-
-            // Add header from table A
-            result.push_back({a[0].begin(), a[0].end()});
-            // Extend with header from table B, skipping common headers
-            for (const auto& header : b[0]) {
-                if (std::find(commonHeaders.begin(), commonHeaders.end(), header) == commonHeaders.end()) {
-                    result[0].push_back(header);
-                }
-            }
-
-            size_t columnA = findColumnIndex(a, commonHeaders[0]);
-            size_t columnB = findColumnIndex(b, commonHeaders[0]);
-
-            for (size_t i = 1; i < a.size(); ++i) {
-                for (size_t j = 1; j < b.size(); ++j) {
-                    if (a[i][columnA] == b[j][columnB]) {
-                        vector<string> row(a[i].begin(), a[i].end());
-
-                        // Insert elements from b[j], skipping common columns
-                        for (size_t k = 0; k < b[j].size(); ++k) {
-                            // Only add if the column is not common
-                            if (std::find(commonHeaders.begin(), commonHeaders.end(), b[0][k]) == commonHeaders.end()) {
-                                row.push_back(b[j][k]);
-                            }
-                        }
-
-                        result.push_back(std::move(row));
-                    }
-                }
-            }
-            return result;
+            return nestedLoopJoin(a, b);
         }
         else {
             // Perform cross product
