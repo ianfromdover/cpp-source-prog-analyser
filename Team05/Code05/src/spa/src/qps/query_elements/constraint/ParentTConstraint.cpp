@@ -69,6 +69,13 @@ std::vector<std::vector<std::string>> ParentTConstraint::getRelationshipTable(Qu
         table.add(entityTable);
     }
 
+    if (lhsHeader == "PARENTTLHS"){
+        table.removeColumnByHeader(lhsHeader);
+    }
+    if (rhsHeader == "PARENTTRHS"){
+        table.removeColumnByHeader(rhsHeader);
+    }
+
     return table.getTable();
 }
 

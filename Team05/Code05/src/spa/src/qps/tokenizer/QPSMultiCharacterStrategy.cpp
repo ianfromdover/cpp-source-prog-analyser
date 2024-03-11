@@ -55,6 +55,8 @@ bool QPSMultiCharacterStrategy::expectSynonymNext(const std::string &name, QPSTo
             {"Parent*",   QPSTokenType::PARENT_T},
             {"Modifies",  QPSTokenType::MODIFIES_S},
             {"Uses",      QPSTokenType::USES_S},
+            {"Calls",     QPSTokenType::CALLS},
+            {"Calls*",    QPSTokenType::CALLS_T},
 
             {"Select",    QPSTokenType::SELECT},
             {"that",      QPSTokenType::THAT},
@@ -97,7 +99,8 @@ bool QPSMultiCharacterStrategy::starAllowed(const std::string& name) {
     static const std::map<std::string, QPSTokenType::QPSTypeInfo> declarationKeywords = {
             // Design entities
             {"Parent",      QPSTokenType::PARENT},
-            {"Follows",      QPSTokenType::FOLLOWS}};
+            {"Follows",      QPSTokenType::FOLLOWS},
+            {"Calls",      QPSTokenType::CALLS}};
 
     return declarationKeywords.find(name) != declarationKeywords.end();
 }

@@ -19,7 +19,7 @@ generateTokenList(std::initializer_list<std::pair<QPSTokenType::QPSTypeInfo, std
 TEST_CASE("scratch pad parser") {
     SECTION("pattern_modifies"){
         QPSTokenList tokens;
-        tokens = TokenListBuilder().multiAssignDeclaration().select().identifier().validPattern().validFollows().get();
+        tokens = TokenListBuilder().multiAssignDeclaration().select().identifier().validCalls().get();
 
         QPSParser parser(tokens);
         REQUIRE_NOTHROW(parser.parse());
@@ -46,12 +46,23 @@ TEST_CASE("multipleDeclaration_singleSelect") {
 }
 
 TEST_CASE("singleDeclaration_singleSelect_singleRelationship1") {
-    QPSTokenList tokens;
-    tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().suchThat().follows().leftParen().identifier().comma().identifier().rightParen().get();
+
+    SECTION("follows") {
+        QPSTokenList tokens;
+        tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().suchThat().follows().leftParen().identifier().comma().identifier().rightParen().get();
 
 
-    QPSParser parser(tokens);
-    REQUIRE_NOTHROW(parser.parse());
+        QPSParser parser(tokens);
+        REQUIRE_NOTHROW(parser.parse());
+    }
+
+    SECTION("pattern_synonym_wildcard") {
+        QPSTokenList tokens;
+        tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().pattern().identifier().leftParen().identifier().comma().wildcard().rightParen().get();
+
+        QPSParser parser(tokens);
+        REQUIRE_NOTHROW(parser.parse());
+    }
 }
 
 TEST_CASE("singleDeclaration_singleSelect_singlePattern") {
@@ -516,6 +527,136 @@ TEST_CASE("singleDeclaration_singleSelect_singleRelationship") {
         SECTION("integer_quotedIdent"){
             QPSTokenList tokens;
             tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().suchThat().modifies().leftParen().integer().comma().quotedIdent().rightParen().get();
+
+            QPSParser parser(tokens);
+            REQUIRE_NOTHROW(parser.parse());
+        }
+    }
+    SECTION("calls"){
+        SECTION("synonyn_synonym") {
+            QPSTokenList tokens;
+            tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().suchThat().calls().leftParen().identifier().comma().identifier().rightParen().get();
+
+            QPSParser parser(tokens);
+            REQUIRE_NOTHROW(parser.parse());
+        }
+        SECTION("synonyn_wildcard") {
+            QPSTokenList tokens;
+            tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().suchThat().calls().leftParen().identifier().comma().wildcard().rightParen().get();
+
+            QPSParser parser(tokens);
+            REQUIRE_NOTHROW(parser.parse());
+        }
+        SECTION("synonyn_quotedIdentifier") {
+            QPSTokenList tokens;
+            tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().suchThat().calls().leftParen().identifier().comma().quotedIdent().rightParen().get();
+
+            QPSParser parser(tokens);
+            REQUIRE_NOTHROW(parser.parse());
+        }
+        SECTION("wildcard_synonym"){
+            QPSTokenList tokens;
+            tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().suchThat().calls().leftParen().wildcard().comma().identifier().rightParen().get();
+
+            QPSParser parser(tokens);
+            REQUIRE_NOTHROW(parser.parse());
+        }
+        SECTION("wildcard_wildcard"){
+            QPSTokenList tokens;
+            tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().suchThat().calls().leftParen().wildcard().comma().wildcard().rightParen().get();
+
+            QPSParser parser(tokens);
+            REQUIRE_NOTHROW(parser.parse());
+        }
+        SECTION("wildcard_quotedIdentifier"){
+            QPSTokenList tokens;
+            tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().suchThat().calls().leftParen().wildcard().comma().quotedIdent().rightParen().get();
+
+            QPSParser parser(tokens);
+            REQUIRE_NOTHROW(parser.parse());
+        }
+        SECTION("quotedIdentifier_synonym"){
+            QPSTokenList tokens;
+            tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().suchThat().calls().leftParen().quotedIdent().comma().identifier().rightParen().get();
+
+            QPSParser parser(tokens);
+            REQUIRE_NOTHROW(parser.parse());
+        }
+        SECTION("quotedIdentifier_wildcard"){
+            QPSTokenList tokens;
+            tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().suchThat().calls().leftParen().quotedIdent().comma().wildcard().rightParen().get();
+
+            QPSParser parser(tokens);
+            REQUIRE_NOTHROW(parser.parse());
+        }
+        SECTION("quotedIdentifier_quotedIdentifier"){
+            QPSTokenList tokens;
+            tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().suchThat().calls().leftParen().quotedIdent().comma().quotedIdent().rightParen().get();
+
+            QPSParser parser(tokens);
+            REQUIRE_NOTHROW(parser.parse());
+        }
+    }
+    SECTION("calls*"){
+        SECTION("synonyn_synonym") {
+            QPSTokenList tokens;
+            tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().suchThat().callsStar().leftParen().identifier().comma().identifier().rightParen().get();
+
+            QPSParser parser(tokens);
+            REQUIRE_NOTHROW(parser.parse());
+        }
+        SECTION("synonyn_wildcard") {
+            QPSTokenList tokens;
+            tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().suchThat().callsStar().leftParen().identifier().comma().wildcard().rightParen().get();
+
+            QPSParser parser(tokens);
+            REQUIRE_NOTHROW(parser.parse());
+        }
+        SECTION("synonyn_quotedIdentifier") {
+            QPSTokenList tokens;
+            tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().suchThat().callsStar().leftParen().identifier().comma().quotedIdent().rightParen().get();
+
+            QPSParser parser(tokens);
+            REQUIRE_NOTHROW(parser.parse());
+        }
+        SECTION("wildcard_synonym"){
+            QPSTokenList tokens;
+            tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().suchThat().callsStar().leftParen().wildcard().comma().identifier().rightParen().get();
+
+            QPSParser parser(tokens);
+            REQUIRE_NOTHROW(parser.parse());
+        }
+        SECTION("wildcard_wildcard"){
+            QPSTokenList tokens;
+            tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().suchThat().callsStar().leftParen().wildcard().comma().wildcard().rightParen().get();
+
+            QPSParser parser(tokens);
+            REQUIRE_NOTHROW(parser.parse());
+        }
+        SECTION("wildcard_quotedIdentifier"){
+            QPSTokenList tokens;
+            tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().suchThat().callsStar().leftParen().wildcard().comma().quotedIdent().rightParen().get();
+
+            QPSParser parser(tokens);
+            REQUIRE_NOTHROW(parser.parse());
+        }
+        SECTION("quotedIdentifier_synonym"){
+            QPSTokenList tokens;
+            tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().suchThat().callsStar().leftParen().quotedIdent().comma().identifier().rightParen().get();
+
+            QPSParser parser(tokens);
+            REQUIRE_NOTHROW(parser.parse());
+        }
+        SECTION("quotedIdentifier_wildcard"){
+            QPSTokenList tokens;
+            tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().suchThat().callsStar().leftParen().quotedIdent().comma().wildcard().rightParen().get();
+
+            QPSParser parser(tokens);
+            REQUIRE_NOTHROW(parser.parse());
+        }
+        SECTION("quotedIdentifier_quotedIdentifier"){
+            QPSTokenList tokens;
+            tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().suchThat().callsStar().leftParen().quotedIdent().comma().quotedIdent().rightParen().get();
 
             QPSParser parser(tokens);
             REQUIRE_NOTHROW(parser.parse());
