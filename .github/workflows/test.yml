@@ -13,7 +13,10 @@ jobs:
     name: c-linter
     runs-on: ubuntu-latest
     steps:
-      - name: c-linter
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: linter
         uses: ArtificialAmateur/cpp-linter-action@master
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
