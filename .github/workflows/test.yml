@@ -30,6 +30,7 @@ jobs:
           verbosity: info
           repo-root: ${{github.workspace}}/Team05/Code05/
           files-changed-only: false
+          ignore: ${{github.workspace}}/Team05/Code05/lib/catch.hpp
           database: ${{github.workspace}}/Team05/Code05/build/compile_commands.json
       - name: Fail fast?!
         if: steps.linter.outputs.checks-failed > 0
