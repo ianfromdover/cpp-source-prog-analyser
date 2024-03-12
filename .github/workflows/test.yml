@@ -24,7 +24,7 @@ jobs:
           # only 'update' a single comment in a pull request's thread.
           thread-comments: ${{ github.event_name == 'pull_request' && 'update' }}
           verbosity: debug
-          repo-root: 'Team05/Code05'
+          repo-root: ${{github.workspace}}/Team05/Code05/
       - name: Fail fast?!
         if: steps.linter.outputs.checks-failed > 0
         run: exit 1
