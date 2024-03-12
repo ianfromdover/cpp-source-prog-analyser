@@ -12,7 +12,7 @@
 //#include "pkb/storage/entity/ConstantTable.h"
 //#include "pkb/storage/relation/FollowsTable.h"
 //#include "pkb/storage/relation/FollowsTTable.h"
-#include "pkb/storage/entity/AssignTable.h"
+//#include "pkb/storage/entity/AssignTable.h"
 #include "pkb/storage/relation/ParentTable.h"
 #include "pkb/storage/relation/ParentTTable.h"
 #include "pkb/storage/relation/ModifiesTable.h"
@@ -83,11 +83,7 @@ public:
     std::shared_ptr<UsesPTable> usesPTable = std::make_shared<UsesPTable>();
     std::shared_ptr<UsesSTable> usesSTable = std::make_shared<UsesSTable>();
     // std::shared_ptr<UsesPTable> usesPTable = std::make_shared<UsesPTable>(); // not yet implemented
-    std::shared_ptr<PatternAssignTable> patternAssignTable = std::make_shared<PatternAssignTable>();
 //    std::shared_ptr<CallsTable> callsTable = std::make_shared<CallsTable>(); // bug: no include
 //    std::shared_ptr<CallsTTable> callsTTable = std::make_shared<CallsTTable>(); // bug: no include
-    std::shared_ptr<UsesPTable> usesPTable = std::make_shared<UsesPTable>();
-    std::shared_ptr<CallsTable> callsTable = std::make_shared<CallsTable>();
-    std::shared_ptr<CallsTTable> callsTTable = std::make_shared<CallsTTable>();
 
 };

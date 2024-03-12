@@ -5,7 +5,7 @@
 #ifndef SPA_PARENTTTABLE_H
 #define SPA_PARENTTTABLE_H
 
-#include "utilSpa/SpaTypes.h"
+#include "common/SpaTypes.h"
 #include "pkb/storage/base/TwoSideMap.hpp"
 
 

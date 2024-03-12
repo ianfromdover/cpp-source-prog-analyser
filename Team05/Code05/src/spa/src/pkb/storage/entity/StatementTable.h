@@ -1,7 +1,7 @@
 #pragma once
 #define SPA_STMTTABLE_H
 
-#include "utilSpa/SpaTypes.h"
+#include "common/SpaTypes.h"
 
 /**
  * Stores statement numbers

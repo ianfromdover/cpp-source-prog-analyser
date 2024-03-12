@@ -168,6 +168,7 @@ std::vector<std::vector<std::string>> QueryPKB::getStmtTable() {
 
 // TODO
 std::vector<std::vector<std::string>> QueryPKB::getVarByName(VarName var) {
+    return {{}};
     // return toVecVecStr(pkb->varTable->getVarByName(var));
 }
 
@@ -318,22 +319,27 @@ std::vector<std::vector<std::string>> QueryPKB::getModifiesPTable() {
 // PatternAssign
 // TODO: patternAssign methods in the class are not ready
 std::vector<std::vector<std::string>> QueryPKB::getPatternByNum(StmtNo sNum) {
+    return {{}};
 //    return toVecVecStr(pkb->patternAssignTable.get);
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getPatternByLhs(std::string Lhs) {
+    return {{}};
 //    return toVecVecStr(pkb->patternAssignTable->getRhsFromLhs(Lhs));
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getPatternByRhs(std::string Rhs) {
+    return {{}};
 //    return toVecVecStr(pkb->patternAssignTable->getLhsFromRhs(Rhs));
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getPatternByLhsPartial(std::string LhsPartial) {
+    return {{}};
 //    return toVecVecStr(pkb->patternAssignTable.get);
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getPatternByRhsPartial(std::string RhsPartial) {
+    return {{}};
 //    return std::vector<std::vector<std::string>>();
 }
 

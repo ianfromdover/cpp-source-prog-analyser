@@ -35,15 +35,10 @@ public:
     bool addNext(int before, int after) override;
     bool addNextT(int before, int after) override;
     bool addParent(int parent, int child) override;
-    bool addParentT(int parent, int child) override;
+    bool addParentT(int ancestor, int descendant) override;
     bool addUsesS(int stmtNo, std::string name) override;
     bool addUsesP(std::string procName, std::string name) override;
-    bool addModifiesS(int stmtNo, std::string name) override;
-    bool addModifiesP(std::string procName, std::string name) override;
-    bool addParentT(int ancestor, int descendant) override;
     bool addPatternAsgn(int stmtNo, std::string lhs, std::string rhs) override;
     bool addPatternIf(int stmtNo, std::string name) override;
     bool addPatternWhile(int stmtNo, std::string name) override;
-    bool addUsesS(int stmtNo, std::string name) override;
-    bool addUsesP(std::string procName, std::string name) override;
 };

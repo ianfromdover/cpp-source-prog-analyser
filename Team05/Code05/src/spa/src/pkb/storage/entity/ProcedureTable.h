@@ -2,7 +2,7 @@
 #define SPA_PROCEDURETABLE_H
 
 #include <vector>
-#include "utilSpa/SpaTypes.h"
+#include "common/SpaTypes.h"
 
 /**
  * Stores the procedures in the program.

@@ -1,7 +1,7 @@
 #pragma once
 #define SPA_NEXTTTABLE_H
 
-#include "utilSpa/SpaTypes.h"
+#include "common/SpaTypes.h"
 #include "pkb/storage/base/TwoSideMap.hpp"
 
 
