@@ -23,7 +23,8 @@ jobs:
           tidy-checks: '' # Use .clang-tidy config file
           # only 'update' a single comment in a pull request's thread.
           thread-comments: ${{ github.event_name == 'pull_request' && 'update' }}
-          verbosity: debug
+          verbosity: info
+          ignore: lib/catch.hpp
           repo-root: ${{github.workspace}}/Team05/Code05/
           files-changed-only: false
       - name: Fail fast?!
