@@ -9,14 +9,28 @@ on:
     branches: [ "cicd" ]
 
 jobs:
-  lint:
+  c-linter:
+    name: c-linter
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
 
-      - name: lint
-        uses: DoozyX/clang-format-lint-action@v0.8
+      - name: Configure CMake
+        run: cmake -S ${{github.workspace}}/Team05/Code05/ -B ${{github.workspace}}/Team05/Code05/build -DCMAKE_BUILD_TYPE=Debug
+
+      - uses: cpp-linter/cpp-linter-action@v2
+        id: linter
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          source: './Team05/Code05'
-          extensions: 'cpp,h'
+          style: 'file'  # Use .clang-format config file
+          tidy-checks: '' # Use .clang-tidy config file
+          # only 'update' a single comment in a pull request's thread.
+          thread-comments: ${{ github.event_name == 'pull_request' && 'update' }}
+          verbosity: info
+          repo-root: ${{github.workspace}}/Team05/Code05/
+          files-changed-only: false
+          database: ${{github.workspace}}/Team05/Code05/build/compile_commands.json
+      - name: Fail fast?!
+        if: steps.linter.outputs.checks-failed > 0
+        run: exit 1
