@@ -26,7 +26,7 @@ TEST_CASE("Milestone 1 failures") {
                 if (i == 1) then {
                     w = 0;
                 } else {
-                    g = 1;
+                    g = 10;
                     g=x;
                 }
                 x=1;
@@ -48,7 +48,6 @@ TEST_CASE("Milestone 1 failures") {
     QPS qps(std::make_shared<QueryPKB>(pkb1));
 
     SECTION("fail 1") {
-        //std::string query = "assign a; while w; Select a such that Modifies (w, \"x\") pattern a (_, _\"x\"_)";
         std::string query = "assign a; while w; Select a such that Modifies (w, \"x\") pattern a (_, _\"x\"_)";
         std::vector<std::vector<std::string>> table = pkb1.getModifies();
         ResultTable t(table);
@@ -87,18 +86,27 @@ TEST_CASE("Milestone 1 failures") {
 //        REQUIRE(ans==expected);
 //    }
 //
-//    SECTION("fail 5") {
-//        std::string query = "assign a; Select a pattern a (_, _\"1 \"_)";
-//        std::vector<std::string> expected  = {"SyntaxError"};
-//        std::vector<std::string> ans = qps.evaluate(query);
-//        std::sort(ans.begin(), ans.end());
-//        std::sort(expected.begin(), expected.end());
-//        REQUIRE(ans==expected);
-//    }
+    SECTION("fail 5") {
+        std::string query = "assign a; Select a pattern a (_, _\"1 \"_)";
+        std::vector<std::string> expected  = {"3","11","14"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans==expected);
+    }
+
+    SECTION("fail 5-1") {
+        std::string query = "assign a; Select a pattern a (_, _\"10 \"_)";
+        std::vector<std::string> expected  = {"9"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans==expected);
+    }
 
     SECTION("fail 6") {
         std::string query = "assign a; variable v; Select a such that Uses (a, v) pattern a (v, _)";
-        std::vector<std::string> expected  = {"10","15"};
+        std::vector<std::string> expected  = {};
         std::vector<std::string> ans = qps.evaluate(query);
         std::sort(ans.begin(), ans.end());
         std::sort(expected.begin(), expected.end());

@@ -1109,7 +1109,6 @@ TEST_CASE("Follows* Handler - QPS") {
         REQUIRE(ans == expected);
     }
 
-        /** Error when synonym is the same and I am selecting S2**/
     SECTION("Select s2 such that Follows*(s1, s2)") {
         std::string query = "assign s1; assign s2; Select s2 such that Follows*(s1, s2)";
         std::vector<std::string> expected = {"13", "14"};
@@ -1185,6 +1184,55 @@ TEST_CASE("Follows* Handler - QPS") {
     }
 }
 
+TEST_CASE("Multi-clause"){
+    std::string codeSnippet = R"(
+    procedure computeCentroid {
+        print x;
+        if (hello == 0) then {
+            y=1;
+            print t;
+            read f;
+            while (x == 0) {
+                if (i == 1) then {
+                    w = 0;
+                } else {
+                    g = 1;
+                }
+                x=x+1;
+            }
+        } else {
+            print hello;
+        }
+        x=0;
+        y=1;
+        z=x+y;
+    }
+    )";
+    std::shared_ptr<PKBStorage> p = std::make_shared<PKBStorage>();
+    auto pkb = make_shared<PopulatePKB>(p);
+    auto sp = SourceProcessor(pkb);
+    sp.exec(codeSnippet);
+    QueryPKB pkb1(p);
+    QPS qps(std::make_shared<QueryPKB>(pkb1));
+
+    SECTION("merging of multi clause with multiple common synonym") {
+        std::string query = "assign a; variable v; Select v such that Uses(a, v) pattern a(v, _)";
+        std::vector<std::string> expected = {"x"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+    SECTION("merging of multi clause with multiple common synonym1") {
+        std::string query = "assign a; variable v; Select a such that Uses(a, v) pattern a(v, _)";
+        std::vector<std::string> expected = {"10"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+}
+
 TEST_CASE("Calls relationship"){
     std::string codeSnippet = R"(
     procedure f {
@@ -1205,15 +1253,6 @@ TEST_CASE("Calls relationship"){
         x=1;
     }
     )";
-
-    // calls(f, f1) -> T
-    // calls(f, f2) -> F
-    // calls(f1, f2) -> T
-    // calls(f2, f) -> F
-
-    // calls*(f, f1) -> T
-    // calls*(f, f2) -> T
-    // calls*(f1, f2) -> T
 
     std::shared_ptr<PKBStorage> p=std::make_shared<PKBStorage>();
     auto pkb = make_shared<PopulatePKB>(p);

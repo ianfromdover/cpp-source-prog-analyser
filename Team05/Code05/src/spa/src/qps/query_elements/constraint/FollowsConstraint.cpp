@@ -50,7 +50,7 @@ std::vector<std::vector<std::string>> FollowsConstraint::getRelationshipTable(Qu
         if (lhsEntityType != TYPE_STATEMENT) {
             entityTableResult.removeColumnByIndex(1);
         }
-        table.add(entityTable);
+        table.add(entityTableResult.getTable());
     }
 
     // Handling RHS by Entity Type
@@ -64,7 +64,7 @@ std::vector<std::vector<std::string>> FollowsConstraint::getRelationshipTable(Qu
         if (rhsEntityType != TYPE_STATEMENT) {
             entityTableResult.removeColumnByIndex(1);
         }
-        table.add(entityTable);
+        table.add(entityTableResult.getTable());
     }
 
     if (lhsHeader == "FollowsLHS"){
