@@ -9,15 +9,13 @@
 #include <string>
 #include "QueryPreprocessor/QueryPreprocessor.h"
 #include "QueryEvaluator/QueryEvaluator.h"
-#include "pkb/QueryPKB.h"
+#include "pkb/apis/QueryPKB.h"
 
 class QPS {
 public:
-    QPS(QueryPKB stub){
-        pkb = stub;
-    }
+    QPS(std::shared_ptr<QueryPKBVirtual> pkbInstance): pkb(std::move(pkbInstance)) {};
     std::vector<std::string> evaluate(std::string);
-    QueryPKB pkb;
+    std::shared_ptr<QueryPKBVirtual> pkb;
 };
 
 

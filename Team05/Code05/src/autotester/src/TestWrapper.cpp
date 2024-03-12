@@ -1,7 +1,7 @@
 #include <fstream>
 #include "TestWrapper.h"
 #include "qps/QPS.h"
-#include "../../spa/src/utilSpa/base_exception/BaseException.h"
+#include "../../spa/src/common/base_exception/BaseException.h"
 
 // implementation code of WrapperFactory - do NOT modify the next 5 lines
 AbstractWrapper* WrapperFactory::wrapper = 0;
@@ -28,7 +28,13 @@ void TestWrapper::parse(std::string filename) {
         input += line + "\n";
     }
     theFile.close();
-    sp.exec(input);
+    try {
+        sp.exec(input);
+    } catch (BaseException& exception) {
+        // handle exception
+        std::cerr << "Caught BaseException: " << exception.what() << std::endl;
+        exit(1); // exit silently
+    }
 }
 
 // method to evaluating a query
@@ -45,7 +51,7 @@ void TestWrapper::evaluate(std::string query, std::list<std::string>& results) {
     } catch (const BaseException& exception) {
         // handle exception
         std::cerr << "Caught BaseException: " << exception.what() << std::endl;
-        exit(0); // exit silently
+        exit(1); // exit silently
     }
 }
 

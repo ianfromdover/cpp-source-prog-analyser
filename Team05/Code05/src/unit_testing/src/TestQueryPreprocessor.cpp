@@ -4,7 +4,6 @@
 
 #include "catch.hpp"
 #include "qps/QueryPreprocessor/QueryPreprocessor.h"
-#include "qps/QueryPreprocessor/QueryComponent.h"
 
 using namespace std;
 

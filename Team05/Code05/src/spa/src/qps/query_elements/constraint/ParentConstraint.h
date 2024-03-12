@@ -6,7 +6,7 @@
 #define SPA_PARENTCONSTRAINT_H
 
 #include "RelationshipConstraint.h"
-#include "qps/query_elements/constraint_argument/StatementReference.h"
+#include "qps/query_elements/constraint_argument/statement_reference/StatementReference.h"
 
 class ParentConstraint : public RelationshipConstraint {
 private:
@@ -15,6 +15,9 @@ public:
     ParentConstraint(std::shared_ptr<StatementReference> , std::shared_ptr<StatementReference> );
     std::string getConstraintType() override;
     std::vector<std::shared_ptr<ConstraintArgument>> getConstraintArguments() override;
+    std::vector<std::vector<std::string>> getRelationshipTable(QueryPKBVirtual &) override;
+
+    bool isStatementSynonym(string type);
 };
 
 

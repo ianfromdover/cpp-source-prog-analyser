@@ -8,17 +8,17 @@
 // include your other headers here
 #include "AbstractWrapper.h"
 #include "sp/SourceProcessor.h"
-#include "sp/RelationExtractor.h"
-#include "pkb/QueryPKB.h"
+#include "sp/extractor/RelationExtractor.h"
+#include "pkb/apis/QueryPKB.h"
 #include "qps/QPS.h"
 
 class TestWrapper : public AbstractWrapper {
 private:
     std::shared_ptr<PKBStorage> p=std::make_shared<PKBStorage>();
-    PopulatePKB pkb = PopulatePKB(p);;
+    std::shared_ptr<PopulatePKB> pkb = make_shared<PopulatePKB>(p);
     SourceProcessor sp = SourceProcessor(pkb);
     QueryPKB pkb1 = QueryPKB(p);
-    QPS qps = QPS(pkb1);
+    QPS qps = QPS(std::make_shared<QueryPKB>(pkb1));
 
 //    PKB pkb;
 //    PopulatePKB popPkb;

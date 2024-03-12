@@ -3,8 +3,13 @@
 //
 
 #include "PatternConstraint.h"
+#include "pkb/apis/QueryPKB.h"
 
 
-std::string PatternConstrain::getConstraintClass() {
+std::string PatternConstraint::getConstraintClass() {
     return CONSTRAINT_CLASS_PATTERN;
+}
+
+std::vector<std::vector<std::string>> PatternConstraint::getRelationshipTable(QueryPKBVirtual &) {
+    return {};
 }

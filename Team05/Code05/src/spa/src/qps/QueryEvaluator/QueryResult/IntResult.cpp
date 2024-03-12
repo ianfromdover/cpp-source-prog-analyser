@@ -7,7 +7,7 @@
 #include <utility>
 #include <algorithm>
 #include <iterator>
-#include "utilSpa/StringUtils.h"
+#include "common/StringUtils.h"
 
 QueryResultEnum IntResult::getType() {
     return INTEGER;
@@ -29,4 +29,16 @@ std::vector<std::string> IntResult::format() {
                    [](int i) { return std::to_string(i); });
 
     return strings;
+}
+
+std::vector<int> IntResult::intersect(std::shared_ptr<IntResult> anotherPointer) {
+    std::vector<int> anotherResult = anotherPointer->getResults();
+    std::sort(anotherResult.begin(), anotherResult.end());
+    std::vector<int> currResult = this->getResults();
+    std::sort(currResult.begin(), currResult.end());
+    std::vector<int> finalResult;
+    std::set_intersection(anotherResult.begin(), anotherResult.end(),
+                          currResult.begin(), currResult.end(),
+                          back_inserter(finalResult));
+    return finalResult;
 }

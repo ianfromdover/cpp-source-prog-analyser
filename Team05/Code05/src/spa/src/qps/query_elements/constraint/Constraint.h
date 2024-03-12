@@ -10,14 +10,19 @@
 #include <memory>
 #include "qps/query_elements/constraint_argument/ConstraintArgument.h"
 #include "qps/query_elements/QueryEnums.h"
-#include "utilSpa/SpaTypes.h"
+#include "common/SpaTypes.h"
+#include "pkb/apis/QueryPKB.h"
 
+class QueryPKBVirtual;
 
 class Constraint {
 public:
     virtual std::string getConstraintClass() = 0;
     virtual std::string getConstraintType() = 0;
     virtual std::vector<std::shared_ptr<ConstraintArgument>>  getConstraintArguments() = 0;
+    std:: string toString();
+
+    virtual std::vector<std::vector<std::string>> getRelationshipTable(QueryPKBVirtual &) =0;
 
 };
 

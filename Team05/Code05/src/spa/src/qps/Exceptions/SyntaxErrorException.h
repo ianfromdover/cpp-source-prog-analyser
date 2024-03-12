@@ -6,15 +6,15 @@
 #define SPA_SYNTAXERROREXCEPTION_H
 
 #include <exception>
-#include "../../utilSpa/base_exception/BaseException.h"
+#include "../../common/base_exception/BaseException.h"
 
 class SyntaxErrorException : public BaseException {
 public:
-    SyntaxErrorException(std::string message) : BaseException(message) {}
-    const char* what() const noexcept override {
-        return msg;
+    explicit SyntaxErrorException(const std::string& message) : BaseException("Syntax Error: " + message) {}
+    [[nodiscard]] const char* what() const noexcept override {
+        return message_.c_str();
     }
 private:
-    const char* msg;
+    std::string message_;
 };
 #endif //SPA_SYNTAXERROREXCEPTION_H
