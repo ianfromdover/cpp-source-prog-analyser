@@ -32,12 +32,12 @@ jobs:
       run: cmake --build ${{github.workspace}}/Team05/Code05/cmake-cli --target autotester --config ${{env.BUILD_TYPE}}
 
     - name: Build(Unit Testing)
-      needs: SKIP
+      if: false
       # Build your program with the given configuration
       run: cmake --build ${{github.workspace}}/Team05/Code05/cmake-cli --target unit_testing --config ${{env.BUILD_TYPE}}
 
     - name: Upload Artifact (Unit Testing)
-      needs: SKIP
+      if: false
       uses: actions/upload-artifact@v4
       with:
           name: unit_testing.exe
@@ -50,7 +50,7 @@ jobs:
           path: ${{github.workspace}}/Team05/Code05/cmake-cli/src/autotester/Debug/autotester.exe
 
   unit-test:
-    needs: SKIP
+    if: false
     runs-on: windows-latest
 
     steps:
