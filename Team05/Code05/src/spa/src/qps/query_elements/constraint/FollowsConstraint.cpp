@@ -21,7 +21,7 @@ std::vector<std::shared_ptr<ConstraintArgument>> FollowsConstraint::getConstrain
 
 std::vector<std::vector<std::string>> FollowsConstraint::getRelationshipTable(QueryPKBVirtual & pkb) {
     // Get follows table and populate it into our results table
-    std::vector<std::vector<std::string>> result = pkb.getFollows();
+    std::vector<std::vector<std::string>> result = pkb.getFollowsTable();
 
     // Get constraint arguments and initialise it as our table headers
     std::vector<std::shared_ptr<ConstraintArgument>> args = getConstraintArguments();

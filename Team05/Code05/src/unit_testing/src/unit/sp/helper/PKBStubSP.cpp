@@ -96,9 +96,6 @@ public:
         return true;
     }
 
-
-    bool addModifiesS(StmtNo sNum, VarName name) override {
-        //std::cout << "addModifies called" << std::endl;
     bool addUsesP(ProcName procName, VarName name) override {
         //std::cout << "addUsesP called" << std::endl;
         pairCalls.insert({procName, name});
@@ -134,6 +131,40 @@ public:
         pairCallsT.insert({caller, called});
         return true;
     }
+
+    // TODO: check again, now is just to make it compile
+
+    bool addAffects(int before, int after) override {
+        //std::cout << "addAffects called" << std::endl;
+        pairCalls.insert({std::to_string(before), std::to_string(after)});
+        return true;
+    }
+
+    bool addNext(int before, int after) override {
+        //std::cout << "addAffects called" << std::endl;
+        pairCalls.insert({std::to_string(before), std::to_string(after)});
+        return true;
+    }
+
+    bool addNextT(int before, int after) override {
+        //std::cout << "addAffects called" << std::endl;
+        pairCallsT.insert({std::to_string(before), std::to_string(after)});
+        return true;
+    }
+
+    bool addPatternIf(int stmtNo, std::string name) override {
+        //std::cout << "addPatternAsgn called" << std::endl;
+        pairCalls.insert({std::to_string(stmtNo), name});
+        return true;
+    }
+
+    bool addPatternWhile(int stmtNo, std::string name) override {
+        //std::cout << "addPatternAsgn called" << std::endl;
+        pairCalls.insert({std::to_string(stmtNo), name});
+        return true;
+    }
+
+    // TODO: do for rest of the missing stuff
 
     template<typename... T>
     bool checkAgainstResults(std::multiset<T...>& given, std::multiset<T...>& expect) {

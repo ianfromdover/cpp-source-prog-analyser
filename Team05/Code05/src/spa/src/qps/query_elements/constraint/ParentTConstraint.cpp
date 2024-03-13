@@ -21,7 +21,7 @@ std::vector<std::shared_ptr<ConstraintArgument>> ParentTConstraint::getConstrain
 
 std::vector<std::vector<std::string>> ParentTConstraint::getRelationshipTable(QueryPKBVirtual & pkb) {
     // Get parentT table and populate it into our results table
-    std::vector<std::vector<std::string>> result = pkb.getParentT();
+    std::vector<std::vector<std::string>> result = pkb.getParentTTable();
 
     // Get constraint arguments and initialise it as our table headers
     std::vector<std::shared_ptr<ConstraintArgument>> args = getConstraintArguments();

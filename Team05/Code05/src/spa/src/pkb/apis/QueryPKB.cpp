@@ -410,6 +410,12 @@ std::vector<std::vector<std::string>> QueryPKB::getAffectsTable() {
     return std::vector<std::vector<std::string>>();
 }
 
+// TODO: reorder
+
+std::vector<std::vector<std::string>> QueryPKB::getUsesPTable() {
+    return pkb->usesPTable->getAllProc();
+}
+
 
 
 

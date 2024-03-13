@@ -25,7 +25,7 @@ std::string PrintEntity::getArgumentValue() {
 }
 
 std::vector<std::vector<std::string>> PrintEntity::getEntityTable(QueryPKBVirtual &pkb) {
-    auto entityTable = pkb.getPrint();
+    auto entityTable = pkb.getPrintTable();
     // Insertion of headers into our entity table
     entityTable.insert(entityTable.begin(), {this->identifier, "PRINTRHS"});
     return entityTable;

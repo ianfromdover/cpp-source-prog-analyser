@@ -72,6 +72,8 @@ public:
     virtual std::vector<std::vector<std::string>> getUsesSByNum(StmtNo user) = 0;
     virtual std::vector<std::vector<std::string>> getUsesSByVar(VarName used) = 0;
     virtual std::vector<std::vector<std::string>> getUsesSTable() = 0;
+    // TODO: add UsesP
+    virtual std::vector<std::vector<std::string>> getUsesPTable() = 0;
     virtual std::vector<std::vector<std::string>> getModifiesSByNum(StmtNo modifier) = 0;
     virtual std::vector<std::vector<std::string>> getModifiesSByVar(VarName modified) = 0;
     virtual std::vector<std::vector<std::string>> getModifiesSTable() = 0;
@@ -100,26 +102,26 @@ public:
     virtual std::vector<std::vector<std::string>> getAffectsByAfter(StmtNo after) = 0;
     virtual std::vector<std::vector<std::string>> getAffectsTable() = 0;
 //    virtual std::shared_ptr<QueryResult> getResult(Returnable&, std::shared_ptr<Constraint>) = 0= 0;
-    virtual std::vector<std::vector<std::string>> getRead() = 0;
-    virtual std::vector<std::vector<std::string>> getCallStmt()= 0;
-    virtual std::vector<std::vector<std::string>> getIf()= 0;
-    virtual std::vector<std::vector<std::string>> getWhile()= 0;
-    virtual std::vector<std::vector<std::string>> getPrint()= 0;
-    virtual std::vector<std::vector<std::string>> getStatement()= 0;
-    virtual std::vector<std::vector<std::string>> getProcedure()= 0;
-    virtual std::vector<std::vector<std::string>> getVar()= 0;
-    virtual std::vector<std::vector<std::string>> getConst()= 0;
-    virtual std::vector<std::vector<std::string>> getFollows()= 0;
-    virtual std::vector<std::vector<std::string>> getFollowsT()= 0;
-    virtual std::vector<std::vector<std::string>> getParent()= 0;
-    virtual std::vector<std::vector<std::string>> getParentT()= 0;
-    virtual std::vector<std::vector<std::string>> getUses()= 0;
-    virtual std::vector<std::vector<std::string>> getUsesP() = 0;
-    virtual std::vector<std::vector<std::string>> getModifies()= 0;
-    virtual std::vector<std::vector<std::string>> getModifiesP() = 0;
-    virtual std::vector<std::vector<std::string>> getPatternAsgn() = 0;
-    virtual std::vector<std::vector<std::string>> getCalls() = 0;
-    virtual std::vector<std::vector<std::string>> getCallsT() = 0;
+//    virtual std::vector<std::vector<std::string>> getRead() = 0;
+//    virtual std::vector<std::vector<std::string>> getCallStmt()= 0;
+//    virtual std::vector<std::vector<std::string>> getIf()= 0;
+//    virtual std::vector<std::vector<std::string>> getWhile()= 0;
+//    virtual std::vector<std::vector<std::string>> getPrint()= 0;
+//    virtual std::vector<std::vector<std::string>> getStatement()= 0;
+//    virtual std::vector<std::vector<std::string>> getProcedure()= 0;
+//    virtual std::vector<std::vector<std::string>> getVar()= 0;
+//    virtual std::vector<std::vector<std::string>> getConst()= 0;
+//    virtual std::vector<std::vector<std::string>> getFollows()= 0;
+//    virtual std::vector<std::vector<std::string>> getFollowsT()= 0;
+//    virtual std::vector<std::vector<std::string>> getParent()= 0;
+//    virtual std::vector<std::vector<std::string>> getParentT()= 0;
+//    virtual std::vector<std::vector<std::string>> getUses()= 0;
+//    virtual std::vector<std::vector<std::string>> getUsesP() = 0;
+//    virtual std::vector<std::vector<std::string>> getModifies()= 0;
+//    virtual std::vector<std::vector<std::string>> getModifiesP() = 0;
+//    virtual std::vector<std::vector<std::string>> getPatternAsgn() = 0;
+//    virtual std::vector<std::vector<std::string>> getCalls() = 0;
+//    virtual std::vector<std::vector<std::string>> getCallsT() = 0;
 };
 
 #endif //SPA_QUERYPKBVIRTUAL_H

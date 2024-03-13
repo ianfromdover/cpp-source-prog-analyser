@@ -21,7 +21,7 @@ std::vector<std::shared_ptr<ConstraintArgument>> ModifiesSConstraint::getConstra
 
 std::vector<std::vector<std::string>> ModifiesSConstraint::getRelationshipTable(QueryPKBVirtual & pkb) {
     // Get modifies table and populate it into our results table
-    std::vector<std::vector<std::string>> result = pkb.getModifies();
+    std::vector<std::vector<std::string>> result = pkb.getModifiesSTable();
 
     // Get constraint arguments and initialise it as our table headers
     std::vector<std::shared_ptr<ConstraintArgument>> args = getConstraintArguments();

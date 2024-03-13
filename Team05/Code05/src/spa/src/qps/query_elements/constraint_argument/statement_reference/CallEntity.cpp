@@ -25,7 +25,7 @@ std::string CallEntity::getArgumentValue() {
 }
 
 std::vector<std::vector<std::string>> CallEntity::getEntityTable(QueryPKBVirtual &pkb) {
-    auto entityTable = pkb.getCallStmt();
+    auto entityTable = pkb.getCallTable();
     // Insertion of headers into our entity table
     entityTable.insert(entityTable.begin(), {this->identifier, "CALLRHS"});
     return entityTable;

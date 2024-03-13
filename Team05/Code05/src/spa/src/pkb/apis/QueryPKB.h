@@ -83,6 +83,8 @@ public:
     std::vector<std::vector<std::string>> getUsesSByNum(StmtNo user) override;
     std::vector<std::vector<std::string>> getUsesSByVar(VarName used) override;
     std::vector<std::vector<std::string>> getUsesSTable() override;
+    // TODO: add the other UsesP stuff
+    std::vector<std::vector<std::string>> getUsesPTable() override;
     std::vector<std::vector<std::string>> getModifiesSByNum(StmtNo modifier) override;
     std::vector<std::vector<std::string>> getModifiesSByVar(VarName modified) override;
     std::vector<std::vector<std::string>> getModifiesSTable() override;

@@ -25,7 +25,7 @@ std::string IfEntity::getArgumentValue() {
 }
 
 std::vector<std::vector<std::string>> IfEntity::getEntityTable(QueryPKBVirtual &pkb) {
-    auto entityTable = pkb.getIf();
+    auto entityTable = pkb.getIfTable();
     // Insertion of headers into our entity table
     entityTable.insert(entityTable.begin(), {this->identifier, "IFRHS"});
     return entityTable;

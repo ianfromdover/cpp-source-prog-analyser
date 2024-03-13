@@ -20,7 +20,7 @@ std::vector<std::shared_ptr<ConstraintArgument>> ParentConstraint::getConstraint
 
 std::vector<std::vector<std::string>> ParentConstraint::getRelationshipTable(QueryPKBVirtual & pkb) {
     // Get parent table and populate it into our results table
-    std::vector<std::vector<std::string>> result = pkb.getParent();
+    std::vector<std::vector<std::string>> result = pkb.getParentTable();
 
     // Get constraint arguments and initialise it as our table headers
     std::vector<std::shared_ptr<ConstraintArgument>> args = getConstraintArguments();
