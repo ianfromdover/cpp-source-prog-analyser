@@ -4,9 +4,9 @@ name: linter
 
 on:
   push:
-    branches: [ "cicd" ]
+    branches: [ "cicd1" ]
   pull_request:
-    branches: [ "cicd" ]
+    branches: [ "cicd1" ]
 
 jobs:
   c-linter:
