@@ -250,11 +250,11 @@ std::vector<std::vector<std::string>> QueryPKB::getParentTTable() {
 // UsesS
 
 std::vector<std::vector<std::string>> QueryPKB::getUsesSByNum(StmtNo user) {
-    return std::vector<std::vector<std::string>>();
+    return toVecVecStr(pkb->usesSTable->getUsesBySNum(user));
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getUsesSByVar(VarName used) {
-    return std::vector<std::vector<std::string>>();
+    return toVecVecStr(pkb->usesSTable->getUsesByVar(used));
 }
 
 //template <typename A, typename B>
@@ -352,11 +352,11 @@ std::vector<std::vector<std::string>> QueryPKB::getPatternTable() {
 // Calls
 
 std::vector<std::vector<std::string>> QueryPKB::getCallsByCaller(ProcName caller) {
-    return std::vector<std::vector<std::string>>();
+    return toVecVecStr(pkb->callsTable->getCalled(caller));
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getCallsByCalled(ProcName called) {
-    return std::vector<std::vector<std::string>>();
+    return toVecVecStr(pkb->callsTable->getCallers(called));
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getCallsTable() {
@@ -364,11 +364,11 @@ std::vector<std::vector<std::string>> QueryPKB::getCallsTable() {
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getCallsTByCaller(ProcName caller) {
-    return std::vector<std::vector<std::string>>();
+    return toVecVecStr(pkb->callsTTable->getCalledT(caller));
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getCallsTByCalled(ProcName called) {
-    return std::vector<std::vector<std::string>>();
+    return toVecVecStr(pkb->callsTTable->getCallersT(called));
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getCallsTTable() {
@@ -376,11 +376,11 @@ std::vector<std::vector<std::string>> QueryPKB::getCallsTTable() {
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getNextByBefore(StmtNo before) {
-    return std::vector<std::vector<std::string>>();
+    return toVecVecStr(pkb->nextTable->getAfter(before));
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getNextByAfter(StmtNo after) {
-    return std::vector<std::vector<std::string>>();
+    return toVecVecStr(pkb->nextTable->getBefore(after));
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getNextTable() {
@@ -388,11 +388,11 @@ std::vector<std::vector<std::string>> QueryPKB::getNextTable() {
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getNextTByBefore(StmtNo before) {
-    return std::vector<std::vector<std::string>>();
+    return toVecVecStr(pkb->nextTTable->getAfter(before));
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getNextTByAfter(StmtNo after) {
-    return std::vector<std::vector<std::string>>();
+    return toVecVecStr(pkb->nextTTable->getBefore(after));
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getNextTTable() {
@@ -400,11 +400,11 @@ std::vector<std::vector<std::string>> QueryPKB::getNextTTable() {
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getAffectsByBefore(StmtNo before) {
-    return std::vector<std::vector<std::string>>();
+    return toVecVecStr(pkb->affectsTable->getAffected(before));
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getAffectsByAfter(StmtNo after) {
-    return std::vector<std::vector<std::string>>();
+    return toVecVecStr(pkb->affectsTable->getAffector(after));
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getAffectsTable() {
