@@ -97,7 +97,11 @@ public:
     std::vector<std::vector<std::string>> getPatternAsgnByLhsPartial(std::string LhsPartial) override;
     std::vector<std::vector<std::string>> getPatternAsgnByRhsPartial(std::string RhsPartial) override;
     std::vector<std::vector<std::string>> getPatternAsgnTable() override;
+    std::vector<std::vector<std::string>> getPatternIfByNum(StmtNo sNum) override;
+    std::vector<std::vector<std::string>> getPatternIfByVar(VarName var) override;
     std::vector<std::vector<std::string>> getPatternIfTable() override;
+    std::vector<std::vector<std::string>> getPatternWhileByNum(StmtNo sNum) override;
+    std::vector<std::vector<std::string>> getPatternWhileByVar(VarName var) override;
     std::vector<std::vector<std::string>> getPatternWhileTable() override;
     std::vector<std::vector<std::string>> getCallsByCaller(ProcName caller) override;
     std::vector<std::vector<std::string>> getCallsByCalled(ProcName called) override;

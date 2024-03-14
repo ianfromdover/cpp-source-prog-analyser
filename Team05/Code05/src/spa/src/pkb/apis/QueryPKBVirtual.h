@@ -82,8 +82,11 @@ public:
     virtual std::vector<std::vector<std::string>> getPatternAsgnByLhsPartial(std::string LhsPartial) = 0;
     virtual std::vector<std::vector<std::string>> getPatternAsgnByRhsPartial(std::string RhsPartial) = 0;
     virtual std::vector<std::vector<std::string>> getPatternAsgnTable() = 0;
-    // TODO: when needed, add in the other functions for PatternIf and PatternWhile
+    virtual std::vector<std::vector<std::string>> getPatternIfByNum(StmtNo sNum) = 0;
+    virtual std::vector<std::vector<std::string>> getPatternIfByVar(VarName var) = 0;
     virtual std::vector<std::vector<std::string>> getPatternIfTable() = 0;
+    virtual std::vector<std::vector<std::string>> getPatternWhileByNum(StmtNo sNum) = 0;
+    virtual std::vector<std::vector<std::string>> getPatternWhileByVar(VarName var) = 0;
     virtual std::vector<std::vector<std::string>> getPatternWhileTable() = 0;
     virtual std::vector<std::vector<std::string>> getCallsByCaller(ProcName caller) = 0;
     virtual std::vector<std::vector<std::string>> getCallsByCalled(ProcName called) = 0;

@@ -423,6 +423,22 @@ std::vector<std::vector<std::string>> QueryPKB::getPatternWhileTable() {
     return pkb->patternWhileTable->getAllAsStrings();
 }
 
+std::vector<std::vector<std::string>> QueryPKB::getPatternIfByNum(StmtNo sNum) {
+    return toVecVecStr(pkb->patternIfTable->getPatternByNum(sNum));
+}
+
+std::vector<std::vector<std::string>> QueryPKB::getPatternIfByVar(VarName var) {
+    return toVecVecStr(pkb->patternIfTable->getPatternByVar(var));
+}
+
+std::vector<std::vector<std::string>> QueryPKB::getPatternWhileByNum(StmtNo sNum) {
+    return toVecVecStr(pkb->patternWhileTable->getPatternByNum(sNum));
+}
+
+std::vector<std::vector<std::string>> QueryPKB::getPatternWhileByVar(VarName var) {
+    return toVecVecStr(pkb->patternWhileTable->getPatternByVar(var));
+}
+
 
 
 
