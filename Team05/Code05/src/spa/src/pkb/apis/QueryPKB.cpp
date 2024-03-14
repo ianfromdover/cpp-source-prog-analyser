@@ -318,32 +318,32 @@ std::vector<std::vector<std::string>> QueryPKB::getModifiesPTable() {
 
 // PatternAssign
 // TODO: patternAssign methods in the class are not ready
-std::vector<std::vector<std::string>> QueryPKB::getPatternByNum(StmtNo sNum) {
+std::vector<std::vector<std::string>> QueryPKB::getPatternAsgnByNum(StmtNo sNum) {
     return {{}};
 //    return toVecVecStr(pkb->patternAssignTable.get);
 }
 
-std::vector<std::vector<std::string>> QueryPKB::getPatternByLhs(std::string Lhs) {
+std::vector<std::vector<std::string>> QueryPKB::getPatternAsgnByLhs(std::string Lhs) {
     return {{}};
 //    return toVecVecStr(pkb->patternAssignTable->getRhsFromLhs(Lhs));
 }
 
-std::vector<std::vector<std::string>> QueryPKB::getPatternByRhs(std::string Rhs) {
+std::vector<std::vector<std::string>> QueryPKB::getPatternAsgnByRhs(std::string Rhs) {
     return {{}};
 //    return toVecVecStr(pkb->patternAssignTable->getLhsFromRhs(Rhs));
 }
 
-std::vector<std::vector<std::string>> QueryPKB::getPatternByLhsPartial(std::string LhsPartial) {
+std::vector<std::vector<std::string>> QueryPKB::getPatternAsgnByLhsPartial(std::string LhsPartial) {
     return {{}};
 //    return toVecVecStr(pkb->patternAssignTable.get);
 }
 
-std::vector<std::vector<std::string>> QueryPKB::getPatternByRhsPartial(std::string RhsPartial) {
+std::vector<std::vector<std::string>> QueryPKB::getPatternAsgnByRhsPartial(std::string RhsPartial) {
     return {{}};
 //    return std::vector<std::vector<std::string>>();
 }
 
-std::vector<std::vector<std::string>> QueryPKB::getPatternTable() {
+std::vector<std::vector<std::string>> QueryPKB::getPatternAsgnTable() {
     return pkb->patternAssignTable->getAllAsStrings();
 }
 
@@ -413,6 +413,14 @@ std::vector<std::vector<std::string>> QueryPKB::getAffectsTable() {
 
 std::vector<std::vector<std::string>> QueryPKB::getUsesPTable() {
     return pkb->usesPTable->getAllProc();
+}
+
+std::vector<std::vector<std::string>> QueryPKB::getPatternIfTable() {
+    return pkb->patternIfTable->getAllAsStrings();
+}
+
+std::vector<std::vector<std::string>> QueryPKB::getPatternWhileTable() {
+    return pkb->patternWhileTable->getAllAsStrings();
 }
 
 

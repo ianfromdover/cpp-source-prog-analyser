@@ -76,12 +76,15 @@ public:
     virtual std::vector<std::vector<std::string>> getModifiesPByProc(ProcName modifier) = 0;
     virtual std::vector<std::vector<std::string>> getModifiesPByVar(VarName modified) = 0;
     virtual std::vector<std::vector<std::string>> getModifiesPTable() = 0;
-    virtual std::vector<std::vector<std::string>> getPatternByNum(StmtNo sNum) = 0;
-    virtual std::vector<std::vector<std::string>> getPatternByLhs(std::string Lhs) = 0;
-    virtual std::vector<std::vector<std::string>> getPatternByRhs(std::string Rhs) = 0;
-    virtual std::vector<std::vector<std::string>> getPatternByLhsPartial(std::string LhsPartial) = 0;
-    virtual std::vector<std::vector<std::string>> getPatternByRhsPartial(std::string RhsPartial) = 0;
-    virtual std::vector<std::vector<std::string>> getPatternTable() = 0;
+    virtual std::vector<std::vector<std::string>> getPatternAsgnByNum(StmtNo sNum) = 0;
+    virtual std::vector<std::vector<std::string>> getPatternAsgnByLhs(std::string Lhs) = 0;
+    virtual std::vector<std::vector<std::string>> getPatternAsgnByRhs(std::string Rhs) = 0;
+    virtual std::vector<std::vector<std::string>> getPatternAsgnByLhsPartial(std::string LhsPartial) = 0;
+    virtual std::vector<std::vector<std::string>> getPatternAsgnByRhsPartial(std::string RhsPartial) = 0;
+    virtual std::vector<std::vector<std::string>> getPatternAsgnTable() = 0;
+    // TODO: when needed, add in the other functions for PatternIf and PatternWhile
+    virtual std::vector<std::vector<std::string>> getPatternIfTable() = 0;
+    virtual std::vector<std::vector<std::string>> getPatternWhileTable() = 0;
     virtual std::vector<std::vector<std::string>> getCallsByCaller(ProcName caller) = 0;
     virtual std::vector<std::vector<std::string>> getCallsByCalled(ProcName called) = 0;
     virtual std::vector<std::vector<std::string>> getCallsTable() = 0;
