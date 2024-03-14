@@ -285,7 +285,7 @@ std::vector<std::vector<std::string>> QueryPKB::getUsesSByVar(VarName used) {
 //    return result;
 //}
 std::vector<std::vector<std::string>> QueryPKB::getUsesSTable() {
-    return std::vector<std::vector<std::string>>();
+    return pkb->usesSTable->getAllAsStrings();
 }
 
 // ModifiesS
@@ -345,7 +345,8 @@ std::vector<std::vector<std::string>> QueryPKB::getPatternByRhsPartial(std::stri
 
 std::vector<std::vector<std::string>> QueryPKB::getPatternTable() {
 //    return pkb->patternAssignTable
-    return std::vector<std::vector<std::string>>();
+    // TODO: need to return the whole pattern table with stmtno as well
+    return pkb->patternAssignTable->getAllLhsRhs();
 }
 
 // Calls
@@ -359,7 +360,7 @@ std::vector<std::vector<std::string>> QueryPKB::getCallsByCalled(ProcName called
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getCallsTable() {
-    return std::vector<std::vector<std::string>>();
+    return pkb->callsTable->getAllAsStrings();
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getCallsTByCaller(ProcName caller) {
@@ -371,7 +372,7 @@ std::vector<std::vector<std::string>> QueryPKB::getCallsTByCalled(ProcName calle
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getCallsTTable() {
-    return std::vector<std::vector<std::string>>();
+    return pkb->callsTTable->getAllAsStrings();
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getNextByBefore(StmtNo before) {
@@ -383,7 +384,7 @@ std::vector<std::vector<std::string>> QueryPKB::getNextByAfter(StmtNo after) {
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getNextTable() {
-    return std::vector<std::vector<std::string>>();
+    return pkb->nextTable->getAllAsStrings();
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getNextTByBefore(StmtNo before) {
@@ -395,7 +396,7 @@ std::vector<std::vector<std::string>> QueryPKB::getNextTByAfter(StmtNo after) {
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getNextTTable() {
-    return std::vector<std::vector<std::string>>();
+    return pkb->nextTTable->getAllAsStrings();
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getAffectsByBefore(StmtNo before) {
@@ -407,7 +408,7 @@ std::vector<std::vector<std::string>> QueryPKB::getAffectsByAfter(StmtNo after) 
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getAffectsTable() {
-    return std::vector<std::vector<std::string>>();
+    return pkb->affectsTable->getAllAsStrings();
 }
 
 // TODO: reorder
