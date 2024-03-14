@@ -27,7 +27,7 @@ std::vector<std::shared_ptr<ConstraintArgument>> ConcretePatternConstraint::getC
 }
 
 std::vector<std::vector<std::string>> ConcretePatternConstraint::getRelationshipTable(QueryPKBVirtual & pkb) {
-    std::vector<std::vector<std::string>> temp = pkb.getPatternTable();
+    std::vector<std::vector<std::string>> temp = pkb.getPatternAsgnTable();
     std::vector<std::vector<std::string>> res;
 
     for (const auto& entry : temp){

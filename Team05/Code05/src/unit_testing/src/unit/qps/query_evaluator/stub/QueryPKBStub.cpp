@@ -257,12 +257,18 @@ std::vector<std::vector<std::string>> QueryPKBStub::getModifiesSTable() { return
 std::vector<std::vector<std::string>> QueryPKBStub::getModifiesPByProc(ProcName modifier) { return {{}}; }
 std::vector<std::vector<std::string>> QueryPKBStub::getModifiesPByVar(VarName modified) { return {{}}; }
 std::vector<std::vector<std::string>> QueryPKBStub::getModifiesPTable() { return {{}}; }
-std::vector<std::vector<std::string>> QueryPKBStub::getPatternByNum(StmtNo sNum) { return {{}}; }
-std::vector<std::vector<std::string>> QueryPKBStub::getPatternByLhs(std::string Lhs) { return {{}}; }
-std::vector<std::vector<std::string>> QueryPKBStub::getPatternByRhs(std::string Rhs) { return {{}}; }
-std::vector<std::vector<std::string>> QueryPKBStub::getPatternByLhsPartial(std::string LhsPartial) { return {{}}; }
-std::vector<std::vector<std::string>> QueryPKBStub::getPatternByRhsPartial(std::string RhsPartial) { return {{}}; }
-std::vector<std::vector<std::string>> QueryPKBStub::getPatternTable() { return {{}}; }
+std::vector<std::vector<std::string>> QueryPKBStub::getPatternAsgnByNum(StmtNo sNum) { return {{}}; }
+std::vector<std::vector<std::string>> QueryPKBStub::getPatternAsgnByLhs(std::string Lhs) { return {{}}; }
+std::vector<std::vector<std::string>> QueryPKBStub::getPatternAsgnByRhs(std::string Rhs) { return {{}}; }
+std::vector<std::vector<std::string>> QueryPKBStub::getPatternAsgnByLhsPartial(std::string LhsPartial) { return {{}}; }
+std::vector<std::vector<std::string>> QueryPKBStub::getPatternAsgnByRhsPartial(std::string RhsPartial) { return {{}}; }
+std::vector<std::vector<std::string>> QueryPKBStub::getPatternAsgnTable() { return {{}}; }
+std::vector<std::vector<std::string>> QueryPKBStub::getPatternIfByNum(StmtNo sNum) { return {{}}; }
+std::vector<std::vector<std::string>> QueryPKBStub::getPatternIfByVar(VarName var) { return {{}}; }
+std::vector<std::vector<std::string>> QueryPKBStub::getPatternIfTable() { return {{}}; }
+std::vector<std::vector<std::string>> QueryPKBStub::getPatternWhileByNum(StmtNo sNum) { return {{}}; }
+std::vector<std::vector<std::string>> QueryPKBStub::getPatternWhileByVar(VarName var) { return {{}}; }
+std::vector<std::vector<std::string>> QueryPKBStub::getPatternWhileTable() { return {{}}; }
 std::vector<std::vector<std::string>> QueryPKBStub::getCallsByCaller(ProcName caller) { return {{}}; }
 std::vector<std::vector<std::string>> QueryPKBStub::getCallsByCalled(ProcName called) { return {{}}; }
 std::vector<std::vector<std::string>> QueryPKBStub::getCallsTable() { return {{}}; }

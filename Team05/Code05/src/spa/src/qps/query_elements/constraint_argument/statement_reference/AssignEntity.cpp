@@ -27,7 +27,7 @@ std::string AssignEntity::getArgumentValue() {
 }
 
 std::vector<std::vector<std::string>> AssignEntity::getEntityTable(QueryPKBVirtual & pkb ) {
-    auto entityTable = pkb.getPatternTable();
+    auto entityTable = pkb.getPatternAsgnTable();
     // Insertion of headers into our entity table
     entityTable.insert(entityTable.begin(), {this->identifier, "ASSIGNRHS"});
     return entityTable;
