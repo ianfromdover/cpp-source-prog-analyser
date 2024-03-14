@@ -65,4 +65,15 @@ vector<vector<Str>> PatternAssignTable::getAllAsStrings() {
         stmtLhsPair[1] = lhs + "=" + rhs;
     }
     return result;
+
+    // after-MS2 version: makes 3 columns
+    /*
+    vector<vector<Str>> result = stmtLhsMap.getAllForAStr();
+    for (auto& stmtLhsPair : result) {
+        int stmtNo = std::stoi(stmtLhsPair[0]);
+        string rhs = (stmtRhsMap.getValues(stmtNo)[0]); // in stmtRhsMap, a stmtNo only has 1 RHS, so i can use [0]
+        stmtLhsPair.push_back(std::move(rhs));
+    }
+    return result;
+     */
 }
