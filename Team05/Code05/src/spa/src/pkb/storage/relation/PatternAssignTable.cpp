@@ -53,3 +53,16 @@ std::vector<VarName> PatternAssignTable::getRhsFromLhs(VarName lhs) {
 vector<vector<Str>> PatternAssignTable::getAllLhsRhs() {
     return lhsRhsMap.getAllForStrStr();
 }
+
+// -------- For StmtNo | VarName LHS | VarName RHS table
+vector<vector<Str>> PatternAssignTable::getAllAsStrings() {
+    vector<vector<Str>> result = stmtLhsMap.getAllForAStr();
+    for (auto& stmtLhsPair : result) {
+        int stmtNo = std::stoi(stmtLhsPair[0]);
+        string lhs = stmtLhsPair[1];
+        // getting the only item in the returned vector<string> so [0] // TODO: temporary method for MS2
+        string rhs = (stmtRhsMap.getValues(stmtNo)[0]);
+        stmtLhsPair[1] = lhs + "=" + rhs;
+    }
+    return result;
+}

@@ -1,8 +1,4 @@
-//
-// Created by sjh_9 on 25/2/2024.
-//
-
-#ifndef SPA_QUERYPKBVIRTUAL_H
+#pragma once
 #define SPA_QUERYPKBVIRTUAL_H
 
 #include <memory>
@@ -124,4 +120,3 @@ public:
 //    virtual std::vector<std::vector<std::string>> getCallsT() = 0;
 };
 
-#endif //SPA_QUERYPKBVIRTUAL_H

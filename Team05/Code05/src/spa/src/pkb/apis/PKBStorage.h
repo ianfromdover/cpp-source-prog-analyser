@@ -1,28 +1,6 @@
 #pragma once
 #define SPA_PKBSTORAGE_H
 #include <memory>
-//#include "pkb/storage/entity/ReadTable.h"
-//#include "pkb/storage/entity/CallTable.h"
-//#include "pkb/storage/entity/IfTable.h"
-//#include "pkb/storage/entity/WhileTable.h"
-//#include "pkb/storage/entity/PrintTable.h"
-//#include "pkb/storage/entity/StatementTable.h"
-//#include "pkb/storage/entity/ProcedureTable.h"
-//#include "pkb/storage/entity/VariableTable.h"
-//#include "pkb/storage/entity/ConstantTable.h"
-//#include "pkb/storage/relation/FollowsTable.h"
-//#include "pkb/storage/relation/FollowsTTable.h"
-//#include "pkb/storage/entity/AssignTable.h"
-#include "pkb/storage/relation/ParentTable.h"
-#include "pkb/storage/relation/ParentTTable.h"
-#include "pkb/storage/relation/ModifiesTable.h"
-#include "pkb/storage/relation/UsesTable.h"
-#include "pkb/storage/relation/ModifiesSTable.h"
-#include "pkb/storage/relation/ModifiesPTable.h"
-#include "pkb/storage/relation/UsesSTable.h"
-#include "pkb/storage/relation/UsesPTable.h"
-#include "pkb/storage/relation/CallsTable.h"
-#include "pkb/storage/relation/CallsTTable.h"
 
 #include "pkb/storage/entity/CallTable.h"
 #include "pkb/storage/entity/ConstTable.h"
@@ -82,8 +60,4 @@ public:
     std::shared_ptr<PatternWhileTable> patternWhileTable = std::make_shared<PatternWhileTable>();
     std::shared_ptr<UsesPTable> usesPTable = std::make_shared<UsesPTable>();
     std::shared_ptr<UsesSTable> usesSTable = std::make_shared<UsesSTable>();
-    // std::shared_ptr<UsesPTable> usesPTable = std::make_shared<UsesPTable>(); // not yet implemented
-//    std::shared_ptr<CallsTable> callsTable = std::make_shared<CallsTable>(); // bug: no include
-//    std::shared_ptr<CallsTTable> callsTTable = std::make_shared<CallsTTable>(); // bug: no include
-
 };

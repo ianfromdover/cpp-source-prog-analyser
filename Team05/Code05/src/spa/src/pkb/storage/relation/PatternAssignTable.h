@@ -40,5 +40,9 @@ public:
     std::vector<VarName> getRhsFromLhs(VarName lhs);
     // Gets a table with 2 columns, VarName | VarName
     std::vector<std::vector<Str>> getAllLhsRhs();
+
+    // -------- For StmtNo | VarName LHS | VarName RHS table
+    // Gets a table with 3 columns, StmtNo | VarName | VarName
+    std::vector<std::vector<Str>> getAllAsStrings();
 };
 

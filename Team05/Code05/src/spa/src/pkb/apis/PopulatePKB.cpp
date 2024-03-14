@@ -23,12 +23,12 @@ bool PopulatePKB::addPrint(int stmtNo, std::string name) {
     return pkb->printTable->addPrint(stmtNo, name);
 }
 
-bool PopulatePKB::addRead(int stmtNo, std::string name) {
-    return pkb->readTable->addRead(stmtNo, name);
-}
-
 bool PopulatePKB::addProcedure(std::string name) {
     return pkb->procedureTable->addProc(name);
+}
+
+bool PopulatePKB::addRead(int stmtNo, std::string name) {
+    return pkb->readTable->addRead(stmtNo, name);
 }
 
 bool PopulatePKB::addFinalStatementNo(int stmtNo) {
@@ -67,12 +67,12 @@ bool PopulatePKB::addFollowsT(int before, int after) {
     return pkb->followsTTable->addFollowsT(before, after);
 }
 
-bool PopulatePKB::addModifiesS(int stmtNo, std::string name) {
-    return pkb->modifiesSTable->addModifiesS(stmtNo, name);
-}
-
 bool PopulatePKB::addModifiesP(std::string procName, std::string name) {
     return pkb->modifiesPTable->addModifiesP(procName, name);
+}
+
+bool PopulatePKB::addModifiesS(int stmtNo, std::string name) {
+    return pkb->modifiesSTable->addModifiesS(stmtNo, name);
 }
 
 bool PopulatePKB::addNext(int before, int after) {
@@ -106,10 +106,10 @@ bool PopulatePKB::addPatternWhile(int stmtNo, std::string name) {
     return pkb->patternWhileTable->addWhile(stmtNo, name);
 }
 
-bool PopulatePKB::addUsesS(int stmtNo, std::string name) {
-    return pkb->usesSTable->addUsesS(stmtNo, name);
-}
-
 bool PopulatePKB::addUsesP(std::string procName, std::string name) {
     return pkb->usesPTable->addUsesP(procName, name);
+}
+
+bool PopulatePKB::addUsesS(int stmtNo, std::string name) {
+    return pkb->usesSTable->addUsesS(stmtNo, name);
 }

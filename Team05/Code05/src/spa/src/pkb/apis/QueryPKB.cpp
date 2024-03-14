@@ -344,9 +344,7 @@ std::vector<std::vector<std::string>> QueryPKB::getPatternByRhsPartial(std::stri
 }
 
 std::vector<std::vector<std::string>> QueryPKB::getPatternTable() {
-//    return pkb->patternAssignTable
-    // TODO: need to return the whole pattern table with stmtno as well
-    return pkb->patternAssignTable->getAllLhsRhs();
+    return pkb->patternAssignTable->getAllAsStrings();
 }
 
 // Calls

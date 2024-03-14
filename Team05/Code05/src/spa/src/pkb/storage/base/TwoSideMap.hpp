@@ -189,7 +189,7 @@ std::vector<A> TwoSideMap<A, B>::getKeys(B value) {
 
 template<typename A, typename B>
 std::vector<std::vector<std::string>> TwoSideMap<A, B>::getAllForStrStr() {
-    auto result = make_shared<std::vector<std::vector<std::string>>>();
+    auto result = std::make_shared<std::vector<std::vector<std::string>>>();
     for (auto &pair: forwardMap) {
         for (auto& ptr : pair.second) {
             result->push_back({pair.first, *ptr});
@@ -200,7 +200,7 @@ std::vector<std::vector<std::string>> TwoSideMap<A, B>::getAllForStrStr() {
 
 template<typename A, typename B>
 std::vector<std::vector<std::string>> TwoSideMap<A, B>::getAllForStrB() {
-    auto result = make_shared<std::vector<std::vector<std::string>>>();
+    auto result = std::make_shared<std::vector<std::vector<std::string>>>();
     for (auto& pair : forwardMap) {
         for (auto& ptr : pair.second) {
             std::string item = std::to_string(*ptr); // T needs to have an overloaded std::to_string defined
@@ -212,7 +212,7 @@ std::vector<std::vector<std::string>> TwoSideMap<A, B>::getAllForStrB() {
 
 template<typename A, typename B>
 std::vector<std::vector<std::string>> TwoSideMap<A, B>::getAllForAStr() {
-    auto result = make_shared<std::vector<std::vector<std::string>>>();
+    auto result = std::make_shared<std::vector<std::vector<std::string>>>();
     for (auto& pair : forwardMap) {
         std::string key = std::to_string(pair.first);
         for (auto& ptr : pair.second) {
@@ -224,7 +224,7 @@ std::vector<std::vector<std::string>> TwoSideMap<A, B>::getAllForAStr() {
 
 template<typename A, typename B>
 std::vector<std::vector<std::string>> TwoSideMap<A, B>::getAllForAB() {
-    auto result = make_shared<std::vector<std::vector<std::string>>>();
+    auto result = std::make_shared<std::vector<std::vector<std::string>>>();
     for (auto& pair : forwardMap) {
         std::string key = std::to_string(pair.first);
         for (auto& ptr : pair.second) {

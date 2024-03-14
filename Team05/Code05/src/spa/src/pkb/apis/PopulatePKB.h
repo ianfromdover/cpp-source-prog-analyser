@@ -18,8 +18,8 @@ public:
     bool addConst(int stmtNo, int val) override;
     bool addIf(int stmtNo, std::string name) override;
     bool addPrint(int stmtNo, std::string name) override;
-    bool addRead(int stmtNo, std::string name) override;
     bool addProcedure(std::string name) override;
+    bool addRead(int stmtNo, std::string name) override;
     bool addFinalStatementNo(int stmtNo) override;
     bool addVar(int stmtNo, std::string name) override;
     bool addWhile(int stmtNo, std::string name) override;
