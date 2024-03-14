@@ -12,7 +12,7 @@ std::vector<std::string> testHelper(std::string queryStr);
 TEST_CASE("[TestQPS] Replace with your unit tests") {
     SECTION("no constraints") {
         std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
-        pkb->setStatement({{"1"}, {"2"}, {"3"}});
+        pkb->setStatement(3);
         QPS qps(pkb);
 
         std::string queryStr = "stmt s; Select s";
@@ -251,7 +251,7 @@ TEST_CASE("[TestQPS] Semantic Error Tests"){
 TEST_CASE("[TestQPS] No Constraints"){
     SECTION("statements") {
         std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
-        pkb->setStatement({{"1"}, {"2"}, {"3"}});
+        pkb->setStatement(3);
         QPS qps(pkb);
 
         std::string queryStr = "stmt s; Select s";
@@ -344,8 +344,8 @@ TEST_CASE("[TestQPS] Multiple Constraints"){
     SECTION("follows pattern"){
         std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
         pkb->setFollows({{"1", "2"}, {"1", "3"}, {"1", "4"}, {"2", "7"}});
-        pkb->setStatement({{"1"}, {"2"}, {"3"}, {"4"}, {"7"}});
-        pkb->setPatternAsgn({{"1","x=c"}, {"2","x=k"}, {"3","y=c"}, {"4","y=k"}, {"7","z=i"}});
+        pkb->setStatement(7);
+        pkb->setPatternAsgn({{"1","x","c"}, {"2","x","k"}, {"3","y","c"}, {"4","y","k"}, {"7","z","i"}});
         QPS qps(pkb);
 
         SECTION("both non-empty"){
@@ -400,11 +400,7 @@ TEST_CASE("[TestQPS] Single Constraints") {
                          {"1", "3"},
                          {"1", "4"},
                          {"2", "7"}});
-        pkb->setStatement({{"1"},
-                           {"2"},
-                           {"3"},
-                           {"4"},
-                           {"7"}});
+        pkb->setStatement(7);
         QPS qps(pkb);
 
         SECTION("right synonym") {
@@ -455,11 +451,7 @@ TEST_CASE("[TestQPS] Single Constraints") {
                           {"1", "3"},
                           {"1", "4"},
                           {"2", "7"}});
-        pkb->setStatement({{"1"},
-                           {"2"},
-                           {"3"},
-                           {"4"},
-                           {"7"}});
+        pkb->setStatement(7);
         QPS qps(pkb);
 
         SECTION("right synonym") {
@@ -506,11 +498,7 @@ TEST_CASE("[TestQPS] Single Constraints") {
                           {"1", "3"},
                           {"1", "4"},
                           {"2", "7"}});
-        pkb->setStatement({{"1"},
-                           {"2"},
-                           {"3"},
-                           {"4"},
-                           {"7"}});
+        pkb->setStatement(7);
         QPS qps(pkb);
 
         SECTION("right synonym") {
@@ -563,11 +551,7 @@ TEST_CASE("[TestQPS] Single Constraints") {
                         {"1", "3"},
                         {"1", "4"},
                         {"2", "7"}});
-        pkb->setStatement({{"1"},
-                           {"2"},
-                           {"3"},
-                           {"4"},
-                           {"7"}});
+        pkb->setStatement(7);
         QPS qps(pkb);
 
         SECTION("right synonym") {
@@ -620,11 +604,7 @@ TEST_CASE("[TestQPS] Single Constraints") {
                          {"1", "k"},
                          {"1", "c"},
                          {"2", "k"}});
-        pkb->setStatement({{"1"},
-                           {"2"},
-                           {"3"},
-                           {"4"},
-                           {"7"}});
+        pkb->setStatement(7);
         pkb->setVar({{"1","v"},
                           {"1","k"},
                           {"2","c"},
@@ -668,11 +648,7 @@ TEST_CASE("[TestQPS] Single Constraints") {
                           {"1", "k"},
                           {"1", "c"},
                           {"2", "k"}});
-        pkb->setStatement({{"1"},
-                           {"2"},
-                           {"3"},
-                           {"4"},
-                           {"7"}});
+        pkb->setStatement(7);
         pkb->setVar({{"1","v"},
                      {"1","k"},
                      {"2","c"},
@@ -710,7 +686,7 @@ TEST_CASE("[TestQPS] Single Constraints") {
     }
     SECTION("pattern"){
         std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
-        pkb->setPatternAsgn({{"1","x=10"}, {"2","x=k"}, {"3","y=c"}, {"4","y=k"}, {"7","z=i"}});
+        pkb->setPatternAsgn({{"1","x","10"}, {"2","x","k"}, {"3","y","c"}, {"4","y","k"}, {"7","z","i"}});
         QPS qps(pkb);
 
         SECTION("wildcard, substring matching"){
