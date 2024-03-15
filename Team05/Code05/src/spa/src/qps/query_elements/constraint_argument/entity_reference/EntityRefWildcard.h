@@ -9,7 +9,7 @@
 #include "EntityReference.h"
 #include "pkb/apis/QueryPkbVirtual.h"
 
-class EntityRefWildCard : public EntityReference {
+class EntityRefWildcard : public EntityReference {
 public:
     std::string getEntityType() override;
     std::string toString() override;

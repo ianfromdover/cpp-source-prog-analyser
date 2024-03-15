@@ -8,7 +8,7 @@
 #include "StatementReference.h"
 #include "pkb/apis/QueryPkbVirtual.h"
 
-class StatementRefWildCard : public StatementReference {
+class StatementRefWildcard : public StatementReference {
 public:
     std::string getEntityType() override;
     std::string toString() override;

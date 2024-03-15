@@ -6,19 +6,19 @@
 #include "qps/Exceptions/QPSException.h"
 
 
-std::string StatementRefWildCard::getEntityType() {
+std::string StatementRefWildcard::getEntityType() {
     return TYPE_WILDCARD;
 }
 
-std::string StatementRefWildCard::toString() {
+std::string StatementRefWildcard::toString() {
     return "_ [STMT WILDCARD]";
 }
 
-std::string StatementRefWildCard::getArgumentValue() {
+std::string StatementRefWildcard::getArgumentValue() {
     return "_";
 }
 
-std::vector<std::vector<std::string>> StatementRefWildCard::getEntityTable(QueryPkbVirtual &pkb) {
+std::vector<std::vector<std::string>> StatementRefWildcard::getEntityTable(QueryPkbVirtual &pkb) {
     throw QPSException("Invalid PKB Query");
 }
 
