@@ -31,4 +31,5 @@ jobs:
           verbosity: info
           repo-root: ${{github.workspace}}/Team05/Code05/
           files-changed-only: false
+          database: ${{github.workspace}}/Team05/Code05/build/compile_commands.json
           ignore: './lib/catch.hpp | ./src/autotester_gui/src/codeeditor.cpp | ./src/autotester_gui/src/codeeditor.h | ./src/autotester_gui/src/GUIWrapper.cpp | ./src/autotester_gui/src/GUIWrapper.h | ./src/autotester_gui/src/main.cpp | ./src/autotester_gui/src/mainwindow.cpp | ./src/autotester_gui/src/mainwindow.h | ./src/autotester_gui/src/mainwindow.ui '
