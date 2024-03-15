@@ -1,14 +1,13 @@
 #pragma once
 #define SPA_QUERYPKBVIRTUAL_H
 
-#include <memory>
-#include "PKBStorage.h"
+#include "PkbStorage.h"
 #include "common/SpaTypes.h"
 //#include "qps/QueryEvaluator/QueryResult/QueryResult.h"
 //#include "qps/query_elements/Returnable.h"
 //#include "qps/query_elements/constraint/Constraint.h"
 
-class QueryPKBVirtual {
+class QueryPkbVirtual {
 public:
 //    virtual std::shared_ptr<QueryResult> getResult(Returnable&, std::shared_ptr<Constraint>) = 0 = 0= 0;
 //    virtual std::vector<std::vector<std::string>> getRead() = 0 = 0;

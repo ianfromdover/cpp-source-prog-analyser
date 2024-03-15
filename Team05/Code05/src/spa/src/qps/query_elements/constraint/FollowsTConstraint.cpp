@@ -19,7 +19,7 @@ std::vector<std::shared_ptr<ConstraintArgument>> FollowsTConstraint::getConstrai
 }
 
 
-std::vector<std::vector<std::string>> FollowsTConstraint::getRelationshipTable(QueryPKBVirtual & pkb) {
+std::vector<std::vector<std::string>> FollowsTConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     // Get follows table and populate it into our results table
     std::vector<std::vector<std::string>> result = pkb.getFollowsTTable();
 

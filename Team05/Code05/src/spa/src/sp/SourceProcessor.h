@@ -14,10 +14,10 @@
 
 class SourceProcessor {
 private:
-    shared_ptr<BasePKBPopulator> pkb;
+    shared_ptr<BasePkbPopulator> pkb;
  
 public:
-    explicit SourceProcessor(shared_ptr<BasePKBPopulator> pkb) : pkb(std::move(pkb)) {};
+    explicit SourceProcessor(shared_ptr<BasePkbPopulator> pkb) : pkb(std::move(pkb)) {};
     void exec(const std::string& source);
     shared_ptr<std::vector<std::shared_ptr<Token>>> scan(const std::string& source);
     std::shared_ptr<Program> parse(std::shared_ptr<std::vector<std::shared_ptr<Token>>>& tokens);

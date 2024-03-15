@@ -17,6 +17,6 @@ std::string EntityRefWildCard::getArgumentValue() {
     return "_";
 }
 
-std::vector<std::vector<std::string>> EntityRefWildCard::getEntityTable(QueryPKBVirtual &pkb) {
+std::vector<std::vector<std::string>> EntityRefWildCard::getEntityTable(QueryPkbVirtual &pkb) {
     throw QPSException("Invalid QPS Query");
 }

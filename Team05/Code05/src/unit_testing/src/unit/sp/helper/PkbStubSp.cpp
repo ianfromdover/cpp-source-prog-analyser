@@ -2,10 +2,10 @@
 //Ai Link: https://chat.openai.com/share/a8902a0c-5005-4d5a-a895-337aa882cedc
 #include <iostream>
 #include <set>
-#include "pkb/apis/BasePKBPopulator.h"
+#include "pkb/apis/BasePkbPopulator.h"
 #include "common/SpaTypes.h"
 
-class PKBStubSP : public BasePKBPopulator {
+class PkbStubSp : public BasePkbPopulator {
     std::multiset<std::tuple<std::string, std::string, std::string>> tupleCalls;
     std::multiset<std::pair<std::string, std::string>> pairCalls;
     std::multiset<std::pair<std::string, std::string>> pairCallsT;

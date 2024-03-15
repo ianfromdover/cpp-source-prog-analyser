@@ -7,7 +7,7 @@
 
 #include "qps/query_elements/constraint_argument/statement_reference/StatementReference.h"
 #include "EntityReference.h"
-#include "pkb/apis/QueryPKBVirtual.h"
+#include "pkb/apis/QueryPkbVirtual.h"
 
 class EntityRefWildCard : public EntityReference {
 public:
@@ -15,7 +15,7 @@ public:
     std::string toString() override;
     std::string getArgumentValue() override;
 
-    std::vector<std::vector<std::string>> getEntityTable(QueryPKBVirtual & pkb) override;
+    std::vector<std::vector<std::string>> getEntityTable(QueryPkbVirtual & pkb) override;
 };
 
 

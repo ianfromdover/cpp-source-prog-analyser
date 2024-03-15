@@ -17,7 +17,7 @@ std::vector<std::shared_ptr<ConstraintArgument>> CallsTConstraint::getConstraint
     return constraintArguments;
 }
 
-std::vector<std::vector<std::string>> CallsTConstraint::getRelationshipTable(QueryPKBVirtual & pkb) {
+std::vector<std::vector<std::string>> CallsTConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     // Get follows table and populate it into our results table
     std::vector<std::vector<std::string>> result = pkb.getCallsTTable();
 

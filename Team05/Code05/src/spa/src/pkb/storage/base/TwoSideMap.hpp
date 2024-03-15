@@ -2,13 +2,12 @@
 #define SPA_TWO_SIDE_MAP_TWO_SET_H
 
 #include <iostream>
-#include <sstream> // for convertToString
-#include <set>
-#include <vector>
-#include <unordered_map>
 #include <memory>
+#include <set>
 #include <string>
 #include <type_traits>
+#include <unordered_map>
+#include <vector>
 
 /**
  * @brief A double-sided map for O(1) retrieval of elements that have Many-Many relations.
@@ -31,16 +30,6 @@ private:
 
     // Check if a pair exists in the map.
     bool containsPair(A key, B value);
-
-    // Combines pairs in the forward map of type string into a 2-column table in the result
-    /*
-    void add(std::shared_ptr<std::vector<std::vector<std::string>>>& result,
-             std::string& key, std::set<std::shared_ptr<std::string>>& strPtrSet);
-
-    // Combines pairs in the forward map of any type into a 2-column table in the result
-    void addAndConvert(std::shared_ptr<std::vector<std::vector<std::string>>>& result,
-                       std::string& key, std::set<std::shared_ptr<B>>& tPtrSet);
-    */
 
 public:
     TwoSideMap();
@@ -109,28 +98,6 @@ bool TwoSideMap<A, B>::containsPair(A key, B value) {
     bool valueHasThisKey = std::find(keys.begin(), keys.end(), key) != keys.end();
     return keyHasThisValue && valueHasThisKey;
 }
-
-// helpers for getAll
-// somehow throws errors when i abstract the logic into functions
-/*
-template<typename A, typename B>
-void TwoSideMap<A, B>::add(std::shared_ptr<std::vector<std::vector<std::string>>>& result,
-         std::string& key, std::set<std::shared_ptr<std::string>>& strPtrSet) {
-    for (auto& ptr : strPtrSet) {
-        result->push_back({key, *ptr});
-    }
-}
-
-// assumes that TwoSideMap is only used on primitives
-template<typename A, typename B>
-void TwoSideMap<A, B>::addAndConvert(std::shared_ptr<std::vector<std::vector<std::string>>>& result,
-                   std::string& key, std::set<std::shared_ptr<B>>& tPtrSet) {
-    for (auto& ptr : tPtrSet) {
-        std::string item = std::to_string(*ptr); // T needs to have an overloaded std::to_string defined
-        result->push_back({key, item});
-    }
-}
-*/
 
 template<typename A, typename B>
 bool TwoSideMap<A, B>::insert(const A key, const B value) {

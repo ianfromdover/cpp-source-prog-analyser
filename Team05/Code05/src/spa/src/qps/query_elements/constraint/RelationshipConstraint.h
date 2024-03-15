@@ -11,7 +11,7 @@
 class RelationshipConstraint : public Constraint {
 public:
     std::string getConstraintClass() override;
-    std::vector<std::vector<std::string>> getRelationshipTable(QueryPKBVirtual &) override;
+    std::vector<std::vector<std::string>> getRelationshipTable(QueryPkbVirtual &) override;
 };
 
 

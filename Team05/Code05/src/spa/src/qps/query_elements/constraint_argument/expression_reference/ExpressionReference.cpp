@@ -9,7 +9,7 @@ std::string ExpressionReference::getReferenceType() {
     return REFERENCE_TYPE_EXPRESSION;
 }
 
-std::vector<std::vector<std::string>> ExpressionReference::getEntityTable(QueryPKBVirtual &pkb) {
+std::vector<std::vector<std::string>> ExpressionReference::getEntityTable(QueryPkbVirtual &pkb) {
     throw QPSException("Invalid QPS Query");
 }
 

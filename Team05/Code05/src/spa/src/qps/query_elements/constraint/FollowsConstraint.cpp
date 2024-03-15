@@ -3,7 +3,7 @@
 //
 
 #include "FollowsConstraint.h"
-#include "pkb/apis/QueryPKB.h"
+#include "pkb/apis/QueryPkb.h"
 #include "qps/QueryProjector/ResultTable/ResultTable.h"
 
 FollowsConstraint::FollowsConstraint(std::shared_ptr<StatementReference> s1, std::shared_ptr<StatementReference>  s2) {
@@ -19,7 +19,7 @@ std::vector<std::shared_ptr<ConstraintArgument>> FollowsConstraint::getConstrain
     return constraintArguments;
 }
 
-std::vector<std::vector<std::string>> FollowsConstraint::getRelationshipTable(QueryPKBVirtual & pkb) {
+std::vector<std::vector<std::string>> FollowsConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     // Get follows table and populate it into our results table
     std::vector<std::vector<std::string>> result = pkb.getFollowsTable();
 

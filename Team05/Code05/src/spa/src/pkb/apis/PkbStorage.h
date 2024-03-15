@@ -29,9 +29,9 @@
 #include "pkb/storage/relation/UsesPTable.h"
 #include "pkb/storage/relation/UsesSTable.h"
 
-class PKBStorage {
+class PkbStorage {
 public:
-    PKBStorage() = default;
+    PkbStorage() = default;
     // entities
     std::shared_ptr<CallTable> callTable = std::make_shared<CallTable>();
     std::shared_ptr<ConstTable> constTable = std::make_shared<ConstTable>();

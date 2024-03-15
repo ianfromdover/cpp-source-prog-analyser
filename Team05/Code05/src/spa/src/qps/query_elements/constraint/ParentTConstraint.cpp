@@ -3,7 +3,7 @@
 //
 
 #include "ParentTConstraint.h"
-#include "pkb/apis/QueryPKB.h"
+#include "pkb/apis/QueryPkb.h"
 #include "qps/QueryProjector/ResultTable/ResultTable.h"
 
 ParentTConstraint::ParentTConstraint(std::shared_ptr<ConstraintArgument> s1, std::shared_ptr<ConstraintArgument> s2) {
@@ -19,7 +19,7 @@ std::vector<std::shared_ptr<ConstraintArgument>> ParentTConstraint::getConstrain
     return constraintArguments;
 }
 
-std::vector<std::vector<std::string>> ParentTConstraint::getRelationshipTable(QueryPKBVirtual & pkb) {
+std::vector<std::vector<std::string>> ParentTConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     // Get parentT table and populate it into our results table
     std::vector<std::vector<std::string>> result = pkb.getParentTTable();
 

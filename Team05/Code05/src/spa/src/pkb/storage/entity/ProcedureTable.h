@@ -1,7 +1,6 @@
 #pragma once
 #define SPA_PROCEDURETABLE_H
 
-#include <vector>
 #include "common/SpaTypes.h"
 
 /**

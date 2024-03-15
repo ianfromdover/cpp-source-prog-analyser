@@ -2,7 +2,7 @@
 // Created by Alex on 11/2/2024.
 //
 
-#ifndef SPA_PKBSTUB_H
+#pragma once
 #define SPA_PKBSTUB_H
 
 #include <memory>
@@ -15,12 +15,12 @@
 
 // ai-gen start(gpt, 0, e)
 // prompt: https://platform.openai.com/playground/p/ErjJuev6dMUJWh9xtwKTTNXx?model=gpt-4&mode=chat
-class PKBStub {
+class PkbStub {
 private:
     std::shared_ptr<QueryResult> result;
 public:
-    PKBStub() = default;
-    PKBStub(std::vector<std::string>& stringList)
+    PkbStub() = default;
+    PkbStub(std::vector<std::string>& stringList)
             : result(std::make_shared<StringResult>(stringList)) {}
 
     std::shared_ptr<QueryResult> getResult(Returnable& r, Constraint& c){
@@ -28,5 +28,3 @@ public:
     }
 };
 // ai-gen end
-
-#endif //SPA_PKBSTUB_H

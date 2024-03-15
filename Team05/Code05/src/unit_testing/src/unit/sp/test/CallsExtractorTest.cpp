@@ -3,7 +3,7 @@
 //
 #include "catch.hpp"
 #include "../helper/AstProgram.cpp"
-#include "../helper/PKBStubSP.cpp"
+#include "../helper/PkbStubSp.cpp"
 #include "sp/extractor/relation_extractor/CallsExtractor.h"
 #include "sp/ast/Program.h"
 
@@ -13,7 +13,7 @@ TEST_CASE("Calls_TestSequentialNestingChain") {
             {"IfElseWithStmtsBeforeAndInside", "IfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside"},
     };
     auto program = AstProgram::createSequentialNestingChain();
-    auto pkb = make_shared<PKBStubSP>();
+    auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<CallsExtractor>(pkb, program);
     for (const auto& procedure : *program->getProcedures()) {
         procedure->accept(*extractor);

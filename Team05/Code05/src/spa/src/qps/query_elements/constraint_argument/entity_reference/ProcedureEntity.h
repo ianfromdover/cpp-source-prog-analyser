@@ -7,7 +7,7 @@
 
 #include "../../Entity.h"
 #include "EntityReference.h"
-#include "pkb/apis/QueryPKBVirtual.h"
+#include "pkb/apis/QueryPkbVirtual.h"
 
 
 class ProcedureEntity : public Entity, public EntityReference  {
@@ -18,7 +18,7 @@ public:
     std::string toString() override;
     std::string getArgumentValue() override;
 
-    std::vector<std::vector<std::string>> getEntityTable(QueryPKBVirtual & pkb) override;
+    std::vector<std::vector<std::string>> getEntityTable(QueryPkbVirtual & pkb) override;
 };
 
 

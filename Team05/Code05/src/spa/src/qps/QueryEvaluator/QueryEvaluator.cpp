@@ -5,7 +5,7 @@
 #include "QueryEvaluator.h"
 #include <algorithm>
 #include "qps/QueryEvaluator/QueryResult/StringResult.h"
-#include "PKBStub.h"
+#include "PkbStub.h"
 #include "qps/QueryEvaluator/QueryResult/IntResult.h"
 #include "qps/Exceptions/QPSException.h"
 

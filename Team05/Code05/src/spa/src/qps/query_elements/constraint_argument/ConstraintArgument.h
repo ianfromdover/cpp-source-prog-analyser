@@ -6,9 +6,9 @@
 #define SPA_CONSTRAINTARGUMENT_H
 
 #include <string>
-#include "pkb/apis/QueryPKBVirtual.h"
+#include "pkb/apis/QueryPkbVirtual.h"
 
-class QueryPKBVirtual;
+class QueryPkbVirtual;
 
 class ConstraintArgument {
 public:
@@ -17,7 +17,7 @@ public:
     virtual std::string getArgumentValue() = 0;
     virtual std::string toString() = 0;
 
-    virtual std::vector<std::vector<std::string>> getEntityTable(QueryPKBVirtual & pkb) =0;
+    virtual std::vector<std::vector<std::string>> getEntityTable(QueryPkbVirtual & pkb) =0;
 
 };
 

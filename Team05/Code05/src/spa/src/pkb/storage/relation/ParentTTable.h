@@ -1,8 +1,4 @@
-//
-// Created by yewme on 21/2/2024.
-//
-
-#ifndef SPA_PARENTTTABLE_H
+#pragma once
 #define SPA_PARENTTTABLE_H
 
 #include "common/SpaTypes.h"
@@ -23,6 +19,3 @@ public:
     // Gets a table with 2 columns, Parent* | Child*
     std::vector<std::vector<Str>> getAllAsStrings();
 };
-
-
-#endif //SPA_PARENTTTABLE_H

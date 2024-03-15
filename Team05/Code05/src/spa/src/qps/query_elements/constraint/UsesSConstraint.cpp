@@ -19,7 +19,7 @@ std::vector<std::shared_ptr<ConstraintArgument>> UsesSConstraint::getConstraintA
     return constraintArguments;
 }
 
-std::vector<std::vector<std::string>> UsesSConstraint::getRelationshipTable(QueryPKBVirtual & pkb) {
+std::vector<std::vector<std::string>> UsesSConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     // Get uses table and populate it into our results table
     std::vector<std::vector<std::string>> result = pkb.getUsesSTable();
 

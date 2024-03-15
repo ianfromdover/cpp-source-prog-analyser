@@ -17,7 +17,7 @@ std::string IntegerArgument::toString() {
     return to_string(this->value) + " [INTEGER]";
 }
 
-std::vector<std::vector<std::string>> IntegerArgument::getEntityTable(QueryPKBVirtual &pkb) {
+std::vector<std::vector<std::string>> IntegerArgument::getEntityTable(QueryPkbVirtual &pkb) {
     throw QPSException("Invalid PKB Query");
 }
 

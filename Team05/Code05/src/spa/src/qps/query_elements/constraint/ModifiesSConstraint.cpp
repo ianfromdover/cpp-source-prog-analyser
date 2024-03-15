@@ -19,7 +19,7 @@ std::vector<std::shared_ptr<ConstraintArgument>> ModifiesSConstraint::getConstra
     return constraintArguments;
 }
 
-std::vector<std::vector<std::string>> ModifiesSConstraint::getRelationshipTable(QueryPKBVirtual & pkb) {
+std::vector<std::vector<std::string>> ModifiesSConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     // Get modifies table and populate it into our results table
     std::vector<std::vector<std::string>> result = pkb.getModifiesSTable();
 

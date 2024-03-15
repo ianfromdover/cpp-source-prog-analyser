@@ -35,12 +35,12 @@ TEST_CASE("Modifsies Handler - QPS") {
     }
     )";
 
-    std::shared_ptr<PKBStorage> p = std::make_shared<PKBStorage>();
-    auto pkb = make_shared<PopulatePKB>(p);
+    std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
+    auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
     sp.exec(codeSnippet);
-    QueryPKB pkb1(p);
-    QPS qps(std::make_shared<QueryPKB>(pkb1));
+    QueryPkb pkb1(p);
+    QPS qps(std::make_shared<QueryPkb>(pkb1));
 
     SECTION("Select s such that Modifies(s, v)") {
         std::string query = "call s; Select s";
@@ -76,8 +76,8 @@ TEST_CASE("Tokenise sample program") {
         normSq = cenX * cenX + cenY * cenY;
     }
     )";
-    std::shared_ptr<PKBStorage> p=std::make_shared<PKBStorage>();
-    auto pkb = make_shared<PopulatePKB>(p);
+    std::shared_ptr<PkbStorage> p=std::make_shared<PkbStorage>();
+    auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
     auto tokens = sp.scan(codeSnippet);
     for (auto& token: *tokens) {
@@ -166,8 +166,8 @@ TEST_CASE("Parse sample program") {
     }
     )";
 
-    std::shared_ptr<PKBStorage> p=std::make_shared<PKBStorage>();
-    auto pkb = make_shared<PopulatePKB>(p);
+    std::shared_ptr<PkbStorage> p=std::make_shared<PkbStorage>();
+    auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
     auto tokens = sp.scan(codeSnippet);
     const auto parser = new Parser(tokens);
@@ -196,8 +196,8 @@ TEST_CASE("Print with parent extractor") {
         z=x+y;
     }
     )";
-    std::shared_ptr<PKBStorage> p=std::make_shared<PKBStorage>();
-    auto pkb = make_shared<PopulatePKB>(p);
+    std::shared_ptr<PkbStorage> p=std::make_shared<PkbStorage>();
+    auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
     sp.exec(codeSnippet);
 
@@ -220,8 +220,8 @@ TEST_CASE("Print with parent extractor") {
 //            expected2,expected3,expected4,expected5,
             expected6};
 
-    QueryPKB pkb1(p);
-    QPS qps(std::make_shared<QueryPKB>(pkb1));
+    QueryPkb pkb1(p);
+    QPS qps(std::make_shared<QueryPkb>(pkb1));
 
     for(int i=0;i<queries.size();i++){
         std::vector<std::string> ans = qps.evaluate(queries[i]);
@@ -231,8 +231,8 @@ TEST_CASE("Print with parent extractor") {
 }
 
 TEST_CASE("Test SIMPLE semantic analysis") {
-    std::shared_ptr<PKBStorage> p=std::make_shared<PKBStorage>();
-    auto pkb = make_shared<PopulatePKB>(p);
+    std::shared_ptr<PkbStorage> p=std::make_shared<PkbStorage>();
+    auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
 
     std::string repeatedProcedureName = R"(
@@ -426,12 +426,12 @@ TEST_CASE("Modifies Handler - QPS") {
     }
     )";
 
-    std::shared_ptr<PKBStorage> p=std::make_shared<PKBStorage>();
-    auto pkb = make_shared<PopulatePKB>(p);
+    std::shared_ptr<PkbStorage> p=std::make_shared<PkbStorage>();
+    auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
     sp.exec(codeSnippet);
-    QueryPKB pkb1(p);
-    QPS qps(std::make_shared<QueryPKB>(pkb1));
+    QueryPkb pkb1(p);
+    QPS qps(std::make_shared<QueryPkb>(pkb1));
 
     SECTION("Select s such that Modifies(s, v)") {
         std::string query = "stmt s; variable v; Select s such that Modifies(s, v)";
@@ -573,12 +573,12 @@ TEST_CASE("Uses Handler - QPS") {
         z=x+y;
     }
     )";
-    std::shared_ptr<PKBStorage> p = std::make_shared<PKBStorage>();
-    auto pkb = make_shared<PopulatePKB>(p);
+    std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
+    auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
     sp.exec(codeSnippet);
-    QueryPKB pkb1(p);
-    QPS qps(std::make_shared<QueryPKB>(pkb1));
+    QueryPkb pkb1(p);
+    QPS qps(std::make_shared<QueryPkb>(pkb1));
 
     SECTION("Select s such that Uses(s, v)") {
         std::string query = "stmt s; variable v; Select s such that Uses(s, v)";
@@ -724,12 +724,12 @@ TEST_CASE("Parent Handler - QPS") {
         z=x+y;
     }
     )";
-    std::shared_ptr<PKBStorage> p = std::make_shared<PKBStorage>();
-    auto pkb = make_shared<PopulatePKB>(p);
+    std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
+    auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
     sp.exec(codeSnippet);
-    QueryPKB pkb1(p);
-    QPS qps(std::make_shared<QueryPKB>(pkb1));
+    QueryPkb pkb1(p);
+    QPS qps(std::make_shared<QueryPkb>(pkb1));
 
     SECTION("Select s1 such that Parent(s1, s2)") {
         std::string query = "stmt s1; stmt s2; Select s1 such that Parent(s1, s2)";
@@ -841,12 +841,12 @@ TEST_CASE("Parent* Handler - QPS") {
         z=x+y;
     }
     )";
-    std::shared_ptr<PKBStorage> p = std::make_shared<PKBStorage>();
-    auto pkb = make_shared<PopulatePKB>(p);
+    std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
+    auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
     sp.exec(codeSnippet);
-    QueryPKB pkb1(p);
-    QPS qps(std::make_shared<QueryPKB>(pkb1));
+    QueryPkb pkb1(p);
+    QPS qps(std::make_shared<QueryPkb>(pkb1));
 
     SECTION("Select s1 such that Parent*(s1, s2)") {
         std::string query = "stmt s1; stmt s2; Select s1 such that Parent*(s1, s2)";
@@ -959,12 +959,12 @@ TEST_CASE("Follows Handler - QPS") {
         z=x+y;
     }
     )";
-    std::shared_ptr<PKBStorage> p = std::make_shared<PKBStorage>();
-    auto pkb = make_shared<PopulatePKB>(p);
+    std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
+    auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
     sp.exec(codeSnippet);
-    QueryPKB pkb1(p);
-    QPS qps(std::make_shared<QueryPKB>(pkb1));
+    QueryPkb pkb1(p);
+    QPS qps(std::make_shared<QueryPkb>(pkb1));
 
     SECTION("Select s1 such that Follows(s1, s2)") {
         std::string query = "stmt s1; stmt s2; Select s1 such that Follows(s1, s2)";
@@ -1084,12 +1084,12 @@ TEST_CASE("Follows* Handler - QPS") {
         z=x+y;
     }
     )";
-    std::shared_ptr<PKBStorage> p = std::make_shared<PKBStorage>();
-    auto pkb = make_shared<PopulatePKB>(p);
+    std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
+    auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
     sp.exec(codeSnippet);
-    QueryPKB pkb1(p);
-    QPS qps(std::make_shared<QueryPKB>(pkb1));
+    QueryPkb pkb1(p);
+    QPS qps(std::make_shared<QueryPkb>(pkb1));
 
     SECTION("Select s1 such that Follows*(s1, s2)") {
         std::string query = "stmt s1; stmt s2; Select s1 such that Follows*(s1, s2)";
@@ -1208,12 +1208,12 @@ TEST_CASE("Multi-clause"){
         z=x+y;
     }
     )";
-    std::shared_ptr<PKBStorage> p = std::make_shared<PKBStorage>();
-    auto pkb = make_shared<PopulatePKB>(p);
+    std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
+    auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
     sp.exec(codeSnippet);
-    QueryPKB pkb1(p);
-    QPS qps(std::make_shared<QueryPKB>(pkb1));
+    QueryPkb pkb1(p);
+    QPS qps(std::make_shared<QueryPkb>(pkb1));
 
     SECTION("merging of multi clause with multiple common synonym") {
         std::string query = "assign a; variable v; Select v such that Uses(a, v) pattern a(v, _)";
@@ -1254,12 +1254,12 @@ TEST_CASE("Calls relationship"){
     }
     )";
 
-    std::shared_ptr<PKBStorage> p=std::make_shared<PKBStorage>();
-    auto pkb = make_shared<PopulatePKB>(p);
+    std::shared_ptr<PkbStorage> p=std::make_shared<PkbStorage>();
+    auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
     sp.exec(codeSnippet);
-    QueryPKB pkb1(p);
-    QPS qps(std::make_shared<QueryPKB>(pkb1));
+    QueryPkb pkb1(p);
+    QPS qps(std::make_shared<QueryPkb>(pkb1));
 
     SECTION("procedure p; Select p such that Calls(_, _)") {
         std::string query = "procedure p; Select p such that Calls(_, _)";
@@ -1379,8 +1379,8 @@ TEST_CASE("Test Extractor") {
         }
     )";
 
-    std::shared_ptr<PKBStorage> p=std::make_shared<PKBStorage>();
-    auto pkb = make_shared<PopulatePKB>(p);
+    std::shared_ptr<PkbStorage> p=std::make_shared<PkbStorage>();
+    auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
     sp.exec(codeSnippet);
 

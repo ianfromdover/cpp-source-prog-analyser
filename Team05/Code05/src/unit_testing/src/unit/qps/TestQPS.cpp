@@ -3,7 +3,7 @@
 
 #include "catch.hpp"
 #include "qps/QPS.h"
-#include "query_evaluator/stub/QueryPKBStub.h"
+#include "query_evaluator/stub/QueryPkbStub.h"
 
 using namespace std;
 
@@ -11,7 +11,7 @@ std::vector<std::string> testHelper(std::string queryStr);
 
 TEST_CASE("[TestQPS] Replace with your unit tests") {
     SECTION("no constraints") {
-        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
         pkb->setStatement(3);
         QPS qps(pkb);
 
@@ -250,7 +250,7 @@ TEST_CASE("[TestQPS] Semantic Error Tests"){
 
 TEST_CASE("[TestQPS] No Constraints"){
     SECTION("statements") {
-        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
         pkb->setStatement(3);
         QPS qps(pkb);
 
@@ -260,7 +260,7 @@ TEST_CASE("[TestQPS] No Constraints"){
         REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
     }
     SECTION("read statements") {
-        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
         pkb->setRead({{"1"}, {"2"}, {"3"}});
         QPS qps(pkb);
 
@@ -271,7 +271,7 @@ TEST_CASE("[TestQPS] No Constraints"){
     }
 
     SECTION("print statements") {
-        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
         pkb->setPrint({{"1"}, {"2"}, {"3"}});
         QPS qps(pkb);
 
@@ -282,7 +282,7 @@ TEST_CASE("[TestQPS] No Constraints"){
     }
 
     SECTION("if statements") {
-        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
         pkb->setIf({{"1"}, {"2"}, {"3"}});
         QPS qps(pkb);
 
@@ -293,7 +293,7 @@ TEST_CASE("[TestQPS] No Constraints"){
     }
 
     SECTION("while statements") {
-        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
         pkb->setWhile({{"1"}, {"2"}, {"3"}});
         QPS qps(pkb);
 
@@ -304,7 +304,7 @@ TEST_CASE("[TestQPS] No Constraints"){
     }
 
     SECTION("procedure statements") {
-        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
         pkb->setProcedure({{"a", "a"}, {"b", "b"}, {"c", "c"}});
         QPS qps(pkb);
 
@@ -316,7 +316,7 @@ TEST_CASE("[TestQPS] No Constraints"){
     }
 
     SECTION("variable statements") {
-        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
         pkb->setVar({{"1", "a"}, {"2", "b"}, {"3", "c"}});
         QPS qps(pkb);
 
@@ -327,7 +327,7 @@ TEST_CASE("[TestQPS] No Constraints"){
     }
 
     SECTION("constant statements") {
-        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
         pkb->setConst({{"1", "a"}, {"2", "b"}, {"3", "c"}});
         QPS qps(pkb);
 
@@ -342,7 +342,7 @@ TEST_CASE("[TestQPS] No Constraints"){
 
 TEST_CASE("[TestQPS] Multiple Constraints"){
     SECTION("follows pattern"){
-        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
         pkb->setFollows({{"1", "2"}, {"1", "3"}, {"1", "4"}, {"2", "7"}});
         pkb->setStatement(7);
         pkb->setPatternAsgn({{"1","x","c"}, {"2","x","k"}, {"3","y","c"}, {"4","y","k"}, {"7","z","i"}});
@@ -395,7 +395,7 @@ TEST_CASE("[TestQPS] Multiple Constraints"){
 
 TEST_CASE("[TestQPS] Single Constraints") {
     SECTION("follows") {
-        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
         pkb->setFollows({{"1", "2"},
                          {"1", "3"},
                          {"1", "4"},
@@ -446,7 +446,7 @@ TEST_CASE("[TestQPS] Single Constraints") {
         }
     }
     SECTION("follows T") {
-        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
         pkb->setFollowsT({{"1", "2"},
                           {"1", "3"},
                           {"1", "4"},
@@ -493,7 +493,7 @@ TEST_CASE("[TestQPS] Single Constraints") {
     }
 
     SECTION("parents") {
-        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
         pkb->setParent({{"1", "2"},
                           {"1", "3"},
                           {"1", "4"},
@@ -546,7 +546,7 @@ TEST_CASE("[TestQPS] Single Constraints") {
     }
 
     SECTION("parents T") {
-        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
         pkb->setParentT({{"1", "2"},
                         {"1", "3"},
                         {"1", "4"},
@@ -599,7 +599,7 @@ TEST_CASE("[TestQPS] Single Constraints") {
     }
 
     SECTION("modifies"){
-        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
         pkb->setModifies({{"1", "v"},
                          {"1", "k"},
                          {"1", "c"},
@@ -643,7 +643,7 @@ TEST_CASE("[TestQPS] Single Constraints") {
         }
     }
     SECTION("uses"){
-        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
         pkb->setUses({{"1", "v"},
                           {"1", "k"},
                           {"1", "c"},
@@ -685,7 +685,7 @@ TEST_CASE("[TestQPS] Single Constraints") {
         }
     }
     SECTION("pattern"){
-        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
         pkb->setPatternAsgn({{"1","x","10"}, {"2","x","k"}, {"3","y","c"}, {"4","y","k"}, {"7","z","i"}});
         QPS qps(pkb);
 
@@ -717,7 +717,7 @@ TEST_CASE("[TestQPS] Single Constraints") {
     }
 
     SECTION("Calls") {
-        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
         pkb->setProcedure({{"a", "a"}, {"b", "b"}, {"c", "c"}, {"d", "d"}, {"f", "f"}, {"g", "g"}});
         pkb->setCalls({{"a", "b"}, {"c", "d"}, {"b", "c"}, {"f", "g"}});
         QPS qps(pkb);
@@ -815,7 +815,7 @@ TEST_CASE("[TestQPS] Single Constraints") {
     }
 
     SECTION("CallsT") {
-        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
         pkb->setProcedure({{"a", "a"}, {"b", "b"}, {"c", "c"}, {"d", "d"}, {"f", "f"}, {"g", "g"}});
         pkb->setCallsT({{"a", "b"}, {"c", "d"}, {"b", "c"}, {"f", "g"}, {"a", "c"}, {"a", "d"}, {"b", "d"}});
         QPS qps(pkb);
@@ -914,7 +914,7 @@ TEST_CASE("[TestQPS] Single Constraints") {
 }
 
 std::vector<std::string> testHelper(std::string queryStr){
-    std::shared_ptr<QueryPKBVirtual> pkb = std::make_shared<QueryPKBStub>();
+    std::shared_ptr<QueryPkbVirtual> pkb = std::make_shared<QueryPkbStub>();
     QPS qps(pkb);
     return qps.evaluate(std::move(queryStr));
 }

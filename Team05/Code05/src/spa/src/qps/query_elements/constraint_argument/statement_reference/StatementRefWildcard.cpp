@@ -18,7 +18,7 @@ std::string StatementRefWildCard::getArgumentValue() {
     return "_";
 }
 
-std::vector<std::vector<std::string>> StatementRefWildCard::getEntityTable(QueryPKBVirtual &pkb) {
+std::vector<std::vector<std::string>> StatementRefWildCard::getEntityTable(QueryPkbVirtual &pkb) {
     throw QPSException("Invalid PKB Query");
 }
 

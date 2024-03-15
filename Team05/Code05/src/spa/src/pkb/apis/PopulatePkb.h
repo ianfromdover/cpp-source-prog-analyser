@@ -1,17 +1,17 @@
 #pragma once
 #define SPA_POPULATEPKB_H
 
-#include "pkb/apis/BasePKBPopulator.h"
-#include "PKBStorage.h"
+#include "pkb/apis/BasePkbPopulator.h"
+#include "PkbStorage.h"
 
 /**
  * Methods arranged alphabetically to easily compare with project files
  */
-class PopulatePKB : public BasePKBPopulator {
+class PopulatePkb : public BasePkbPopulator {
 private:
-    std::shared_ptr<PKBStorage> pkb;
+    std::shared_ptr<PkbStorage> pkb;
 public:
-    PopulatePKB(std::shared_ptr<PKBStorage> p);
+    PopulatePkb(std::shared_ptr<PkbStorage> p);
 
     // entity
     bool addCallStmt(int stmtNo, std::string name) override;

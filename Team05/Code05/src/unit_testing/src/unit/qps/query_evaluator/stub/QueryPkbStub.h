@@ -1,50 +1,62 @@
 //
-// Created by sjh_9 on 25/2/2024.
+// Created by tohzh on 21/2/2024.
 //
 
-#ifndef SPA_QUERYPKB_H
-#define SPA_QUERYPKB_H
+#pragma once
+#define SPA_QUERYPKBSTUB_H
 
-#include "QueryPKBVirtual.h"
-#include "pkb/storage/base/TwoSideMap.hpp"
 
-class QueryPKBVirtual;
+#include "pkb/apis/QueryPkbVirtual.h"
+#include "pkb/apis/PkbStorage.h"
 
-class QueryPKB : public QueryPKBVirtual {
+class QueryPkbStub : public QueryPkbVirtual {
 private:
-    std::shared_ptr<PKBStorage> pkb;
+    std::shared_ptr<PkbStorage> pkb;
+
 public:
-    explicit QueryPKB(std::shared_ptr<PKBStorage> p);
+    std::vector<std::vector<std::string>> getRead();
+    std::vector<std::vector<std::string>> getCallStmt();
+    std::vector<std::vector<std::string>> getIf();
+    std::vector<std::vector<std::string>> getWhile();
+    std::vector<std::vector<std::string>> getPrint();
+    std::vector<std::vector<std::string>> getStatement();
+    std::vector<std::vector<std::string>> getProcedure();
+    std::vector<std::vector<std::string>> getVar();
+    std::vector<std::vector<std::string>> getConst();
+    std::vector<std::vector<std::string>> getFollows();
+    std::vector<std::vector<std::string>> getFollowsT();
+    std::vector<std::vector<std::string>> getParent();
+    std::vector<std::vector<std::string>> getParentT();
+    std::vector<std::vector<std::string>> getUses();
+    std::vector<std::vector<std::string>> getUsesP();
+    std::vector<std::vector<std::string>> getModifies();
+    std::vector<std::vector<std::string>> getModifiesP();
+    std::vector<std::vector<std::string>> getPatternAsgn();
+    std::vector<std::vector<std::string>> getCalls();
+    std::vector<std::vector<std::string>> getCallsT();
 
-//    std::vector<std::vector<std::string>> getRead() override override;
-//    std::vector<std::vector<std::string>> getCallStmt() override override;
-//    std::vector<std::vector<std::string>> getIf() override override;
-//    std::vector<std::vector<std::string>> getWhile() override override;
-//    std::vector<std::vector<std::string>> getPrint() override override;
-//    std::vector<std::vector<std::string>> getStatement() override override;
-//    std::vector<std::vector<std::string>> getProcedure() override override;
-//    std::vector<std::vector<std::string>> getVar() override override;
-//    std::vector<std::vector<std::string>> getConst() override override;
-//    std::vector<std::vector<std::string>> getFollows() override override;
-//    std::vector<std::vector<std::string>> getFollowsT() override override;
-//    std::vector<std::vector<std::string>> getParent() override override;
-//    std::vector<std::vector<std::string>> getParentT() override override;
-//    std::vector<std::vector<std::string>> getUses() override override;
-//    std::vector<std::vector<std::string>> getModifies() override override;
-//    std::vector<std::vector<std::string>> getPatternAsgn() override override;
-//    std::vector<std::vector<std::string>> getCalls() override override;
-//    std::vector<std::vector<std::string>> getCallsT() override override;
+    void setRead(std::vector<std::vector<std::string>> t);
+    void setCallStmt(std::vector<std::vector<std::string>> t);
+    void setIf(std::vector<std::vector<std::string>> t);
+    void setWhile(std::vector<std::vector<std::string>> t);
+    void setPrint(std::vector<std::vector<std::string>> t);
+    void setStatement(int ending);
+    void setProcedure(std::vector<std::vector<std::string>> t);
+    void setVar(std::vector<std::vector<std::string>> t);
+    void setConst(std::vector<std::vector<std::string>> t);
+    void setFollows(std::vector<std::vector<std::string>> t);
+    void setFollowsT(std::vector<std::vector<std::string>> t);
+    void setParent(std::vector<std::vector<std::string>> t);
+    void setParentT(std::vector<std::vector<std::string>> t);
+    void setUses(std::vector<std::vector<std::string>> t);
+    void setUsesP(std::vector<std::vector<std::string>> t);
+    void setModifies(std::vector<std::vector<std::string>> t);
+    void setModifiesP(std::vector<std::vector<std::string>> t);
+    void setPatternAsgn(std::vector<std::vector<std::string>> t);
+    void setCalls(std::vector<std::vector<std::string>> t);
+    void setCallsT(std::vector<std::vector<std::string>> t);
 
-    // methods to convert to vec<vec<string>>
-    template <typename A>
-    std::vector<std::vector<std::string>> toVecVecStr(std::vector<A> vec);
-    vector<vector<std::string>> toVecVecStr(vector<std::string> vec);
-    // TODO: remove the following once confirmed that we don't need it
-//    template <typename A, typename B>
-//    vector<vector<std::string>> toVecVecStr(TwoSideMap<A, B> map) override;
-//    vector<vector<std::string>> toVecVecStr(string element) override;
-
-    // refactor get
+    // lack of implementation is causing errors, so implement duds for MS2 first.
     std::vector<std::vector<std::string>> getCallByNum(StmtNo sNum) override;
     std::vector<std::vector<std::string>> getCallByProc(ProcName proc) override;
     std::vector<std::vector<std::string>> getCallTable() override;
@@ -83,7 +95,7 @@ public:
     std::vector<std::vector<std::string>> getUsesSByNum(StmtNo user) override;
     std::vector<std::vector<std::string>> getUsesSByVar(VarName used) override;
     std::vector<std::vector<std::string>> getUsesSTable() override;
-    // TODO: add the other UsesP stuff
+    // TODO: add UsesP
     std::vector<std::vector<std::string>> getUsesPTable() override;
     std::vector<std::vector<std::string>> getModifiesSByNum(StmtNo modifier) override;
     std::vector<std::vector<std::string>> getModifiesSByVar(VarName modified) override;
@@ -119,6 +131,3 @@ public:
     std::vector<std::vector<std::string>> getAffectsByAfter(StmtNo after) override;
     std::vector<std::vector<std::string>> getAffectsTable() override;
 };
-
-
-#endif //SPA_QUERYPKB_H

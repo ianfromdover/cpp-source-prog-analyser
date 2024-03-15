@@ -9,7 +9,7 @@
 #include "RelationshipConstraint.h"
 #include "qps/query_elements/constraint_argument/statement_reference/StatementReference.h"
 #include "common/Column.h"
-#include "pkb/apis/QueryPKB.h"
+#include "pkb/apis/QueryPkb.h"
 
 class FollowsTConstraint : public RelationshipConstraint{
 private:
@@ -18,7 +18,7 @@ public:
     FollowsTConstraint(std::shared_ptr<StatementReference> , std::shared_ptr<StatementReference> );
     std::string getConstraintType() override;
     std::vector<std::shared_ptr<ConstraintArgument>> getConstraintArguments() override;
-    std::vector<std::vector<std::string>> getRelationshipTable(QueryPKBVirtual &) override;
+    std::vector<std::vector<std::string>> getRelationshipTable(QueryPkbVirtual &) override;
 
     bool isStatementSynonym(string type);
 

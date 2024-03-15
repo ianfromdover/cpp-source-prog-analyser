@@ -25,7 +25,7 @@ std::string StatementEntity::toString() {
     return this->identifier + " [STMT]";
 }
 
-std::vector<std::vector<std::string>> StatementEntity::getEntityTable(QueryPKBVirtual &pkb) {
+std::vector<std::vector<std::string>> StatementEntity::getEntityTable(QueryPkbVirtual &pkb) {
     auto entityTable = pkb.getStmtTable();
     // Insertion of headers into our entity table
     entityTable.insert(entityTable.begin(), {this->identifier, this->identifier});

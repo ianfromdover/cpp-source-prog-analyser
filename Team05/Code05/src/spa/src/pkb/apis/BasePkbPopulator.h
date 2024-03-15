@@ -1,14 +1,15 @@
 #pragma once
 #define SPA_BASEPKBPOPULATOR_H
 
-#include <memory>
 #include <iostream>
-#include <vector>
+#include <memory>
 #include <string>
+#include <utility>
+#include <vector>
 
-class BasePKBPopulator {
+class BasePkbPopulator {
 public:
-    virtual ~BasePKBPopulator() = default;
+    virtual ~BasePkbPopulator() = default;
 
     // entity
     virtual bool addCallStmt(int stmtNo, std::string name) = 0;
