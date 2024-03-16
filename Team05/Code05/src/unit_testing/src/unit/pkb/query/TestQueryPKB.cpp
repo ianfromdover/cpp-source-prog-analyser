@@ -6,10 +6,11 @@
 #include "pkb/apis/QueryPkb.h"
 #include <memory>
 
-std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
-QueryPkb queryPKB(pkb);
 
 TEST_CASE("Test toVecVecStr conversion methods") {
+
+    std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
+    QueryPkb queryPKB(pkb);
 
     SECTION("Test for string vector") {
         std::vector<std::string> input = {"1", "2", "3"};
@@ -40,6 +41,10 @@ TEST_CASE("Test toVecVecStr conversion methods") {
 
 
 TEST_CASE("Test QueryPKB getCall methods") {
+
+    std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
+    QueryPkb queryPKB(pkb);
+
     // Add records to callTable
     pkb->callTable->addCall(1, "proc1");
     pkb->callTable->addCall(2, "proc2");
@@ -59,14 +64,15 @@ TEST_CASE("Test QueryPKB getCall methods") {
 
         std::vector<std::vector<std::string>> test = queryPKB.getCallByProc("proc3");
         std::vector<std::vector<std::string>> testResult = {{"3"}, {"4"}};
+        std::vector<std::vector<std::string>> testResult1 = {{"4"}, {"3"}};
         REQUIRE(test.size() == 2);
-        REQUIRE(test == testResult);
+        REQUIRE((test == testResult || test == testResult1));
 
     }
 
     SECTION("Test getCallTable() method") {
 
-        // Retrieve callTable and verify its content
+        // Retrieve callTable and verify its contents
         std::vector<std::vector<std::string>> callTable = queryPKB.getCallTable();
         REQUIRE(callTable.size() == 4);
         REQUIRE(callTable[0][0] == "1");
@@ -83,7 +89,11 @@ TEST_CASE("Test QueryPKB getCall methods") {
 
 
 TEST_CASE("Test QueryPKB getProc methods") {
-    // Add records to callTable
+
+    std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
+    QueryPkb queryPKB(pkb);
+
+    // Add records to procTable
     pkb->procedureTable->addProc("proc1");
     pkb->procedureTable->addProc("proc2");
     pkb->procedureTable->addProc("proc3");
@@ -99,12 +109,108 @@ TEST_CASE("Test QueryPKB getProc methods") {
 
     SECTION("Test getProcTable() method") {
 
-        // Retrieve procTable and verify its content
+        // Retrieve procTable and verify its contents
         std::vector<std::vector<std::string>> procTable = queryPKB.getProcTable();
         REQUIRE(procTable.size() == 3);
         REQUIRE(procTable[0][0] == "proc1");
         REQUIRE(procTable[1][0] == "proc2");
         REQUIRE(procTable[2][0] == "proc3");
+
+    }
+}
+
+
+TEST_CASE("Test QueryPKB getRead methods") {
+
+    std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
+    QueryPkb queryPKB(pkb);
+
+    // Add records to readTable
+    pkb->readTable->addRead(1, "x");
+    pkb->readTable->addRead(2, "y");
+    pkb->readTable->addRead(3, "z");
+    pkb->readTable->addRead(4, "y");
+
+    SECTION("Test getReadByNum() method") {
+
+        std::vector<std::vector<std::string>> test = queryPKB.getReadByNum(1);
+        std::vector<std::vector<std::string>> testResult = {{"x"}};
+        REQUIRE(test.size() == 1);
+        REQUIRE(test == testResult);
+
+    }
+
+    SECTION("Test getReadByVar() method") {
+
+        std::vector<std::vector<std::string>> test = queryPKB.getReadByVar("y");
+        std::vector<std::vector<std::string>> testResult = {{"2"}, {"4"}};
+        std::vector<std::vector<std::string>> testResult1 = {{"4"}, {"2"}};
+        REQUIRE(test.size() == 2);
+        REQUIRE((test == testResult || test == testResult1));
+
+    }
+
+    SECTION("Test getReadTable() method") {
+
+        // Retrieve readTable and verify its contents
+        std::vector<std::vector<std::string>> readTable = queryPKB.getReadTable();
+        REQUIRE(readTable.size() == 4);
+        REQUIRE(readTable[0][0] == "1");
+        REQUIRE(readTable[0][1] == "x");
+        REQUIRE(readTable[1][0] == "2");
+        REQUIRE(readTable[1][1] == "y");
+        REQUIRE(readTable[2][0] == "3");
+        REQUIRE(readTable[2][1] == "z");
+        REQUIRE(readTable[3][0] == "4");
+        REQUIRE(readTable[3][1] == "y");
+
+    }
+}
+
+
+TEST_CASE("Test QueryPKB getIf methods") {
+
+    std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
+    QueryPkb queryPKB(pkb);
+
+    // Add records to readTable
+    pkb->ifTable->addIf(1, "x");
+    pkb->ifTable->addIf(2, "y");
+    pkb->ifTable->addIf(3, "z");
+    pkb->ifTable->addIf(4, "y");
+
+    SECTION("Test getIfByNum() method") {
+
+        std::vector<std::vector<std::string>> test = queryPKB.getIfByNum(1);
+        std::vector<std::vector<std::string>> testResult = {{"x"}};
+        REQUIRE(test.size() == 1);
+        REQUIRE(test == testResult);
+
+    }
+
+    SECTION("Test getIfByVar() method") {
+
+        std::vector<std::vector<std::string>> test = queryPKB.getIfByVar("y");
+        std::vector<std::vector<std::string>> testResult = {{"2"}, {"4"}};
+        std::vector<std::vector<std::string>> testResult1 = {{"4"}, {"2"}};
+        REQUIRE(test.size() == 2);
+        REQUIRE((test == testResult || test == testResult1));
+
+    }
+
+    SECTION("Test getIfTable() method") {
+
+        // Retrieve readTable and verify its contents
+        std::vector<std::vector<std::string>> ifTable = queryPKB.getIfTable();
+        REQUIRE(ifTable.size() == 4);
+        REQUIRE(ifTable[0][0] == "1");
+        REQUIRE(ifTable[0][1] == "x");
+        REQUIRE(ifTable[1][0] == "2");
+        REQUIRE(ifTable[1][1] == "y");
+        REQUIRE(ifTable[2][0] == "3");
+        REQUIRE(ifTable[2][1] == "z");
+        REQUIRE(ifTable[3][0] == "4");
+        REQUIRE(ifTable[3][1] == "y");
 
     }
 }
