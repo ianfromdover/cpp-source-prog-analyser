@@ -212,7 +212,7 @@ std::shared_ptr<RelationshipClause> QPSParser::follow() {
 }
 
 std::shared_ptr<RelationshipClause> QPSParser::usesModifies() {
-    this->match({QPSTokenType::USES_S, QPSTokenType::MODIFIES_S});
+    this->match({QPSTokenType::USES_S, QPSTokenType::MODIFIES_S, QPSTokenType::USES_P, QPSTokenType::MODIFIES_P});
     QPSToken relationshipType = this->previous();
     this->consume(QPSTokenType::LEFT_PAREN, "Expect '(' after relationship type.");
     auto t1 = stmtRef();

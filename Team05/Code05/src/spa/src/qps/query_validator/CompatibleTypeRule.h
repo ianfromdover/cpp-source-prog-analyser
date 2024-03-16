@@ -35,6 +35,10 @@ private:
                                             {QType::PROCEDURE ,QType::WILDCARD, QType::QUOTED_IDENT}}},
                     {QType::CALLS_T, {{QType::PROCEDURE,QType::QUOTED_IDENT,QType::WILDCARD},
                                            {QType::PROCEDURE ,QType::WILDCARD, QType::QUOTED_IDENT}}},
+                    {QType::USES_P, {{QType::PROCEDURE,QType::QUOTED_IDENT,QType::WILDCARD},
+                                            {QType::VARIABLE ,QType::WILDCARD, QType::QUOTED_IDENT}}},
+                    {QType::MODIFIES_P, {{QType::PROCEDURE,QType::QUOTED_IDENT,QType::WILDCARD},
+                                            {QType::VARIABLE ,QType::WILDCARD, QType::QUOTED_IDENT}}}
             };
 };
 
