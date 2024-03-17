@@ -8,13 +8,15 @@
 #include <type_traits>
 #include <unordered_map>
 #include <vector>
+#include "pkb/exceptions/PkbException.h"
 
 /**
  * @brief A double-sided map for O(1) retrieval of elements that have Many-Many relations.
- * Used for transitive tables in the PKB such as ParentTTable
+ * Used for tables in the PKB. Does not support storage of classes, structs or pointers,
+ * and behaviour is not tested for them.
  *
- * @tparam A The type of the keys.
- * @tparam B The type of the values.
+ * @tparam A The type of the keys. Can only be int or std::string.
+ * @tparam B The type of the values. Can only be int or std::string.
  */
 template<typename A, typename B>
 class TwoSideMap {
@@ -104,7 +106,6 @@ bool TwoSideMap<A, B>::insert(const A key, const B value) {
     // ai-gen start (copilot, 1, e)
     // prompt: used copilot
     if (containsPair(key, value)) {
-        std::cout << "Warning: TwoSideMapTwoSet-insert: Pair already exists" << std::endl;
         return false;
     }
     // ai-gen end
@@ -112,16 +113,20 @@ bool TwoSideMap<A, B>::insert(const A key, const B value) {
     auto vPtr = std::make_shared<B>(value);
 
     // if key does not exist, create a new set with the value
-    if (!containsKey(key)) {
-        forwardMap[*kPtr] = {vPtr};
-    } else {
-        forwardMap[*kPtr].insert(vPtr);
-    }
+    try {
+        if (!containsKey(key)) {
+            forwardMap[*kPtr] = {vPtr};
+        } else {
+            forwardMap[*kPtr].insert(vPtr);
+        }
 
-    if (!containsValue(value)) {
-        backwardMap[*vPtr] = {kPtr};
-    } else {
-        backwardMap[*vPtr].insert(kPtr);
+        if (!containsValue(value)) {
+            backwardMap[*vPtr] = {kPtr};
+        } else {
+            backwardMap[*vPtr].insert(kPtr);
+        }
+    } catch (std::exception e) {
+        throw PkbException(e.what());
     }
     return true;
 }
@@ -130,12 +135,14 @@ template<typename A, typename B>
 std::vector<B> TwoSideMap<A, B>::getValues(A key) {
     std::vector<B> result;
     if (!containsKey(key)) {
-        std::cout << "Warning: TwoSideMapTwoSet-getValues: Key not found in forward map" << std::endl;
-        // TODO: make my own GetException that inherits from BaseException
         return result;
     }
-    for (auto ptr : forwardMap[key]) {
-        result.push_back(*ptr);
+    try {
+        for (auto ptr : forwardMap[key]) {
+            result.push_back(*ptr);
+        }
+    } catch (std::exception e) {
+        throw PkbException(e.what());
     }
     return result;
 }
@@ -144,12 +151,14 @@ template<typename A, typename B>
 std::vector<A> TwoSideMap<A, B>::getKeys(B value) {
     std::vector<A> result;
     if (!containsValue(value)) {
-        std::cout << "Warning: TwoSideMapTwoSet-getKeys: Value not found in backward map" << std::endl;
-        // TODO: make my own GetException that inherits from BaseException
         return result;
     }
-    for (auto ptr : backwardMap[value]) {
-        result.push_back(*ptr);
+    try {
+        for (auto ptr : backwardMap[value]) {
+            result.push_back(*ptr);
+        }
+    } catch (std::exception e) {
+        throw PkbException(e.what());
     }
     return result;
 }
@@ -157,10 +166,14 @@ std::vector<A> TwoSideMap<A, B>::getKeys(B value) {
 template<typename A, typename B>
 std::vector<std::vector<std::string>> TwoSideMap<A, B>::getAllForStrStr() {
     auto result = std::make_shared<std::vector<std::vector<std::string>>>();
-    for (auto &pair: forwardMap) {
-        for (auto& ptr : pair.second) {
-            result->push_back({pair.first, *ptr});
+    try {
+        for (auto &pair: forwardMap) {
+            for (auto &ptr: pair.second) {
+                result->push_back({pair.first, *ptr});
+            }
         }
+    } catch (std::exception e) {
+        throw PkbException(e.what());
     }
     return *result;
 }
@@ -168,11 +181,15 @@ std::vector<std::vector<std::string>> TwoSideMap<A, B>::getAllForStrStr() {
 template<typename A, typename B>
 std::vector<std::vector<std::string>> TwoSideMap<A, B>::getAllForStrB() {
     auto result = std::make_shared<std::vector<std::vector<std::string>>>();
-    for (auto& pair : forwardMap) {
-        for (auto& ptr : pair.second) {
-            std::string item = std::to_string(*ptr); // T needs to have an overloaded std::to_string defined
-            result->push_back({pair.first, item});
+    try {
+        for (auto& pair : forwardMap) {
+            for (auto& ptr : pair.second) {
+                std::string item = std::to_string(*ptr); // T needs to have an overloaded std::to_string defined
+                result->push_back({pair.first, item});
+            }
         }
+    } catch (std::exception e) {
+        throw PkbException(e.what());
     }
     return *result;
 }
@@ -180,11 +197,15 @@ std::vector<std::vector<std::string>> TwoSideMap<A, B>::getAllForStrB() {
 template<typename A, typename B>
 std::vector<std::vector<std::string>> TwoSideMap<A, B>::getAllForAStr() {
     auto result = std::make_shared<std::vector<std::vector<std::string>>>();
-    for (auto& pair : forwardMap) {
-        std::string key = std::to_string(pair.first);
-        for (auto& ptr : pair.second) {
-            result->push_back({key, *ptr});
+    try {
+        for (auto& pair : forwardMap) {
+            std::string key = std::to_string(pair.first);
+            for (auto& ptr : pair.second) {
+                result->push_back({key, *ptr});
+            }
         }
+    } catch (std::exception e) {
+        throw PkbException(e.what());
     }
     return *result;
 }
@@ -192,12 +213,16 @@ std::vector<std::vector<std::string>> TwoSideMap<A, B>::getAllForAStr() {
 template<typename A, typename B>
 std::vector<std::vector<std::string>> TwoSideMap<A, B>::getAllForAB() {
     auto result = std::make_shared<std::vector<std::vector<std::string>>>();
-    for (auto& pair : forwardMap) {
-        std::string key = std::to_string(pair.first);
-        for (auto& ptr : pair.second) {
-            std::string item = std::to_string(*ptr); // T needs to have an overloaded std::to_string defined
-            result->push_back({key, item});
+    try {
+        for (auto& pair : forwardMap) {
+            std::string key = std::to_string(pair.first);
+            for (auto& ptr : pair.second) {
+                std::string item = std::to_string(*ptr); // T needs to have an overloaded std::to_string defined
+                result->push_back({key, item});
+            }
         }
+    } catch (std::exception e) {
+        throw PkbException(e.what());
     }
     return *result;
 }
