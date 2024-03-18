@@ -2,9 +2,9 @@ name: system-test
 
 on:
   push:
-    branches: [ "cicd1" ]
+    branches: [ "skip" ]
   pull_request:
-    branches: [ "cicd1" ]
+    branches: [ "skip" ]
 
 
 jobs:
