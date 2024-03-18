@@ -4,9 +4,11 @@ name: linter
 
 on:
   push:
-    branches: [ "cicd" ]
+    branches: [ "skip" ]
   pull_request:
-    branches: [ "cicd" ]
+    branches: [ "skip" ]
+  workflow_dispatch:
+    branches: [ "master" ]
 
 jobs:
   c-linter:

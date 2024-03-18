@@ -51,6 +51,7 @@ jobs:
 
   unit-test:
     runs-on: windows-latest
+    needs: build
 
     steps:
     - name: Download Artifact
