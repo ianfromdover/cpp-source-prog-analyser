@@ -149,7 +149,7 @@ std::vector<std::vector<std::string>> QueryPkb::getPrintByVar(VarName var) {
 }
 
 std::vector<std::vector<std::string>> QueryPkb::getPrintTable() {
-    return pkb->whileTable->getAllAsStrings();
+    return pkb->printTable->getAllAsStrings();
 }
 
 // Stmt
