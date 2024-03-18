@@ -6,6 +6,19 @@
 #include "pkb/apis/QueryPkb.h"
 #include <memory>
 
+bool isPresent(const std::vector<std::vector<std::string>>& vec, const std::vector<std::vector<std::string>>& elements) {
+    return std::all_of(elements.begin(), elements.end(), [&](const auto& element) {
+        return std::find(vec.begin(), vec.end(), element) != vec.end();
+    });
+}
+
+TEST_CASE("Test isPresent testing helper function") {
+
+    std::vector<std::vector<std::string>> test = {{"1"}};
+    REQUIRE(test.size() == 1);
+    REQUIRE(isPresent(test, {{"1"}}));
+    REQUIRE(!isPresent(test, {{"2"}}));
+}
 
 TEST_CASE("Test toVecVecStr conversion methods") {
 
@@ -63,10 +76,9 @@ TEST_CASE("Test QueryPKB getCall methods") {
     SECTION("Test getCallByProc() method") {
 
         std::vector<std::vector<std::string>> test = queryPKB.getCallByProc("proc3");
-        std::vector<std::vector<std::string>> testResult = {{"3"}, {"4"}};
-        std::vector<std::vector<std::string>> testResult1 = {{"4"}, {"3"}};
         REQUIRE(test.size() == 2);
-        REQUIRE((test == testResult || test == testResult1));
+        REQUIRE(isPresent(test, {{{"3"}}}));
+        REQUIRE(isPresent(test, {{{"4"}}}));
 
     }
 
@@ -75,14 +87,7 @@ TEST_CASE("Test QueryPKB getCall methods") {
         // Retrieve callTable and verify its contents
         std::vector<std::vector<std::string>> callTable = queryPKB.getCallTable();
         REQUIRE(callTable.size() == 4);
-        REQUIRE(callTable[0][0] == "1");
-        REQUIRE(callTable[0][1] == "proc1");
-        REQUIRE(callTable[1][0] == "2");
-        REQUIRE(callTable[1][1] == "proc2");
-        REQUIRE(callTable[2][0] == "3");
-        REQUIRE(callTable[2][1] == "proc3");
-        REQUIRE(callTable[3][0] == "4");
-        REQUIRE(callTable[3][1] == "proc3");
+        REQUIRE(isPresent(callTable, {{"1", "proc1"}, {"2", "proc2"}, {"3", "proc3"}, {"4", "proc3"}}));
 
     }
 }
@@ -101,9 +106,8 @@ TEST_CASE("Test QueryPKB getProc methods") {
     SECTION("Test getProcByName() method") {
 
         std::vector<std::vector<std::string>> test = queryPKB.getProcTable();
-        std::vector<std::vector<std::string>> testResult = {{"proc1"}, {"proc2"}, {"proc3"}};
         REQUIRE(test.size() == 3);
-        REQUIRE(test == testResult);
+        REQUIRE(isPresent(test, {{"proc1"}, {"proc2"}, {"proc3"}}));
 
     }
 
@@ -112,9 +116,7 @@ TEST_CASE("Test QueryPKB getProc methods") {
         // Retrieve procTable and verify its contents
         std::vector<std::vector<std::string>> procTable = queryPKB.getProcTable();
         REQUIRE(procTable.size() == 3);
-        REQUIRE(procTable[0][0] == "proc1");
-        REQUIRE(procTable[1][0] == "proc2");
-        REQUIRE(procTable[2][0] == "proc3");
+        REQUIRE(isPresent(procTable, {{"proc1"}, {"proc2"}, {"proc3"}}));
 
     }
 }
@@ -155,14 +157,7 @@ TEST_CASE("Test QueryPKB getRead methods") {
         // Retrieve readTable and verify its contents
         std::vector<std::vector<std::string>> readTable = queryPKB.getReadTable();
         REQUIRE(readTable.size() == 4);
-        REQUIRE(readTable[0][0] == "1");
-        REQUIRE(readTable[0][1] == "x");
-        REQUIRE(readTable[1][0] == "2");
-        REQUIRE(readTable[1][1] == "y");
-        REQUIRE(readTable[2][0] == "3");
-        REQUIRE(readTable[2][1] == "z");
-        REQUIRE(readTable[3][0] == "4");
-        REQUIRE(readTable[3][1] == "y");
+        REQUIRE(isPresent(readTable, {{"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "y"}}));
 
     }
 }
@@ -203,14 +198,7 @@ TEST_CASE("Test QueryPKB getIf methods") {
         // Retrieve readTable and verify its contents
         std::vector<std::vector<std::string>> ifTable = queryPKB.getIfTable();
         REQUIRE(ifTable.size() == 4);
-        REQUIRE(ifTable[0][0] == "1");
-        REQUIRE(ifTable[0][1] == "x");
-        REQUIRE(ifTable[1][0] == "2");
-        REQUIRE(ifTable[1][1] == "y");
-        REQUIRE(ifTable[2][0] == "3");
-        REQUIRE(ifTable[2][1] == "z");
-        REQUIRE(ifTable[3][0] == "4");
-        REQUIRE(ifTable[3][1] == "y");
+        REQUIRE(isPresent(ifTable, {{"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "y"}}));
 
     }
 }
