@@ -122,13 +122,13 @@ public:
     };
 
     TokenListBuilder uses() {
-        tokenList.addToken(type::USES_S, "Uses");
-        return *this;
+      tokenList.addToken(type::USES, "Uses");
+      return *this;
     };
 
     TokenListBuilder modifies() {
-        tokenList.addToken(type::MODIFIES_S, "Modifies");
-        return *this;
+      tokenList.addToken(type::MODIFIES, "Modifies");
+      return *this;
     };
 
     TokenListBuilder calls() {

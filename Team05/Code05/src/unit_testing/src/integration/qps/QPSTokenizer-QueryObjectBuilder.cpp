@@ -2,13 +2,15 @@
 // Created by tohzh on 20/2/2024.
 //
 
-#include "qps/query_builder/QueryObjectBuilder.h"
-#include "qps/parser/IntermediateQuery.h"
+#include <iostream>
+
 #include "catch.hpp"
+#include "qps/parser/IntermediateQuery.h"
+#include "qps/parser/QPSParser.h"
+#include "qps/query_builder/QueryObjectBuilder.h"
+#include "qps/query_validator/QueryValidator.h"
 #include "qps/tokenizer/QPSStrategyList.h"
 #include "qps/tokenizer/Tokenizer.h"
-#include "qps/parser/QPSParser.h"
-#include <iostream>
 
 using namespace std;
 
@@ -400,7 +402,9 @@ TEST_CASE("singleModifiesSConstraint_TokenizertoQOBuilder_returnsCorrect") {
                          "if ifs; "
                          "assign a; "
                          "variable v;"
-                         "Select v ";
+      "procedure p;"
+      "call c;"
+      "Select v ";
 
     SECTION("assign-var") {
         std::string input = source + "such that Modifies(a, v)";
@@ -431,26 +435,35 @@ TEST_CASE("singleModifiesSConstraint_TokenizertoQOBuilder_returnsCorrect") {
     }
 
 //    Not in milestone 1
-//    SECTION("procedure-var") {
-//        std::string input = source + "such that Modifies(p, v)";
-//        std::string processed = testHelper1(input);
-//        std::string output = "{RETURN}: v [VARIABLE]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], v [VARIABLE], w [WHILE]\n{CONSTRAINTS}: ModifiesS(a [ASSIGN], v [VARIABLE])";
-//        REQUIRE(processed == output);
-//    }
-//
-//    SECTION("procedureCall-var") {
-//        std::string input = source + "such that Modifies(procall, v)";
-//        std::string processed = testHelper1(input);
-//        std::string output = "{RETURN}: v [VARIABLE]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], v [VARIABLE], w [WHILE]\n{CONSTRAINTS}: ModifiesS(a [ASSIGN], v [VARIABLE])";
-//        REQUIRE(processed == output);
-//    }
-
-    SECTION("wild-var") {
-        std::string input = source + "such that Modifies(_, v)";
-        std::string processed = testHelper1(input);
-        std::string output = "{RETURN}: v [VARIABLE]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], v [VARIABLE], w [WHILE]\n{CONSTRAINTS}: ModifiesS(_ [STMT WILDCARD], v [VARIABLE])";
-        REQUIRE(processed == output);
+    SECTION("procedure-var") {
+      std::string input = source + "such that Modifies(p, v)";
+      std::string processed = testHelper1(input);
+      std::string output =
+          "{RETURN}: v [VARIABLE]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr "
+          "[PRINT], r [READ], s [STMT], v [VARIABLE], w "
+          "[WHILE]\n{CONSTRAINTS}: ModifiesS(a [ASSIGN], v [VARIABLE])";
+      REQUIRE(processed == output);
     }
+
+    SECTION("procedureCall-var") {
+      std::string input = source + "such that Modifies(c, v)";
+      std::string processed = testHelper1(input);
+      std::string output =
+          "{RETURN}: v [VARIABLE]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr "
+          "[PRINT], r [READ], s [STMT], v [VARIABLE], w "
+          "[WHILE]\n{CONSTRAINTS}: ModifiesS(a [ASSIGN], v [VARIABLE])";
+      REQUIRE(processed == output);
+    }
+
+    // Invalid Test case, modifies should not take wildcard as 1st argument
+    //    SECTION("wild-var") {
+    //        std::string input = source + "such that Modifies(_, v)";
+    //        std::string processed = testHelper1(input);
+    //        std::string output = "{RETURN}: v [VARIABLE]\n{DECLARATIONS}: a
+    //        [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], v [VARIABLE],
+    //        w [WHILE]\n{CONSTRAINTS}: ModifiesS(_ [STMT WILDCARD], v
+    //        [VARIABLE])"; REQUIRE(processed == output);
+    //    }
 
     SECTION("assign-wild") {
         std::string input = source + "such that Modifies(a, _)";
@@ -537,7 +550,9 @@ std::string testHelper1(std::string source) {
     QPSParser parser(*tokens);
 
     std::shared_ptr<IntermediateQuery> intermediateQuery = parser.parse();
-    intermediateQuery->processDeclarations();
+    QueryValidator validator;
+    validator.validateQuery(*intermediateQuery);
+    // intermediateQuery->processDeclarations();
 
     QueryObjectBuilder builder;
     std::shared_ptr<QueryObject> qo = builder.build(intermediateQuery);
