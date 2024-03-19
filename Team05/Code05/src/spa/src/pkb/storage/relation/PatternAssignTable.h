@@ -24,14 +24,14 @@ public:
     std::vector<StmtNo> getStmtsFromLhs(VarName varName); // Gets keys
     std::vector<VarName> getLhsVarsFromStmt(StmtNo stmtNo); // Gets values
     // Gets a table with 2 columns, StmtNo | VarName
-    std::vector<std::vector<Str>> getAllStmtLhs();
+    Table getAllStmtLhs();
 
     // -------- For StmtNo | VarName RHS table
     bool addStmtRhs(StmtNo stmtNo, VarName varName);
     std::vector<StmtNo> getStmtsFromRhs(VarName varName);
     std::vector<VarName> getRhsVarsFromStmt(StmtNo stmtNo);
     // Gets a table with 2 columns, StmtNo | VarName
-    std::vector<std::vector<Str>> getAllStmtRhs();
+    Table getAllStmtRhs();
 
 
     // -------- For VarName LHS | VarName RHS table
@@ -39,10 +39,10 @@ public:
     std::vector<VarName> getLhsFromRhs(VarName rhs);
     std::vector<VarName> getRhsFromLhs(VarName lhs);
     // Gets a table with 2 columns, VarName | VarName
-    std::vector<std::vector<Str>> getAllLhsRhs();
+    Table getAllLhsRhs();
 
     // -------- For StmtNo | VarName LHS | VarName RHS table
     // Gets a table with 3 columns, StmtNo | VarName | VarName
-    std::vector<std::vector<Str>> getAllAsStrings();
+    Table getAllAsStrings();
 };
 

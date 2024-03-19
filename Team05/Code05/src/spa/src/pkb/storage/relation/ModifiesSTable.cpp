@@ -17,6 +17,6 @@ std::vector<VarName> ModifiesSTable::getModifiedS(StmtNo stmtNo) {
     return stmtMap.getValues(stmtNo);
 }
 
-vector<vector<Str>> ModifiesSTable::getAllAsStrings() {
+Table ModifiesSTable::getAllAsStrings() {
     return stmtMap.getAllForAStr();
 }

@@ -13,6 +13,6 @@ std::vector<StmtNo> AffectsTable::getAffected(StmtNo before) {
     return map.getValues(before);
 }
 
-vector<vector<Str>> AffectsTable::getAllAsStrings() {
+Table AffectsTable::getAllAsStrings() {
     return map.getAllForAB();
 }

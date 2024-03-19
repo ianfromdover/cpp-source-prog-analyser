@@ -12,6 +12,6 @@ vector<VarName> IfTable::getIfVars(StmtNo sNum) {
     return map.getValues(sNum);
 }
 
-vector<vector<Str>> IfTable::getAllAsStrings() {
+Table IfTable::getAllAsStrings() {
     return map.getAllForAStr();
 }

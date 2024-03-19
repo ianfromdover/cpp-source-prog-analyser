@@ -22,7 +22,7 @@ public:
     virtual std::vector<std::shared_ptr<ConstraintArgument>>  getConstraintArguments() = 0;
     std:: string toString();
 
-    virtual std::vector<std::vector<std::string>> getRelationshipTable(QueryPkbVirtual &) =0;
+    virtual Table getRelationshipTable(QueryPkbVirtual &) =0;
 
 };
 

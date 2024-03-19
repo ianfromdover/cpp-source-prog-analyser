@@ -20,7 +20,7 @@ std::vector<StmtNo> PatternAssignTable::getStmtsFromLhs(VarName varName) {
 std::vector<VarName> PatternAssignTable::getLhsVarsFromStmt(StmtNo stmtNo) {
     return stmtLhsMap.getValues(stmtNo);
 }
-vector<vector<Str>> PatternAssignTable::getAllStmtLhs() {
+Table PatternAssignTable::getAllStmtLhs() {
     return stmtLhsMap.getAllForAStr();
 }
 
@@ -35,7 +35,7 @@ std::vector<StmtNo> PatternAssignTable::getStmtsFromRhs(VarName varName) {
 std::vector<VarName> PatternAssignTable::getRhsVarsFromStmt(StmtNo stmtNo) {
     return stmtRhsMap.getValues(stmtNo);
 }
-vector<vector<Str>> PatternAssignTable::getAllStmtRhs() {
+Table PatternAssignTable::getAllStmtRhs() {
     return stmtRhsMap.getAllForAStr();
 }
 
@@ -50,13 +50,13 @@ std::vector<VarName> PatternAssignTable::getRhsFromLhs(VarName lhs) {
     return lhsRhsMap.getValues(lhs);
 }
 // ai-gen end
-vector<vector<Str>> PatternAssignTable::getAllLhsRhs() {
+Table PatternAssignTable::getAllLhsRhs() {
     return lhsRhsMap.getAllForStrStr();
 }
 
 // -------- For StmtNo | VarName LHS | VarName RHS table
-vector<vector<Str>> PatternAssignTable::getAllAsStrings() {
-    vector<vector<Str>> result = stmtLhsMap.getAllForAStr();
+Table PatternAssignTable::getAllAsStrings() {
+    Table result = stmtLhsMap.getAllForAStr();
     for (auto& stmtLhsPair : result) {
         int stmtNo = std::stoi(stmtLhsPair[0]);
         string lhs = stmtLhsPair[1];
@@ -68,7 +68,7 @@ vector<vector<Str>> PatternAssignTable::getAllAsStrings() {
 
     // after-MS2 version: makes 3 columns
     /*
-    vector<vector<Str>> result = stmtLhsMap.getAllForAStr();
+    Table result = stmtLhsMap.getAllForAStr();
     for (auto& stmtLhsPair : result) {
         int stmtNo = std::stoi(stmtLhsPair[0]);
         string rhs = (stmtRhsMap.getValues(stmtNo)[0]); // in stmtRhsMap, a stmtNo only has 1 RHS, so i can use [0]

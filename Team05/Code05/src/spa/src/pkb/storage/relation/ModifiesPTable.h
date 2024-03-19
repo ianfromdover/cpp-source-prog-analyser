@@ -17,5 +17,5 @@ public:
     // Returns a list of modified variables
     vector<VarName> getModifiedP(ProcName procName);
     // Gets a table with 2 columns, ProcName | VarName
-    vector<vector<Str>> getAllAsStrings();
+    Table getAllAsStrings();
 };

@@ -13,5 +13,5 @@ public:
     vector<VarName> getUsesBySNum(StmtNo sNum);
     vector<StmtNo> getUsesByVar(VarName name);
     // Gets a table with 2 columns, StmtNo | VarName
-    std::vector<std::vector<Str>> getAllAsStrings();
+    Table getAllAsStrings();
 };

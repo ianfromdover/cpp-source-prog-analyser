@@ -17,5 +17,5 @@ public:
     // Returns a list of procedures this one calls recursively, unsorted. Returns an empty list if it does not exist
     std::vector<ProcName> getCalledT(ProcName caller);
     // Gets a table with 2 columns, Caller* | Called*
-    std::vector<std::vector<Str>> getAllAsStrings();
+    Table getAllAsStrings();
 };

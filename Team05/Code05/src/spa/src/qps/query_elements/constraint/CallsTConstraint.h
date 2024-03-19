@@ -18,7 +18,7 @@ public:
     CallsTConstraint(std::shared_ptr<EntityReference>, std::shared_ptr<EntityReference>);
     std::string getConstraintType() override;
     std::vector<std::shared_ptr<ConstraintArgument>>  getConstraintArguments() override;
-    std::vector<std::vector<std::string>> getRelationshipTable(QueryPkbVirtual &) override;
+    Table getRelationshipTable(QueryPkbVirtual &) override;
 
     bool isStatementSynonym(std::string type);
     bool isEntitySynonym(std::string type);

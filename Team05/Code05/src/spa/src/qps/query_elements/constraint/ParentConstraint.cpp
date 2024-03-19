@@ -18,9 +18,9 @@ std::vector<std::shared_ptr<ConstraintArgument>> ParentConstraint::getConstraint
     return constraintArguments;
 }
 
-std::vector<std::vector<std::string>> ParentConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
+Table ParentConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     // Get parent table and populate it into our results table
-    std::vector<std::vector<std::string>> result = pkb.getParentTable();
+    Table result = pkb.getParentTable();
 
     // Get constraint arguments and initialise it as our table headers
     std::vector<std::shared_ptr<ConstraintArgument>> args = getConstraintArguments();
@@ -45,7 +45,7 @@ std::vector<std::vector<std::string>> ParentConstraint::getRelationshipTable(Que
     }
     if (isStatementSynonym(lhsEntityType)) {
         // Get entity table by type
-        std::vector<std::vector<std::string>> entityTable = args[0]->getEntityTable(pkb);
+        Table entityTable = args[0]->getEntityTable(pkb);
         ResultTable entityTableResult(entityTable);
         if (lhsEntityType != TYPE_STATEMENT) {
             entityTableResult.removeColumnByIndex(1);
@@ -60,7 +60,7 @@ std::vector<std::vector<std::string>> ParentConstraint::getRelationshipTable(Que
     }
     if (isStatementSynonym(rhsEntityType)) {
         // Get entity table by type
-        std::vector<std::vector<std::string>> entityTable = args[1]->getEntityTable(pkb);
+        Table entityTable = args[1]->getEntityTable(pkb);
         ResultTable entityTableResult(entityTable);
         if (rhsEntityType != TYPE_STATEMENT) {
             entityTableResult.removeColumnByIndex(1);

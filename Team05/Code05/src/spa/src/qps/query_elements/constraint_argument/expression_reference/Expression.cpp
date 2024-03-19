@@ -23,6 +23,6 @@ std::string Expression::toString() {
     return this->regularExpression + " [EXPR]";
 }
 
-std::vector<std::vector<std::string>> Expression::getEntityTable(QueryPkbVirtual &pkb) {
+Table Expression::getEntityTable(QueryPkbVirtual &pkb) {
     throw QPSException("Invalid QPS Query");
 }

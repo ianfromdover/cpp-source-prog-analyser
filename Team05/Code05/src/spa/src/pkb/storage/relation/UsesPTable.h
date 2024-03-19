@@ -14,5 +14,5 @@ public:
     vector<VarName> getVarFromProc(ProcName proc);
     vector<ProcName> getProcFromVar(VarName name);
     // Gets a table with 2 columns, ProcName | VarName
-    std::vector<std::vector<Str>> getAllProc();
+    Table getAllProc();
 };

@@ -12,6 +12,6 @@ vector<VarName> ReadTable::getReadVar(StmtNo sNum) {
     return map.getValues(sNum);
 }
 
-vector<vector<Str>> ReadTable::getAllAsStrings() {
+Table ReadTable::getAllAsStrings() {
     return map.getAllForAStr();
 }

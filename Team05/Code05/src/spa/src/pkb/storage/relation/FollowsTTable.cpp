@@ -17,6 +17,6 @@ std::vector<StmtNo> FollowsTTable::getStmtsAfter(StmtNo before) {
     return map.getValues(before);
 }
 
-vector<vector<Str>> FollowsTTable::getAllAsStrings() {
+Table FollowsTTable::getAllAsStrings() {
     return map.getAllForAB();
 }

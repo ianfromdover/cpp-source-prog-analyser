@@ -19,8 +19,8 @@ vector<Str> ProcedureTable::getProcByName(ProcName name) {
     return contains(name) ? vector<Str>{} : vector<Str>{name};
 }
 
-vector<vector<Str>> ProcedureTable::getAllAsStrings() {
-    vector<vector<Str>> stmts;
+Table ProcedureTable::getAllAsStrings() {
+    Table stmts;
     for (auto name : procList) {
         stmts.push_back({name});
     }

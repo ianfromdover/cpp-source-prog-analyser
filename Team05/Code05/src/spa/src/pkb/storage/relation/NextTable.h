@@ -17,5 +17,5 @@ public:
     // Returns a list of statements that come after, unsorted. Returns an empty list if it does not exist
     std::vector<StmtNo> getAfter(StmtNo before);
     // Gets a table with 2 columns, Before | After
-    std::vector<std::vector<Str>> getAllAsStrings();
+    Table getAllAsStrings();
 };

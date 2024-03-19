@@ -16,7 +16,7 @@ public:
     std::string getArgumentValue() override;
     int value;
     std::string toString() override;
-    std::vector<std::vector<std::string>> getEntityTable(QueryPkbVirtual & pkb) override;
+    Table getEntityTable(QueryPkbVirtual & pkb) override;
 };
 
 

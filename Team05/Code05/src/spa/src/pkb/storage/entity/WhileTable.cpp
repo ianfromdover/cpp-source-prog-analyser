@@ -12,6 +12,6 @@ vector<VarName> WhileTable::getWhileVars(StmtNo sNum) {
     return map.getValues(sNum);
 }
 
-vector<vector<Str>> WhileTable::getAllAsStrings() {
+Table WhileTable::getAllAsStrings() {
     return map.getAllForAStr();
 }

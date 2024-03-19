@@ -17,5 +17,5 @@ public:
     vector<StmtNo> getStmtByNum(StmtNo sNum);
     vector<StmtNo> getAllStmts();
     // Returns all the statements as strings
-    vector<vector<Str>> getAllAsStrings();
+    Table getAllAsStrings();
 };

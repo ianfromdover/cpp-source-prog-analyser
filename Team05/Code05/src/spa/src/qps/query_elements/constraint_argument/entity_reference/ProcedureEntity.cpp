@@ -24,7 +24,7 @@ std::string ProcedureEntity::getArgumentValue() {
     return this->identifier;
 }
 
-std::vector<std::vector<std::string>> ProcedureEntity::getEntityTable(QueryPkbVirtual &pkb) {
+Table ProcedureEntity::getEntityTable(QueryPkbVirtual &pkb) {
     auto entityTable = pkb.getProcTable();
     // Insertion of headers into our entity table
     entityTable.insert(entityTable.begin(), {"PROCEDURELHS", this->identifier});

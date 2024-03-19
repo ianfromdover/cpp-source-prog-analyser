@@ -19,5 +19,5 @@ public:
     // Returns the control variables in this while-statement, if not found, returns empty vector
     vector<VarName> getWhileVars(StmtNo sNum);
     // Returns all the while statements and ctrl vars as strings in 2 columns: StmtNo | VarName
-    vector<vector<Str>> getAllAsStrings();
+    Table getAllAsStrings();
 };

@@ -24,12 +24,12 @@ TEST_CASE("Integration test: PopulatePKB, PKBStorage, and QueryPKB") {
         populatePKB.addCallStmt(2, "proc1");
 
         // Query data using QueryPKB methods
-        std::vector<std::vector<std::string>> readTable = queryPKB.getRead();
+        Table readTable = queryPKB.getRead();
         REQUIRE(readTable.size() == 1);
         REQUIRE(readTable[0][0] == "1");
         REQUIRE(readTable[0][1] == "x");
 
-        std::vector<std::vector<std::string>> callTable = queryPKB.getCallStmt();
+        Table callTable = queryPKB.getCallStmt();
         REQUIRE(callTable.size() == 1);
         REQUIRE(callTable[0][0] == "2");
         REQUIRE(callTable[0][1] == "proc1");
@@ -41,12 +41,12 @@ TEST_CASE("Integration test: PopulatePKB, PKBStorage, and QueryPKB") {
         pkbStorage->callTable->addRecord("2", "proc1");
 
         // Query data using QueryPKB methods
-        std::vector<std::vector<std::string>> readTable = queryPKB.getRead();
+        Table readTable = queryPKB.getRead();
         REQUIRE(readTable.size() == 1);
         REQUIRE(readTable[0][0] == "1");
         REQUIRE(readTable[0][1] == "x");
 
-        std::vector<std::vector<std::string>> callTable = queryPKB.getCallStmt();
+        Table callTable = queryPKB.getCallStmt();
         REQUIRE(callTable.size() == 1);
         REQUIRE(callTable[0][0] == "2");
         REQUIRE(callTable[0][1] == "proc1");

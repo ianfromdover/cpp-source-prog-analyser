@@ -16,5 +16,5 @@ public:
     // Returns a list of children of the parent, unsorted. If the parent has no children, returns an empty list
     vector<StmtNo> getChildren(StmtNo parent);
     // Gets a table with 2 columns, Parent | Child
-    vector<vector<Str>> getAllAsStrings();
+    Table getAllAsStrings();
 };

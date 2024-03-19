@@ -15,7 +15,7 @@ public:
     ParentTConstraint(std::shared_ptr<ConstraintArgument>, std::shared_ptr<ConstraintArgument>);
     std::string getConstraintType() override;
     std::vector<std::shared_ptr<ConstraintArgument>>  getConstraintArguments() override;
-    std::vector<std::vector<std::string>> getRelationshipTable(QueryPkbVirtual &) override;
+    Table getRelationshipTable(QueryPkbVirtual &) override;
 
     bool isStatementSynonym(string type);
 };

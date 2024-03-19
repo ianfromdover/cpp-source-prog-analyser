@@ -12,6 +12,6 @@ vector<VarName> PatternIfTable::getPatternByNum(StmtNo sNum) {
     return map.getValues(sNum);
 }
 
-vector<vector<Str>> PatternIfTable::getAllAsStrings() {
+Table PatternIfTable::getAllAsStrings() {
     return map.getAllForAStr();
 }

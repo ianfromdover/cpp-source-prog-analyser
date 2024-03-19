@@ -26,9 +26,9 @@ std::vector<std::shared_ptr<ConstraintArgument>> ConcretePatternConstraint::getC
     return constraintArguments;
 }
 
-std::vector<std::vector<std::string>> ConcretePatternConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
-    std::vector<std::vector<std::string>> temp = pkb.getPatternAsgnTable();
-    std::vector<std::vector<std::string>> res;
+Table ConcretePatternConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
+    Table temp = pkb.getPatternAsgnTable();
+    Table res;
 
     for (const auto& entry : temp){
         // guaranteed 2 columns
@@ -48,7 +48,7 @@ std::vector<std::vector<std::string>> ConcretePatternConstraint::getRelationship
     ResultTable table(res);
 
     if (args[0]->getEntityType() == TYPE_VARIABLE){
-        std::vector<std::vector<std::string>> t = args[0]->getEntityTable(pkb);
+        Table t = args[0]->getEntityTable(pkb);
         ResultTable entityTable(t);
         entityTable.removeColumnByIndex(0);
         table.add(entityTable.getTable());

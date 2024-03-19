@@ -24,7 +24,7 @@ std::string ConstantEntity::getArgumentValue() {
     return this->identifier;
 }
 
-std::vector<std::vector<std::string>> ConstantEntity::getEntityTable(QueryPkbVirtual &pkb) {
+Table ConstantEntity::getEntityTable(QueryPkbVirtual &pkb) {
     auto entityTable = pkb.getConstTable();
     // Insertion of headers into our entity table
     entityTable.insert(entityTable.begin(), {"CONSTANTLHS", this->identifier});

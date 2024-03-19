@@ -78,3 +78,4 @@ using Str = std::string; // to neaten code
 using VarName = Str;
 using ProcName = Str;
 using ConstVal = int;
+using Table = std::vector<std::vector<Str>>;

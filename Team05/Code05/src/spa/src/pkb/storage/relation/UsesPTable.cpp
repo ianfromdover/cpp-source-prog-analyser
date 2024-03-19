@@ -12,6 +12,6 @@ vector<ProcName> UsesPTable::getProcFromVar(VarName name) {
     return map.getKeys(name);
 }
 
-std::vector<std::vector<Str>> UsesPTable::getAllProc() {
+Table UsesPTable::getAllProc() {
     return map.getAllForStrStr();
 }

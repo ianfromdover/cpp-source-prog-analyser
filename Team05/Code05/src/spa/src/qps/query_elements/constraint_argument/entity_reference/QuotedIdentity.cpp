@@ -21,7 +21,7 @@ std::string QuotedIdentity::getArgumentValue() {
     return this->val;
 }
 
-std::vector<std::vector<std::string>> QuotedIdentity::getEntityTable(QueryPkbVirtual &pkb) {
+Table QuotedIdentity::getEntityTable(QueryPkbVirtual &pkb) {
     throw QPSException("Invalid QPS Query");
 }
 

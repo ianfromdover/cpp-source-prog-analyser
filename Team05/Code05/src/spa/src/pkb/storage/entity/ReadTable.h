@@ -20,5 +20,5 @@ public:
     // Returns the variable read by the statement number, if the variable is not found, returns an empty vector.
     vector<VarName> getReadVar(StmtNo sNum);
     // Returns all the read statements and read vars as strings in 2 columns: StmtNo | VarName
-    vector<vector<Str>> getAllAsStrings();
+    Table getAllAsStrings();
 };

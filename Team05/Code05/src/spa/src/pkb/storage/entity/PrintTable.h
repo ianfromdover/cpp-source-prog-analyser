@@ -20,5 +20,5 @@ public:
     // Returns the printed variable by the statement number, if the variable is not found, returns an empty vector.
     vector<VarName> getPrintVar(StmtNo sNum);
     // Returns all the print statements and printed vars as strings in 2 columns: StmtNo | VarName
-    vector<vector<Str>> getAllAsStrings();
+    Table getAllAsStrings();
 };

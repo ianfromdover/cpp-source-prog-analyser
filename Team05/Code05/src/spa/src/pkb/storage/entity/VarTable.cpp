@@ -17,6 +17,6 @@ vector<VarName> VarTable::getVarNameByStmt(StmtNo sNum) {
     return map.getValues(sNum);
 }
 
-vector<vector<Str>> VarTable::getAllAsStrings() {
+Table VarTable::getAllAsStrings() {
     return map.getAllForAStr();
 }

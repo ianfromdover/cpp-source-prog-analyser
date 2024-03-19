@@ -13,6 +13,6 @@ std::vector<StmtNo> NextTTable::getAfter(StmtNo before) {
     return map.getValues(before);
 }
 
-vector<vector<Str>> NextTTable::getAllAsStrings() {
+Table NextTTable::getAllAsStrings() {
     return map.getAllForAB();
 }

@@ -17,7 +17,7 @@ public:
     virtual std::string getArgumentValue() = 0;
     virtual std::string toString() = 0;
 
-    virtual std::vector<std::vector<std::string>> getEntityTable(QueryPkbVirtual & pkb) =0;
+    virtual Table getEntityTable(QueryPkbVirtual & pkb) =0;
 
 };
 

@@ -12,6 +12,6 @@ vector<VarName> PatternWhileTable::getPatternByNum(StmtNo sNum) {
     return map.getValues(sNum);
 }
 
-vector<vector<Str>> PatternWhileTable::getAllAsStrings() {
+Table PatternWhileTable::getAllAsStrings() {
     return map.getAllForAStr();
 }

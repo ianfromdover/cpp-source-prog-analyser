@@ -18,8 +18,8 @@ vector<StmtNo> StatementTable::getAllStmts() {
     return stmts;
 }
 
-vector<vector<Str>> StatementTable::getAllAsStrings() {
-    vector<vector<Str>> stmts;
+Table StatementTable::getAllAsStrings() {
+    Table stmts;
     for (int i = 1; i < finalStatementNum; i++) {
         stmts.push_back({to_string(i)});
     }

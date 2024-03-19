@@ -15,7 +15,7 @@
 #include <map>
 #include "common/Column.h"
 
-using table = std::vector<std::vector<std::string>>;
+using table = Table;
 
 class ResultTable {
 public:
@@ -256,7 +256,7 @@ public:
         }
     }
 
-    static std::vector<std::vector<std::string>> nestedLoopJoin(const table& tableA, const table& tableB) {
+    static Table nestedLoopJoin(const table& tableA, const table& tableB) {
         // guaranteed to have common headers
         table result;
 

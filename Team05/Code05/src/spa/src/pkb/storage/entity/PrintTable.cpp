@@ -12,6 +12,6 @@ vector<VarName> PrintTable::getPrintVar(StmtNo sNum) {
     return map.getValues(sNum);
 }
 
-vector<vector<Str>> PrintTable::getAllAsStrings() {
+Table PrintTable::getAllAsStrings() {
     return map.getAllForAStr();
 }

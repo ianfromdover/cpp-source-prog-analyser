@@ -19,5 +19,5 @@ public:
     // Returns all the procedure names
     vector<Str> getProcByName(ProcName name);
     // Returns all the procedure names
-    vector<vector<Str>> getAllAsStrings();
+    Table getAllAsStrings();
 };

@@ -9,6 +9,6 @@ std::string Constraint::toString() {
     + ", " + this->getConstraintArguments()[1]->toString() + ")";
 }
 
-std::vector<std::vector<std::string>> Constraint::getRelationshipTable(QueryPkbVirtual &) {
+Table Constraint::getRelationshipTable(QueryPkbVirtual &) {
     return {};
 }

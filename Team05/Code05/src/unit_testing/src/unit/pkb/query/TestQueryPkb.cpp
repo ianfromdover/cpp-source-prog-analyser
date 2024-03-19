@@ -4,36 +4,30 @@
 
 #include "catch.hpp"
 #include "pkb/apis/QueryPkb.h"
+#include "common/TableUtils.h"
 #include <memory>
 
 std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
 QueryPkb queryPkb(pkb);
 
-bool isPresent(const std::vector<std::vector<std::string>>& vec,
-               const std::vector<std::vector<std::string>>& elements) {
-    return std::all_of(elements.begin(), elements.end(), [&](const auto& element) {
-        return std::find(vec.begin(), vec.end(), element) != vec.end();
-    });
-}
+TEST_CASE("Test TableUtils::isPresent testing helper function") {
 
-TEST_CASE("Test isPresent testing helper function") {
-
-    std::vector<std::vector<std::string>> test = {{"1"}};
+    Table test = {{"1"}};
     REQUIRE(test.size() == 1);
-    REQUIRE(isPresent(test, {{"1"}}));
-    REQUIRE(!isPresent(test, {{"2"}}));
+    REQUIRE(TableUtils::isPresent(test, {{"1"}}));
+    REQUIRE(!TableUtils::isPresent(test, {{"2"}}));
 
-    std::vector<std::vector<std::string>> two = {{"1", "a"}};
-    std::vector<std::vector<std::string>> twoIdentical = {{"1", "a"}};
-    REQUIRE(isPresent(two, twoIdentical));
+    Table two = {{"1", "a"}};
+    Table twoIdentical = {{"1", "a"}};
+    REQUIRE(TableUtils::isPresent(two, twoIdentical));
 
 }
 
-TEST_CASE("Test toVecVecStr conversion methods") {
+TEST_CASE("Test toTable conversion methods") {
 
     SECTION("Test for string vector") {
         std::vector<std::string> input = {"1", "2", "3"};
-        auto converted = queryPkb.toVecVecStr(input);
+        auto converted = queryPkb.toTable(input);
         std::vector<std::string> firstElem = {"1"};
         std::vector<std::string> secondElem = {"2"};
         std::vector<std::string> thirdElem = {"3"};
@@ -46,7 +40,7 @@ TEST_CASE("Test toVecVecStr conversion methods") {
 
     SECTION("Test for int vector") {
         std::vector<int> input = {1, 2, 3};
-        auto converted = queryPkb.toVecVecStr(input);
+        auto converted = queryPkb.toTable(input);
         std::vector<std::string> firstElem = {"1"};
         std::vector<std::string> secondElem = {"2"};
         std::vector<std::string> thirdElem = {"3"};
@@ -59,7 +53,7 @@ TEST_CASE("Test toVecVecStr conversion methods") {
 }
 
 
-TEST_CASE("Test QueryPKB getCall methods") {
+TEST_CASE("Test QueryPkb getCall methods") {
 
     // Add records to callTable
     pkb->callTable->addCall(1, "proc1");
@@ -69,32 +63,32 @@ TEST_CASE("Test QueryPKB getCall methods") {
 
     SECTION("Test getCallByNum() method") {
 
-        std::vector<std::vector<std::string>> test = queryPkb.getCallByNum(1);
+        Table test = queryPkb.getCallByNum(1);
         REQUIRE(test.size() == 1);
-        REQUIRE(isPresent(test, {{"proc1"}}));
+        REQUIRE(TableUtils::isPresent(test, {{"proc1"}}));
 
     }
 
     SECTION("Test getCallByProc() method") {
 
-        std::vector<std::vector<std::string>> test = queryPkb.getCallByProc("proc3");
+        Table test = queryPkb.getCallByProc("proc3");
         REQUIRE(test.size() == 2);
-        REQUIRE(isPresent(test, {{"3"}, {"4"}}));
+        REQUIRE(TableUtils::isPresent(test, {{"3"}, {"4"}}));
 
     }
 
     SECTION("Test getCallTable() method") {
 
         // Retrieve callTable and verify its contents
-        std::vector<std::vector<std::string>> callTable = queryPkb.getCallTable();
+        Table callTable = queryPkb.getCallTable();
         REQUIRE(callTable.size() == 4);
-        REQUIRE(isPresent(callTable, {{"1", "proc1"}, {"2", "proc2"}, {"3", "proc3"}, {"4", "proc3"}}));
+        REQUIRE(TableUtils::isPresent(callTable, {{"1", "proc1"}, {"2", "proc2"}, {"3", "proc3"}, {"4", "proc3"}}));
 
     }
 }
 
 
-TEST_CASE("Test QueryPKB getProc methods") {
+TEST_CASE("Test QueryPkb getProc methods") {
 
     // Add records to procTable
     pkb->procedureTable->addProc("proc1");
@@ -103,24 +97,24 @@ TEST_CASE("Test QueryPKB getProc methods") {
 
     SECTION("Test getProcByName() method") {
 
-        std::vector<std::vector<std::string>> test = queryPkb.getProcTable();
+        Table test = queryPkb.getProcTable();
         REQUIRE(test.size() == 3);
-        REQUIRE(isPresent(test, {{"proc1"}, {"proc2"}, {"proc3"}}));
+        REQUIRE(TableUtils::isPresent(test, {{"proc1"}, {"proc2"}, {"proc3"}}));
 
     }
 
     SECTION("Test getProcTable() method") {
 
         // Retrieve procTable and verify its contents
-        std::vector<std::vector<std::string>> procTable = queryPkb.getProcTable();
+        Table procTable = queryPkb.getProcTable();
         REQUIRE(procTable.size() == 3);
-        REQUIRE(isPresent(procTable, {{"proc1"}, {"proc2"}, {"proc3"}}));
+        REQUIRE(TableUtils::isPresent(procTable, {{"proc1"}, {"proc2"}, {"proc3"}}));
 
     }
 }
 
 
-TEST_CASE("Test QueryPKB getRead methods") {
+TEST_CASE("Test QueryPkb getRead methods") {
 
     // Add records to readTable
     pkb->readTable->addRead(1, "x");
@@ -130,32 +124,32 @@ TEST_CASE("Test QueryPKB getRead methods") {
 
     SECTION("Test getReadByNum() method") {
 
-        std::vector<std::vector<std::string>> test = queryPkb.getReadByNum(1);
+        Table test = queryPkb.getReadByNum(1);
         REQUIRE(test.size() == 1);
-        REQUIRE(isPresent(test, {{"x"}}));
+        REQUIRE(TableUtils::isPresent(test, {{"x"}}));
 
     }
 
     SECTION("Test getReadByVar() method") {
 
-        std::vector<std::vector<std::string>> test = queryPkb.getReadByVar("y");
+        Table test = queryPkb.getReadByVar("y");
         REQUIRE(test.size() == 2);
-        REQUIRE(isPresent(test, {{"2"}, {"4"}}));
+        REQUIRE(TableUtils::isPresent(test, {{"2"}, {"4"}}));
 
     }
 
     SECTION("Test getReadTable() method") {
 
         // Retrieve readTable and verify its contents
-        std::vector<std::vector<std::string>> readTable = queryPkb.getReadTable();
+        Table readTable = queryPkb.getReadTable();
         REQUIRE(readTable.size() == 4);
-        REQUIRE(isPresent(readTable, {{"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "y"}}));
+        REQUIRE(TableUtils::isPresent(readTable, {{"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "y"}}));
 
     }
 }
 
 
-TEST_CASE("Test QueryPKB getIf methods") {
+TEST_CASE("Test QueryPkb getIf methods") {
 
     // Add records to readTable
     pkb->ifTable->addIf(1, "x");
@@ -165,33 +159,33 @@ TEST_CASE("Test QueryPKB getIf methods") {
 
     SECTION("Test getIfByNum() method") {
 
-        std::vector<std::vector<std::string>> test = queryPkb.getIfByNum(1);
-        std::vector<std::vector<std::string>> testResult = {{"x"}};
+        Table test = queryPkb.getIfByNum(1);
+        Table testResult = {{"x"}};
         REQUIRE(test.size() == 1);
-        REQUIRE(isPresent(test, {{"x"}}));
+        REQUIRE(TableUtils::isPresent(test, {{"x"}}));
 
     }
 
     SECTION("Test getIfByVar() method") {
 
-        std::vector<std::vector<std::string>> test = queryPkb.getIfByVar("y");
+        Table test = queryPkb.getIfByVar("y");
         REQUIRE(test.size() == 2);
-        REQUIRE(isPresent(test, {{"2"}, {"4"}}));
+        REQUIRE(TableUtils::isPresent(test, {{"2"}, {"4"}}));
 
     }
 
     SECTION("Test getIfTable() method") {
 
         // Retrieve readTable and verify its contents
-        std::vector<std::vector<std::string>> ifTable = queryPkb.getIfTable();
+        Table ifTable = queryPkb.getIfTable();
         REQUIRE(ifTable.size() == 4);
-        REQUIRE(isPresent(ifTable, {{"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "y"}}));
+        REQUIRE(TableUtils::isPresent(ifTable, {{"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "y"}}));
 
     }
 }
 
 
-TEST_CASE("Test QueryPKB getWhile methods") {
+TEST_CASE("Test QueryPkb getWhile methods") {
 
     // Add records to whileTable
     pkb->whileTable->addWhile(1, "x");
@@ -201,33 +195,33 @@ TEST_CASE("Test QueryPKB getWhile methods") {
 
     SECTION("Test getWhileByNum() method") {
 
-        std::vector<std::vector<std::string>> test = queryPkb.getWhileByNum(1);
-        std::vector<std::vector<std::string>> testResult = {{"x"}};
+        Table test = queryPkb.getWhileByNum(1);
+        Table testResult = {{"x"}};
         REQUIRE(test.size() == 1);
-        REQUIRE(isPresent(test, {{"x"}}));
+        REQUIRE(TableUtils::isPresent(test, {{"x"}}));
 
     }
 
     SECTION("Test getWhileByVar() method") {
 
-        std::vector<std::vector<std::string>> test = queryPkb.getWhileByVar("y");
+        Table test = queryPkb.getWhileByVar("y");
         REQUIRE(test.size() == 2);
-        REQUIRE(isPresent(test, {{"2"}, {"4"}}));
+        REQUIRE(TableUtils::isPresent(test, {{"2"}, {"4"}}));
 
     }
 
     SECTION("Test getWhileTable() method") {
 
         // Retrieve whileTable and verify its contents
-        std::vector<std::vector<std::string>> whileTable = queryPkb.getWhileTable();
+        Table whileTable = queryPkb.getWhileTable();
         REQUIRE(whileTable.size() == 4);
-        REQUIRE(isPresent(whileTable, {{"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "y"}}));
+        REQUIRE(TableUtils::isPresent(whileTable, {{"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "y"}}));
 
     }
 }
 
 
-TEST_CASE("Test QueryPKB getPrint methods") {
+TEST_CASE("Test QueryPkb getPrint methods") {
 
     // Add records to printTable
     pkb->printTable->addPrint(1, "x");
@@ -238,32 +232,32 @@ TEST_CASE("Test QueryPKB getPrint methods") {
 
     SECTION("Test getPrintByNum() method") {
 
-        std::vector<std::vector<std::string>> test = queryPkb.getPrintByNum(4);
+        Table test = queryPkb.getPrintByNum(4);
         REQUIRE(test.size() == 2);
-        REQUIRE(isPresent(test, {{"y"}, {"z"}}));
+        REQUIRE(TableUtils::isPresent(test, {{"y"}, {"z"}}));
 
     }
 
     SECTION("Test getPrintByVar() method") {
 
-        std::vector<std::vector<std::string>> test = queryPkb.getPrintByVar("y");
+        Table test = queryPkb.getPrintByVar("y");
         REQUIRE(test.size() == 2);
-        REQUIRE(isPresent(test, {{"2"}, {"4"}}));
+        REQUIRE(TableUtils::isPresent(test, {{"2"}, {"4"}}));
 
     }
 
     SECTION("Test getPrintTable() method") {
 
         // Retrieve printTable and verify its contents
-        std::vector<std::vector<std::string>> printTable = queryPkb.getPrintTable();
+        Table printTable = queryPkb.getPrintTable();
         REQUIRE(printTable.size() == 5);
-        REQUIRE(isPresent(printTable, {{"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "y"}, {"4", "z"}}));
+        REQUIRE(TableUtils::isPresent(printTable, {{"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "y"}, {"4", "z"}}));
 
     }
 }
 
 
-TEST_CASE("Test QueryPKB getStmt methods") {
+TEST_CASE("Test QueryPkb getStmt methods") {
 
     // Add records to stmtTable
     pkb->statementTable->addFinalStatementNo(0); // proc name line, not counted in stmts
@@ -279,15 +273,15 @@ TEST_CASE("Test QueryPKB getStmt methods") {
     SECTION("Test getStmtTable() method") {
 
         // Retrieve stmtTable and verify its contents
-        std::vector<std::vector<std::string>> stmtTable = queryPkb.getStmtTable();
+        Table stmtTable = queryPkb.getStmtTable();
         REQUIRE(stmtTable.size() == 3);
-        REQUIRE(isPresent(stmtTable, {{"1"}, {"2"}, {"3"}}));
+        REQUIRE(TableUtils::isPresent(stmtTable, {{"1"}, {"2"}, {"3"}}));
 
     }
 }
 
 
-TEST_CASE("Test QueryPKB getVar methods") {
+TEST_CASE("Test QueryPkb getVar methods") {
 
     // Add records to varTable
     pkb->varTable->addVar(1, "x");
@@ -307,15 +301,15 @@ TEST_CASE("Test QueryPKB getVar methods") {
     SECTION("Test getVarTable() method") {
 
         // Retrieve procTable and verify its contents
-        std::vector<std::vector<std::string>> varTable = queryPkb.getVarTable();
+        Table varTable = queryPkb.getVarTable();
         REQUIRE(varTable.size() == 5);
-        REQUIRE(isPresent(varTable, {{"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "x"}, {"5", "z"}}));
+        REQUIRE(TableUtils::isPresent(varTable, {{"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "x"}, {"5", "z"}}));
 
     }
 }
 
 
-TEST_CASE("Test QueryPKB getConst methods") {
+TEST_CASE("Test QueryPkb getConst methods") {
 
     // Add records to constTable
     pkb->constTable->addConst(1, 4);
@@ -329,15 +323,15 @@ TEST_CASE("Test QueryPKB getConst methods") {
     SECTION("Test getConstTable() method") {
 
         // Retrieve constTable and verify its contents
-        std::vector<std::vector<std::string>> constTable = queryPkb.getConstTable();
+        Table constTable = queryPkb.getConstTable();
         REQUIRE(constTable.size() == 3);
-        REQUIRE(isPresent(constTable, {{"1", "4"}, {"2", "2"}, {"3", "0"}}));
+        REQUIRE(TableUtils::isPresent(constTable, {{"1", "4"}, {"2", "2"}, {"3", "0"}}));
 
     }
 }
 
 
-TEST_CASE("Test QueryPKB getFollows methods") {
+TEST_CASE("Test QueryPkb getFollows methods") {
 
     // Add records to followsTable
     pkb->followsTable->addFollows(1, 2);
@@ -346,32 +340,32 @@ TEST_CASE("Test QueryPKB getFollows methods") {
 
     SECTION("Test getFollowsByBefore() method") {
 
-        std::vector<std::vector<std::string>> test = queryPkb.getFollowsByBefore(1);
+        Table test = queryPkb.getFollowsByBefore(1);
         REQUIRE(test.size() == 1);
-        REQUIRE(isPresent(test, {{"2"}}));
+        REQUIRE(TableUtils::isPresent(test, {{"2"}}));
 
     }
 
     SECTION("Test getFollowsByAfter() method") {
 
-        std::vector<std::vector<std::string>> test = queryPkb.getFollowsByAfter(4);
+        Table test = queryPkb.getFollowsByAfter(4);
         REQUIRE(test.size() == 1);
-        REQUIRE(isPresent(test, {{"3"}}));
+        REQUIRE(TableUtils::isPresent(test, {{"3"}}));
 
     }
 
     SECTION("Test getFollowsTable() method") {
 
         // Retrieve followsTable and verify its contents
-        std::vector<std::vector<std::string>> followsTable = queryPkb.getFollowsTable();
+        Table followsTable = queryPkb.getFollowsTable();
         REQUIRE(followsTable.size() == 3);
-        REQUIRE(isPresent(followsTable, {{"1", "2"}, {"2", "3"}, {"3", "4"}}));
+        REQUIRE(TableUtils::isPresent(followsTable, {{"1", "2"}, {"2", "3"}, {"3", "4"}}));
 
     }
 }
 
 
-TEST_CASE("Test QueryPKB getFollowsT methods") {
+TEST_CASE("Test QueryPkb getFollowsT methods") {
 
     // Add records to followsTTable
     pkb->followsTTable->addFollowsT(1, 2);
@@ -383,32 +377,32 @@ TEST_CASE("Test QueryPKB getFollowsT methods") {
 
     SECTION("Test getFollowsTByBefore() method") {
 
-        std::vector<std::vector<std::string>> test = queryPkb.getFollowsTByBefore(2);
+        Table test = queryPkb.getFollowsTByBefore(2);
         REQUIRE(test.size() == 2);
-        REQUIRE(isPresent(test, {{"3"}, {"4"}}));
+        REQUIRE(TableUtils::isPresent(test, {{"3"}, {"4"}}));
 
     }
 
     SECTION("Test getFollowsTByAfter() method") {
 
-        std::vector<std::vector<std::string>> test = queryPkb.getFollowsTByAfter(3);
+        Table test = queryPkb.getFollowsTByAfter(3);
         REQUIRE(test.size() == 2);
-        REQUIRE(isPresent(test, {{"2"}, {"1"}}));
+        REQUIRE(TableUtils::isPresent(test, {{"2"}, {"1"}}));
 
     }
 
     SECTION("Test getFollowsTable() method") {
 
         // Retrieve followsTTable and verify its contents
-        std::vector<std::vector<std::string>> followsTTable = queryPkb.getFollowsTTable();
+        Table followsTTable = queryPkb.getFollowsTTable();
         REQUIRE(followsTTable.size() == 6);
-        REQUIRE(isPresent(followsTTable, {{"1", "2"}, {"2", "3"}, {"1", "3"}, {"3", "4"}, {"2", "4"}, {"1", "4"}}));
+        REQUIRE(TableUtils::isPresent(followsTTable, {{"1", "2"}, {"2", "3"}, {"1", "3"}, {"3", "4"}, {"2", "4"}, {"1", "4"}}));
 
     }
 }
 
 
-TEST_CASE("Test QueryPKB getParent methods") {
+TEST_CASE("Test QueryPkb getParent methods") {
 
     // Add records to parentTable
     pkb->parentTable->addParent(1, 2);
@@ -417,32 +411,32 @@ TEST_CASE("Test QueryPKB getParent methods") {
 
     SECTION("Test getParentByParent() method") {
 
-        std::vector<std::vector<std::string>> test = queryPkb.getParentByParent(1);
+        Table test = queryPkb.getParentByParent(1);
         REQUIRE(test.size() == 3);
-        REQUIRE(isPresent(test, {{"2"}, {"3"}, {"4"}}));
+        REQUIRE(TableUtils::isPresent(test, {{"2"}, {"3"}, {"4"}}));
 
     }
 
     SECTION("Test getParentByChild() method") {
 
-        std::vector<std::vector<std::string>> test = queryPkb.getParentByChild(4);
+        Table test = queryPkb.getParentByChild(4);
         REQUIRE(test.size() == 1);
-        REQUIRE(isPresent(test, {{"1"}}));
+        REQUIRE(TableUtils::isPresent(test, {{"1"}}));
 
     }
 
     SECTION("Test getParentTable() method") {
 
         // Retrieve parentTable and verify its contents
-        std::vector<std::vector<std::string>> parentTable = queryPkb.getParentTable();
+        Table parentTable = queryPkb.getParentTable();
         REQUIRE(parentTable.size() == 3);
-        REQUIRE(isPresent(parentTable, {{"1", "2"}, {"1", "3"}, {"1", "4"}}));
+        REQUIRE(TableUtils::isPresent(parentTable, {{"1", "2"}, {"1", "3"}, {"1", "4"}}));
 
     }
 }
 
 
-TEST_CASE("Test QueryPKB getParentT methods") {
+TEST_CASE("Test QueryPkb getParentT methods") {
 
     // Add records to parentTTable
     pkb->parentTTable->addParentT(1, 2);
@@ -453,32 +447,32 @@ TEST_CASE("Test QueryPKB getParentT methods") {
 
     SECTION("Test getParentTByParent() method") {
 
-        std::vector<std::vector<std::string>> test = queryPkb.getParentTByParent(1);
+        Table test = queryPkb.getParentTByParent(1);
         REQUIRE(test.size() == 3);
-        REQUIRE(isPresent(test, {{"2"}, {"3"}, {"4"}}));
+        REQUIRE(TableUtils::isPresent(test, {{"2"}, {"3"}, {"4"}}));
 
     }
 
     SECTION("Test getParentTByChild() method") {
 
-        std::vector<std::vector<std::string>> test = queryPkb.getParentTByChild(4);
+        Table test = queryPkb.getParentTByChild(4);
         REQUIRE(test.size() == 2);
-        REQUIRE(isPresent(test, {{"1"}, {"3"}}));
+        REQUIRE(TableUtils::isPresent(test, {{"1"}, {"3"}}));
 
     }
 
     SECTION("Test getParentTTable() method") {
 
         // Retrieve parentTTable and verify its contents
-        std::vector<std::vector<std::string>> parentTTable = queryPkb.getParentTTable();
+        Table parentTTable = queryPkb.getParentTTable();
         REQUIRE(parentTTable.size() == 4);
-        REQUIRE(isPresent(parentTTable, {{"1", "2"}, {"1", "3"}, {"3", "4"}, {"1", "4"}}));
+        REQUIRE(TableUtils::isPresent(parentTTable, {{"1", "2"}, {"1", "3"}, {"3", "4"}, {"1", "4"}}));
 
     }
 }
 
 
-TEST_CASE("Test QueryPKB getUsesS methods") {
+TEST_CASE("Test QueryPkb getUsesS methods") {
 
     // Add records to usesSTable
     pkb->usesSTable->addUsesS(1, "x");
@@ -489,32 +483,32 @@ TEST_CASE("Test QueryPKB getUsesS methods") {
 
     SECTION("Test getUsesSByNum() method") {
 
-        std::vector<std::vector<std::string>> test = queryPkb.getUsesSByNum(4);
+        Table test = queryPkb.getUsesSByNum(4);
         REQUIRE(test.size() == 2);
-        REQUIRE(isPresent(test, {{"y"}, {"z"}}));
+        REQUIRE(TableUtils::isPresent(test, {{"y"}, {"z"}}));
 
     }
 
     SECTION("Test getUsesSByVar() method") {
 
-        std::vector<std::vector<std::string>> test = queryPkb.getUsesSByVar("y");
+        Table test = queryPkb.getUsesSByVar("y");
         REQUIRE(test.size() == 2);
-        REQUIRE(isPresent(test, {{"2"}, {"4"}}));
+        REQUIRE(TableUtils::isPresent(test, {{"2"}, {"4"}}));
 
     }
 
     SECTION("Test getUsesSTable() method") {
 
         // Retrieve usesSTable and verify its contents
-        std::vector<std::vector<std::string>> usesSTable = queryPkb.getUsesSTable();
+        Table usesSTable = queryPkb.getUsesSTable();
         REQUIRE(usesSTable.size() == 5);
-        REQUIRE(isPresent(usesSTable, {{"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "y"}, {"4", "z"}}));
+        REQUIRE(TableUtils::isPresent(usesSTable, {{"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "y"}, {"4", "z"}}));
 
     }
 }
 
 
-TEST_CASE("Test QueryPKB getUsesP methods") {
+TEST_CASE("Test QueryPkb getUsesP methods") {
 
     // Add records to usesPTable
     pkb->usesPTable->addUsesP("proc1", "x");
@@ -525,33 +519,33 @@ TEST_CASE("Test QueryPKB getUsesP methods") {
 
 //    SECTION("Test getUsesPByProc() method") {
 //
-//        std::vector<std::vector<std::string>> test = queryPkb.getUsesSByNum(4);
+//        Table test = queryPkb.getUsesSByNum(4);
 //        REQUIRE(test.size() == 2);
-//        REQUIRE(isPresent(test, {{"y"}, {"z"}}));
+//        REQUIRE(TableUtils::isPresent(test, {{"y"}, {"z"}}));
 //
 //    }
 //
 //    SECTION("Test getUsesPByVar() method") {
 //
-//        std::vector<std::vector<std::string>> test = queryPkb.getUsesSByVar("y");
+//        Table test = queryPkb.getUsesSByVar("y");
 //        REQUIRE(test.size() == 2);
-//        REQUIRE(isPresent(test, {{"2"}, {"4"}}));
+//        REQUIRE(TableUtils::isPresent(test, {{"2"}, {"4"}}));
 //
 //    }
 
     SECTION("Test getUsesPTable() method") {
 
         // Retrieve usesPTable and verify its contents
-        std::vector<std::vector<std::string>> usesPTable = queryPkb.getUsesPTable();
+        Table usesPTable = queryPkb.getUsesPTable();
         REQUIRE(usesPTable.size() == 5);
-        REQUIRE(isPresent(usesPTable, {{"proc1", "x"}, {"proc1", "y"}, {"proc1", "z"},
+        REQUIRE(TableUtils::isPresent(usesPTable, {{"proc1", "x"}, {"proc1", "y"}, {"proc1", "z"},
                                        {"proc2", "y"}, {"proc2", "z"}}));
 
     }
 }
 
 
-TEST_CASE("Test QueryPKB getModifiesS methods") {
+TEST_CASE("Test QueryPkb getModifiesS methods") {
 
     // Add records to modifiesSTable
     pkb->modifiesSTable->addModifiesS(1, "x");
@@ -561,32 +555,32 @@ TEST_CASE("Test QueryPKB getModifiesS methods") {
 
     SECTION("Test getModifiesSByNum() method") {
 
-        std::vector<std::vector<std::string>> test = queryPkb.getModifiesSByNum(4);
+        Table test = queryPkb.getModifiesSByNum(4);
         REQUIRE(test.size() == 1);
-        REQUIRE(isPresent(test, {{"y"}}));
+        REQUIRE(TableUtils::isPresent(test, {{"y"}}));
 
     }
 
     SECTION("Test getModifiesSByVar() method") {
 
-        std::vector<std::vector<std::string>> test = queryPkb.getModifiesSByVar("y");
+        Table test = queryPkb.getModifiesSByVar("y");
         REQUIRE(test.size() == 2);
-        REQUIRE(isPresent(test, {{"2"}, {"4"}}));
+        REQUIRE(TableUtils::isPresent(test, {{"2"}, {"4"}}));
 
     }
 
     SECTION("Test getModifiesSTable() method") {
 
         // Retrieve modifiesSTable and verify its contents
-        std::vector<std::vector<std::string>> modifiesSTable = queryPkb.getModifiesSTable();
+        Table modifiesSTable = queryPkb.getModifiesSTable();
         REQUIRE(modifiesSTable.size() == 4);
-        REQUIRE(isPresent(modifiesSTable, {{"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "y"}}));
+        REQUIRE(TableUtils::isPresent(modifiesSTable, {{"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "y"}}));
 
     }
 }
 
 
-TEST_CASE("Test QueryPKB getModifiesP methods") {
+TEST_CASE("Test QueryPkb getModifiesP methods") {
 
     // Add records to modifiesPTable
     pkb->modifiesPTable->addModifiesP("proc1", "x");
@@ -597,33 +591,33 @@ TEST_CASE("Test QueryPKB getModifiesP methods") {
 
     SECTION("Test getModifiesPByProc() method") {
 
-        std::vector<std::vector<std::string>> test = queryPkb.getModifiesPByProc("proc2");
+        Table test = queryPkb.getModifiesPByProc("proc2");
         REQUIRE(test.size() == 2);
-        REQUIRE(isPresent(test, {{"y"}, {"z"}}));
+        REQUIRE(TableUtils::isPresent(test, {{"y"}, {"z"}}));
 
     }
 
     SECTION("Test getModifiesPByVar() method") {
 
-        std::vector<std::vector<std::string>> test = queryPkb.getModifiesPByVar("y");
+        Table test = queryPkb.getModifiesPByVar("y");
         REQUIRE(test.size() == 2);
-        REQUIRE(isPresent(test, {{"proc1"}, {"proc2"}}));
+        REQUIRE(TableUtils::isPresent(test, {{"proc1"}, {"proc2"}}));
 
     }
 
     SECTION("Test getModifiesPTable() method") {
 
         // Retrieve modifiesPTable and verify its contents
-        std::vector<std::vector<std::string>> modifiesPTable = queryPkb.getModifiesPTable();
+        Table modifiesPTable = queryPkb.getModifiesPTable();
         REQUIRE(modifiesPTable.size() == 5);
-        REQUIRE(isPresent(modifiesPTable, {{"proc1", "x"}, {"proc1", "y"}, {"proc1", "z"},
+        REQUIRE(TableUtils::isPresent(modifiesPTable, {{"proc1", "x"}, {"proc1", "y"}, {"proc1", "z"},
                                            {"proc2", "y"}, {"proc2", "z"}}));
 
     }
 }
 
 
-TEST_CASE("Test getPatternAsgn methods") {
+TEST_CASE("Test QueryPkb getPatternAsgn methods") {
 
     // Add records to patternAsgnTable
     pkb->patternAssignTable->addStmtLhs(1, "x");
@@ -634,14 +628,14 @@ TEST_CASE("Test getPatternAsgn methods") {
     // Add the other get methods where necessary
 
     // Retrieve patternAsgnTable and verify its contents
-    std::vector<std::vector<std::string>> patternAsgnTable = queryPkb.getPatternAsgnTable();
+    Table patternAsgnTable = queryPkb.getPatternAsgnTable();
     REQUIRE(patternAsgnTable.size() == 2);
-    REQUIRE(isPresent(patternAsgnTable, {{"1", "x=3"}, {"2", "y=5"}}));
+    REQUIRE(TableUtils::isPresent(patternAsgnTable, {{"1", "x=3"}, {"2", "y=5"}}));
 
 }
 
 
-TEST_CASE("Test getPatternIf methods") {
+TEST_CASE("Test QueryPkb getPatternIf methods") {
 
     // Add records to patternIfTable
     pkb->patternIfTable->addIf(1, "x");
@@ -650,14 +644,14 @@ TEST_CASE("Test getPatternIf methods") {
     // TODO: Add the other get methods where necessary
 
     // Retrieve patternIfTable and verify its contents
-    std::vector<std::vector<std::string>> patternIfTable = queryPkb.getPatternIfTable();
+    Table patternIfTable = queryPkb.getPatternIfTable();
     REQUIRE(patternIfTable.size() == 2);
-    REQUIRE(isPresent(patternIfTable, {{"1", "x"}, {"2", "y"}}));
+    REQUIRE(TableUtils::isPresent(patternIfTable, {{"1", "x"}, {"2", "y"}}));
 
 }
 
 
-TEST_CASE("Test getPatternWhile methods") {
+TEST_CASE("Test QueryPkb getPatternWhile methods") {
 
     // Add records to patternWhileTable
     pkb->patternWhileTable->addWhile(1, "x");
@@ -666,14 +660,14 @@ TEST_CASE("Test getPatternWhile methods") {
     // TODO: Add the other get methods where necessary
 
     // Retrieve patternWhileTable and verify its contents
-    std::vector<std::vector<std::string>> patternWhileTable = queryPkb.getPatternWhileTable();
+    Table patternWhileTable = queryPkb.getPatternWhileTable();
     REQUIRE(patternWhileTable.size() == 2);
-    REQUIRE(isPresent(patternWhileTable, {{"1", "x"}, {"4", "y"}}));
+    REQUIRE(TableUtils::isPresent(patternWhileTable, {{"1", "x"}, {"4", "y"}}));
 
 }
 
 
-TEST_CASE("Test QueryPKB getCalls methods") {
+TEST_CASE("Test QueryPkb getCalls methods") {
 
     // Add records to callsTable
     pkb->callsTable->addCalls("proc1", "procx");
@@ -684,33 +678,33 @@ TEST_CASE("Test QueryPKB getCalls methods") {
 
     SECTION("Test getCallsByCaller() method") {
 
-        std::vector<std::vector<std::string>> test = queryPkb.getCallsByCaller("proc2");
+        Table test = queryPkb.getCallsByCaller("proc2");
         REQUIRE(test.size() == 2);
-        REQUIRE(isPresent(test, {{"procy"}, {"procz"}}));
+        REQUIRE(TableUtils::isPresent(test, {{"procy"}, {"procz"}}));
 
     }
 
     SECTION("Test getCallsByCalled() method") {
 
-        std::vector<std::vector<std::string>> test = queryPkb.getCallsByCalled("procy");
+        Table test = queryPkb.getCallsByCalled("procy");
         REQUIRE(test.size() == 2);
-        REQUIRE(isPresent(test, {{"proc1"}, {"proc2"}}));
+        REQUIRE(TableUtils::isPresent(test, {{"proc1"}, {"proc2"}}));
 
     }
 
     SECTION("Test getCallsTable() method") {
 
         // Retrieve callsTable and verify its contents
-        std::vector<std::vector<std::string>> callsTable = queryPkb.getCallsTable();
+        Table callsTable = queryPkb.getCallsTable();
         REQUIRE(callsTable.size() == 5);
-        REQUIRE(isPresent(callsTable, {{"proc1", "procx"}, {"proc1", "procy"}, {"proc1", "procz"},
+        REQUIRE(TableUtils::isPresent(callsTable, {{"proc1", "procx"}, {"proc1", "procy"}, {"proc1", "procz"},
                                            {"proc2", "procy"}, {"proc2", "procz"}}));
 
     }
 }
 
 
-TEST_CASE("Test QueryPKB getCallsT methods") {
+TEST_CASE("Test QueryPkb getCallsT methods") {
 
     // Add records to callsTTable
     pkb->callsTTable->addCallsT("proc1", "procx");
@@ -720,33 +714,33 @@ TEST_CASE("Test QueryPKB getCallsT methods") {
 
     SECTION("Test getCallsTByCaller() method") {
 
-        std::vector<std::vector<std::string>> test = queryPkb.getCallsTByCaller("proc1");
+        Table test = queryPkb.getCallsTByCaller("proc1");
         REQUIRE(test.size() == 3);
-        REQUIRE(isPresent(test, {{"procx"}, {"procy"}, {"procz"}}));
+        REQUIRE(TableUtils::isPresent(test, {{"procx"}, {"procy"}, {"procz"}}));
 
     }
 
     SECTION("Test getCallsTByCalled() method") {
 
-        std::vector<std::vector<std::string>> test = queryPkb.getCallsTByCalled("procz");
+        Table test = queryPkb.getCallsTByCalled("procz");
         REQUIRE(test.size() == 2);
-        REQUIRE(isPresent(test, {{"proc1"}, {"procx"}}));
+        REQUIRE(TableUtils::isPresent(test, {{"proc1"}, {"procx"}}));
 
     }
 
     SECTION("Test getCallsTTable() method") {
 
         // Retrieve callsTable and verify its contents
-        std::vector<std::vector<std::string>> callsTTable = queryPkb.getCallsTTable();
+        Table callsTTable = queryPkb.getCallsTTable();
         REQUIRE(callsTTable.size() == 4);
-        REQUIRE(isPresent(callsTTable, {{"proc1", "procx"}, {"proc1", "procy"}, {"procx", "procz"},
+        REQUIRE(TableUtils::isPresent(callsTTable, {{"proc1", "procx"}, {"proc1", "procy"}, {"procx", "procz"},
                                         {"proc1", "procz"}}));
 
     }
 }
 
 
-TEST_CASE("Test QueryPKB getNext methods") {
+TEST_CASE("Test QueryPkb getNext methods") {
 
     // Add records to nextTable
     pkb->nextTable->addNext(1, 2);
@@ -755,32 +749,32 @@ TEST_CASE("Test QueryPKB getNext methods") {
 
     SECTION("Test getNextByBefore() method") {
 
-        std::vector<std::vector<std::string>> test = queryPkb.getNextByBefore(1);
+        Table test = queryPkb.getNextByBefore(1);
         REQUIRE(test.size() == 1);
-        REQUIRE(isPresent(test, {{"2"}}));
+        REQUIRE(TableUtils::isPresent(test, {{"2"}}));
 
     }
 
     SECTION("Test getNextByAfter() method") {
 
-        std::vector<std::vector<std::string>> test = queryPkb.getNextByAfter(4);
+        Table test = queryPkb.getNextByAfter(4);
         REQUIRE(test.size() == 1);
-        REQUIRE(isPresent(test, {{"3"}}));
+        REQUIRE(TableUtils::isPresent(test, {{"3"}}));
 
     }
 
     SECTION("Test getNextTable() method") {
 
         // Retrieve nextTable and verify its contents
-        std::vector<std::vector<std::string>> nextTable = queryPkb.getNextTable();
+        Table nextTable = queryPkb.getNextTable();
         REQUIRE(nextTable.size() == 3);
-        REQUIRE(isPresent(nextTable, {{"1", "2"}, {"2", "3"}, {"3", "4"}}));
+        REQUIRE(TableUtils::isPresent(nextTable, {{"1", "2"}, {"2", "3"}, {"3", "4"}}));
 
     }
 }
 
 
-TEST_CASE("Test QueryPKB getNextT methods") {
+TEST_CASE("Test QueryPkb getNextT methods") {
 
     // Add records to nextTTable
     pkb->nextTTable->addNextT(1, 2);
@@ -790,26 +784,26 @@ TEST_CASE("Test QueryPKB getNextT methods") {
 
     SECTION("Test getNextTByBefore() method") {
 
-        std::vector<std::vector<std::string>> test = queryPkb.getNextTByBefore(1);
+        Table test = queryPkb.getNextTByBefore(1);
         REQUIRE(test.size() == 2);
-        REQUIRE(isPresent(test, {{"2"}, {"4"}}));
+        REQUIRE(TableUtils::isPresent(test, {{"2"}, {"4"}}));
 
     }
 
     SECTION("Test getNextTByAfter() method") {
 
-        std::vector<std::vector<std::string>> test = queryPkb.getNextTByAfter(4);
+        Table test = queryPkb.getNextTByAfter(4);
         REQUIRE(test.size() == 2);
-        REQUIRE(isPresent(test, {{"1"}, {"2"}}));
+        REQUIRE(TableUtils::isPresent(test, {{"1"}, {"2"}}));
 
     }
 
     SECTION("Test getNextTTable() method") {
 
         // Retrieve nextTTable and verify its contents
-        std::vector<std::vector<std::string>> nextTTable = queryPkb.getNextTTable();
+        Table nextTTable = queryPkb.getNextTTable();
         REQUIRE(nextTTable.size() == 4);
-        REQUIRE(isPresent(nextTTable, {{"1", "2"}, {"2", "3"}, {"1", "4"}, {"2", "4"}}));
+        REQUIRE(TableUtils::isPresent(nextTTable, {{"1", "2"}, {"2", "3"}, {"1", "4"}, {"2", "4"}}));
 
     }
 }

@@ -216,7 +216,7 @@ TEST_CASE("Print with parent extractor") {
     std::vector<std::string> queries = {
             //query2,query3,query4, query5,
             query6};
-    std::vector<std::vector<std::string>> expected = {
+    Table expected = {
 //            expected2,expected3,expected4,expected5,
             expected6};
 

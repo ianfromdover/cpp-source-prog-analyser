@@ -19,5 +19,5 @@ public:
     // Returns the procedures that are called by this statement number
     vector<ProcName> getProc(StmtNo sNum);
     // Returns all the call statements as strings in 2 columns: ProcName | StmtNo
-    vector<vector<Str>> getAllAsStrings();
+    Table getAllAsStrings();
 };

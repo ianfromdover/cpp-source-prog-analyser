@@ -19,5 +19,5 @@ public:
     // Returns the control variables in this if-statement, if not found, returns empty vector
     vector<VarName> getIfVars(StmtNo sNum);
     // Returns all the if statements and ctrl vars as strings in 2 columns: StmtNo | VarName
-    vector<vector<Str>> getAllAsStrings();
+    Table getAllAsStrings();
 };

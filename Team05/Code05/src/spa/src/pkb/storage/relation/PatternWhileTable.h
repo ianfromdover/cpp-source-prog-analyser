@@ -14,7 +14,7 @@ public:
     std::vector<StmtNo> getPatternByVar(VarName var); // Gets keys
     std::vector<VarName> getPatternByNum(StmtNo sNum); // Gets values
     // Gets a table with 2 columns, StmtNo | VarName
-    std::vector<std::vector<Str>> getAllAsStrings();
+    Table getAllAsStrings();
 
 };
 

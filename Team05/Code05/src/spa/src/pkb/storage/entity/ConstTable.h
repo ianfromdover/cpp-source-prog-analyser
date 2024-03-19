@@ -19,5 +19,5 @@ public:
     // Returns the constant values by the statement number, if the constant is not found, returns empty vector
     vector<ConstVal> getConsts(StmtNo sNum);
     // Returns all the constants as strings in 2 columns: StmtNo | ConstVal
-    vector<vector<Str>> getAllAsStrings();
+    Table getAllAsStrings();
 };

@@ -16,5 +16,5 @@ public:
     // Returns the follower of this statement. Returns an empty list if there is no follower
     vector<StmtNo> getFollower(StmtNo before);
     // Gets a table with 2 columns, Before | After
-    vector<vector<Str>> getAllAsStrings();
+    Table getAllAsStrings();
 };

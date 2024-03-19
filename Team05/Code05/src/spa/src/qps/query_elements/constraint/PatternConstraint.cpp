@@ -10,6 +10,6 @@ std::string PatternConstraint::getConstraintClass() {
     return CONSTRAINT_CLASS_PATTERN;
 }
 
-std::vector<std::vector<std::string>> PatternConstraint::getRelationshipTable(QueryPkbVirtual &) {
+Table PatternConstraint::getRelationshipTable(QueryPkbVirtual &) {
     return {};
 }

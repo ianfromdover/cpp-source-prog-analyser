@@ -25,7 +25,7 @@ std::string WhileEntity::getArgumentValue() {
     return this->identifier;
 }
 
-std::vector<std::vector<std::string>> WhileEntity::getEntityTable(QueryPkbVirtual &pkb) {
+Table WhileEntity::getEntityTable(QueryPkbVirtual &pkb) {
     auto entityTable = pkb.getWhileTable();
     // Insertion of headers into our entity table
     entityTable.insert(entityTable.begin(), {this->identifier, "WhileVar"});

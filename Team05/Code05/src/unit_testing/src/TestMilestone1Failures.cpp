@@ -49,7 +49,7 @@ TEST_CASE("Milestone 1 failures") {
 
     SECTION("fail 1") {
         std::string query = "assign a; while w; Select a such that Modifies (w, \"x\") pattern a (_, _\"x\"_)";
-        std::vector<std::vector<std::string>> table = pkb1.getModifiesSTable();
+        Table table = pkb1.getModifiesSTable();
         ResultTable t(table);
         std::string s = t.toString();
         std::vector<std::string> expected  = {"10", "15"};

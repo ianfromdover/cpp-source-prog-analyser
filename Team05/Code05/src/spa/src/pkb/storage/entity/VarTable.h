@@ -21,5 +21,5 @@ public:
     // Returns the variable name by the statement number, if not found, returns empty vector
     vector<VarName> getVarNameByStmt(StmtNo sNum);
     // Returns all the variable names as strings in 2 columns: StmtNo | VarName
-    vector<vector<Str>> getAllAsStrings();
+    Table getAllAsStrings();
 };

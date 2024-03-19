@@ -9,6 +9,7 @@
 #include <unordered_map>
 #include <vector>
 #include "pkb/exceptions/PkbException.h"
+#include "common/SpaTypes.h"
 
 /**
  * @brief A double-sided map for O(1) retrieval of elements that have Many-Many relations.
@@ -58,10 +59,10 @@ public:
      * @return Returns a 2-column table of all the key-value pairs in the map as strings
      * Call the appropriate function based on whether A and B are strings
      */
-    std::vector<std::vector<std::string>> getAllForStrStr();
-    std::vector<std::vector<std::string>> getAllForStrB();
-    std::vector<std::vector<std::string>> getAllForAStr();
-    std::vector<std::vector<std::string>> getAllForAB();
+    Table getAllForStrStr();
+    Table getAllForStrB();
+    Table getAllForAStr();
+    Table getAllForAB();
 };
 
 // ---------------------------- Implementation ----------------------------
@@ -164,8 +165,8 @@ std::vector<A> TwoSideMap<A, B>::getKeys(B value) {
 }
 
 template<typename A, typename B>
-std::vector<std::vector<std::string>> TwoSideMap<A, B>::getAllForStrStr() {
-    auto result = std::make_shared<std::vector<std::vector<std::string>>>();
+Table TwoSideMap<A, B>::getAllForStrStr() {
+    auto result = std::make_shared<Table>();
     try {
         for (auto &pair: forwardMap) {
             for (auto &ptr: pair.second) {
@@ -179,8 +180,8 @@ std::vector<std::vector<std::string>> TwoSideMap<A, B>::getAllForStrStr() {
 }
 
 template<typename A, typename B>
-std::vector<std::vector<std::string>> TwoSideMap<A, B>::getAllForStrB() {
-    auto result = std::make_shared<std::vector<std::vector<std::string>>>();
+Table TwoSideMap<A, B>::getAllForStrB() {
+    auto result = std::make_shared<Table>();
     try {
         for (auto& pair : forwardMap) {
             for (auto& ptr : pair.second) {
@@ -195,8 +196,8 @@ std::vector<std::vector<std::string>> TwoSideMap<A, B>::getAllForStrB() {
 }
 
 template<typename A, typename B>
-std::vector<std::vector<std::string>> TwoSideMap<A, B>::getAllForAStr() {
-    auto result = std::make_shared<std::vector<std::vector<std::string>>>();
+Table TwoSideMap<A, B>::getAllForAStr() {
+    auto result = std::make_shared<Table>();
     try {
         for (auto& pair : forwardMap) {
             std::string key = std::to_string(pair.first);
@@ -211,8 +212,8 @@ std::vector<std::vector<std::string>> TwoSideMap<A, B>::getAllForAStr() {
 }
 
 template<typename A, typename B>
-std::vector<std::vector<std::string>> TwoSideMap<A, B>::getAllForAB() {
-    auto result = std::make_shared<std::vector<std::vector<std::string>>>();
+Table TwoSideMap<A, B>::getAllForAB() {
+    auto result = std::make_shared<Table>();
     try {
         for (auto& pair : forwardMap) {
             std::string key = std::to_string(pair.first);

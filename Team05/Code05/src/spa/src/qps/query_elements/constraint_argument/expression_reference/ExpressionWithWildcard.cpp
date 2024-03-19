@@ -21,6 +21,6 @@ std::string ExpressionWithWildcard::toString() {
     return this->regularExpression + " [EXPR WITH WILDCARD]";
 }
 
-std::vector<std::vector<std::string>> ExpressionWithWildcard::getEntityTable(QueryPkbVirtual &pkb) {
+Table ExpressionWithWildcard::getEntityTable(QueryPkbVirtual &pkb) {
     throw QPSException("Invalid QPS Query");
 }

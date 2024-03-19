@@ -12,7 +12,7 @@
 class ExpressionReference : public ConstraintArgument  {
 public:
     std::string getReferenceType() override;
-    std::vector<std::vector<std::string>> getEntityTable(QueryPkbVirtual & pkb) override;
+    Table getEntityTable(QueryPkbVirtual & pkb) override;
 };
 
 

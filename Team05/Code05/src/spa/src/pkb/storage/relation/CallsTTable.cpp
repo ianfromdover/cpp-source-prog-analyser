@@ -13,6 +13,6 @@ std::vector<ProcName> CallsTTable::getCalledT(ProcName caller) {
     return map.getValues(caller);
 }
 
-vector<vector<Str>> CallsTTable::getAllAsStrings() {
+Table CallsTTable::getAllAsStrings() {
     return map.getAllForStrStr();
 }
