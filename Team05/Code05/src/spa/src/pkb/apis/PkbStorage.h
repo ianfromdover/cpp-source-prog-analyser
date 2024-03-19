@@ -4,13 +4,11 @@
 
 #include "pkb/storage/entity/CallTable.h"
 #include "pkb/storage/entity/ConstTable.h"
-#include "pkb/storage/entity/IfTable.h"
 #include "pkb/storage/entity/PrintTable.h"
 #include "pkb/storage/entity/ProcedureTable.h"
 #include "pkb/storage/entity/ReadTable.h"
 #include "pkb/storage/entity/StatementTable.h"
 #include "pkb/storage/entity/VarTable.h"
-#include "pkb/storage/entity/WhileTable.h"
 
 #include "pkb/storage/relation/AffectsTable.h"
 #include "pkb/storage/relation/CallsTable.h"
@@ -35,13 +33,11 @@ public:
     // entities
     std::shared_ptr<CallTable> callTable = std::make_shared<CallTable>();
     std::shared_ptr<ConstTable> constTable = std::make_shared<ConstTable>();
-    std::shared_ptr<IfTable> ifTable = std::make_shared<IfTable>();
     std::shared_ptr<PrintTable> printTable = std::make_shared<PrintTable>();
     std::shared_ptr<ProcedureTable> procedureTable = std::make_shared<ProcedureTable>();
     std::shared_ptr<ReadTable> readTable = std::make_shared<ReadTable>();
     std::shared_ptr<StatementTable> statementTable = std::make_shared<StatementTable>();
     std::shared_ptr<VarTable> varTable = std::make_shared<VarTable>();
-    std::shared_ptr<WhileTable> whileTable = std::make_shared<WhileTable>();
 
     // relations
     std::shared_ptr<AffectsTable> affectsTable = std::make_shared<AffectsTable>();

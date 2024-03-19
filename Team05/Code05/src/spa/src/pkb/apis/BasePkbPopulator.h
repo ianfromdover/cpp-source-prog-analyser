@@ -14,13 +14,11 @@ public:
     // entity
     virtual bool addCallStmt(int stmtNo, std::string name) = 0;
     virtual bool addConst(int stmtNo, int val) = 0;
-    virtual bool addIf(int stmtNo, std::string name) = 0;
     virtual bool addPrint(int stmtNo, std::string name) = 0;
     virtual bool addProcedure(std::string name) = 0;
     virtual bool addRead(int stmtNo, std::string name) = 0;
     virtual bool addFinalStatementNo(int stmtNo) = 0;
     virtual bool addVar(int stmtNo, std::string name) = 0;
-    virtual bool addWhile(int stmtNo, std::string name) = 0;
 
     // relation
     virtual bool addAffects(int before, int after) = 0;

@@ -13,10 +13,6 @@ bool PopulatePkb::addConst(int stmtNo, int val) {
     return pkb->constTable->addConst(stmtNo, val);
 }
 
-bool PopulatePkb::addIf(int stmtNo, std::string name) {
-    return pkb->ifTable->addIf(stmtNo, name);
-}
-
 bool PopulatePkb::addPrint(int stmtNo, std::string name) {
     return pkb->printTable->addPrint(stmtNo, name);
 }
@@ -38,10 +34,6 @@ bool PopulatePkb::addFinalStatementNo(int stmtNo) {
 
 bool PopulatePkb::addVar(int stmtNo, std::string name) {
     return pkb->varTable->addVar(stmtNo, name);
-}
-
-bool PopulatePkb::addWhile(int stmtNo, std::string name) {
-    return pkb->whileTable->addWhile(stmtNo, name);
 }
 
 // ----------- relation

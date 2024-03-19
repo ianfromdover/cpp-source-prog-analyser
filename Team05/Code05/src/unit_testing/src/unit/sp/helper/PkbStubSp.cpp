@@ -24,18 +24,6 @@ public:
         return true;
     }
 
-    bool addIf(StmtNo sNum, VarName ctrlVarName) override {
-        //std::cout << "addIf called" << std::endl;
-        pairCalls.insert({std::to_string(sNum), ctrlVarName});
-        return true;
-    }
-
-    bool addWhile(StmtNo sNum, VarName ctrlVarName) override {
-        //std::cout << "addWhile called" << std::endl;
-        pairCalls.insert({std::to_string(sNum), ctrlVarName});
-        return true;
-    }
-
     bool addPrint(StmtNo sNum, VarName name) override {
         //std::cout << "addPrint called" << std::endl;
         pairCalls.insert({std::to_string(sNum), name});

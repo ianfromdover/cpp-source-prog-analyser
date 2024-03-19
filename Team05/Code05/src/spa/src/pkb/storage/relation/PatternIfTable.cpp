@@ -5,11 +5,17 @@ PatternIfTable::PatternIfTable() = default;
 bool PatternIfTable::addIf(StmtNo sNum, VarName var) {
     return map.insert(sNum, std::move(var));
 }
+
 vector<StmtNo> PatternIfTable::getPatternByVar(VarName var) {
     return map.getKeys(std::move(var));
 }
+
 vector<VarName> PatternIfTable::getPatternByNum(StmtNo sNum) {
     return map.getValues(sNum);
+}
+
+Table PatternIfTable::getIfNums() {
+    return map.getFirstColA();
 }
 
 Table PatternIfTable::getAllAsStrings() {
