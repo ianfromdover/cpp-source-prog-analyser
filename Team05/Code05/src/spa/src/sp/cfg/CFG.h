@@ -24,6 +24,7 @@ private:
     void addBlock(const std::shared_ptr<Block>& block);
     void addEdge(const std::shared_ptr<Block>& predecessor, const std::shared_ptr<Block>& successor);
     void addStmtToBlock(const std::shared_ptr<Stmt>& stmt);
+    bool isLastBlockEmpty();
 private:
     void visitProcedure(const Procedure& procedure, std::shared_ptr<Accumulator>& _) override;
     void visitReadStmt(const Read& stmt, std::shared_ptr<Accumulator>& _) override;

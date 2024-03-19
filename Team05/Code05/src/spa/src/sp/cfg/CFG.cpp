@@ -43,6 +43,10 @@ void CFG::addStmtToBlock(const std::shared_ptr<Stmt>& stmt) {
     this->blocks->back()->addStmt(stmt);
 }
 
+bool CFG::isLastBlockEmpty() {
+    return !this->blocks->empty() && this->blocks->back()->getStmts()->empty();
+}
+
 void CFG::visitProcedure(const Procedure& procedure, std::shared_ptr<Accumulator>& _) {
     this->visitStmtList(procedure.getBody(), _);
 }
@@ -64,8 +68,13 @@ void CFG::visitAssignStmt(const Assign& stmt, std::shared_ptr<Accumulator>& _) {
 }
 
 void CFG::visitWhileStmt(const While& stmt, std::shared_ptr<Accumulator>& _) {
-    const auto& whileBlock = std::make_shared<Block>();
-    this->addAndLinkBlock(whileBlock);
+    std::shared_ptr<Block> whileBlock;
+    if (this->isLastBlockEmpty()) {
+        whileBlock = this->blocks->back();
+    } else {
+        whileBlock = std::make_shared<Block>();
+        this->addAndLinkBlock(whileBlock);
+    }
     this->addStmtToBlock(std::make_shared<While>(stmt));
 
     const auto& bodyBlock = std::make_shared<Block>();
@@ -81,8 +90,13 @@ void CFG::visitWhileStmt(const While& stmt, std::shared_ptr<Accumulator>& _) {
 }
 
 void CFG::visitIfStmt(const If& stmt, std::shared_ptr<Accumulator>& _) {
-    const auto& ifBlock = std::shared_ptr<Block>();
-    this->addAndLinkBlock(ifBlock);
+    std::shared_ptr<Block> ifBlock;
+    if (this->isLastBlockEmpty()) {
+        ifBlock = this->blocks->back();
+    } else {
+        ifBlock = std::make_shared<Block>();
+        this->addAndLinkBlock(ifBlock);
+    }
     this->addStmtToBlock(std::make_shared<If>(stmt));
 
     const auto& branches = std::vector<std::shared_ptr<StmtList>> {
