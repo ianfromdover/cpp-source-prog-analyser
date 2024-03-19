@@ -49,29 +49,35 @@ Table QueryPkb::getReadTable() {
 // If
 
 Table QueryPkb::getIfByNum(StmtNo sNum) {
-    return TableUtils::toTable(pkb->ifTable->getIfVars(sNum));
+    // using the pattern if table cuz the entity if table is redundant
+    return TableUtils::toTable(pkb->patternIfTable->getPatternByNum(sNum));
 }
 
 Table QueryPkb::getIfByVar(VarName var) {
-    return TableUtils::toTable(pkb->ifTable->getIfStmts(var));
+    // using the pattern if table cuz the entity if table is redundant
+    return TableUtils::toTable(pkb->patternIfTable->getPatternByVar(var));
 }
 
 Table QueryPkb::getIfTable() {
-    return pkb->ifTable->getAllAsStrings();
+    // using the pattern if table cuz the entity if table is redundant
+    return pkb->patternIfTable->getIfNums();
 }
 
 // While
 
 Table QueryPkb::getWhileByNum(StmtNo sNum) {
-    return TableUtils::toTable(pkb->whileTable->getWhileVars(sNum));
+    // using the pattern while table cuz the entity while table is redundant
+    return TableUtils::toTable(pkb->patternWhileTable->getPatternByNum(sNum));
 }
 
 Table QueryPkb::getWhileByVar(VarName var) {
-    return TableUtils::toTable(pkb->whileTable->getWhileStmts(var));
+    // using the pattern while table cuz the entity while table is redundant
+    return TableUtils::toTable(pkb->patternWhileTable->getPatternByVar(var));
 }
 
 Table QueryPkb::getWhileTable() {
-    return pkb->whileTable->getAllAsStrings();
+    // using the pattern while table cuz the entity while table is redundant
+    return pkb->patternWhileTable->getWhileNums();
 }
 
 // Print

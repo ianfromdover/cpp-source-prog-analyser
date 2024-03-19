@@ -27,7 +27,7 @@ TEST_CASE("Test toTable conversion methods") {
 
     SECTION("Test for string vector") {
         std::vector<std::string> input = {"1", "2", "3"};
-        auto converted = queryPkb.toTable(input);
+        auto converted = TableUtils::toTable(input);
         std::vector<std::string> firstElem = {"1"};
         std::vector<std::string> secondElem = {"2"};
         std::vector<std::string> thirdElem = {"3"};
@@ -40,7 +40,7 @@ TEST_CASE("Test toTable conversion methods") {
 
     SECTION("Test for int vector") {
         std::vector<int> input = {1, 2, 3};
-        auto converted = queryPkb.toTable(input);
+        auto converted = TableUtils::toTable(input);
         std::vector<std::string> firstElem = {"1"};
         std::vector<std::string> secondElem = {"2"};
         std::vector<std::string> thirdElem = {"3"};
@@ -152,10 +152,10 @@ TEST_CASE("Test QueryPkb getRead methods") {
 TEST_CASE("Test QueryPkb getIf methods") {
 
     // Add records to readTable
-    pkb->ifTable->addIf(1, "x");
-    pkb->ifTable->addIf(2, "y");
-    pkb->ifTable->addIf(3, "z");
-    pkb->ifTable->addIf(4, "y");
+    pkb->patternIfTable->addIf(1, "x");
+    pkb->patternIfTable->addIf(2, "y");
+    pkb->patternIfTable->addIf(3, "z");
+    pkb->patternIfTable->addIf(4, "y");
 
     SECTION("Test getIfByNum() method") {
 
@@ -188,10 +188,10 @@ TEST_CASE("Test QueryPkb getIf methods") {
 TEST_CASE("Test QueryPkb getWhile methods") {
 
     // Add records to whileTable
-    pkb->whileTable->addWhile(1, "x");
-    pkb->whileTable->addWhile(2, "y");
-    pkb->whileTable->addWhile(3, "z");
-    pkb->whileTable->addWhile(4, "y");
+    pkb->patternWhileTable->addWhile(1, "x");
+    pkb->patternWhileTable->addWhile(2, "y");
+    pkb->patternWhileTable->addWhile(3, "z");
+    pkb->patternWhileTable->addWhile(4, "y");
 
     SECTION("Test getWhileByNum() method") {
 
