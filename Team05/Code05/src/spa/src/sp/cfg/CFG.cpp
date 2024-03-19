@@ -59,6 +59,10 @@ void CFG::visitCallStmt(const Call& stmt, std::shared_ptr<Accumulator>& _) {
     this->addStmtToBlock(std::make_shared<Call>(stmt));
 }
 
+void CFG::visitAssignStmt(const Assign& stmt, std::shared_ptr<Accumulator>& _) {
+    this->addStmtToBlock(std::make_shared<Assign>(stmt));
+}
+
 void CFG::visitWhileStmt(const While& stmt, std::shared_ptr<Accumulator>& _) {
     const auto& whileBlock = std::make_shared<Block>();
     this->addAndLinkBlock(whileBlock);
@@ -71,9 +75,9 @@ void CFG::visitWhileStmt(const While& stmt, std::shared_ptr<Accumulator>& _) {
 
     this->addEdge(this->blocks->back(), whileBlock);
 
-    const auto& dummyBlock = std::make_shared<Block>();
-    this->addEdge(whileBlock, dummyBlock);
-    this->addBlock(dummyBlock);
+    const auto& mergeBlock = std::make_shared<Block>();
+    this->addEdge(whileBlock, mergeBlock);
+    this->addBlock(mergeBlock);
 }
 
 void CFG::visitIfStmt(const If& stmt, std::shared_ptr<Accumulator>& _) {
@@ -98,6 +102,10 @@ void CFG::visitIfStmt(const If& stmt, std::shared_ptr<Accumulator>& _) {
     this->addBlock(mergeBlock);
 }
 
-void CFG::visitAssignStmt(const Assign& stmt, std::shared_ptr<Accumulator>& _) {
-    this->addStmtToBlock(std::make_shared<Assign>(stmt));
+std::shared_ptr<CFGs> CFG::compile(const std::shared_ptr<Program>& program) {
+    const auto& cfgs = std::make_shared<CFGs>();
+    for (const auto& procedure : *program->getProcedures()) {
+        cfgs->insert({ procedure->getName(), std::make_shared<CFG>(procedure) });
+    }
+    return cfgs;
 }

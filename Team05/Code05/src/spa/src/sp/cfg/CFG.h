@@ -11,6 +11,10 @@
 #include "sp/cfg/block/Block.h"
 #include "sp/cfg/helper/CFGHelper.h"
 
+class CFG;
+
+using CFGs = std::unordered_map<std::string, std::shared_ptr<CFG>>;
+
 class CFG : private ProgramVisitor {
 private:
     std::shared_ptr<Blocks> blocks;
@@ -25,13 +29,14 @@ private:
     void visitReadStmt(const Read& stmt, std::shared_ptr<Accumulator>& _) override;
     void visitPrintStmt(const Print& stmt, std::shared_ptr<Accumulator>& _) override;
     void visitCallStmt(const Call& stmt, std::shared_ptr<Accumulator>& _) override;
+    void visitAssignStmt(const Assign& stmt, std::shared_ptr<Accumulator>& _) override;
     void visitWhileStmt(const While& stmt, std::shared_ptr<Accumulator>& _) override;
     void visitIfStmt(const If& stmt, std::shared_ptr<Accumulator>& _) override;
-    void visitAssignStmt(const Assign& stmt, std::shared_ptr<Accumulator>& _) override;
 public:
     explicit CFG(const std::shared_ptr<Procedure>& procedure);
     [[nodiscard]] std::shared_ptr<Block> getEntryBlock() const;
     [[nodiscard]] std::shared_ptr<Blocks> getBlocks() const;
+    static std::shared_ptr<CFGs> compile(const std::shared_ptr<Program>& program);
 };
 
 
