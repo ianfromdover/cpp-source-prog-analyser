@@ -16,13 +16,14 @@ private:
     std::shared_ptr<StmtList> stmts;
     std::shared_ptr<Blocks> successors;
     std::shared_ptr<Blocks> predecessors;
-
 public:
-    Block(const std::shared_ptr<StmtList>& stmts);
+    explicit Block();
+    void addStmt(const std::shared_ptr<Stmt>& stmt);
     void addSuccessor(const std::shared_ptr<Block>& successor);
     void addPredecessor(const std::shared_ptr<Block>& predecessor);
-    std::shared_ptr<Blocks> getSuccessors();
-    std::shared_ptr<Blocks> getPredecessors();
+    [[nodiscard]] std::shared_ptr<StmtList> getStmts() const;
+    [[nodiscard]] std::shared_ptr<Blocks> getSuccessors() const;
+    [[nodiscard]] std::shared_ptr<Blocks> getPredecessors() const;
 };
 
 

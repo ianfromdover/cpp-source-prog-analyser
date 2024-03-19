@@ -6,19 +6,32 @@
 #define SPA_CFG_H
 
 #include <vector>
+//#include <stack>
 #include "sp/ast/Program.h"
 #include "sp/cfg/block/Block.h"
 #include "sp/cfg/helper/CFGHelper.h"
 
-class CFG {
+class CFG : private ProgramVisitor {
 private:
     std::shared_ptr<Blocks> blocks;
 private:
-    static std::shared_ptr<Blocks> compile(const std::shared_ptr<Program>& program);
+    void compile(const std::shared_ptr<Procedure>& procedure);
+    void addAndLinkBlock(const std::shared_ptr<Block>& block);
+    void addBlock(const std::shared_ptr<Block>& block);
+    void addEdge(const std::shared_ptr<Block>& predecessor, const std::shared_ptr<Block>& successor);
+    void addStmtToBlock(const std::shared_ptr<Stmt>& stmt);
+private:
+    void visitProcedure(const Procedure& procedure, std::shared_ptr<Accumulator>& _) override;
+    void visitReadStmt(const Read& stmt, std::shared_ptr<Accumulator>& _) override;
+    void visitPrintStmt(const Print& stmt, std::shared_ptr<Accumulator>& _) override;
+    void visitCallStmt(const Call& stmt, std::shared_ptr<Accumulator>& _) override;
+    void visitWhileStmt(const While& stmt, std::shared_ptr<Accumulator>& _) override;
+    void visitIfStmt(const If& stmt, std::shared_ptr<Accumulator>& _) override;
+    void visitAssignStmt(const Assign& stmt, std::shared_ptr<Accumulator>& _) override;
 public:
-    explicit CFG(const std::shared_ptr<Program>& program);
-    std::shared_ptr<Block> getEntryBlock() const;
-    std::shared_ptr<Blocks> getBlocks() const;
+    explicit CFG(const std::shared_ptr<Procedure>& procedure);
+    [[nodiscard]] std::shared_ptr<Block> getEntryBlock() const;
+    [[nodiscard]] std::shared_ptr<Blocks> getBlocks() const;
 };
 
 
