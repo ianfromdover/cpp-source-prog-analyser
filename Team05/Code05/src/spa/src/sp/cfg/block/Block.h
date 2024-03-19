@@ -16,11 +16,16 @@ private:
     std::shared_ptr<StmtList> stmts;
     std::shared_ptr<Blocks> successors;
     std::shared_ptr<Blocks> predecessors;
+private:
+    std::optional<std::pair<StmtNo, StmtNo>> getRange();
+    static std::string rangeToString(const std::shared_ptr<Block>& block);
+    static std::string rangesToString(const std::shared_ptr<Blocks>& blocks);
 public:
     explicit Block();
     void addStmt(const std::shared_ptr<Stmt>& stmt);
     void addSuccessor(const std::shared_ptr<Block>& successor);
     void addPredecessor(const std::shared_ptr<Block>& predecessor);
+    std::string toString();
     [[nodiscard]] std::shared_ptr<StmtList> getStmts() const;
     [[nodiscard]] std::shared_ptr<Blocks> getSuccessors() const;
     [[nodiscard]] std::shared_ptr<Blocks> getPredecessors() const;

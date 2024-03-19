@@ -17,6 +17,7 @@ using CFGs = std::unordered_map<std::string, std::shared_ptr<CFG>>;
 
 class CFG : private ProgramVisitor {
 private:
+    std::string procedureName;
     std::shared_ptr<Blocks> blocks;
 private:
     void compile(const std::shared_ptr<Procedure>& procedure);
@@ -37,6 +38,7 @@ public:
     explicit CFG(const std::shared_ptr<Procedure>& procedure);
     [[nodiscard]] std::shared_ptr<Block> getEntryBlock() const;
     [[nodiscard]] std::shared_ptr<Blocks> getBlocks() const;
+    std::string toString();
     static std::shared_ptr<CFGs> compile(const std::shared_ptr<Program>& program);
 };
 

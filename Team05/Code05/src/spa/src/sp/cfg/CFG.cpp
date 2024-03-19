@@ -5,6 +5,8 @@
 #include "CFG.h"
 
 CFG::CFG(const std::shared_ptr<Procedure>& procedure) {
+    this->procedureName = procedure->getName();
+    this->blocks = std::make_shared<Blocks>();
     this->compile(procedure);
 }
 
@@ -122,4 +124,17 @@ std::shared_ptr<CFGs> CFG::compile(const std::shared_ptr<Program>& program) {
         cfgs->insert({ procedure->getName(), std::make_shared<CFG>(procedure) });
     }
     return cfgs;
+}
+
+std::string CFG::toString() {
+    std::string str = "CFG [" + this->procedureName + "]: [\n";
+    for (size_t i = 0; i < this->blocks->size(); i++) {
+        str += blocks->at(i)->toString();
+        if (i < this->blocks->size() - 1) {
+            str += ",";
+        }
+        str += "\n";
+    }
+    str += "]\n";
+    return str;
 }
