@@ -36,7 +36,7 @@ void CFG::addEdge(const std::shared_ptr<Block>& predecessor, const std::shared_p
     successor->addPredecessor(predecessor);
 }
 
-void CFG::addStmtToBlock(const std::shared_ptr<Stmt>& stmt) {
+void CFG::addStmtToLastBlock(const std::shared_ptr<Stmt>& stmt) {
     if (this->blocks->empty()) {
         this->addBlock(std::make_shared<Block>());
     }
@@ -52,19 +52,19 @@ void CFG::visitProcedure(const Procedure& procedure, std::shared_ptr<Accumulator
 }
 
 void CFG::visitReadStmt(const Read& stmt, std::shared_ptr<Accumulator>& _) {
-    this->addStmtToBlock(std::make_shared<Read>(stmt));
+    this->addStmtToLastBlock(std::make_shared<Read>(stmt));
 }
 
 void CFG::visitPrintStmt(const Print& stmt, std::shared_ptr<Accumulator>& _) {
-    this->addStmtToBlock(std::make_shared<Print>(stmt));
+    this->addStmtToLastBlock(std::make_shared<Print>(stmt));
 }
 
 void CFG::visitCallStmt(const Call& stmt, std::shared_ptr<Accumulator>& _) {
-    this->addStmtToBlock(std::make_shared<Call>(stmt));
+    this->addStmtToLastBlock(std::make_shared<Call>(stmt));
 }
 
 void CFG::visitAssignStmt(const Assign& stmt, std::shared_ptr<Accumulator>& _) {
-    this->addStmtToBlock(std::make_shared<Assign>(stmt));
+    this->addStmtToLastBlock(std::make_shared<Assign>(stmt));
 }
 
 void CFG::visitWhileStmt(const While& stmt, std::shared_ptr<Accumulator>& _) {
@@ -75,7 +75,7 @@ void CFG::visitWhileStmt(const While& stmt, std::shared_ptr<Accumulator>& _) {
         whileBlock = std::make_shared<Block>();
         this->addAndLinkBlock(whileBlock);
     }
-    this->addStmtToBlock(std::make_shared<While>(stmt));
+    this->addStmtToLastBlock(std::make_shared<While>(stmt));
 
     const auto& bodyBlock = std::make_shared<Block>();
     this->addAndLinkBlock(bodyBlock);
@@ -97,7 +97,7 @@ void CFG::visitIfStmt(const If& stmt, std::shared_ptr<Accumulator>& _) {
         ifBlock = std::make_shared<Block>();
         this->addAndLinkBlock(ifBlock);
     }
-    this->addStmtToBlock(std::make_shared<If>(stmt));
+    this->addStmtToLastBlock(std::make_shared<If>(stmt));
 
     const auto& branches = std::vector<std::shared_ptr<StmtList>> {
         stmt.getThenBranch(),
