@@ -35,6 +35,7 @@ public:
     std::vector<std::vector<std::string>> getPatternAsgn() override;
     std::vector<std::vector<std::string>> getCalls() override;
     std::vector<std::vector<std::string>> getCallsT() override;
+    std::vector<std::vector<std::string>> getNext() override;
 };
 
 
