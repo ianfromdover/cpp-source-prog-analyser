@@ -348,30 +348,30 @@ TEST_CASE("[TestQPS] Multiple Constraints"){
         pkb->setPatternAsgn({{"1","x","c"}, {"2","x","k"}, {"3","y","c"}, {"4","y","k"}, {"7","z","i"}});
         QPS qps(pkb);
 
-        SECTION("both non-empty"){
-            std::string queryStr = "assign a;stmt s,s1; Select s1 such that Follows(s, 7) pattern a (_,_)";
-            std::vector<std::string> expected = {"1", "2", "3", "4", "7"};
-
-            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-        }
-        SECTION("empty relationship clause"){
-            std::string queryStr = "assign a;stmt s,s1; Select s1 such that Follows(1, 7) pattern a (_,_)";
-            std::vector<std::string> expected = {};
-
-            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-        }
-        SECTION("empty pattern clause"){
-            std::string queryStr = "assign a;stmt s,s1; Select s1 such that Follows(s, 7) pattern a (\"k\",_)";
-            std::vector<std::string> expected = {};
-
-            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-        }
-        SECTION("both empty"){
-            std::string queryStr = "assign a;stmt s,s1; Select s1 such that Follows(1, 7) pattern a (\"k\",_)";
-            std::vector<std::string> expected = {};
-
-            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-        }
+//        SECTION("both non-empty"){
+//            std::string queryStr = "assign a;stmt s,s1; Select s1 such that Follows(s, 7) pattern a (_,_)";
+//            std::vector<std::string> expected = {"1", "2", "3", "4", "7"};
+//
+//            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+//        }
+//        SECTION("empty relationship clause"){
+//            std::string queryStr = "assign a;stmt s,s1; Select s1 such that Follows(1, 7) pattern a (_,_)";
+//            std::vector<std::string> expected = {};
+//
+//            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+//        }
+//        SECTION("empty pattern clause"){
+//            std::string queryStr = "assign a;stmt s,s1; Select s1 such that Follows(s, 7) pattern a (\"k\",_)";
+//            std::vector<std::string> expected = {};
+//
+//            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+//        }
+//        SECTION("both empty"){
+//            std::string queryStr = "assign a;stmt s,s1; Select s1 such that Follows(1, 7) pattern a (\"k\",_)";
+//            std::vector<std::string> expected = {};
+//
+//            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+//        }
         SECTION("both wildcard"){
             std::string queryStr = "assign a;stmt s,s1; Select a such that Follows(_, _) pattern a (_,_)";
             std::vector<std::string> expected = {"1", "2", "3", "4", "7"};

@@ -50,7 +50,7 @@ Table ConcretePatternConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     if (args[0]->getEntityType() == TYPE_VARIABLE){
         Table t = args[0]->getEntityTable(pkb);
         ResultTable entityTable(t);
-        entityTable.removeColumnByIndex(0);
+//        entityTable.removeColumnByIndex(0);
         table.add(entityTable.getTable());
     } else if (args[0]->getEntityType() == TYPE_QUOTED_IDENT){
         std::string string1=args[0]->getArgumentValue();

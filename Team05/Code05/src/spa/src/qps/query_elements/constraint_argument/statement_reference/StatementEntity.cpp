@@ -28,7 +28,7 @@ std::string StatementEntity::toString() {
 Table StatementEntity::getEntityTable(QueryPkbVirtual &pkb) {
     auto entityTable = pkb.getStmtTable();
     // Insertion of headers into our entity table
-    entityTable.insert(entityTable.begin(), {this->identifier, this->identifier});
+    entityTable.insert(entityTable.begin(), {this->identifier});
     return entityTable;
 }
 
