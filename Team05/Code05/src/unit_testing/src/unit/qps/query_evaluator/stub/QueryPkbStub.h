@@ -11,30 +11,9 @@
 
 class QueryPkbStub : public QueryPkbVirtual {
 private:
-    std::shared_ptr<PkbStorage> pkb;
+    std::vector<std::vector<std::string>> table;
 
 public:
-    std::vector<std::vector<std::string>> getRead();
-    std::vector<std::vector<std::string>> getCallStmt();
-    std::vector<std::vector<std::string>> getIf();
-    std::vector<std::vector<std::string>> getWhile();
-    std::vector<std::vector<std::string>> getPrint();
-    std::vector<std::vector<std::string>> getStatement();
-    std::vector<std::vector<std::string>> getProcedure();
-    std::vector<std::vector<std::string>> getVar();
-    std::vector<std::vector<std::string>> getConst();
-    std::vector<std::vector<std::string>> getFollows();
-    std::vector<std::vector<std::string>> getFollowsT();
-    std::vector<std::vector<std::string>> getParent();
-    std::vector<std::vector<std::string>> getParentT();
-    std::vector<std::vector<std::string>> getUses();
-    std::vector<std::vector<std::string>> getUsesP();
-    std::vector<std::vector<std::string>> getModifies();
-    std::vector<std::vector<std::string>> getModifiesP();
-    std::vector<std::vector<std::string>> getPatternAsgn();
-    std::vector<std::vector<std::string>> getCalls();
-    std::vector<std::vector<std::string>> getCallsT();
-
     void setRead(std::vector<std::vector<std::string>> t);
     void setCallStmt(std::vector<std::vector<std::string>> t);
     void setIf(std::vector<std::vector<std::string>> t);
