@@ -44,7 +44,7 @@ TEST_CASE("Test Table") {
 TEST_CASE("Test addWhile function") {
     std::shared_ptr<PKBStorage> pkb = std::make_shared<PKBStorage>();
     PopulatePKB populatePKB(pkb);
-    REQUIRE(populatePKB.addWhile(3, "while1"));
+    REQUIRE(populatePKB.addPatternWhile(3, "while1"));
     auto table = pkb->whileTable->getTable();
     REQUIRE(table.size() == 1);
     REQUIRE(table[0][0] == "3");

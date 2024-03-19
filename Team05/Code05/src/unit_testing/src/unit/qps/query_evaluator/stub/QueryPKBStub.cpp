@@ -62,12 +62,32 @@ std::vector<std::vector<std::string>> QueryPKBStub::getUses() {
     return usesTable;
 }
 
+std::vector<std::vector<std::string>> QueryPKBStub::getUsesP() {
+    return usesPTable;
+}
+
 std::vector<std::vector<std::string>> QueryPKBStub::getModifies() {
     return modifiesTable;
 }
 
+std::vector<std::vector<std::string>> QueryPKBStub::getModifiesP() {
+    return modifiesPTable;
+}
+
 std::vector<std::vector<std::string>> QueryPKBStub::getPatternAsgn() {
     return assignTable;
+}
+
+std::vector<std::vector<std::string>> QueryPKBStub::getCalls() {
+    return callsTable;
+}
+
+std::vector<std::vector<std::string>> QueryPKBStub::getCallsT() {
+    return callsTTable;
+}
+
+std::vector<std::vector<std::string>> QueryPKBStub::getNext() {
+    return nextTable;
 }
 
 void QueryPKBStub::setRead(std::vector<std::vector<std::string>> t) {
@@ -134,22 +154,6 @@ void QueryPKBStub::setPatternAsgn(std::vector<std::vector<std::string>> t) {
     assignTable = std::move(t);
 }
 
-std::vector<std::vector<std::string>> QueryPKBStub::getUsesP() {
-    return usesPTable;
-}
-
-std::vector<std::vector<std::string>> QueryPKBStub::getModifiesP() {
-    return modifiesPTable;
-}
-
-std::vector<std::vector<std::string>> QueryPKBStub::getCalls() {
-    return callsTable;
-}
-
-std::vector<std::vector<std::string>> QueryPKBStub::getCallsT() {
-    return callsTTable;
-}
-
 void QueryPKBStub::setUsesP(std::vector<std::vector<std::string>> t) {
     usesPTable = std::move(t);
 }
@@ -164,4 +168,8 @@ void QueryPKBStub::setCalls(std::vector<std::vector<std::string>> t) {
 
 void QueryPKBStub::setCallsT(std::vector<std::vector<std::string>> t) {
     callsTTable = std::move(t);
+}
+
+void QueryPKBStub::setNext(std::vector<std::vector<std::string>> t) {
+    nextTable = std::move(t);
 }

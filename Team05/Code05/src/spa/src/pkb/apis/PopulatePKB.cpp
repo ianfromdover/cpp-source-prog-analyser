@@ -18,11 +18,11 @@ bool PopulatePKB::addCallStmt(int stmtNo, std::string name) {
     return pkb->callTable->addRecord(std::to_string(stmtNo), name);
 }
 
-bool PopulatePKB::addIf(int stmtNo, std::string name) {
+bool PopulatePKB::addPatternIf(int stmtNo, std::string name) {
     return pkb->ifTable->addRecord(std::to_string(stmtNo), name);
 }
 
-bool PopulatePKB::addWhile(int stmtNo, std::string name) {
+bool PopulatePKB::addPatternWhile(int stmtNo, std::string name) {
     return pkb->whileTable->addRecord(std::to_string(stmtNo), name);
 }
 
@@ -88,4 +88,8 @@ bool PopulatePKB::addCalls(std::string caller, std::string called) {
 
 bool PopulatePKB::addCallsT(std::string caller, std::string called) {
     return pkb->callsTTable->addRecord(caller, called);
+}
+
+bool PopulatePKB::addNext(int before, int after) {
+    return pkb->nextTable->addRecord(std::to_string(before), std::to_string(after));
 }

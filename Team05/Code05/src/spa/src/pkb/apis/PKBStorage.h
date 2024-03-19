@@ -25,6 +25,7 @@
 #include "pkb/tables/relation/UsesPTable.h"
 #include "pkb/tables/relation/CallsTable.h"
 #include "pkb/tables/relation/CallsTTable.h"
+#include "pkb/tables/relation/NextTable.h"
 
 class PKBStorage {
 public:
@@ -50,6 +51,7 @@ public:
     std::shared_ptr<UsesPTable> usesPTable = std::make_shared<UsesPTable>();
     std::shared_ptr<CallsTable> callsTable = std::make_shared<CallsTable>();
     std::shared_ptr<CallsTTable> callsTTable = std::make_shared<CallsTTable>();
+    std::shared_ptr<NextTable> nextTable = std::make_shared<NextTable>();
 
 };
 

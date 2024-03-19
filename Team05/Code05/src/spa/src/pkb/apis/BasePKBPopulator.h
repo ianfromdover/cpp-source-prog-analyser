@@ -16,8 +16,8 @@ public:
 
     virtual bool addRead(int stmtNo, std::string name) = 0;
     virtual bool addCallStmt(int stmtNo, std::string name) = 0;
-    virtual bool addIf(int stmtNo, std::string name) = 0;
-    virtual bool addWhile(int stmtNo, std::string name) = 0;
+    virtual bool addPatternIf(int stmtNo, std::string name) = 0;
+    virtual bool addPatternWhile(int stmtNo, std::string name) = 0;
     virtual bool addPrint(int stmtNo, std::string name) = 0;
     virtual bool addFinalStatementNo(int stmtNo) = 0;
     virtual bool addProcedure(std::string name) = 0;
@@ -32,8 +32,10 @@ public:
     virtual bool addModifiesS(int stmtNo, std::string name) = 0;
     virtual bool addModifiesP(std::string procName, std::string name) = 0;
     virtual bool addPatternAsgn(int stmtNo, std::string lhs, std::string rhs) = 0;
+    virtual bool addNext(int before, int after) = 0;
     virtual bool addCalls(std::string caller, std::string called) = 0;
     virtual bool addCallsT(std::string caller, std::string called) = 0;
+
 };
 
 #endif //SPA_BASEPKBPOPULATOR_H
