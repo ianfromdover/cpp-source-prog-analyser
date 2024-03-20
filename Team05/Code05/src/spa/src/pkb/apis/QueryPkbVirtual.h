@@ -49,9 +49,10 @@ public:
     virtual Table getPrintTable() = 0;
     virtual Table getStmtByNum(StmtNo sNum) = 0;
     virtual Table getStmtTable() = 0;
-    virtual Table getVarByName(VarName var) = 0;
+    virtual Table getVars() = 0;
     virtual Table getVarTable() = 0;
     virtual Table getConstByName(VarName var) = 0;
+    virtual Table getConsts() = 0;
     virtual Table getConstTable() = 0;
     virtual Table getFollowsByBefore(StmtNo before) = 0;
     virtual Table getFollowsByAfter(StmtNo after) = 0;

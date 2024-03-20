@@ -116,10 +116,8 @@ Table QueryPkb::getStmtTable() {
 
 // Var
 
-// TODO
-Table QueryPkb::getVarByName(VarName var) {
-    return {{}};
-    // return TableUtils::toTable(pkb->varTable->getVarByName(var));
+Table QueryPkb::getVars() {
+    return pkb->varTable->getVars();
 }
 
 Table QueryPkb::getVarTable() {
@@ -135,6 +133,10 @@ Table QueryPkb::getVarTable() {
 // and will QPS actually use this API?
 Table QueryPkb::getConstByName(VarName var) {
     return {{}};
+}
+
+Table QueryPkb::getConsts() {
+    return pkb->constTable->getConsts();
 }
 
 Table QueryPkb::getConstTable() {

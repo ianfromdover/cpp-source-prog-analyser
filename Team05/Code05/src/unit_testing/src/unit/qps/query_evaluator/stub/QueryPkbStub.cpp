@@ -121,6 +121,9 @@ Table QueryPkbStub::getIfByNum(StmtNo sNum) {
 Table QueryPkbStub::getIfByVar(VarName var) {
     return {{}};
 }
+Table QueryPkbStub::getIfStmts() {
+    return table;
+}
 Table QueryPkbStub::getIfTable() {
     return table;
 }
@@ -129,6 +132,9 @@ Table QueryPkbStub::getWhileByNum(StmtNo sNum) {
 }
 Table QueryPkbStub::getWhileByVar(VarName var) {
     return {{}};
+}
+Table QueryPkbStub::getWhileStmts() {
+    return table;
 }
 Table QueryPkbStub::getWhileTable() {
     return table;
@@ -148,14 +154,17 @@ Table QueryPkbStub::getStmtByNum(StmtNo sNum) {
 Table QueryPkbStub::getStmtTable() {
     return table;
 }
-Table QueryPkbStub::getVarByName(VarName var) {
-    return {{}};
+Table QueryPkbStub::getVars() {
+    return table;
 }
 Table QueryPkbStub::getVarTable() {
     return table;
 }
 Table QueryPkbStub::getConstByName(VarName var) {
     return {{}};
+}
+Table QueryPkbStub::getConsts() {
+    return table;
 }
 Table QueryPkbStub::getConstTable() {
     return table;

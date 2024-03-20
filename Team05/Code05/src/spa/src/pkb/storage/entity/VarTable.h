@@ -14,12 +14,12 @@ public:
     VarTable();
     // Adds a variable name to the table, returns false if it already exists
     bool addVar(StmtNo sNum, VarName val);
-    // Returns the variable name if it exists, if not found, returns empty vector
-    vector<VarName> getVarByName(VarName val);
     // Returns the statement numbers that the variable is on
     vector<StmtNo> getVarStmts(VarName val);
     // Returns the variable name by the statement number, if not found, returns empty vector
     vector<VarName> getVarNameByStmt(StmtNo sNum);
+    // Returns all the variable names as strings in 1 column: VarName
+    Table getVars();
     // Returns all the variable names as strings in 2 columns: StmtNo | VarName
     Table getAllAsStrings();
 };

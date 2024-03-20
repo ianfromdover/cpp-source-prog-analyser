@@ -46,15 +46,17 @@ public:
     Table getIfTable() override;
     Table getWhileByNum(StmtNo sNum) override;
     Table getWhileByVar(VarName var) override;
+    Table getWhileStmts() override;
     Table getWhileTable() override;
     Table getPrintByNum(StmtNo sNum) override;
     Table getPrintByVar(VarName var) override;
     Table getPrintTable() override;
     Table getStmtByNum(StmtNo sNum) override;
     Table getStmtTable() override;
-    Table getVarByName(VarName var) override;
+    Table getVars() override;
     Table getVarTable() override;
     Table getConstByName(VarName var) override;
+    Table getConsts() override;
     Table getConstTable() override;
     Table getFollowsByBefore(StmtNo before) override;
     Table getFollowsByAfter(StmtNo after) override;
@@ -90,7 +92,6 @@ public:
     Table getPatternIfTable() override;
     Table getPatternWhileByNum(StmtNo sNum) override;
     Table getPatternWhileByVar(VarName var) override;
-    Table getWhileStmts() override;
     Table getPatternWhileTable() override;
     Table getCallsByCaller(ProcName caller) override;
     Table getCallsByCalled(ProcName called) override;
