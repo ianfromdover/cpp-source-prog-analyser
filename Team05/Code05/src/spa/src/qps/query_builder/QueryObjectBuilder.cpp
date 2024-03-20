@@ -17,8 +17,10 @@ void QueryObjectBuilder::setSingleRelationshipConstraint(std::shared_ptr<Relatio
 }
 
 void QueryObjectBuilder::setSinglePatternClause(std::shared_ptr<PatternClause> patternClause, shared_ptr<QueryObject> qo) {
-    ConcretePatternConstraintBuilder builder;
-    qo->addConstraint(builder.buildPatternConstraint(std::move(patternClause), std::move(qo)));
+//    AssignPatternConstraintBuilder builder;
+//    qo->addConstraint(builder.buildPatternConstraint(std::move(patternClause), std::move(qo)));
+    shared_ptr<Constraint> ptr = PatternConstraintDirector::process(std::move(patternClause), qo);
+    qo->addConstraint(ptr);
 }
 
 
