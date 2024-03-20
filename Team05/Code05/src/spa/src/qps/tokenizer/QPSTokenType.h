@@ -60,6 +60,9 @@ public:
         // Expression Operators
         PLUS, MINUS, STAR, SLASH, PERCENT,
 
+        // With clause attributes
+        PROCNAME, VARNAME, STMT,
+
         // Others
         END_OF_FILE
     };

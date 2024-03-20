@@ -25,3 +25,7 @@ std::vector<std::vector<std::string>> QuotedIdentity::getEntityTable(QueryPKBVir
     throw QPSException("Invalid QPS Query");
 }
 
+std::vector<std::vector<std::string>> QuotedIdentity::getRawTable(QueryPKBVirtual &pkb) {
+    throw QPSException("Invalid QPS Query");
+}
+

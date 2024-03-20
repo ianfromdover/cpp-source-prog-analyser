@@ -12,6 +12,7 @@
 class ExpressionReference : public ConstraintArgument  {
 public:
     std::string getReferenceType() override;
+    std::vector<std::vector<std::string>> getRawTable(QueryPKBVirtual & pkb) override;
     std::vector<std::vector<std::string>> getEntityTable(QueryPKBVirtual & pkb) override;
 };
 

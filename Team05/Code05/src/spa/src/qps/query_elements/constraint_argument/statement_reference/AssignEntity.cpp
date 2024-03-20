@@ -32,3 +32,7 @@ std::vector<std::vector<std::string>> AssignEntity::getEntityTable(QueryPKBVirtu
     entityTable.insert(entityTable.begin(), {this->identifier, "ASSIGNRHS"});
     return entityTable;
 }
+
+std::vector<std::vector<std::string>> AssignEntity::getRawTable(QueryPKBVirtual &pkb) {
+    return pkb.getPatternAsgn();
+}

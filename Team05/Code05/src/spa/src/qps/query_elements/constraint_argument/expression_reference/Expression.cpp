@@ -26,3 +26,7 @@ std::string Expression::toString() {
 std::vector<std::vector<std::string>> Expression::getEntityTable(QueryPKBVirtual &pkb) {
     throw QPSException("Invalid QPS Query");
 }
+
+std::vector<std::vector<std::string>> Expression::getRawTable(QueryPKBVirtual &pkb) {
+    throw QPSException("Invalid QPS Query");
+}
