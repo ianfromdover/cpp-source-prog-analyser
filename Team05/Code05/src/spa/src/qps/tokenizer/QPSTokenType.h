@@ -45,6 +45,10 @@ public:
         //SYNONYM,            // synonym : already exists
         INTEGER,
 
+        // With References
+        VAR_WITH,
+        INT_WHITH,
+
         // Pattern Keywords
         PATTERN,
 
@@ -64,7 +68,7 @@ public:
         PROCNAME, VARNAME, STMT,
 
         // Others
-        END_OF_FILE
+        END_OF_FILE, TODO
     };
 
 private:

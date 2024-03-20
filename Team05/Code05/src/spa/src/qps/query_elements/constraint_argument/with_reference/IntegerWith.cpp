@@ -31,3 +31,7 @@ std::vector<std::vector<std::string>> IntegerWith::getRawTable(QueryPKBVirtual &
     return table;
 }
 
+void IntegerWith::setVariable(std::shared_ptr<QueryObject>) {
+    // do nothing
+}
+

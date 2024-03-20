@@ -58,8 +58,18 @@ std::shared_ptr<ConstraintArgument> ConstraintArgCreator::buildArg(QPSTokenType:
             break;
         case QPSTokenType::INTEGER:
             return ConstraintArgCreator::createIntegerArgument(identifier);
+            break;
         case QPSTokenType::SYNONYM:
             return dynamic_pointer_cast<ConstraintArgument>(qo->getEntityInDeclaration(identifier));
+            break;
+        case QPSTokenType::VAR_WITH: {
+            auto attribute = QPSTokenType::TODO; //TODO : somehow get attribute
+            return ConstraintArgCreator::createVariableWith(identifier, attribute, qo);
+            break;
+        }
+        case QPSTokenType::INT_WHITH:
+            return ConstraintArgCreator::createIntegerWith(identifier);
+            break;
         default:
             throw std::invalid_argument( "invalid constraint argument flag" );
     }
@@ -176,6 +186,16 @@ shared_ptr<Entity> ConstraintArgCreator::buildEntity(QPSTokenType::QPSTypeInfo t
         default:
             throw std::invalid_argument( "invalid entity flag" );
     }
+}
+
+shared_ptr<VariableWith> ConstraintArgCreator::createVariableWith(std::string s, QPSTokenType::QPSTypeInfo info, std::shared_ptr<QueryObject> qo) {
+    auto x = make_shared<VariableWith>(s, info);
+    x->setVariable(qo);
+    return x;
+}
+
+shared_ptr<IntegerWith> ConstraintArgCreator::createIntegerWith(std::string s) {
+    return std::make_shared<IntegerWith>(s);
 }
 
 

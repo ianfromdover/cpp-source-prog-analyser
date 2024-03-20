@@ -17,6 +17,7 @@ public:
     std::string getArgumentValue() override;
     std::vector<std::vector<std::string>> getEntityTable(QueryPKBVirtual & pkb) override;
     std::vector<std::vector<std::string>> getRawTable(QueryPKBVirtual & pkb) override;
+    void setVariable(std::shared_ptr<QueryObject>) override;
 };
 
 
