@@ -1387,3 +1387,46 @@ TEST_CASE("Test Extractor") {
 
     require(true);
 }
+
+TEST_CASE("scratch pad") {
+  std::string codeSnippet = R"(
+    procedure computeCentroid {
+        print x;
+        if (hello == 0) then {
+            y=1;
+            print t;
+            read f;
+            while (x == 0) {
+                if (i == 1) then {
+                    w = 0;
+                } else {
+                    g = 1;
+                }
+                x=1;
+            }
+        } else {
+            print hello;
+        }
+        x=0;
+        y=1;
+        z=x+y;
+    }
+    )";
+  std::shared_ptr<PKBStorage> p = std::make_shared<PKBStorage>();
+  auto pkb = make_shared<PopulatePKB>(p);
+  auto sp = SourceProcessor(pkb);
+  sp.exec(codeSnippet);
+  QueryPKB pkb1(p);
+  QPS qps(std::make_shared<QueryPKB>(pkb1));
+
+  SECTION("Select s1 such that Follows(s1, s2)") {
+    std::string query = "stmt s1; stmt s2;variable v; Select s1 such that "
+                        "Follows(s1, s2) and Parent(_,_) and Uses(s2,v)";
+    std::vector<std::string> expected = {"1", "2", "3",  "4",
+                                         "5", "7", "12", "13"};
+    std::vector<std::string> ans = qps.evaluate(query);
+    std::sort(ans.begin(), ans.end());
+    std::sort(expected.begin(), expected.end());
+    REQUIRE(ans == expected);
+  }
+}

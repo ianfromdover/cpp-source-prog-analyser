@@ -531,6 +531,24 @@ TEST_CASE("singleDeclaration_singleSelect_singleRelationship") {
             QPSParser parser(tokens);
             REQUIRE_NOTHROW(parser.parse());
         }
+        SECTION("quotedIdent_quotedIdent") {
+          QPSTokenList tokens;
+          tokens = TokenListBuilder()
+                       .singleStmtDeclaration()
+                       .select()
+                       .identifier()
+                       .suchThat()
+                       .modifies()
+                       .leftParen()
+                       .quotedIdent()
+                       .comma()
+                       .quotedIdent()
+                       .rightParen()
+                       .get();
+
+          QPSParser parser(tokens);
+          REQUIRE_NOTHROW(parser.parse());
+        }
     }
     SECTION("calls"){
         SECTION("synonyn_synonym") {
