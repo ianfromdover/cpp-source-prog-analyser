@@ -30,6 +30,7 @@ Table ConcretePatternConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     Table temp = pkb.getPatternAsgnTable();
     Table res;
 
+    // MS3: pkb refactor
     for (const auto& entry : temp){
         // guaranteed 2 columns
         std::string stmtNo = entry[0];

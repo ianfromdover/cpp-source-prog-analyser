@@ -47,6 +47,7 @@ Table ParentConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
         // Get entity table by type
         Table entityTable = args[0]->getEntityTable(pkb);
         ResultTable entityTableResult(entityTable);
+        entityTableResult.removeAllColumnsExceptIndex(0);
         table.add(entityTableResult.getTable());
     }
 
@@ -59,6 +60,7 @@ Table ParentConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
         // Get entity table by type
         Table entityTable = args[1]->getEntityTable(pkb);
         ResultTable entityTableResult(entityTable);
+        entityTableResult.removeAllColumnsExceptIndex(0);
         table.add(entityTableResult.getTable());
     }
 

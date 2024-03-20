@@ -270,9 +270,8 @@ TEST_CASE("Test QueryPkb getStmt methods") {
 
         // Retrieve stmtTable and verify its contents
         Table stmtTable = queryPkb.getStmtTable();
-        REQUIRE(stmtTable.size() == 3);
-        REQUIRE(TableUtils::isPresent(stmtTable, {{"1"}, {"2"}, {"3"}}));
-
+        REQUIRE(stmtTable.size() == 4);
+        REQUIRE(TableUtils::isPresent(stmtTable, {{"1"}, {"2"}, {"3"}, {"4"}}));
     }
 }
 
