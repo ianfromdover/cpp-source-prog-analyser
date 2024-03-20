@@ -29,7 +29,7 @@ std::shared_ptr<std::vector<std::shared_ptr<Token>>> SourceProcessor::scan(const
     return Scanner(source).scanTokens();
 }
 
-std::shared_ptr<Program> SourceProcessor::parse(std::shared_ptr<std::vector<std::shared_ptr<Token>>>& tokens) {
+std::shared_ptr<Program> SourceProcessor::parse(const std::shared_ptr<std::vector<std::shared_ptr<Token>>>& tokens) {
     return Parser(tokens).parse();
 }
 
