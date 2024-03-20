@@ -42,6 +42,7 @@ public:
     Table getReadTable() override;
     Table getIfByNum(StmtNo sNum) override;
     Table getIfByVar(VarName var) override;
+    Table getIfStmts() override;
     Table getIfTable() override;
     Table getWhileByNum(StmtNo sNum) override;
     Table getWhileByVar(VarName var) override;
@@ -89,6 +90,7 @@ public:
     Table getPatternIfTable() override;
     Table getPatternWhileByNum(StmtNo sNum) override;
     Table getPatternWhileByVar(VarName var) override;
+    Table getWhileStmts() override;
     Table getPatternWhileTable() override;
     Table getCallsByCaller(ProcName caller) override;
     Table getCallsByCalled(ProcName called) override;

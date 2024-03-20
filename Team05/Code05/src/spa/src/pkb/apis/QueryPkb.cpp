@@ -58,9 +58,13 @@ Table QueryPkb::getIfByVar(VarName var) {
     return TableUtils::toTable(pkb->patternIfTable->getPatternByVar(var));
 }
 
-Table QueryPkb::getIfTable() {
+Table QueryPkb::getIfStmts() {
     // using the pattern if table cuz the entity if table is redundant
     return pkb->patternIfTable->getIfNums();
+}
+
+Table QueryPkb::getIfTable() {
+    return pkb->patternIfTable->getAllAsStrings();
 }
 
 // While
@@ -75,9 +79,13 @@ Table QueryPkb::getWhileByVar(VarName var) {
     return TableUtils::toTable(pkb->patternWhileTable->getPatternByVar(var));
 }
 
-Table QueryPkb::getWhileTable() {
+Table QueryPkb::getWhileStmts() {
     // using the pattern while table cuz the entity while table is redundant
     return pkb->patternWhileTable->getWhileNums();
+}
+
+Table QueryPkb::getWhileTable() {
+    return pkb->patternWhileTable->getAllAsStrings();
 }
 
 // Print

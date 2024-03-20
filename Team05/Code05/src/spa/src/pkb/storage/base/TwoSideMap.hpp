@@ -246,7 +246,7 @@ template<typename A, typename B>
 void TwoSideMap<A, B>::addStrPtrSetToResult(const set<shared_ptr<std::string>>& setOfPtr, shared_ptr<Table>& result, std::string curr) {
     try {
         for (auto &ptr: setOfPtr) {
-            result->push_back({std::move(curr), *ptr});
+            result->push_back({curr, *ptr});
         }
     } catch (std::exception e) {
         throw PkbException(e.what());
