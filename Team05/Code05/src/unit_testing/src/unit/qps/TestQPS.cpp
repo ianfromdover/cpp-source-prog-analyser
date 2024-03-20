@@ -944,8 +944,9 @@ TEST_CASE("[TestQPS] Single Constraints") {
         QPS qps(pkb);
 
         SECTION("ModifiesP, prod, var"){
-            std::string queryStr = "procedure p; variable v; Select p such that Modifies*(p, v)";
-            std::vector<std::string> expected = {"a", "b"};
+          std::string queryStr =
+              "procedure p; variable v; Select p such that Modifies(p, v)";
+          std::vector<std::string> expected = {"a", "b"};
 
             REQUIRE(qps.evaluate(queryStr) == expected);
         }

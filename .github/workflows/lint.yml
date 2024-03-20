@@ -4,9 +4,9 @@ name: linter
 
 on:
   push:
-    branches: [ "skip" , "sprint4_qps_alex" ]
+    branches: [ "skip" ]
   pull_request:
-    branches: [ "skip" , "sprint4_qps_alex" ]
+    branches: [ "skip" ]
   workflow_dispatch:
     branches: [ "master" ]
 
