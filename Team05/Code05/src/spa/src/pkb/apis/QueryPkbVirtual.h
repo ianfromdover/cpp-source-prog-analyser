@@ -39,6 +39,7 @@ public:
     virtual Table getReadTable() = 0;
     virtual Table getIfByNum(StmtNo sNum) = 0;
     virtual Table getIfByVar(VarName var) = 0;
+    virtual Table getIfStmts() = 0;
     virtual Table getIfTable() = 0;
     virtual Table getWhileByNum(StmtNo sNum) = 0;
     virtual Table getWhileByVar(VarName var) = 0;
@@ -48,9 +49,10 @@ public:
     virtual Table getPrintTable() = 0;
     virtual Table getStmtByNum(StmtNo sNum) = 0;
     virtual Table getStmtTable() = 0;
-    virtual Table getVarByName(VarName var) = 0;
+    virtual Table getVars() = 0;
     virtual Table getVarTable() = 0;
     virtual Table getConstByName(VarName var) = 0;
+    virtual Table getConsts() = 0;
     virtual Table getConstTable() = 0;
     virtual Table getFollowsByBefore(StmtNo before) = 0;
     virtual Table getFollowsByAfter(StmtNo after) = 0;
@@ -86,6 +88,7 @@ public:
     virtual Table getPatternIfTable() = 0;
     virtual Table getPatternWhileByNum(StmtNo sNum) = 0;
     virtual Table getPatternWhileByVar(VarName var) = 0;
+    virtual Table getWhileStmts() = 0;
     virtual Table getPatternWhileTable() = 0;
     virtual Table getCallsByCaller(ProcName caller) = 0;
     virtual Table getCallsByCalled(ProcName called) = 0;

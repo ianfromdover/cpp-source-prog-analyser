@@ -18,6 +18,8 @@ public:
     vector<StmtNo> getConstStmts(ConstVal value);
     // Returns the constant values by the statement number, if the constant is not found, returns empty vector
     vector<ConstVal> getConsts(StmtNo sNum);
+    // Returns all the constants as strings in 1 column: ConstVal
+    Table getConsts();
     // Returns all the constants as strings in 2 columns: StmtNo | ConstVal
     Table getAllAsStrings();
 };

@@ -12,7 +12,7 @@ vector<StmtNo> StatementTable::getStmtByNum(StmtNo sNum) {
 
 vector<StmtNo> StatementTable::getAllStmts() {
     vector<StmtNo> stmts;
-    for (int i = 1; i < finalStatementNum; i++) {
+    for (int i = 1; i <= finalStatementNum; i++) {
         stmts.push_back(i);
     }
     return stmts;

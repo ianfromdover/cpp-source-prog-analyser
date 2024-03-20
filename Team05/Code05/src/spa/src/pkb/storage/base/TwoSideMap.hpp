@@ -34,8 +34,6 @@ private:
     // Check if a pair exists in the map.
     bool containsPair(A key, B value);
 
-    std::shared_ptr<Table> getCol(std::unordered_map<int, std::set<std::shared_ptr<B>>> map);
-    std::shared_ptr<Table> getColForStr(std::unordered_map<std::string, std::set<std::shared_ptr<std::string>>> map);
     void addPtrSetToResult(const set<shared_ptr<int>>& setOfPtr, shared_ptr<Table>& result, int curr);
     void addStrPtrSetToResult(const set<shared_ptr<std::string>>& setOfPtr, shared_ptr<Table>& result, std::string curr);
 
@@ -117,33 +115,6 @@ bool TwoSideMap<A, B>::containsPair(A key, B value) {
 }
 
 template<typename A, typename B>
-// restricted to int because other types will not be used in the scope of SPA
-shared_ptr<Table> TwoSideMap<A, B>::getCol(std::unordered_map<int, std::set<std::shared_ptr<B>>> map) {
-    auto result = std::make_shared<Table>();
-    try {
-        for (auto& pair : map) {
-            result->push_back({to_string(pair.first)});
-        }
-    } catch (std::exception e) {
-        throw PkbException(e.what());
-    }
-    return result;
-}
-
-template<typename A, typename B>
-shared_ptr<Table> TwoSideMap<A, B>::getColForStr(std::unordered_map<std::string, std::set<std::shared_ptr<std::string>>> map) {
-    auto result = std::make_shared<Table>();
-    try {
-        for (auto& pair : map) {
-            result->push_back({pair.first});
-        }
-    } catch (std::exception e) {
-        throw PkbException(e.what());
-    }
-    return result;
-}
-
-template<typename A, typename B>
 bool TwoSideMap<A, B>::insert(const A key, const B value) {
     // ai-gen start (copilot, 1, e)
     // prompt: used copilot
@@ -205,24 +176,57 @@ std::vector<A> TwoSideMap<A, B>::getKeys(B value) {
     return result;
 }
 
+// the following 4 functions cannot be abstracted into 2 because of the template types
 template<typename A, typename B>
 Table TwoSideMap<A, B>::getFirstColA() {
-    return *(getCol(forwardMap));
+    auto result = std::make_shared<Table>();
+    try {
+        for (auto& pair : forwardMap) {
+            result->push_back({to_string(pair.first)});
+        }
+    } catch (std::exception e) {
+        throw PkbException(e.what());
+    }
+    return *result;
 }
 
 template<typename A, typename B>
 Table TwoSideMap<A, B>::getFirstColStr() {
-    return *(getColForStr(forwardMap));
+    auto result = std::make_shared<Table>();
+    try {
+        for (auto& pair : forwardMap) {
+            result->push_back({pair.first});
+        }
+    } catch (std::exception e) {
+        throw PkbException(e.what());
+    }
+    return *result;
 }
 
 template<typename A, typename B>
 Table TwoSideMap<A, B>::getSecondColB() {
-    return *(getCol(backwardMap));
+    auto result = std::make_shared<Table>();
+    try {
+        for (auto& pair : backwardMap) {
+            result->push_back({to_string(pair.first)});
+        }
+    } catch (std::exception e) {
+        throw PkbException(e.what());
+    }
+    return *result;
 }
 
 template<typename A, typename B>
 Table TwoSideMap<A, B>::getSecondColStr() {
-    return *(getColForStr(backwardMap));
+    auto result = std::make_shared<Table>();
+    try {
+        for (auto& pair : backwardMap) {
+            result->push_back({pair.first});
+        }
+    } catch (std::exception e) {
+        throw PkbException(e.what());
+    }
+    return *result;
 }
 
 /*
@@ -246,7 +250,7 @@ template<typename A, typename B>
 void TwoSideMap<A, B>::addStrPtrSetToResult(const set<shared_ptr<std::string>>& setOfPtr, shared_ptr<Table>& result, std::string curr) {
     try {
         for (auto &ptr: setOfPtr) {
-            result->push_back({std::move(curr), *ptr});
+            result->push_back({curr, *ptr});
         }
     } catch (std::exception e) {
         throw PkbException(e.what());
@@ -283,7 +287,7 @@ Table TwoSideMap<A, B>::getAllForStrB() {
 }
 
 template<typename A, typename B>
-Table TwoSideMap<A, B>::getAllForAStr() {
+Table TwoSideMap<A, B>::getAllForAStr() { // bug probs here
     auto result = std::make_shared<Table>();
     for (auto& pair : forwardMap) {
         /*

@@ -58,9 +58,13 @@ Table QueryPkb::getIfByVar(VarName var) {
     return TableUtils::toTable(pkb->patternIfTable->getPatternByVar(var));
 }
 
-Table QueryPkb::getIfTable() {
+Table QueryPkb::getIfStmts() {
     // using the pattern if table cuz the entity if table is redundant
     return pkb->patternIfTable->getIfNums();
+}
+
+Table QueryPkb::getIfTable() {
+    return pkb->patternIfTable->getAllAsStrings();
 }
 
 // While
@@ -75,9 +79,13 @@ Table QueryPkb::getWhileByVar(VarName var) {
     return TableUtils::toTable(pkb->patternWhileTable->getPatternByVar(var));
 }
 
-Table QueryPkb::getWhileTable() {
+Table QueryPkb::getWhileStmts() {
     // using the pattern while table cuz the entity while table is redundant
     return pkb->patternWhileTable->getWhileNums();
+}
+
+Table QueryPkb::getWhileTable() {
+    return pkb->patternWhileTable->getAllAsStrings();
 }
 
 // Print
@@ -108,10 +116,8 @@ Table QueryPkb::getStmtTable() {
 
 // Var
 
-// TODO
-Table QueryPkb::getVarByName(VarName var) {
-    return {{}};
-    // return TableUtils::toTable(pkb->varTable->getVarByName(var));
+Table QueryPkb::getVars() {
+    return pkb->varTable->getVars();
 }
 
 Table QueryPkb::getVarTable() {
@@ -127,6 +133,10 @@ Table QueryPkb::getVarTable() {
 // and will QPS actually use this API?
 Table QueryPkb::getConstByName(VarName var) {
     return {{}};
+}
+
+Table QueryPkb::getConsts() {
+    return pkb->constTable->getConsts();
 }
 
 Table QueryPkb::getConstTable() {

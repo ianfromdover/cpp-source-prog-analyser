@@ -12,6 +12,10 @@ vector<ConstVal> ConstTable::getConsts(StmtNo sNum) {
     return map.getValues(sNum);
 }
 
+Table ConstTable::getConsts() {
+    return map.getSecondColB();
+}
+
 Table ConstTable::getAllAsStrings() {
     return map.getAllForAB();
 }

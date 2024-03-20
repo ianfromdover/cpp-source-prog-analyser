@@ -12,6 +12,15 @@
 class TableUtils {
 public:
 
+    static void printTable(const Table& t) {
+        for (auto row : t) {
+            for (auto item : row) {
+                std::cout << item << " ";
+            }
+            std::cout << std::endl;
+        }
+    }
+
     static bool isPresent(const Table& vec, const Table& elements) {
         return std::all_of(elements.begin(), elements.end(), [&](const auto& element) {
             return std::find(vec.begin(), vec.end(), element) != vec.end();
