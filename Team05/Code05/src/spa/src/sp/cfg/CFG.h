@@ -6,10 +6,8 @@
 #define SPA_CFG_H
 
 #include <vector>
-//#include <stack>
 #include "sp/ast/Program.h"
 #include "sp/cfg/block/Block.h"
-#include "sp/cfg/helper/CFGHelper.h"
 
 class CFG;
 
