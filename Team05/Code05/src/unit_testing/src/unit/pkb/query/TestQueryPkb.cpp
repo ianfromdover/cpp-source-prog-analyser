@@ -260,10 +260,6 @@ TEST_CASE("Test QueryPkb getPrint methods") {
 TEST_CASE("Test QueryPkb getStmt methods") {
 
     // Add records to stmtTable
-    pkb->statementTable->addFinalStatementNo(0); // proc name line, not counted in stmts
-    pkb->statementTable->addFinalStatementNo(1);
-    pkb->statementTable->addFinalStatementNo(2);
-    pkb->statementTable->addFinalStatementNo(3);
     pkb->statementTable->addFinalStatementNo(4); // bracket, not counted in stmts
 
 //    SECTION("Test getStmtByNum() method") {
@@ -637,16 +633,20 @@ TEST_CASE("Test QueryPkb getPatternAsgn methods") {
 
 TEST_CASE("Test QueryPkb getPatternIf methods") {
 
-    // Add records to patternIfTable
-    pkb->patternIfTable->addIf(1, "x");
-    pkb->patternIfTable->addIf(2, "y");
+    // 1 x, 2 y, 3 z, 4 y already in PKB from previous test case
+    // note: they will not be there if this method is run individually
 
     // TODO: Add the other get methods where necessary
 
     // Retrieve patternIfTable and verify its contents
     Table patternIfTable = queryPkb.getPatternIfTable();
-    REQUIRE(patternIfTable.size() == 2);
-    REQUIRE(TableUtils::isPresent(patternIfTable, {{"1", "x"}, {"2", "y"}}));
+    TableUtils::printTable(patternIfTable);
+    REQUIRE(patternIfTable.size() == 4);
+    REQUIRE(TableUtils::isPresent(patternIfTable,
+                                  {{"1", "x"},
+                                   {"2", "y"},
+                                   {"3", "z"},
+                                   {"4", "y"}}));
 
 }
 
