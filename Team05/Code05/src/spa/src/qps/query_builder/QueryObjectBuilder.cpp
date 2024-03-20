@@ -30,12 +30,16 @@ void QueryObjectBuilder::setSingleSelectClause() {
     qo->setReturnType(qo->getEntityInDeclaration(name));
 }
 
-//only need one relationship for milestone 1
 void QueryObjectBuilder::setAllRelationshipConstraint() {
     if (!intermediateObject->hasRelationshipClause()) {
         return;
     }
-    setSingleRelationshipConstraint(intermediateObject->getRelationshipClause(), this->getQueryObjectRepresentation());
+
+    auto relationClauseVector = intermediateObject->getAllRelationshipClauses();
+    for (auto relationClause : relationClauseVector) {
+        setSingleRelationshipConstraint(relationClause, this->getQueryObjectRepresentation());
+    }
+
 }
 
 //only need one pattern for milestone 1
@@ -43,7 +47,11 @@ void QueryObjectBuilder::setAllPatternClauses() {
     if (!intermediateObject->hasPatternClause()) {
         return;
     }
-    setSinglePatternClause(intermediateObject->getPatternClause(), this->getQueryObjectRepresentation());
+    auto patternClauseVector = intermediateObject->getAllPatternClauses();
+    for (auto patternClause : patternClauseVector) {
+        setSinglePatternClause(patternClause, this->getQueryObjectRepresentation());
+    }
+
 }
 
 

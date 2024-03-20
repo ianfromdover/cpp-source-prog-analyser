@@ -942,3 +942,20 @@ std::vector<std::string> testHelper(std::string queryStr){
     QPS qps(pkb);
     return qps.evaluate(std::move(queryStr));
 }
+
+TEST_CASE("[TestQPS] scratchboard") {
+    SECTION("test1") {
+        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        pkb->setStatement({{"1"}, {"2"}, {"3"}, {"4"}});
+        pkb->setParent({{"1", "2"},
+                        {"1", "3"},
+                        {"1", "4"}});
+        QPS qps(pkb);
+
+        std::string queryStr = "stmt s; Select s such that Parent(s, 2) such that Parent(s, 3)";
+        std::vector<std::string> expected = {"1"};
+
+        REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+
+    }
+}
