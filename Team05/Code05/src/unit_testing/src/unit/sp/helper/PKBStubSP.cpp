@@ -24,14 +24,14 @@ public:
         return true;
     }
 
-    bool addIf(StmtNo sNum, VarName ctrlVarName) override {
-        //std::cout << "addIf called" << std::endl;
+    bool addPatternIf(StmtNo sNum, VarName ctrlVarName) override {
+        //std::cout << "addPatternIf called" << std::endl;
         pairCalls.insert({std::to_string(sNum), ctrlVarName});
         return true;
     }
 
-    bool addWhile(StmtNo sNum, VarName ctrlVarName) override {
-        //std::cout << "addWhile called" << std::endl;
+    bool addPatternWhile(StmtNo sNum, VarName ctrlVarName) override {
+        //std::cout << "addPatternWhile called" << std::endl;
         pairCalls.insert({std::to_string(sNum), ctrlVarName});
         return true;
     }
@@ -129,6 +129,12 @@ public:
     bool addCallsT(ProcName caller, ProcName called) override {
         //std::cout << "addCallsT called" << std::endl;
         pairCallsT.insert({caller, called});
+        return true;
+    }
+
+    bool addNext(StmtNo before, StmtNo after) override {
+        //std::cout << "addNext called" << std::endl;
+        pairCalls.insert({std::to_string(before), std::to_string(after)});
         return true;
     }
 

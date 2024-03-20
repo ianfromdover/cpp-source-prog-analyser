@@ -36,6 +36,9 @@ public:
 
     QPSToken &getSecondArg();
 
+    void setRelationshipType(QPSTokenType::QPSTypeInfo &type);
+    void setFirstReferenceType(QPSTokenType::QPSTypeInfo &type);
+
     bool operator==(const RelationshipClause &other) const {
         return relationshipType == other.relationshipType &&
         *firstArg == *other.firstArg &&

@@ -34,6 +34,7 @@ public:
     virtual std::vector<std::vector<std::string>> getPatternAsgn() = 0;
     virtual std::vector<std::vector<std::string>> getCalls() = 0;
     virtual std::vector<std::vector<std::string>> getCallsT() = 0;
+    virtual std::vector<std::vector<std::string>> getNext() = 0;
 
 };
 

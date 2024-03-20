@@ -16,8 +16,8 @@ public:
 
     bool addRead(int stmtNo, std::string name) override;
     bool addCallStmt(int stmtNo, std::string name) override;
-    bool addIf(int stmtNo, std::string name) override;
-    bool addWhile(int stmtNo, std::string name) override;
+    bool addPatternIf(int stmtNo, std::string name) override;
+    bool addPatternWhile(int stmtNo, std::string name) override;
     bool addPrint(int stmtNo, std::string name) override;
     bool addFinalStatementNo(int stmtNo) override;
     bool addProcedure(std::string name) override;
@@ -32,6 +32,7 @@ public:
     bool addModifiesS(int stmtNo, std::string name) override;
     bool addModifiesP(std::string procName, std::string name) override;
     bool addPatternAsgn(int stmtNo, std::string lhs, std::string rhs) override;
+    bool addNext(int before, int after) override;
     bool addCalls(std::string caller, std::string called) override;
     bool addCallsT(std::string caller, std::string called) override;
 };

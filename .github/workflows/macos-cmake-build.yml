@@ -4,9 +4,11 @@ name: macOS CMake Build
 
 on:
   push:
-    branches: [ "cicd" , "dev" , "master" ]
+    branches: [ "cicd" , "master" ]
   pull_request:
-    branches: [ "cicd" , "dev" , "master" ]
+    branches: [ "cicd" , "master" ]
+  workflow_dispatch:
+    name: Run macOS Build
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)

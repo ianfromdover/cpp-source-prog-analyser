@@ -1,0 +1,45 @@
+name: system-test
+
+on:
+  push:
+    branches: [ "skip" ]
+  pull_request:
+    branches: [ "skip" ]
+
+
+jobs:
+  system-test:
+    # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
+    # You can convert this to a matrix build if you need cross-platform coverage.
+    # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure CMake
+        # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
+        # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
+        run: cmake -S '${{github.workspace}}/Team05/Code05/' -B '${{github.workspace}}/Team05/Code05/cmake-cli' -DCMAKE_BUILD_TYPE=Debug
+
+      - name: Build(AutoTester)
+        # Build your program with the given configuration
+        run: cmake --build '${{github.workspace}}/Team05/Code05/cmake-cli' --target autotester --config Debug
+
+      - name: Upload Artifact (AutoTester)
+        uses: actions/upload-artifact@v4
+        with:
+          name: autotester.exe
+          path: '${{github.workspace}}/Team05/Code05/cmake-cli/src/autotester/Debug/autotester.exe'
+
+      - name: run python script
+        working-directory: Team05/Tests05
+        run: python3 run-tests.py
+
+      - name: Upload Artifact (Test Results)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: results.zip
+          path: '${{github.workspace}}/Team05/Tests05/results/results.zip'
+

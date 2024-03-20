@@ -92,6 +92,10 @@ std::vector<std::vector<std::string>> QueryPKB::getCallsT() {
     return pkb->callsTTable->getTable();
 }
 
+std::vector<std::vector<std::string>> QueryPKB::getNext() {
+    return pkb->nextTable->getTable();
+}
+
 //std::shared_ptr<QueryResult> QueryPKB::getResult(Returnable &, std::shared_ptr<Constraint>) {
 //    return std::shared_ptr<QueryResult>();
 //}
