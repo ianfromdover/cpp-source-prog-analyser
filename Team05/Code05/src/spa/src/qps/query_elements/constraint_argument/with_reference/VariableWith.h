@@ -15,6 +15,8 @@ private:
     std::shared_ptr<Entity> variable;
     std::string varName;
     QPSTokenType::QPSTypeInfo varAttribute;
+    bool hasMoreThanOneColumn(std::vector<std::vector<std::string>>);
+    std::vector<std::vector<std::string>> removeColumnByIndex(int, std::vector<std::vector<std::string>>);
 public:
     VariableWith(std::string, QPSTokenType::QPSTypeInfo);
     std::string getReturnType() override;

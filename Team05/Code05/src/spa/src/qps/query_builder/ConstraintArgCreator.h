@@ -24,7 +24,7 @@
 #include "../query_elements/constraint_argument/expression_reference/ExpressionWithWildcard.h"
 #include "../query_elements/constraint_argument/entity_reference/QuotedIdentity.h"
 #include "../query_elements/constraint_argument/with_reference/VariableWith.h"
-#include "../query_elements/constraint_argument/with_reference/IntegerWith.h"
+#include "../query_elements/constraint_argument/with_reference/LiteralWith.h"
 #include "../query_elements/QueryObject.h"
 #include <memory>
 #include <stdexcept>
@@ -52,7 +52,7 @@ public:
     static shared_ptr<ConstraintArgument>buildArg(QPSTokenType::QPSTypeInfo type, QPSTokenType::QPSTypeInfo ref, string identifier, std::shared_ptr<QueryObject>);
     static shared_ptr<Entity> buildEntity(QPSTokenType::QPSTypeInfo type, string identifier);
     static shared_ptr<VariableWith> createVariableWith(std::string, QPSTokenType::QPSTypeInfo, std::shared_ptr<QueryObject>);
-    static shared_ptr<IntegerWith> createIntegerWith(std::string);
+    static shared_ptr<LiteralWith> createIntegerWith(std::string);
 };
 
 

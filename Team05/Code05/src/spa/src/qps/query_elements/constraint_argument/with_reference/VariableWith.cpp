@@ -18,7 +18,23 @@ std::string VariableWith::getArgumentValue() {
 
 std::vector<std::vector<std::string>> VariableWith::getEntityTable(QueryPKBVirtual &pkb) {
     auto entityTable = getRawTable(pkb);
-    entityTable.insert(entityTable.begin(), {this->identifier, "VariableWith"});
+    // TODO: filter according to attributes. procName vs Stmt
+    if (!hasMoreThanOneColumn(entityTable)) {
+        entityTable.insert(entityTable.begin(), {this->varName});
+        return entityTable;
+    }
+    entityTable.insert(entityTable.begin(), {this->varName, "LiteralWith"});
+    if (varAttribute == QPSTokenType::STMT) {
+        //drop right
+        entityTable = removeColumnByIndex(1, entityTable);
+        entityTable.insert(entityTable.begin(), {this->varName});
+    } else if (varAttribute == QPSTokenType::VARNAME || varAttribute == QPSTokenType::PROCNAME) {
+        //drop left
+        entityTable = removeColumnByIndex(0, entityTable);
+        entityTable.insert(entityTable.begin(), {this->varName});
+    } else {
+        throw new QPSException("Invalid token type provided for with variable");
+    }
     return entityTable;
 }
 
@@ -57,3 +73,15 @@ std::vector<std::vector<std::string>> VariableWith::getRawTable(QueryPKBVirtual 
     return variable->getRawTable(pkb);
 }
 
+bool VariableWith::hasMoreThanOneColumn(std::vector<std::vector<std::string>> entityTable) {
+    return entityTable.size() > 1;
+}
+
+std::vector<std::vector<std::string>> VariableWith::removeColumnByIndex(int i, std::vector<std::vector<std::string>> table){
+    if (i >= 0 && i < table[0].size()) {
+        for (int j = 0; j < table.size(); ++j) {
+            table[j].erase(table[j].begin() + i);
+        }
+    }
+    return table;
+}

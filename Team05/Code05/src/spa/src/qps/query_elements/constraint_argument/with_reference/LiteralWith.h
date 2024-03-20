@@ -2,16 +2,16 @@
 // Created by tohzh on 20/3/2024.
 //
 
-#ifndef SPA_INTEGERWITH_H
-#define SPA_INTEGERWITH_H
+#ifndef SPA_LITERALWITH_H
+#define SPA_LITERALWITH_H
 
 #include "WithReference.h"
 
-class IntegerWith : public WithReference {
+class LiteralWith : public WithReference {
 private:
     std::string value;
 public:
-    IntegerWith(std::string);
+    LiteralWith(std::string);
     std::string getEntityType() override;
     std::string toString() override;
     std::string getArgumentValue() override;
@@ -21,4 +21,4 @@ public:
 };
 
 
-#endif //SPA_INTEGERWITH_H
+#endif //SPA_LITERALWITH_H

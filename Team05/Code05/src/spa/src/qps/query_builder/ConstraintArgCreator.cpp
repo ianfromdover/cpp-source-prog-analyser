@@ -194,8 +194,8 @@ shared_ptr<VariableWith> ConstraintArgCreator::createVariableWith(std::string s,
     return x;
 }
 
-shared_ptr<IntegerWith> ConstraintArgCreator::createIntegerWith(std::string s) {
-    return std::make_shared<IntegerWith>(s);
+shared_ptr<LiteralWith> ConstraintArgCreator::createIntegerWith(std::string s) {
+    return std::make_shared<LiteralWith>(s);
 }
 
 
