@@ -4,6 +4,7 @@
 
 #include "StringUtils.h"
 #include <iostream>
+#include <regex>
 #include <sstream>
 
 std::vector<std::string> StringUtils::splitString(const std::string &str, char delimiter) {
@@ -99,4 +100,11 @@ std::string& StringUtils::stripCharacters(std::string& str, const std::string& c
     str = str.substr(first, (last - first + 1));
 
     return str;
+}
+std::string &StringUtils::formatAsRegex(std::string &str) {
+  // add \b to the start and end of the string to match word boundaries
+  str = "\\b" + str + "\\b";
+  // replace + with \+ to match the + character
+  str = std::regex_replace(str, std::regex("\\+"), "\\+");
+  return str;
 }

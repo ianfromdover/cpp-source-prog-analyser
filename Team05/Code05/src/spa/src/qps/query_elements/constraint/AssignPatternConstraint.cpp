@@ -3,6 +3,7 @@
 //
 
 #include "AssignPatternConstraint.h"
+#include "common/StringUtils.h"
 #include "qps/QueryProjector/ResultTable/ResultTable.h"
 
 #include <utility>
@@ -65,7 +66,8 @@ std::vector<std::vector<std::string>> AssignPatternConstraint::getRelationshipTa
     } else if (args[1]->getEntityType()==TYPE_EXPRESSION_W_WILDCARD){
         std::string string1=args[1]->getArgumentValue();
         string stripped = stripCharacters(string1,"\"");
-        table.filterByColumnPartial(rhsHeader,"\\b" + stripped + "\\b");
+        table.filterByColumnPartial(rhsHeader,
+                                    StringUtils::formatAsRegex(stripped));
     }
 
     for (const std::string& header : {"ASSIGNLHS", "ASSIGNRHS"}){

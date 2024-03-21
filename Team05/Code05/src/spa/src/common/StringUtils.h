@@ -18,6 +18,7 @@ public:
     static void trimAll(std::string& str);
     static void removePrefix(std::string& str, const std::string& prefix);
     static std::string& stripCharacters(std::string& str, const std::string& chars);
+    static std::string &formatAsRegex(std::string &str);
 };
 
 

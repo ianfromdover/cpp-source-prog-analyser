@@ -2,10 +2,11 @@
 // Created by Alex on 16/2/2024.
 //
 
-#include <stdexcept>
 #include "QPSParser.h"
 #include "IntermediateQuery.h"
 #include "qps/Exceptions/QPSParseException.h"
+#include "sp/api/formatter/ExprFormatter.h"
+#include <stdexcept>
 
 using token = QPSTokenType::QPSTypeInfo;
 
@@ -329,7 +330,8 @@ QPSToken QPSParser::expr() {
     QPSToken t1 = this->term();
     QPSToken t2 = this->exprTail();
     QPSTokenType type(QPSTokenType::EXPR);
-    QPSToken newToken = QPSToken(type, t1.getLexeme() + t2.getLexeme());
+    QPSToken newToken =
+        QPSToken(type, ExprFormatter::format(t1.getLexeme() + t2.getLexeme()));
     return newToken;
 }
 
@@ -339,7 +341,8 @@ QPSToken QPSParser::exprTail() {
         QPSToken t1 = this->term();
         QPSToken t2 = this->exprTail();
         QPSTokenType type(QPSTokenType::EXPR);
-        QPSToken newToken = QPSToken(type, t1.getLexeme() + t2.getLexeme());
+        QPSToken newToken =
+            QPSToken(type, "+" + t1.getLexeme() + t2.getLexeme());
         return newToken;
     }
     if (this->check(QPSTokenType::MINUS)) {
@@ -347,7 +350,8 @@ QPSToken QPSParser::exprTail() {
         QPSToken t1 = this->term();
         QPSToken t2 = this->exprTail();
         QPSTokenType type(QPSTokenType::EXPR);
-        QPSToken newToken = QPSToken(type, t1.getLexeme() + t2.getLexeme());
+        QPSToken newToken =
+            QPSToken(type, "-" + t1.getLexeme() + t2.getLexeme());
         return newToken;
     }
     return {QPSTokenType(QPSTokenType::EMPTY), ""};
@@ -367,7 +371,8 @@ QPSToken QPSParser::termTail() {
         QPSToken t1 = this->factor();
         QPSToken t2 = this->termTail();
         QPSTokenType type(QPSTokenType::TERM);
-        QPSToken newToken = QPSToken(type, t1.getLexeme() + t2.getLexeme());
+        QPSToken newToken =
+            QPSToken(type, "+" + t1.getLexeme() + t2.getLexeme());
         return newToken;
     }
     if (this->check(QPSTokenType::SLASH)) {
@@ -375,7 +380,8 @@ QPSToken QPSParser::termTail() {
         QPSToken t1 = this->term();
         QPSToken t2 = this->exprTail();
         QPSTokenType type(QPSTokenType::TERM);
-        QPSToken newToken = QPSToken(type, t1.getLexeme() + t2.getLexeme());
+        QPSToken newToken =
+            QPSToken(type, "/" + t1.getLexeme() + t2.getLexeme());
         return newToken;
     }
     if (this->check(QPSTokenType::PERCENT)) {
@@ -383,7 +389,8 @@ QPSToken QPSParser::termTail() {
         QPSToken t1 = this->term();
         QPSToken t2 = this->exprTail();
         QPSTokenType type(QPSTokenType::TERM);
-        QPSToken newToken = QPSToken(type, t1.getLexeme() + t2.getLexeme());
+        QPSToken newToken =
+            QPSToken(type, "%" + t1.getLexeme() + t2.getLexeme());
         return newToken;
     }
     return {QPSTokenType(QPSTokenType::EMPTY), ""};
@@ -426,28 +433,7 @@ std::shared_ptr<IntermediateQuery> QPSParser::parse() {
         for (const auto &clause : suchThatClause()) {
           query->addClause(clause);
         }
-        //            this->consume(QPSTokenType::SUCH, "Expect 'such'.");
-        //            this->consume(QPSTokenType::THAT, "Expect 'that' after
-        //            'such'.");
-        //
-        //            if (isRelationship()) {
-        //                std::shared_ptr<RelationshipClause> relationship =
-        //                this->relationship();
-        //
-        //                if (relationship) query->addClause(relationship);
-        //            } else {
-        //                throw QPSParseException("at [" +
-        //                std::to_string(current) + "]: Expect relationship.");
-        //            }
-
-        //            do {
-        //              std::shared_ptr<RelationshipClause> relationship =
-        //              this->relationship();
-        //
-        //              if (relationship) query->addClause(relationship);
-        //            } while (isRelationship())
-        }
-
+      }
         if (this->match({QPSTokenType::PATTERN})) {
             std::shared_ptr<PatternClause> pattern = this->pattern();
             if (pattern) query->addClause(pattern);
