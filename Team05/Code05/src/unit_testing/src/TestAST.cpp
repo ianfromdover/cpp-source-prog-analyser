@@ -1388,28 +1388,11 @@ TEST_CASE("Test Extractor") {
     require(true);
 }
 
-TEST_CASE("scratch pad") {
+TEST_CASE("expression matching") {
   std::string codeSnippet = R"(
-    procedure computeCentroid {
-        print x;
-        if (hello == 0) then {
-            y=1;
-            print t;
-            read f;
-            while (x == 0) {
-                if (i == 1) then {
-                    w = 0;
-                } else {
-                    g = 1;
-                }
-                x=1;
-            }
-        } else {
-            print hello;
-        }
-        x=0;
-        y=1;
-        z=x+y;
+    procedure f {
+        x=v+x*y+z*t;
+        a=b/c+d%e;
     }
     )";
   std::shared_ptr<PKBStorage> p = std::make_shared<PKBStorage>();
@@ -1419,11 +1402,105 @@ TEST_CASE("scratch pad") {
   QueryPKB pkb1(p);
   QPS qps(std::make_shared<QueryPKB>(pkb1));
 
-  SECTION("Select s1 such that Follows(s1, s2)") {
-    std::string query = "stmt s1; stmt s2;variable v; Select s1 such that "
-                        "Follows(s1, s2) and Parent(_,_) and Uses(s2,v)";
-    std::vector<std::string> expected = {"1", "2", "3",  "4",
-                                         "5", "7", "12", "13"};
+  SECTION("match (_,_b/c_)") {
+    std::string query = "assign a; Select a pattern a(_, _\"b/c\"_)";
+    std::vector<std::string> expected = {"2"};
+    std::vector<std::string> ans = qps.evaluate(query);
+    std::sort(ans.begin(), ans.end());
+    std::sort(expected.begin(), expected.end());
+    REQUIRE(ans == expected);
+  }
+  SECTION("match (_,_d%e_)") {
+    std::string query = "assign a; Select a pattern a(_, _\"d%e\"_)";
+    std::vector<std::string> expected = {"2"};
+    std::vector<std::string> ans = qps.evaluate(query);
+    std::sort(ans.begin(), ans.end());
+    std::sort(expected.begin(), expected.end());
+    REQUIRE(ans == expected);
+  }
+  SECTION("match (_,_c+d_)") {
+    std::string query = "assign a; Select a pattern a(_, _\"c+d\"_)";
+    std::vector<std::string> expected = {};
+    std::vector<std::string> ans = qps.evaluate(query);
+    std::sort(ans.begin(), ans.end());
+    std::sort(expected.begin(), expected.end());
+    REQUIRE(ans == expected);
+  }
+  SECTION("match (_,_v+x*y_)") {
+    std::string query = "assign a; Select a pattern a(_, _\"v+x*y\"_)";
+    std::vector<std::string> expected = {"1"};
+    std::vector<std::string> ans = qps.evaluate(query);
+    std::sort(ans.begin(), ans.end());
+    std::sort(expected.begin(), expected.end());
+    REQUIRE(ans == expected);
+  }
+  SECTION("match (x,v+x*y+z*t)") {
+    std::string query = "assign a; Select a pattern a(\"x\", \"v+x*y+z*t\")";
+    std::vector<std::string> expected = {"1"};
+    std::vector<std::string> ans = qps.evaluate(query);
+    std::sort(ans.begin(), ans.end());
+    std::sort(expected.begin(), expected.end());
+    REQUIRE(ans == expected);
+  }
+  SECTION("match (x,v)") {
+    std::string query = "assign a; Select a pattern a(\"x\", \"v\")";
+    std::vector<std::string> expected = {};
+    std::vector<std::string> ans = qps.evaluate(query);
+    std::sort(ans.begin(), ans.end());
+    std::sort(expected.begin(), expected.end());
+    REQUIRE(ans == expected);
+  }
+  SECTION("match (_,_v_)") {
+    std::string query = "assign a; Select a pattern a(_, _\"v\"_)";
+    std::vector<std::string> expected = {"1"};
+    std::vector<std::string> ans = qps.evaluate(query);
+    std::sort(ans.begin(), ans.end());
+    std::sort(expected.begin(), expected.end());
+    REQUIRE(ans == expected);
+  }
+  SECTION("match (_,_x*y_)") {
+    std::string query = "assign a; Select a pattern a(_, _\"x*y\"_)";
+    std::vector<std::string> expected = {"1"};
+    std::vector<std::string> ans = qps.evaluate(query);
+    std::sort(ans.begin(), ans.end());
+    std::sort(expected.begin(), expected.end());
+    REQUIRE(ans == expected);
+  }
+  SECTION("match (_,_v+x_)") {
+    std::string query = "assign a; Select a pattern a(_, _\"v+x\"_)";
+    std::vector<std::string> expected = {};
+    std::vector<std::string> ans = qps.evaluate(query);
+    std::sort(ans.begin(), ans.end());
+    std::sort(expected.begin(), expected.end());
+    REQUIRE(ans == expected);
+  }
+  SECTION("match (_,_v+x*y_)") {
+    std::string query = "assign a; Select a pattern a(_, _\"v+x*y\"_)";
+    std::vector<std::string> expected = {"1"};
+    std::vector<std::string> ans = qps.evaluate(query);
+    std::sort(ans.begin(), ans.end());
+    std::sort(expected.begin(), expected.end());
+    REQUIRE(ans == expected);
+  }
+  SECTION("match (_,_y+z*t_)") {
+    std::string query = "assign a; Select a pattern a(_, _\"y+z*t\"_)";
+    std::vector<std::string> expected = {};
+    std::vector<std::string> ans = qps.evaluate(query);
+    std::sort(ans.begin(), ans.end());
+    std::sort(expected.begin(), expected.end());
+    REQUIRE(ans == expected);
+  }
+  SECTION("match (_,_x*y+z*t_)") {
+    std::string query = "assign a; Select a pattern a(_, _\"x * y + z * t\"_)";
+    std::vector<std::string> expected = {};
+    std::vector<std::string> ans = qps.evaluate(query);
+    std::sort(ans.begin(), ans.end());
+    std::sort(expected.begin(), expected.end());
+    REQUIRE(ans == expected);
+  }
+  SECTION("match (_,_v+x*y+z*t_)") {
+    std::string query = "assign a; Select a pattern a(_, _\"v + x * y + z * t\"_)";
+    std::vector<std::string> expected = {"1"};
     std::vector<std::string> ans = qps.evaluate(query);
     std::sort(ans.begin(), ans.end());
     std::sort(expected.begin(), expected.end());

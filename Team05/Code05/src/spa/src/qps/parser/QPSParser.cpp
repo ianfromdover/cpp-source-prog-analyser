@@ -367,12 +367,12 @@ QPSToken QPSParser::term() {
 
 QPSToken QPSParser::termTail() {
     if (this->check(QPSTokenType::STAR)) {
-        this->consume(QPSTokenType::STAR, "Expect '+' after expression.");
-        QPSToken t1 = this->factor();
+    this->consume(QPSTokenType::STAR, "Expect '*' after expression.");
+    QPSToken t1 = this->factor();
         QPSToken t2 = this->termTail();
         QPSTokenType type(QPSTokenType::TERM);
         QPSToken newToken =
-            QPSToken(type, "+" + t1.getLexeme() + t2.getLexeme());
+            QPSToken(type, "*" + t1.getLexeme() + t2.getLexeme());
         return newToken;
     }
     if (this->check(QPSTokenType::SLASH)) {

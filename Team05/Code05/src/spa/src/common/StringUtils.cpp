@@ -102,9 +102,18 @@ std::string& StringUtils::stripCharacters(std::string& str, const std::string& c
     return str;
 }
 std::string &StringUtils::formatAsRegex(std::string &str) {
-  // add \b to the start and end of the string to match word boundaries
-  str = "\\b" + str + "\\b";
-  // replace + with \+ to match the + character
+  // Common replacements
   str = std::regex_replace(str, std::regex("\\+"), "\\+");
-  return str;
+  str = std::regex_replace(str, std::regex("\\*"), "\\*");
+  // check if starts and ends with ( and )
+  if (str.front() == '(' && str.back() == ')') {
+    // replace ( with \( and ) with \)
+    str = std::regex_replace(str, std::regex("\\("), "\\(");
+    str = std::regex_replace(str, std::regex("\\)"), "\\)");
+    return str;
+  } else {
+    // add \b to the start and end of the string to match word boundaries
+    str = "\\b" + str + "\\b";
+    return str;
+  }
 }
