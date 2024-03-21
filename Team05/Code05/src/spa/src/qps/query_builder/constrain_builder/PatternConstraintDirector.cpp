@@ -8,6 +8,7 @@
 
 std::shared_ptr<Constraint> PatternConstraintDirector::process(shared_ptr<PatternClause> r,
                                                                     shared_ptr<QueryObject> qo) {
+    // only assign for now
     AssignPatternConstraintBuilder b;
     b.addConstraintClause(std::move(r), std::move(qo));
     return b.build();

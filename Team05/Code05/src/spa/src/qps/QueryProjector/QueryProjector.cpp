@@ -4,7 +4,7 @@
 
 #include "QueryProjector.h"
 #include "qps/query_elements/constraint/Constraint.h"
-#include "qps/query_elements/constraint/FollowsConstraint.h"
+#include "qps/query_elements/constraint/relationship_constraint/FollowsConstraint.h"
 #include "qps/QueryProjector/ResultTable/ResultTable.h"
 
 

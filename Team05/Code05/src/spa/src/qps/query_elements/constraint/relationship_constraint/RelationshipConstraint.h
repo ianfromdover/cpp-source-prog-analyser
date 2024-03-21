@@ -5,7 +5,7 @@
 #ifndef SPA_RELATIONSHIPCONSTRAINT_H
 #define SPA_RELATIONSHIPCONSTRAINT_H
 
-#include "Constraint.h"
+#include "qps/query_elements/constraint/Constraint.h"
 #include "common/Column.h"
 
 class RelationshipConstraint : public Constraint {

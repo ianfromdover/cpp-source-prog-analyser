@@ -1,32 +1,29 @@
 //
-// Created by tohzh on 15/2/2024.
+// Created by tohzh on 21/3/2024.
 //
 
-#include "AssignPatternConstraint.h"
-#include "qps/QueryProjector/ResultTable/ResultTable.h"
+#include "WhilePatternConstraint.h"
 
-#include <utility>
-
-AssignPatternConstraint::AssignPatternConstraint(std::shared_ptr<EntityReference> arg1,
-                                                 std::shared_ptr<ExpressionReference> arg2, std::shared_ptr<AssignEntity> assignment) {
+WhilePatternConstraint::WhilePatternConstraint(std::shared_ptr<EntityReference> arg1,
+                                                 std::shared_ptr<ExpressionReference> arg2, std::shared_ptr<WhileEntity> assignment) {
     constraintArguments.push_back(arg1);
     constraintArguments.push_back(arg2);
     constraintIdentifier = std::move(assignment);
 }
 
-std::string AssignPatternConstraint::getConstraintType() {
+std::string WhilePatternConstraint::getConstraintType() {
     return CONSTRAINT_CLASS_PATTERN;
 }
 
-std::shared_ptr<AssignEntity> AssignPatternConstraint::getPatternConstraintIdentifier() {
+std::shared_ptr<Entity> WhilePatternConstraint::getPatternConstraintIdentifier() {
     return constraintIdentifier;
 }
 
-std::vector<std::shared_ptr<ConstraintArgument>> AssignPatternConstraint::getConstraintArguments() {
+std::vector<std::shared_ptr<ConstraintArgument>> WhilePatternConstraint::getConstraintArguments() {
     return constraintArguments;
 }
 
-std::vector<std::vector<std::string>> AssignPatternConstraint::getRelationshipTable(QueryPKBVirtual & pkb) {
+std::vector<std::vector<std::string>> WhilePatternConstraint::getRelationshipTable(QueryPKBVirtual & pkb) {
     std::vector<std::vector<std::string>> temp = pkb.getPatternAsgn();
     std::vector<std::vector<std::string>> res;
 
@@ -41,8 +38,8 @@ std::vector<std::vector<std::string>> AssignPatternConstraint::getRelationshipTa
     std::vector<std::shared_ptr<ConstraintArgument>> args = getConstraintArguments();
 
     std::string stmtHeader = constraintIdentifier->getIdentifier();
-    std::string lhsHeader = args[0]->getEntityType() == TYPE_VARIABLE ? args[0]->getArgumentValue() : "ASSIGNLHS";
-    std::string rhsHeader = "ASSIGNRHS";
+    std::string lhsHeader = args[0]->getEntityType() == TYPE_VARIABLE ? args[0]->getArgumentValue() : "WHILEPATLHS";
+    std::string rhsHeader = "WHILEPATRHS";
 
     res.insert(res.begin(), {stmtHeader, lhsHeader, rhsHeader});
     ResultTable table(res);
@@ -68,26 +65,10 @@ std::vector<std::vector<std::string>> AssignPatternConstraint::getRelationshipTa
         table.filterByColumnPartial(rhsHeader,"\\b" + stripped + "\\b");
     }
 
-    for (const std::string& header : {"ASSIGNLHS", "ASSIGNRHS"}){
+    for (const std::string& header : {"WHILEPATLHS", "WHILEPATRHS"}){
         table.removeColumnByHeader(const_cast<string &>(header));
     }
 
     return table.getTable();
 }
 
-std::string& AssignPatternConstraint::stripCharacters(std::string& str, const std::string& chars) {
-    // Find the first character position after excluding leading characters
-    std::size_t first = str.find_first_not_of(chars);
-    if (first == std::string::npos) {
-        // If there are no characters other than the ones to strip, return an empty string
-        return str = "";
-    }
-
-    // Find the position of the last character not matching the strip characters
-    std::size_t last = str.find_last_not_of(chars);
-
-    // Erase the leading and trailing characters
-    str = str.substr(first, (last - first + 1));
-
-    return str;
-}

@@ -6,7 +6,7 @@
 #define SPA_WITHCONSTRAINT_H
 
 
-#include "Constraint.h"
+#include "qps/query_elements/constraint/Constraint.h"
 #include "qps/query_elements/constraint_argument/with_reference/WithReference.h"
 #include "pkb/apis/QueryPKB.h"
 #include "qps/QueryProjector/ResultTable/ResultTable.h"
