@@ -8,6 +8,8 @@
 #include <vector>
 #include <memory>
 #include "Returnable.h"
+#include "Tuple.h"
+#include "Boolean.h"
 #include "qps/query_elements/constraint/Constraint.h"
 #include "Entity.h"
 
@@ -28,8 +30,9 @@ public:
     void addDeclaration(const std::shared_ptr<Entity>&);
     std::shared_ptr<Entity> getEntityInDeclaration(std::string);
     std::string toString();
-
     string combineString(string returnString, string declarationString, string constraintString);
+    void setReturnTuple(shared_ptr<Tuple> ptr);
+    void setReturnBoolean(shared_ptr<Boolean> ptr);
 };
 
 

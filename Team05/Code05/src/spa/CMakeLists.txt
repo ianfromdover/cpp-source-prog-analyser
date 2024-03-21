@@ -8,7 +8,12 @@ add_library(spa ${srcs} ${headers}
         src/qps/query_elements/constraint/patternConstraint/IfPatternConstraint.cpp
         src/qps/query_elements/constraint/patternConstraint/IfPatternConstraint.h
         src/qps/query_builder/constrain_builder/pattern_builders/IfPatternConstraintBuilder.cpp
-        src/qps/query_builder/constrain_builder/pattern_builders/IfPatternConstraintBuilder.h)
+        src/qps/query_builder/constrain_builder/pattern_builders/IfPatternConstraintBuilder.h
+        src/qps/query_elements/Tuple.cpp
+        src/qps/query_elements/Tuple.h
+        src/qps/query_elements/Boolean.cpp
+        src/qps/query_elements/Boolean.h
+)
 
 # this makes the headers accessible for other projects which uses spa lib
 target_include_directories(spa PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
