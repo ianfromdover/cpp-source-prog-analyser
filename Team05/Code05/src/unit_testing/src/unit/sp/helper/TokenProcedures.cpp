@@ -1,7 +1,7 @@
 //
 // Created by sjh_9 on 22/2/2024.
 //
-#include "AstFactory.cpp"
+#include "AstFactory.h"
 #include "TokenFactory.h"
 
 class TokenProcedures {
