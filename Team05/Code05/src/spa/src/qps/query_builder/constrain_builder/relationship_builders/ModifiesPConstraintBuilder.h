@@ -5,9 +5,9 @@
 #ifndef SPA_MODIFIESPCONSTRAINTBUILDER_H
 #define SPA_MODIFIESPCONSTRAINTBUILDER_H
 
-#include "RelationshipConstraintBuilder.h"
+#include "RelationshipConstraintBuilderTemplate.h"
 
-class ModifiesPConstraintBuilder : public RelationshipConstraintBuilder {
+class ModifiesPConstraintBuilder : public RelationshipConstraintBuilderTemplate {
 private:
     shared_ptr<EntityReference> arg1;
     shared_ptr<EntityReference> arg2;

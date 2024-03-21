@@ -5,21 +5,22 @@
 #ifndef SPA_QUERYBUILDER_H
 #define SPA_QUERYBUILDER_H
 
-#include "qps/query_builder/constrain_builder//RelationshipConstraintBuilder.h"
+#include "qps/query_builder/constrain_builder/relationship_builders/RelationshipConstraintBuilderTemplate.h"
 #include "ConstraintArgCreator.h"
 #include "../query_elements/QueryObject.h"
-#include "constrain_builder/ConcretePatternConstraintBuilder.h"
-#include "constrain_builder/FollowsConstraintBuilder.h"
-#include "constrain_builder/FollowsTConstraintBuilder.h"
-#include "constrain_builder/ModifiesPConstraintBuilder.h"
-#include "constrain_builder/ModifiesSConstraintBuilder.h"
-#include "constrain_builder/ParentConstraintBuilder.h"
-#include "constrain_builder/ParentTConstraintBuilder.h"
-#include "constrain_builder/UsesPConstraintBuilder.h"
-#include "constrain_builder/UsesSConstraintBuilder.h"
+#include "qps/query_builder/constrain_builder/pattern_builders/AssignPatternConstraintBuilder.h"
+#include "qps/query_builder/constrain_builder/relationship_builders/FollowsConstraintBuilder.h"
+#include "qps/query_builder/constrain_builder/relationship_builders/FollowsTConstraintBuilder.h"
+#include "qps/query_builder/constrain_builder/relationship_builders/ModifiesPConstraintBuilder.h"
+#include "qps/query_builder/constrain_builder/relationship_builders/ModifiesSConstraintBuilder.h"
+#include "qps/query_builder/constrain_builder/relationship_builders/ParentConstraintBuilder.h"
+#include "qps/query_builder/constrain_builder/relationship_builders/ParentTConstraintBuilder.h"
+#include "qps/query_builder/constrain_builder/relationship_builders/UsesPConstraintBuilder.h"
+#include "qps/query_builder/constrain_builder/relationship_builders/UsesSConstraintBuilder.h"
 #include "qps/parser/SelectClause.h"
 #include "qps/parser/IntermediateQuery.h"
-#include "constrain_builder/RelationshipConstraintDirector.h"
+#include "qps/query_builder/constrain_builder/RelationshipConstraintDirector.h"
+#include "qps/query_builder/constrain_builder/PatternConstraintDirector.h"
 
 class QueryObjectBuilder {
 private:

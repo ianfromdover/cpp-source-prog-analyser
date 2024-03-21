@@ -2,13 +2,15 @@
 // Created by tohzh on 20/2/2024.
 //
 
-#include "qps/query_builder/QueryObjectBuilder.h"
-#include "qps/parser/IntermediateQuery.h"
+#include <iostream>
+
 #include "catch.hpp"
+#include "qps/parser/IntermediateQuery.h"
+#include "qps/parser/QPSParser.h"
+#include "qps/query_builder/QueryObjectBuilder.h"
+#include "qps/query_validator/QueryValidator.h"
 #include "qps/tokenizer/QPSStrategyList.h"
 #include "qps/tokenizer/Tokenizer.h"
-#include "qps/parser/QPSParser.h"
-#include <iostream>
 
 using namespace std;
 
@@ -323,69 +325,102 @@ TEST_CASE("singleUsesSConstraint_TokenizertoQOBuilder_returnsCorrect") {
                           "if ifs; "
                           "assign a; "
                           "variable v;"
-                          "Select pr ";
+      "call c;"
+      "procedure p;"
+      "Select pr ";
     SECTION("if-var") {
         std::string input = source += "such that Uses(ifs, v)";
         std::string processed = testHelper1(input);
-        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], v [VARIABLE], w [WHILE]\n{CONSTRAINTS}: UsesS(ifs [IF], v [VARIABLE])";
+        std::string output =
+            "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], c [CALL], ifs "
+            "[IF], p [PROCEDURE], pr [PRINT], r [READ], s [STMT], v "
+            "[VARIABLE], w [WHILE]\n{CONSTRAINTS}: UsesS(ifs [IF], v "
+            "[VARIABLE])";
         REQUIRE(processed == output);
     }
 
     SECTION("assign-var") {
         std::string input = source += "such that Uses(a, v)";
         std::string processed = testHelper1(input);
-        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], v [VARIABLE], w [WHILE]\n{CONSTRAINTS}: UsesS(a [ASSIGN], v [VARIABLE])";
+        std::string output =
+            "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], c [CALL], ifs "
+            "[IF], p [PROCEDURE], pr [PRINT], r [READ], s [STMT], v "
+            "[VARIABLE], w [WHILE]\n{CONSTRAINTS}: UsesS(a [ASSIGN], v "
+            "[VARIABLE])";
         REQUIRE(processed == output);
     }
 
     SECTION("print-var") {
         std::string input = source += "such that Uses(pr, v)";
         std::string processed = testHelper1(input);
-        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], v [VARIABLE], w [WHILE]\n{CONSTRAINTS}: UsesS(pr [PRINT], v [VARIABLE])";
+        std::string output =
+            "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], c [CALL], ifs "
+            "[IF], p [PROCEDURE], pr [PRINT], r [READ], s [STMT], v "
+            "[VARIABLE], w [WHILE]\n{CONSTRAINTS}: UsesS(pr [PRINT], v "
+            "[VARIABLE])";
         REQUIRE(processed == output);
     }
 
     SECTION("while-var") {
         std::string input = source += "such that Uses(w, v)";
         std::string processed = testHelper1(input);
-        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], v [VARIABLE], w [WHILE]\n{CONSTRAINTS}: UsesS(w [WHILE], v [VARIABLE])";
+        std::string output =
+            "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], c [CALL], ifs "
+            "[IF], p [PROCEDURE], pr [PRINT], r [READ], s [STMT], v "
+            "[VARIABLE], w [WHILE]\n{CONSTRAINTS}: UsesS(w [WHILE], v "
+            "[VARIABLE])";
         REQUIRE(processed == output);
     }
 
 //    Not in milestone 1 (procedure)
-//    SECTION("procedure-var") {
-//        std::string input = source += "such that Uses(p, v)";
-//        std::string processed = testHelper1(input);
-//        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], v [VARIABLE], w [WHILE]\n{CONSTRAINTS}: UsesP(p [PROCEDURE], v [VARIABLE])";
-//        REQUIRE(processed == output);
-//    }
-
-//      Not in milestone 1 (call)
-//    SECTION("call-var") {
-//        std::string input = source += "such that Uses(cal, v)";
-//        std::string processed = testHelper1(input);
-//        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], v [VARIABLE], w [WHILE]\n{CONSTRAINTS}: UsesS(a [ASSIGN], v [VARIABLE])";
-//        REQUIRE(processed == output);
-//    }
-
-    SECTION("wild-wild") {
-        std::string input = source += "such that Uses(_, _)";
-        std::string processed = testHelper1(input);
-        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], v [VARIABLE], w [WHILE]\n{CONSTRAINTS}: UsesS(_ [STMT WILDCARD], _ [ENT WILDCARD])";
-        REQUIRE(processed == output);
+    SECTION("procedure-var") {
+      std::string input = source += "such that Uses(p, v)";
+      std::string processed = testHelper1(input);
+      std::string output =
+          "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], c [CALL], ifs "
+          "[IF], p [PROCEDURE], pr [PRINT], r [READ], s [STMT], v [VARIABLE], "
+          "w [WHILE]\n{CONSTRAINTS}: UsesP(p [PROCEDURE], v [VARIABLE])";
+      REQUIRE(processed == output);
     }
 
-    SECTION("wild-var") {
-        std::string input = source += "such that Uses(_, v)";
-        std::string processed = testHelper1(input);
-        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], v [VARIABLE], w [WHILE]\n{CONSTRAINTS}: UsesS(_ [STMT WILDCARD], v [VARIABLE])";
-        REQUIRE(processed == output);
+    //      Not in milestone 1 (call)
+    SECTION("call-var") {
+      std::string input = source += "such that Uses(c, v)";
+      std::string processed = testHelper1(input);
+      std::string output =
+          "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], c [CALL], ifs "
+          "[IF], p [PROCEDURE], pr [PRINT], r [READ], s [STMT], v [VARIABLE], "
+          "w [WHILE]\n{CONSTRAINTS}: UsesS(c [CALL], v [VARIABLE])";
+      REQUIRE(processed == output);
     }
+
+    // Invalid Test case, Uses cannot have wildcard as first argument
+    //    SECTION("wild-wild") {
+    //        std::string input = source += "such that Uses(_, _)";
+    //        std::string processed = testHelper1(input);
+    //        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a
+    //        [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], v [VARIABLE],
+    //        w [WHILE]\n{CONSTRAINTS}: UsesS(_ [STMT WILDCARD], _ [ENT
+    //        WILDCARD])"; REQUIRE(processed == output);
+    //    }
+    //
+    //    SECTION("wild-var") {
+    //        std::string input = source += "such that Uses(_, v)";
+    //        std::string processed = testHelper1(input);
+    //        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a
+    //        [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], v [VARIABLE],
+    //        w [WHILE]\n{CONSTRAINTS}: UsesS(_ [STMT WILDCARD], v [VARIABLE])";
+    //        REQUIRE(processed == output);
+    //    }
 
     SECTION("assign-wild") {
         std::string input = source += "such that Uses(a, _)";
         std::string processed = testHelper1(input);
-        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], v [VARIABLE], w [WHILE]\n{CONSTRAINTS}: UsesS(a [ASSIGN], _ [ENT WILDCARD])";
+        std::string output =
+            "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a [ASSIGN], c [CALL], ifs "
+            "[IF], p [PROCEDURE], pr [PRINT], r [READ], s [STMT], v "
+            "[VARIABLE], w [WHILE]\n{CONSTRAINTS}: UsesS(a [ASSIGN], _ [ENT "
+            "WILDCARD])";
         REQUIRE(processed == output);
     }
 
@@ -400,77 +435,111 @@ TEST_CASE("singleModifiesSConstraint_TokenizertoQOBuilder_returnsCorrect") {
                          "if ifs; "
                          "assign a; "
                          "variable v;"
-                         "Select v ";
+      "procedure p;"
+      "call c;"
+      "Select v ";
 
     SECTION("assign-var") {
         std::string input = source + "such that Modifies(a, v)";
         std::string processed = testHelper1(input);
-        std::string output = "{RETURN}: v [VARIABLE]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], v [VARIABLE], w [WHILE]\n{CONSTRAINTS}: ModifiesS(a [ASSIGN], v [VARIABLE])";
+        std::string output =
+            "{RETURN}: v [VARIABLE]\n{DECLARATIONS}: a [ASSIGN], c [CALL], ifs "
+            "[IF], p [PROCEDURE], pr [PRINT], r [READ], s [STMT], v "
+            "[VARIABLE], w [WHILE]\n{CONSTRAINTS}: ModifiesS(a [ASSIGN], v "
+            "[VARIABLE])";
         REQUIRE(processed == output);
     }
 
     SECTION("read-var") {
         std::string input = source + "such that Modifies(r, v)";
         std::string processed = testHelper1(input);
-        std::string output = "{RETURN}: v [VARIABLE]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], v [VARIABLE], w [WHILE]\n{CONSTRAINTS}: ModifiesS(r [READ], v [VARIABLE])";
+        std::string output =
+            "{RETURN}: v [VARIABLE]\n{DECLARATIONS}: a [ASSIGN], c [CALL], ifs "
+            "[IF], p [PROCEDURE], pr [PRINT], r [READ], s [STMT], v "
+            "[VARIABLE], w [WHILE]\n{CONSTRAINTS}: ModifiesS(r [READ], v "
+            "[VARIABLE])";
         REQUIRE(processed == output);
     }
 
     SECTION("if-var") {
         std::string input = source + "such that Modifies(ifs, v)";
         std::string processed = testHelper1(input);
-        std::string output = "{RETURN}: v [VARIABLE]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], v [VARIABLE], w [WHILE]\n{CONSTRAINTS}: ModifiesS(ifs [IF], v [VARIABLE])";
+        std::string output =
+            "{RETURN}: v [VARIABLE]\n{DECLARATIONS}: a [ASSIGN], c [CALL], ifs "
+            "[IF], p [PROCEDURE], pr [PRINT], r [READ], s [STMT], v "
+            "[VARIABLE], w [WHILE]\n{CONSTRAINTS}: ModifiesS(ifs [IF], v "
+            "[VARIABLE])";
         REQUIRE(processed == output);
     }
 
     SECTION("while-var") {
         std::string input = source + "such that Modifies(w, v)";
         std::string processed = testHelper1(input);
-        std::string output = "{RETURN}: v [VARIABLE]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], v [VARIABLE], w [WHILE]\n{CONSTRAINTS}: ModifiesS(w [WHILE], v [VARIABLE])";
+        std::string output =
+            "{RETURN}: v [VARIABLE]\n{DECLARATIONS}: a [ASSIGN], c [CALL], ifs "
+            "[IF], p [PROCEDURE], pr [PRINT], r [READ], s [STMT], v "
+            "[VARIABLE], w [WHILE]\n{CONSTRAINTS}: ModifiesS(w [WHILE], v "
+            "[VARIABLE])";
         REQUIRE(processed == output);
     }
 
 //    Not in milestone 1
-//    SECTION("procedure-var") {
-//        std::string input = source + "such that Modifies(p, v)";
-//        std::string processed = testHelper1(input);
-//        std::string output = "{RETURN}: v [VARIABLE]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], v [VARIABLE], w [WHILE]\n{CONSTRAINTS}: ModifiesS(a [ASSIGN], v [VARIABLE])";
-//        REQUIRE(processed == output);
-//    }
-//
-//    SECTION("procedureCall-var") {
-//        std::string input = source + "such that Modifies(procall, v)";
-//        std::string processed = testHelper1(input);
-//        std::string output = "{RETURN}: v [VARIABLE]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], v [VARIABLE], w [WHILE]\n{CONSTRAINTS}: ModifiesS(a [ASSIGN], v [VARIABLE])";
-//        REQUIRE(processed == output);
-//    }
-
-    SECTION("wild-var") {
-        std::string input = source + "such that Modifies(_, v)";
-        std::string processed = testHelper1(input);
-        std::string output = "{RETURN}: v [VARIABLE]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], v [VARIABLE], w [WHILE]\n{CONSTRAINTS}: ModifiesS(_ [STMT WILDCARD], v [VARIABLE])";
-        REQUIRE(processed == output);
+    SECTION("procedure-var") {
+      std::string input = source + "such that Modifies(p, v)";
+      std::string processed = testHelper1(input);
+      std::string output =
+          "{RETURN}: v [VARIABLE]\n{DECLARATIONS}: a [ASSIGN], c [CALL], ifs "
+          "[IF], p [PROCEDURE], pr [PRINT], r [READ], s [STMT], v [VARIABLE], "
+          "w [WHILE]\n{CONSTRAINTS}: ModifiesP(p [PROCEDURE], v [VARIABLE])";
+      REQUIRE(processed == output);
     }
+
+    SECTION("procedureCall-var") {
+      std::string input = source + "such that Modifies(c, v)";
+      std::string processed = testHelper1(input);
+      std::string output =
+          "{RETURN}: v [VARIABLE]\n{DECLARATIONS}: a [ASSIGN], c [CALL], ifs "
+          "[IF], p [PROCEDURE], pr [PRINT], r [READ], s [STMT], v [VARIABLE], "
+          "w [WHILE]\n{CONSTRAINTS}: ModifiesS(c [CALL], v [VARIABLE])";
+      REQUIRE(processed == output);
+    }
+
+    // Invalid Test case, modifies should not take wildcard as 1st argument
+    //    SECTION("wild-var") {
+    //        std::string input = source + "such that Modifies(_, v)";
+    //        std::string processed = testHelper1(input);
+    //        std::string output = "{RETURN}: v [VARIABLE]\n{DECLARATIONS}: a
+    //        [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], v [VARIABLE],
+    //        w [WHILE]\n{CONSTRAINTS}: ModifiesS(_ [STMT WILDCARD], v
+    //        [VARIABLE])"; REQUIRE(processed == output);
+    //    }
 
     SECTION("assign-wild") {
         std::string input = source + "such that Modifies(a, _)";
         std::string processed = testHelper1(input);
-        std::string output = "{RETURN}: v [VARIABLE]\n{DECLARATIONS}: a [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], v [VARIABLE], w [WHILE]\n{CONSTRAINTS}: ModifiesS(a [ASSIGN], _ [ENT WILDCARD])";
+        std::string output =
+            "{RETURN}: v [VARIABLE]\n{DECLARATIONS}: a [ASSIGN], c [CALL], ifs "
+            "[IF], p [PROCEDURE], pr [PRINT], r [READ], s [STMT], v "
+            "[VARIABLE], w [WHILE]\n{CONSTRAINTS}: ModifiesS(a [ASSIGN], _ "
+            "[ENT WILDCARD])";
         REQUIRE(processed == output);
     }
 }
 
 // Not in milestone 1
-//TEST_CASE("singleModifiesPConstraint_TokenizertoQOBuilder_returnsCorrect") {
-//    std::string source = "procedure p;"
-//                         "variable v; "
-//                         "Select p "
-//                         "such that Modifies(p, v)";
-//    std::string processed = testHelper1(source);
-//    std::string output = "{RETURN}: p [PROCEDURE]\n{DECLARATIONS}: p [PROCEDURE], v [VARIABLE]\n{CONSTRAINTS}: ModifiesP(p [PROCEDURE], v [VARIABLE])";
-//    REQUIRE(processed == output);
-//    cout << processed;
-//}
+TEST_CASE("singleModifiesPConstraint_TokenizertoQOBuilder_returnsCorrect") {
+  std::string source =
+      "procedure p;"
+      "variable v; "
+      "Select p "
+      "such that Modifies(p, v)";
+  std::string processed = testHelper1(source);
+  std::string output =
+      "{RETURN}: p [PROCEDURE]\n{DECLARATIONS}: p [PROCEDURE], v "
+      "[VARIABLE]\n{CONSTRAINTS}: ModifiesP(p [PROCEDURE], v [VARIABLE])";
+  REQUIRE(processed == output);
+  cout << processed;
+}
 
 TEST_CASE("SingleConcretePatternConstraint_TokenizertoQOBuilder_returnsCorrect") {
     std::string source = "assign a;"
@@ -537,7 +606,9 @@ std::string testHelper1(std::string source) {
     QPSParser parser(*tokens);
 
     std::shared_ptr<IntermediateQuery> intermediateQuery = parser.parse();
-    intermediateQuery->processDeclarations();
+    QueryValidator validator;
+    validator.validateQuery(*intermediateQuery);
+    // intermediateQuery->processDeclarations();
 
     QueryObjectBuilder builder;
     std::shared_ptr<QueryObject> qo = builder.build(intermediateQuery);

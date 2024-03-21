@@ -14,7 +14,7 @@
 #include "qps/query_elements/constraint/UsesPConstraint.h"
 #include "qps/query_elements/constraint/ModifiesSConstraint.h"
 #include "qps/query_elements/constraint/ModifiesPConstraint.h"
-#include "qps/query_elements/constraint/ConcretePatternConstraint.h"
+#include "qps/query_elements/constraint/AssignPatternConstraint.h"
 #include "qps/query_elements/constraint/CallsConstraint.h"
 #include "qps/query_elements/constraint/CallsTConstraint.h"
 
@@ -24,9 +24,7 @@ class ConstraintBuilderTemplate {
 protected:
     shared_ptr<Constraint> constraintClause;
     void reset();
-
     std::shared_ptr<ConstraintArgument> buildArg(QPSToken&, QPSTokenType::QPSTypeInfo, shared_ptr<QueryObject>);
-
 
 public:
     std::shared_ptr<Constraint> build();

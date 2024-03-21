@@ -3,7 +3,7 @@
 //
 
 #include "RelationshipConstraintDirector.h"
-#include "../../query_elements/QueryObject.h"
+#include "qps/query_elements/QueryObject.h"
 
 
 std::shared_ptr<Constraint> RelationshipConstraintDirector::process(shared_ptr<RelationshipClause> r,

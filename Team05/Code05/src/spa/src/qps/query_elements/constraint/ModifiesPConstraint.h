@@ -9,6 +9,7 @@
 #include "qps/query_elements/constraint_argument/statement_reference/StatementReference.h"
 #include "qps/query_elements/constraint_argument/entity_reference/EntityReference.h"
 #include "pkb/apis/QueryPKB.h"
+#include "qps/QueryProjector/ResultTable/ResultTable.h"
 
 class ModifiesPConstraint : public RelationshipConstraint {
 private:

@@ -935,7 +935,24 @@ TEST_CASE("[TestQPS] Single Constraints") {
             REQUIRE(qps.evaluate(queryStr) == expected);
         }
     }
+
+    SECTION("ModifiesP") {
+        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        pkb->setProcedure({{"a", "a"}, {"b", "b"}});
+        pkb->setVar({{"c", "c"}, {"d", "d"}});
+        pkb->setModifiesP({{"a", "c"}, {"a", "d"}, {"b", "d"}});
+        QPS qps(pkb);
+
+        SECTION("ModifiesP, prod, var"){
+          std::string queryStr =
+              "procedure p; variable v; Select p such that Modifies(p, v)";
+          std::vector<std::string> expected = {"a", "b"};
+
+            REQUIRE(qps.evaluate(queryStr) == expected);
+        }
+    }
 }
+
 
 std::vector<std::string> testHelper(std::string queryStr){
     std::shared_ptr<QueryPKBVirtual> pkb = std::make_shared<QueryPKBStub>();
