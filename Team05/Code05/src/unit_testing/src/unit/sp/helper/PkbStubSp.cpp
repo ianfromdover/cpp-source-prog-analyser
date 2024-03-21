@@ -91,13 +91,13 @@ public:
     }
 
     bool addModifiesS(StmtNo sNum, VarName name) override {
-        //std::cout << "addModifiesS called" << std::endl;
+        std::cout << "addModifiesS called" << std::endl;
         pairCalls.insert({std::to_string(sNum), name});
         return true;
     }
 
     bool addModifiesP(ProcName procName, VarName name) override {
-        //std::cout << "addModifiesP called" << std::endl;
+        std::cout << "addModifiesP called" << std::endl;
         pairCalls.insert({procName, name});
         return true;
     }
@@ -122,7 +122,7 @@ public:
 
     // TODO: check again, now is just to make it compile
 
-    bool addAffects(int before, int after) override {
+    bool addAffects(int before, int after)  {
         //std::cout << "addAffects called" << std::endl;
         pairCalls.insert({std::to_string(before), std::to_string(after)});
         return true;
@@ -134,7 +134,7 @@ public:
         return true;
     }
 
-    bool addNextT(int before, int after) override {
+    bool addNextT(int before, int after) {
         //std::cout << "addAffects called" << std::endl;
         pairCallsT.insert({std::to_string(before), std::to_string(after)});
         return true;

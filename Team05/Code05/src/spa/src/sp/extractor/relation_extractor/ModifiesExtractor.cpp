@@ -50,22 +50,12 @@ void ModifiesExtractor::visitBinaryExpr(const Binary& expr, shared_ptr<Accumulat
 
 void ModifiesExtractor::visitVariableExpr(const Variable& expr, shared_ptr<Accumulator>& parentInfo) {
     for (const auto& stmtNo : parentInfo->info) {
-        //std::cout << "pkb.addModifies(" << stmtNo << ", " << expr.getName() << ");" << std::endl;
-        pkb->addModifiesS(stmtNo, expr.getName());
         //std::cout << "pkb.addModifiesS(" << stmtNo << ", " << expr.getName() << ");" << std::endl;
         pkb->addModifiesS(stmtNo, expr.getName());
     }
-}
-
-void ModifiesExtractor::visitLiteralExpr(const Literal& expr, shared_ptr<Accumulator>& parentInfo) {
-    for (const auto& stmtNo : parentInfo->info) {
-        //std::cout << "pkb.addModifies(" << stmtNo << ", " << expr.getName() << ");" << std::endl;
-        pkb->addModifiesS(stmtNo, std::to_string(expr.getValue()));
-    } // missing curly brace
     for (const auto& procName : parentInfo->stringInfo) {
         //std::cout << "pkb.addModifiesP(" << procName << ", " << expr.getName() << ");" << std::endl;
-        // TODO: check with QPS guys about this
-        pkb->addModifiesP(procName, expr.toString());
+        pkb->addModifiesP(procName, expr.getName());
     }
 }
 
