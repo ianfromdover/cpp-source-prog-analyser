@@ -48,7 +48,8 @@ Table FollowsConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
         Table entityTable = args[0]->getEntityTable(pkb);
         ResultTable entityTableResult(entityTable);
         if (lhsEntityType != TYPE_STATEMENT) {
-            entityTableResult.removeColumnByIndex(1);
+  //          entityTableResult.removeColumnByIndex(1);
+            entityTableResult.removeAllColumnsExceptIndex(0);
         }
         table.add(entityTableResult.getTable());
     }
@@ -62,7 +63,8 @@ Table FollowsConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
         Table entityTable = args[1]->getEntityTable(pkb);
         ResultTable entityTableResult(entityTable);
         if (rhsEntityType != TYPE_STATEMENT) {
-            entityTableResult.removeColumnByIndex(1);
+//            entityTableResult.removeColumnByIndex(1);
+            entityTableResult.removeAllColumnsExceptIndex(0);
         }
         table.add(entityTableResult.getTable());
     }

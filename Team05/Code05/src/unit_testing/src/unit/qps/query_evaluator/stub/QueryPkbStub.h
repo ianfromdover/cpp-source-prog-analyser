@@ -11,7 +11,29 @@
 
 class QueryPkbStub : public QueryPkbVirtual {
 private:
-    Table table;
+    std::vector<std::vector<std::string>> table;
+    std::vector<std::vector<std::string>> callTable;
+    std::vector<std::vector<std::string>> readTable;
+    std::vector<std::vector<std::string>> ifTable;
+    std::vector<std::vector<std::string>> whileTable;
+    std::vector<std::vector<std::string>> printTable;
+    std::vector<std::vector<std::string>> statementTable;
+    std::vector<std::vector<std::string>> procedureTable;
+    std::vector<std::vector<std::string>> varTable;
+    std::vector<std::vector<std::string>> constTable;
+    std::vector<std::vector<std::string>> followsTable;
+    std::vector<std::vector<std::string>> followsTTable;
+    std::vector<std::vector<std::string>> parentTable;
+    std::vector<std::vector<std::string>> parentTTable;
+    std::vector<std::vector<std::string>> usesSTable;
+    std::vector<std::vector<std::string>> usesPTable;
+    std::vector<std::vector<std::string>> modifiesSTable;
+    std::vector<std::vector<std::string>> modifiesPTable;
+    std::vector<std::vector<std::string>> patternAsgnTable;
+    std::vector<std::vector<std::string>> callsTable;
+    std::vector<std::vector<std::string>> callsTTable;
+    std::vector<std::vector<std::string>> nextTable;
+    std::vector<std::vector<std::string>> nextTTable;
 
 public:
     void setRead(Table t);
@@ -20,20 +42,21 @@ public:
     void setWhile(Table t);
     void setPrint(Table t);
     void setStatement(int ending);
-    void setProcedure(Table t);
-    void setVar(Table t);
-    void setConst(Table t);
-    void setFollows(Table t);
-    void setFollowsT(Table t);
-    void setParent(Table t);
-    void setParentT(Table t);
-    void setUses(Table t);
-    void setUsesP(Table t);
-    void setModifies(Table t);
-    void setModifiesP(Table t);
-    void setPatternAsgn(Table t);
-    void setCalls(Table t);
-    void setCallsT(Table t);
+    void setStatement(std::vector<std::vector<std::string>> t);
+    void setProcedure(std::vector<std::vector<std::string>> t);
+    void setVar(std::vector<std::vector<std::string>> t);
+    void setConst(std::vector<std::vector<std::string>> t);
+    void setFollows(std::vector<std::vector<std::string>> t);
+    void setFollowsT(std::vector<std::vector<std::string>> t);
+    void setParent(std::vector<std::vector<std::string>> t);
+    void setParentT(std::vector<std::vector<std::string>> t);
+    void setUses(std::vector<std::vector<std::string>> t);
+    void setUsesP(std::vector<std::vector<std::string>> t);
+    void setModifies(std::vector<std::vector<std::string>> t);
+    void setModifiesP(std::vector<std::vector<std::string>> t);
+    void setPatternAsgn(std::vector<std::vector<std::string>> t);
+    void setCalls(std::vector<std::vector<std::string>> t);
+    void setCallsT(std::vector<std::vector<std::string>> t);
 
     // lack of implementation is causing errors, so implement duds for MS2 first.
     Table getCallByNum(StmtNo sNum) override;

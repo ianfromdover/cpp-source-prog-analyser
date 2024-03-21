@@ -44,9 +44,6 @@ Table ModifiesSConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
         // Get entity table by type
         Table entityTable = args[0]->getEntityTable(pkb);
         ResultTable entityTableResult(entityTable);
-        if (lhsEntityType != TYPE_STATEMENT) {
-            entityTableResult.removeColumnByIndex(1);
-        }
         table.add(entityTableResult.getTable());
     }
 
@@ -55,7 +52,6 @@ Table ModifiesSConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
         // Get entity table by type
         Table entityTable = args[1]->getEntityTable(pkb);
         ResultTable entityTableResult(entityTable);
-        entityTableResult.removeColumnByIndex(0);
         table.add(entityTableResult.getTable());
     }
     if (rhsEntityType == TYPE_QUOTED_IDENT) {

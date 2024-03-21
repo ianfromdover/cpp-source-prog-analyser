@@ -29,7 +29,6 @@ public:
     void visitBinaryExpr(const Binary& expr, shared_ptr<Accumulator>& parentInfo) override;
     void visitVariableExpr(const Variable& expr, shared_ptr<Accumulator>& parentInfo) override;
     void visitUnaryExpr(const Unary& expr, shared_ptr<Accumulator>& parentInfo) override;
-    void visitLiteralExpr(const Literal& expr, shared_ptr<Accumulator>& parentInfo) override;
 };
 
 #endif //SPA_MODIFIESEXTRACTOR_H

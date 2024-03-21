@@ -54,7 +54,8 @@ void QueryEvaluator::processConstraints(std::shared_ptr<Constraint> c){
 }
 
 void QueryEvaluator::processReturnable(std::shared_ptr<Returnable> r) {
-     select.add(r->getEntityTable(pkb));
+  table t = r->getEntityTable(pkb);
+  select.add(t);
 }
 
 std::shared_ptr<Formattable> QueryEvaluator::getEmptyResult() {

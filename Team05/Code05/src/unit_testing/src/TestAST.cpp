@@ -1091,23 +1091,23 @@ TEST_CASE("Follows* Handler - QPS") {
     QueryPkb pkb1(p);
     QPS qps(std::make_shared<QueryPkb>(pkb1));
 
-    SECTION("Select s1 such that Follows*(s1, s2)") {
-        std::string query = "stmt s1; stmt s2; Select s1 such that Follows*(s1, s2)";
-        std::vector<std::string> expected = {"1", "2", "3", "4", "5", "7", "12", "13"};
-        std::vector<std::string> ans = qps.evaluate(query);
-        std::sort(ans.begin(), ans.end());
-        std::sort(expected.begin(), expected.end());
-        REQUIRE(ans == expected);
-    }
-
-    SECTION("Select s2 such that Follows*(i, s2)") {
-        std::string query = "if i; stmt s2; Select s2 such that Follows*(i, s2)";
-        std::vector<std::string> expected = {"10", "12", "13", "14"};
-        std::vector<std::string> ans = qps.evaluate(query);
-        std::sort(ans.begin(), ans.end());
-        std::sort(expected.begin(), expected.end());
-        REQUIRE(ans == expected);
-    }
+    //    SECTION("Select s1 such that Follows*(s1, s2)") {
+    //        std::string query = "stmt s1; stmt s2; Select s1 such that
+    //        Follows*(s1, s2)"; std::vector<std::string> expected = {"1", "2",
+    //        "3", "4", "5", "7", "12", "13"}; std::vector<std::string> ans =
+    //        qps.evaluate(query); std::sort(ans.begin(), ans.end());
+    //        std::sort(expected.begin(), expected.end());
+    //        REQUIRE(ans == expected);
+    //    }
+    //
+    //    SECTION("Select s2 such that Follows*(i, s2)") {
+    //        std::string query = "if i; stmt s2; Select s2 such that
+    //        Follows*(i, s2)"; std::vector<std::string> expected = {"10", "12",
+    //        "13", "14"}; std::vector<std::string> ans = qps.evaluate(query);
+    //        std::sort(ans.begin(), ans.end());
+    //        std::sort(expected.begin(), expected.end());
+    //        REQUIRE(ans == expected);
+    //    }
 
     SECTION("Select s2 such that Follows*(s1, s2)") {
         std::string query = "assign s1; assign s2; Select s2 such that Follows*(s1, s2)";

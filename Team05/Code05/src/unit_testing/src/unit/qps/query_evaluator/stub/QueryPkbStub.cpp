@@ -7,23 +7,23 @@
 #include <utility>
 
 void QueryPkbStub::setRead(Table t) {
-    table = std::move(t);
+    readTable = std::move(t);
 }
 
 void QueryPkbStub::setCallStmt(Table t) {
-    table = std::move(t);
+    callTable = std::move(t);
 }
 
 void QueryPkbStub::setWhile(Table t) {
-    table = std::move(t);
+    whileTable = std::move(t);
 }
 
 void QueryPkbStub::setIf(Table t) {
-    table = std::move(t);
+    ifTable = std::move(t);
 }
 
 void QueryPkbStub::setPrint(Table t) {
-    table = std::move(t);
+    printTable = std::move(t);
 }
 
 void QueryPkbStub::setStatement(int ending) {
@@ -31,64 +31,68 @@ void QueryPkbStub::setStatement(int ending) {
     for (int i = 1; i <= ending; i++) {
         t.push_back({std::to_string(i)});
     }
-    table = std::move(t);
+    statementTable = std::move(t);
+}
+
+void QueryPkbStub::setStatement(std::vector<std::vector<std::string>> t) {
+    statementTable = std::move(t);
 }
 
 // {"a", "a"}
 void QueryPkbStub::setProcedure(Table t) {
-    table = std::move(t);
+    procedureTable = std::move(t);
 }
 
 void QueryPkbStub::setVar(Table t) {
-    table = std::move(t);
+    varTable = std::move(t);
 }
 
 void QueryPkbStub::setConst(Table t) {
-    table = std::move(t);
+    constTable = std::move(t);
 }
 
 void QueryPkbStub::setFollows(Table t) {
-    table = std::move(t);
+    followsTable = std::move(t);
 }
 
 void QueryPkbStub::setFollowsT(Table t) {
-    table = std::move(t);
+    followsTTable = std::move(t);
 }
 
 void QueryPkbStub::setParent(Table t) {
-    table = std::move(t);
+    parentTable = std::move(t);
 }
 
 void QueryPkbStub::setParentT(Table t) {
-    table = std::move(t);
+    parentTTable = std::move(t);
 }
 
 void QueryPkbStub::setUses(Table t) {
-    table = std::move(t);
+    usesSTable = std::move(t);
 }
 
 void QueryPkbStub::setModifies(Table t) {
-    table = std::move(t);
+    modifiesSTable = std::move(t);
 }
 
 void QueryPkbStub::setPatternAsgn(Table t) {
-    table = std::move(t);
+    patternAsgnTable = std::move(t);
 }
 
 void QueryPkbStub::setUsesP(Table t) {
-    table = std::move(t);
+    usesPTable = std::move(t);
 }
 
 void QueryPkbStub::setModifiesP(Table t) {
-    table = std::move(t);
+    modifiesPTable = std::move(t);
 }
 
 void QueryPkbStub::setCalls(Table t) {
-    table = std::move(t);
+    callsTable = std::move(t);
 }
 
 void QueryPkbStub::setCallsT(Table t) {
-    table = std::move(t);
+    callsTTable = std::move(t);
 }
 
 Table QueryPkbStub::getCallByNum(StmtNo sNum) {
@@ -98,13 +102,13 @@ Table QueryPkbStub::getCallByProc(ProcName proc) {
     return {{}};
 }
 Table QueryPkbStub::getCallTable() {
-    return table;
+    return callTable;
 }
 Table QueryPkbStub::getProcByName(ProcName proc) {
     return {{}};
 }
 Table QueryPkbStub::getProcTable() {
-    return table;
+    return procedureTable;
 }
 Table QueryPkbStub::getReadByNum(StmtNo sNum) {
     return {{}};
@@ -113,7 +117,7 @@ Table QueryPkbStub::getReadByVar(VarName var) {
     return {{}};
 }
 Table QueryPkbStub::getReadTable() {
-    return table;
+    return readTable;
 }
 Table QueryPkbStub::getIfByNum(StmtNo sNum) {
     return {{}};
@@ -125,7 +129,7 @@ Table QueryPkbStub::getIfStmts() {
     return table;
 }
 Table QueryPkbStub::getIfTable() {
-    return table;
+    return ifTable;
 }
 Table QueryPkbStub::getWhileByNum(StmtNo sNum) {
     return {{}};
@@ -137,7 +141,7 @@ Table QueryPkbStub::getWhileStmts() {
     return table;
 }
 Table QueryPkbStub::getWhileTable() {
-    return table;
+    return whileTable;
 }
 Table QueryPkbStub::getPrintByNum(StmtNo sNum) {
     return {{}};
@@ -146,19 +150,19 @@ Table QueryPkbStub::getPrintByVar(VarName var) {
     return {{}};
 }
 Table QueryPkbStub::getPrintTable() {
-    return table;
+    return printTable;
 }
 Table QueryPkbStub::getStmtByNum(StmtNo sNum) {
     return {{}};
 }
 Table QueryPkbStub::getStmtTable() {
-    return table;
+    return statementTable;
 }
 Table QueryPkbStub::getVars() {
     return table;
 }
 Table QueryPkbStub::getVarTable() {
-    return table;
+    return varTable;
 }
 Table QueryPkbStub::getConstByName(VarName var) {
     return {{}};
@@ -167,7 +171,7 @@ Table QueryPkbStub::getConsts() {
     return table;
 }
 Table QueryPkbStub::getConstTable() {
-    return table;
+    return constTable;
 }
 Table QueryPkbStub::getFollowsByBefore(StmtNo before) {
     return {{}};
@@ -176,7 +180,7 @@ Table QueryPkbStub::getFollowsByAfter(StmtNo after) {
     return {{}};
 }
 Table QueryPkbStub::getFollowsTable() {
-    return table;
+    return followsTable;
 }
 Table QueryPkbStub::getFollowsTByBefore(StmtNo before) {
     return {{}};
@@ -185,7 +189,7 @@ Table QueryPkbStub::getFollowsTByAfter(StmtNo after) {
     return {{}};
 }
 Table QueryPkbStub::getFollowsTTable() {
-    return table;
+    return followsTTable;
 }
 Table QueryPkbStub::getParentByParent(StmtNo parent) {
     return {{}};
@@ -194,7 +198,7 @@ Table QueryPkbStub::getParentByChild(StmtNo child) {
     return {{}};
 }
 Table QueryPkbStub::getParentTable() {
-    return table;
+    return parentTable;
 }
 Table QueryPkbStub::getParentTByParent(StmtNo parent) {
     return {{}};
@@ -203,7 +207,7 @@ Table QueryPkbStub::getParentTByChild(StmtNo child) {
     return {{}};
 }
 Table QueryPkbStub::getParentTTable() {
-    return table;
+    return parentTTable;
 }
 Table QueryPkbStub::getUsesSByNum(StmtNo user) {
     return {{}};
@@ -212,10 +216,10 @@ Table QueryPkbStub::getUsesSByVar(VarName used) {
     return {{}};
 }
 Table QueryPkbStub::getUsesSTable() {
-    return table;
+    return usesSTable;
 }
 Table QueryPkbStub::getUsesPTable() {
-    return table;
+    return usesPTable;
 }
 Table QueryPkbStub::getModifiesSByNum(StmtNo modifier) {
     return {{}};
@@ -224,7 +228,7 @@ Table QueryPkbStub::getModifiesSByVar(VarName modified) {
     return {{}};
 }
 Table QueryPkbStub::getModifiesSTable() {
-    return table;
+    return modifiesSTable;
 }
 Table QueryPkbStub::getModifiesPByProc(ProcName modifier) {
     return {{}};
@@ -233,7 +237,7 @@ Table QueryPkbStub::getModifiesPByVar(VarName modified) {
     return {{}};
 }
 Table QueryPkbStub::getModifiesPTable() {
-    return table;
+    return modifiesPTable;
 }
 Table QueryPkbStub::getPatternAsgnByNum(StmtNo sNum) {
     return {{}};
@@ -251,7 +255,7 @@ Table QueryPkbStub::getPatternAsgnByRhsPartial(std::string RhsPartial) {
     return {{}};
 }
 Table QueryPkbStub::getPatternAsgnTable() {
-    return table;
+    return patternAsgnTable;
 }
 Table QueryPkbStub::getPatternIfByNum(StmtNo sNum) {
     return {{}};
@@ -278,7 +282,7 @@ Table QueryPkbStub::getCallsByCalled(ProcName called) {
     return {{}};
 }
 Table QueryPkbStub::getCallsTable() {
-    return table;
+    return callsTable;
 }
 Table QueryPkbStub::getCallsTByCaller(ProcName caller) {
     return {{}};
@@ -287,7 +291,7 @@ Table QueryPkbStub::getCallsTByCalled(ProcName called) {
     return {{}};
 }
 Table QueryPkbStub::getCallsTTable() {
-    return table;
+    return callsTTable;
 }
 Table QueryPkbStub::getNextByBefore(StmtNo before) {
     return {{}};
@@ -296,7 +300,7 @@ Table QueryPkbStub::getNextByAfter(StmtNo after) {
     return {{}};
 }
 Table QueryPkbStub::getNextTable() {
-    return table;
+    return nextTable;
 }
 Table QueryPkbStub::getNextTByBefore(StmtNo before) {
     return {{}};
@@ -305,7 +309,7 @@ Table QueryPkbStub::getNextTByAfter(StmtNo after) {
     return {{}};
 }
 Table QueryPkbStub::getNextTTable() {
-    return table;
+    return nextTTable;
 }
 Table QueryPkbStub::getAffectsByBefore(StmtNo before) {
     return {{}};

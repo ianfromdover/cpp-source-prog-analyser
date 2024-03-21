@@ -30,6 +30,7 @@ Table ConcretePatternConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     Table temp = pkb.getPatternAsgnTable();
     Table res;
 
+    // MS3: pkb refactor
     for (const auto& entry : temp){
         // guaranteed 2 columns
         std::string stmtNo = entry[0];
@@ -50,7 +51,7 @@ Table ConcretePatternConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     if (args[0]->getEntityType() == TYPE_VARIABLE){
         Table t = args[0]->getEntityTable(pkb);
         ResultTable entityTable(t);
-        entityTable.removeColumnByIndex(0);
+//        entityTable.removeColumnByIndex(0);
         table.add(entityTable.getTable());
     } else if (args[0]->getEntityType() == TYPE_QUOTED_IDENT){
         std::string string1=args[0]->getArgumentValue();
