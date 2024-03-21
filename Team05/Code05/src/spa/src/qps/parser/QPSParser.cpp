@@ -407,6 +407,7 @@ QPSToken QPSParser::factor() {
         this->consume(QPSTokenType::RIGHT_PAREN, "Expect ')' after expression.");
         QPSTokenType type(QPSTokenType::FACTOR);
         QPSToken newToken = QPSToken(type, t.getLexeme());
+        return newToken;
     }
     throw QPSParseException("at [" + std::to_string(current) + "]: invalid factor.");
 
