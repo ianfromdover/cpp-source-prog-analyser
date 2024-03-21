@@ -8,8 +8,8 @@ void WhilePatternConstraintBuilder::addPatternClause(std::shared_ptr<PatternClau
     std::string synName = pattern->getPatternSynonym();
     syn = ConstraintArgCreator::createWhileEntity(synName);
     arg1 = buildArgAsEntityRef(pattern->getFirstArg(), pattern->getFirstReferenceType(), qo);
-    arg2 = buildArgAsExpressionRef(pattern->getSecondArg(), pattern->getSecondReferenceType(), qo);
-    shared_ptr<WhilePatternConstraint> patternConstraint =  make_shared<WhilePatternConstraint>(arg1, arg2, syn);
+//    arg2 = buildArgAsExpressionRef(pattern->getSecondArg(), pattern->getSecondReferenceType(), qo);
+    shared_ptr<WhilePatternConstraint> patternConstraint =  make_shared<WhilePatternConstraint>(arg1, syn);
     constraintClause = patternConstraint;
 }
 

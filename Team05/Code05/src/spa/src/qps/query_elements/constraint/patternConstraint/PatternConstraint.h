@@ -8,6 +8,7 @@
 #include "qps/query_elements/constraint/Constraint.h"
 #include "qps/query_elements/constraint_argument/statement_reference/AssignEntity.h"
 #include "qps/QueryProjector/ResultTable/ResultTable.h"
+#include "qps/query_builder/ConstraintArgCreator.h"
 #include <utility>
 
 class PatternConstraint : public Constraint {

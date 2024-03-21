@@ -2,28 +2,27 @@
 // Created by tohzh on 21/3/2024.
 //
 
-#include "WhilePatternConstraint.h"
+#include "IfPatternConstraint.h"
 
-// Second argument in patternConstraint can only be wildcard.
-WhilePatternConstraint::WhilePatternConstraint(std::shared_ptr<EntityReference> arg1, std::shared_ptr<WhileEntity> assignment) {
+//second and third argument in `IFpattern` can only be wildcard.
+IfPatternConstraint::IfPatternConstraint(std::shared_ptr<EntityReference> arg1, std::shared_ptr<IfEntity> assignment) {
     constraintArguments.push_back(arg1);
-    constraintArguments.push_back(ConstraintArgCreator::createStatementRefWildCard());
     constraintIdentifier = std::move(assignment);
 }
 
-std::string WhilePatternConstraint::getConstraintType() {
+std::string IfPatternConstraint::getConstraintType() {
     return CONSTRAINT_CLASS_PATTERN;
 }
 
-std::shared_ptr<Entity> WhilePatternConstraint::getPatternConstraintIdentifier() {
+std::shared_ptr<Entity> IfPatternConstraint::getPatternConstraintIdentifier() {
     return constraintIdentifier;
 }
 
-std::vector<std::shared_ptr<ConstraintArgument>> WhilePatternConstraint::getConstraintArguments() {
+std::vector<std::shared_ptr<ConstraintArgument>> IfPatternConstraint::getConstraintArguments() {
     return constraintArguments;
 }
 
-std::vector<std::vector<std::string>> WhilePatternConstraint::getRelationshipTable(QueryPKBVirtual & pkb) {
+std::vector<std::vector<std::string>> IfPatternConstraint::getRelationshipTable(QueryPKBVirtual & pkb) {
     std::vector<std::vector<std::string>> temp = pkb.getPatternAsgn(); // TODO: get pattern if
     std::vector<std::vector<std::string>> res;
 
@@ -38,10 +37,9 @@ std::vector<std::vector<std::string>> WhilePatternConstraint::getRelationshipTab
     std::vector<std::shared_ptr<ConstraintArgument>> args = getConstraintArguments();
 
     std::string stmtHeader = constraintIdentifier->getIdentifier();
-    std::string lhsHeader = args[0]->getEntityType() == TYPE_VARIABLE ? args[0]->getArgumentValue() : "WHILEPATLHS";
-    std::string rhsHeader = "WHILEPATRHS";
+    std::string lhsHeader = args[0]->getEntityType() == TYPE_VARIABLE ? args[0]->getArgumentValue() : "IF_PATTERN";
 
-    res.insert(res.begin(), {stmtHeader, lhsHeader, rhsHeader});
+    res.insert(res.begin(), {stmtHeader, lhsHeader});
     ResultTable table(res);
 
     if (args[0]->getEntityType() == TYPE_VARIABLE){
@@ -55,20 +53,9 @@ std::vector<std::vector<std::string>> WhilePatternConstraint::getRelationshipTab
         table.filterByColumnExact(lhsHeader,stripped);
     }
 
-    if (args[1]->getEntityType()== TYPE_EXPRESSION){
-        std::string string1=args[1]->getArgumentValue();
-        string stripped = stripCharacters(string1,"\"");
-        table.filterByColumnExact(rhsHeader,stripped);
-    } else if (args[1]->getEntityType()==TYPE_EXPRESSION_W_WILDCARD){
-        std::string string1=args[1]->getArgumentValue();
-        string stripped = stripCharacters(string1,"\"");
-        table.filterByColumnPartial(rhsHeader,"\\b" + stripped + "\\b");
-    }
-
-    for (const std::string& header : {"WHILEPATLHS", "WHILEPATRHS"}){
+    for (const std::string& header : {"IF_PATTERN"}){
         table.removeColumnByHeader(const_cast<string &>(header));
     }
 
     return table.getTable();
 }
-
