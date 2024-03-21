@@ -20,9 +20,7 @@ public:
     void visitWhileStmt(const While& stmt, shared_ptr<Accumulator>& parentInfo) override;
     void visitIfStmt(const If& stmt, shared_ptr<Accumulator>& parentInfo) override;
     void visitAssignStmt(const Assign& stmt, shared_ptr<Accumulator>& parentInfo) override;
-    // Expression Methods
-
-    void visitStmtList(const shared_ptr<vector<shared_ptr<Stmt>>> &stmts, shared_ptr<Accumulator> &info);
+    void visitStmtList(const shared_ptr<vector<shared_ptr<Stmt>>>& stmts, shared_ptr<Accumulator> &info) override;
 };
 
 #endif //SPA_PARENTEXTRACTOR_H
