@@ -172,7 +172,8 @@ TEST_CASE("tokenize_relationship_relationshipToken") {
     SECTION("Modifies_modifiesToken") {
         std::string source = "Modifies";
         std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
-        REQUIRE(compareExpected(tokens, {QPSTokenType::MODIFIES_S, QPSTokenType::END_OF_FILE}));
+        REQUIRE(compareExpected(
+            tokens, {QPSTokenType::MODIFIES, QPSTokenType::END_OF_FILE}));
     }
     SECTION("modifies_identifierToken") {
         std::string source = "modifies";
@@ -182,7 +183,8 @@ TEST_CASE("tokenize_relationship_relationshipToken") {
     SECTION("Uses_usesToken") {
         std::string source = "Uses";
         std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
-        REQUIRE(compareExpected(tokens, {QPSTokenType::USES_S, QPSTokenType::END_OF_FILE}));
+        REQUIRE(compareExpected(
+            tokens, {QPSTokenType::USES, QPSTokenType::END_OF_FILE}));
     }
     SECTION("uses_identifierToken") {
         std::string source = "uses";

@@ -4,9 +4,11 @@ name: Windows CMake Build and Unit Test
 
 on:
   push:
-    branches: [ "cicd" , "dev" , "master" ]
+    branches: [ "cicd" , "master" ]
   pull_request:
-    branches: [ "cicd" , "dev" , "master" ]
+    branches: [ "cicd" , "master" ]
+  workflow_dispatch:
+    name: Run Windows Build
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
@@ -47,9 +49,9 @@ jobs:
           name: autotester.exe
           path: ${{github.workspace}}/Team05/Code05/cmake-cli/src/autotester/Debug/autotester.exe
 
-  test:
-    needs: build
+  unit-test:
     runs-on: windows-latest
+    needs: build
 
     steps:
     - name: Download Artifact
@@ -61,3 +63,26 @@ jobs:
     - name: Unit Test
       # runs unit test
       run: ${{github.workspace}}/Team05/Code05/cmake-cli/src/unit_testing/Debug/unit_testing.exe
+
+  system-test:
+    needs: build
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: autotester.exe
+          path: ${{github.workspace}}/Team05/Code05/cmake-cli/src/autotester/Debug
+
+      - name: run system test script
+        working-directory: Team05/Tests05
+        run: python3 run-tests.py
+
+      - name: Upload Artifact (Test Results)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: results.zip
+          path: '${{github.workspace}}/Team05/Tests05/results/results.zip'

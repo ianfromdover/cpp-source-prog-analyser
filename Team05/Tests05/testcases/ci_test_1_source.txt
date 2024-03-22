@@ -1,0 +1,17 @@
+procedure f {
+        if (x==1) then {
+            while (y==1) {
+                call f1;
+            }
+        } else {
+            y=3;
+        }
+    }
+
+    procedure f1 {
+        call f2;
+    }
+
+    procedure f2 {
+        x=1;
+    }

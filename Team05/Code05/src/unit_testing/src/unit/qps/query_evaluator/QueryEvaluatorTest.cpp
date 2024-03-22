@@ -9,7 +9,7 @@
 //#include "qps/query_builder/ConstraintArgCreator.h"
 //#include "qps/query_elements/constraint/FollowsConstraint.h"
 //#include "qps/query_elements/constraint/ParentConstraint.h"
-//#include "qps/query_elements/constraint/ConcretePatternConstraint.h"
+//#include "qps/query_elements/constraint/AssignPatternConstraint.h"
 //#include "stub/QueryPKBStub.h"
 //#include "catch.hpp"
 //#include <iostream>
@@ -44,7 +44,7 @@
 //    std::shared_ptr<ProcedureEntity> e = ConstraintArgCreator::createProcedureEntity("e");
 //    std::shared_ptr<Expression> exp = ConstraintArgCreator::createExpression("five");
 //    qo.addDeclaration(e);
-//    std::shared_ptr<ConcretePatternConstraint> pattern = make_shared<ConcretePatternConstraint>(e, exp, a);
+//    std::shared_ptr<AssignPatternConstraint> pattern = make_shared<AssignPatternConstraint>(e, exp, a);
 //    qo.addConstraint(pattern);
 //
 //    QueryPKBStub stub;

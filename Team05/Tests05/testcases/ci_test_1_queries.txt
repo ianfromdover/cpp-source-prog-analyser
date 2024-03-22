@@ -1,0 +1,5 @@
+1 - passing test
+procedure p;
+Select p such that Calls(_, _)
+f,f1,f2
+5000

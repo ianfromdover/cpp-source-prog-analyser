@@ -5,10 +5,10 @@
 #ifndef SPA_PARENTTCONSTRAINTBUILDER_H
 #define SPA_PARENTTCONSTRAINTBUILDER_H
 
-#include "ConstraintBuilderTemplate.h"
-#include "RelationshipConstraintBuilder.h"
+#include "qps/query_builder/constrain_builder/ConstraintBuilderTemplate.h"
+#include "RelationshipConstraintBuilderTemplate.h"
 
-class ParentTConstraintBuilder : public RelationshipConstraintBuilder {
+class ParentTConstraintBuilder : public RelationshipConstraintBuilderTemplate {
 private:
     shared_ptr<StatementReference> arg1;
     shared_ptr<StatementReference> arg2;

@@ -5,9 +5,9 @@
 #ifndef SPA_CALLSTCONSTRAINTBUILDER_H
 #define SPA_CALLSTCONSTRAINTBUILDER_H
 
-#include "RelationshipConstraintBuilder.h"
+#include "RelationshipConstraintBuilderTemplate.h"
 
-class CallsTConstraintBuilder : public RelationshipConstraintBuilder {
+class CallsTConstraintBuilder : public RelationshipConstraintBuilderTemplate {
 private:
     shared_ptr<EntityReference> arg1;
     shared_ptr<EntityReference> arg2;

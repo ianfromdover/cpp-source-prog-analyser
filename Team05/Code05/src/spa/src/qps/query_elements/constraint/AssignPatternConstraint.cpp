@@ -2,32 +2,32 @@
 // Created by tohzh on 15/2/2024.
 //
 
-#include "ConcretePatternConstraint.h"
+#include "AssignPatternConstraint.h"
 #include "qps/QueryProjector/ResultTable/ResultTable.h"
 
 #include <utility>
 
-ConcretePatternConstraint::ConcretePatternConstraint(std::shared_ptr<EntityReference> arg1,
-            std::shared_ptr<ExpressionReference> arg2, std::shared_ptr<AssignEntity> assignment) {
+AssignPatternConstraint::AssignPatternConstraint(std::shared_ptr<EntityReference> arg1,
+                                                 std::shared_ptr<ExpressionReference> arg2, std::shared_ptr<AssignEntity> assignment) {
     constraintArguments.push_back(arg1);
     constraintArguments.push_back(arg2);
     constraintIdentifier = std::move(assignment);
 }
 
-std::string ConcretePatternConstraint::getConstraintType() {
+std::string AssignPatternConstraint::getConstraintType() {
     return CONSTRAINT_CLASS_PATTERN;
 }
 
-std::shared_ptr<AssignEntity> ConcretePatternConstraint::getPatternConstraintIdentifier() {
+std::shared_ptr<AssignEntity> AssignPatternConstraint::getPatternConstraintIdentifier() {
     return constraintIdentifier;
 }
 
-std::vector<std::shared_ptr<ConstraintArgument>> ConcretePatternConstraint::getConstraintArguments() {
+std::vector<std::shared_ptr<ConstraintArgument>> AssignPatternConstraint::getConstraintArguments() {
     return constraintArguments;
 }
 
-Table ConcretePatternConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
-    Table temp = pkb.getPatternAsgnTable();
+Table AssignPatternConstraint::getRelationshipTable(QueryPKBVirtual & pkb) {
+    Table temp = pkb.getPatternAsgn();
     Table res;
 
     // MS3: pkb refactor
@@ -76,7 +76,7 @@ Table ConcretePatternConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     return table.getTable();
 }
 
-std::string& ConcretePatternConstraint::stripCharacters(std::string& str, const std::string& chars) {
+std::string& AssignPatternConstraint::stripCharacters(std::string& str, const std::string& chars) {
     // Find the first character position after excluding leading characters
     std::size_t first = str.find_first_not_of(chars);
     if (first == std::string::npos) {
