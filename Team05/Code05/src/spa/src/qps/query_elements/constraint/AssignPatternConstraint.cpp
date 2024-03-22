@@ -4,6 +4,7 @@
 
 #include "AssignPatternConstraint.h"
 #include "qps/query_projector/ResultTable.h"
+#include "common/StringUtils.h"
 
 #include <utility>
 
@@ -30,7 +31,6 @@ Table AssignPatternConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     Table temp = pkb.getPatternAsgnTable();
     Table res;
 
-    // MS3: pkb refactor
     for (const auto& entry : temp){
         // guaranteed 2 columns
         std::string stmtNo = entry[0];
@@ -49,9 +49,9 @@ Table AssignPatternConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     ResultTable table(res);
 
     if (args[0]->getEntityType() == TYPE_VARIABLE){
-        Table t = args[0]->getEntityTable(pkb);
+        std::vector<std::vector<std::string>> t = args[0]->getEntityTable(pkb);
         ResultTable entityTable(t);
-//        entityTable.removeColumnByIndex(0);
+        entityTable.removeColumnByIndex(0);
         table.add(entityTable.getTable());
     } else if (args[0]->getEntityType() == TYPE_QUOTED_IDENT){
         std::string string1=args[0]->getArgumentValue();
@@ -66,7 +66,8 @@ Table AssignPatternConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     } else if (args[1]->getEntityType()==TYPE_EXPRESSION_W_WILDCARD){
         std::string string1=args[1]->getArgumentValue();
         string stripped = stripCharacters(string1,"\"");
-        table.filterByColumnPartial(rhsHeader,"\\b" + stripped + "\\b");
+        table.filterByColumnPartial(rhsHeader,
+                                    StringUtils::formatAsRegex(stripped));
     }
 
     for (const std::string& header : {"ASSIGNLHS", "ASSIGNRHS"}){

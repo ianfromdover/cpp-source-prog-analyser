@@ -141,11 +141,29 @@ TEST_CASE("tokenize_pattern_patternToken") {
         std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
         REQUIRE(compareExpected(tokens, {QPSTokenType::PATTERN, QPSTokenType::END_OF_FILE}));
     }
-    SECTION("uowercasePattern_identifierToken") {
+    SECTION("uppercasePattern_identifierToken") {
         std::string source = "Pattern";
         std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
         REQUIRE(compareExpected(tokens, {QPSTokenType::IDENTIFIER, QPSTokenType::END_OF_FILE}));
     }
+}
+
+TEST_CASE("tokenize_and_andToken") {
+  SECTION("and_identToken") {
+    std::string source = "Uses(and,and)";
+    std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+    REQUIRE(compareExpected(tokens, {QPSTokenType::USES, QPSTokenType::LEFT_PAREN, QPSTokenType::IDENTIFIER, QPSTokenType::COMMA, QPSTokenType::IDENTIFIER, QPSTokenType::RIGHT_PAREN, QPSTokenType::END_OF_FILE}));
+  }
+  SECTION("and_andToken") {
+    std::string source = "Uses(and,and) and Uses(and,and)";
+    std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+    REQUIRE(compareExpected(tokens,
+{QPSTokenType::USES, QPSTokenType::LEFT_PAREN, QPSTokenType::IDENTIFIER, QPSTokenType::COMMA, QPSTokenType::IDENTIFIER, QPSTokenType::RIGHT_PAREN,
+                             QPSTokenType::AND,
+                             QPSTokenType::USES, QPSTokenType::LEFT_PAREN, QPSTokenType::IDENTIFIER, QPSTokenType::COMMA, QPSTokenType::IDENTIFIER, QPSTokenType::RIGHT_PAREN,
+                             QPSTokenType::END_OF_FILE}));
+  }
+
 }
 
 TEST_CASE("tokenize_relationship_relationshipToken") {
