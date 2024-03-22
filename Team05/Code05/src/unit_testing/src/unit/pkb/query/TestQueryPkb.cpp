@@ -7,8 +7,8 @@
 #include "common/TableUtils.h"
 #include <memory>
 
-std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
-QueryPkb queryPkb(pkb);
+//std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
+//QueryPkb queryPkb(pkb);
 
 TEST_CASE("Test TableUtils::isPresent testing helper function") {
 
@@ -24,6 +24,9 @@ TEST_CASE("Test TableUtils::isPresent testing helper function") {
 }
 
 TEST_CASE("Test toTable conversion methods") {
+
+    std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
+QueryPkb queryPkb(pkb);
 
     SECTION("Test for string vector") {
         std::vector<std::string> input = {"1", "2", "3"};
@@ -54,6 +57,9 @@ TEST_CASE("Test toTable conversion methods") {
 
 
 TEST_CASE("Test QueryPkb getCall methods") {
+
+    std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
+    QueryPkb queryPkb(pkb);
 
     // Add records to callTable
     pkb->callTable->addCall(1, "proc1");
@@ -90,6 +96,9 @@ TEST_CASE("Test QueryPkb getCall methods") {
 
 TEST_CASE("Test QueryPkb getProc methods") {
 
+    std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
+    QueryPkb queryPkb(pkb);
+
     // Add records to procTable
     pkb->procedureTable->addProc("proc1");
     pkb->procedureTable->addProc("proc2");
@@ -115,6 +124,9 @@ TEST_CASE("Test QueryPkb getProc methods") {
 
 
 TEST_CASE("Test QueryPkb getRead methods") {
+
+    std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
+    QueryPkb queryPkb(pkb);
 
     // Add records to readTable
     pkb->readTable->addRead(1, "x");
@@ -150,6 +162,9 @@ TEST_CASE("Test QueryPkb getRead methods") {
 
 
 TEST_CASE("Test QueryPkb getIf methods") {
+
+    std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
+    QueryPkb queryPkb(pkb);
 
     // Add records to readTable
     pkb->patternIfTable->addIf(1, "x");
@@ -187,6 +202,9 @@ TEST_CASE("Test QueryPkb getIf methods") {
 
 TEST_CASE("Test QueryPkb getWhile methods") {
 
+    std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
+    QueryPkb queryPkb(pkb);
+
     // Add records to whileTable
     pkb->patternWhileTable->addWhile(1, "x");
     pkb->patternWhileTable->addWhile(2, "y");
@@ -222,6 +240,9 @@ TEST_CASE("Test QueryPkb getWhile methods") {
 
 
 TEST_CASE("Test QueryPkb getPrint methods") {
+
+    std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
+    QueryPkb queryPkb(pkb);
 
     // Add records to printTable
     pkb->printTable->addPrint(1, "x");
@@ -259,6 +280,9 @@ TEST_CASE("Test QueryPkb getPrint methods") {
 
 TEST_CASE("Test QueryPkb getStmt methods") {
 
+    std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
+    QueryPkb queryPkb(pkb);
+
     // Add records to stmtTable
     pkb->statementTable->addFinalStatementNo(4); // bracket, not counted in stmts
 
@@ -277,6 +301,9 @@ TEST_CASE("Test QueryPkb getStmt methods") {
 
 
 TEST_CASE("Test QueryPkb getVar methods") {
+
+    std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
+    QueryPkb queryPkb(pkb);
 
     // Add records to varTable
     pkb->varTable->addVar(1, "x");
@@ -306,6 +333,9 @@ TEST_CASE("Test QueryPkb getVar methods") {
 
 TEST_CASE("Test QueryPkb getConst methods") {
 
+    std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
+    QueryPkb queryPkb(pkb);
+
     // Add records to constTable
     pkb->constTable->addConst(1, 4);
     pkb->constTable->addConst(2, 2);
@@ -327,6 +357,9 @@ TEST_CASE("Test QueryPkb getConst methods") {
 
 
 TEST_CASE("Test QueryPkb getFollows methods") {
+
+    std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
+    QueryPkb queryPkb(pkb);
 
     // Add records to followsTable
     pkb->followsTable->addFollows(1, 2);
@@ -361,6 +394,9 @@ TEST_CASE("Test QueryPkb getFollows methods") {
 
 
 TEST_CASE("Test QueryPkb getFollowsT methods") {
+
+    std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
+    QueryPkb queryPkb(pkb);
 
     // Add records to followsTTable
     pkb->followsTTable->addFollowsT(1, 2);
@@ -399,6 +435,9 @@ TEST_CASE("Test QueryPkb getFollowsT methods") {
 
 TEST_CASE("Test QueryPkb getParent methods") {
 
+    std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
+    QueryPkb queryPkb(pkb);
+
     // Add records to parentTable
     pkb->parentTable->addParent(1, 2);
     pkb->parentTable->addParent(1, 3);
@@ -432,6 +471,9 @@ TEST_CASE("Test QueryPkb getParent methods") {
 
 
 TEST_CASE("Test QueryPkb getParentT methods") {
+
+    std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
+    QueryPkb queryPkb(pkb);
 
     // Add records to parentTTable
     pkb->parentTTable->addParentT(1, 2);
@@ -469,6 +511,9 @@ TEST_CASE("Test QueryPkb getParentT methods") {
 
 TEST_CASE("Test QueryPkb getUsesS methods") {
 
+    std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
+    QueryPkb queryPkb(pkb);
+
     // Add records to usesSTable
     pkb->usesSTable->addUsesS(1, "x");
     pkb->usesSTable->addUsesS(2, "y");
@@ -504,6 +549,9 @@ TEST_CASE("Test QueryPkb getUsesS methods") {
 
 
 TEST_CASE("Test QueryPkb getUsesP methods") {
+
+    std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
+    QueryPkb queryPkb(pkb);
 
     // Add records to usesPTable
     pkb->usesPTable->addUsesP("proc1", "x");
@@ -542,6 +590,9 @@ TEST_CASE("Test QueryPkb getUsesP methods") {
 
 TEST_CASE("Test QueryPkb getModifiesS methods") {
 
+    std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
+    QueryPkb queryPkb(pkb);
+
     // Add records to modifiesSTable
     pkb->modifiesSTable->addModifiesS(1, "x");
     pkb->modifiesSTable->addModifiesS(2, "y");
@@ -576,6 +627,9 @@ TEST_CASE("Test QueryPkb getModifiesS methods") {
 
 
 TEST_CASE("Test QueryPkb getModifiesP methods") {
+
+    std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
+    QueryPkb queryPkb(pkb);
 
     // Add records to modifiesPTable
     pkb->modifiesPTable->addModifiesP("proc1", "x");
@@ -614,6 +668,9 @@ TEST_CASE("Test QueryPkb getModifiesP methods") {
 
 TEST_CASE("Test QueryPkb getPatternAsgn methods") {
 
+    std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
+    QueryPkb queryPkb(pkb);
+
     // Add records to patternAsgnTable
     pkb->patternAssignTable->addStmtLhs(1, "x");
     pkb->patternAssignTable->addStmtRhs(1, "3");
@@ -632,8 +689,18 @@ TEST_CASE("Test QueryPkb getPatternAsgn methods") {
 
 TEST_CASE("Test QueryPkb getPatternIf methods") {
 
+    std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
+    QueryPkb queryPkb(pkb);
+
     // 1 x, 2 y, 3 z, 4 y already in PKB from previous test case
     // note: they will not be there if this method is run individually
+    // updated: init new pkb each test case, solves issue
+
+    // Add records to patternIfTable
+    pkb->patternIfTable->addIf(1, "x");
+    pkb->patternIfTable->addIf(2, "y");
+    pkb->patternIfTable->addIf(3, "z");
+    pkb->patternIfTable->addIf(4, "y");
 
     // TODO: Add the other get methods where necessary
 
@@ -652,6 +719,9 @@ TEST_CASE("Test QueryPkb getPatternIf methods") {
 
 TEST_CASE("Test QueryPkb getPatternWhile methods") {
 
+    std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
+    QueryPkb queryPkb(pkb);
+
     // Add records to patternWhileTable
     pkb->patternWhileTable->addWhile(1, "x");
     pkb->patternWhileTable->addWhile(4, "y");
@@ -667,6 +737,9 @@ TEST_CASE("Test QueryPkb getPatternWhile methods") {
 
 
 TEST_CASE("Test QueryPkb getCalls methods") {
+
+    std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
+    QueryPkb queryPkb(pkb);
 
     // Add records to callsTable
     pkb->callsTable->addCalls("proc1", "procx");
@@ -705,6 +778,9 @@ TEST_CASE("Test QueryPkb getCalls methods") {
 
 TEST_CASE("Test QueryPkb getCallsT methods") {
 
+    std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
+    QueryPkb queryPkb(pkb);
+
     // Add records to callsTTable
     pkb->callsTTable->addCallsT("proc1", "procx");
     pkb->callsTTable->addCallsT("proc1", "procy");
@@ -741,6 +817,9 @@ TEST_CASE("Test QueryPkb getCallsT methods") {
 
 TEST_CASE("Test QueryPkb getNext methods") {
 
+    std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
+    QueryPkb queryPkb(pkb);
+
     // Add records to nextTable
     pkb->nextTable->addNext(1, 2);
     pkb->nextTable->addNext(2, 3);
@@ -774,6 +853,9 @@ TEST_CASE("Test QueryPkb getNext methods") {
 
 
 TEST_CASE("Test QueryPkb getNextT methods") {
+
+    std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
+    QueryPkb queryPkb(pkb);
 
     // Add records to nextTTable
     pkb->nextTTable->addNextT(1, 2);
