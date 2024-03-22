@@ -4,6 +4,7 @@
 
 #include "ProgramVisitor.h"
 #include "sp/ast/Stmt.h"
+#include "sp/cfg/block/Block.h"
 
 void ProgramVisitor::visitStmtList(const shared_ptr<vector<shared_ptr<Stmt>>>& stmts, shared_ptr<Accumulator> &info) {
     for (const auto& childStmt : *stmts) {

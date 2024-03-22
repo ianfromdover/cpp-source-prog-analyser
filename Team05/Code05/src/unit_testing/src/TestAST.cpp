@@ -1355,17 +1355,6 @@ TEST_CASE("Next relationship") {
 
     std::shared_ptr<PKBStorage> p = std::make_shared<PKBStorage>();
     auto pkb = make_shared<PopulatePKB>(p);
-    // Custom Inject for Now
-    pkb->addNext(1, 2);
-    pkb->addNext(1, 5);
-    pkb->addNext(5, 6);
-    pkb->addNext(2, 3);
-    pkb->addNext(3, 4);
-    pkb->addNext(4, 2);
-    pkb->addNext(2, 6);
-    pkb->addNext(6, 7);
-    pkb->addNext(7, 8);
-
     auto sp = SourceProcessor(pkb);
     sp.exec(codeSnippet);
     QueryPKB pkb1(p);
@@ -1478,39 +1467,56 @@ TEST_CASE("Test ExprFormatter API") {
 
 TEST_CASE("Test Extractor") {
     std::string codeSnippet = R"(
-        procedure main {
-            flag = 0;
-            call computeCentroid;
-            call printResults;
-        }
-        procedure readPoint {
+procedure main {
             read x;
             read y;
-        }
-        procedure printResults {
-            print flag;
-            print cenX;
-            print cenY;
-            print normSq;
-        }
-        procedure computeCentroid {
-            count = 0;
-            cenX = 0;
-            cenY = 0;
-            call readPoint;
-            while ((x != 0) && (y != 0)) {
-                count = count + 1;
-                cenX = cenX + x;
-                cenY = cenY + y;
-                call readPoint;
-            }
-            if (count == 0) then {
-                flag = 1;
+            print x;
+            print y;
+            z = 3;
+
+            if (x == 0) then {
+                x = x + 1;
+                y = y - 1;
+                z = 2;
             } else {
-                cenX = cenX / count;
-                cenY = cenY / count;
+                x = x + 2;
+                y = y + 1;
+
+                if (z != 3) then {
+                    x = 0;
+                    y = 0;
+                    z = 0;
+                } else {
+                    x = 1;
+                    z = x + y + 2;
+                }
             }
-            normSq = cenX * cenX + cenY * cenY;
+
+            x = x + 1;
+            z = y + x;
+
+            while (x < 5) {
+                print x;
+                print y;
+                while (y < 2) {
+                    print z;
+                    print y;
+                }
+                z = x - y;
+                k = z + y;
+
+                if (k > 0) then {
+                    k = k - 1;
+                } else {
+                    k = k + 1;
+                }
+
+                print k;
+            }
+
+            print x;
+            print y;
+            print z;
         }
     )";
 
@@ -1518,7 +1524,6 @@ TEST_CASE("Test Extractor") {
     auto pkb = make_shared<PopulatePKB>(p);
     auto sp = SourceProcessor(pkb);
     sp.exec(codeSnippet);
-
 
     require(true);
 }

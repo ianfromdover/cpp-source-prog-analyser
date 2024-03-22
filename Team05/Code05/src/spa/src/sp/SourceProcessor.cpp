@@ -17,6 +17,8 @@
 #include "sp/extractor/relation_extractor/FollowsExtractor.h"
 #include "sp/semantic_analyzer/SemanticAnalyzer.h"
 #include "sp/extractor/relation_extractor/CallsExtractor.h"
+#include "sp/extractor/cfg_extractor/NextExtractor.h"
+#include "sp/cfg/CFG.h"
 
 void SourceProcessor::exec(const std::string& source) {
     auto tokens = this->scan(source);
@@ -52,13 +54,20 @@ void SourceProcessor::extract(const std::shared_ptr<Program>& program) {
             std::make_shared<UsesExtractor>(this->pkb, program),
             std::make_shared<ModifiesExtractor>(this->pkb, program),
             std::make_shared<FollowsExtractor>(this->pkb),
-            std::make_shared<CallsExtractor>(this->pkb, program)
+            std::make_shared<CallsExtractor>(this->pkb, program),
+    };
+    auto cfgExtractor = std::vector<shared_ptr<CfgExtractor>> {
+            std::make_shared<NextExtractor>(this->pkb),
     };
     for (const auto& procedure : *program->getProcedures()) {
         //std::cout << "pkb.addProcedure(" << procedure->getProcName() << ");" << std::endl;
         pkb->addProcedure(procedure->getName());
         for (const auto& extractor : relationExtractor) {
-            procedure->accept(*extractor);
+                procedure->accept(*extractor);
+        }
+        for (const auto& extractor : cfgExtractor) {
+            auto cfg = CFG::compile(program)->at(procedure->getName());
+            cfg->getEntryBlock()->accept(*extractor);
         }
     }
 }

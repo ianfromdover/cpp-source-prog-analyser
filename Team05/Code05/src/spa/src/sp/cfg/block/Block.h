@@ -7,6 +7,7 @@
 
 #include <optional>
 #include "sp/ast/Stmt.h"
+#include "sp/extractor/CfgExtractor.h"
 
 class Block;
 
@@ -23,11 +24,15 @@ private:
     static std::string rangesToString(const std::shared_ptr<Blocks>& blocks);
 public:
     explicit Block();
+    void accept(CfgExtractor& visitor) const;
     void addStmt(const std::shared_ptr<Stmt>& stmt);
     void addSuccessor(const std::shared_ptr<Block>& successor);
     void addPredecessor(const std::shared_ptr<Block>& predecessor);
-    std::string toString();
+    bool isDummy();
+    std::string toString() const;
     [[nodiscard]] std::shared_ptr<StmtList> getStmts() const;
+    [[nodiscard]] std::shared_ptr<Stmt> getLastStmt() const;
+    [[nodiscard]] std::shared_ptr<Stmt> getFirstStmt() const;
     [[nodiscard]] std::shared_ptr<Blocks> getSuccessors() const;
     [[nodiscard]] std::shared_ptr<Blocks> getPredecessors() const;
 };

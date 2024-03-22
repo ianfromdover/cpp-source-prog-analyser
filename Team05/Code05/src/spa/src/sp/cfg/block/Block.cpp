@@ -10,6 +10,10 @@ Block::Block() {
     this->predecessors = std::make_shared<Blocks>();
 }
 
+void Block::accept(CfgExtractor &visitor) const {
+    visitor.visitBlock(*this);
+}
+
 void Block::addStmt(const std::shared_ptr<Stmt>& stmt) {
     this->stmts->push_back(stmt);
 }
@@ -46,7 +50,7 @@ std::string Block::rangesToString(const std::shared_ptr<Blocks>& blocks) {
     return str;
 }
 
-std::string Block::toString() {
+std::string Block::toString() const {
     const auto& self = std::make_shared<Blocks>();
     self->push_back(std::make_shared<Block>(*this));
     std::string str = "\tBlock" + Block::rangesToString(self) + ": [\n\t\tpredecessors: ";
@@ -59,6 +63,14 @@ std::shared_ptr<StmtList> Block::getStmts() const {
     return this->stmts;
 }
 
+std::shared_ptr<Stmt> Block::getLastStmt() const {
+    return stmts->empty() ? nullptr : this->stmts->back();
+}
+
+std::shared_ptr<Stmt> Block::getFirstStmt() const {
+    return stmts->empty() ? nullptr : this->stmts->front();
+}
+
 std::shared_ptr<Blocks> Block::getSuccessors() const {
     return this->successors;
 }
@@ -66,3 +78,8 @@ std::shared_ptr<Blocks> Block::getSuccessors() const {
 std::shared_ptr<Blocks> Block::getPredecessors() const {
     return this->predecessors;
 }
+
+bool Block::isDummy() {
+    return this->stmts->empty();
+}
+
