@@ -3,7 +3,7 @@
 //
 
 #include "FollowsTConstraint.h"
-#include "qps/QueryProjector/ResultTable/ResultTable.h"
+#include "qps/query_projector/ResultTable.h"
 
 FollowsTConstraint::FollowsTConstraint(std::shared_ptr<StatementReference> s1, std::shared_ptr<StatementReference> s2) {
     constraintArguments.push_back(s1);

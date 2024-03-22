@@ -4,7 +4,7 @@
 
 #include "ParentTConstraint.h"
 #include "pkb/apis/QueryPkb.h"
-#include "qps/QueryProjector/ResultTable/ResultTable.h"
+#include "qps/query_projector/ResultTable.h"
 
 ParentTConstraint::ParentTConstraint(std::shared_ptr<ConstraintArgument> s1, std::shared_ptr<ConstraintArgument> s2) {
     constraintArguments.push_back(s1);

@@ -5,7 +5,7 @@
 #ifndef SPA_PARENTTCONSTRAINTBUILDER_H
 #define SPA_PARENTTCONSTRAINTBUILDER_H
 
-#include "qps/query_builder/constrain_builder/ConstraintBuilderTemplate.h"
+#include "qps/query_builder/constraint_builder/ConstraintBuilderTemplate.h"
 #include "RelationshipConstraintBuilderTemplate.h"
 
 class ParentTConstraintBuilder : public RelationshipConstraintBuilderTemplate {

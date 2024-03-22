@@ -8,7 +8,7 @@
 
 #include <string>
 #include "QueryResultEnum.h"
-#include "../../QueryProjector/Formattable.h"
+#include "qps/query_projector/Formattable.h"
 
 class QueryResult : public Formattable {
 public:

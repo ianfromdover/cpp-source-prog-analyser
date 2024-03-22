@@ -10,8 +10,8 @@
 #include <vector>
 #include <string>
 #include "QueryResultEnum.h"
-#include "qps/QueryProjector/Formattable.h"
 #include "QueryResult.h"
+#include "qps/query_projector/Formattable.h"
 
 class StringResult : public QueryResult {
 public:

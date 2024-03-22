@@ -7,8 +7,8 @@
 
 #include <vector>
 #include <string>
-#include "QueryPreprocessor/QueryPreprocessor.h"
-#include "QueryEvaluator/QueryEvaluator.h"
+#include "query_preprocessor/QueryPreprocessor.h"
+#include "query_evaluator/QueryEvaluator.h"
 #include "pkb/apis/QueryPkb.h"
 
 class QPS {

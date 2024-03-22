@@ -8,9 +8,9 @@
 #include <string>
 #include "common/base_exception/BaseException.h"
 
-class QpsException : public BaseException {
+class QPSException : public BaseException {
 public:
-    explicit QpsException(const std::string& message) : BaseException("QPS Error: " + message) {}
+    explicit QPSException(const std::string& message) : BaseException("QPS Error: " + message) {}
     [[nodiscard]] const char* what() const noexcept override {
         return message_.c_str();
     }

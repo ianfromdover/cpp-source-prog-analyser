@@ -4,7 +4,7 @@
 
 #include "ModifiesPConstraint.h"
 #include "common/StringUtils.h"
-#include "qps/QueryProjector/ResultTable/ResultTable.h"
+#include "qps/query_projector/ResultTable.h"
 #include "pkb/apis/QueryPkbVirtual.h"
 
 ModifiesPConstraint::ModifiesPConstraint(std::shared_ptr<EntityReference> s1, std::shared_ptr<EntityReference> s2) {

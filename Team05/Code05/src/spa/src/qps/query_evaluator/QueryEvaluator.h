@@ -7,11 +7,11 @@
 
 
 #include <memory>
-#include "../QueryProjector/Formattable.h"
 #include "qps/query_elements/QueryObject.h"
 #include "pkb/apis/QueryPkb.h"
-#include "qps/QueryEvaluator/QueryResult/QueryResult.h"
-#include "qps/QueryProjector/ResultTable/ResultTable.h"
+#include "qps/query_evaluator/query_result/QueryResult.h"
+#include "qps/query_projector/Formattable.h"
+#include "qps/query_projector/ResultTable.h"
 
 class QueryEvaluator {
 public:

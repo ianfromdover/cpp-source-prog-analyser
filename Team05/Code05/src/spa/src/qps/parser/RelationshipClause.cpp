@@ -4,35 +4,35 @@
 
 #include <stdexcept>
 #include "RelationshipClause.h"
-#include "qps/Exceptions/QpsException.h"
+#include "qps/exceptions/QPSException.h"
 
 
 QPSToken &RelationshipClause::getSecondArg() {
     if (secondArg != nullptr) {
         return *secondArg;
     }
-    throw QpsException("Second argument is not set");
+    throw QPSException("Second argument is not set");
 }
 
 QPSToken &RelationshipClause::getFirstArg() {
     if (firstArg != nullptr) {
         return *firstArg;
     }
-    throw QpsException("First argument is not set");
+    throw QPSException("First argument is not set");
 }
 
 QPSTokenType::QPSTypeInfo RelationshipClause::getSecondArgType() {
     if (secondArg != nullptr) {
         return secondArg->getType().getInfo();
     }
-    throw QpsException("Second argument is not set");
+    throw QPSException("Second argument is not set");
 }
 
 QPSTokenType::QPSTypeInfo RelationshipClause::getFirstArgType() {
     if (firstArg != nullptr) {
         return firstArg->getType().getInfo();
     }
-    throw QpsException("First argument is not set");
+    throw QPSException("First argument is not set");
 }
 
 QPSTokenType::QPSTypeInfo RelationshipClause::getRelationshipType() {

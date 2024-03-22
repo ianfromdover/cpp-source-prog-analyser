@@ -8,11 +8,10 @@
 #include "qps/parser/QPSParser.h"
 #include "qps/query_builder/QueryObjectBuilder.h"
 #include "qps/query_validator/QueryValidator.h"
-#include "qps/Exceptions/SyntaxErrorException.h"
-#include "qps/Exceptions/SemanticErrorException.h"
-#include "qps/Exceptions/QPSParseException.h"
-#include "qps/Exceptions/QPSTokenizeException.h"
-#include "qps/Exceptions/QpsException.h"
+#include "qps/exceptions/SyntaxErrorException.h"
+#include "qps/exceptions/SemanticErrorException.h"
+#include "qps/exceptions/QPSParseException.h"
+#include "qps/exceptions/QPSTokenizeException.h"
 
 
 std::shared_ptr<QueryObject> QueryPreprocessor::processQuery(std::string & queryStr) {

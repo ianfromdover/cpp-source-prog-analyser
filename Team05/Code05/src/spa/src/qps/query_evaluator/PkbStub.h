@@ -7,10 +7,10 @@
 
 #include <memory>
 #include <utility>
-#include "qps/QueryEvaluator/QueryResult/QueryResult.h"
 #include "qps/query_elements/Returnable.h"
 #include "qps/query_elements/constraint/Constraint.h"
-#include "qps/QueryEvaluator/QueryResult/StringResult.h"
+#include "qps/query_evaluator/query_result/StringResult.h"
+#include "qps/query_evaluator/query_result/QueryResult.h"
 
 
 // ai-gen start(gpt, 0, e)

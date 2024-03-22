@@ -3,7 +3,7 @@
 //
 
 #include "UsesPConstraint.h"
-#include "qps/QueryProjector/ResultTable/ResultTable.h"
+#include "qps/query_projector/ResultTable.h"
 
 UsesPConstraint::UsesPConstraint(std::shared_ptr<EntityReference> s1, std::shared_ptr<EntityReference> s2) {
     constraintArguments.push_back(s1);

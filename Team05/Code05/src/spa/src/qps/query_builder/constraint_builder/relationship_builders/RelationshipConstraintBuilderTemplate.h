@@ -5,7 +5,7 @@
 #ifndef SPA_RELATIONSHIPCONSTRAINTBUILDERTEMPLATE_H
 #define SPA_RELATIONSHIPCONSTRAINTBUILDERTEMPLATE_H
 
-#include "qps/query_builder/constrain_builder/ConstraintBuilderTemplate.h"
+#include "qps/query_builder/constraint_builder/ConstraintBuilderTemplate.h"
 
 class RelationshipConstraintBuilderTemplate : public ConstraintBuilderTemplate {
 private:

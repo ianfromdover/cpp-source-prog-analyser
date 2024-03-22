@@ -5,7 +5,7 @@
 #ifndef SPA_PATTERNCONSTRAINTDIRECTOR_H
 #define SPA_PATTERNCONSTRAINTDIRECTOR_H
 
-#include "qps/query_builder/constrain_builder/pattern_builders/AssignPatternConstraintBuilder.h"
+#include "qps/query_builder/constraint_builder/pattern_builders/AssignPatternConstraintBuilder.h"
 
 class PatternConstraintDirector : public ConstraintBuilderTemplate {
 public:

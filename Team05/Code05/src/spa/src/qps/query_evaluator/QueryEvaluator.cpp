@@ -4,10 +4,10 @@
 
 #include "QueryEvaluator.h"
 #include <algorithm>
-#include "qps/QueryEvaluator/QueryResult/StringResult.h"
 #include "PkbStub.h"
-#include "qps/QueryEvaluator/QueryResult/IntResult.h"
-#include "qps/Exceptions/QpsException.h"
+#include "qps/query_evaluator/query_result/StringResult.h"
+#include "qps/query_evaluator/query_result/IntResult.h"
+#include "qps/exceptions/QPSException.h"
 
 
 std::shared_ptr<Formattable> QueryEvaluator::evaluate(QueryObject & query) {
@@ -66,7 +66,7 @@ std::shared_ptr<Formattable> QueryEvaluator::getEmptyResult() {
 
 std::shared_ptr<QueryResult> QueryEvaluator::intersect(std::shared_ptr<QueryResult> r1, std::shared_ptr<QueryResult> r2) {
     if (r1->getType() != r2->getType()) {
-        throw QpsException("mismatch return type for return queries");
+        throw QPSException("mismatch return type for return queries");
     }
     if (r1->getType() == QueryResultEnum::INTEGER) {
         std::shared_ptr<IntResult> int1 = dynamic_pointer_cast<IntResult>(r1);

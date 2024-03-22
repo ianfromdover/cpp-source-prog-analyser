@@ -3,7 +3,7 @@
 //
 
 #include "AssignPatternConstraint.h"
-#include "qps/QueryProjector/ResultTable/ResultTable.h"
+#include "qps/query_projector/ResultTable.h"
 
 #include <utility>
 

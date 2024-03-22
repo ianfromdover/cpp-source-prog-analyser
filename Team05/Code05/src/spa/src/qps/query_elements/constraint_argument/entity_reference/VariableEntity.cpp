@@ -3,7 +3,7 @@
 //
 
 #include "VariableEntity.h"
-#include "qps/QueryProjector/ResultTable/ResultTable.h"
+#include "qps/query_projector/ResultTable.h"
 
 std::string VariableEntity::getReturnType() {
     return RETURN_STR_RESULT;

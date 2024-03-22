@@ -5,7 +5,7 @@
 #include "QueryProjector.h"
 #include "qps/query_elements/constraint/Constraint.h"
 #include "qps/query_elements/constraint/FollowsConstraint.h"
-#include "qps/QueryProjector/ResultTable/ResultTable.h"
+#include "qps/query_projector/ResultTable.h"
 
 
 void processQuery(){
