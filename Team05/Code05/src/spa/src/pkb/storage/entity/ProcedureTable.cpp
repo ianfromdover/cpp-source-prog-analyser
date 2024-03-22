@@ -1,4 +1,5 @@
 #include <string>
+#include <algorithm>
 #include "ProcedureTable.h"
 
 ProcedureTable::ProcedureTable() = default;

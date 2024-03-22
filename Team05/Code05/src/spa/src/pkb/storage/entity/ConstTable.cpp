@@ -1,4 +1,5 @@
 #include "ConstTable.h"
+#include <algorithm>
 
 ConstTable::ConstTable() = default;
 
