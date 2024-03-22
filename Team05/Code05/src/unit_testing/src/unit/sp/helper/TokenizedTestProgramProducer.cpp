@@ -5,81 +5,970 @@
 #include "TokenizedTestProgramProducer.h"
 
 std::shared_ptr<TokenStream> TokenizedTestProgramProducer::createAssignCallPrintRead() const {
-    return std::shared_ptr<TokenStream>();
+    return TokenFactory::createProgram({
+        TokenFactory::createProcedure("AssignCallPrintRead", {
+            TokenFactory::createAssign("t", TokenFactory::createAddExpr(
+                TokenFactory::createMultiplyExpr(
+                    TokenFactory::createGrouping(TokenFactory::createAddExpr(
+                        TokenFactory::createInt(1),
+                        TokenFactory::createVariable("y")
+                    )),
+                    TokenFactory::createInt(3)
+                ),
+                TokenFactory::createVariable("y")
+            )),
+            TokenFactory::createCall("hello"),
+            TokenFactory::createRead("t"),
+            TokenFactory::createPrint("u"),
+        })
+    });
 }
 
 std::shared_ptr<TokenStream> TokenizedTestProgramProducer::createIfElseWithStmtsBeforeAndInside() const {
-    return std::shared_ptr<TokenStream>();
+    return TokenFactory::createProgram({
+        TokenFactory::createProcedure("IfElseWithStmtsBeforeAndInside", {
+            TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                TokenFactory::createVariable("y"),
+                TokenFactory::createInt(3)
+            )),
+            TokenFactory::createCall("hello"),
+            TokenFactory::createRead("t"),
+            TokenFactory::createPrint("u"),
+            TokenFactory::createIf(
+                TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"), TokenFactory::createInt(1)),
+                {
+                    TokenFactory::createAssign("t", TokenFactory::createAddExpr(
+                        TokenFactory::createMultiplyExpr(
+                            TokenFactory::createGrouping(TokenFactory::createAddExpr(
+                                TokenFactory::createInt(1),
+                                TokenFactory::createVariable("y")
+                            )),
+                            TokenFactory::createInt(3)
+                        ),
+                        TokenFactory::createVariable("y")
+                    )),
+                    TokenFactory::createCall("hello"),
+                    TokenFactory::createRead("t"),
+                    TokenFactory::createPrint("u"),
+                },
+                {
+                    TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                        TokenFactory::createVariable("y"),
+                        TokenFactory::createInt(3)
+                    )),
+                    TokenFactory::createCall("hello"),
+                    TokenFactory::createRead("t"),
+                    TokenFactory::createPrint("u"),
+                }
+            ),
+        })
+    });
 }
 
 std::shared_ptr<TokenStream> TokenizedTestProgramProducer::createIfElseWithStmtsBeforeAfterAndInside() const {
-    return std::shared_ptr<TokenStream>();
+    return TokenFactory::createProgram({
+        TokenFactory::createProcedure("IfElseWithStmtsBeforeAfterAndInside", {
+            TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                TokenFactory::createVariable("y"),
+                TokenFactory::createInt(3)
+            )),
+            TokenFactory::createCall("hello"),
+            TokenFactory::createRead("t"),
+            TokenFactory::createPrint("u"),
+            TokenFactory::createIf(
+                TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"), TokenFactory::createInt(1)),
+                {
+                    TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                        TokenFactory::createVariable("y"),
+                        TokenFactory::createInt(3)
+                    )),
+                    TokenFactory::createCall("hello"),
+                    TokenFactory::createRead("t"),
+                    TokenFactory::createPrint("u"),
+                },
+                {
+                    TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                        TokenFactory::createVariable("y"),
+                        TokenFactory::createInt(3)
+                    )),
+                    TokenFactory::createCall("hello"),
+                    TokenFactory::createRead("t"),
+                    TokenFactory::createPrint("u"),
+                }
+            ),
+            TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                TokenFactory::createVariable("y"),
+                TokenFactory::createInt(3)
+            )),
+            TokenFactory::createCall("hello"),
+            TokenFactory::createRead("t"),
+            TokenFactory::createPrint("u"),
+        })
+    });
 }
 
 std::shared_ptr<TokenStream> TokenizedTestProgramProducer::createIfElseWithStmtsAfterAndInside() const {
-    return std::shared_ptr<TokenStream>();
+    return TokenFactory::createProgram({
+        TokenFactory::createProcedure("IfElseWithStmtsAfterAndInside", {
+            TokenFactory::createIf(
+                TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"), TokenFactory::createInt(1)),
+                {
+                    TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                        TokenFactory::createVariable("y"),
+                        TokenFactory::createInt(3)
+                    )),
+                    TokenFactory::createCall("hello"),
+                    TokenFactory::createRead("t"),
+                    TokenFactory::createPrint("u"),
+                },
+                {
+                    TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                        TokenFactory::createVariable("y"),
+                        TokenFactory::createInt(3)
+                    )),
+                    TokenFactory::createCall("hello"),
+                    TokenFactory::createRead("t"),
+                    TokenFactory::createPrint("u"),
+                }
+            ),
+            TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                TokenFactory::createVariable("y"),
+                TokenFactory::createInt(3)
+            )),
+            TokenFactory::createCall("hello"),
+            TokenFactory::createRead("t"),
+            TokenFactory::createPrint("u"),
+        })
+    });
 }
 
 std::shared_ptr<TokenStream> TokenizedTestProgramProducer::createWhileWithStmtsBeforeAndInside() const {
-    return std::shared_ptr<TokenStream>();
+    return TokenFactory::createProgram({
+        TokenFactory::createProcedure("WhileWithStmtsBeforeAndInside", {
+            TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                TokenFactory::createVariable("y"),
+                TokenFactory::createInt(3)
+            )),
+            TokenFactory::createCall("hello"),
+            TokenFactory::createRead("t"),
+            TokenFactory::createPrint("u"),
+            TokenFactory::createWhile(
+                TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"), TokenFactory::createInt(1)),
+                {
+                    TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                        TokenFactory::createVariable("y"),
+                        TokenFactory::createInt(3)
+                    )),
+                    TokenFactory::createCall("hello"),
+                    TokenFactory::createRead("t"),
+                    TokenFactory::createPrint("u"),
+                }
+            ),
+        })
+    });
 }
 
 std::shared_ptr<TokenStream> TokenizedTestProgramProducer::createWhileWithStmtsBeforeAfterAndInside() const {
-    return std::shared_ptr<TokenStream>();
+    return TokenFactory::createProgram({
+        TokenFactory::createProcedure("WhileWithStmtsBeforeAfterAndInside", {
+            TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                TokenFactory::createVariable("y"),
+                TokenFactory::createInt(3)
+            )),
+            TokenFactory::createCall("hello"),
+            TokenFactory::createRead("t"),
+            TokenFactory::createPrint("u"),
+            TokenFactory::createWhile(
+                TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"), TokenFactory::createInt(1)),
+                {
+                    TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                        TokenFactory::createVariable("y"),
+                        TokenFactory::createInt(3)
+                    )),
+                    TokenFactory::createCall("hello"),
+                    TokenFactory::createRead("t"),
+                    TokenFactory::createPrint("u"),
+                }
+            ),
+            TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                TokenFactory::createVariable("y"),
+                TokenFactory::createInt(3)
+            )),
+            TokenFactory::createCall("hello"),
+            TokenFactory::createRead("t"),
+            TokenFactory::createPrint("u"),
+        })
+    });
 }
 
 std::shared_ptr<TokenStream> TokenizedTestProgramProducer::createWhileWithStmtsAfterAndInside() const {
-    return std::shared_ptr<TokenStream>();
+    return TokenFactory::createProgram({
+        TokenFactory::createProcedure("WhileWithStmtsAfterAndInside", {
+            TokenFactory::createWhile(
+                TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"), TokenFactory::createInt(1)),
+                {
+                    TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                        TokenFactory::createVariable("y"),
+                        TokenFactory::createInt(3)
+                    )),
+                    TokenFactory::createCall("hello"),
+                    TokenFactory::createRead("t"),
+                    TokenFactory::createPrint("u"),
+                }
+            ),
+            TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                TokenFactory::createVariable("y"),
+                TokenFactory::createInt(3)
+            )),
+            TokenFactory::createCall("hello"),
+            TokenFactory::createRead("t"),
+            TokenFactory::createPrint("u"),
+        })
+    });
 }
 
 std::shared_ptr<TokenStream> TokenizedTestProgramProducer::createIfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside() const {
-    return std::shared_ptr<TokenStream>();
+    return TokenFactory::createProgram({
+        TokenFactory::createProcedure("IfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside", {
+            TokenFactory::createIf(
+                TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"),TokenFactory::createInt(1)),
+                {
+                    TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                        TokenFactory::createVariable("y"),
+                        TokenFactory::createInt(3)
+                    )),
+                    TokenFactory::createCall("hello"),
+                    TokenFactory::createRead("t"),
+                    TokenFactory::createPrint("u"),
+                    TokenFactory::createIf(
+                        TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"), TokenFactory::createInt(1)),
+                        {
+                            TokenFactory::createAssign("t", TokenFactory::createAddExpr(
+                                TokenFactory::createMultiplyExpr(
+                                    TokenFactory::createGrouping(TokenFactory::createAddExpr(
+                                        TokenFactory::createInt(1),
+                                        TokenFactory::createVariable("y")
+                                    )),
+                                    TokenFactory::createInt(3)
+                                ),
+                                TokenFactory::createVariable("y")
+                            )),
+                            TokenFactory::createCall("hello"),
+                            TokenFactory::createRead("t"),
+                            TokenFactory::createPrint("u"),
+                        },
+                        {
+                            TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                                TokenFactory::createVariable("y"),
+                                TokenFactory::createInt(3)
+                            )),
+                            TokenFactory::createCall("hello"),
+                            TokenFactory::createRead("t"),
+                            TokenFactory::createPrint("u"),
+                        }
+                    ),
+                },
+                {
+                    TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                        TokenFactory::createVariable("y"),
+                        TokenFactory::createInt(3)
+                    )),
+                    TokenFactory::createCall("hello"),
+                    TokenFactory::createRead("t"),
+                    TokenFactory::createPrint("u"),
+                    TokenFactory::createIf(
+                        TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"), TokenFactory::createInt(1)),
+                        {
+                            TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                                TokenFactory::createVariable("y"),
+                                TokenFactory::createInt(3)
+                            )),
+                            TokenFactory::createCall("hello"),
+                            TokenFactory::createRead("t"),
+                            TokenFactory::createPrint("u"),
+                        },
+                        {
+                            TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                                TokenFactory::createVariable("y"),
+                                TokenFactory::createInt(3)
+                            )),
+                            TokenFactory::createCall("hello"),
+                            TokenFactory::createRead("t"),
+                            TokenFactory::createPrint("u"),
+                        }
+                    ),
+                }
+            ),
+        })
+    });
 }
 
 std::shared_ptr<TokenStream> TokenizedTestProgramProducer::createIfElseWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside() const {
-    return std::shared_ptr<TokenStream>();
+    return TokenFactory::createProgram({
+        TokenFactory::createProcedure("IfElseWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside", {
+            TokenFactory::createIf(
+                TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"),TokenFactory::createInt(1)),
+                {
+                    TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                        TokenFactory::createVariable("y"),
+                        TokenFactory::createInt(3)
+                    )),
+                    TokenFactory::createCall("hello"),
+                    TokenFactory::createRead("t"),
+                    TokenFactory::createPrint("u"),
+                    TokenFactory::createIf(
+                        TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"), TokenFactory::createInt(1)),
+                        {
+                            TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                                TokenFactory::createVariable("y"),
+                                TokenFactory::createInt(3)
+                            )),
+                            TokenFactory::createCall("hello"),
+                            TokenFactory::createRead("t"),
+                            TokenFactory::createPrint("u"),
+                        },
+                        {
+                            TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                                TokenFactory::createVariable("y"),
+                                TokenFactory::createInt(3)
+                            )),
+                            TokenFactory::createCall("hello"),
+                            TokenFactory::createRead("t"),
+                            TokenFactory::createPrint("u"),
+                        }
+                    ),
+                    TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                        TokenFactory::createVariable("y"),
+                        TokenFactory::createInt(3)
+                    )),
+                    TokenFactory::createCall("hello"),
+                    TokenFactory::createRead("t"),
+                    TokenFactory::createPrint("u"),
+                },
+                {
+                    TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                        TokenFactory::createVariable("y"),
+                        TokenFactory::createInt(3)
+                    )),
+                    TokenFactory::createCall("hello"),
+                    TokenFactory::createRead("t"),
+                    TokenFactory::createPrint("u"),
+                    TokenFactory::createIf(
+                        TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"), TokenFactory::createInt(1)),
+                        {
+                            TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                                TokenFactory::createVariable("y"),
+                                TokenFactory::createInt(3)
+                            )),
+                            TokenFactory::createCall("hello"),
+                            TokenFactory::createRead("t"),
+                            TokenFactory::createPrint("u"),
+                        },
+                        {
+                            TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                                TokenFactory::createVariable("y"),
+                                TokenFactory::createInt(3)
+                            )),
+                            TokenFactory::createCall("hello"),
+                            TokenFactory::createRead("t"),
+                            TokenFactory::createPrint("u"),
+                        }
+                    ),
+                    TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                        TokenFactory::createVariable("y"),
+                        TokenFactory::createInt(3)
+                    )),
+                    TokenFactory::createCall("hello"),
+                    TokenFactory::createRead("t"),
+                    TokenFactory::createPrint("u"),
+                }
+            ),
+        })
+    });
 }
 
 std::shared_ptr<TokenStream> TokenizedTestProgramProducer::createIfElseWithNestedIfElsePlusNestedStmtsAfterAndInside() const {
-    return std::shared_ptr<TokenStream>();
+    return TokenFactory::createProgram({
+        TokenFactory::createProcedure("IfElseWithNestedIfElsePlusNestedStmtsAfterAndInside", {
+            TokenFactory::createIf(
+                TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"), TokenFactory::createInt(1)),
+                {
+                    TokenFactory::createIf(
+                        TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"), TokenFactory::createInt(1)),
+                        {
+                            TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                                TokenFactory::createVariable("y"),
+                                TokenFactory::createInt(3)
+                            )),
+                            TokenFactory::createCall("hello"),
+                            TokenFactory::createRead("t"),
+                            TokenFactory::createPrint("u"),
+                        },
+                        {
+                            TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                                TokenFactory::createVariable("y"),
+                                TokenFactory::createInt(3)
+                            )),
+                            TokenFactory::createCall("hello"),
+                            TokenFactory::createRead("t"),
+                            TokenFactory::createPrint("u"),
+                        }
+                    ),
+                    TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                        TokenFactory::createVariable("y"),
+                        TokenFactory::createInt(3)
+                    )),
+                    TokenFactory::createCall("hello"),
+                    TokenFactory::createRead("t"),
+                    TokenFactory::createPrint("u"),
+                },
+                {
+                    TokenFactory::createIf(
+                        TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"), TokenFactory::createInt(1)),
+                        {
+                            TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                                TokenFactory::createVariable("y"),
+                                TokenFactory::createInt(3)
+                            )),
+                            TokenFactory::createCall("hello"),
+                            TokenFactory::createRead("t"),
+                            TokenFactory::createPrint("u"),
+                        },
+                        {
+                            TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                                TokenFactory::createVariable("y"),
+                                TokenFactory::createInt(3)
+                            )),
+                            TokenFactory::createCall("hello"),
+                            TokenFactory::createRead("t"),
+                            TokenFactory::createPrint("u"),
+                        }
+                    ),
+                    TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                        TokenFactory::createVariable("y"),
+                        TokenFactory::createInt(3)
+                    )),
+                    TokenFactory::createCall("hello"),
+                    TokenFactory::createRead("t"),
+                    TokenFactory::createPrint("u"),
+                }
+            ),
+        })
+    });
 }
 
 std::shared_ptr<TokenStream> TokenizedTestProgramProducer::createIfElseWithNestedWhilePlusNestedStmtsBeforeAndInside() const {
-    return std::shared_ptr<TokenStream>();
+    return TokenFactory::createProgram({
+        TokenFactory::createProcedure("IfElseWithNestedWhilePlusNestedStmtsBeforeAndInside", {
+            TokenFactory::createIf(
+                TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"), TokenFactory::createInt(1)),
+                {
+                    TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                        TokenFactory::createVariable("y"),
+                        TokenFactory::createInt(3)
+                    )),
+                    TokenFactory::createCall("hello"),
+                    TokenFactory::createRead("t"),
+                    TokenFactory::createPrint("u"),
+                    TokenFactory::createWhile(
+                        TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"), TokenFactory::createInt(1)),
+                        {
+                            TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                                TokenFactory::createVariable("y"),
+                                TokenFactory::createInt(3)
+                            )),
+                            TokenFactory::createCall("hello"),
+                            TokenFactory::createRead("t"),
+                            TokenFactory::createPrint("u"),
+                        }
+                    ),
+                },
+                {
+                    TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                        TokenFactory::createVariable("y"),
+                        TokenFactory::createInt(3)
+                    )),
+                    TokenFactory::createCall("hello"),
+                    TokenFactory::createRead("t"),
+                    TokenFactory::createPrint("u"),
+                    TokenFactory::createWhile(
+                        TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"), TokenFactory::createInt(1)),
+                        {
+                            TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                                TokenFactory::createVariable("y"),
+                                TokenFactory::createInt(3)
+                            )),
+                            TokenFactory::createCall("hello"),
+                            TokenFactory::createRead("t"),
+                            TokenFactory::createPrint("u"),
+                        }
+                    ),
+                }
+            ),
+        })
+    });
 }
 
 std::shared_ptr<TokenStream> TokenizedTestProgramProducer::createIfElseWithNestedWhilePlusNestedStmtsBeforeAfterAndInside() const {
-    return std::shared_ptr<TokenStream>();
+    return TokenFactory::createProgram({
+        TokenFactory::createProcedure("IfElseWithNestedWhilePlusNestedStmtsBeforeAfterAndInside", {
+            TokenFactory::createIf(
+                TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"), TokenFactory::createInt(1)),
+                {
+                    TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                        TokenFactory::createVariable("y"),
+                        TokenFactory::createInt(3)
+                    )),
+                    TokenFactory::createCall("hello"),
+                    TokenFactory::createRead("t"),
+                    TokenFactory::createPrint("u"),
+                    TokenFactory::createWhile(
+                        TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"), TokenFactory::createInt(1)),
+                        {
+                            TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                                TokenFactory::createVariable("y"),
+                                TokenFactory::createInt(3)
+                            )),
+                            TokenFactory::createCall("hello"),
+                            TokenFactory::createRead("t"),
+                            TokenFactory::createPrint("u"),
+                        }
+                    ),
+                    TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                        TokenFactory::createVariable("y"),
+                        TokenFactory::createInt(3)
+                    )),
+                    TokenFactory::createCall("hello"),
+                    TokenFactory::createRead("t"),
+                    TokenFactory::createPrint("u"),
+                },
+                {
+                    TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                        TokenFactory::createVariable("y"),
+                        TokenFactory::createInt(3)
+                    )),
+                    TokenFactory::createCall("hello"),
+                    TokenFactory::createRead("t"),
+                    TokenFactory::createPrint("u"),
+                    TokenFactory::createWhile(
+                        TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"), TokenFactory::createInt(1)),
+                        {
+                            TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                                TokenFactory::createVariable("y"),
+                                TokenFactory::createInt(3)
+                            )),
+                            TokenFactory::createCall("hello"),
+                            TokenFactory::createRead("t"),
+                            TokenFactory::createPrint("u"),
+                        }
+                    ),
+                    TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                        TokenFactory::createVariable("y"),
+                        TokenFactory::createInt(3)
+                    )),
+                    TokenFactory::createCall("hello"),
+                    TokenFactory::createRead("t"),
+                    TokenFactory::createPrint("u"),
+                }
+            ),
+        })
+    });
 }
 
 std::shared_ptr<TokenStream> TokenizedTestProgramProducer::createIfElseWithNestedWhilePlusNestedStmtsAfterAndInside() const {
-    return std::shared_ptr<TokenStream>();
+    return TokenFactory::createProgram({
+        TokenFactory::createProcedure("IfElseWithNestedWhilePlusNestedStmtsAfterAndInside", {
+            TokenFactory::createIf(
+                TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"), TokenFactory::createInt(1)),
+                {
+                    TokenFactory::createWhile(
+                        TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"), TokenFactory::createInt(1)),
+                        {
+                            TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                                TokenFactory::createVariable("y"),
+                                TokenFactory::createInt(3)
+                            )),
+                            TokenFactory::createCall("hello"),
+                            TokenFactory::createRead("t"),
+                            TokenFactory::createPrint("u"),
+                        }
+                    ),
+                    TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                        TokenFactory::createVariable("y"),
+                        TokenFactory::createInt(3)
+                    )),
+                    TokenFactory::createCall("hello"),
+                    TokenFactory::createRead("t"),
+                    TokenFactory::createPrint("u"),
+                },
+                {
+                    TokenFactory::createWhile(
+                        TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"), TokenFactory::createInt(1)),
+                        {
+                            TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                                TokenFactory::createVariable("y"),
+                                TokenFactory::createInt(3)
+                            )),
+                            TokenFactory::createCall("hello"),
+                            TokenFactory::createRead("t"),
+                            TokenFactory::createPrint("u"),
+                        }
+                    ),
+                    TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                        TokenFactory::createVariable("y"),
+                        TokenFactory::createInt(3)
+                    )),
+                    TokenFactory::createCall("hello"),
+                    TokenFactory::createRead("t"),
+                    TokenFactory::createPrint("u"),
+                }
+            ),
+        })
+    });
 }
 
 std::shared_ptr<TokenStream> TokenizedTestProgramProducer::createWhileWithNestedIfElsePlusNestedStmtsBeforeAndInside() const {
-    return std::shared_ptr<TokenStream>();
+    return TokenFactory::createProgram({
+        TokenFactory::createProcedure("WhileWithNestedIfElsePlusNestedStmtsBeforeAndInside", {
+            TokenFactory::createWhile(
+                TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"), TokenFactory::createInt(1)),
+                {
+                    TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                        TokenFactory::createVariable("y"),
+                        TokenFactory::createInt(3)
+                    )),
+                    TokenFactory::createCall("hello"),
+                    TokenFactory::createRead("t"),
+                    TokenFactory::createPrint("u"),
+                    TokenFactory::createIf(
+                        TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"), TokenFactory::createInt(1)),
+                        {
+                            TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                                TokenFactory::createVariable("y"),
+                                TokenFactory::createInt(3)
+                            )),
+                            TokenFactory::createCall("hello"),
+                            TokenFactory::createRead("t"),
+                            TokenFactory::createPrint("u"),
+                        },
+                        {
+                            TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                                TokenFactory::createVariable("y"),
+                                TokenFactory::createInt(3)
+                            )),
+                            TokenFactory::createCall("hello"),
+                            TokenFactory::createRead("t"),
+                            TokenFactory::createPrint("u"),
+                        }
+                    ),
+                }
+            ),
+        })
+    });
 }
 
 std::shared_ptr<TokenStream> TokenizedTestProgramProducer::createWhileWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside() const {
-    return std::shared_ptr<TokenStream>();
+    return TokenFactory::createProgram({
+        TokenFactory::createProcedure("WhileWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside", {
+            TokenFactory::createWhile(
+                TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"), TokenFactory::createInt(1)),
+                {
+                    TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                        TokenFactory::createVariable("y"),
+                        TokenFactory::createInt(3)
+                    )),
+                    TokenFactory::createCall("hello"),
+                    TokenFactory::createRead("t"),
+                    TokenFactory::createPrint("u"),
+                    TokenFactory::createIf(
+                        TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"), TokenFactory::createInt(1)),
+                        {
+                            TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                                TokenFactory::createVariable("y"),
+                                TokenFactory::createInt(3)
+                            )),
+                            TokenFactory::createCall("hello"),
+                            TokenFactory::createRead("t"),
+                            TokenFactory::createPrint("u"),
+                        },
+                        {
+                            TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                                TokenFactory::createVariable("y"),
+                                TokenFactory::createInt(3)
+                            )),
+                            TokenFactory::createCall("hello"),
+                            TokenFactory::createRead("t"),
+                            TokenFactory::createPrint("u"),
+                        }
+                    ),
+                    TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                        TokenFactory::createVariable("y"),
+                        TokenFactory::createInt(3)
+                    )),
+                    TokenFactory::createCall("hello"),
+                    TokenFactory::createRead("t"),
+                    TokenFactory::createPrint("u"),
+                }
+            ),
+        })
+    });
 }
 
 std::shared_ptr<TokenStream> TokenizedTestProgramProducer::createWhileWithNestedIfElsePlusNestedStmtsAfterAndInside() const {
-    return std::shared_ptr<TokenStream>();
+    return TokenFactory::createProgram({
+        TokenFactory::createProcedure("WhileWithNestedIfElsePlusNestedStmtsAfterAndInside", {
+            TokenFactory::createWhile(
+                TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"), TokenFactory::createInt(1)),
+                {
+                    TokenFactory::createIf(
+                        TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"), TokenFactory::createInt(1)),
+                        {
+                            TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                                TokenFactory::createVariable("y"),
+                                TokenFactory::createInt(3)
+                            )),
+                            TokenFactory::createCall("hello"),
+                            TokenFactory::createRead("t"),
+                            TokenFactory::createPrint("u"),
+                        },
+                        {
+                            TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                                TokenFactory::createVariable("y"),
+                                TokenFactory::createInt(3)
+                            )),
+                            TokenFactory::createCall("hello"),
+                            TokenFactory::createRead("t"),
+                            TokenFactory::createPrint("u"),
+                        }
+                    ),
+                    TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                        TokenFactory::createVariable("y"),
+                        TokenFactory::createInt(3)
+                    )),
+                    TokenFactory::createCall("hello"),
+                    TokenFactory::createRead("t"),
+                    TokenFactory::createPrint("u"),
+                }
+            ),
+        })
+    });
 }
 
 std::shared_ptr<TokenStream> TokenizedTestProgramProducer::createWhileWithNestedWhilePlusNestedStmtsBeforeAndInside() const {
-    return std::shared_ptr<TokenStream>();
+    return TokenFactory::createProgram({
+        TokenFactory::createProcedure("WhileWithNestedWhilePlusNestedStmtsBeforeAndInside", {
+            TokenFactory::createWhile(
+                TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"), TokenFactory::createInt(1)),
+                {
+                    TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                        TokenFactory::createVariable("y"),
+                        TokenFactory::createInt(3)
+                    )),
+                    TokenFactory::createCall("hello"),
+                    TokenFactory::createRead("t"),
+                    TokenFactory::createPrint("u"),
+                    TokenFactory::createWhile(
+                        TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"), TokenFactory::createInt(1)),
+                        {
+                            TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                                TokenFactory::createVariable("y"),
+                                TokenFactory::createInt(3)
+                            )),
+                            TokenFactory::createCall("hello"),
+                            TokenFactory::createRead("t"),
+                            TokenFactory::createPrint("u"),
+                        }
+                    ),
+                }
+            ),
+        })
+    });
 }
 
 std::shared_ptr<TokenStream> TokenizedTestProgramProducer::createWhileWithNestedWhilePlusNestedStmtsBeforeAfterAndInside() const {
-    return std::shared_ptr<TokenStream>();
+    return TokenFactory::createProgram({
+        TokenFactory::createProcedure("WhileWithNestedWhilePlusNestedStmtsBeforeAfterAndInside", {
+            TokenFactory::createWhile(
+                TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"), TokenFactory::createInt(1)),
+                {
+                    TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                        TokenFactory::createVariable("y"),
+                        TokenFactory::createInt(3)
+                    )),
+                    TokenFactory::createCall("hello"),
+                    TokenFactory::createRead("t"),
+                    TokenFactory::createPrint("u"),
+                    TokenFactory::createWhile(
+                        TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"), TokenFactory::createInt(1)),
+                        {
+                            TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                                TokenFactory::createVariable("y"),
+                                TokenFactory::createInt(3)
+                            )),
+                            TokenFactory::createCall("hello"),
+                            TokenFactory::createRead("t"),
+                            TokenFactory::createPrint("u"),
+                        }
+                    ),
+                    TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                        TokenFactory::createVariable("y"),
+                        TokenFactory::createInt(3)
+                    )),
+                    TokenFactory::createCall("hello"),
+                    TokenFactory::createRead("t"),
+                    TokenFactory::createPrint("u"),
+                }
+            ),
+        })
+    });
 }
 
 std::shared_ptr<TokenStream> TokenizedTestProgramProducer::createWhileWithNestedWhilePlusNestedStmtsAfterAndInside() const {
-    return std::shared_ptr<TokenStream>();
+    return TokenFactory::createProgram({
+        TokenFactory::createProcedure("WhileWithNestedWhilePlusNestedStmtsAfterAndInside", {
+            TokenFactory::createWhile(
+                TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"), TokenFactory::createInt(1)),
+                {
+                    TokenFactory::createWhile(
+                        TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"), TokenFactory::createInt(1)),
+                        {
+                            TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                                TokenFactory::createVariable("y"),
+                                TokenFactory::createInt(3)
+                            )),
+                            TokenFactory::createCall("hello"),
+                            TokenFactory::createRead("t"),
+                            TokenFactory::createPrint("u"),
+                        }
+                    ),
+                    TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                        TokenFactory::createVariable("y"),
+                        TokenFactory::createInt(3)
+                    )),
+                    TokenFactory::createCall("hello"),
+                    TokenFactory::createRead("t"),
+                    TokenFactory::createPrint("u"),
+                }
+            ),
+        })
+    });
 }
 
 std::shared_ptr<TokenStream> TokenizedTestProgramProducer::createSequentialNestingChain() const {
-    return std::shared_ptr<TokenStream>();
+    return TokenFactory::createProgram({
+        TokenFactory::createProcedure("AssignCallPrintRead", {
+            TokenFactory::createAssign("t", TokenFactory::createAddExpr(
+                TokenFactory::createMultiplyExpr(
+                    TokenFactory::createGrouping(TokenFactory::createAddExpr(
+                        TokenFactory::createInt(1),
+                        TokenFactory::createVariable("y")
+                    )),
+                    TokenFactory::createInt(3)
+                ),
+                TokenFactory::createVariable("y")
+            )),
+            TokenFactory::createCall("IfElseWithStmtsBeforeAndInside"),
+            TokenFactory::createRead("t"),
+            TokenFactory::createPrint("u"),
+        }),
+        TokenFactory::createProcedure("IfElseWithStmtsBeforeAndInside", {
+            TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                TokenFactory::createVariable("y"),
+                TokenFactory::createInt(3)
+            )),
+            TokenFactory::createCall("IfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside"),
+            TokenFactory::createRead("t"),
+            TokenFactory::createPrint("u"),
+            TokenFactory::createIf(
+                TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"), TokenFactory::createInt(1)),
+                {
+                    TokenFactory::createAssign("t", TokenFactory::createAddExpr(
+                        TokenFactory::createMultiplyExpr(
+                            TokenFactory::createGrouping(TokenFactory::createAddExpr(
+                                TokenFactory::createInt(1),
+                                TokenFactory::createVariable("y")
+                            )),
+                            TokenFactory::createInt(3)
+                        ),
+                        TokenFactory::createVariable("y")
+                    )),
+                    TokenFactory::createRead("t"),
+                    TokenFactory::createPrint("u"),
+                },
+                {
+                    TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                        TokenFactory::createVariable("y"),
+                        TokenFactory::createInt(3)
+                    )),
+                    TokenFactory::createRead("t"),
+                    TokenFactory::createPrint("u"),
+                }
+            ),
+        }),
+        TokenFactory::createProcedure("IfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside", {
+            TokenFactory::createIf(
+                TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"), TokenFactory::createInt(1)),
+                {
+                    TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                        TokenFactory::createVariable("y"),
+                        TokenFactory::createInt(3)
+                    )),
+                    TokenFactory::createRead("t"),
+                    TokenFactory::createPrint("u"),
+                    TokenFactory::createIf(
+                        TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"), TokenFactory::createInt(1)),
+                        {
+                            TokenFactory::createAssign("t", TokenFactory::createAddExpr(
+                                TokenFactory::createMultiplyExpr(
+                                    TokenFactory::createGrouping(TokenFactory::createAddExpr(
+                                        TokenFactory::createInt(1),
+                                        TokenFactory::createVariable("y")
+                                    )),
+                                    TokenFactory::createInt(3)
+                                ),
+                                TokenFactory::createVariable("y")
+                            )),
+                            TokenFactory::createRead("t"),
+                            TokenFactory::createPrint("u"),
+                        },
+                        {
+                            TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                                TokenFactory::createVariable("y"),
+                                TokenFactory::createInt(3)
+                            )),
+                            TokenFactory::createRead("t"),
+                            TokenFactory::createPrint("u"),
+                        }
+                    ),
+                },
+                {
+                    TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                        TokenFactory::createVariable("y"),
+                        TokenFactory::createInt(3)
+                    )),
+                    TokenFactory::createRead("t"),
+                    TokenFactory::createPrint("u"),
+                    TokenFactory::createIf(
+                        TokenFactory::createEqualsExpr(TokenFactory::createVariable("x"), TokenFactory::createInt(1)),
+                        {
+                            TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                                TokenFactory::createVariable("y"),
+                                TokenFactory::createInt(3)
+                            )),
+                            TokenFactory::createRead("t"),
+                            TokenFactory::createPrint("u"),
+                        },
+                        {
+                            TokenFactory::createAssign("x", TokenFactory::createAddExpr(
+                                TokenFactory::createVariable("y"),
+                                TokenFactory::createInt(3)
+                            )),
+                            TokenFactory::createRead("t"),
+                            TokenFactory::createPrint("u"),
+                        }
+                    ),
+                }
+            ),
+        })
+    });
 }
