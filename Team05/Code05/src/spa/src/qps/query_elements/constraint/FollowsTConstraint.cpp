@@ -3,7 +3,7 @@
 //
 
 #include "FollowsTConstraint.h"
-#include "qps/QueryProjector/ResultTable/ResultTable.h"
+#include "qps/query_projector/ResultTable.h"
 
 FollowsTConstraint::FollowsTConstraint(std::shared_ptr<StatementReference> s1, std::shared_ptr<StatementReference> s2) {
     constraintArguments.push_back(s1);
@@ -19,9 +19,9 @@ std::vector<std::shared_ptr<ConstraintArgument>> FollowsTConstraint::getConstrai
 }
 
 
-std::vector<std::vector<std::string>> FollowsTConstraint::getRelationshipTable(QueryPKBVirtual & pkb) {
+Table FollowsTConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     // Get follows table and populate it into our results table
-    std::vector<std::vector<std::string>> result = pkb.getFollowsT();
+    Table result = pkb.getFollowsTTable();
 
     // Get constraint arguments and initialise it as our table headers
     std::vector<std::shared_ptr<ConstraintArgument>> args = getConstraintArguments();
@@ -46,10 +46,10 @@ std::vector<std::vector<std::string>> FollowsTConstraint::getRelationshipTable(Q
     }
     if (isStatementSynonym(lhsEntityType)) {
         // Get entity table by type
-        std::vector<std::vector<std::string>> entityTable = args[0]->getEntityTable(pkb);
+        Table entityTable = args[0]->getEntityTable(pkb);
         ResultTable entityTableResult(entityTable);
         if (lhsEntityType != TYPE_STATEMENT) {
-            entityTableResult.removeColumnByIndex(1);
+          entityTableResult.removeAllColumnsExceptIndex(0);
         }
         table.add(entityTableResult.getTable());
     }
@@ -62,10 +62,10 @@ std::vector<std::vector<std::string>> FollowsTConstraint::getRelationshipTable(Q
 
     if (isStatementSynonym(rhsEntityType)) {
         // Get entity table by type
-        std::vector<std::vector<std::string>> entityTable = args[1]->getEntityTable(pkb);
+        Table entityTable = args[1]->getEntityTable(pkb);
         ResultTable entityTableResult(entityTable);
         if (rhsEntityType != TYPE_STATEMENT) {
-            entityTableResult.removeColumnByIndex(1);
+          entityTableResult.removeAllColumnsExceptIndex(0);
         }
         table.add(entityTableResult.getTable());
     }

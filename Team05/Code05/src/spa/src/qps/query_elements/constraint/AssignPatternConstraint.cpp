@@ -3,7 +3,7 @@
 //
 
 #include "AssignPatternConstraint.h"
-#include "qps/QueryProjector/ResultTable/ResultTable.h"
+#include "qps/query_projector/ResultTable.h"
 
 #include <utility>
 
@@ -26,10 +26,11 @@ std::vector<std::shared_ptr<ConstraintArgument>> AssignPatternConstraint::getCon
     return constraintArguments;
 }
 
-std::vector<std::vector<std::string>> AssignPatternConstraint::getRelationshipTable(QueryPKBVirtual & pkb) {
-    std::vector<std::vector<std::string>> temp = pkb.getPatternAsgn();
-    std::vector<std::vector<std::string>> res;
+Table AssignPatternConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
+    Table temp = pkb.getPatternAsgnTable();
+    Table res;
 
+    // MS3: pkb refactor
     for (const auto& entry : temp){
         // guaranteed 2 columns
         std::string stmtNo = entry[0];
@@ -48,9 +49,9 @@ std::vector<std::vector<std::string>> AssignPatternConstraint::getRelationshipTa
     ResultTable table(res);
 
     if (args[0]->getEntityType() == TYPE_VARIABLE){
-        std::vector<std::vector<std::string>> t = args[0]->getEntityTable(pkb);
+        Table t = args[0]->getEntityTable(pkb);
         ResultTable entityTable(t);
-        entityTable.removeColumnByIndex(0);
+//        entityTable.removeColumnByIndex(0);
         table.add(entityTable.getTable());
     } else if (args[0]->getEntityType() == TYPE_QUOTED_IDENT){
         std::string string1=args[0]->getArgumentValue();

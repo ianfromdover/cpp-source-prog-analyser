@@ -26,9 +26,11 @@ std::string AssignEntity::getArgumentValue() {
     return this->identifier;
 }
 
-std::vector<std::vector<std::string>> AssignEntity::getEntityTable(QueryPKBVirtual & pkb ) {
-    auto entityTable = pkb.getPatternAsgn();
+Table AssignEntity::getEntityTable(QueryPkbVirtual & pkb ) {
+    auto entityTable = pkb.getPatternAsgnTable();
     // Insertion of headers into our entity table
+    //    entityTable.insert(entityTable.begin(), {this->identifier,
+    //    "ASSIGNLHS", "ASSIGNRHS"});
     entityTable.insert(entityTable.begin(), {this->identifier, "ASSIGNRHS"});
     return entityTable;
 }

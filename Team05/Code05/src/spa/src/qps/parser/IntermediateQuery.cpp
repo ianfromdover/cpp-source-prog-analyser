@@ -8,7 +8,7 @@
 #include "SelectClause.h"
 #include "RelationshipClause.h"
 #include "PatternClause.h"
-#include "qps/Exceptions/QPSException.h"
+#include "qps/exceptions/QPSException.h"
 
 
 void IntermediateQuery::addClause(const std::shared_ptr<Clause> &clause) {

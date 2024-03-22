@@ -17,7 +17,7 @@ enum enumReturnType {
     If_enum,
     While_enum,
     Integer_enum,
-    WildCard_enum
+    Wildcard_enum
 };
 
 enum enumReferenceType {

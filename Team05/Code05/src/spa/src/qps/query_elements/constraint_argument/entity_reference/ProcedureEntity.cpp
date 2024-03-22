@@ -24,14 +24,10 @@ std::string ProcedureEntity::getArgumentValue() {
     return this->identifier;
 }
 
-std::vector<std::vector<std::string>> ProcedureEntity::getEntityTable(QueryPKBVirtual &pkb) {
-    auto entityTable = pkb.getProcedure();
+Table ProcedureEntity::getEntityTable(QueryPkbVirtual &pkb) {
+    auto entityTable = pkb.getProcTable();
     // Insertion of headers into our entity table
-    entityTable.insert(entityTable.begin(), {"PROCEDURELHS", this->identifier});
-    // TODO: HOTFIX - remove first column
-    for (auto &row : entityTable) {
-        row.erase(row.begin());
-    }
+    entityTable.insert(entityTable.begin(), {this->identifier});
     return entityTable;
 }
 
