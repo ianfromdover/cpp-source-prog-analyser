@@ -237,19 +237,48 @@ QPSToken QPSParser::any() {
                           "]: invalid argument.");
 }
 
-std::shared_ptr<PatternClause> QPSParser::pattern() {
+std::shared_ptr<PatternClause> QPSParser::assignPattern() {
+    int state = current;
+    try {
+      QPSToken synAssign = this->synonym(
+          this->consume(QPSTokenType::IDENTIFIER, "Expect identifier."));
+
+      this->consume(QPSTokenType::LEFT_PAREN, "Expect '(' after identifier.");
+      QPSToken entRef = this->entRef();
+      this->consume(QPSTokenType::COMMA, "Expect ',' after entRef.");
+      QPSToken exprSpec = this->exprSpec();
+      this->consume(QPSTokenType::RIGHT_PAREN, "Expect ')' after expr spec.");
+
+      PatternClause patternCl(synAssign.getLexeme(), entRef,
+                              QPSTokenType::QPSTypeInfo::ENT_REF, exprSpec,
+                              QPSTokenType::EXPR_REF);
+
+      return std::make_shared<PatternClause>(patternCl);
+    } catch (QPSParseException &e) {
+      current = state;
+      return nullptr;
+    }
+}
+
+std::shared_ptr<PatternClause> QPSParser::whilePattern() {
+  int state = current;
+  try {
     QPSToken synAssign = this->synonym(this->consume(QPSTokenType::IDENTIFIER, "Expect identifier."));
 
     this->consume(QPSTokenType::LEFT_PAREN, "Expect '(' after identifier.");
     QPSToken entRef = this->entRef();
     this->consume(QPSTokenType::COMMA, "Expect ',' after entRef.");
-    QPSToken exprSpec = this->exprSpec();
+    QPSToken wildcard = this->consume(QPSTokenType::WILDCARD, "Expect '_' as second argument");
     this->consume(QPSTokenType::RIGHT_PAREN, "Expect ')' after expr spec.");
 
-    PatternClause patternCl(synAssign.getLexeme(), entRef, QPSTokenType::QPSTypeInfo::ENT_REF, exprSpec,
+    PatternClause patternCl(synAssign.getLexeme(), entRef, QPSTokenType::QPSTypeInfo::ENT_REF, wildcard,
                             QPSTokenType::EXPR_REF);
 
     return std::make_shared<PatternClause>(patternCl);
+  } catch (QPSParseException &e) {
+    current = state;
+    return nullptr;
+  }
 }
 
 QPSToken QPSParser::stmtRef() {
@@ -436,8 +465,12 @@ std::shared_ptr<IntermediateQuery> QPSParser::parse() {
         }
       }
         if (this->match({QPSTokenType::PATTERN})) {
-            std::shared_ptr<PatternClause> pattern = this->pattern();
-            if (pattern) query->addClause(pattern);
+            //std::shared_ptr<PatternClause> pattern = this->assignPattern();
+            if (std::shared_ptr<PatternClause>assignp=assignPattern()) query->addClause(assignp);
+            else if (std::shared_ptr<PatternClause>whilep=whilePattern()) query->addClause(whilep);
+            else {
+              throw QPSParseException("at [" + std::to_string(current) + "]: Expect pattern clause.");
+            }
         }
     }
 
