@@ -3,7 +3,7 @@
 //
 #include "catch.hpp"
 #include "../helper/AstProgram.cpp"
-#include "../helper/PKBStubSP.cpp"
+#include "../helper/PkbStubSp.cpp"
 #include "sp/extractor/relation_extractor/UsesExtractor.h"
 #include "sp/ast/Program.h"
 
@@ -174,7 +174,7 @@ TEST_CASE("Uses_TestSequentialIfIfNestingChain") {
             {"AssignCallPrintRead", "u"},
     };
     auto program = AstProgram::createSequentialIfIfNestingChain();
-    auto pkb = make_shared<PKBStubSP>();
+    auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<UsesExtractor>(pkb, program);
     for (const auto& procedure : *program->getProcedures()) {
         procedure->accept(*extractor);
@@ -287,7 +287,7 @@ TEST_CASE("Uses_TestSequentialIfWhileNestingChain") {
             {"AssignCallPrintRead", "u"},
     };
     auto program = AstProgram::createSequentialIfWhileNestingChain();
-    auto pkb = make_shared<PKBStubSP>();
+    auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<UsesExtractor>(pkb, program);
     for (const auto& procedure : *program->getProcedures()) {
         procedure->accept(*extractor);
@@ -386,7 +386,7 @@ TEST_CASE("Uses_TestSequentialWhileIfNestingChain") {
         {"AssignCallPrintRead", "u"},
     };
     auto program = AstProgram::createSequentialWhileIfNestingChain();
-    auto pkb = make_shared<PKBStubSP>();
+    auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<UsesExtractor>(pkb, program);
     for (const auto& procedure : *program->getProcedures()) {
         procedure->accept(*extractor);
@@ -472,7 +472,7 @@ TEST_CASE("Uses_TestSequentialWhileWhileNestingChain") {
         {"AssignCallPrintRead", "u"},
     };
     auto program = AstProgram::createSequentialWhileWhileNestingChain();
-    auto pkb = make_shared<PKBStubSP>();
+    auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<UsesExtractor>(pkb, program);
     for (const auto& procedure : *program->getProcedures()) {
         procedure->accept(*extractor);

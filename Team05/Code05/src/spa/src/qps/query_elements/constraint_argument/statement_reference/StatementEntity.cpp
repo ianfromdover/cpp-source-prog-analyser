@@ -3,7 +3,7 @@
 //
 
 #include "StatementEntity.h"
-#include "qps/Exceptions/QPSException.h"
+#include "qps/exceptions/QPSException.h"
 
 std::string StatementEntity::getReturnType() {
     return RETURN_INT_RESULT;
@@ -25,10 +25,10 @@ std::string StatementEntity::toString() {
     return this->identifier + " [STMT]";
 }
 
-std::vector<std::vector<std::string>> StatementEntity::getEntityTable(QueryPKBVirtual &pkb) {
-    auto entityTable = pkb.getStatement();
+Table StatementEntity::getEntityTable(QueryPkbVirtual &pkb) {
+    auto entityTable = pkb.getStmtTable();
     // Insertion of headers into our entity table
-    entityTable.insert(entityTable.begin(), {this->identifier, this->identifier});
+    entityTable.insert(entityTable.begin(), {this->identifier});
     return entityTable;
 }
 

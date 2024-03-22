@@ -2,7 +2,7 @@
 // Created by tohzh on 21/2/2024.
 //
 
-#include "qps/QueryEvaluator/QueryResult/IntResult.h"
+#include "qps/query_evaluator/query_result/IntResult.h"
 #include "catch.hpp"
 #include <iostream>
 using namespace std;

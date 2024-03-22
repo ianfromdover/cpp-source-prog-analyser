@@ -8,14 +8,14 @@
 #include <utility>
 
 #include "sp/visitor/ProgramVisitor.h"
-#include "pkb/apis/PopulatePKB.h"
+#include "pkb/apis/PopulatePkb.h"
 #include "sp/ast/Stmt.h"
 
 class RelationExtractor : public ProgramVisitor {
 protected:
-    shared_ptr<BasePKBPopulator> pkb;
+    shared_ptr<BasePkbPopulator> pkb;
 public:
-    explicit RelationExtractor(shared_ptr<BasePKBPopulator> pkb) : pkb(std::move(pkb)) {}
+    explicit RelationExtractor(shared_ptr<BasePkbPopulator> pkb) : pkb(std::move(pkb)) {}
     virtual ~RelationExtractor() = default;
     void visitProcedure(const Procedure&, std::shared_ptr<Accumulator>&) override;
 };

@@ -4,9 +4,9 @@
 
 #include "QPS.h"
 #include "qps/query_validator/QueryValidator.h"
-#include "qps/Exceptions/SyntaxErrorException.h"
-#include "qps/Exceptions/SemanticErrorException.h"
-#include "qps/Exceptions/QPSException.h"
+#include "qps/exceptions/SyntaxErrorException.h"
+#include "qps/exceptions/SemanticErrorException.h"
+#include "qps/exceptions/QPSException.h"
 #include <iostream>
 
 std::vector<std::string> QPS::evaluate(std::string queryString) {
