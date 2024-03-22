@@ -43,6 +43,7 @@
 #define CONSTRAINT_TYPE_MODIFIESP "ModifiesP"
 #define CONSTRAINT_TYPE_CALLS "Calls"
 #define CONSTRAINT_TYPE_CALLST "CallsT"
+#define CONSTRAINT_TYPE_NEXT "Next"
 
 #define VALIDATION_RULE_SINGLE_DECLARATION "SingleDeclarationRule"
 #define VALIDATION_RULE_NO_DECLARATION "NoDeclarationRule"

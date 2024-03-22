@@ -57,7 +57,8 @@ bool QPSParser::isRelationship() {
                                QPSTokenType::USES_S,
                                QPSTokenType::MODIFIES_S,
                                QPSTokenType::CALLS,
-                               QPSTokenType::CALLS_T});
+                               QPSTokenType::CALLS_T,
+                               QPSTokenType::NEXT});
 }
 
 bool QPSParser::isSuchThat() {
@@ -157,11 +158,28 @@ std::shared_ptr<RelationshipClause> QPSParser::relationship() {
         relationshipClause = this->usesModifies();
     } else if (this->check({QPSTokenType::CALLS, QPSTokenType::CALLS_T})) {
         relationshipClause = this->calls();
+    } else if (this->check({QPSTokenType::NEXT})) {
+        relationshipClause = this->next();
     } else {
         relationshipClause = nullptr;
     }
 
     return relationshipClause;
+}
+
+std::shared_ptr<RelationshipClause> QPSParser::next() {
+    this->match({QPSTokenType::NEXT});
+    QPSToken relationshipType = this->previous();
+    this->consume(QPSTokenType::LEFT_PAREN, "Expect '(' after relationship type.");
+    auto t1 = stmtRef();
+    this->consume(QPSTokenType::COMMA, "Expect ',' after stmtRef.");
+    auto t2 = stmtRef();
+    this->consume(QPSTokenType::RIGHT_PAREN, "Expect ')' after relationship type.");
+
+    RelationshipClause parentCl(relationshipType.getType().getInfo(), t1, QPSTokenType::STMT_REF, t2,
+                                QPSTokenType::STMT_REF);
+
+    return std::make_shared<RelationshipClause>(parentCl);
 }
 
 std::shared_ptr<RelationshipClause> QPSParser::calls() {

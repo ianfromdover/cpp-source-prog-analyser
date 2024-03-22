@@ -1328,6 +1328,140 @@ TEST_CASE("Calls relationship"){
     }
 }
 
+TEST_CASE("Next relationship") {
+    std::string codeSnippet = R"(
+    procedure f {
+        if (x==1) then {
+            while (y==1) {
+                call f1;
+                y = 1;
+            }
+        } else {
+            y=3;
+        }
+        read y;
+        print t;
+        y = 2;
+    }
+
+    procedure f1 {
+        call f2;
+    }
+
+    procedure f2 {
+        x=1;
+    }
+    )";
+
+    std::shared_ptr<PKBStorage> p = std::make_shared<PKBStorage>();
+    auto pkb = make_shared<PopulatePKB>(p);
+    // Custom Inject for Now
+    pkb->addNext(1, 2);
+    pkb->addNext(1, 5);
+    pkb->addNext(5, 6);
+    pkb->addNext(2, 3);
+    pkb->addNext(3, 4);
+    pkb->addNext(4, 2);
+    pkb->addNext(2, 6);
+    pkb->addNext(6, 7);
+    pkb->addNext(7, 8);
+
+    auto sp = SourceProcessor(pkb);
+    sp.exec(codeSnippet);
+    QueryPKB pkb1(p);
+    QPS qps(std::make_shared<QueryPKB>(pkb1));
+
+    SECTION("Select s1 such that Next(s1, s2)") {
+        std::string query = "stmt s1; stmt s2; Select s1 such that Next(s1, s2)";
+        std::vector<std::string> expected = {"1", "2", "3", "4", "5", "6", "7"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+
+    SECTION("Select s2 such that Next(i, s2)") {
+        std::string query = "if i; stmt s2; Select s2 such that Next(i, s2)";
+        std::vector<std::string> expected = {"2", "5"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+
+    SECTION("Select s2 such that Next(s1, s2)") {
+        std::string query = "stmt s1; stmt s2; Select s2 such that Next(s1, s2)";
+        std::vector<std::string> expected = { "2", "3", "4", "5", "6", "7", "8" };
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+
+    SECTION("Select s1 such that Next(s1, 3)") {
+        std::string query = "stmt s1; stmt s2; Select s1 such that Next(s1, 3)";
+        std::vector<std::string> expected = { "2" };
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+
+    SECTION("Select s2 such that Next(3, s2)") {
+        std::string query = "stmt s1; stmt s2; Select s2 such that Next(3, s2)";
+        std::vector<std::string> expected = {"4"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+
+    SECTION("Select s1 such that Next(s1, _)") {
+        std::string query = "stmt s1; Select s1 such that Next(s1, _)";
+        std::vector<std::string> expected = {"1", "2", "3", "4", "5", "6", "7" };
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+
+    SECTION("Select s2 such that Next(_, s2)") {
+        std::string query = "stmt s2; Select s2 such that Next(_, s2)";
+        std::vector<std::string> expected = {"2", "3", "4", "5", "6", "7", "8"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+
+    SECTION("Select s1 such that Next(_, _)") {
+        std::string query = "stmt s1; Select s1 such that Next(_, _)";
+        std::vector<std::string> expected = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+
+    SECTION("Select s1 such that Next(2, 3)") {
+        std::string query = "stmt s1; Select s1 such that Next(2, 3)";
+        std::vector<std::string> expected = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+
+    SECTION("Select s1 such that Next(3, 2)") {
+        std::string query = "stmt s1; Select s1 such that Next(3, 2)";
+        std::vector<std::string> expected = { };
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+}
+
 TEST_CASE("Test ExprFormatter API") {
     REQUIRE(ExprFormatter::format("x") == "x");
     REQUIRE(ExprFormatter::format("x + 1") == "(x+1)");

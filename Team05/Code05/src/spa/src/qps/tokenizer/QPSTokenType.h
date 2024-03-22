@@ -32,6 +32,7 @@ public:
         MODIFIES_S, MODIFIES_P,
         USES_S, USES_P,
         CALLS, CALLS_T,
+        NEXT,
 
         // Entity References
         ENT_REF,

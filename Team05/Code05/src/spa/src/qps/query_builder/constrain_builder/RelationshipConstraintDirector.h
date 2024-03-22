@@ -15,6 +15,7 @@
 #include "UsesPConstraintBuilder.h"
 #include "CallsConstraintBuilder.h"
 #include "CallsTConstraintBuilder.h"
+#include "NextConstraintBuilder.h"
 
 class RelationshipConstraintDirector {
 public:

@@ -5,6 +5,7 @@
 #ifndef SPA_BLOCK_H
 #define SPA_BLOCK_H
 
+#include <optional>
 #include "sp/ast/Stmt.h"
 
 class Block;

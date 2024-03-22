@@ -35,6 +35,8 @@ private:
                                             {QType::PROCEDURE ,QType::WILDCARD, QType::QUOTED_IDENT}}},
                     {QType::CALLS_T, {{QType::PROCEDURE,QType::QUOTED_IDENT,QType::WILDCARD},
                                            {QType::PROCEDURE ,QType::WILDCARD, QType::QUOTED_IDENT}}},
+                    {QType::NEXT, {{QType::STMT1, QType::PRINT, QType::READ, QType::WHILE,QType::IF,QType::ASSIGN,QType::INTEGER,QType::WILDCARD},
+                                             {QType::STMT1, QType::PRINT, QType::READ, QType::WHILE,QType::IF,QType::ASSIGN,QType::INTEGER,QType::WILDCARD}}},
             };
 };
 
