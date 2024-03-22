@@ -3,7 +3,7 @@
 //
 
 #include "Expression.h"
-#include "qps/Exceptions/QPSException.h"
+#include "qps/Exceptions/QpsException.h"
 
 #include <utility>
 
@@ -24,5 +24,5 @@ std::string Expression::toString() {
 }
 
 Table Expression::getEntityTable(QueryPkbVirtual &pkb) {
-    throw QPSException("Invalid QPS Query");
+    throw QpsException("Invalid QPS Query");
 }

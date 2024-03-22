@@ -6,7 +6,7 @@
 #include "qps/query_validator/QueryValidator.h"
 #include "qps/Exceptions/SyntaxErrorException.h"
 #include "qps/Exceptions/SemanticErrorException.h"
-#include "qps/Exceptions/QPSException.h"
+#include "qps/Exceptions/QpsException.h"
 #include <iostream>
 
 std::vector<std::string> QPS::evaluate(std::string queryString) {
@@ -19,7 +19,7 @@ std::vector<std::string> QPS::evaluate(std::string queryString) {
         return std::vector<std::string>({"SyntaxError"});
     } catch (const SemanticErrorException& e1){
         return std::vector<std::string>({"SemanticError"});
-    } catch (const QPSException& e2){
+    } catch (const QpsException& e2){
         return std::vector<std::string>({"SemanticError"});
     }
 

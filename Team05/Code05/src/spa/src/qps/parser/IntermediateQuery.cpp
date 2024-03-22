@@ -8,7 +8,7 @@
 #include "SelectClause.h"
 #include "RelationshipClause.h"
 #include "PatternClause.h"
-#include "qps/Exceptions/QPSException.h"
+#include "qps/Exceptions/QpsException.h"
 
 
 void IntermediateQuery::addClause(const std::shared_ptr<Clause> &clause) {
@@ -70,7 +70,7 @@ std::shared_ptr<SelectClause> IntermediateQuery::getSelectClause() {
             return std::dynamic_pointer_cast<SelectClause>(clause);
         }
     }
-    throw QPSException("No select clause found");
+    throw QpsException("No select clause found");
 }
 
 std::shared_ptr<RelationshipClause> IntermediateQuery::getRelationshipClause() {
@@ -79,7 +79,7 @@ std::shared_ptr<RelationshipClause> IntermediateQuery::getRelationshipClause() {
             return std::dynamic_pointer_cast<RelationshipClause>(clause);
         }
     }
-    throw QPSException("No relationship clause found");
+    throw QpsException("No relationship clause found");
 }
 
 std::shared_ptr<PatternClause> IntermediateQuery::getPatternClause() {
@@ -88,7 +88,7 @@ std::shared_ptr<PatternClause> IntermediateQuery::getPatternClause() {
             return std::dynamic_pointer_cast<PatternClause>(clause);
         }
     }
-    throw QPSException("No pattern clause found");
+    throw QpsException("No pattern clause found");
 }
 
 

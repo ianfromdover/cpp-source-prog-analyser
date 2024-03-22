@@ -3,7 +3,7 @@
 //
 
 #include "EntityRefWildcard.h"
-#include "qps/Exceptions/QPSException.h"
+#include "qps/Exceptions/QpsException.h"
 
 std::string EntityRefWildcard::getEntityType() {
     return TYPE_WILDCARD;
@@ -18,5 +18,5 @@ std::string EntityRefWildcard::getArgumentValue() {
 }
 
 Table EntityRefWildcard::getEntityTable(QueryPkbVirtual &pkb) {
-    throw QPSException("Invalid QPS Query");
+    throw QpsException("Invalid QPS Query");
 }

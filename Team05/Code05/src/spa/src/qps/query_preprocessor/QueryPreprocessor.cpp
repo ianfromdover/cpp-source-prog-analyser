@@ -12,7 +12,7 @@
 #include "qps/Exceptions/SemanticErrorException.h"
 #include "qps/Exceptions/QPSParseException.h"
 #include "qps/Exceptions/QPSTokenizeException.h"
-#include "qps/Exceptions/QPSException.h"
+#include "qps/Exceptions/QpsException.h"
 
 
 std::shared_ptr<QueryObject> QueryPreprocessor::processQuery(std::string & queryStr) {

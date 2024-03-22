@@ -3,13 +3,13 @@
 //
 
 #include "ExpressionReference.h"
-#include "qps/Exceptions/QPSException.h"
+#include "qps/Exceptions/QpsException.h"
 
 std::string ExpressionReference::getReferenceType() {
     return REFERENCE_TYPE_EXPRESSION;
 }
 
 Table ExpressionReference::getEntityTable(QueryPkbVirtual &pkb) {
-    throw QPSException("Invalid QPS Query");
+    throw QpsException("Invalid QPS Query");
 }
 
