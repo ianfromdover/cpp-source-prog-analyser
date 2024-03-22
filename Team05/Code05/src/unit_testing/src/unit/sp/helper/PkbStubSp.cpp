@@ -122,7 +122,7 @@ public:
 
     // TODO: check again, now is just to make it compile
 
-    bool addAffects(int before, int after)  {
+    bool addAffects(int before, int after) override {
         //std::cout << "addAffects called" << std::endl;
         pairCalls.insert({std::to_string(before), std::to_string(after)});
         return true;
@@ -134,7 +134,7 @@ public:
         return true;
     }
 
-    bool addNextT(int before, int after) {
+    bool addNextT(int before, int after) override {
         //std::cout << "addAffects called" << std::endl;
         pairCallsT.insert({std::to_string(before), std::to_string(after)});
         return true;
