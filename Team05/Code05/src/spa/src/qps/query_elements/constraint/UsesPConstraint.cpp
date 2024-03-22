@@ -18,9 +18,9 @@ std::vector<std::shared_ptr<ConstraintArgument>> UsesPConstraint::getConstraintA
     return constraintArguments;
 }
 
-std::vector<std::vector<std::string>> UsesPConstraint::getRelationshipTable(QueryPKBVirtual & pkb) {
+std::vector<std::vector<std::string>> UsesPConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     // Get follows table and populate it into our results table
-    std::vector<std::vector<std::string>> result = pkb.getUsesP();
+    std::vector<std::vector<std::string>> result = pkb.getUsesPTable();
 
     // Get constraint arguments and initialise it as our table headers
     std::vector<std::shared_ptr<ConstraintArgument>> args = getConstraintArguments();

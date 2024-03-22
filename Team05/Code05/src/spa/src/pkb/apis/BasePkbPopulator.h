@@ -1,8 +1,8 @@
 #pragma once
 #define SPA_BASEPKBPOPULATOR_H
 
-#include <memory>
 #include <iostream>
+#include <memory>
 #include <string>
 #include <utility>
 #include <vector>

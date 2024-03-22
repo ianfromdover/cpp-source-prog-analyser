@@ -5,6 +5,7 @@
 #include "ModifiesPConstraint.h"
 #include "common/StringUtils.h"
 #include "qps/QueryProjector/ResultTable/ResultTable.h"
+#include "pkb/apis/QueryPkbVirtual.h"
 
 ModifiesPConstraint::ModifiesPConstraint(std::shared_ptr<EntityReference> s1, std::shared_ptr<EntityReference> s2) {
     constraintArguments.push_back(s1);
@@ -19,9 +20,9 @@ std::vector<std::shared_ptr<ConstraintArgument>> ModifiesPConstraint::getConstra
     return constraintArguments;
 }
 
-std::vector<std::vector<std::string>> ModifiesPConstraint::getRelationshipTable(QueryPKBVirtual & pkb) {
+std::vector<std::vector<std::string>> ModifiesPConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     // Get follows table and populate it into our results table
-    std::vector<std::vector<std::string>> result = pkb.getModifiesP();
+    std::vector<std::vector<std::string>> result = pkb.getModifiesPTable();
 
     // Get constraint arguments and initialise it as our table headers
     std::vector<std::shared_ptr<ConstraintArgument>> args = getConstraintArguments();

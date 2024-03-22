@@ -26,8 +26,8 @@ std::vector<std::shared_ptr<ConstraintArgument>> AssignPatternConstraint::getCon
     return constraintArguments;
 }
 
-Table AssignPatternConstraint::getRelationshipTable(QueryPKBVirtual & pkb) {
-    Table temp = pkb.getPatternAsgn();
+Table AssignPatternConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
+    Table temp = pkb.getPatternAsgnTable();
     Table res;
 
     // MS3: pkb refactor
