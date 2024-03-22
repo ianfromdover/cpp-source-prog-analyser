@@ -939,8 +939,8 @@ TEST_CASE("[TestQPS] Single Constraints") {
 
     SECTION("ModifiesP") {
         std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
-        pkb->setProcedure({{"a", "a"}, {"b", "b"}});
-        pkb->setVar({{"c", "c"}, {"d", "d"}});
+      pkb->setProcedure({{"a"}, {"b"}});
+      pkb->setVar({{"c", "c"}, {"d", "d"}});
         pkb->setModifiesP({{"a", "c"}, {"a", "d"}, {"b", "d"}});
         QPS qps(pkb);
 
