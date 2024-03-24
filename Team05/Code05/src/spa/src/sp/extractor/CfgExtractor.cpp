@@ -4,6 +4,6 @@
 
 #include "CfgExtractor.h"
 
-void CfgExtractor::visitBlock(const Block &) {
+void CfgExtractor::visitCFG(const CFG &) {
     // Do Nothing
 }

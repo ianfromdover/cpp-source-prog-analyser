@@ -66,8 +66,7 @@ void SourceProcessor::extract(const std::shared_ptr<Program>& program) {
                 procedure->accept(*extractor);
         }
         for (const auto& extractor : cfgExtractor) {
-            auto cfg = CFG::compile(program)->at(procedure->getName());
-            cfg->getEntryBlock()->accept(*extractor);
+            CFG(procedure).accept(*extractor);
         }
     }
 }

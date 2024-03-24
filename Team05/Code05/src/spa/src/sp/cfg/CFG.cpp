@@ -138,3 +138,7 @@ std::string CFG::toString() {
     str += "]\n";
     return str;
 }
+
+void CFG::accept(CfgExtractor &visitor) const {
+    visitor.visitCFG(*this);
+}

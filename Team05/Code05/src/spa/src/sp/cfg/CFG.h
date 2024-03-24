@@ -34,6 +34,7 @@ private:
     void visitIfStmt(const If& stmt, std::shared_ptr<Accumulator>& _) override;
 public:
     explicit CFG(const std::shared_ptr<Procedure>& procedure);
+    void accept(CfgExtractor& visitor) const;
     [[nodiscard]] std::shared_ptr<Block> getEntryBlock() const;
     [[nodiscard]] std::shared_ptr<Blocks> getBlocks() const;
     std::string toString();

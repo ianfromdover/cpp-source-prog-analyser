@@ -5,21 +5,20 @@
 #ifndef SPA_NEXTEXTRACTOR_H
 #define SPA_NEXTEXTRACTOR_H
 
-#include "sp/extractor/CfgExtractor.h"
 #include <unordered_set>
+#include "sp/extractor/CfgExtractor.h"
+#include "sp/cfg/block/Block.h"
 
 class NextExtractor : public CfgExtractor {
-private:
-    std::unordered_set<std::string> visited = std::unordered_set<std::string>();
 public:
     // Constructor
     explicit NextExtractor(std::shared_ptr<BasePKBPopulator> pkb) : CfgExtractor(std::move(pkb)) {};
     // Block Methods
-    void visitBlock(const Block& block) override;
-    void addNextRelation(const std::shared_ptr<Stmt> &fromStmt, const std::shared_ptr<Stmt> &toStmt);
+    void visitCFG(const CFG& cfg) override;
+    void addNextRelation(StmtNo from, StmtNo to);
     void processPredecessors(const std::shared_ptr<Block> &block);
     void processSuccessors(const std::shared_ptr<Block> &block);
-    void processStatementList(const std::shared_ptr<Block>& block);
+    void processBody(const std::shared_ptr<Block>& block);
 };
 
 

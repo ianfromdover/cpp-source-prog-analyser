@@ -3,67 +3,55 @@
 //
 
 #include "NextExtractor.h"
-#include "sp/cfg/block/Block.h"
-
-// Created by sjh_9 on 22/3/2024.
-
-#include "NextExtractor.h"
-#include "sp/cfg/block/Block.h"
+#include "sp/cfg/CFG.h"
 
 
-void NextExtractor::visitBlock(const Block& block) {
-    processPredecessors(std::make_shared<Block>(block));
-    processStatementList(std::make_shared<Block>(block));
-    processSuccessors(std::make_shared<Block>(block));
-    //std::cout << block.toString() << std::endl;
+void NextExtractor::visitCFG(const CFG& cfg) {
+    for (const auto& block : *cfg.getBlocks()) {
+        this->processPredecessors(block);
+        this->processBody(block);
+        this->processSuccessors(block);
+    }
 }
 
-// Helper function to add a "Next" relation between two statements.
-void NextExtractor::addNextRelation(const std::shared_ptr<Stmt>& fromStmt, const std::shared_ptr<Stmt>& toStmt) {
-    if (fromStmt != nullptr && toStmt != nullptr) {
-        //std::cout << "pkb.addNext(" << fromStmt->getStmtNo() << ", " << toStmt->getStmtNo() << ");" << std::endl;
-        pkb->addNext(fromStmt->getStmtNo(), toStmt->getStmtNo());
+void NextExtractor::addNextRelation(StmtNo from, StmtNo to) {
+    if (from != to) {
+        std::cout << "pkb.addNext(" << from << ", " << to << ");" << std::endl;
+        this->pkb->addNext(from, to);
     }
 }
 
 void NextExtractor::processPredecessors(const std::shared_ptr<Block>& block) {
-    auto predecessors = block->getPredecessors();
-    if (!predecessors->empty()) {
-        for (const auto& predBlock : *predecessors) {
-            addNextRelation(predBlock->getLastStmt(), block->getFirstStmt());
+    for (const auto& predBlock : *block->getPredecessors()) {
+        if (predBlock->getRange() && block->getRange()) {
+            addNextRelation(predBlock->getRange()->second, block->getRange()->first);
         }
     }
 }
 
 void NextExtractor::processSuccessors(const std::shared_ptr<Block>& block) {
-    auto successors = block->getSuccessors();
-    if (!successors->empty()) {
-        for (const auto& succBlock : *successors) {
-            addNextRelation(block->getLastStmt(), succBlock->getFirstStmt());
-            if (visited.find(succBlock->toString()) == visited.end()) {
-                visited.insert(succBlock->toString());
-                succBlock->accept(*this);
-            }
+    for (const auto& succBlock : *block->getSuccessors()) {
+        if (succBlock->getRange() && block->getRange()) {
+            addNextRelation(block->getRange()->second, succBlock->getRange()->first);
         }
     }
 }
 
-void NextExtractor::processStatementList(const std::shared_ptr<Block>& block) {
-    auto stmts = block->getStmts();
-    if (stmts && stmts->size() > 1) {
-        for (size_t i = 0; i < stmts->size() - 1; ++i) {
-            addNextRelation((*stmts)[i], (*stmts)[i + 1]);
+void NextExtractor::processBody(const std::shared_ptr<Block>& block) {
+    if (block->getRange()) {
+        const auto start = block->getRange()->first;
+        const auto end = block->getRange()->second;
+        for (StmtNo i = start; i < end; ++i) {
+            addNextRelation(i, i + 1);
         }
+        return;
     }
-    if (block->isDummy()) {
-        auto successors = block->getSuccessors();
-        auto predecessors = block->getPredecessors();
-        for (const auto& succBlock : *successors) {
-            for (const auto& predBlock : *predecessors) {
-                addNextRelation(predBlock->getLastStmt(), succBlock->getFirstStmt());
+    for (const auto& succBlock : *block->getSuccessors()) {
+        for (const auto& predBlock : *block->getPredecessors()) {
+            if (predBlock->getRange() && succBlock->getRange()) {
+                addNextRelation(predBlock->getRange()->second, succBlock->getRange()->first);
             }
         }
     }
-
 }
 

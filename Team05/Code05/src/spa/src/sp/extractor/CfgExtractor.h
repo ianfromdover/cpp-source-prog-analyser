@@ -8,7 +8,7 @@
 #include "pkb/apis/PopulatePKB.h"
 #include "sp/ast/Stmt.h"
 
-class Block;
+class CFG;
 
 class CfgExtractor {
 protected:
@@ -17,7 +17,7 @@ public:
     explicit CfgExtractor(std::shared_ptr<BasePKBPopulator> pkb) : pkb(std::move(pkb)) {};
     virtual ~CfgExtractor() = default;
     // Block Methods
-    virtual void visitBlock(const Block&);
+    virtual void visitCFG(const CFG&);
 };
 
 
