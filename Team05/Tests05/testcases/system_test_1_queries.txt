@@ -403,3 +403,83 @@ assign pattern; variable Select, assign;
 Select assign pattern pattern(assign, _)
 x,y,z,k
 5000
+82 - Children of read stmts
+procedure p;read r;
+Select r such that Parent(r,_)
+none
+5000
+83 - Parent of read stmts
+procedure p;read r;
+Select r such that Parent(_,r)
+19
+5000
+84 - Children of read stmts
+procedure p;read r;
+Select r such that Parent*(r,_)
+none
+5000
+85 - Parent of read stmts
+procedure p;read r;
+Select r such that Parent*(_,r)
+19
+5000
+86 - Children of print stmts
+print pr;
+Select pr such that Parent(pr,_)
+none
+5000
+87 - Parent of print stmts
+print pr;
+Select pr such that Parent(_,pr)
+18,22,23,29
+5000
+88 - Children* of print stmts
+print pr;
+Select pr such that Parent*(pr,_)
+none
+5000
+89 - Parent* of print stmts
+print pr;
+Select pr such that Parent*(_,pr)
+18,22,23,29
+5000
+90 - Follows of while stmts
+while w;
+Select w such that Follows(w,_)
+21
+5000
+91 - Follows of if stmts
+if i;
+Select i such that Follows(i,_)
+1
+5000
+92 - Follows* of while stmts
+while w;
+Select w such that Follows*(w,_)
+21
+5000
+93 - Follows* of if stmts
+if i;
+Select i such that Follows*(i,_)
+1
+5000
+94 - Following of while stmts
+while w;
+Select w such that Follows(_,w)
+21
+5000
+95 - Following of if stmts
+if i;
+Select i such that Follows(_,i)
+24
+5000
+96 - Following* of while stmts
+while w;
+Select w such that Follows*(_,w)
+21
+5000
+97 - Following* of if stmts
+if i;
+Select i such that Follows*(_,i)
+24
+5000
