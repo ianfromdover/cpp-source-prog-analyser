@@ -6,8 +6,8 @@
 #include "../helper/TokenizedTestProgramProducer.h"
 #include "sp/parser/Parser.h"
 
-inline const auto& tokenizedPrograms = TokenizedTestProgramProducer();
-inline const auto& astPrograms = AstTestProgramProducer();
+inline TokenizedTestProgramProducer tokenizedPrograms = TokenizedTestProgramProducer();
+inline AstTestProgramProducer astPrograms = AstTestProgramProducer();
 
 std::string programToString(const std::shared_ptr<Program>& program) {
     std::string result;

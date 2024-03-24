@@ -6,7 +6,7 @@
 #include "../helper/PKBStubSP.cpp"
 #include "sp/extractor/node_extractor/VariableExtractor.h"
 
-inline const auto& astPrograms = AstTestProgramProducer();
+inline AstTestProgramProducer astPrograms = AstTestProgramProducer();
 
 //Variable_TestZeroNestingLevel
 

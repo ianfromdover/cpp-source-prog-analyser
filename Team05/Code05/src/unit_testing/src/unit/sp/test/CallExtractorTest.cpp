@@ -6,7 +6,7 @@
 #include "../helper/PKBStubSP.cpp"
 #include "sp/extractor/node_extractor/CallExtractor.h"
 
-inline const auto& astPrograms = AstTestProgramProducer();
+inline AstTestProgramProducer astPrograms = AstTestProgramProducer();
 
 //Call_TestZeroNestingLevel
 
