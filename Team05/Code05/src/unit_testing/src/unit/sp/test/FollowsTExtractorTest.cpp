@@ -6,7 +6,7 @@
 #include "../helper/PKBStubSP.cpp"
 #include "sp/extractor/relation_extractor/FollowsExtractor.h"
 
-inline const auto& astPrograms = AstTestProgramProducer();
+inline AstTestProgramProducer astPrograms = AstTestProgramProducer();
 
 //FollowsT_TestZeroNestingLevel
 

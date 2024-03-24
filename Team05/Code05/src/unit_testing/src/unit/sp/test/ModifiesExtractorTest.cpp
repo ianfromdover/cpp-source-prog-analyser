@@ -7,7 +7,7 @@
 #include "sp/extractor/relation_extractor/ModifiesExtractor.h"
 #include "sp/ast/Program.h"
 
-inline const auto& astPrograms = AstTestProgramProducer();
+inline AstTestProgramProducer astPrograms = AstTestProgramProducer();
 
 TEST_CASE("Modifies_TestSequentialNestingChain") {
     std::multiset<pair<std::string, std::string>> resultsVector = {
