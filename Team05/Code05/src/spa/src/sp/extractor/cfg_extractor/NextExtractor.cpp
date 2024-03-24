@@ -16,7 +16,7 @@ void NextExtractor::visitCFG(const CFG& cfg) {
 
 void NextExtractor::addNextRelation(StmtNo from, StmtNo to) {
     if (from != to) {
-        std::cout << "pkb.addNext(" << from << ", " << to << ");" << std::endl;
+        //std::cout << "pkb.addNext(" << from << ", " << to << ");" << std::endl;
         this->pkb->addNext(from, to);
     }
 }
