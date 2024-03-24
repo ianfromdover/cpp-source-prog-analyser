@@ -27,6 +27,7 @@ void IfExtractor::visitBinaryExpr(const Binary& expr, shared_ptr<Accumulator>& p
 
 void IfExtractor::visitVariableExpr(const Variable& expr, shared_ptr<Accumulator>& parentInfo) {
     for (const auto& stmtNo : parentInfo->info) {
+        //std::cout << "pkb.addIf(" << stmtNo << ", " << expr.getName() << ");" << std::endl;
         pkb->addPatternIf(stmtNo, expr.getName());
     }
 }
