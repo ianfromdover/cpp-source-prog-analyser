@@ -15,6 +15,7 @@ public:
     explicit NextExtractor(std::shared_ptr<BasePKBPopulator> pkb) : CfgExtractor(std::move(pkb)) {};
     // Block Methods
     void visitCFG(const CFG& cfg) override;
+private:
     void addNextRelation(StmtNo from, StmtNo to);
     void processPredecessors(const std::shared_ptr<Block> &block);
     void processSuccessors(const std::shared_ptr<Block> &block);

@@ -7,7 +7,6 @@
 
 #include <optional>
 #include "sp/ast/Stmt.h"
-#include "sp/extractor/CfgExtractor.h"
 
 class Block;
 

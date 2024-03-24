@@ -63,7 +63,7 @@ void SourceProcessor::extract(const std::shared_ptr<Program>& program) {
         //std::cout << "pkb.addProcedure(" << procedure->getProcName() << ");" << std::endl;
         pkb->addProcedure(procedure->getName());
         for (const auto& extractor : relationExtractor) {
-                procedure->accept(*extractor);
+            procedure->accept(*extractor);
         }
         for (const auto& extractor : cfgExtractor) {
             CFG(procedure).accept(*extractor);
