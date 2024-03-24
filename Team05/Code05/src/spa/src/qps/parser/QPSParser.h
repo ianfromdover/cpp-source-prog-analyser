@@ -65,6 +65,8 @@ private:
     std::vector<QPSToken> argsEntEnt();
     std::vector<QPSToken> argsAnyEnt();
 
+    std::shared_ptr<RelationshipClause> next();
+
     std::shared_ptr<PatternClause> pattern();
 
     QPSToken stmtRef();

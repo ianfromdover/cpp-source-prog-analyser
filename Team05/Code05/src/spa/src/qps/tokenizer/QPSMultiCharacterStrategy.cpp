@@ -53,14 +53,14 @@ bool QPSMultiCharacterStrategy::expectSynonymNext(const std::string &name, QPSTo
             {"Follows*",  QPSTokenType::FOLLOWS_T},
             {"Parent",    QPSTokenType::PARENT},
             {"Parent*",   QPSTokenType::PARENT_T},
-          {"Modifies", QPSTokenType::MODIFIES},
-          {"Uses", QPSTokenType::USES},
-          {"Calls", QPSTokenType::CALLS},
-          {"Calls*",    QPSTokenType::CALLS_T},
+            {"Modifies", QPSTokenType::MODIFIES},
+            {"Uses", QPSTokenType::USES},
+            {"Calls", QPSTokenType::CALLS},
+            {"Calls*",    QPSTokenType::CALLS_T},
+            {"Next",    QPSTokenType::NEXT},
 
             {"Select",    QPSTokenType::SELECT},
-          {"and", QPSTokenType::AND},
-          {"that",      QPSTokenType::THAT},
+            {"that",      QPSTokenType::THAT},
             {"pattern",   QPSTokenType::PATTERN},
     };
 

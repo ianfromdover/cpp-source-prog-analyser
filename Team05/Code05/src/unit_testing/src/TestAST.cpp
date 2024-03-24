@@ -1328,6 +1328,129 @@ TEST_CASE("Calls relationship"){
     }
 }
 
+TEST_CASE("Next relationship") {
+    std::string codeSnippet = R"(
+    procedure f {
+        if (x==1) then {
+            while (y==1) {
+                call f1;
+                y = 1;
+            }
+        } else {
+            y=3;
+        }
+        read y;
+        print t;
+        y = 2;
+    }
+
+    procedure f1 {
+        call f2;
+    }
+
+    procedure f2 {
+        x=1;
+    }
+    )";
+
+    std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
+    auto pkb = make_shared<PopulatePkb>(p);
+    auto sp = SourceProcessor(pkb);
+    sp.exec(codeSnippet);
+    QueryPkb pkb1(p);
+    QPS qps(std::make_shared<QueryPkb>(pkb1));
+
+    SECTION("Select s1 such that Next(s1, s2)") {
+        std::string query = "stmt s1; stmt s2; Select s1 such that Next(s1, s2)";
+        std::vector<std::string> expected = {"1", "2", "3", "4", "5", "6", "7"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+
+    SECTION("Select s2 such that Next(i, s2)") {
+        std::string query = "if i; stmt s2; Select s2 such that Next(i, s2)";
+        std::vector<std::string> expected = {"2", "5"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+
+    SECTION("Select s2 such that Next(s1, s2)") {
+        std::string query = "stmt s1; stmt s2; Select s2 such that Next(s1, s2)";
+        std::vector<std::string> expected = { "2", "3", "4", "5", "6", "7", "8" };
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+
+    SECTION("Select s1 such that Next(s1, 3)") {
+        std::string query = "stmt s1; stmt s2; Select s1 such that Next(s1, 3)";
+        std::vector<std::string> expected = { "2" };
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+
+    SECTION("Select s2 such that Next(3, s2)") {
+        std::string query = "stmt s1; stmt s2; Select s2 such that Next(3, s2)";
+        std::vector<std::string> expected = {"4"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+
+    SECTION("Select s1 such that Next(s1, _)") {
+        std::string query = "stmt s1; Select s1 such that Next(s1, _)";
+        std::vector<std::string> expected = {"1", "2", "3", "4", "5", "6", "7" };
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+
+    SECTION("Select s2 such that Next(_, s2)") {
+        std::string query = "stmt s2; Select s2 such that Next(_, s2)";
+        std::vector<std::string> expected = {"2", "3", "4", "5", "6", "7", "8"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+
+    SECTION("Select s1 such that Next(_, _)") {
+        std::string query = "stmt s1; Select s1 such that Next(_, _)";
+        std::vector<std::string> expected = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+
+    SECTION("Select s1 such that Next(2, 3)") {
+        std::string query = "stmt s1; Select s1 such that Next(2, 3)";
+        std::vector<std::string> expected = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+
+    SECTION("Select s1 such that Next(3, 2)") {
+        std::string query = "stmt s1; Select s1 such that Next(3, 2)";
+        std::vector<std::string> expected = { };
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+}
+
 TEST_CASE("Test ExprFormatter API") {
     REQUIRE(ExprFormatter::format("x") == "x");
     REQUIRE(ExprFormatter::format("x + 1") == "(x+1)");
@@ -1344,39 +1467,56 @@ TEST_CASE("Test ExprFormatter API") {
 
 TEST_CASE("Test Extractor") {
     std::string codeSnippet = R"(
-        procedure main {
-            flag = 0;
-            call computeCentroid;
-            call printResults;
-        }
-        procedure readPoint {
+procedure main {
             read x;
             read y;
-        }
-        procedure printResults {
-            print flag;
-            print cenX;
-            print cenY;
-            print normSq;
-        }
-        procedure computeCentroid {
-            count = 0;
-            cenX = 0;
-            cenY = 0;
-            call readPoint;
-            while ((x != 0) && (y != 0)) {
-                count = count + 1;
-                cenX = cenX + x;
-                cenY = cenY + y;
-                call readPoint;
-            }
-            if (count == 0) then {
-                flag = 1;
+            print x;
+            print y;
+            z = 3;
+
+            if (x == 0) then {
+                x = x + 1;
+                y = y - 1;
+                z = 2;
             } else {
-                cenX = cenX / count;
-                cenY = cenY / count;
+                x = x + 2;
+                y = y + 1;
+
+                if (z != 3) then {
+                    x = 0;
+                    y = 0;
+                    z = 0;
+                } else {
+                    x = 1;
+                    z = x + y + 2;
+                }
             }
-            normSq = cenX * cenX + cenY * cenY;
+
+            x = x + 1;
+            z = y + x;
+
+            while (x < 5) {
+                print x;
+                print y;
+                while (y < 2) {
+                    print z;
+                    print y;
+                }
+                z = x - y;
+                k = z + y;
+
+                if (k > 0) then {
+                    k = k - 1;
+                } else {
+                    k = k + 1;
+                }
+
+                print k;
+            }
+
+            print x;
+            print y;
+            print z;
         }
     )";
 
@@ -1384,7 +1524,6 @@ TEST_CASE("Test Extractor") {
     auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
     sp.exec(codeSnippet);
-
 
     require(true);
 }
