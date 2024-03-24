@@ -1649,3 +1649,127 @@ TEST_CASE("AST to CFG") {
     const auto& program = sp.parse(sp.scan(source));
     REQUIRE(CFG::compile(program)->at("main")->toString() == expect);
 }
+
+TEST_CASE("test") {
+    SECTION("test 1") {
+        std::string codeSnippet = R"(
+            procedure program1 {
+                if ((x != 4 + y) || (k == 4 + u)) then {
+                    x = x + 1;
+                    y = y - 1 + z;
+                    z = 2;
+                } else {
+                    if (z != 3) then {
+                        call program2;
+                        x = 0;
+                        y = 0;
+                        z = 0;
+                    } else {
+                        x = 1;
+                        z = x + y + 2;
+                    }
+                }
+                x = x + 1;
+                z = y + x;
+                read x;
+                print y;
+                read z;
+            }
+
+            procedure program2 {
+                while ((x != 4 + y) && (k != 4 + u)) {
+                    print x;
+                    read y;
+                    call program3;
+                    while (y < 2) {
+                        print z;
+                        print y;
+                        if (k > 0) then {
+                            k = k * 1 + 10 * r + h;
+                        } else {
+                            k = k + 1;
+                        }
+                    }
+                    z = x - y;
+                    k = z + y / k * 1 + 10 * r + h;
+                    print k;
+                }
+            }
+
+            procedure program3 {
+                    z = x - y;
+                    k = z + y * k * r / h;
+                    print t;
+            }
+        )";
+
+        std::cout << "test 1" << std::endl;
+        std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
+        auto pkb = make_shared<PopulatePkb>(p);
+        auto sp = SourceProcessor(pkb);
+        sp.exec(codeSnippet);
+
+        require(true);
+    }
+    SECTION("test 2") {
+        std::string codeSnippet = R"(
+            procedure program1 {
+                while ((x != 4 + y) && (k != 4 + u)) {
+                    if (z > 3) then {
+                        x = z + y * k * r / h + 100;
+                        y = 9 + 1 + y;
+                        z = 10 + 7;
+                    } else {
+                        call program2;
+                        x = 1;
+                        z = x + y + 2;
+                    }
+                }
+                x = x + 1;
+                z = y + x;
+                read x;
+                print y;
+                read z;
+            }
+
+            procedure program2 {
+                if ((x != 4 + y) || (k <= 4 + u)) then {
+                    while ((x != 4 + y) && (k >= 4 + u)) {
+                        print x;
+                        read y;
+                        call program3;
+                        print k;
+                    }
+                } else {
+                    if (z != 3) then {
+                        x = 0;
+                        y = 0;
+                        u = z / y / k * r / h + 100;
+                    } else {
+                        x = 1;
+                        z = x + y + 2;
+                    }
+                }
+                x = x + 1;
+                z = y + x;
+                read x;
+                print y;
+                read z;
+            }
+
+            procedure program3 {
+                    z = x - y;
+                    u = z / y - k * r / h + 100;
+                    print t;
+            }
+        )";
+
+        std::cout << "test 2" << std::endl;
+        std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
+        auto pkb = make_shared<PopulatePkb>(p);
+        auto sp = SourceProcessor(pkb);
+        sp.exec(codeSnippet);
+
+        require(true);
+    }
+}
