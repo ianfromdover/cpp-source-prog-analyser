@@ -17,9 +17,9 @@ std::vector<std::shared_ptr<ConstraintArgument>> CallsConstraint::getConstraintA
     return constraintArguments;
 }
 
-std::vector<std::vector<std::string>> CallsConstraint::getRelationshipTable(QueryPKBVirtual & pkb) {
+Table CallsConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     // Get follows table and populate it into our results table
-    std::vector<std::vector<std::string>> result = pkb.getCalls();
+    Table result = pkb.getCallsTable();
 
     // Get constraint arguments and initialise it as our table headers
     std::vector<std::shared_ptr<ConstraintArgument>> args = getConstraintArguments();
@@ -40,7 +40,7 @@ std::vector<std::vector<std::string>> CallsConstraint::getRelationshipTable(Quer
     // Handling LHS by Entity Type
     if (lhsEntityType == TYPE_PROCEDURE) {
         // Get entity table by type
-        std::vector<std::vector<std::string>> entityTable = args[0]->getEntityTable(pkb);
+        Table entityTable = args[0]->getEntityTable(pkb);
         table.add(entityTable);
     }
     if (lhsEntityType == TYPE_QUOTED_IDENT){
@@ -52,7 +52,7 @@ std::vector<std::vector<std::string>> CallsConstraint::getRelationshipTable(Quer
     // Handling RHS by Entity Type
     if (rhsEntityType == TYPE_PROCEDURE) {
         // Get entity table by type
-        std::vector<std::vector<std::string>> entityTable = args[1]->getEntityTable(pkb);
+        Table entityTable = args[1]->getEntityTable(pkb);
         table.add(entityTable);
     }
     if (rhsEntityType == TYPE_QUOTED_IDENT){

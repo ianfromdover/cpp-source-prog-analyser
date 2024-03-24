@@ -854,7 +854,7 @@ std::shared_ptr<TokenStream> TokenizedTestProgramProducer::createWhileWithNested
     });
 }
 
-std::shared_ptr<TokenStream> TokenizedTestProgramProducer::createSequentialNestingChain() const {
+std::shared_ptr<TokenStream> TokenizedTestProgramProducer::createSequentialIfIfNestingChain() const {
     return TokenFactory::createProgram({
         TokenFactory::createProcedure("AssignCallPrintRead", {
             TokenFactory::createAssign("t", TokenFactory::createAddExpr(
@@ -971,4 +971,16 @@ std::shared_ptr<TokenStream> TokenizedTestProgramProducer::createSequentialNesti
             ),
         })
     });
+}
+
+std::shared_ptr<TokenStream> TokenizedTestProgramProducer::createSequentialWhileIfNestingChain() const {
+    return nullptr;
+}
+
+std::shared_ptr<TokenStream> TokenizedTestProgramProducer::createSequentialIfWhileNestingChain() const {
+    return nullptr;
+}
+
+std::shared_ptr<TokenStream> TokenizedTestProgramProducer::createSequentialWhileWhileNestingChain() const {
+    return nullptr;
 }

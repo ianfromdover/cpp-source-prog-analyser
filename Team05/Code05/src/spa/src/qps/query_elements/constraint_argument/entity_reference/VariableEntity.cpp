@@ -3,6 +3,7 @@
 //
 
 #include "VariableEntity.h"
+#include "qps/query_projector/ResultTable.h"
 
 std::string VariableEntity::getReturnType() {
     return RETURN_STR_RESULT;
@@ -24,9 +25,13 @@ std::string VariableEntity::getArgumentValue() {
     return this->identifier;
 }
 
-std::vector<std::vector<std::string>> VariableEntity::getEntityTable(QueryPKBVirtual &pkb) {
-    auto entityTable = pkb.getVar();
+Table VariableEntity::getEntityTable(QueryPkbVirtual &pkb) {
+    auto entityTable = pkb.getVarTable();
     // Insertion of headers into our entity table
-    entityTable.insert(entityTable.begin(), {"VARIABLELHS", this->identifier});
-    return entityTable;
+    entityTable.insert(entityTable.begin(),
+                       {this->identifier, this->identifier});
+    // HOTFIX
+    ResultTable table(entityTable);
+    table.removeAllColumnsExceptIndex(1);
+    return table.getTable();
 }

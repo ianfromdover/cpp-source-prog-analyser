@@ -3,13 +3,13 @@
 //
 #include "catch.hpp"
 #include "../helper/AstTestProgramProducer.h"
-#include "../helper/PKBStubSP.cpp"
+#include "../helper/PkbStubSp.cpp"
 #include "sp/extractor/relation_extractor/ModifiesExtractor.h"
 #include "sp/ast/Program.h"
 
 inline AstTestProgramProducer astPrograms = AstTestProgramProducer();
 
-TEST_CASE("Modifies_TestSequentialNestingChain") {
+TEST_CASE("Modifies_TestSequentialIfIfNestingChain") {
     std::multiset<pair<std::string, std::string>> resultsVector = {
             {"1", "t"},
             {"AssignCallPrintRead", "t"},
@@ -136,8 +136,249 @@ TEST_CASE("Modifies_TestSequentialNestingChain") {
             {"3", "t"},
             {"AssignCallPrintRead", "t"},
     };
-    auto program = astPrograms.createSequentialNestingChain();
-    auto pkb = make_shared<PKBStubSP>();
+    auto program = astPrograms.createSequentialIfIfNestingChain();
+    auto pkb = make_shared<PkbStubSp>();
+    shared_ptr<ProgramVisitor> extractor = std::make_shared<ModifiesExtractor>(pkb, program);
+    for (const auto& procedure : *program->getProcedures()) {
+        procedure->accept(*extractor);
+    }
+    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
+}
+
+TEST_CASE("Modifies_TestSequentialIfWhileNestingChain") {
+    std::multiset<pair<std::string, std::string>> resultsVector = {
+            {"1", "t"},
+            {"AssignCallPrintRead", "t"},
+            {"2", "x"},
+            {"5", "x"},
+            {"6", "x"},
+            {"AssignCallPrintRead", "x"},
+            {"IfElseWithNestedWhilePlusNestedStmtsBeforeAndInside", "x"},
+            {"2", "x"},
+            {"5", "x"},
+            {"7", "x"},
+            {"24", "x"},
+            {"AssignCallPrintRead", "x"},
+            {"IfElseWithNestedWhilePlusNestedStmtsBeforeAndInside", "x"},
+            {"WhileWithStmtsBeforeAndInside", "x"},
+            {"2", "t"},
+            {"5", "t"},
+            {"7", "t"},
+            {"25", "t"},
+            {"AssignCallPrintRead", "t"},
+            {"IfElseWithNestedWhilePlusNestedStmtsBeforeAndInside", "t"},
+            {"WhileWithStmtsBeforeAndInside", "t"},
+            {"2", "x"},
+            {"5", "x"},
+            {"7", "x"},
+            {"27", "x"},
+            {"28", "x"},
+            {"AssignCallPrintRead", "x"},
+            {"IfElseWithNestedWhilePlusNestedStmtsBeforeAndInside", "x"},
+            {"WhileWithStmtsBeforeAndInside", "x"},
+            {"2", "t"},
+            {"5", "t"},
+            {"7", "t"},
+            {"27", "t"},
+            {"29", "t"},
+            {"AssignCallPrintRead", "t"},
+            {"IfElseWithNestedWhilePlusNestedStmtsBeforeAndInside", "t"},
+            {"WhileWithStmtsBeforeAndInside", "t"},
+            {"2", "t"},
+            {"5", "t"},
+            {"8", "t"},
+            {"AssignCallPrintRead", "t"},
+            {"IfElseWithNestedWhilePlusNestedStmtsBeforeAndInside", "t"},
+            {"2", "x"},
+            {"5", "x"},
+            {"10", "x"},
+            {"11", "x"},
+            {"AssignCallPrintRead", "x"},
+            {"IfElseWithNestedWhilePlusNestedStmtsBeforeAndInside", "x"},
+            {"2", "t"},
+            {"5", "t"},
+            {"10", "t"},
+            {"13", "t"},
+            {"AssignCallPrintRead", "t"},
+            {"IfElseWithNestedWhilePlusNestedStmtsBeforeAndInside", "t"},
+            {"2", "x"},
+            {"5", "x"},
+            {"15", "x"},
+            {"AssignCallPrintRead", "x"},
+            {"IfElseWithNestedWhilePlusNestedStmtsBeforeAndInside", "x"},
+            {"2", "t"},
+            {"5", "t"},
+            {"17", "t"},
+            {"AssignCallPrintRead", "t"},
+            {"IfElseWithNestedWhilePlusNestedStmtsBeforeAndInside", "t"},
+            {"2", "x"},
+            {"5", "x"},
+            {"19", "x"},
+            {"20", "x"},
+            {"AssignCallPrintRead", "x"},
+            {"IfElseWithNestedWhilePlusNestedStmtsBeforeAndInside", "x"},
+            {"2", "t"},
+            {"5", "t"},
+            {"19", "t"},
+            {"22", "t"},
+            {"AssignCallPrintRead", "t"},
+            {"IfElseWithNestedWhilePlusNestedStmtsBeforeAndInside", "t"},
+            {"3", "t"},
+            {"AssignCallPrintRead", "t"},
+    };
+    auto program = astPrograms.createSequentialIfWhileNestingChain();
+    auto pkb = make_shared<PkbStubSp>();
+    shared_ptr<ProgramVisitor> extractor = std::make_shared<ModifiesExtractor>(pkb, program);
+    for (const auto& procedure : *program->getProcedures()) {
+        procedure->accept(*extractor);
+    }
+    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
+}
+
+
+TEST_CASE("Modifies_TestSequentialWhileIfNestingChain") {
+    std::multiset<pair<std::string, std::string>> resultsVector = {
+        {"1", "t"},
+        {"AssignCallPrintRead", "t"},
+        {"2", "x"},
+        {"5", "x"},
+        {"6", "x"},
+        {"AssignCallPrintRead", "x"},
+        {"WhileWithNestedIfElsePlusNestedStmtsBeforeAndInside", "x"},
+        {"2", "x"},
+        {"5", "x"},
+        {"7", "x"},
+        {"19", "x"},
+        {"AssignCallPrintRead", "x"},
+        {"WhileWithNestedIfElsePlusNestedStmtsBeforeAndInside", "x"},
+        {"WhileWithStmtsBeforeAndInside", "x"},
+        {"2", "t"},
+        {"5", "t"},
+        {"7", "t"},
+        {"20", "t"},
+        {"AssignCallPrintRead", "t"},
+        {"WhileWithNestedIfElsePlusNestedStmtsBeforeAndInside", "t"},
+        {"WhileWithStmtsBeforeAndInside", "t"},
+        {"2", "x"},
+        {"5", "x"},
+        {"7", "x"},
+        {"22", "x"},
+        {"23", "x"},
+        {"AssignCallPrintRead", "x"},
+        {"WhileWithNestedIfElsePlusNestedStmtsBeforeAndInside", "x"},
+        {"WhileWithStmtsBeforeAndInside", "x"},
+        {"2", "t"},
+        {"5", "t"},
+        {"7", "t"},
+        {"22", "t"},
+        {"24", "t"},
+        {"AssignCallPrintRead", "t"},
+        {"WhileWithNestedIfElsePlusNestedStmtsBeforeAndInside", "t"},
+        {"WhileWithStmtsBeforeAndInside", "t"},
+        {"2", "t"},
+        {"5", "t"},
+        {"8", "t"},
+        {"AssignCallPrintRead", "t"},
+        {"WhileWithNestedIfElsePlusNestedStmtsBeforeAndInside", "t"},
+        {"2", "x"},
+        {"5", "x"},
+        {"10", "x"},
+        {"11", "x"},
+        {"AssignCallPrintRead", "x"},
+        {"WhileWithNestedIfElsePlusNestedStmtsBeforeAndInside", "x"},
+        {"2", "t"},
+        {"5", "t"},
+        {"10", "t"},
+        {"13", "t"},
+        {"AssignCallPrintRead", "t"},
+        {"WhileWithNestedIfElsePlusNestedStmtsBeforeAndInside", "t"},
+        {"2", "x"},
+        {"5", "x"},
+        {"10", "x"},
+        {"15", "x"},
+        {"AssignCallPrintRead", "x"},
+        {"WhileWithNestedIfElsePlusNestedStmtsBeforeAndInside", "x"},
+        {"2", "t"},
+        {"5", "t"},
+        {"10", "t"},
+        {"17", "t"},
+        {"AssignCallPrintRead", "t"},
+        {"WhileWithNestedIfElsePlusNestedStmtsBeforeAndInside", "t"},
+        {"3", "t"},
+        {"AssignCallPrintRead", "t"},
+    };
+    auto program = astPrograms.createSequentialWhileIfNestingChain();
+    auto pkb = make_shared<PkbStubSp>();
+    shared_ptr<ProgramVisitor> extractor = std::make_shared<ModifiesExtractor>(pkb, program);
+    for (const auto& procedure : *program->getProcedures()) {
+        procedure->accept(*extractor);
+    }
+    REQUIRE(pkb->checkAgainstPairResults(resultsVector));
+}
+
+
+
+TEST_CASE("Modifies_TestSequentialWhileWhileNestingChain") {
+    std::multiset<pair<std::string, std::string>> resultsVector = {
+        {"1", "t"},
+        {"AssignCallPrintRead", "t"},
+        {"2", "x"},
+        {"5", "x"},
+        {"6", "x"},
+        {"AssignCallPrintRead", "x"},
+        {"WhileWithNestedWhilePlusNestedStmtsBeforeAndInside", "x"},
+        {"2", "x"},
+        {"5", "x"},
+        {"7", "x"},
+        {"15", "x"},
+        {"AssignCallPrintRead", "x"},
+        {"WhileWithNestedWhilePlusNestedStmtsBeforeAndInside", "x"},
+        {"WhileWithStmtsBeforeAndInside", "x"},
+        {"2", "t"},
+        {"5", "t"},
+        {"7", "t"},
+        {"16", "t"},
+        {"AssignCallPrintRead", "t"},
+        {"WhileWithNestedWhilePlusNestedStmtsBeforeAndInside", "t"},
+        {"WhileWithStmtsBeforeAndInside", "t"},
+        {"2", "x"},
+        {"5", "x"},
+        {"7", "x"},
+        {"18", "x"},
+        {"19", "x"},
+        {"AssignCallPrintRead", "x"},
+        {"WhileWithNestedWhilePlusNestedStmtsBeforeAndInside", "x"},
+        {"WhileWithStmtsBeforeAndInside", "x"},
+        {"2", "t"},
+        {"5", "t"},
+        {"7", "t"},
+        {"18", "t"},
+        {"20", "t"},
+        {"AssignCallPrintRead", "t"},
+        {"WhileWithNestedWhilePlusNestedStmtsBeforeAndInside", "t"},
+        {"WhileWithStmtsBeforeAndInside", "t"},
+        {"2", "t"},
+        {"5", "t"},
+        {"8", "t"},
+        {"AssignCallPrintRead", "t"},
+        {"WhileWithNestedWhilePlusNestedStmtsBeforeAndInside", "t"},
+        {"2", "x"},
+        {"5", "x"},
+        {"10", "x"},
+        {"11", "x"},
+        {"AssignCallPrintRead", "x"},
+        {"WhileWithNestedWhilePlusNestedStmtsBeforeAndInside", "x"},
+        {"2", "t"},
+        {"5", "t"},
+        {"10", "t"},
+        {"13", "t"},
+        {"AssignCallPrintRead", "t"},
+        {"WhileWithNestedWhilePlusNestedStmtsBeforeAndInside", "t"},
+        {"3", "t"},
+        {"AssignCallPrintRead", "t"},
+    };
+    auto program = astPrograms.createSequentialWhileWhileNestingChain();
+    auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<ModifiesExtractor>(pkb, program);
     for (const auto& procedure : *program->getProcedures()) {
         procedure->accept(*extractor);

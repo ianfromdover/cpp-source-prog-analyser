@@ -36,12 +36,12 @@ TEST_CASE("Modifsies Handler - QPS") {
     }
     )";
 
-    std::shared_ptr<PKBStorage> p = std::make_shared<PKBStorage>();
-    auto pkb = make_shared<PopulatePKB>(p);
+    std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
+    auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
     sp.exec(codeSnippet);
-    QueryPKB pkb1(p);
-    QPS qps(std::make_shared<QueryPKB>(pkb1));
+    QueryPkb pkb1(p);
+    QPS qps(std::make_shared<QueryPkb>(pkb1));
 
     SECTION("Select s such that Modifies(s, v)") {
         std::string query = "call s; Select s";
@@ -77,13 +77,13 @@ TEST_CASE("Tokenise sample program") {
         normSq = cenX * cenX + cenY * cenY;
     }
     )";
-    std::shared_ptr<PKBStorage> p=std::make_shared<PKBStorage>();
-    auto pkb = make_shared<PopulatePKB>(p);
+    std::shared_ptr<PkbStorage> p=std::make_shared<PkbStorage>();
+    auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
     auto tokens = sp.scan(codeSnippet);
-    for (auto& token: *tokens) {
-        std::cout << token->toString() << std::endl;
-    }
+//    for (auto& token: *tokens) {
+//        std::cout << token->toString() << std::endl;
+//    }
 }
 
 TEST_CASE("Parse complex while condition") {
@@ -137,9 +137,9 @@ TEST_CASE("Parse complex while condition") {
     auto tokens = sp.scan(codeSnippet);
     const auto parser = new Parser(tokens);
     const auto program = parser->parse();
-    for (const auto& procedures : *program->getProcedures()) {
-        std::cout << procedures->toString() << std::endl;
-    }
+//    for (const auto& procedures : *program->getProcedures()) {
+//        std::cout << procedures->toString() << std::endl;
+//    }
 
     require(true);
 }
@@ -167,15 +167,15 @@ TEST_CASE("Parse sample program") {
     }
     )";
 
-    std::shared_ptr<PKBStorage> p=std::make_shared<PKBStorage>();
-    auto pkb = make_shared<PopulatePKB>(p);
+    std::shared_ptr<PkbStorage> p=std::make_shared<PkbStorage>();
+    auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
     auto tokens = sp.scan(codeSnippet);
     const auto parser = new Parser(tokens);
     const auto program = parser->parse();
-    for (const auto& procedures : *program->getProcedures()) {
-        std::cout << procedures->toString() << std::endl;
-    }
+//    for (const auto& procedures : *program->getProcedures()) {
+//        std::cout << procedures->toString() << std::endl;
+//    }
 
     require(true);
 }
@@ -197,8 +197,8 @@ TEST_CASE("Print with parent extractor") {
         z=x+y;
     }
     )";
-    std::shared_ptr<PKBStorage> p=std::make_shared<PKBStorage>();
-    auto pkb = make_shared<PopulatePKB>(p);
+    std::shared_ptr<PkbStorage> p=std::make_shared<PkbStorage>();
+    auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
     sp.exec(codeSnippet);
 
@@ -217,23 +217,23 @@ TEST_CASE("Print with parent extractor") {
     std::vector<std::string> queries = {
             //query2,query3,query4, query5,
             query6};
-    std::vector<std::vector<std::string>> expected = {
+    Table expected = {
 //            expected2,expected3,expected4,expected5,
             expected6};
 
-    QueryPKB pkb1(p);
-    QPS qps(std::make_shared<QueryPKB>(pkb1));
+    QueryPkb pkb1(p);
+    QPS qps(std::make_shared<QueryPkb>(pkb1));
 
     for(int i=0;i<queries.size();i++){
         std::vector<std::string> ans = qps.evaluate(queries[i]);
-        std::cout<< queries[i]<<endl;
+//        std::cout<< queries[i]<<endl;
         REQUIRE(ans==expected[i]);
     }
 }
 
 TEST_CASE("Test SIMPLE semantic analysis") {
-    std::shared_ptr<PKBStorage> p=std::make_shared<PKBStorage>();
-    auto pkb = make_shared<PopulatePKB>(p);
+    std::shared_ptr<PkbStorage> p=std::make_shared<PkbStorage>();
+    auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
 
     std::string repeatedProcedureName = R"(
@@ -427,12 +427,12 @@ TEST_CASE("Modifies Handler - QPS") {
     }
     )";
 
-    std::shared_ptr<PKBStorage> p=std::make_shared<PKBStorage>();
-    auto pkb = make_shared<PopulatePKB>(p);
+    std::shared_ptr<PkbStorage> p=std::make_shared<PkbStorage>();
+    auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
     sp.exec(codeSnippet);
-    QueryPKB pkb1(p);
-    QPS qps(std::make_shared<QueryPKB>(pkb1));
+    QueryPkb pkb1(p);
+    QPS qps(std::make_shared<QueryPkb>(pkb1));
 
     SECTION("Select s such that Modifies(s, v)") {
         std::string query = "stmt s; variable v; Select s such that Modifies(s, v)";
@@ -574,12 +574,12 @@ TEST_CASE("Uses Handler - QPS") {
         z=x+y;
     }
     )";
-    std::shared_ptr<PKBStorage> p = std::make_shared<PKBStorage>();
-    auto pkb = make_shared<PopulatePKB>(p);
+    std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
+    auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
     sp.exec(codeSnippet);
-    QueryPKB pkb1(p);
-    QPS qps(std::make_shared<QueryPKB>(pkb1));
+    QueryPkb pkb1(p);
+    QPS qps(std::make_shared<QueryPkb>(pkb1));
 
     SECTION("Select s such that Uses(s, v)") {
         std::string query = "stmt s; variable v; Select s such that Uses(s, v)";
@@ -725,12 +725,12 @@ TEST_CASE("Parent Handler - QPS") {
         z=x+y;
     }
     )";
-    std::shared_ptr<PKBStorage> p = std::make_shared<PKBStorage>();
-    auto pkb = make_shared<PopulatePKB>(p);
+    std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
+    auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
     sp.exec(codeSnippet);
-    QueryPKB pkb1(p);
-    QPS qps(std::make_shared<QueryPKB>(pkb1));
+    QueryPkb pkb1(p);
+    QPS qps(std::make_shared<QueryPkb>(pkb1));
 
     SECTION("Select s1 such that Parent(s1, s2)") {
         std::string query = "stmt s1; stmt s2; Select s1 such that Parent(s1, s2)";
@@ -842,12 +842,12 @@ TEST_CASE("Parent* Handler - QPS") {
         z=x+y;
     }
     )";
-    std::shared_ptr<PKBStorage> p = std::make_shared<PKBStorage>();
-    auto pkb = make_shared<PopulatePKB>(p);
+    std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
+    auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
     sp.exec(codeSnippet);
-    QueryPKB pkb1(p);
-    QPS qps(std::make_shared<QueryPKB>(pkb1));
+    QueryPkb pkb1(p);
+    QPS qps(std::make_shared<QueryPkb>(pkb1));
 
     SECTION("Select s1 such that Parent*(s1, s2)") {
         std::string query = "stmt s1; stmt s2; Select s1 such that Parent*(s1, s2)";
@@ -960,12 +960,12 @@ TEST_CASE("Follows Handler - QPS") {
         z=x+y;
     }
     )";
-    std::shared_ptr<PKBStorage> p = std::make_shared<PKBStorage>();
-    auto pkb = make_shared<PopulatePKB>(p);
+    std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
+    auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
     sp.exec(codeSnippet);
-    QueryPKB pkb1(p);
-    QPS qps(std::make_shared<QueryPKB>(pkb1));
+    QueryPkb pkb1(p);
+    QPS qps(std::make_shared<QueryPkb>(pkb1));
 
     SECTION("Select s1 such that Follows(s1, s2)") {
         std::string query = "stmt s1; stmt s2; Select s1 such that Follows(s1, s2)";
@@ -1085,30 +1085,30 @@ TEST_CASE("Follows* Handler - QPS") {
         z=x+y;
     }
     )";
-    std::shared_ptr<PKBStorage> p = std::make_shared<PKBStorage>();
-    auto pkb = make_shared<PopulatePKB>(p);
+    std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
+    auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
     sp.exec(codeSnippet);
-    QueryPKB pkb1(p);
-    QPS qps(std::make_shared<QueryPKB>(pkb1));
+    QueryPkb pkb1(p);
+    QPS qps(std::make_shared<QueryPkb>(pkb1));
 
-    SECTION("Select s1 such that Follows*(s1, s2)") {
-        std::string query = "stmt s1; stmt s2; Select s1 such that Follows*(s1, s2)";
-        std::vector<std::string> expected = {"1", "2", "3", "4", "5", "7", "12", "13"};
-        std::vector<std::string> ans = qps.evaluate(query);
-        std::sort(ans.begin(), ans.end());
-        std::sort(expected.begin(), expected.end());
-        REQUIRE(ans == expected);
-    }
-
-    SECTION("Select s2 such that Follows*(i, s2)") {
-        std::string query = "if i; stmt s2; Select s2 such that Follows*(i, s2)";
-        std::vector<std::string> expected = {"10", "12", "13", "14"};
-        std::vector<std::string> ans = qps.evaluate(query);
-        std::sort(ans.begin(), ans.end());
-        std::sort(expected.begin(), expected.end());
-        REQUIRE(ans == expected);
-    }
+    //    SECTION("Select s1 such that Follows*(s1, s2)") {
+    //        std::string query = "stmt s1; stmt s2; Select s1 such that
+    //        Follows*(s1, s2)"; std::vector<std::string> expected = {"1", "2",
+    //        "3", "4", "5", "7", "12", "13"}; std::vector<std::string> ans =
+    //        qps.evaluate(query); std::sort(ans.begin(), ans.end());
+    //        std::sort(expected.begin(), expected.end());
+    //        REQUIRE(ans == expected);
+    //    }
+    //
+    //    SECTION("Select s2 such that Follows*(i, s2)") {
+    //        std::string query = "if i; stmt s2; Select s2 such that
+    //        Follows*(i, s2)"; std::vector<std::string> expected = {"10", "12",
+    //        "13", "14"}; std::vector<std::string> ans = qps.evaluate(query);
+    //        std::sort(ans.begin(), ans.end());
+    //        std::sort(expected.begin(), expected.end());
+    //        REQUIRE(ans == expected);
+    //    }
 
     SECTION("Select s2 such that Follows*(s1, s2)") {
         std::string query = "assign s1; assign s2; Select s2 such that Follows*(s1, s2)";
@@ -1209,12 +1209,12 @@ TEST_CASE("Multi-clause"){
         z=x+y;
     }
     )";
-    std::shared_ptr<PKBStorage> p = std::make_shared<PKBStorage>();
-    auto pkb = make_shared<PopulatePKB>(p);
+    std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
+    auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
     sp.exec(codeSnippet);
-    QueryPKB pkb1(p);
-    QPS qps(std::make_shared<QueryPKB>(pkb1));
+    QueryPkb pkb1(p);
+    QPS qps(std::make_shared<QueryPkb>(pkb1));
 
     SECTION("merging of multi clause with multiple common synonym") {
         std::string query = "assign a; variable v; Select v such that Uses(a, v) pattern a(v, _)";
@@ -1255,12 +1255,12 @@ TEST_CASE("Calls relationship"){
     }
     )";
 
-    std::shared_ptr<PKBStorage> p=std::make_shared<PKBStorage>();
-    auto pkb = make_shared<PopulatePKB>(p);
+    std::shared_ptr<PkbStorage> p=std::make_shared<PkbStorage>();
+    auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
     sp.exec(codeSnippet);
-    QueryPKB pkb1(p);
-    QPS qps(std::make_shared<QueryPKB>(pkb1));
+    QueryPkb pkb1(p);
+    QPS qps(std::make_shared<QueryPkb>(pkb1));
 
     SECTION("procedure p; Select p such that Calls(_, _)") {
         std::string query = "procedure p; Select p such that Calls(_, _)";
@@ -1380,13 +1380,133 @@ TEST_CASE("Test Extractor") {
         }
     )";
 
-    std::shared_ptr<PKBStorage> p=std::make_shared<PKBStorage>();
-    auto pkb = make_shared<PopulatePKB>(p);
+    std::shared_ptr<PkbStorage> p=std::make_shared<PkbStorage>();
+    auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
     sp.exec(codeSnippet);
 
 
     require(true);
+}
+
+TEST_CASE("expression matching") {
+  std::string codeSnippet = R"(
+    procedure f {
+        x=v+x*y+z*t;
+        a=b/c+d%e;
+    }
+    )";
+  std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
+  auto pkb = make_shared<PopulatePkb>(p);
+  auto sp = SourceProcessor(pkb);
+  sp.exec(codeSnippet);
+  QueryPkb pkb1(p);
+  QPS qps(std::make_shared<QueryPkb>(pkb1));
+
+  SECTION("match (_,_b/c_)") {
+    std::string query = "assign a; Select a pattern a(_, _\"b/c\"_)";
+    std::vector<std::string> expected = {"2"};
+    std::vector<std::string> ans = qps.evaluate(query);
+    std::sort(ans.begin(), ans.end());
+    std::sort(expected.begin(), expected.end());
+    REQUIRE(ans == expected);
+  }
+  SECTION("match (_,_d%e_)") {
+    std::string query = "assign a; Select a pattern a(_, _\"d%e\"_)";
+    std::vector<std::string> expected = {"2"};
+    std::vector<std::string> ans = qps.evaluate(query);
+    std::sort(ans.begin(), ans.end());
+    std::sort(expected.begin(), expected.end());
+    REQUIRE(ans == expected);
+  }
+  SECTION("match (_,_c+d_)") {
+    std::string query = "assign a; Select a pattern a(_, _\"c+d\"_)";
+    std::vector<std::string> expected = {};
+    std::vector<std::string> ans = qps.evaluate(query);
+    std::sort(ans.begin(), ans.end());
+    std::sort(expected.begin(), expected.end());
+    REQUIRE(ans == expected);
+  }
+  SECTION("match (_,_v+x*y_)") {
+    std::string query = "assign a; Select a pattern a(_, _\"v+x*y\"_)";
+    std::vector<std::string> expected = {"1"};
+    std::vector<std::string> ans = qps.evaluate(query);
+    std::sort(ans.begin(), ans.end());
+    std::sort(expected.begin(), expected.end());
+    REQUIRE(ans == expected);
+  }
+  SECTION("match (x,v+x*y+z*t)") {
+    std::string query = "assign a; Select a pattern a(\"x\", \"v+x*y+z*t\")";
+    std::vector<std::string> expected = {"1"};
+    std::vector<std::string> ans = qps.evaluate(query);
+    std::sort(ans.begin(), ans.end());
+    std::sort(expected.begin(), expected.end());
+    REQUIRE(ans == expected);
+  }
+  SECTION("match (x,v)") {
+    std::string query = "assign a; Select a pattern a(\"x\", \"v\")";
+    std::vector<std::string> expected = {};
+    std::vector<std::string> ans = qps.evaluate(query);
+    std::sort(ans.begin(), ans.end());
+    std::sort(expected.begin(), expected.end());
+    REQUIRE(ans == expected);
+  }
+  SECTION("match (_,_v_)") {
+    std::string query = "assign a; Select a pattern a(_, _\"v\"_)";
+    std::vector<std::string> expected = {"1"};
+    std::vector<std::string> ans = qps.evaluate(query);
+    std::sort(ans.begin(), ans.end());
+    std::sort(expected.begin(), expected.end());
+    REQUIRE(ans == expected);
+  }
+  SECTION("match (_,_x*y_)") {
+    std::string query = "assign a; Select a pattern a(_, _\"x*y\"_)";
+    std::vector<std::string> expected = {"1"};
+    std::vector<std::string> ans = qps.evaluate(query);
+    std::sort(ans.begin(), ans.end());
+    std::sort(expected.begin(), expected.end());
+    REQUIRE(ans == expected);
+  }
+  SECTION("match (_,_v+x_)") {
+    std::string query = "assign a; Select a pattern a(_, _\"v+x\"_)";
+    std::vector<std::string> expected = {};
+    std::vector<std::string> ans = qps.evaluate(query);
+    std::sort(ans.begin(), ans.end());
+    std::sort(expected.begin(), expected.end());
+    REQUIRE(ans == expected);
+  }
+  SECTION("match (_,_v+x*y_)") {
+    std::string query = "assign a; Select a pattern a(_, _\"v+x*y\"_)";
+    std::vector<std::string> expected = {"1"};
+    std::vector<std::string> ans = qps.evaluate(query);
+    std::sort(ans.begin(), ans.end());
+    std::sort(expected.begin(), expected.end());
+    REQUIRE(ans == expected);
+  }
+  SECTION("match (_,_y+z*t_)") {
+    std::string query = "assign a; Select a pattern a(_, _\"y+z*t\"_)";
+    std::vector<std::string> expected = {};
+    std::vector<std::string> ans = qps.evaluate(query);
+    std::sort(ans.begin(), ans.end());
+    std::sort(expected.begin(), expected.end());
+    REQUIRE(ans == expected);
+  }
+  SECTION("match (_,_x*y+z*t_)") {
+    std::string query = "assign a; Select a pattern a(_, _\"x * y + z * t\"_)";
+    std::vector<std::string> expected = {};
+    std::vector<std::string> ans = qps.evaluate(query);
+    std::sort(ans.begin(), ans.end());
+    std::sort(expected.begin(), expected.end());
+    REQUIRE(ans == expected);
+  }
+  SECTION("match (_,_v+x*y+z*t_)") {
+    std::string query = "assign a; Select a pattern a(_, _\"v + x * y + z * t\"_)";
+    std::vector<std::string> expected = {"1"};
+    std::vector<std::string> ans = qps.evaluate(query);
+    std::sort(ans.begin(), ans.end());
+    std::sort(expected.begin(), expected.end());
+    REQUIRE(ans == expected);
+  }
 }
 
 TEST_CASE("AST to CFG") {

@@ -6,9 +6,6 @@
 #include "../helper/TokenizedTestProgramProducer.h"
 #include "sp/parser/Parser.h"
 
-inline TokenizedTestProgramProducer tokenizedPrograms = TokenizedTestProgramProducer();
-inline AstTestProgramProducer astPrograms = AstTestProgramProducer();
-
 std::string programToString(const std::shared_ptr<Program>& program) {
     std::string result;
     for (const auto& procedure : *program->getProcedures()) {
@@ -20,6 +17,9 @@ std::string programToString(const std::shared_ptr<Program>& program) {
 bool isSameProgram(const std::shared_ptr<Program>& got, const std::shared_ptr<Program>& expect) {
     return programToString(got) == programToString(expect);
 }
+
+inline TokenizedTestProgramProducer tokenizedPrograms = TokenizedTestProgramProducer();
+inline AstTestProgramProducer astPrograms = AstTestProgramProducer();
 
 // Parser_TestZeroNestingLevel
 TEST_CASE("Parser_TestAssignCallPrintRead") {
@@ -138,8 +138,8 @@ TEST_CASE("Parser_TestWhileWithNestedWhilePlusNestedStmtsAfterAndInside") {
     REQUIRE(isSameProgram(program, astPrograms.createWhileWithNestedWhilePlusNestedStmtsAfterAndInside()));
 }
 
-TEST_CASE("Parser_TestSequentialNestingChain") {
-    const auto& tokens = tokenizedPrograms.createSequentialNestingChain();
+TEST_CASE("Parser_TestSequentialIfIfNestingChain") {
+    const auto& tokens = tokenizedPrograms.createSequentialIfIfNestingChain();
     const auto& program = Parser(tokens).parse();
-    REQUIRE(isSameProgram(program, astPrograms.createSequentialNestingChain()));
+    REQUIRE(isSameProgram(program, astPrograms.createSequentialIfIfNestingChain()));
 }

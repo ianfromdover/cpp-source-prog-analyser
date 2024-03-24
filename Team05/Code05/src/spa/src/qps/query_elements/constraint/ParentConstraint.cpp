@@ -3,7 +3,7 @@
 //
 
 #include "ParentConstraint.h"
-#include "qps/QueryProjector/ResultTable/ResultTable.h"
+#include "qps/query_projector/ResultTable.h"
 
 ParentConstraint::ParentConstraint(std::shared_ptr<StatementReference>  s1, std::shared_ptr<StatementReference>  s2) {
     constraintArguments.push_back(s1);
@@ -18,9 +18,9 @@ std::vector<std::shared_ptr<ConstraintArgument>> ParentConstraint::getConstraint
     return constraintArguments;
 }
 
-std::vector<std::vector<std::string>> ParentConstraint::getRelationshipTable(QueryPKBVirtual & pkb) {
+Table ParentConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     // Get parent table and populate it into our results table
-    std::vector<std::vector<std::string>> result = pkb.getParent();
+    Table result = pkb.getParentTable();
 
     // Get constraint arguments and initialise it as our table headers
     std::vector<std::shared_ptr<ConstraintArgument>> args = getConstraintArguments();
@@ -45,11 +45,9 @@ std::vector<std::vector<std::string>> ParentConstraint::getRelationshipTable(Que
     }
     if (isStatementSynonym(lhsEntityType)) {
         // Get entity table by type
-        std::vector<std::vector<std::string>> entityTable = args[0]->getEntityTable(pkb);
+        Table entityTable = args[0]->getEntityTable(pkb);
         ResultTable entityTableResult(entityTable);
-        if (lhsEntityType != TYPE_STATEMENT) {
-            entityTableResult.removeColumnByIndex(1);
-        }
+        entityTableResult.removeAllColumnsExceptIndex(0);
         table.add(entityTableResult.getTable());
     }
 
@@ -60,11 +58,9 @@ std::vector<std::vector<std::string>> ParentConstraint::getRelationshipTable(Que
     }
     if (isStatementSynonym(rhsEntityType)) {
         // Get entity table by type
-        std::vector<std::vector<std::string>> entityTable = args[1]->getEntityTable(pkb);
+        Table entityTable = args[1]->getEntityTable(pkb);
         ResultTable entityTableResult(entityTable);
-        if (rhsEntityType != TYPE_STATEMENT) {
-            entityTableResult.removeColumnByIndex(1);
-        }
+        entityTableResult.removeAllColumnsExceptIndex(0);
         table.add(entityTableResult.getTable());
     }
 

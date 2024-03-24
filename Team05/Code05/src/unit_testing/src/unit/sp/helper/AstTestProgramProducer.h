@@ -36,7 +36,10 @@ public:
     std::shared_ptr<Program> createWhileWithNestedWhilePlusNestedStmtsAfterAndInside() const override;
 
     // Multiple Procedures in a Program
-    std::shared_ptr<Program> createSequentialNestingChain() const override;
+    std::shared_ptr<Program> createSequentialIfIfNestingChain() const override;
+    std::shared_ptr<Program> createSequentialIfWhileNestingChain() const override;
+    std::shared_ptr<Program> createSequentialWhileIfNestingChain() const override;
+    std::shared_ptr<Program> createSequentialWhileWhileNestingChain() const override;
 };
 
 

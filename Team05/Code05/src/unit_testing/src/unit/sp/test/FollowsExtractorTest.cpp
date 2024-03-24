@@ -3,7 +3,7 @@
 //
 #include "catch.hpp"
 #include "../helper/AstTestProgramProducer.h"
-#include "../helper/PKBStubSP.cpp"
+#include "../helper/PkbStubSp.cpp"
 #include "sp/extractor/relation_extractor/FollowsExtractor.h"
 
 inline AstTestProgramProducer astPrograms = AstTestProgramProducer();
@@ -17,7 +17,7 @@ TEST_CASE("Follows_TestAssignCallPrintRead") {
             {"3", "4"},
     };
     auto program = astPrograms.createAssignCallPrintRead();
-    auto pkb = make_shared<PKBStubSP>();
+    auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<FollowsExtractor>(pkb);
     for (const auto& procedure : *program->getProcedures()) {
         procedure->accept(*extractor);
@@ -41,7 +41,7 @@ TEST_CASE("Follows_TestIfElseWithStmtsBeforeAndInside") {
             {"12", "13"},
     };
     auto program = astPrograms.createIfElseWithStmtsBeforeAndInside();
-    auto pkb = make_shared<PKBStubSP>();
+    auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<FollowsExtractor>(pkb);
     for (const auto& procedure : *program->getProcedures()) {
         procedure->accept(*extractor);
@@ -68,7 +68,7 @@ TEST_CASE("Follows_TestIfElseWithStmtsBeforeAfterAndInside") {
 
     };
     auto program = astPrograms.createIfElseWithStmtsBeforeAfterAndInside();
-    auto pkb = make_shared<PKBStubSP>();
+    auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<FollowsExtractor>(pkb);
     for (const auto& procedure : *program->getProcedures()) {
         procedure->accept(*extractor);
@@ -90,7 +90,7 @@ TEST_CASE("Follows_TestIfElseWithStmtsAfterAndInside") {
             {"1", "10"},
     };
     auto program = astPrograms.createIfElseWithStmtsAfterAndInside();
-    auto pkb = make_shared<PKBStubSP>();
+    auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<FollowsExtractor>(pkb);
     for (const auto& procedure : *program->getProcedures()) {
         procedure->accept(*extractor);
@@ -110,7 +110,7 @@ TEST_CASE("Follows_TestWhileWithStmtsBeforeAndInside") {
 
     };
     auto program = astPrograms.createWhileWithStmtsBeforeAndInside();
-    auto pkb = make_shared<PKBStubSP>();
+    auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<FollowsExtractor>(pkb);
     for (const auto& procedure : *program->getProcedures()) {
         procedure->accept(*extractor);
@@ -133,7 +133,7 @@ TEST_CASE("Follows_TestWhileWithStmtsBeforeAfterAndInside") {
             {"5", "10"}
     };
     auto program = astPrograms.createWhileWithStmtsBeforeAfterAndInside();
-    auto pkb = make_shared<PKBStubSP>();
+    auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<FollowsExtractor>(pkb);
     for (const auto& procedure : *program->getProcedures()) {
         procedure->accept(*extractor);
@@ -153,7 +153,7 @@ TEST_CASE("Follows_TestWhileWithStmtsAfterAndInside") {
             {"1", "6"},
     };
     auto program = astPrograms.createWhileWithStmtsAfterAndInside();
-    auto pkb = make_shared<PKBStubSP>();
+    auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<FollowsExtractor>(pkb);
     for (const auto& procedure : *program->getProcedures()) {
         procedure->accept(*extractor);
@@ -192,7 +192,7 @@ TEST_CASE("Follows_TestIfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside") {
             {"26", "27"},
     };
     auto program = astPrograms.createIfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside();
-    auto pkb = make_shared<PKBStubSP>();
+    auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<FollowsExtractor>(pkb);
     for (const auto& procedure : *program->getProcedures()) {
         procedure->accept(*extractor);
@@ -239,7 +239,7 @@ TEST_CASE("Follows_TestIfElseWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside
             {"23", "32"}
     };
     auto program = astPrograms.createIfElseWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside();
-    auto pkb = make_shared<PKBStubSP>();
+    auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<FollowsExtractor>(pkb);
     for (const auto& procedure : *program->getProcedures()) {
         procedure->accept(*extractor);
@@ -279,7 +279,7 @@ TEST_CASE("Follows_TestIfElseWithNestedIfElsePlusNestedStmtsAfterAndInside") {
 
     };
     auto program = astPrograms.createIfElseWithNestedIfElsePlusNestedStmtsAfterAndInside();
-    auto pkb = make_shared<PKBStubSP>();
+    auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<FollowsExtractor>(pkb);
     for (const auto& procedure : *program->getProcedures()) {
         procedure->accept(*extractor);
@@ -309,7 +309,7 @@ TEST_CASE("Follows_TestIfElseWithNestedWhilePlusNestedStmtsBeforeAndInside") {
 
     };
     auto program = astPrograms.createIfElseWithNestedWhilePlusNestedStmtsBeforeAndInside();
-    auto pkb = make_shared<PKBStubSP>();
+    auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<FollowsExtractor>(pkb);
     for (const auto& procedure : *program->getProcedures()) {
         procedure->accept(*extractor);
@@ -349,7 +349,7 @@ TEST_CASE("Follows_TestIfElseWithNestedWhilePlusNestedStmtsBeforeAfterAndInside"
             {"19", "24"}
     };
     auto program = astPrograms.createIfElseWithNestedWhilePlusNestedStmtsBeforeAfterAndInside();
-    auto pkb = make_shared<PKBStubSP>();
+    auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<FollowsExtractor>(pkb);
     for (const auto& procedure : *program->getProcedures()) {
         procedure->accept(*extractor);
@@ -380,7 +380,7 @@ TEST_CASE("Follows_TestIfElseWithNestedWhilePlusNestedStmtsAfterAndInside") {
             {"11", "16"},
     };
     auto program = astPrograms.createIfElseWithNestedWhilePlusNestedStmtsAfterAndInside();
-    auto pkb = make_shared<PKBStubSP>();
+    auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<FollowsExtractor>(pkb);
     for (const auto& procedure : *program->getProcedures()) {
         procedure->accept(*extractor);
@@ -404,7 +404,7 @@ TEST_CASE("Follows_TestWhileWithNestedIfElsePlusNestedStmtsBeforeAndInside") {
             {"13", "14"},
     };
     auto program = astPrograms.createWhileWithNestedIfElsePlusNestedStmtsBeforeAndInside();
-    auto pkb = make_shared<PKBStubSP>();
+    auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<FollowsExtractor>(pkb);
     for (const auto& procedure : *program->getProcedures()) {
         procedure->accept(*extractor);
@@ -434,7 +434,7 @@ TEST_CASE("Follows_TestWhileWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside"
             {"6", "15"},
     };
     auto program = astPrograms.createWhileWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside();
-    auto pkb = make_shared<PKBStubSP>();
+    auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<FollowsExtractor>(pkb);
     for (const auto& procedure : *program->getProcedures()) {
         procedure->accept(*extractor);
@@ -459,7 +459,7 @@ TEST_CASE("Follows_TestWhileWithNestedIfElsePlusNestedStmtsAfterAndInside") {
             {"2", "11"}
     };
     auto program = astPrograms.createWhileWithNestedIfElsePlusNestedStmtsAfterAndInside();
-    auto pkb = make_shared<PKBStubSP>();
+    auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<FollowsExtractor>(pkb);
     for (const auto& procedure : *program->getProcedures()) {
         procedure->accept(*extractor);
@@ -479,7 +479,7 @@ TEST_CASE("Follows_TestWhileWithNestedWhilePlusNestedStmtsBeforeAndInside") {
             {"9", "10"},
     };
     auto program = astPrograms.createWhileWithNestedWhilePlusNestedStmtsBeforeAndInside();
-    auto pkb = make_shared<PKBStubSP>();
+    auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<FollowsExtractor>(pkb);
     for (const auto& procedure : *program->getProcedures()) {
         procedure->accept(*extractor);
@@ -505,7 +505,7 @@ TEST_CASE("Follows_TestWhileWithNestedWhilePlusNestedStmtsBeforeAfterAndInside")
             {"6", "11"},
     };
     auto program = astPrograms.createWhileWithNestedWhilePlusNestedStmtsBeforeAfterAndInside();
-    auto pkb = make_shared<PKBStubSP>();
+    auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<FollowsExtractor>(pkb);
     for (const auto& procedure : *program->getProcedures()) {
         procedure->accept(*extractor);
@@ -526,7 +526,7 @@ TEST_CASE("Follows_TestWhileWithNestedWhilePlusNestedStmtsAfterAndInside") {
             {"2", "7"},
     };
     auto program = astPrograms.createWhileWithNestedWhilePlusNestedStmtsAfterAndInside();
-    auto pkb = make_shared<PKBStubSP>();
+    auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<FollowsExtractor>(pkb);
     for (const auto& procedure : *program->getProcedures()) {
         procedure->accept(*extractor);

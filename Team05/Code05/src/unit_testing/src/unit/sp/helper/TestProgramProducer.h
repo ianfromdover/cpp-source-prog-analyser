@@ -36,7 +36,10 @@ public:
     virtual std::shared_ptr<T> createWhileWithNestedWhilePlusNestedStmtsAfterAndInside() const;
 
     // Multiple Procedures in a Program
-    virtual std::shared_ptr<T> createSequentialNestingChain() const;
+    virtual std::shared_ptr<T> createSequentialIfIfNestingChain() const;
+    virtual std::shared_ptr<T> createSequentialIfWhileNestingChain() const;
+    virtual std::shared_ptr<T> createSequentialWhileIfNestingChain() const;
+    virtual std::shared_ptr<T> createSequentialWhileWhileNestingChain() const;
 };
 
 #endif //SPA_TESTPROGRAMPRODUCER_H

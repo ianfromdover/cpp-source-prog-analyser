@@ -36,7 +36,10 @@ public:
     std::shared_ptr<TokenStream> createWhileWithNestedWhilePlusNestedStmtsAfterAndInside() const override;
 
     // Multiple Procedures in a Program
-    std::shared_ptr<TokenStream> createSequentialNestingChain() const override;
+    std::shared_ptr<TokenStream> createSequentialIfIfNestingChain() const override;
+    std::shared_ptr<TokenStream> createSequentialWhileIfNestingChain() const override;
+    std::shared_ptr<TokenStream> createSequentialIfWhileNestingChain() const override;
+    std::shared_ptr<TokenStream> createSequentialWhileWhileNestingChain() const override;
 };
 
 
