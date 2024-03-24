@@ -4,7 +4,7 @@
 
 #include <stdexcept>
 #include "PatternClause.h"
-#include "qps/Exceptions/QPSException.h"
+#include "qps/exceptions/QPSException.h"
 
 
 std::string PatternClause::getSecondArgValue() {

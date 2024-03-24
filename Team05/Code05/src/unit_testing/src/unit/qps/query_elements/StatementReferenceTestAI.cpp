@@ -61,7 +61,7 @@ TEST_CASE("entity_integerArgumentIsTypeInteger_stringInteger") {
 }
 
 TEST_CASE("entity_wildCardIsTypeWildcard_stringWildcard") {
-    StatementRefWildCard en = StatementRefWildCard();
+    StatementRefWildcard en = StatementRefWildcard();
     REQUIRE(en.getEntityType() == TYPE_WILDCARD);
 }
 
@@ -119,8 +119,8 @@ TEST_CASE("inheritance_check_statementReference_IntegerArgument") {
     REQUIRE(isInstanceOfStatementReference);
 }
 
-TEST_CASE("inheritance_check_statementReference_WildCard") {
-    StatementRefWildCard wildCard;
+TEST_CASE("inheritance_check_statementReference_Wildcard") {
+    StatementRefWildcard wildCard;
     bool isInstanceOfStatementReference = dynamic_cast<StatementReference*>(&wildCard) != nullptr;
     REQUIRE(isInstanceOfStatementReference);
 }
@@ -157,8 +157,8 @@ TEST_CASE("IntegerArgument_inheritanceCheck_isFalse") {
     REQUIRE_FALSE(std::is_base_of<Entity, IntegerArgument>::value);
 }
 
-TEST_CASE("WildCard_inheritanceCheck_isFalse") {
-    REQUIRE_FALSE(std::is_base_of<Entity, StatementRefWildCard>::value);
+TEST_CASE("Wildcard_inheritanceCheck_isFalse") {
+    REQUIRE_FALSE(std::is_base_of<Entity, StatementRefWildcard>::value);
 }
 
 // ai-gen end

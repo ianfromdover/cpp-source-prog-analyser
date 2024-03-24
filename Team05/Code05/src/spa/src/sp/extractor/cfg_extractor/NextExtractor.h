@@ -12,7 +12,7 @@
 class NextExtractor : public CfgExtractor {
 public:
     // Constructor
-    explicit NextExtractor(std::shared_ptr<BasePKBPopulator> pkb) : CfgExtractor(std::move(pkb)) {};
+    explicit NextExtractor(std::shared_ptr<BasePkbPopulator> pkb) : CfgExtractor(std::move(pkb)) {};
     // Block Methods
     void visitCFG(const CFG& cfg) override;
 private:

@@ -1,0 +1,17 @@
+#include "UsesSTable.h"
+
+bool UsesSTable::addUsesS(StmtNo sNum, VarName name) {
+    return map.insert(sNum, name);
+}
+
+vector<VarName> UsesSTable::getUsesBySNum(StmtNo sNum) {
+    return map.getValues(sNum);
+}
+
+vector<StmtNo> UsesSTable::getUsesByVar(VarName name) {
+    return map.getKeys(name);
+}
+
+Table UsesSTable::getAllAsStrings() {
+    return map.getAllForAStr();
+}

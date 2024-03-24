@@ -58,19 +58,12 @@ private:
 
     std::shared_ptr<SelectClause> select();
 
-    std::shared_ptr<RelationshipClause> relationship();
-
-    std::shared_ptr<RelationshipClause> parent();
-
-    std::shared_ptr<RelationshipClause> follow();
-
-    std::shared_ptr<RelationshipClause> uses();
-
-    std::shared_ptr<RelationshipClause> usesModifies();
-
-    std::shared_ptr<RelationshipClause> modifies();
-
-    std::shared_ptr<RelationshipClause> calls();
+    std::vector<std::shared_ptr<RelationshipClause>> suchThatClause();
+    std::vector<std::shared_ptr<RelationshipClause>> relCond();
+    std::shared_ptr<RelationshipClause> relRef();
+    std::vector<QPSToken> argsStmtStmt();
+    std::vector<QPSToken> argsEntEnt();
+    std::vector<QPSToken> argsAnyEnt();
 
     std::shared_ptr<RelationshipClause> next();
 
@@ -79,6 +72,8 @@ private:
     QPSToken stmtRef();
 
     QPSToken entRef();
+
+    QPSToken any();
 
     QPSToken synonym(QPSToken t);
 

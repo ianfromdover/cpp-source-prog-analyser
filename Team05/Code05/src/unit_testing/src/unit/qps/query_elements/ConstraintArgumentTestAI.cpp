@@ -99,8 +99,8 @@ TEST_CASE("IntegerArgument_ReferenceType_StatementReference") {
     REQUIRE(ia.getReferenceType() == REFERENCE_TYPE_STATEMENT);
 }
 
-TEST_CASE("WildCard_ReferenceType_StatementReference") {
-    StatementRefWildCard wc;
+TEST_CASE("Wildcard_ReferenceType_StatementReference") {
+    StatementRefWildcard wc;
     REQUIRE(wc.getReferenceType() == REFERENCE_TYPE_STATEMENT);
 }
 

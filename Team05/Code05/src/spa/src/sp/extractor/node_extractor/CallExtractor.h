@@ -12,7 +12,7 @@
 class CallExtractor: public RelationExtractor {
 public:
     // Constructor
-    explicit CallExtractor(shared_ptr<BasePKBPopulator> pkb) : RelationExtractor(std::move(pkb)) {}
+    explicit CallExtractor(shared_ptr<BasePkbPopulator> pkb) : RelationExtractor(std::move(pkb)) {}
     // Statement Methods
     void visitCallStmt(const Call& stmt, shared_ptr<Accumulator>& parentInfo) override;
     void visitWhileStmt(const While& stmt, shared_ptr<Accumulator>& parentInfo) override;

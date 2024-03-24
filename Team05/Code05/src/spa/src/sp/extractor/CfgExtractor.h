@@ -12,9 +12,9 @@ class CFG;
 
 class CfgExtractor {
 protected:
-    std::shared_ptr<BasePKBPopulator> pkb;
+    std::shared_ptr<BasePkbPopulator> pkb;
 public:
-    explicit CfgExtractor(std::shared_ptr<BasePKBPopulator> pkb) : pkb(std::move(pkb)) {};
+    explicit CfgExtractor(std::shared_ptr<BasePkbPopulator> pkb) : pkb(std::move(pkb)) {};
     virtual ~CfgExtractor() = default;
     // Block Methods
     virtual void visitCFG(const CFG&);

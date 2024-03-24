@@ -30,7 +30,7 @@ using namespace std;
 #include "qps/query_elements/constraint_argument/entity_reference/ProcedureEntity.h"
 #include "qps/query_elements/constraint_argument/entity_reference/VariableEntity.h"
 #include "qps/query_elements/constraint_argument/entity_reference/ConstantEntity.h"
-#include "qps/query_elements/constraint_argument/entity_reference/EntityRefWildCard.h"
+#include "qps/query_elements/constraint_argument/entity_reference/EntityRefWildcard.h"
 
 // ai-gen start(gpt, 1, e)
 // prompt: https://platform.openai.com/playground/p/kRR1UQyUxzRLr95Mnxz0MCoG?model=gpt-3.5-turbo&mode=chat
@@ -150,14 +150,14 @@ TEST_CASE("InitializeConstraint_with_StatementReference_subclasses") {
     statementRefEntities.push_back(std::make_shared<IfEntity>("y"));
     statementRefEntities.push_back(std::make_shared<WhileEntity>("u"));
     statementRefEntities.push_back(std::make_shared<IntegerArgument>(12));
-    statementRefEntities.push_back(std::make_shared<StatementRefWildCard>());
+    statementRefEntities.push_back(std::make_shared<StatementRefWildcard>());
 
     // All possible EntityReference subclasses
     std::vector<std::shared_ptr<EntityReference>> entRefEntities;
     entRefEntities.push_back(std::make_shared<ProcedureEntity>("p"));
     entRefEntities.push_back(std::make_shared<VariableEntity>("v"));
     entRefEntities.push_back(std::make_shared<ConstantEntity>("c"));
-    entRefEntities.push_back(std::make_shared<EntityRefWildCard>());
+    entRefEntities.push_back(std::make_shared<EntityRefWildcard>());
 
     SECTION("FollowsConstraint") {
         // Pairwise testing for FollowsConstraint initialization

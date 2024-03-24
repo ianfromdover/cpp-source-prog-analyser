@@ -29,10 +29,11 @@ public:
         // Relationships
         PARENT, PARENT_T,
         FOLLOWS, FOLLOWS_T,
-        MODIFIES_S, MODIFIES_P,
-        USES_S, USES_P,
+        MODIFIES, MODIFIES_S, MODIFIES_P,
+        USES, USES_S, USES_P,
         CALLS, CALLS_T,
         NEXT,
+        AND,
 
         // Entity References
         ENT_REF,

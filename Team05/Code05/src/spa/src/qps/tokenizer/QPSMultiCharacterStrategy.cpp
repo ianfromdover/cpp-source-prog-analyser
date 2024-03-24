@@ -53,9 +53,9 @@ bool QPSMultiCharacterStrategy::expectSynonymNext(const std::string &name, QPSTo
             {"Follows*",  QPSTokenType::FOLLOWS_T},
             {"Parent",    QPSTokenType::PARENT},
             {"Parent*",   QPSTokenType::PARENT_T},
-            {"Modifies",  QPSTokenType::MODIFIES_S},
-            {"Uses",      QPSTokenType::USES_S},
-            {"Calls",     QPSTokenType::CALLS},
+            {"Modifies", QPSTokenType::MODIFIES},
+            {"Uses", QPSTokenType::USES},
+            {"Calls", QPSTokenType::CALLS},
             {"Calls*",    QPSTokenType::CALLS_T},
             {"Next",    QPSTokenType::NEXT},
 
@@ -76,6 +76,16 @@ bool QPSMultiCharacterStrategy::expectSynonymNext(const std::string &name, QPSTo
                 tokens.addToken(QPSTokenType::IDENTIFIER, name);
             }
             return false;
+        }
+        if (it->second == QPSTokenType::AND) {
+          if (!tokens.getTokens().empty() &&
+              tokens.getTokens().back()->getType().getInfo() ==
+                  QPSTokenType::RIGHT_PAREN) {
+            tokens.addToken(it->second, name);
+          } else {
+            tokens.addToken(QPSTokenType::IDENTIFIER, name);
+          }
+          return false;
         }
         tokens.addToken(it->second, name);
         return true;

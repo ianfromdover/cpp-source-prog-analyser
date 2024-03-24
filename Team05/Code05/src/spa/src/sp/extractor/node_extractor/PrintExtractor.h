@@ -12,7 +12,7 @@
 class PrintExtractor: public RelationExtractor {
 public:
     // Constructor
-    explicit PrintExtractor(shared_ptr<BasePKBPopulator> pkb) : RelationExtractor(std::move(pkb)) {}
+    explicit PrintExtractor(shared_ptr<BasePkbPopulator> pkb) : RelationExtractor(std::move(pkb)) {}
     // Statement Methods
     void visitPrintStmt(const Print& stmt, shared_ptr<Accumulator>& parentInfo) override;
     void visitWhileStmt(const While& stmt, shared_ptr<Accumulator>& parentInfo) override;

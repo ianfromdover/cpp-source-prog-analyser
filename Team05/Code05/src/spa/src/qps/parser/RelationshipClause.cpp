@@ -4,7 +4,7 @@
 
 #include <stdexcept>
 #include "RelationshipClause.h"
-#include "qps/Exceptions/QPSException.h"
+#include "qps/exceptions/QPSException.h"
 
 
 QPSToken &RelationshipClause::getSecondArg() {
@@ -46,4 +46,10 @@ QPSTokenType::QPSTypeInfo RelationshipClause::getFirstReferenceType() {
 QPSTokenType::QPSTypeInfo RelationshipClause::getSecondReferenceType() {
     return secondArgRefType;
 }
-
+void RelationshipClause::setRelationshipType(QPSTokenType::QPSTypeInfo &type) {
+  this->relationshipType = type;
+}
+void RelationshipClause::setFirstReferenceType(
+    QPSTokenType::QPSTypeInfo &type) {
+  firstArgRefType = type;
+}
