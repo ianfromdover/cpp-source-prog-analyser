@@ -67,6 +67,7 @@ private:
 
     std::shared_ptr<PatternClause> assignPattern();
     std::shared_ptr<PatternClause> whilePattern();
+    std::shared_ptr<PatternClause> ifPattern();
 
 
     QPSToken stmtRef();
