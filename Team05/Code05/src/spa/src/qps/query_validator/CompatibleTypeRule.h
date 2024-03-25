@@ -11,17 +11,12 @@ typedef QPSTokenType::QPSTypeInfo QType;
 
 class CompatibleTypeRule : public Rule {
 public:
-  std::string validate(IntermediateQuery &) override;
+    std::string validate(IntermediateQuery &) override;
 
 private:
-  std::string validateRelationship(
-      RelationshipClause &cl,
-      std::map<std::string, QPSTokenType::QPSTypeInfo> declarationMap);
-  std::string validatePattern(
-      PatternClause cl,
-      std::map<std::string, QPSTokenType::QPSTypeInfo> declarationMap);
-  static bool isStatementType(const QPSTokenType::QPSTypeInfo &type);
-
+    std::string validateRelationship(RelationshipClause& cl, std::map<std::string, QPSTokenType::QPSTypeInfo> declarationMap);
+    std::string validatePattern(PatternClause cl, std::map<std::string, QPSTokenType::QPSTypeInfo> declarationMap);
+    static bool isStatementType(const QPSTokenType::QPSTypeInfo &type);
   static inline std::map<QPSTokenType::QPSTypeInfo,
                          std::pair<std::vector<QPSTokenType::QPSTypeInfo>,
                                    std::vector<QPSTokenType::QPSTypeInfo>>>
@@ -74,7 +69,14 @@ private:
             {QType::VARIABLE, QType::WILDCARD, QType::QUOTED_IDENT}}},
           {QType::MODIFIES_P,
            {{QType::PROCEDURE, QType::QUOTED_IDENT, QType::WILDCARD},
-            {QType::VARIABLE, QType::WILDCARD, QType::QUOTED_IDENT}}}};
+            {QType::VARIABLE, QType::WILDCARD, QType::QUOTED_IDENT}}},
+          {QType::NEXT,
+            {{QType::CALL, QType::STMT1, QType::PRINT, QType::READ, QType::WHILE,
+              QType::IF, QType::ASSIGN, QType::INTEGER, QType::WILDCARD},
+             {QType::CALL, QType::STMT1, QType::PRINT, QType::READ, QType::WHILE,
+              QType::IF, QType::ASSIGN, QType::INTEGER, QType::WILDCARD}}}};
+
 };
 
-#endif // SPA_COMPATIBLETYPERULE_H
+
+#endif //SPA_COMPATIBLETYPERULE_H
