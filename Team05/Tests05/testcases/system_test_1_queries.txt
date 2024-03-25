@@ -268,52 +268,52 @@ stmt s;variable v;
 Select s such that Uses(s, "x")
 2,18,20,30,6,17,27,1,5,11,12,13
 5000
-55 - Assign Pattern 1
+55 - Assign Pattern (charstring, wild)
 assign a;
 Select a pattern a("x", _)
 2,7,10,12
 5000
-56 - Assign Pattern 2
+56 - Assign Pattern (charstring, partial match)
 assign a;
 Select a pattern a("x", _"x"_)
 2,12
 5000
-57 - Assign Pattern 3
+57 - Assign Pattern (wild, wild)
 assign a;
 Select a pattern a(_, _)
 2,3,4,7,8,9,10,11,12,13,25,26,27,28,30,31
 5000
-58 - Assign Pattern 4
+58 - Assign Pattern (wild, partial match)
 assign a;
 Select a pattern a(_, _"10"_)
 25,28
 5000
-59 - Assign Pattern 5
+59 - Assign Pattern (wild, partial match substring)
 assign a;
 Select a pattern a(_, _"1"_)
 25,26,28,12,10,2,3
 5000
-60 - Assign Pattern 6
+60 - Assign Pattern (wild, partial match substring)
 assign a;
 Select a pattern a(_, _"x+1"_)
 2,12
 5000
-61 - Assign Pattern 7
+61 - Assign Pattern (wild, partial match substring)
 assign a;
 Select a pattern a(_, _"(x+1)"_)
 2,12
 5000
-62 - Assign Pattern 8
+62 - Assign Pattern (wild, partial match substring)
 assign a;
 Select a pattern a(_, _"x+y+2"_)
 11
 5000
-63 - Assign Pattern 9
+63 - Assign Pattern (wild, partial match not substring)
 assign a;
 Select a pattern a(_, _"10*r+h"_)
 none
 5000
-64 - Assign Pattern 10
+64 - Assign Pattern (charstring, partial match)
 assign a;
 Select a pattern a("z", _"2"_)
 4,11
@@ -368,117 +368,147 @@ stmt s;
 Select s such that Follows(1, s) and Follows(s, 13)
 12
 5000
-75 - Follows and Pattern
+75 - Follows* and Pattern (charstr, wild)
 stmt s; assign a;
 Select a such that Follows*(1, a) pattern a("x", _)
 12
 5000
-76 - Parent and Uses
+76 - Parent* and UsesS
 stmt s;variable v;
 Select s such that Parent*(s, 11) and Uses(s, v)
 1,5
 5000
-77 - ModifiesS and Pattern
+77 - ModifiesS and Pattern (wild, partial match)
 stmt s;variable v;assign a;
 Select a such that Modifies(a, v) pattern a(_, _"x+y"_)
 11
 5000
-78 - No Declarations
+78 - UsesP and Calls*
+procedure p;variable v;
+Select v such that Uses(p, v) such that Calls*("program1", p)
+x,y,z,k,r,h,u,t
+5000
+79 - ModifiesP and Calls
+procedure p1, p2;
+Select p1 such that Modifies(p1, "x") such that Calls(p1, p2)
+program1
+5000
+80 - UsesP and ModifiesP
+variable v;procedure p;
+Select v such that Modifies(p, v) such that Uses(p, v)
+k,x,y,z
+5000
+81 - Parent and Follows
+stmt s1,s2;
+Select s1 such that Parent(s1, s2) such that Follows(s1, s2)
+1,17,21,24,5
+5000
+82 - Parent and Follows*
+stmt s1,s2;
+Select s1 such that Parent(s1, s2) such that Follows*(s1, s2)
+1,17,21,24,5
+5000
+83 - Parent* and Follows
+stmt s;
+Select s such that Parent*(s, 9) such that Follows(1, 2)
+1,5
+5000
+84 - No Declarations
 stmt s;
 Select a
 SemanticError
 5000
-79 - Repeat Declarations
+85 - Repeat Declarations
 stmt s; assign s;
 Select s
 SemanticError
 5000
-80 - Calls with stmt
+86 - Calls with stmt
 stmt s; call c;
 Select c such that Calls(s, c)
 SemanticError
 5000
-81 - same synonym names
+87 - same synonym names as keywords
 assign pattern; variable Select, assign;
 Select assign pattern pattern(assign, _)
 x,y,z,k
 5000
-82 - Children of read stmts
+88 - Children of read stmts
 procedure p;read r;
 Select r such that Parent(r,_)
 none
 5000
-83 - Parent of read stmts
+89 - Parent of read stmts
 procedure p;read r;
 Select r such that Parent(_,r)
 19
 5000
-84 - Children of read stmts
+90 - Children* of read stmts
 procedure p;read r;
 Select r such that Parent*(r,_)
 none
 5000
-85 - Parent of read stmts
+91 - Parent* of read stmts
 procedure p;read r;
 Select r such that Parent*(_,r)
 19
 5000
-86 - Children of print stmts
+92 - Children of print stmts
 print pr;
 Select pr such that Parent(pr,_)
 none
 5000
-87 - Parent of print stmts
+93 - Parent of print stmts
 print pr;
 Select pr such that Parent(_,pr)
 18,22,23,29
 5000
-88 - Children* of print stmts
+94 - Children* of print stmts
 print pr;
 Select pr such that Parent*(pr,_)
 none
 5000
-89 - Parent* of print stmts
+95 - Parent* of print stmts
 print pr;
 Select pr such that Parent*(_,pr)
 18,22,23,29
 5000
-90 - Follows of while stmts
+96 - Follows of while stmts
 while w;
 Select w such that Follows(w,_)
 21
 5000
-91 - Follows of if stmts
+97 - Follows of if stmts
 if i;
 Select i such that Follows(i,_)
 1
 5000
-92 - Follows* of while stmts
+98 - Follows* of while stmts
 while w;
 Select w such that Follows*(w,_)
 21
 5000
-93 - Follows* of if stmts
+99 - Follows* of if stmts
 if i;
 Select i such that Follows*(i,_)
 1
 5000
-94 - Following of while stmts
+100 - Following of while stmts
 while w;
 Select w such that Follows(_,w)
 21
 5000
-95 - Following of if stmts
+101 - Following of if stmts
 if i;
 Select i such that Follows(_,i)
 24
 5000
-96 - Following* of while stmts
+102 - Following* of while stmts
 while w;
 Select w such that Follows*(_,w)
 21
 5000
-97 - Following* of if stmts
+103 - Following* of if stmts
 if i;
 Select i such that Follows*(_,i)
 24
