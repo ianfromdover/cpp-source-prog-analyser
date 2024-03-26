@@ -62,14 +62,14 @@ TEST_CASE("Test QueryPkb getCall methods") {
     QueryPkb queryPkb(pkb);
 
     // Add records to callTable
-    pkb->callTable->addCall(1, "proc1");
-    pkb->callTable->addCall(2, "proc2");
-    pkb->callTable->addCall(3, "proc3");
-    pkb->callTable->addCall(4, "proc3");
+    pkb->callTable->add(1, "proc1");
+    pkb->callTable->add(2, "proc2");
+    pkb->callTable->add(3, "proc3");
+    pkb->callTable->add(4, "proc3");
 
     SECTION("Test getCallByNum() method") {
 
-        Table test = queryPkb.getCallByNum(1);
+        Table test = queryPkb.getCallProcsByStmt(1);
         REQUIRE(test.size() == 1);
         REQUIRE(TableUtils::isPresent(test, {{"proc1"}}));
 
@@ -77,7 +77,7 @@ TEST_CASE("Test QueryPkb getCall methods") {
 
     SECTION("Test getCallByProc() method") {
 
-        Table test = queryPkb.getCallByProc("proc3");
+        Table test = queryPkb.getCallStmtsByProc("proc3");
         REQUIRE(test.size() == 2);
         REQUIRE(TableUtils::isPresent(test, {{"3"}, {"4"}}));
 
@@ -100,9 +100,9 @@ TEST_CASE("Test QueryPkb getProc methods") {
     QueryPkb queryPkb(pkb);
 
     // Add records to procTable
-    pkb->procedureTable->addProc("proc1");
-    pkb->procedureTable->addProc("proc2");
-    pkb->procedureTable->addProc("proc3");
+    pkb->procedureTable->add("proc1");
+    pkb->procedureTable->add("proc2");
+    pkb->procedureTable->add("proc3");
 
     SECTION("Test getProcByName() method") {
 
@@ -129,14 +129,14 @@ TEST_CASE("Test QueryPkb getRead methods") {
     QueryPkb queryPkb(pkb);
 
     // Add records to readTable
-    pkb->readTable->addRead(1, "x");
-    pkb->readTable->addRead(2, "y");
-    pkb->readTable->addRead(3, "z");
-    pkb->readTable->addRead(4, "y");
+    pkb->readTable->add(1, "x");
+    pkb->readTable->add(2, "y");
+    pkb->readTable->add(3, "z");
+    pkb->readTable->add(4, "y");
 
-    SECTION("Test getReadByNum() method") {
+    SECTION("Test getReadByStmt() method") {
 
-        Table test = queryPkb.getReadByNum(1);
+        Table test = queryPkb.getReadVarsByStmt(1);
         REQUIRE(test.size() == 1);
         REQUIRE(TableUtils::isPresent(test, {{"x"}}));
 
@@ -144,7 +144,7 @@ TEST_CASE("Test QueryPkb getRead methods") {
 
     SECTION("Test getReadByVar() method") {
 
-        Table test = queryPkb.getReadByVar("y");
+        Table test = queryPkb.getReadStmtsByVar("y");
         REQUIRE(test.size() == 2);
         REQUIRE(TableUtils::isPresent(test, {{"2"}, {"4"}}));
 
@@ -167,14 +167,14 @@ TEST_CASE("Test QueryPkb getIf methods") {
     QueryPkb queryPkb(pkb);
 
     // Add records to readTable
-    pkb->patternIfTable->addIf(1, "x");
-    pkb->patternIfTable->addIf(2, "y");
-    pkb->patternIfTable->addIf(3, "z");
-    pkb->patternIfTable->addIf(4, "y");
+    pkb->patternIfTable->add(1, "x");
+    pkb->patternIfTable->add(2, "y");
+    pkb->patternIfTable->add(3, "z");
+    pkb->patternIfTable->add(4, "y");
 
     SECTION("Test getIfByNum() method") {
 
-        Table test = queryPkb.getIfByNum(1);
+        Table test = queryPkb.getIfVarsByStmt(1);
         Table testResult = {{"x"}};
         REQUIRE(test.size() == 1);
         REQUIRE(TableUtils::isPresent(test, {{"x"}}));
@@ -183,7 +183,7 @@ TEST_CASE("Test QueryPkb getIf methods") {
 
     SECTION("Test getIfByVar() method") {
 
-        Table test = queryPkb.getIfByVar("y");
+        Table test = queryPkb.getIfStmtsByVar("y");
         REQUIRE(test.size() == 2);
         REQUIRE(TableUtils::isPresent(test, {{"2"}, {"4"}}));
 
@@ -206,14 +206,14 @@ TEST_CASE("Test QueryPkb getWhile methods") {
     QueryPkb queryPkb(pkb);
 
     // Add records to whileTable
-    pkb->patternWhileTable->addWhile(1, "x");
-    pkb->patternWhileTable->addWhile(2, "y");
-    pkb->patternWhileTable->addWhile(3, "z");
-    pkb->patternWhileTable->addWhile(4, "y");
+    pkb->patternWhileTable->add(1, "x");
+    pkb->patternWhileTable->add(2, "y");
+    pkb->patternWhileTable->add(3, "z");
+    pkb->patternWhileTable->add(4, "y");
 
     SECTION("Test getWhileByNum() method") {
 
-        Table test = queryPkb.getWhileByNum(1);
+        Table test = queryPkb.getWhileVarsByStmt(1);
         Table testResult = {{"x"}};
         REQUIRE(test.size() == 1);
         REQUIRE(TableUtils::isPresent(test, {{"x"}}));
@@ -222,7 +222,7 @@ TEST_CASE("Test QueryPkb getWhile methods") {
 
     SECTION("Test getWhileByVar() method") {
 
-        Table test = queryPkb.getWhileByVar("y");
+        Table test = queryPkb.getWhileStmtsByVar("y");
         REQUIRE(test.size() == 2);
         REQUIRE(TableUtils::isPresent(test, {{"2"}, {"4"}}));
 
@@ -245,15 +245,15 @@ TEST_CASE("Test QueryPkb getPrint methods") {
     QueryPkb queryPkb(pkb);
 
     // Add records to printTable
-    pkb->printTable->addPrint(1, "x");
-    pkb->printTable->addPrint(2, "y");
-    pkb->printTable->addPrint(3, "z");
-    pkb->printTable->addPrint(4, "y");
-    pkb->printTable->addPrint(4, "z");
+    pkb->printTable->add(1, "x");
+    pkb->printTable->add(2, "y");
+    pkb->printTable->add(3, "z");
+    pkb->printTable->add(4, "y");
+    pkb->printTable->add(4, "z");
 
     SECTION("Test getPrintByNum() method") {
 
-        Table test = queryPkb.getPrintByNum(4);
+        Table test = queryPkb.getPrintVarsByStmt(4);
         REQUIRE(test.size() == 2);
         REQUIRE(TableUtils::isPresent(test, {{"y"}, {"z"}}));
 
@@ -261,7 +261,7 @@ TEST_CASE("Test QueryPkb getPrint methods") {
 
     SECTION("Test getPrintByVar() method") {
 
-        Table test = queryPkb.getPrintByVar("y");
+        Table test = queryPkb.getPrintStmtsByVar("y");
         REQUIRE(test.size() == 2);
         REQUIRE(TableUtils::isPresent(test, {{"2"}, {"4"}}));
 
@@ -306,11 +306,11 @@ TEST_CASE("Test QueryPkb getVar methods") {
     QueryPkb queryPkb(pkb);
 
     // Add records to varTable
-    pkb->varTable->addVar(1, "x");
-    pkb->varTable->addVar(2, "y");
-    pkb->varTable->addVar(3, "z");
-    pkb->varTable->addVar(4, "x");
-    pkb->varTable->addVar(5, "z");
+    pkb->varTable->add(1, "x");
+    pkb->varTable->add(2, "y");
+    pkb->varTable->add(3, "z");
+    pkb->varTable->add(4, "x");
+    pkb->varTable->add(5, "z");
 
 //    SECTION("Test getVarByName() method") {
 //
@@ -337,9 +337,9 @@ TEST_CASE("Test QueryPkb getConst methods") {
     QueryPkb queryPkb(pkb);
 
     // Add records to constTable
-    pkb->constTable->addConst(1, 4);
-    pkb->constTable->addConst(2, 2);
-    pkb->constTable->addConst(3, 0);
+    pkb->constTable->add(1, 4);
+    pkb->constTable->add(2, 2);
+    pkb->constTable->add(3, 0);
 
 //    SECTION("Test getConstByNum() method") {
 //
@@ -362,13 +362,13 @@ TEST_CASE("Test QueryPkb getFollows methods") {
     QueryPkb queryPkb(pkb);
 
     // Add records to followsTable
-    pkb->followsTable->addFollows(1, 2);
-    pkb->followsTable->addFollows(2, 3);
-    pkb->followsTable->addFollows(3, 4);
+    pkb->followsTable->add(1, 2);
+    pkb->followsTable->add(2, 3);
+    pkb->followsTable->add(3, 4);
 
     SECTION("Test getFollowsByBefore() method") {
 
-        Table test = queryPkb.getFollowsByBefore(1);
+        Table test = queryPkb.getFollowsAfterByBefore(1);
         REQUIRE(test.size() == 1);
         REQUIRE(TableUtils::isPresent(test, {{"2"}}));
 
@@ -376,7 +376,7 @@ TEST_CASE("Test QueryPkb getFollows methods") {
 
     SECTION("Test getFollowsByAfter() method") {
 
-        Table test = queryPkb.getFollowsByAfter(4);
+        Table test = queryPkb.getFollowsBeforeByAfter(4);
         REQUIRE(test.size() == 1);
         REQUIRE(TableUtils::isPresent(test, {{"3"}}));
 
@@ -399,16 +399,16 @@ TEST_CASE("Test QueryPkb getFollowsT methods") {
     QueryPkb queryPkb(pkb);
 
     // Add records to followsTTable
-    pkb->followsTTable->addFollowsT(1, 2);
-    pkb->followsTTable->addFollowsT(2, 3);
-    pkb->followsTTable->addFollowsT(1, 3);
-    pkb->followsTTable->addFollowsT(3, 4);
-    pkb->followsTTable->addFollowsT(2, 4);
-    pkb->followsTTable->addFollowsT(1, 4);
+    pkb->followsTTable->add(1, 2);
+    pkb->followsTTable->add(2, 3);
+    pkb->followsTTable->add(1, 3);
+    pkb->followsTTable->add(3, 4);
+    pkb->followsTTable->add(2, 4);
+    pkb->followsTTable->add(1, 4);
 
     SECTION("Test getFollowsTByBefore() method") {
 
-        Table test = queryPkb.getFollowsTByBefore(2);
+        Table test = queryPkb.getFollowsTAfterByBefore(2);
         REQUIRE(test.size() == 2);
         REQUIRE(TableUtils::isPresent(test, {{"3"}, {"4"}}));
 
@@ -416,7 +416,7 @@ TEST_CASE("Test QueryPkb getFollowsT methods") {
 
     SECTION("Test getFollowsTByAfter() method") {
 
-        Table test = queryPkb.getFollowsTByAfter(3);
+        Table test = queryPkb.getFollowsTBeforeByAfter(3);
         REQUIRE(test.size() == 2);
         REQUIRE(TableUtils::isPresent(test, {{"2"}, {"1"}}));
 
@@ -439,13 +439,13 @@ TEST_CASE("Test QueryPkb getParent methods") {
     QueryPkb queryPkb(pkb);
 
     // Add records to parentTable
-    pkb->parentTable->addParent(1, 2);
-    pkb->parentTable->addParent(1, 3);
-    pkb->parentTable->addParent(1, 4);
+    pkb->parentTable->add(1, 2);
+    pkb->parentTable->add(1, 3);
+    pkb->parentTable->add(1, 4);
 
     SECTION("Test getParentByParent() method") {
 
-        Table test = queryPkb.getParentByParent(1);
+        Table test = queryPkb.getParentChildByParent(1);
         REQUIRE(test.size() == 3);
         REQUIRE(TableUtils::isPresent(test, {{"2"}, {"3"}, {"4"}}));
 
@@ -453,7 +453,7 @@ TEST_CASE("Test QueryPkb getParent methods") {
 
     SECTION("Test getParentByChild() method") {
 
-        Table test = queryPkb.getParentByChild(4);
+        Table test = queryPkb.getParentParentByChild(4);
         REQUIRE(test.size() == 1);
         REQUIRE(TableUtils::isPresent(test, {{"1"}}));
 
@@ -476,15 +476,15 @@ TEST_CASE("Test QueryPkb getParentT methods") {
     QueryPkb queryPkb(pkb);
 
     // Add records to parentTTable
-    pkb->parentTTable->addParentT(1, 2);
-    pkb->parentTTable->addParentT(1, 3);
-    pkb->parentTTable->addParentT(3, 4);
-    pkb->parentTTable->addParentT(1, 4);
+    pkb->parentTTable->add(1, 2);
+    pkb->parentTTable->add(1, 3);
+    pkb->parentTTable->add(3, 4);
+    pkb->parentTTable->add(1, 4);
 
 
     SECTION("Test getParentTByParent() method") {
 
-        Table test = queryPkb.getParentTByParent(1);
+        Table test = queryPkb.getParentTChildByParent(1);
         REQUIRE(test.size() == 3);
         REQUIRE(TableUtils::isPresent(test, {{"2"}, {"3"}, {"4"}}));
 
@@ -492,7 +492,7 @@ TEST_CASE("Test QueryPkb getParentT methods") {
 
     SECTION("Test getParentTByChild() method") {
 
-        Table test = queryPkb.getParentTByChild(4);
+        Table test = queryPkb.getParentTParentByChild(4);
         REQUIRE(test.size() == 2);
         REQUIRE(TableUtils::isPresent(test, {{"1"}, {"3"}}));
 
@@ -515,15 +515,15 @@ TEST_CASE("Test QueryPkb getUsesS methods") {
     QueryPkb queryPkb(pkb);
 
     // Add records to usesSTable
-    pkb->usesSTable->addUsesS(1, "x");
-    pkb->usesSTable->addUsesS(2, "y");
-    pkb->usesSTable->addUsesS(3, "z");
-    pkb->usesSTable->addUsesS(4, "y");
-    pkb->usesSTable->addUsesS(4, "z");
+    pkb->usesSTable->add(1, "x");
+    pkb->usesSTable->add(2, "y");
+    pkb->usesSTable->add(3, "z");
+    pkb->usesSTable->add(4, "y");
+    pkb->usesSTable->add(4, "z");
 
     SECTION("Test getUsesSByNum() method") {
 
-        Table test = queryPkb.getUsesSByNum(4);
+        Table test = queryPkb.getUsesSVarsByStmt(4);
         REQUIRE(test.size() == 2);
         REQUIRE(TableUtils::isPresent(test, {{"y"}, {"z"}}));
 
@@ -531,7 +531,7 @@ TEST_CASE("Test QueryPkb getUsesS methods") {
 
     SECTION("Test getUsesSByVar() method") {
 
-        Table test = queryPkb.getUsesSByVar("y");
+        Table test = queryPkb.getUsesSStmtsByVar("y");
         REQUIRE(test.size() == 2);
         REQUIRE(TableUtils::isPresent(test, {{"2"}, {"4"}}));
 
@@ -554,11 +554,11 @@ TEST_CASE("Test QueryPkb getUsesP methods") {
     QueryPkb queryPkb(pkb);
 
     // Add records to usesPTable
-    pkb->usesPTable->addUsesP("proc1", "x");
-    pkb->usesPTable->addUsesP("proc1", "y");
-    pkb->usesPTable->addUsesP("proc1", "z");
-    pkb->usesPTable->addUsesP("proc2", "y");
-    pkb->usesPTable->addUsesP("proc2", "z");
+    pkb->usesPTable->add("proc1", "x");
+    pkb->usesPTable->add("proc1", "y");
+    pkb->usesPTable->add("proc1", "z");
+    pkb->usesPTable->add("proc2", "y");
+    pkb->usesPTable->add("proc2", "z");
 
 //    SECTION("Test getUsesPByProc() method") {
 //
@@ -594,14 +594,14 @@ TEST_CASE("Test QueryPkb getModifiesS methods") {
     QueryPkb queryPkb(pkb);
 
     // Add records to modifiesSTable
-    pkb->modifiesSTable->addModifiesS(1, "x");
-    pkb->modifiesSTable->addModifiesS(2, "y");
-    pkb->modifiesSTable->addModifiesS(3, "z");
-    pkb->modifiesSTable->addModifiesS(4, "y");
+    pkb->modifiesSTable->add(1, "x");
+    pkb->modifiesSTable->add(2, "y");
+    pkb->modifiesSTable->add(3, "z");
+    pkb->modifiesSTable->add(4, "y");
 
     SECTION("Test getModifiesSByNum() method") {
 
-        Table test = queryPkb.getModifiesSByNum(4);
+        Table test = queryPkb.getModifiesSVarsByStmt(4);
         REQUIRE(test.size() == 1);
         REQUIRE(TableUtils::isPresent(test, {{"y"}}));
 
@@ -609,7 +609,7 @@ TEST_CASE("Test QueryPkb getModifiesS methods") {
 
     SECTION("Test getModifiesSByVar() method") {
 
-        Table test = queryPkb.getModifiesSByVar("y");
+        Table test = queryPkb.getModifiesSStmtsByVar("y");
         REQUIRE(test.size() == 2);
         REQUIRE(TableUtils::isPresent(test, {{"2"}, {"4"}}));
 
@@ -632,15 +632,15 @@ TEST_CASE("Test QueryPkb getModifiesP methods") {
     QueryPkb queryPkb(pkb);
 
     // Add records to modifiesPTable
-    pkb->modifiesPTable->addModifiesP("proc1", "x");
-    pkb->modifiesPTable->addModifiesP("proc1", "y");
-    pkb->modifiesPTable->addModifiesP("proc1", "z");
-    pkb->modifiesPTable->addModifiesP("proc2", "y");
-    pkb->modifiesPTable->addModifiesP("proc2", "z");
+    pkb->modifiesPTable->add("proc1", "x");
+    pkb->modifiesPTable->add("proc1", "y");
+    pkb->modifiesPTable->add("proc1", "z");
+    pkb->modifiesPTable->add("proc2", "y");
+    pkb->modifiesPTable->add("proc2", "z");
 
     SECTION("Test getModifiesPByProc() method") {
 
-        Table test = queryPkb.getModifiesPByProc("proc2");
+        Table test = queryPkb.getModifiesPVarsByProc("proc2");
         REQUIRE(test.size() == 2);
         REQUIRE(TableUtils::isPresent(test, {{"y"}, {"z"}}));
 
@@ -648,7 +648,7 @@ TEST_CASE("Test QueryPkb getModifiesP methods") {
 
     SECTION("Test getModifiesPByVar() method") {
 
-        Table test = queryPkb.getModifiesPByVar("y");
+        Table test = queryPkb.getModifiesPProcsByVar("y");
         REQUIRE(test.size() == 2);
         REQUIRE(TableUtils::isPresent(test, {{"proc1"}, {"proc2"}}));
 
@@ -697,10 +697,10 @@ TEST_CASE("Test QueryPkb getPatternIf methods") {
     // updated: init new pkb each test case, solves issue
 
     // Add records to patternIfTable
-    pkb->patternIfTable->addIf(1, "x");
-    pkb->patternIfTable->addIf(2, "y");
-    pkb->patternIfTable->addIf(3, "z");
-    pkb->patternIfTable->addIf(4, "y");
+    pkb->patternIfTable->add(1, "x");
+    pkb->patternIfTable->add(2, "y");
+    pkb->patternIfTable->add(3, "z");
+    pkb->patternIfTable->add(4, "y");
 
     // TODO: Add the other get methods where necessary
 
@@ -723,8 +723,8 @@ TEST_CASE("Test QueryPkb getPatternWhile methods") {
     QueryPkb queryPkb(pkb);
 
     // Add records to patternWhileTable
-    pkb->patternWhileTable->addWhile(1, "x");
-    pkb->patternWhileTable->addWhile(4, "y");
+    pkb->patternWhileTable->add(1, "x");
+    pkb->patternWhileTable->add(4, "y");
 
     // TODO: Add the other get methods where necessary
 
@@ -742,15 +742,15 @@ TEST_CASE("Test QueryPkb getCalls methods") {
     QueryPkb queryPkb(pkb);
 
     // Add records to callsTable
-    pkb->callsTable->addCalls("proc1", "procx");
-    pkb->callsTable->addCalls("proc1", "procy");
-    pkb->callsTable->addCalls("proc1", "procz");
-    pkb->callsTable->addCalls("proc2", "procy");
-    pkb->callsTable->addCalls("proc2", "procz");
+    pkb->callsTable->add("proc1", "procx");
+    pkb->callsTable->add("proc1", "procy");
+    pkb->callsTable->add("proc1", "procz");
+    pkb->callsTable->add("proc2", "procy");
+    pkb->callsTable->add("proc2", "procz");
 
     SECTION("Test getCallsByCaller() method") {
 
-        Table test = queryPkb.getCallsByCaller("proc2");
+        Table test = queryPkb.getCallsCalledByCaller("proc2");
         REQUIRE(test.size() == 2);
         REQUIRE(TableUtils::isPresent(test, {{"procy"}, {"procz"}}));
 
@@ -758,7 +758,7 @@ TEST_CASE("Test QueryPkb getCalls methods") {
 
     SECTION("Test getCallsByCalled() method") {
 
-        Table test = queryPkb.getCallsByCalled("procy");
+        Table test = queryPkb.getCallsCallerByCalled("procy");
         REQUIRE(test.size() == 2);
         REQUIRE(TableUtils::isPresent(test, {{"proc1"}, {"proc2"}}));
 
@@ -782,14 +782,14 @@ TEST_CASE("Test QueryPkb getCallsT methods") {
     QueryPkb queryPkb(pkb);
 
     // Add records to callsTTable
-    pkb->callsTTable->addCallsT("proc1", "procx");
-    pkb->callsTTable->addCallsT("proc1", "procy");
-    pkb->callsTTable->addCallsT("procx", "procz");
-    pkb->callsTTable->addCallsT("proc1", "procz");
+    pkb->callsTTable->add("proc1", "procx");
+    pkb->callsTTable->add("proc1", "procy");
+    pkb->callsTTable->add("procx", "procz");
+    pkb->callsTTable->add("proc1", "procz");
 
     SECTION("Test getCallsTByCaller() method") {
 
-        Table test = queryPkb.getCallsTByCaller("proc1");
+        Table test = queryPkb.getCallsTCalledByCaller("proc1");
         REQUIRE(test.size() == 3);
         REQUIRE(TableUtils::isPresent(test, {{"procx"}, {"procy"}, {"procz"}}));
 
@@ -797,7 +797,7 @@ TEST_CASE("Test QueryPkb getCallsT methods") {
 
     SECTION("Test getCallsTByCalled() method") {
 
-        Table test = queryPkb.getCallsTByCalled("procz");
+        Table test = queryPkb.getCallsTCallerByCalled("procz");
         REQUIRE(test.size() == 2);
         REQUIRE(TableUtils::isPresent(test, {{"proc1"}, {"procx"}}));
 
@@ -821,13 +821,13 @@ TEST_CASE("Test QueryPkb getNext methods") {
     QueryPkb queryPkb(pkb);
 
     // Add records to nextTable
-    pkb->nextTable->addNext(1, 2);
-    pkb->nextTable->addNext(2, 3);
-    pkb->nextTable->addNext(3, 4);
+    pkb->nextTable->add(1, 2);
+    pkb->nextTable->add(2, 3);
+    pkb->nextTable->add(3, 4);
 
     SECTION("Test getNextByBefore() method") {
 
-        Table test = queryPkb.getNextByBefore(1);
+        Table test = queryPkb.getNextAfterByBefore(1);
         REQUIRE(test.size() == 1);
         REQUIRE(TableUtils::isPresent(test, {{"2"}}));
 
@@ -835,7 +835,7 @@ TEST_CASE("Test QueryPkb getNext methods") {
 
     SECTION("Test getNextByAfter() method") {
 
-        Table test = queryPkb.getNextByAfter(4);
+        Table test = queryPkb.getNextBeforeByAfter(4);
         REQUIRE(test.size() == 1);
         REQUIRE(TableUtils::isPresent(test, {{"3"}}));
 
@@ -858,14 +858,14 @@ TEST_CASE("Test QueryPkb getNextT methods") {
     QueryPkb queryPkb(pkb);
 
     // Add records to nextTTable
-    pkb->nextTTable->addNextT(1, 2);
-    pkb->nextTTable->addNextT(2, 3);
-    pkb->nextTTable->addNextT(2, 4);
-    pkb->nextTTable->addNextT(1, 4);
+    pkb->nextTTable->add(1, 2);
+    pkb->nextTTable->add(2, 3);
+    pkb->nextTTable->add(2, 4);
+    pkb->nextTTable->add(1, 4);
 
     SECTION("Test getNextTByBefore() method") {
 
-        Table test = queryPkb.getNextTByBefore(1);
+        Table test = queryPkb.getNextTAfterByBefore(1);
         REQUIRE(test.size() == 2);
         REQUIRE(TableUtils::isPresent(test, {{"2"}, {"4"}}));
 
@@ -873,7 +873,7 @@ TEST_CASE("Test QueryPkb getNextT methods") {
 
     SECTION("Test getNextTByAfter() method") {
 
-        Table test = queryPkb.getNextTByAfter(4);
+        Table test = queryPkb.getNextTBeforeByAfter(4);
         REQUIRE(test.size() == 2);
         REQUIRE(TableUtils::isPresent(test, {{"1"}, {"2"}}));
 

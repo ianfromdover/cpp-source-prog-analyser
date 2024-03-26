@@ -7,6 +7,8 @@
 #include <utility>
 #include <vector>
 
+// should rename to virtual also, and have ref to pkb
+// add destructuors to others
 class BasePkbPopulator {
 public:
     virtual ~BasePkbPopulator() = default;
