@@ -62,6 +62,7 @@ bool QPSMultiCharacterStrategy::expectSynonymNext(const std::string &name, QPSTo
             {"Select",    QPSTokenType::SELECT},
             {"that",      QPSTokenType::THAT},
             {"pattern",   QPSTokenType::PATTERN},
+            {"and",   QPSTokenType::AND},
     };
 
     auto it = declarationKeywords.find(name);
