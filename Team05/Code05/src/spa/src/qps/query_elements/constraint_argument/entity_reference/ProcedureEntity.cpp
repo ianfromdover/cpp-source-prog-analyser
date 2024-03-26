@@ -35,4 +35,8 @@ std::vector<std::vector<std::string>> ProcedureEntity::getEntityTable(QueryPKBVi
     return entityTable;
 }
 
+std::vector<std::vector<std::string>> ProcedureEntity::getRawTable(QueryPKBVirtual &pkb) {
+    return pkb.getProcedure();
+}
+
 

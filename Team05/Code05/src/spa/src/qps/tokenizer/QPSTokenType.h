@@ -51,6 +51,10 @@ public:
         //SYNONYM,            // synonym : already exists
         INTEGER,
 
+        // With References
+        VAR_WITH,
+        INT_WHITH,
+
         // Pattern Keywords
         PATTERN,
 
@@ -66,8 +70,11 @@ public:
         // Expression Operators
         PLUS, MINUS, STAR, SLASH, PERCENT,
 
+        // With clause attributes
+        PROCNAME, VARNAME, STMT,
+
         // Others
-        END_OF_FILE
+        END_OF_FILE, TODO
     };
 
 private:

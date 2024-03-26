@@ -22,4 +22,8 @@ std::vector<std::vector<std::string>> StatementRefWildCard::getEntityTable(Query
     throw QPSException("Invalid PKB Query");
 }
 
+std::vector<std::vector<std::string>> StatementRefWildCard::getRawTable(QueryPKBVirtual &pkb) {
+    throw QPSException("Invalid PKB Query");
+}
+
 

@@ -30,3 +30,7 @@ std::vector<std::vector<std::string>> VariableEntity::getEntityTable(QueryPKBVir
     entityTable.insert(entityTable.begin(), {"VARIABLELHS", this->identifier});
     return entityTable;
 }
+
+std::vector<std::vector<std::string>> VariableEntity::getRawTable(QueryPKBVirtual &pkb) {
+    return pkb.getVar();
+}

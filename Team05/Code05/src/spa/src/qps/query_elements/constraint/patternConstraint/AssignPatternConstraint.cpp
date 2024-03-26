@@ -19,7 +19,7 @@ std::string AssignPatternConstraint::getConstraintType() {
     return CONSTRAINT_CLASS_PATTERN;
 }
 
-std::shared_ptr<AssignEntity> AssignPatternConstraint::getPatternConstraintIdentifier() {
+std::shared_ptr<Entity> AssignPatternConstraint::getPatternConstraintIdentifier() {
     return constraintIdentifier;
 }
 
@@ -77,19 +77,4 @@ std::vector<std::vector<std::string>> AssignPatternConstraint::getRelationshipTa
     return table.getTable();
 }
 
-std::string& AssignPatternConstraint::stripCharacters(std::string& str, const std::string& chars) {
-    // Find the first character position after excluding leading characters
-    std::size_t first = str.find_first_not_of(chars);
-    if (first == std::string::npos) {
-        // If there are no characters other than the ones to strip, return an empty string
-        return str = "";
-    }
 
-    // Find the position of the last character not matching the strip characters
-    std::size_t last = str.find_last_not_of(chars);
-
-    // Erase the leading and trailing characters
-    str = str.substr(first, (last - first + 1));
-
-    return str;
-}

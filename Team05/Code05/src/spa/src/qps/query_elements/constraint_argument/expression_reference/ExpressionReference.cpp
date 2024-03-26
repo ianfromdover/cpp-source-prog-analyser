@@ -13,3 +13,7 @@ std::vector<std::vector<std::string>> ExpressionReference::getEntityTable(QueryP
     throw QPSException("Invalid QPS Query");
 }
 
+std::vector<std::vector<std::string>> ExpressionReference::getRawTable(QueryPKBVirtual &pkb) {
+    throw QPSException("Invalid QPS Query");
+}
+

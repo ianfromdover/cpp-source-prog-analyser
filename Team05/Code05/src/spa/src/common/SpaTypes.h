@@ -22,6 +22,8 @@
 #define TYPE_EXPRESSION "Expression"
 #define TYPE_EXPRESSION_W_WILDCARD "ExpressionWithWildcard"
 #define TYPE_QUOTED_IDENT "QuotedIdentity"
+#define TYPE_VAR_WITH "VarWith"
+#define TYPE_LITERAL_WITH "IntWith"
 
 #define RETURN_INT_RESULT "IntResult"
 #define RETURN_STR_RESULT "StrResult"
@@ -29,9 +31,11 @@
 #define REFERENCE_TYPE_EXPRESSION "ExpressionReference"
 #define REFERENCE_TYPE_ENTITY "EntityReference"
 #define REFERENCE_TYPE_STATEMENT "StatementReference"
+#define REFERENCE_TYPE_WITH "WithReference"
 
 #define CONSTRAINT_CLASS_RELATIONSHIP "Relationship"
 #define CONSTRAINT_CLASS_PATTERN "Pattern"
+#define CONSTRAINT_CLASS_WITH "With"
 
 #define CONSTRAINT_TYPE_FOLLOWS "Follows"
 #define CONSTRAINT_TYPE_FOLLOWST "FollowsT"
@@ -43,6 +47,7 @@
 #define CONSTRAINT_TYPE_MODIFIESP "ModifiesP"
 #define CONSTRAINT_TYPE_CALLS "Calls"
 #define CONSTRAINT_TYPE_CALLST "CallsT"
+#define CONSTRAINT_TYPE_WITH "With"
 
 #define VALIDATION_RULE_SINGLE_DECLARATION "SingleDeclarationRule"
 #define VALIDATION_RULE_NO_DECLARATION "NoDeclarationRule"

@@ -6,7 +6,7 @@
 using namespace std;
 
 #include "qps/query_elements/constraint/Constraint.h"
-#include "qps/query_elements/constraint/ParentConstraint.h"
+#include "qps/query_elements/constraint/relationship_constraint/ParentConstraint.h"
 
 #include "qps/query_elements/constraint_argument/statement_reference/AssignEntity.h"
 #include "qps/query_elements/constraint_argument/statement_reference/PrintEntity.h"

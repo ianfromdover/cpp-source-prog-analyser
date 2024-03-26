@@ -17,8 +17,6 @@ void QueryObjectBuilder::setSingleRelationshipConstraint(std::shared_ptr<Relatio
 }
 
 void QueryObjectBuilder::setSinglePatternClause(std::shared_ptr<PatternClause> patternClause, shared_ptr<QueryObject> qo) {
-//    AssignPatternConstraintBuilder builder;
-//    qo->addConstraint(builder.buildPatternConstraint(std::move(patternClause), std::move(qo)));
     shared_ptr<Constraint> ptr = PatternConstraintDirector::process(std::move(patternClause), qo);
     qo->addConstraint(ptr);
 }
@@ -28,24 +26,46 @@ void QueryObjectBuilder::setSingleSelectClause() {
     if (!intermediateObject->hasSelectClause()) {
         return;
     }
-    std::string name = intermediateObject->getSelectClause()->selectElements[0];
-    qo->setReturnType(qo->getEntityInDeclaration(name));
+
+    // TODO: if condition check intermediate query only has 1 select entity
+    if (true) {
+        std::string name = intermediateObject->getSelectClause()->selectElements[0];
+        qo->setReturnType(qo->getEntityInDeclaration(name));
+    }
+
+    // TODO: if condition check intermediate query has boolean select
+    if (false) {
+
+    }
+
+    //TODO: if condition check intermediate query has multiple select entity
+    if (false) {
+
+    }
 }
 
-//only need one relationship for milestone 1
 void QueryObjectBuilder::setAllRelationshipConstraint() {
     if (!intermediateObject->hasRelationshipClause()) {
         return;
     }
-    setSingleRelationshipConstraint(intermediateObject->getRelationshipClause(), this->getQueryObjectRepresentation());
+
+    auto relationClauseVector = intermediateObject->getAllRelationshipClauses();
+    for (auto relationClause : relationClauseVector) {
+        setSingleRelationshipConstraint(relationClause, this->getQueryObjectRepresentation());
+    }
+
 }
 
-//only need one pattern for milestone 1
+
 void QueryObjectBuilder::setAllPatternClauses() {
     if (!intermediateObject->hasPatternClause()) {
         return;
     }
-    setSinglePatternClause(intermediateObject->getPatternClause(), this->getQueryObjectRepresentation());
+    auto patternClauseVector = intermediateObject->getAllPatternClauses();
+    for (auto patternClause : patternClauseVector) {
+        setSinglePatternClause(patternClause, this->getQueryObjectRepresentation());
+    }
+
 }
 
 

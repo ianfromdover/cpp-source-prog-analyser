@@ -21,3 +21,7 @@ std::vector<std::vector<std::string>> IntegerArgument::getEntityTable(QueryPKBVi
     throw QPSException("Invalid PKB Query");
 }
 
+std::vector<std::vector<std::string>> IntegerArgument::getRawTable(QueryPKBVirtual &pkb) {
+    throw QPSException("Invalid PKB Query");
+}
+

@@ -30,3 +30,7 @@ std::vector<std::vector<std::string>> ReadEntity::getEntityTable(QueryPKBVirtual
     entityTable.insert(entityTable.begin(), {this->identifier, "READRHS"});
     return entityTable;
 }
+
+std::vector<std::vector<std::string>> ReadEntity::getRawTable(QueryPKBVirtual &pkb) {
+    return pkb.getRead();
+}
