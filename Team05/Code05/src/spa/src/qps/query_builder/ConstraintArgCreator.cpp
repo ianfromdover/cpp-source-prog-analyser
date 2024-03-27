@@ -28,11 +28,11 @@ std::shared_ptr<ConstraintArgument> ConstraintArgCreator::buildArg(QPSTokenType:
         case QPSTokenType::WILDCARD:
             // need to check what type of wild card
             if (ref == QPSTokenType::ENT_REF) {
-                return ConstraintArgCreator::createEntityRefWildCard();
+                return ConstraintArgCreator::createEntityRefWildcard();
             } else if (ref == QPSTokenType::STMT_REF) {
-                return ConstraintArgCreator::createStatementRefWildCard();
+                return ConstraintArgCreator::createStatementRefWildcard();
             } else {
-                return ConstraintArgCreator::createExpressionRefWildCard();
+                return ConstraintArgCreator::createExpressionRefWildcard();
             }
             break;
         case QPSTokenType::STMT1:
@@ -102,8 +102,8 @@ std::shared_ptr<ConstantEntity> ConstraintArgCreator::createConstantEntity(std::
     return std::make_shared<ConstantEntity>(s);
 }
 
-std::shared_ptr<EntityRefWildCard> ConstraintArgCreator::createEntityRefWildCard() {
-    return std::make_shared<EntityRefWildCard>();
+std::shared_ptr<EntityRefWildcard> ConstraintArgCreator::createEntityRefWildcard() {
+    return std::make_shared<EntityRefWildcard>();
 }
 
 std::shared_ptr<StatementEntity> ConstraintArgCreator::createStatementEntity(std::string s) {
@@ -139,11 +139,11 @@ std::shared_ptr<IntegerArgument> ConstraintArgCreator::createIntegerArgument(std
     return std::make_shared<IntegerArgument>(num);
 }
 
-std::shared_ptr<StatementRefWildCard> ConstraintArgCreator::createStatementRefWildCard() {
-    return std::make_shared<StatementRefWildCard>();
+std::shared_ptr<StatementRefWildcard> ConstraintArgCreator::createStatementRefWildcard() {
+    return std::make_shared<StatementRefWildcard>();
 }
 
-std::shared_ptr<ExpressionRefWildcard> ConstraintArgCreator::createExpressionRefWildCard() {
+std::shared_ptr<ExpressionRefWildcard> ConstraintArgCreator::createExpressionRefWildcard() {
     return std::make_shared<ExpressionRefWildcard>();
 }
 

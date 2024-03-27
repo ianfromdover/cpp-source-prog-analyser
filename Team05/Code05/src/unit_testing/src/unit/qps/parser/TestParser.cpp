@@ -781,16 +781,3 @@ TEST_CASE("invalid syntax"){
         REQUIRE_THROWS(parser.parse());
     }
 }
-
-
-static QPSTokenList
-generateTokenList(std::initializer_list<std::pair<QPSTokenType::QPSTypeInfo, std::string>> tokenStream) {
-    QPSTokenList tokens;
-    for (auto &token: tokenStream) {
-        tokens.addToken(token.first, token.second);
-    }
-    return tokens;
-}
-
-
-

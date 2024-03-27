@@ -3,8 +3,8 @@
 //
 
 #include "AssignPatternConstraint.h"
+#include "qps/query_projector/ResultTable.h"
 #include "common/StringUtils.h"
-#include "qps/QueryProjector/ResultTable/ResultTable.h"
 
 #include <utility>
 
@@ -27,9 +27,9 @@ std::vector<std::shared_ptr<ConstraintArgument>> AssignPatternConstraint::getCon
     return constraintArguments;
 }
 
-std::vector<std::vector<std::string>> AssignPatternConstraint::getRelationshipTable(QueryPKBVirtual & pkb) {
-    std::vector<std::vector<std::string>> temp = pkb.getPatternAsgn();
-    std::vector<std::vector<std::string>> res;
+Table AssignPatternConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
+    Table temp = pkb.getPatternAsgnTable();
+    Table res;
 
     for (const auto& entry : temp){
         // guaranteed 2 columns

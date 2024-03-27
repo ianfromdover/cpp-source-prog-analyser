@@ -3,7 +3,7 @@
 //
 
 
-#include "qps/QueryEvaluator/QueryResult/StringResult.h"
+#include "qps/query_evaluator/query_result/StringResult.h"
 #include "catch.hpp"
 #include <iostream>
 using namespace std;

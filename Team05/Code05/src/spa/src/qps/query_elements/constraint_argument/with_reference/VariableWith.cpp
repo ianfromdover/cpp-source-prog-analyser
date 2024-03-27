@@ -16,7 +16,7 @@ std::string VariableWith::getArgumentValue() {
     return getVarName();
 }
 
-std::vector<std::vector<std::string>> VariableWith::getEntityTable(QueryPKBVirtual &pkb) {
+std::vector<std::vector<std::string>> VariableWith::getEntityTable(QueryPkbVirtual &pkb) {
     auto entityTable = getRawTable(pkb);
     // TODO: filter according to attributes. procName vs Stmt
     if (!hasMoreThanOneColumn(entityTable)) {
@@ -66,7 +66,7 @@ void VariableWith::setVariable(std::shared_ptr<QueryObject> qo) {
     variable = qo->getEntityInDeclaration(varName);
 }
 
-std::vector<std::vector<std::string>> VariableWith::getRawTable(QueryPKBVirtual &pkb) {
+std::vector<std::vector<std::string>> VariableWith::getRawTable(QueryPkbVirtual &pkb) {
     if (variable == nullptr) {
         throw QPSException("Invalid PKB Query");
     }

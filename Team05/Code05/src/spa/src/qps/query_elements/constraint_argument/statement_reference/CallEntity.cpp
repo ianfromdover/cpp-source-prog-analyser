@@ -24,13 +24,13 @@ std::string CallEntity::getArgumentValue() {
     return this->identifier;
 }
 
-std::vector<std::vector<std::string>> CallEntity::getEntityTable(QueryPKBVirtual &pkb) {
-    auto entityTable = pkb.getCallStmt();
+Table CallEntity::getEntityTable(QueryPkbVirtual &pkb) {
+    auto entityTable = pkb.getCallTable();
     // Insertion of headers into our entity table
     entityTable.insert(entityTable.begin(), {this->identifier, "CALLRHS"});
     return entityTable;
 }
 
-std::vector<std::vector<std::string>> CallEntity::getRawTable(QueryPKBVirtual &pkb) {
-    return pkb.getCallStmt();
+std::vector<std::vector<std::string>> CallEntity::getRawTable(QueryPkbVirtual &pkb) {
+    return pkb.getCallTable();
 }

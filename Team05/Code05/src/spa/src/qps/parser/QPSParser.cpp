@@ -379,12 +379,12 @@ QPSToken QPSParser::term() {
 
 QPSToken QPSParser::termTail() {
     if (this->check(QPSTokenType::STAR)) {
-        this->consume(QPSTokenType::STAR, "Expect '+' after expression.");
-        QPSToken t1 = this->factor();
+    this->consume(QPSTokenType::STAR, "Expect '*' after expression.");
+    QPSToken t1 = this->factor();
         QPSToken t2 = this->termTail();
         QPSTokenType type(QPSTokenType::TERM);
         QPSToken newToken =
-            QPSToken(type, "+" + t1.getLexeme() + t2.getLexeme());
+            QPSToken(type, "*" + t1.getLexeme() + t2.getLexeme());
         return newToken;
     }
     if (this->check(QPSTokenType::SLASH)) {
@@ -419,6 +419,7 @@ QPSToken QPSParser::factor() {
         this->consume(QPSTokenType::RIGHT_PAREN, "Expect ')' after expression.");
         QPSTokenType type(QPSTokenType::FACTOR);
         QPSToken newToken = QPSToken(type, t.getLexeme());
+        return newToken;
     }
     throw QPSParseException("at [" + std::to_string(current) + "]: invalid factor.");
 

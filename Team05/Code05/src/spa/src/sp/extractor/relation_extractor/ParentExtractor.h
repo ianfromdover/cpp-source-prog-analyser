@@ -12,7 +12,7 @@
 class ParentExtractor: public RelationExtractor {
 public:
     // Constructor
-    explicit ParentExtractor(shared_ptr<BasePKBPopulator> pkb) : RelationExtractor(std::move(pkb)) {}
+    explicit ParentExtractor(shared_ptr<BasePkbPopulator> pkb) : RelationExtractor(std::move(pkb)) {}
     // Statement Methods
     void visitReadStmt(const Read& stmt, shared_ptr<Accumulator>& parentInfo) override;
     void visitPrintStmt(const Print& stmt, shared_ptr<Accumulator>& parentInfo) override;
@@ -20,9 +20,7 @@ public:
     void visitWhileStmt(const While& stmt, shared_ptr<Accumulator>& parentInfo) override;
     void visitIfStmt(const If& stmt, shared_ptr<Accumulator>& parentInfo) override;
     void visitAssignStmt(const Assign& stmt, shared_ptr<Accumulator>& parentInfo) override;
-    // Expression Methods
-
-    void visitStmtList(const shared_ptr<vector<shared_ptr<Stmt>>> &stmts, shared_ptr<Accumulator> &info);
+    void visitStmtList(const shared_ptr<vector<shared_ptr<Stmt>>>& stmts, shared_ptr<Accumulator> &info) override;
 };
 
 #endif //SPA_PARENTEXTRACTOR_H

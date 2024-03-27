@@ -8,8 +8,8 @@
 
 #include "qps/query_elements/constraint/Constraint.h"
 #include "qps/query_elements/constraint_argument/with_reference/WithReference.h"
-#include "pkb/apis/QueryPKB.h"
-#include "qps/QueryProjector/ResultTable/ResultTable.h"
+#include "pkb/apis/QueryPkb.h"
+#include "qps/query_projector/ResultTable.h"
 #include "common/StringUtils.h"
 
 class WithConstraint : public Constraint {
@@ -22,7 +22,7 @@ public:
     std::string getConstraintType() override;
     std::vector<std::shared_ptr<ConstraintArgument>>  getConstraintArguments() override;
 
-    std::vector<std::vector<std::string>> getRelationshipTable(QueryPKBVirtual &) override;
+    std::vector<std::vector<std::string>> getRelationshipTable(QueryPkbVirtual &) override;
 };
 
 

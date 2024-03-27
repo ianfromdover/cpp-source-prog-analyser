@@ -11,7 +11,7 @@ void Tuple::addEntityVector(std::shared_ptr<Entity> e) {
     this->entityVector.push_back(e);
 }
 
-std::vector<std::vector<std::string>> Tuple::getEntityTable(QueryPKBVirtual &pkb) {
+std::vector<std::vector<std::string>> Tuple::getEntityTable(QueryPkbVirtual &pkb) {
     std::vector<std::vector<std::string>> result;
     for (std::shared_ptr<Entity> ent : entityVector) {
         std::vector<std::vector<std::string>> table = ent->getEntityTable(pkb);

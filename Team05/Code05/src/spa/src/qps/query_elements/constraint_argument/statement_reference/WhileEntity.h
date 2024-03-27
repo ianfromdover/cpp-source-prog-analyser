@@ -6,7 +6,7 @@
 #define SPA_WHILEENTITY_H
 
 #include "StatementReference.h"
-#include "pkb/apis/QueryPKBVirtual.h"
+#include "pkb/apis/QueryPkbVirtual.h"
 
 
 class WhileEntity : public StatementReference, public Entity {
@@ -16,8 +16,9 @@ public:
     std::string getEntityType() override;
     std::string toString() override;
     std::string getArgumentValue() override;
-    std::vector<std::vector<std::string>> getRawTable(QueryPKBVirtual & pkb) override;
-    std::vector<std::vector<std::string>> getEntityTable(QueryPKBVirtual & pkb) override;
+
+    Table getEntityTable(QueryPkbVirtual & pkb) override;
+    std::vector<std::vector<std::string>> getRawTable(QueryPkbVirtual & pkb) override;
 };
 
 

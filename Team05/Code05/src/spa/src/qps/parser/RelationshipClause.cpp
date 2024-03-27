@@ -4,7 +4,7 @@
 
 #include <stdexcept>
 #include "RelationshipClause.h"
-#include "qps/Exceptions/QPSException.h"
+#include "qps/exceptions/QPSException.h"
 
 
 QPSToken &RelationshipClause::getSecondArg() {

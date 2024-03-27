@@ -7,7 +7,7 @@
 // Second argument in patternConstraint can only be wildcard.
 WhilePatternConstraint::WhilePatternConstraint(std::shared_ptr<EntityReference> arg1, std::shared_ptr<WhileEntity> assignment) {
     constraintArguments.push_back(arg1);
-    constraintArguments.push_back(ConstraintArgCreator::createStatementRefWildCard());
+    constraintArguments.push_back(ConstraintArgCreator::createStatementRefWildcard());
     constraintIdentifier = std::move(assignment);
 }
 
@@ -23,8 +23,8 @@ std::vector<std::shared_ptr<ConstraintArgument>> WhilePatternConstraint::getCons
     return constraintArguments;
 }
 
-std::vector<std::vector<std::string>> WhilePatternConstraint::getRelationshipTable(QueryPKBVirtual & pkb) {
-    std::vector<std::vector<std::string>> temp = pkb.getPatternAsgn(); // TODO: get pattern if
+std::vector<std::vector<std::string>> WhilePatternConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
+    std::vector<std::vector<std::string>> temp = pkb.getPatternAsgnTable(); // TODO: get pattern if
     std::vector<std::vector<std::string>> res;
 
     for (const auto& entry : temp){

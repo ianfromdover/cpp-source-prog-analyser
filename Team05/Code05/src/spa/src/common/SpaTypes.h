@@ -15,7 +15,7 @@
 #define TYPE_IF "If"
 #define TYPE_WHILE "While"
 #define TYPE_INTEGER "Integer"
-#define TYPE_WILDCARD "EntityRefWildCard"
+#define TYPE_WILDCARD "EntityRefWildcard"
 #define TYPE_PROCEDURE "Procedure"
 #define TYPE_VARIABLE "Variable"
 #define TYPE_CONSTANT "Constant"
@@ -83,3 +83,4 @@ using Str = std::string; // to neaten code
 using VarName = Str;
 using ProcName = Str;
 using ConstVal = int;
+using Table = std::vector<std::vector<Str>>;

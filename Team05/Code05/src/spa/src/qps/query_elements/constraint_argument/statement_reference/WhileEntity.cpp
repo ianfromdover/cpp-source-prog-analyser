@@ -25,13 +25,13 @@ std::string WhileEntity::getArgumentValue() {
     return this->identifier;
 }
 
-std::vector<std::vector<std::string>> WhileEntity::getEntityTable(QueryPKBVirtual &pkb) {
-    auto entityTable = pkb.getWhile();
+Table WhileEntity::getEntityTable(QueryPkbVirtual &pkb) {
+    auto entityTable = pkb.getWhileTable();
     // Insertion of headers into our entity table
     entityTable.insert(entityTable.begin(), {this->identifier, "WhileVar"});
     return entityTable;
 }
 
-std::vector<std::vector<std::string>> WhileEntity::getRawTable(QueryPKBVirtual &pkb) {
-    return pkb.getWhile();
+std::vector<std::vector<std::string>> WhileEntity::getRawTable(QueryPkbVirtual &pkb) {
+    return pkb.getWhileTable();
 }

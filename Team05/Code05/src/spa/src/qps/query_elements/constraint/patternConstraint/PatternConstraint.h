@@ -7,7 +7,7 @@
 
 #include "qps/query_elements/constraint/Constraint.h"
 #include "qps/query_elements/constraint_argument/statement_reference/AssignEntity.h"
-#include "qps/QueryProjector/ResultTable/ResultTable.h"
+#include "qps/query_projector/ResultTable.h"
 #include "qps/query_builder/ConstraintArgCreator.h"
 #include <utility>
 
@@ -17,7 +17,7 @@ protected:
 public:
     std::string getConstraintClass() override;
     virtual std::shared_ptr<Entity> getPatternConstraintIdentifier() = 0;
-    std::vector<std::vector<std::string>> getRelationshipTable(QueryPKBVirtual &) override;
+    std::vector<std::vector<std::string>> getRelationshipTable(QueryPkbVirtual &) override;
 };
 
 #endif //PROJECT_PATTERNCONSTRAINT_H
