@@ -5,6 +5,7 @@
 #include <algorithm>
 
 #include "CompatibleTypeRule.h"
+#include "qps/exceptions/QPSException.h"
 
 std::string CompatibleTypeRule::validate(IntermediateQuery & query) {
     std::string results;
@@ -67,15 +68,28 @@ std::string CompatibleTypeRule::validateRelationship(
 }
 
 std::string CompatibleTypeRule::validatePattern(PatternClause cl, std::map<std::string, QPSTokenType::QPSTypeInfo> declarationMap) {
-    QPSTokenType::QPSTypeInfo arg1Type = cl.getFirstArgType()==QPSTokenType::QPSTypeInfo::SYNONYM ? declarationMap.find(cl.getFirstArg().getLexeme())->second : cl.getFirstArgType();
+
+  QPSTokenType::QPSTypeInfo patternSynType;
+  if (declarationMap.find(cl.getPatternSynonym())==declarationMap.end()){
+        throw std::runtime_error("pattern synonym not found");
+  } else {
+        patternSynType = declarationMap.find(cl.getPatternSynonym())->second;
+  }
+
+  if (patternSynType == QPSTokenType::QPSTypeInfo::ASSIGN || patternSynType == QPSTokenType::QPSTypeInfo::WHILE) {
+    QPSTokenType::QPSTypeInfo arg1Type =
+        cl.getFirstArgType() == QPSTokenType::QPSTypeInfo::SYNONYM
+            ? declarationMap.find(cl.getFirstArg().getLexeme())->second
+            : cl.getFirstArgType();
 
     if (arg1Type == QPSTokenType::QPSTypeInfo::VARIABLE ||
-    arg1Type == QPSTokenType::QPSTypeInfo::QUOTED_IDENT ||
-    arg1Type == QPSTokenType::QPSTypeInfo::WILDCARD) {
-        return "";
+        arg1Type == QPSTokenType::QPSTypeInfo::QUOTED_IDENT ||
+        arg1Type == QPSTokenType::QPSTypeInfo::WILDCARD) {
+      return "";
     }
+  }
 
-    return VALIDATION_RULE_PATTERN_ARGUMENT;
+  return VALIDATION_RULE_PATTERN_ARGUMENT;
 }
 
 bool CompatibleTypeRule::isStatementType(

@@ -7,7 +7,7 @@
 
 #include "Rule.h"
 
-class SynAssignDeclarationRule : public Rule{
+class PatternSynDeclarationRule : public Rule{
 public:
     std::string validate(IntermediateQuery&) override;
 };

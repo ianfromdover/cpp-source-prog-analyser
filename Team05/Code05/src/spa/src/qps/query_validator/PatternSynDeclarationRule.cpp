@@ -2,9 +2,9 @@
 // Created by tohzh on 10/2/2024.
 //
 
-#include "SynAssignDeclarationRule.h"
+#include "PatternSynDeclarationRule.h"
 
-std::string SynAssignDeclarationRule::validate(IntermediateQuery& query) {
+std::string PatternSynDeclarationRule::validate(IntermediateQuery& query) {
     if (!query.hasPatternClause()) return "";
 
     std::string patternSyn = query.getPatternClause()->getPatternSynonym(); // Assumed to only have one select element
@@ -16,7 +16,9 @@ std::string SynAssignDeclarationRule::validate(IntermediateQuery& query) {
                 if (kvp.first == QPSTokenType::QPSTypeInfo::ASSIGN && kvp.second == patternSyn) {
                     return "";
                 }
-
+                if (kvp.first == QPSTokenType::QPSTypeInfo::WHILE && kvp.second == patternSyn) {
+                  return "";
+                }
             }
         }
     }

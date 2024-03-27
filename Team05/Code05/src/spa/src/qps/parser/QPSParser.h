@@ -67,7 +67,10 @@ private:
     std::vector<QPSToken> argsEntEnt();
     std::vector<QPSToken> argsAnyEnt();
 
-    std::shared_ptr<PatternClause> pattern();
+    std::shared_ptr<PatternClause> assignPattern();
+    std::shared_ptr<PatternClause> whilePattern();
+    std::shared_ptr<PatternClause> ifPattern();
+
 
     QPSToken stmtRef();
 
