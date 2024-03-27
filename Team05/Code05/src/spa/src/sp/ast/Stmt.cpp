@@ -128,7 +128,7 @@ std::shared_ptr<StmtList> const& If::getElseBranch() const {
     return this->elseBranch;
 }
 
-std::shared_ptr<Expr> const& Assign::getVariable() const {
+std::shared_ptr<Variable> const& Assign::getVariable() const {
     return this->variable;
 }
 
