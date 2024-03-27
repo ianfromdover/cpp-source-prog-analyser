@@ -28,7 +28,7 @@ public:
     static std::shared_ptr<Call> createCall(StmtNo stmtNo, const std::string& procName);
     static std::shared_ptr<While> createWhile(StmtNo stmtNo, std::shared_ptr<Expr> condition, std::shared_ptr<StmtList> body);
     static std::shared_ptr<If> createIf(StmtNo stmtNo, std::shared_ptr<Expr> condition, std::shared_ptr<StmtList> thenBranch, std::shared_ptr<StmtList> elseBranch);
-    static std::shared_ptr<Assign> createAssign(StmtNo stmtNo, std::shared_ptr<Expr> variable, std::shared_ptr<Expr> value);
+    static std::shared_ptr<Assign> createAssign(StmtNo stmtNo, std::shared_ptr<Variable> variable, std::shared_ptr<Expr> value);
     static std::shared_ptr<StmtList> createStmtList(std::vector<std::shared_ptr<Stmt>> stmts);
 };
 
