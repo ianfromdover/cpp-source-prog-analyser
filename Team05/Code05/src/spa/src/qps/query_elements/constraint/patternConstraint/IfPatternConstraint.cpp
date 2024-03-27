@@ -22,8 +22,8 @@ std::vector<std::shared_ptr<ConstraintArgument>> IfPatternConstraint::getConstra
     return constraintArguments;
 }
 
-std::vector<std::vector<std::string>> IfPatternConstraint::getRelationshipTable(QueryPKBVirtual & pkb) {
-    std::vector<std::vector<std::string>> temp = pkb.getPatternAsgn(); // TODO: get pattern if
+std::vector<std::vector<std::string>> IfPatternConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
+    std::vector<std::vector<std::string>> temp = pkb.getPatternAsgnTable(); // TODO: get pattern if
     std::vector<std::vector<std::string>> res;
 
     for (const auto& entry : temp){

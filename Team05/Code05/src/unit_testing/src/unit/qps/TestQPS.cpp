@@ -3,7 +3,7 @@
 
 #include "catch.hpp"
 #include "qps/QPS.h"
-#include "query_evaluator/stub/QueryPKBStub.h"
+#include "query_evaluator/stub/QueryPkbStub.h"
 
 using namespace std;
 
@@ -11,8 +11,8 @@ std::vector<std::string> testHelper(std::string queryStr);
 
 TEST_CASE("[TestQPS] Replace with your unit tests") {
     SECTION("no constraints") {
-        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
-        pkb->setStatement({{"1"}, {"2"}, {"3"}});
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
+        pkb->setStatement(3);
         QPS qps(pkb);
 
         std::string queryStr = "stmt s; Select s";
@@ -250,8 +250,8 @@ TEST_CASE("[TestQPS] Semantic Error Tests"){
 
 TEST_CASE("[TestQPS] No Constraints"){
     SECTION("statements") {
-        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
-        pkb->setStatement({{"1"}, {"2"}, {"3"}});
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
+        pkb->setStatement(3);
         QPS qps(pkb);
 
         std::string queryStr = "stmt s; Select s";
@@ -260,7 +260,7 @@ TEST_CASE("[TestQPS] No Constraints"){
         REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
     }
     SECTION("read statements") {
-        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
         pkb->setRead({{"1"}, {"2"}, {"3"}});
         QPS qps(pkb);
 
@@ -271,7 +271,7 @@ TEST_CASE("[TestQPS] No Constraints"){
     }
 
     SECTION("print statements") {
-        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
         pkb->setPrint({{"1"}, {"2"}, {"3"}});
         QPS qps(pkb);
 
@@ -282,7 +282,7 @@ TEST_CASE("[TestQPS] No Constraints"){
     }
 
     SECTION("if statements") {
-        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
         pkb->setIf({{"1"}, {"2"}, {"3"}});
         QPS qps(pkb);
 
@@ -293,7 +293,7 @@ TEST_CASE("[TestQPS] No Constraints"){
     }
 
     SECTION("while statements") {
-        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
         pkb->setWhile({{"1"}, {"2"}, {"3"}});
         QPS qps(pkb);
 
@@ -304,7 +304,7 @@ TEST_CASE("[TestQPS] No Constraints"){
     }
 
     SECTION("procedure statements") {
-        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
         pkb->setProcedure({{"a", "a"}, {"b", "b"}, {"c", "c"}});
         QPS qps(pkb);
 
@@ -316,7 +316,7 @@ TEST_CASE("[TestQPS] No Constraints"){
     }
 
     SECTION("variable statements") {
-        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
         pkb->setVar({{"1", "a"}, {"2", "b"}, {"3", "c"}});
         QPS qps(pkb);
 
@@ -327,7 +327,7 @@ TEST_CASE("[TestQPS] No Constraints"){
     }
 
     SECTION("constant statements") {
-        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
         pkb->setConst({{"1", "a"}, {"2", "b"}, {"3", "c"}});
         QPS qps(pkb);
 
@@ -342,35 +342,46 @@ TEST_CASE("[TestQPS] No Constraints"){
 
 TEST_CASE("[TestQPS] Multiple Constraints"){
     SECTION("follows pattern"){
-        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
         pkb->setFollows({{"1", "2"}, {"1", "3"}, {"1", "4"}, {"2", "7"}});
-        pkb->setStatement({{"1"}, {"2"}, {"3"}, {"4"}, {"7"}});
-        pkb->setPatternAsgn({{"1","x=c"}, {"2","x=k"}, {"3","y=c"}, {"4","y=k"}, {"7","z=i"}});
+        pkb->setStatement(7);
+        // pkb->setPatternAsgn({{"1","x","c"}, {"2","x","k"}, {"3","y","c"},
+        // {"4","y","k"}, {"7","z","i"}}); // MS3: PKB refactor
+        pkb->setPatternAsgn({{"1", "x=c"},
+                             {"2", "x=k"},
+                             {"3", "y=c"},
+                             {"4", "y=k"},
+                             {"7", "z=i"}});
         QPS qps(pkb);
 
-        SECTION("both non-empty"){
-            std::string queryStr = "assign a;stmt s,s1; Select s1 such that Follows(s, 7) pattern a (_,_)";
-            std::vector<std::string> expected = {"1", "2", "3", "4", "7"};
+        SECTION("both non-empty") {
+          std::string queryStr = "assign a;stmt s,s1; Select s1 such that "
+                                 "Follows(s, 7) pattern a (_,_)";
+          std::vector<std::string> expected = {"1", "2", "3", "4",
+                                               "5", "6", "7"};
 
-            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+          REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
         }
-        SECTION("empty relationship clause"){
-            std::string queryStr = "assign a;stmt s,s1; Select s1 such that Follows(1, 7) pattern a (_,_)";
-            std::vector<std::string> expected = {};
+        SECTION("empty relationship clause") {
+          std::string queryStr = "assign a;stmt s,s1; Select s1 such that "
+                                 "Follows(1, 7) pattern a (_,_)";
+          std::vector<std::string> expected = {};
 
-            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+          REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
         }
-        SECTION("empty pattern clause"){
-            std::string queryStr = "assign a;stmt s,s1; Select s1 such that Follows(s, 7) pattern a (\"k\",_)";
-            std::vector<std::string> expected = {};
+        SECTION("empty pattern clause") {
+          std::string queryStr = "assign a;stmt s,s1; Select s1 such that "
+                                 "Follows(s, 7) pattern a (\"k\",_)";
+          std::vector<std::string> expected = {};
 
-            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+          REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
         }
-        SECTION("both empty"){
-            std::string queryStr = "assign a;stmt s,s1; Select s1 such that Follows(1, 7) pattern a (\"k\",_)";
-            std::vector<std::string> expected = {};
+        SECTION("both empty") {
+          std::string queryStr = "assign a;stmt s,s1; Select s1 such that "
+                                 "Follows(1, 7) pattern a (\"k\",_)";
+          std::vector<std::string> expected = {};
 
-            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+          REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
         }
         SECTION("both wildcard"){
             std::string queryStr = "assign a;stmt s,s1; Select a such that Follows(_, _) pattern a (_,_)";
@@ -395,16 +406,12 @@ TEST_CASE("[TestQPS] Multiple Constraints"){
 
 TEST_CASE("[TestQPS] Single Constraints") {
     SECTION("follows") {
-        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
         pkb->setFollows({{"1", "2"},
                          {"1", "3"},
                          {"1", "4"},
                          {"2", "7"}});
-        pkb->setStatement({{"1"},
-                           {"2"},
-                           {"3"},
-                           {"4"},
-                           {"7"}});
+        pkb->setStatement(7);
         QPS qps(pkb);
 
         SECTION("right synonym") {
@@ -450,16 +457,12 @@ TEST_CASE("[TestQPS] Single Constraints") {
         }
     }
     SECTION("follows T") {
-        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
         pkb->setFollowsT({{"1", "2"},
                           {"1", "3"},
                           {"1", "4"},
                           {"2", "7"}});
-        pkb->setStatement({{"1"},
-                           {"2"},
-                           {"3"},
-                           {"4"},
-                           {"7"}});
+        pkb->setStatement(7);
         QPS qps(pkb);
 
         SECTION("right synonym") {
@@ -489,9 +492,10 @@ TEST_CASE("[TestQPS] Single Constraints") {
             REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
         }SECTION("both wildcard") {
             std::string queryStr = "stmt s,s1; Select s such that Follows*(_, _)";
-            std::vector<std::string> expected = {"1", "2", "3", "4", "7"};
+          std::vector<std::string> expected = {"1", "2", "3", "4",
+                                               "5", "6", "7"};
 
-            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+          REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
         }SECTION("empty result") {
             std::string queryStr = "stmt s,s1; Select s such that Follows*(1, 5)";
             std::vector<std::string> expected = {};
@@ -501,16 +505,12 @@ TEST_CASE("[TestQPS] Single Constraints") {
     }
 
     SECTION("parents") {
-        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
         pkb->setParent({{"1", "2"},
                           {"1", "3"},
                           {"1", "4"},
                           {"2", "7"}});
-        pkb->setStatement({{"1"},
-                           {"2"},
-                           {"3"},
-                           {"4"},
-                           {"7"}});
+        pkb->setStatement(7);
         QPS qps(pkb);
 
         SECTION("right synonym") {
@@ -545,9 +545,10 @@ TEST_CASE("[TestQPS] Single Constraints") {
         }
         SECTION("both wildcard") {
             std::string queryStr = "stmt s,s1; Select s such that Parent(_, _)";
-            std::vector<std::string> expected = {"1", "2", "3", "4", "7"};
+          std::vector<std::string> expected = {"1", "2", "3", "4",
+                                               "5", "6", "7"};
 
-            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+          REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
         }
         SECTION("empty result") {
             std::string queryStr = "stmt s,s1; Select s such that Parent(1, 5)";
@@ -558,16 +559,12 @@ TEST_CASE("[TestQPS] Single Constraints") {
     }
 
     SECTION("parents T") {
-        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
         pkb->setParentT({{"1", "2"},
                         {"1", "3"},
                         {"1", "4"},
                         {"2", "7"}});
-        pkb->setStatement({{"1"},
-                           {"2"},
-                           {"3"},
-                           {"4"},
-                           {"7"}});
+        pkb->setStatement(7);
         QPS qps(pkb);
 
         SECTION("right synonym") {
@@ -602,9 +599,10 @@ TEST_CASE("[TestQPS] Single Constraints") {
         }
         SECTION("both wildcard") {
             std::string queryStr = "stmt s,s1; Select s such that Parent*(_, _)";
-            std::vector<std::string> expected = {"1", "2", "3", "4", "7"};
+          std::vector<std::string> expected = {"1", "2", "3", "4",
+                                               "5", "6", "7"};
 
-            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+          REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
         }
         SECTION("empty result") {
             std::string queryStr = "stmt s,s1; Select s such that Parent*(1, 5)";
@@ -615,20 +613,17 @@ TEST_CASE("[TestQPS] Single Constraints") {
     }
 
     SECTION("modifies"){
-        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
         pkb->setModifies({{"1", "v"},
                          {"1", "k"},
                          {"1", "c"},
                          {"2", "k"}});
-        pkb->setStatement({{"1"},
-                           {"2"},
-                           {"3"},
-                           {"4"},
-                           {"7"}});
+        pkb->setStatement(7);
         pkb->setVar({{"1","v"},
                           {"1","k"},
                           {"2","c"},
                           {"2","i"}});
+        //        pkb->setVar({{"v"},{"k"},{"c"},{"i"}});
         QPS qps(pkb);
 
         SECTION("both synonym") {
@@ -645,9 +640,10 @@ TEST_CASE("[TestQPS] Single Constraints") {
         }
         SECTION("right synonym select stmt") {
             std::string queryStr = "stmt s; variable v; Select s such that Modifies(1, v)";
-            std::vector<std::string> expected = {"1", "2", "3", "4", "7"};
+          std::vector<std::string> expected = {"1", "2", "3", "4",
+                                               "5", "6", "7"};
 
-            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+          REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
         }
         SECTION("left synonym right wildcard") {
             std::string queryStr = "stmt s; variable v; Select s such that Modifies(s, _)";
@@ -663,20 +659,17 @@ TEST_CASE("[TestQPS] Single Constraints") {
         }
     }
     SECTION("uses"){
-        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
         pkb->setUses({{"1", "v"},
                           {"1", "k"},
                           {"1", "c"},
                           {"2", "k"}});
-        pkb->setStatement({{"1"},
-                           {"2"},
-                           {"3"},
-                           {"4"},
-                           {"7"}});
+        pkb->setStatement(7);
         pkb->setVar({{"1","v"},
                      {"1","k"},
                      {"2","c"},
                      {"2","i"}});
+        //        pkb->setVar({{"v"},{"k"},{"c"},{"i"}}); // HOTFIX
         QPS qps(pkb);
 
         SECTION("both synonym") {
@@ -695,8 +688,9 @@ TEST_CASE("[TestQPS] Single Constraints") {
         }
         SECTION("left int right synonym") {
             std::string queryStr = "stmt s; variable v; Select s such that Uses(1, v)";
-            std::vector<std::string> expected = {"1", "2", "3", "4", "7"};
-            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+          std::vector<std::string> expected = {"1", "2", "3", "4",
+                                               "5", "6", "7"};
+          REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
         }
         SECTION("left wildcard right quoted") {
             std::string queryStr = "stmt s; variable v; Select s such that Uses(s, \"v\")";
@@ -709,8 +703,15 @@ TEST_CASE("[TestQPS] Single Constraints") {
         }
     }
     SECTION("pattern"){
-        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
-        pkb->setPatternAsgn({{"1","x=10"}, {"2","x=k"}, {"3","y=c"}, {"4","y=k"}, {"7","z=i"}});
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
+        //        pkb->setPatternAsgn({{"1","x","10"}, {"2","x","k"},
+        //        {"3","y","c"}, {"4","y","k"}, {"7","z","i"}}); // MS3: pkb
+        //        refactor
+        pkb->setPatternAsgn({{"1", "x=10"},
+                             {"2", "x=k"},
+                             {"3", "y=c"},
+                             {"4", "y=k"},
+                             {"7", "z=i"}});
         QPS qps(pkb);
 
         SECTION("wildcard, substring matching"){
@@ -741,9 +742,9 @@ TEST_CASE("[TestQPS] Single Constraints") {
     }
 
     SECTION("Calls") {
-        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
-        pkb->setProcedure({{"a", "a"}, {"b", "b"}, {"c", "c"}, {"d", "d"}, {"f", "f"}, {"g", "g"}});
-        pkb->setCalls({{"a", "b"}, {"c", "d"}, {"b", "c"}, {"f", "g"}});
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
+      pkb->setProcedure({{"a"}, {"b"}, {"c"}, {"d"}, {"f"}, {"g"}});
+      pkb->setCalls({{"a", "b"}, {"c", "d"}, {"b", "c"}, {"f", "g"}});
         QPS qps(pkb);
 
         SECTION("simple calls: procedure, procedure"){
@@ -839,9 +840,9 @@ TEST_CASE("[TestQPS] Single Constraints") {
     }
 
     SECTION("CallsT") {
-        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
-        pkb->setProcedure({{"a", "a"}, {"b", "b"}, {"c", "c"}, {"d", "d"}, {"f", "f"}, {"g", "g"}});
-        pkb->setCallsT({{"a", "b"}, {"c", "d"}, {"b", "c"}, {"f", "g"}, {"a", "c"}, {"a", "d"}, {"b", "d"}});
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
+      pkb->setProcedure({{"a"}, {"b"}, {"c"}, {"d"}, {"f"}, {"g"}});
+      pkb->setCallsT({{"a", "b"}, {"c", "d"}, {"b", "c"}, {"f", "g"}, {"a", "c"}, {"a", "d"}, {"b", "d"}});
         QPS qps(pkb);
 
         SECTION("simple callsT: procedure, procedure"){
@@ -937,9 +938,9 @@ TEST_CASE("[TestQPS] Single Constraints") {
     }
 
     SECTION("ModifiesP") {
-        std::shared_ptr<QueryPKBStub> pkb = std::make_shared<QueryPKBStub>();
-        pkb->setProcedure({{"a", "a"}, {"b", "b"}});
-        pkb->setVar({{"c", "c"}, {"d", "d"}});
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
+      pkb->setProcedure({{"a"}, {"b"}});
+      pkb->setVar({{"c", "c"}, {"d", "d"}});
         pkb->setModifiesP({{"a", "c"}, {"a", "d"}, {"b", "d"}});
         QPS qps(pkb);
 
@@ -955,7 +956,7 @@ TEST_CASE("[TestQPS] Single Constraints") {
 
 
 std::vector<std::string> testHelper(std::string queryStr){
-    std::shared_ptr<QueryPKBVirtual> pkb = std::make_shared<QueryPKBStub>();
+    std::shared_ptr<QueryPkbVirtual> pkb = std::make_shared<QueryPkbStub>();
     QPS qps(pkb);
     return qps.evaluate(std::move(queryStr));
 }

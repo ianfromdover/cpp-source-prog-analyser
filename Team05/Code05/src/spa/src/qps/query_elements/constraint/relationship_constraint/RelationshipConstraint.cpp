@@ -8,6 +8,6 @@ std::string RelationshipConstraint::getConstraintClass() {
     return CONSTRAINT_CLASS_RELATIONSHIP;
 }
 
-std::vector<std::vector<std::string>> RelationshipConstraint::getRelationshipTable(QueryPKBVirtual &) {
+Table RelationshipConstraint::getRelationshipTable(QueryPkbVirtual &) {
     return {};
 }

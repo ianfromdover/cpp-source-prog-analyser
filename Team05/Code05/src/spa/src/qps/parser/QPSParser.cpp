@@ -2,10 +2,13 @@
 // Created by Alex on 16/2/2024.
 //
 
-#include <stdexcept>
 #include "QPSParser.h"
 #include "IntermediateQuery.h"
 #include "qps/Exceptions/QPSParseException.h"
+#include "sp/api/formatter/ExprFormatter.h"
+#include <stdexcept>
+
+using token = QPSTokenType::QPSTypeInfo;
 
 bool QPSParser::match(std::initializer_list<QPSTokenType::QPSTypeInfo> types) {
     for (const auto &type: types) {
@@ -147,82 +150,91 @@ std::shared_ptr<SelectClause> QPSParser::select() {
     return selectCl;
 }
 
-std::shared_ptr<RelationshipClause> QPSParser::relationship() {
-    std::shared_ptr<RelationshipClause> relationshipClause;
-
-    if (this->check({QPSTokenType::PARENT, QPSTokenType::PARENT_T})) {
-        relationshipClause = this->parent();
-    } else if (this->check({QPSTokenType::FOLLOWS, QPSTokenType::FOLLOWS_T})) {
-        relationshipClause = this->follow();
-    } else if (this->check({QPSTokenType::USES, QPSTokenType::MODIFIES})) {
-      relationshipClause = this->usesModifies();
-    } else if (this->check({QPSTokenType::CALLS, QPSTokenType::CALLS_T})) {
-        relationshipClause = this->calls();
-    } else {
-        relationshipClause = nullptr;
-    }
-
-    return relationshipClause;
+std::vector<std::shared_ptr<RelationshipClause>> QPSParser::suchThatClause() {
+  this->consume(QPSTokenType::SUCH, "Expect 'such'.");
+  this->consume(QPSTokenType::THAT, "Expect 'that' after 'such'.");
+  return relCond();
 }
 
-std::shared_ptr<RelationshipClause> QPSParser::calls() {
-    this->match({QPSTokenType::CALLS, QPSTokenType::CALLS_T});
+std::vector<std::shared_ptr<RelationshipClause>> QPSParser::relCond() {
+  std::vector<std::shared_ptr<RelationshipClause>> relConds;
+  do {
+    std::shared_ptr<RelationshipClause> relationship = this->relRef();
+    relConds.push_back(relationship);
+  } while (this->match({token::AND}));
+  return relConds;
+}
+
+std::shared_ptr<RelationshipClause> QPSParser::relRef() {
+  if (this->match({QPSTokenType::PARENT, QPSTokenType::PARENT_T,
+                   QPSTokenType::FOLLOWS, QPSTokenType::FOLLOWS_T})) {
     QPSToken relationshipType = this->previous();
-    this->consume(QPSTokenType::LEFT_PAREN, "Expect '(' after relationship type.");
-    auto t1 = entRef();
-    this->consume(QPSTokenType::COMMA, "Expect ',' after entRef.");
-    auto t2 = entRef();
-    this->consume(QPSTokenType::RIGHT_PAREN, "Expect ')' after relationship type.");
-
-    RelationshipClause parentCl(relationshipType.getType().getInfo(), t1, QPSTokenType::ENT_REF, t2,
-                                QPSTokenType::ENT_REF);
-
-    return std::make_shared<RelationshipClause>(parentCl);
-}
-
-std::shared_ptr<RelationshipClause> QPSParser::parent() {
-
-    this->match({QPSTokenType::PARENT, QPSTokenType::PARENT_T});
+    std::vector<QPSToken> args = this->argsStmtStmt();
+    RelationshipClause relCl(relationshipType.getType().getInfo(), args[0],
+                             QPSTokenType::STMT_REF, args[1],
+                             QPSTokenType::STMT_REF);
+    return std::make_shared<RelationshipClause>(relCl);
+  } else if (this->match({token::CALLS, token::CALLS_T})) {
     QPSToken relationshipType = this->previous();
-    this->consume(QPSTokenType::LEFT_PAREN, "Expect '(' after relationship type.");
-    auto t1 = stmtRef();
-    this->consume(QPSTokenType::COMMA, "Expect ',' after stmtRef.");
-    auto t2 = stmtRef();
-    this->consume(QPSTokenType::RIGHT_PAREN, "Expect ')' after relationship type.");
-
-    RelationshipClause parentCl(relationshipType.getType().getInfo(), t1, QPSTokenType::STMT_REF, t2,
-                                QPSTokenType::STMT_REF);
-
-    return std::make_shared<RelationshipClause>(parentCl);
-}
-
-std::shared_ptr<RelationshipClause> QPSParser::follow() {
-
-    this->match({QPSTokenType::FOLLOWS, QPSTokenType::FOLLOWS_T});
-    QPSToken relationshipType = this->previous();
-    this->consume(QPSTokenType::LEFT_PAREN, "Expect '(' after relationship type.");
-    auto t1 = stmtRef();
-    this->consume(QPSTokenType::COMMA, "Expect ',' after stmtRef.");
-    auto t2 = stmtRef();
-    this->consume(QPSTokenType::RIGHT_PAREN, "Expect ')' after relationship type.");
-
-    RelationshipClause parentCl(relationshipType.getType().getInfo(), t1, QPSTokenType::STMT_REF, t2,
-                                QPSTokenType::STMT_REF);
-
-    return std::make_shared<RelationshipClause>(parentCl);
-}
-
-std::shared_ptr<RelationshipClause> QPSParser::usesModifies() {
-  this->match({QPSTokenType::USES, QPSTokenType::MODIFIES});
-  QPSToken relationshipType = this->previous();
-    this->consume(QPSTokenType::LEFT_PAREN, "Expect '(' after relationship type.");
-    auto t1 = stmtRef();
-    this->consume(QPSTokenType::COMMA, "Expect ',' after stmtRef.");
-    auto t2 = entRef();
-    this->consume(QPSTokenType::RIGHT_PAREN, "Expect ')' after relationship type.");
-    RelationshipClause relCl(relationshipType.getType().getInfo(), t1, QPSTokenType::STMT_REF, t2,
+    std::vector<QPSToken> args = this->argsEntEnt();
+    RelationshipClause relCl(relationshipType.getType().getInfo(), args[0],
+                             QPSTokenType::ENT_REF, args[1],
                              QPSTokenType::ENT_REF);
     return std::make_shared<RelationshipClause>(relCl);
+  } else if (this->match({token::MODIFIES, token::USES})) {
+    QPSToken relationshipType = this->previous();
+    std::vector<QPSToken> args = this->argsAnyEnt();
+    RelationshipClause relCl(relationshipType.getType().getInfo(), args[0],
+                             QPSTokenType::STMT_REF, args[1],
+                             QPSTokenType::ENT_REF);
+    return std::make_shared<RelationshipClause>(relCl);
+  } else {
+    throw QPSParseException("at [" + std::to_string(current) +
+                            "]: invalid relationship reference.");
+  }
+}
+
+std::vector<QPSToken> QPSParser::argsStmtStmt() {
+  std::vector<QPSToken> args;
+  this->consume(QPSTokenType::LEFT_PAREN, "Expect '('");
+  args.push_back(this->stmtRef());
+  this->consume(QPSTokenType::COMMA, "Expect ','");
+  args.push_back(this->stmtRef());
+  this->consume(QPSTokenType::RIGHT_PAREN, "Expect ')'");
+  return args;
+}
+
+std::vector<QPSToken> QPSParser::argsEntEnt() {
+  std::vector<QPSToken> args;
+  this->consume(QPSTokenType::LEFT_PAREN, "Expect '('");
+  args.push_back(this->entRef());
+  this->consume(QPSTokenType::COMMA, "Expect ','");
+  args.push_back(this->entRef());
+  this->consume(QPSTokenType::RIGHT_PAREN, "Expect ')'");
+  return args;
+}
+
+std::vector<QPSToken> QPSParser::argsAnyEnt() {
+  std::vector<QPSToken> args;
+  this->consume(QPSTokenType::LEFT_PAREN, "Expect '('");
+  args.push_back(this->any());
+  this->consume(QPSTokenType::COMMA, "Expect ','");
+  args.push_back(this->entRef());
+  this->consume(QPSTokenType::RIGHT_PAREN, "Expect ')'");
+  return args;
+}
+
+QPSToken QPSParser::any() {
+  try {
+    return this->stmtRef();
+  } catch (QPSParseException &e) {
+  }
+  try {
+    return this->entRef();
+  } catch (QPSParseException &e) {
+  }
+  throw QPSParseException("at [" + std::to_string(current) +
+                          "]: invalid argument.");
 }
 
 std::shared_ptr<PatternClause> QPSParser::pattern() {
@@ -241,7 +253,8 @@ std::shared_ptr<PatternClause> QPSParser::pattern() {
 }
 
 QPSToken QPSParser::stmtRef() {
-    if (this->match({QPSTokenType::INTEGER, QPSTokenType::IDENTIFIER, QPSTokenType::WILDCARD})) {
+  int initial = current;
+  if (this->match({QPSTokenType::INTEGER, QPSTokenType::IDENTIFIER, QPSTokenType::WILDCARD})) {
         if (this->checkPrevious(QPSTokenType::INTEGER))
             return this->previous();
 
@@ -251,11 +264,13 @@ QPSToken QPSParser::stmtRef() {
         if (this->checkPrevious(QPSTokenType::WILDCARD))
             return this->previous();
     }
-    throw QPSParseException("at [" + std::to_string(current) + "]: invalid statement reference");
+  current = initial;
+  throw QPSParseException("at [" + std::to_string(current) + "]: invalid statement reference");
 }
 
 QPSToken QPSParser::entRef() {
-    if (this->match({QPSTokenType::IDENTIFIER, QPSTokenType::WILDCARD, QPSTokenType::QUOTE})) {
+  int initial = current;
+  if (this->match({QPSTokenType::IDENTIFIER, QPSTokenType::WILDCARD, QPSTokenType::QUOTE})) {
         if (this->checkPrevious(QPSTokenType::IDENTIFIER))
             return synonym(this->previous());
 
@@ -271,7 +286,8 @@ QPSToken QPSParser::entRef() {
             return newToken;
         }
     }
-    throw QPSParseException("at [" + std::to_string(current) + "]: invalid statement reference.");
+  current = initial;
+  throw QPSParseException("at [" + std::to_string(current) + "]: invalid statement reference.");
 }
 
 QPSToken QPSParser::synonym(QPSToken t) {
@@ -314,7 +330,8 @@ QPSToken QPSParser::expr() {
     QPSToken t1 = this->term();
     QPSToken t2 = this->exprTail();
     QPSTokenType type(QPSTokenType::EXPR);
-    QPSToken newToken = QPSToken(type, t1.getLexeme() + t2.getLexeme());
+    QPSToken newToken =
+        QPSToken(type, ExprFormatter::format(t1.getLexeme() + t2.getLexeme()));
     return newToken;
 }
 
@@ -324,7 +341,8 @@ QPSToken QPSParser::exprTail() {
         QPSToken t1 = this->term();
         QPSToken t2 = this->exprTail();
         QPSTokenType type(QPSTokenType::EXPR);
-        QPSToken newToken = QPSToken(type, t1.getLexeme() + t2.getLexeme());
+        QPSToken newToken =
+            QPSToken(type, "+" + t1.getLexeme() + t2.getLexeme());
         return newToken;
     }
     if (this->check(QPSTokenType::MINUS)) {
@@ -332,7 +350,8 @@ QPSToken QPSParser::exprTail() {
         QPSToken t1 = this->term();
         QPSToken t2 = this->exprTail();
         QPSTokenType type(QPSTokenType::EXPR);
-        QPSToken newToken = QPSToken(type, t1.getLexeme() + t2.getLexeme());
+        QPSToken newToken =
+            QPSToken(type, "-" + t1.getLexeme() + t2.getLexeme());
         return newToken;
     }
     return {QPSTokenType(QPSTokenType::EMPTY), ""};
@@ -348,11 +367,12 @@ QPSToken QPSParser::term() {
 
 QPSToken QPSParser::termTail() {
     if (this->check(QPSTokenType::STAR)) {
-        this->consume(QPSTokenType::STAR, "Expect '+' after expression.");
-        QPSToken t1 = this->factor();
+    this->consume(QPSTokenType::STAR, "Expect '*' after expression.");
+    QPSToken t1 = this->factor();
         QPSToken t2 = this->termTail();
         QPSTokenType type(QPSTokenType::TERM);
-        QPSToken newToken = QPSToken(type, t1.getLexeme() + t2.getLexeme());
+        QPSToken newToken =
+            QPSToken(type, "*" + t1.getLexeme() + t2.getLexeme());
         return newToken;
     }
     if (this->check(QPSTokenType::SLASH)) {
@@ -360,7 +380,8 @@ QPSToken QPSParser::termTail() {
         QPSToken t1 = this->term();
         QPSToken t2 = this->exprTail();
         QPSTokenType type(QPSTokenType::TERM);
-        QPSToken newToken = QPSToken(type, t1.getLexeme() + t2.getLexeme());
+        QPSToken newToken =
+            QPSToken(type, "/" + t1.getLexeme() + t2.getLexeme());
         return newToken;
     }
     if (this->check(QPSTokenType::PERCENT)) {
@@ -368,7 +389,8 @@ QPSToken QPSParser::termTail() {
         QPSToken t1 = this->term();
         QPSToken t2 = this->exprTail();
         QPSTokenType type(QPSTokenType::TERM);
-        QPSToken newToken = QPSToken(type, t1.getLexeme() + t2.getLexeme());
+        QPSToken newToken =
+            QPSToken(type, "%" + t1.getLexeme() + t2.getLexeme());
         return newToken;
     }
     return {QPSTokenType(QPSTokenType::EMPTY), ""};
@@ -385,11 +407,11 @@ QPSToken QPSParser::factor() {
         this->consume(QPSTokenType::RIGHT_PAREN, "Expect ')' after expression.");
         QPSTokenType type(QPSTokenType::FACTOR);
         QPSToken newToken = QPSToken(type, t.getLexeme());
+        return newToken;
     }
     throw QPSParseException("at [" + std::to_string(current) + "]: invalid factor.");
 
 }
-
 
 std::shared_ptr<IntermediateQuery> QPSParser::parse() {
     auto query = std::make_shared<IntermediateQuery>();
@@ -409,18 +431,10 @@ std::shared_ptr<IntermediateQuery> QPSParser::parse() {
     while (isSuchThat() || this->check({QPSTokenType::PATTERN})) {
 
         if (isSuchThat()) {
-            this->consume(QPSTokenType::SUCH, "Expect 'such'.");
-            this->consume(QPSTokenType::THAT, "Expect 'that' after 'such'.");
-
-            if (isRelationship()) {
-                std::shared_ptr<RelationshipClause> relationship = this->relationship();
-
-                if (relationship) query->addClause(relationship);
-            } else {
-                throw QPSParseException("at [" + std::to_string(current) + "]: Expect relationship.");
-            }
+        for (const auto &clause : suchThatClause()) {
+          query->addClause(clause);
         }
-
+      }
         if (this->match({QPSTokenType::PATTERN})) {
             std::shared_ptr<PatternClause> pattern = this->pattern();
             if (pattern) query->addClause(pattern);

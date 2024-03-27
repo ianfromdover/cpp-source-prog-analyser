@@ -16,6 +16,6 @@ std::string Boolean::getArgumentValue() {
     return std::string();
 }
 
-std::vector<std::vector<std::string>> Boolean::getEntityTable(QueryPKBVirtual &pkb) {
+std::vector<std::vector<std::string>> Boolean::getEntityTable(QueryPkbVirtual &pkb) {
     return std::vector<std::vector<std::string>>();
 }

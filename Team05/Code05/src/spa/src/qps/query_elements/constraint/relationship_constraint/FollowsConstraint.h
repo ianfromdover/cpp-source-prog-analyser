@@ -16,7 +16,7 @@ public:
     FollowsConstraint(std::shared_ptr<StatementReference>, std::shared_ptr<StatementReference>);
     std::string getConstraintType() override;
     std::vector<std::shared_ptr<ConstraintArgument>>  getConstraintArguments() override;
-    std::vector<std::vector<std::string>> getRelationshipTable(QueryPKBVirtual &) override;
+    Table getRelationshipTable(QueryPkbVirtual &) override;
 
     bool isStatementSynonym(string type);
 };

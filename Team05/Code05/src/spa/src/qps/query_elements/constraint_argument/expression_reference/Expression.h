@@ -7,7 +7,7 @@
 
 
 #include "ExpressionReference.h"
-#include "pkb/apis/QueryPKBVirtual.h"
+#include "pkb/apis/QueryPkbVirtual.h"
 
 class Expression : public ExpressionReference {
 protected:
@@ -18,8 +18,8 @@ public:
     std::string getArgumentValue() override;
     std::string toString() override;
 
-    std::vector<std::vector<std::string>> getRawTable(QueryPKBVirtual & pkb) override;
-    std::vector<std::vector<std::string>> getEntityTable(QueryPKBVirtual & pkb) override;
+    Table getEntityTable(QueryPkbVirtual & pkb) override;
+    std::vector<std::vector<std::string>> getRawTable(QueryPkbVirtual & pkb) override;
 };
 
 

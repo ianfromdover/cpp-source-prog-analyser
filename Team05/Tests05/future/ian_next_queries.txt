@@ -1,0 +1,55 @@
+1 - Check Next with non-empty result
+stmt s;
+Select s such that Next(s, 3)
+2
+5000
+2 - Check Next with empty result
+stmt s;
+Select s such that Next(1,100)
+none
+5000
+3 - Check Next with all statements after
+stmt s,s1;
+Select s such that Next(s,s1)
+1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,17,18,19,20,21,22,23,24,25,26,27,28,30,31
+5000
+4 - Check Next with all statements before
+stmt s,s1;
+Select s such that Next(s1,s)
+2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,18,19,20,21,22,23,24,25,26,27,28,29,31,32
+5000
+5 - Check Next after stmt 1 (if)
+stmt s;
+Select s such that Next(1, s)
+2,5
+5000
+6 - Check Next before if's then-block
+stmt s;
+Select s such that Next(s, 2)
+1
+5000
+7 - Check Next before else-block
+stmt s;
+Select s such that Next(s, 5)
+1
+5000
+8 - Check Next after if
+stmt s; if ifs;
+Select s such that Next(ifs, s)
+2,5,6,10,25,26
+5000
+9 - Check Next before ifs
+stmt s; if ifs;
+Select s such that Next(s, ifs)
+1,23
+5000
+10 - Check Next after entering or looping while loop
+stmt s; while whiles;
+Select s such that Next(whiles, s)
+18,22
+5000
+11 - Check Next before a while loop
+stmt s; while whiles;
+Select s such that Next(s, whiles)
+20,25,26
+5000

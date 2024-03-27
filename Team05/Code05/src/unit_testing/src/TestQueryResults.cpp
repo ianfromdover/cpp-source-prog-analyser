@@ -3,9 +3,9 @@
 //
 
 #include "catch.hpp"
-#include "qps/QueryEvaluator/QueryResult/QueryResult.h"
-#include "qps/QueryEvaluator/QueryResult/IntResult.h"
-#include "qps/QueryEvaluator/QueryResult/StringResult.h"
+#include "qps/query_evaluator/query_result/QueryResult.h"
+#include "qps/query_evaluator/query_result/IntResult.h"
+#include "qps/query_evaluator/query_result/StringResult.h"
 
 using namespace std;
 

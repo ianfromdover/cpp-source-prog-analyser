@@ -24,13 +24,13 @@ std::string ReadEntity::getArgumentValue() {
     return this->identifier;
 }
 
-std::vector<std::vector<std::string>> ReadEntity::getEntityTable(QueryPKBVirtual &pkb) {
-    auto entityTable = pkb.getRead();
+Table ReadEntity::getEntityTable(QueryPkbVirtual &pkb) {
+    auto entityTable = pkb.getReadTable();
     // Insertion of headers into our entity table
     entityTable.insert(entityTable.begin(), {this->identifier, "READRHS"});
     return entityTable;
 }
 
-std::vector<std::vector<std::string>> ReadEntity::getRawTable(QueryPKBVirtual &pkb) {
-    return pkb.getRead();
+std::vector<std::vector<std::string>> ReadEntity::getRawTable(QueryPkbVirtual &pkb) {
+    return pkb.getReadTable();
 }

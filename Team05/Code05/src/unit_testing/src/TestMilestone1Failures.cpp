@@ -40,16 +40,16 @@ TEST_CASE("Milestone 1 failures") {
     }
     )";
 
-    std::shared_ptr<PKBStorage> p=std::make_shared<PKBStorage>();
-    auto pkb = make_shared<PopulatePKB>(p);
+    std::shared_ptr<PkbStorage> p=std::make_shared<PkbStorage>();
+    auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
     sp.exec(codeSnippet);
-    QueryPKB pkb1(p);
-    QPS qps(std::make_shared<QueryPKB>(pkb1));
+    QueryPkb pkb1(p);
+    QPS qps(std::make_shared<QueryPkb>(pkb1));
 
     SECTION("fail 1") {
         std::string query = "assign a; while w; Select a such that Modifies (w, \"x\") pattern a (_, _\"x\"_)";
-        std::vector<std::vector<std::string>> table = pkb1.getModifies();
+        Table table = pkb1.getModifiesSTable();
         ResultTable t(table);
         std::string s = t.toString();
         std::vector<std::string> expected  = {"10", "15"};

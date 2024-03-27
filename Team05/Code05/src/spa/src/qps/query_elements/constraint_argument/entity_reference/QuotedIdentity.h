@@ -6,7 +6,7 @@
 #define SPA_QUOTEDIDENTITY_H
 
 #include "EntityReference.h"
-#include "pkb/apis/QueryPKBVirtual.h"
+#include "pkb/apis/QueryPkbVirtual.h"
 
 class QuotedIdentity : public EntityReference {
 private:
@@ -17,8 +17,8 @@ public:
     std::string toString() override;
     std::string getArgumentValue() override;
 
-    std::vector<std::vector<std::string>> getRawTable(QueryPKBVirtual & pkb) override;
-    std::vector<std::vector<std::string>> getEntityTable(QueryPKBVirtual & pkb) override;
+    Table getEntityTable(QueryPkbVirtual & pkb) override;
+    std::vector<std::vector<std::string>> getRawTable(QueryPkbVirtual & pkb) override;
 };
 
 

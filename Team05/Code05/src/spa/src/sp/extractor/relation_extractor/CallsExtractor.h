@@ -14,7 +14,7 @@ private:
     std::shared_ptr<Program> program;
 public:
     // Constructor
-    explicit CallsExtractor(shared_ptr<BasePKBPopulator> pkb, shared_ptr<Program> program)
+    explicit CallsExtractor(shared_ptr<BasePkbPopulator> pkb, shared_ptr<Program> program)
     : RelationExtractor(std::move(pkb)), program(std::move(program)) {}
     void visitProcedure(const Procedure &procedure, std::shared_ptr<Accumulator>& info) override;
     // Statement Methods

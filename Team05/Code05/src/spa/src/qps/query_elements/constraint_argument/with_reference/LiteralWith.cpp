@@ -20,14 +20,14 @@ std::string LiteralWith::getArgumentValue() {
     return this->value;
 }
 
-std::vector<std::vector<std::string>> LiteralWith::getEntityTable(QueryPKBVirtual &pkb) {
+std::vector<std::vector<std::string>> LiteralWith::getEntityTable(QueryPkbVirtual &pkb) {
     auto entityTable = getRawTable(pkb);
     entityTable.insert(entityTable.begin(), {"LiteralWith"});
     return entityTable;
 }
 
 
-std::vector<std::vector<std::string>> LiteralWith::getRawTable(QueryPKBVirtual &pkb) {
+std::vector<std::vector<std::string>> LiteralWith::getRawTable(QueryPkbVirtual &pkb) {
     std::vector<std::vector<std::string>> table = {{this->value}};
     return table;
 }

@@ -24,14 +24,14 @@ std::string IfEntity::getArgumentValue() {
     return this->identifier;
 }
 
-std::vector<std::vector<std::string>> IfEntity::getEntityTable(QueryPKBVirtual &pkb) {
-    auto entityTable = pkb.getIf();
+Table IfEntity::getEntityTable(QueryPkbVirtual &pkb) {
+    auto entityTable = pkb.getIfTable();
     // Insertion of headers into our entity table
     entityTable.insert(entityTable.begin(), {this->identifier, "IFRHS"});
     return entityTable;
 }
 
-std::vector<std::vector<std::string>> IfEntity::getRawTable(QueryPKBVirtual &pkb) {
-    return pkb.getIf();
+std::vector<std::vector<std::string>> IfEntity::getRawTable(QueryPkbVirtual &pkb) {
+    return pkb.getIfTable();
 }
 

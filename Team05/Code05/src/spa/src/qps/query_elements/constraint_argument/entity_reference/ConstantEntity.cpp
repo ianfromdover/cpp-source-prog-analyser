@@ -24,8 +24,8 @@ std::string ConstantEntity::getArgumentValue() {
     return this->identifier;
 }
 
-std::vector<std::vector<std::string>> ConstantEntity::getEntityTable(QueryPKBVirtual &pkb) {
-    auto entityTable = pkb.getConst();
+Table ConstantEntity::getEntityTable(QueryPkbVirtual &pkb) {
+    auto entityTable = pkb.getConstTable();
     // Insertion of headers into our entity table
     entityTable.insert(entityTable.begin(), {"CONSTANTLHS", this->identifier});
     // TODO: HOTFIX - remove first column
@@ -35,6 +35,6 @@ std::vector<std::vector<std::string>> ConstantEntity::getEntityTable(QueryPKBVir
     return entityTable;
 }
 
-std::vector<std::vector<std::string>> ConstantEntity::getRawTable(QueryPKBVirtual &pkb) {
-    return pkb.getConst();
+std::vector<std::vector<std::string>> ConstantEntity::getRawTable(QueryPkbVirtual &pkb) {
+    return pkb.getConstTable();
 }

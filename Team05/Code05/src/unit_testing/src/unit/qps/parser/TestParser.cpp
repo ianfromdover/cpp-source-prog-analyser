@@ -531,6 +531,24 @@ TEST_CASE("singleDeclaration_singleSelect_singleRelationship") {
             QPSParser parser(tokens);
             REQUIRE_NOTHROW(parser.parse());
         }
+        SECTION("quotedIdent_quotedIdent") {
+          QPSTokenList tokens;
+          tokens = TokenListBuilder()
+                       .singleStmtDeclaration()
+                       .select()
+                       .identifier()
+                       .suchThat()
+                       .modifies()
+                       .leftParen()
+                       .quotedIdent()
+                       .comma()
+                       .quotedIdent()
+                       .rightParen()
+                       .get();
+
+          QPSParser parser(tokens);
+          REQUIRE_NOTHROW(parser.parse());
+        }
     }
     SECTION("calls"){
         SECTION("synonyn_synonym") {
@@ -763,16 +781,3 @@ TEST_CASE("invalid syntax"){
         REQUIRE_THROWS(parser.parse());
     }
 }
-
-
-static QPSTokenList
-generateTokenList(std::initializer_list<std::pair<QPSTokenType::QPSTypeInfo, std::string>> tokenStream) {
-    QPSTokenList tokens;
-    for (auto &token: tokenStream) {
-        tokens.addToken(token.first, token.second);
-    }
-    return tokens;
-}
-
-
-
