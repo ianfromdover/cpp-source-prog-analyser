@@ -4,7 +4,7 @@ name: macOS CMake Build
 
 on:
   push:
-    branches: [ "cicd" , "master" ]
+    branches: [ "cicd" , "master" , "wk10*"]
   pull_request:
     branches: [ "cicd" , "master" ]
   workflow_dispatch:
