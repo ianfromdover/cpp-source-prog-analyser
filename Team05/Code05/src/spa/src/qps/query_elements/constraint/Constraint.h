@@ -24,6 +24,8 @@ public:
 
     virtual Table getRelationshipTable(QueryPkbVirtual &) =0;
 
+//    virtual std::size_t hash() const = 0;
+
 };
 
 

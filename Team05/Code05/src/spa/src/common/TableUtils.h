@@ -37,7 +37,7 @@ public:
             std::vector<std::string> strElem;
 
             // Put the element into the str vector
-            strElem.push_back(std::to_string(element)); // TODO: ian's CLion says to_string not found here
+            strElem.push_back(std::to_string(element));
 
             // Add the vector to the result
             result.push_back(strElem);

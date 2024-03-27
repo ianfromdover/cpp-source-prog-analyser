@@ -23,6 +23,8 @@ std::vector<std::string> QPS::evaluate(std::string queryString) {
         return std::vector<std::string>({"SemanticError"});
     }
 
+    // TODO: call the optimizer function
+
     QueryEvaluator eval(*pkb);
     std::shared_ptr<Formattable> results = eval.evaluate(*query);
 

@@ -6,7 +6,7 @@
 #include "pkb/apis/QueryPkb.h"
 #include "qps/query_projector/ResultTable.h"
 
-FollowsConstraint::FollowsConstraint(std::shared_ptr<StatementReference> s1, std::shared_ptr<StatementReference>  s2) {
+FollowsConstraint::FollowsConstraint(std::shared_ptr<StatementReference> s1, std::shared_ptr<StatementReference> s2) {
     constraintArguments.push_back(s1);
     constraintArguments.push_back(s2);
 }
@@ -85,4 +85,19 @@ bool FollowsConstraint::isStatementSynonym(std::string type) {
             TYPE_CALL, TYPE_WHILE, TYPE_IF
     };
     return std::find(statementVector.begin(), statementVector.end(), type) != statementVector.end();
+}
+
+std::size_t FollowsConstraint::hash() const {
+    std::hash<std::string> stringHasher;
+
+    std::string s1 = constraintArguments[0]->getArgumentValue();
+    std::string s2 = constraintArguments[1]->getArgumentValue();
+
+    std::size_t hashValue = 0;
+
+    // Combine hash values for intVar and stringVar while maintaining their order
+    hashValue ^= stringHasher(s1) + 0x9e3779b9 + (hashValue << 6) + (hashValue >> 2);
+    hashValue ^= stringHasher(s2) + 0x9e3779b9 + (hashValue << 6) + (hashValue >> 2);
+
+    return hashValue;
 }
