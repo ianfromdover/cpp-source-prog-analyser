@@ -2,17 +2,19 @@
 // Created by sjh_9 on 21/2/2024.
 //
 #include "catch.hpp"
-#include "../helper/AstProgram.cpp"
+#include "../helper/AstTestProgramProducer.h"
 #include "../helper/PkbStubSp.cpp"
 #include "sp/extractor/relation_extractor/CallsExtractor.h"
 #include "sp/ast/Program.h"
+
+inline AstTestProgramProducer astPrograms = AstTestProgramProducer();
 
 TEST_CASE("Calls_TestSequentialIfIfNestingChain") {
     std::multiset<pair<std::string, std::string>> resultsVector = {
             {"AssignCallPrintRead", "IfElseWithStmtsBeforeAndInside"},
             {"IfElseWithStmtsBeforeAndInside", "IfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside"},
     };
-    auto program = AstProgram::createSequentialIfIfNestingChain();
+    auto program = astPrograms.createSequentialIfIfNestingChain();
     auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<CallsExtractor>(pkb, program);
     for (const auto& procedure : *program->getProcedures()) {
@@ -26,7 +28,7 @@ TEST_CASE("Calls_TestSequentialIfWhileNestingChain") {
             {"AssignCallPrintRead", "IfElseWithNestedWhilePlusNestedStmtsBeforeAndInside"},
             {"IfElseWithNestedWhilePlusNestedStmtsBeforeAndInside", "WhileWithStmtsBeforeAndInside"},
     };
-    auto program = AstProgram::createSequentialIfWhileNestingChain();
+    auto program = astPrograms.createSequentialIfWhileNestingChain();
     auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<CallsExtractor>(pkb, program);
     for (const auto& procedure : *program->getProcedures()) {
@@ -40,7 +42,7 @@ TEST_CASE("Calls_TestSequentialWhileIfNestingChain") {
             {"AssignCallPrintRead", "WhileWithNestedIfElsePlusNestedStmtsBeforeAndInside"},
             {"WhileWithNestedIfElsePlusNestedStmtsBeforeAndInside", "WhileWithStmtsBeforeAndInside"},
     };
-    auto program = AstProgram::createSequentialWhileIfNestingChain();
+    auto program = astPrograms.createSequentialWhileIfNestingChain();
     auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<CallsExtractor>(pkb, program);
     for (const auto& procedure : *program->getProcedures()) {
@@ -54,7 +56,7 @@ TEST_CASE("Calls_TestSequentialWhileWhileNestingChain") {
             {"AssignCallPrintRead", "WhileWithNestedWhilePlusNestedStmtsBeforeAndInside"},
             {"WhileWithNestedWhilePlusNestedStmtsBeforeAndInside", "WhileWithStmtsBeforeAndInside"},
     };
-    auto program = AstProgram::createSequentialWhileWhileNestingChain();
+    auto program = astPrograms.createSequentialWhileWhileNestingChain();
     auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<CallsExtractor>(pkb, program);
     for (const auto& procedure : *program->getProcedures()) {

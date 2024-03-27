@@ -2,10 +2,11 @@
 // Created by sjh_9 on 21/2/2024.
 //
 #include "catch.hpp"
-#include "../helper/AstProgram.cpp"
+#include "../helper/AstTestProgramProducer.h"
 #include "../helper/PkbStubSp.cpp"
 #include "sp/extractor/node_extractor/StatementExtractor.h"
 
+inline AstTestProgramProducer astPrograms = AstTestProgramProducer();
 
 //Statement_TestZeroNestingLevel
 
@@ -13,7 +14,7 @@ TEST_CASE("Statement_TestAssignCallPrintRead") {
     std::multiset<std::string> resultsVector = {
             {"1"}, {"2"}, {"3"}, {"4"}
     };
-    auto program = AstProgram::createAssignCallPrintRead();
+    auto program = astPrograms.createAssignCallPrintRead();
     auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<StatementExtractor>(pkb);
     for (const auto& procedure : *program->getProcedures()) {
@@ -29,7 +30,7 @@ TEST_CASE("Statement_TestIfElseWithStmtsBeforeAndInside") {
             {"1"}, {"2"}, {"3"}, {"4"}, {"5"}, {"6"}, {"7"}, {"8"},
             {"9"}, {"10"}, {"11"}, {"12"}, {"13"}
     };
-    auto program = AstProgram::createIfElseWithStmtsBeforeAndInside();
+    auto program = astPrograms.createIfElseWithStmtsBeforeAndInside();
     auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<StatementExtractor>(pkb);
     for (const auto& procedure : *program->getProcedures()) {
@@ -44,7 +45,7 @@ TEST_CASE("Statement_TestIfElseWithStmtsBeforeAfterAndInside") {
             {"9"}, {"10"}, {"11"}, {"12"}, {"13"}, {"14"}, {"15"}, {"16"},
             {"17"}
     };
-    auto program = AstProgram::createIfElseWithStmtsBeforeAfterAndInside();
+    auto program = astPrograms.createIfElseWithStmtsBeforeAfterAndInside();
     auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<StatementExtractor>(pkb);
     for (const auto& procedure : *program->getProcedures()) {
@@ -58,7 +59,7 @@ TEST_CASE("Statement_TestIfElseWithStmtsAfterAndInside") {
             {"1"}, {"2"}, {"3"}, {"4"}, {"5"}, {"6"}, {"7"}, {"8"},
             {"9"}, {"10"}, {"11"}, {"12"}, {"13"}
     };
-    auto program = AstProgram::createIfElseWithStmtsAfterAndInside();
+    auto program = astPrograms.createIfElseWithStmtsAfterAndInside();
     auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<StatementExtractor>(pkb);
     for (const auto& procedure : *program->getProcedures()) {
@@ -72,7 +73,7 @@ TEST_CASE("Statement_TestWhileWithStmtsBeforeAndInside") {
             {"1"}, {"2"}, {"3"}, {"4"}, {"5"}, {"6"}, {"7"}, {"8"},
             {"9"}
     };
-    auto program = AstProgram::createWhileWithStmtsBeforeAndInside();
+    auto program = astPrograms.createWhileWithStmtsBeforeAndInside();
     auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<StatementExtractor>(pkb);
     for (const auto& procedure : *program->getProcedures()) {
@@ -86,7 +87,7 @@ TEST_CASE("Statement_TestWhileWithStmtsBeforeAfterAndInside") {
             {"1"}, {"2"}, {"3"}, {"4"}, {"5"}, {"6"}, {"7"}, {"8"},
             {"9"}, {"10"}, {"11"}, {"12"}, {"13"}
     };
-    auto program = AstProgram::createWhileWithStmtsBeforeAfterAndInside();
+    auto program = astPrograms.createWhileWithStmtsBeforeAfterAndInside();
     auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<StatementExtractor>(pkb);
     for (const auto& procedure : *program->getProcedures()) {
@@ -100,7 +101,7 @@ TEST_CASE("Statement_TestWhileWithStmtsAfterAndInside") {
             {"1"}, {"2"}, {"3"}, {"4"}, {"5"}, {"6"}, {"7"}, {"8"},
             {"9"},
     };
-    auto program = AstProgram::createWhileWithStmtsAfterAndInside();
+    auto program = astPrograms.createWhileWithStmtsAfterAndInside();
     auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<StatementExtractor>(pkb);
     for (const auto& procedure : *program->getProcedures()) {
@@ -118,7 +119,7 @@ TEST_CASE("Statement_TestIfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside") 
             {"17"}, {"18"}, {"19"}, {"20"}, {"21"}, {"22"}, {"23"}, {"24"},
             {"25"}, {"26"}, {"27"}
     };
-    auto program = AstProgram::createIfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside();
+    auto program = astPrograms.createIfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside();
     auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<StatementExtractor>(pkb);
     for (const auto& procedure : *program->getProcedures()) {
@@ -135,7 +136,7 @@ TEST_CASE("Statement_TestIfElseWithNestedIfElsePlusNestedStmtsBeforeAfterAndInsi
             {"25"}, {"26"}, {"27"}, {"28"}, {"29"}, {"30"}, {"31"}, {"32"},
             {"33"}, {"34"}, {"35"}
     };
-    auto program = AstProgram::createIfElseWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside();
+    auto program = astPrograms.createIfElseWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside();
     auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<StatementExtractor>(pkb);
     for (const auto& procedure : *program->getProcedures()) {
@@ -151,7 +152,7 @@ TEST_CASE("Statement_TestIfElseWithNestedIfElsePlusNestedStmtsAfterAndInside") {
             {"17"}, {"18"}, {"19"}, {"20"}, {"21"}, {"22"}, {"23"}, {"24"},
             {"25"}, {"26"}, {"27"}
     };
-    auto program = AstProgram::createIfElseWithNestedIfElsePlusNestedStmtsAfterAndInside();
+    auto program = astPrograms.createIfElseWithNestedIfElsePlusNestedStmtsAfterAndInside();
     auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<StatementExtractor>(pkb);
     for (const auto& procedure : *program->getProcedures()) {
@@ -166,7 +167,7 @@ TEST_CASE("Statement_TestIfElseWithNestedWhilePlusNestedStmtsBeforeAndInside") {
             {"9"}, {"10"}, {"11"}, {"12"}, {"13"}, {"14"}, {"15"}, {"16"},
             {"17"}, {"18"}, {"19"}
     };
-    auto program = AstProgram::createIfElseWithNestedWhilePlusNestedStmtsBeforeAndInside();
+    auto program = astPrograms.createIfElseWithNestedWhilePlusNestedStmtsBeforeAndInside();
     auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<StatementExtractor>(pkb);
     for (const auto& procedure : *program->getProcedures()) {
@@ -182,7 +183,7 @@ TEST_CASE("Statement_TestIfElseWithNestedWhilePlusNestedStmtsBeforeAfterAndInsid
             {"17"}, {"18"}, {"19"}, {"20"}, {"21"}, {"22"}, {"23"}, {"24"},
             {"25"}, {"26"}, {"27"}
     };
-    auto program = AstProgram::createIfElseWithNestedWhilePlusNestedStmtsBeforeAfterAndInside();
+    auto program = astPrograms.createIfElseWithNestedWhilePlusNestedStmtsBeforeAfterAndInside();
     auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<StatementExtractor>(pkb);
     for (const auto& procedure : *program->getProcedures()) {
@@ -197,7 +198,7 @@ TEST_CASE("Statement_TestIfElseWithNestedWhilePlusNestedStmtsAfterAndInside") {
             {"9"}, {"10"}, {"11"}, {"12"}, {"13"}, {"14"}, {"15"}, {"16"},
             {"17"}, {"18"}, {"19"}
     };
-    auto program = AstProgram::createIfElseWithNestedWhilePlusNestedStmtsAfterAndInside();
+    auto program = astPrograms.createIfElseWithNestedWhilePlusNestedStmtsAfterAndInside();
     auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<StatementExtractor>(pkb);
     for (const auto& procedure : *program->getProcedures()) {
@@ -211,7 +212,7 @@ TEST_CASE("Statement_TestWhileWithNestedIfElsePlusNestedStmtsBeforeAndInside") {
             {"1"}, {"2"}, {"3"}, {"4"}, {"5"}, {"6"}, {"7"}, {"8"},
             {"9"}, {"10"}, {"11"}, {"12"}, {"13"}, {"14"}
     };
-    auto program = AstProgram::createWhileWithNestedIfElsePlusNestedStmtsBeforeAndInside();
+    auto program = astPrograms.createWhileWithNestedIfElsePlusNestedStmtsBeforeAndInside();
     auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<StatementExtractor>(pkb);
     for (const auto& procedure : *program->getProcedures()) {
@@ -226,7 +227,7 @@ TEST_CASE("Statement_TestWhileWithNestedIfElsePlusNestedStmtsBeforeAfterAndInsid
             {"9"}, {"10"}, {"11"}, {"12"}, {"13"}, {"14"}, {"15"}, {"16"},
             {"17"}, {"18"}
     };
-    auto program = AstProgram::createWhileWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside();
+    auto program = astPrograms.createWhileWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside();
     auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<StatementExtractor>(pkb);
     for (const auto& procedure : *program->getProcedures()) {
@@ -240,7 +241,7 @@ TEST_CASE("Statement_TestWhileWithNestedIfElsePlusNestedStmtsAfterAndInside") {
             {"1"}, {"2"}, {"3"}, {"4"}, {"5"}, {"6"}, {"7"}, {"8"},
             {"9"}, {"10"}, {"11"}, {"12"}, {"13"}, {"14"}
     };
-    auto program = AstProgram::createWhileWithNestedIfElsePlusNestedStmtsAfterAndInside();
+    auto program = astPrograms.createWhileWithNestedIfElsePlusNestedStmtsAfterAndInside();
     auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<StatementExtractor>(pkb);
     for (const auto& procedure : *program->getProcedures()) {
@@ -254,7 +255,7 @@ TEST_CASE("Statement_TestWhileWithNestedWhilePlusNestedStmtsBeforeAndInside") {
             {"1"}, {"2"}, {"3"}, {"4"}, {"5"}, {"6"}, {"7"}, {"8"},
             {"9"}, {"10"}
     };
-    auto program = AstProgram::createWhileWithNestedWhilePlusNestedStmtsBeforeAndInside();
+    auto program = astPrograms.createWhileWithNestedWhilePlusNestedStmtsBeforeAndInside();
     auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<StatementExtractor>(pkb);
     for (const auto& procedure : *program->getProcedures()) {
@@ -268,7 +269,7 @@ TEST_CASE("Statement_TestWhileWithNestedWhilePlusNestedStmtsBeforeAfterAndInside
             {"1"}, {"2"}, {"3"}, {"4"}, {"5"}, {"6"}, {"7"}, {"8"},
             {"9"}, {"10"}, {"11"}, {"12"}, {"13"}, {"14"}
     };
-    auto program = AstProgram::createWhileWithNestedWhilePlusNestedStmtsBeforeAfterAndInside();
+    auto program = astPrograms.createWhileWithNestedWhilePlusNestedStmtsBeforeAfterAndInside();
     auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<StatementExtractor>(pkb);
     for (const auto& procedure : *program->getProcedures()) {
@@ -282,7 +283,7 @@ TEST_CASE("Statement_TestWhileWithNestedWhilePlusNestedStmtsAfterAndInside") {
             {"1"}, {"2"}, {"3"}, {"4"}, {"5"}, {"6"}, {"7"}, {"8"},
             {"9"}, {"10"}
     };
-    auto program = AstProgram::createWhileWithNestedWhilePlusNestedStmtsAfterAndInside();
+    auto program = astPrograms.createWhileWithNestedWhilePlusNestedStmtsAfterAndInside();
     auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<StatementExtractor>(pkb);
     for (const auto& procedure : *program->getProcedures()) {

@@ -2,10 +2,12 @@
 // Created by sjh_9 on 21/2/2024.
 //
 #include "catch.hpp"
-#include "../helper/AstProgram.cpp"
+#include "../helper/AstTestProgramProducer.h"
 #include "../helper/PkbStubSp.cpp"
 #include "sp/extractor/relation_extractor/UsesExtractor.h"
 #include "sp/ast/Program.h"
+
+inline AstTestProgramProducer astPrograms = AstTestProgramProducer();
 
 TEST_CASE("Uses_TestSequentialIfIfNestingChain") {
     std::multiset<pair<std::string, std::string>> resultsVector = {
@@ -173,7 +175,7 @@ TEST_CASE("Uses_TestSequentialIfIfNestingChain") {
             {"4", "u"},
             {"AssignCallPrintRead", "u"},
     };
-    auto program = AstProgram::createSequentialIfIfNestingChain();
+    auto program = astPrograms.createSequentialIfIfNestingChain();
     auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<UsesExtractor>(pkb, program);
     for (const auto& procedure : *program->getProcedures()) {
@@ -286,7 +288,7 @@ TEST_CASE("Uses_TestSequentialIfWhileNestingChain") {
             {"4", "u"},
             {"AssignCallPrintRead", "u"},
     };
-    auto program = AstProgram::createSequentialIfWhileNestingChain();
+    auto program = astPrograms.createSequentialIfWhileNestingChain();
     auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<UsesExtractor>(pkb, program);
     for (const auto& procedure : *program->getProcedures()) {
@@ -385,7 +387,7 @@ TEST_CASE("Uses_TestSequentialWhileIfNestingChain") {
         {"4", "u"},
         {"AssignCallPrintRead", "u"},
     };
-    auto program = AstProgram::createSequentialWhileIfNestingChain();
+    auto program = astPrograms.createSequentialWhileIfNestingChain();
     auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<UsesExtractor>(pkb, program);
     for (const auto& procedure : *program->getProcedures()) {
@@ -471,7 +473,7 @@ TEST_CASE("Uses_TestSequentialWhileWhileNestingChain") {
         {"4", "u"},
         {"AssignCallPrintRead", "u"},
     };
-    auto program = AstProgram::createSequentialWhileWhileNestingChain();
+    auto program = astPrograms.createSequentialWhileWhileNestingChain();
     auto pkb = make_shared<PkbStubSp>();
     shared_ptr<ProgramVisitor> extractor = std::make_shared<UsesExtractor>(pkb, program);
     for (const auto& procedure : *program->getProcedures()) {

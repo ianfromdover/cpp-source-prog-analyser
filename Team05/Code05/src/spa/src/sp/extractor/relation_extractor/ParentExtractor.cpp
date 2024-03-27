@@ -53,6 +53,7 @@ void ParentExtractor::visitAssignStmt(const Assign& stmt, shared_ptr<Accumulator
 
 void ParentExtractor::visitStmtList(const shared_ptr<vector<shared_ptr<Stmt>>>& stmts, shared_ptr<Accumulator> &info) {
     for (const auto& childStmt : *stmts) {
+        //std::cout << "pkb.addParent(" << info->info.back() << ", " << childStmt->getStmtNo() << ");" << std::endl;
         pkb->addParent(info->info.back(), childStmt->getStmtNo());
         auto infoCopy = std::make_shared<Accumulator>(*info);
         childStmt->accept(*this, infoCopy);

@@ -8,6 +8,7 @@
 #include "sp/exception/SemanticAnalysisException.h"
 #include "sp/api/formatter/ExprFormatter.h"
 #include "sp/exception/FormatterException.h"
+#include "sp/cfg/CFG.h"
 #include "catch.hpp"
 
 using namespace std;
@@ -80,9 +81,9 @@ TEST_CASE("Tokenise sample program") {
     auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
     auto tokens = sp.scan(codeSnippet);
-    for (auto& token: *tokens) {
-        std::cout << token->toString() << std::endl;
-    }
+//    for (auto& token: *tokens) {
+//        std::cout << token->toString() << std::endl;
+//    }
 }
 
 TEST_CASE("Parse complex while condition") {
@@ -136,9 +137,9 @@ TEST_CASE("Parse complex while condition") {
     auto tokens = sp.scan(codeSnippet);
     const auto parser = new Parser(tokens);
     const auto program = parser->parse();
-    for (const auto& procedures : *program->getProcedures()) {
-        std::cout << procedures->toString() << std::endl;
-    }
+//    for (const auto& procedures : *program->getProcedures()) {
+//        std::cout << procedures->toString() << std::endl;
+//    }
 
     require(true);
 }
@@ -172,9 +173,9 @@ TEST_CASE("Parse sample program") {
     auto tokens = sp.scan(codeSnippet);
     const auto parser = new Parser(tokens);
     const auto program = parser->parse();
-    for (const auto& procedures : *program->getProcedures()) {
-        std::cout << procedures->toString() << std::endl;
-    }
+//    for (const auto& procedures : *program->getProcedures()) {
+//        std::cout << procedures->toString() << std::endl;
+//    }
 
     require(true);
 }
@@ -225,7 +226,7 @@ TEST_CASE("Print with parent extractor") {
 
     for(int i=0;i<queries.size();i++){
         std::vector<std::string> ans = qps.evaluate(queries[i]);
-        std::cout<< queries[i]<<endl;
+//        std::cout<< queries[i]<<endl;
         REQUIRE(ans==expected[i]);
     }
 }
@@ -1506,4 +1507,269 @@ TEST_CASE("expression matching") {
     std::sort(expected.begin(), expected.end());
     REQUIRE(ans == expected);
   }
+}
+
+TEST_CASE("AST to CFG") {
+    std::string source = R"(
+        procedure main {
+            read x;
+            read y;
+            print x;
+            print y;
+            z = 3;
+
+            if (x == 0) then {
+                x = x + 1;
+                y = y - 1;
+                z = 2;
+            } else {
+                x = x + 2;
+                y = y + 1;
+
+                if (z != 3) then {
+                    x = 0;
+                    y = 0;
+                    z = 0;
+                } else {
+                    x = 1;
+                    z = x + y + 2;
+                }
+            }
+
+            call home;
+            x = x + 1;
+            z = y + x;
+
+            while (x < 5) {
+                print x;
+                print y;
+                while (y < 2) {
+                    print z;
+                    print y;
+                }
+                z = x - y;
+                k = z + y;
+
+                if (k > 0) then {
+                    k = k - 1;
+                } else {
+                    k = k + 1;
+                }
+
+                print k;
+            }
+
+            print x;
+            print y;
+            print z;
+        }
+    )";
+
+    std::string expect = R"(CFG [main]: [
+	Block[1 - 5]: [
+		predecessors: [],
+		successors: [6 - 6]
+	],
+	Block[6 - 6]: [
+		predecessors: [1 - 5],
+		successors: [7 - 9, 10 - 11]
+	],
+	Block[7 - 9]: [
+		predecessors: [6 - 6],
+		successors: [18 - 20]
+	],
+	Block[10 - 11]: [
+		predecessors: [6 - 6],
+		successors: [12 - 12]
+	],
+	Block[12 - 12]: [
+		predecessors: [10 - 11],
+		successors: [13 - 15, 16 - 17]
+	],
+	Block[13 - 15]: [
+		predecessors: [12 - 12],
+		successors: [Dummy]
+	],
+	Block[16 - 17]: [
+		predecessors: [12 - 12],
+		successors: [Dummy]
+	],
+	Block[Dummy]: [
+		predecessors: [13 - 15, 16 - 17],
+		successors: [18 - 20]
+	],
+	Block[18 - 20]: [
+		predecessors: [7 - 9, Dummy],
+		successors: [21 - 21]
+	],
+	Block[21 - 21]: [
+		predecessors: [18 - 20, 32 - 32],
+		successors: [22 - 23, 33 - 35]
+	],
+	Block[22 - 23]: [
+		predecessors: [21 - 21],
+		successors: [24 - 24]
+	],
+	Block[24 - 24]: [
+		predecessors: [22 - 23, 25 - 26],
+		successors: [25 - 26, 27 - 28]
+	],
+	Block[25 - 26]: [
+		predecessors: [24 - 24],
+		successors: [24 - 24]
+	],
+	Block[27 - 28]: [
+		predecessors: [24 - 24],
+		successors: [29 - 29]
+	],
+	Block[29 - 29]: [
+		predecessors: [27 - 28],
+		successors: [30 - 30, 31 - 31]
+	],
+	Block[30 - 30]: [
+		predecessors: [29 - 29],
+		successors: [32 - 32]
+	],
+	Block[31 - 31]: [
+		predecessors: [29 - 29],
+		successors: [32 - 32]
+	],
+	Block[32 - 32]: [
+		predecessors: [30 - 30, 31 - 31],
+		successors: [21 - 21]
+	],
+	Block[33 - 35]: [
+		predecessors: [21 - 21],
+		successors: []
+	]
+]
+)";
+
+    auto sp = SourceProcessor(nullptr);
+    const auto& program = sp.parse(sp.scan(source));
+    REQUIRE(CFG::compile(program)->at("main")->toString() == expect);
+}
+
+TEST_CASE("test") {
+    SECTION("test 1") {
+        std::string codeSnippet = R"(
+            procedure program1 {
+                if ((x != 4 + y) || (k == 4 + u)) then {
+                    x = x + 1;
+                    y = y - 1 + z;
+                    z = 2;
+                } else {
+                    if (z != 3) then {
+                        call program2;
+                        x = 0;
+                        y = 0;
+                        z = 0;
+                    } else {
+                        x = 1;
+                        z = x + y + 2;
+                    }
+                }
+                x = x + 1;
+                z = y + x;
+                read x;
+                print y;
+                read z;
+            }
+
+            procedure program2 {
+                while ((x != 4 + y) && (k != 4 + u)) {
+                    print x;
+                    read y;
+                    call program3;
+                    while (y < 2) {
+                        print z;
+                        print y;
+                        if (k > 0) then {
+                            k = k * 1 + 10 * r + h;
+                        } else {
+                            k = k + 1;
+                        }
+                    }
+                    z = x - y;
+                    k = z + y / k * 1 + 10 * r + h;
+                    print k;
+                }
+            }
+
+            procedure program3 {
+                    z = x - y;
+                    k = z + y * k * r / h;
+                    print t;
+            }
+        )";
+
+        std::cout << "test 1" << std::endl;
+        std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
+        auto pkb = make_shared<PopulatePkb>(p);
+        auto sp = SourceProcessor(pkb);
+        sp.exec(codeSnippet);
+
+        require(true);
+    }
+    SECTION("test 2") {
+        std::string codeSnippet = R"(
+            procedure program1 {
+                while ((x != 4 + y) && (k != 4 + u)) {
+                    if (z > 3) then {
+                        x = z + y * k * r / h + 100;
+                        y = 9 + 1 + y;
+                        z = 10 + 7;
+                    } else {
+                        call program2;
+                        x = 1;
+                        z = x + y + 2;
+                    }
+                }
+                x = x + 1;
+                z = y + x;
+                read x;
+                print y;
+                read z;
+            }
+
+            procedure program2 {
+                if ((x != 4 + y) || (k <= 4 + u)) then {
+                    while ((x != 4 + y) && (k >= 4 + u)) {
+                        print x;
+                        read y;
+                        call program3;
+                        print k;
+                    }
+                } else {
+                    if (z != 3) then {
+                        x = 0;
+                        y = 0;
+                        u = z / y / k * r / h + 100;
+                    } else {
+                        x = 1;
+                        z = x + y + 2;
+                    }
+                }
+                x = x + 1;
+                z = y + x;
+                read x;
+                print y;
+                read z;
+            }
+
+            procedure program3 {
+                    z = x - y;
+                    u = z / y - k * r / h + 100;
+                    print t;
+            }
+        )";
+
+        std::cout << "test 2" << std::endl;
+        std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
+        auto pkb = make_shared<PopulatePkb>(p);
+        auto sp = SourceProcessor(pkb);
+        sp.exec(codeSnippet);
+
+        require(true);
+    }
 }

@@ -91,13 +91,13 @@ public:
     }
 
     bool addModifiesS(StmtNo sNum, VarName name) override {
-        std::cout << "addModifiesS called" << std::endl;
+        //std::cout << "addModifiesS called" << std::endl;
         pairCalls.insert({std::to_string(sNum), name});
         return true;
     }
 
     bool addModifiesP(ProcName procName, VarName name) override {
-        std::cout << "addModifiesP called" << std::endl;
+        //std::cout << "addModifiesP called" << std::endl;
         pairCalls.insert({procName, name});
         return true;
     }
