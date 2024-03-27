@@ -10,7 +10,9 @@ std::string CompatibleTypeRule::validate(IntermediateQuery & query) {
     std::string results;
     std::map<std::string, QPSTokenType::QPSTypeInfo> declarationMap = query.getSynonymTypeMap();
     if (query.hasRelationshipClause()){
-        results += validateRelationship(*query.getRelationshipClause(),declarationMap);
+        for (auto & cl : query.getAllRelationshipClauses()){
+            results += validateRelationship(*cl,declarationMap);
+        }
     }
     if (query.hasPatternClause()){
         results += validatePattern(*query.getPatternClause(),declarationMap);

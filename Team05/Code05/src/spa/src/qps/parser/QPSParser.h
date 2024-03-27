@@ -52,6 +52,8 @@ private:
 
     bool checkPrevious(QPSTokenType::QPSTypeInfo type);
 
+    std::vector<std::shared_ptr<PatternClause>> patternClause();
+
     QPSToken consume(QPSTokenType::QPSTypeInfo type, const std::string &message);
 
     std::shared_ptr<DeclarationClause> declaration();

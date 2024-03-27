@@ -156,6 +156,18 @@ std::vector<std::shared_ptr<RelationshipClause>> QPSParser::suchThatClause() {
   return relCond();
 }
 
+std::vector<std::shared_ptr<PatternClause>> QPSParser::patternClause() {
+    std::vector<std::shared_ptr<PatternClause>> cls;
+        this->consume(QPSTokenType::PATTERN, "Expect 'pattern'.");
+    do {
+        std::shared_ptr<PatternClause> pattern = this->pattern();
+        cls.push_back(pattern);
+    } while (this->match({QPSTokenType::AND}));
+    return cls;
+}
+
+
+
 std::vector<std::shared_ptr<RelationshipClause>> QPSParser::relCond() {
   std::vector<std::shared_ptr<RelationshipClause>> relConds;
   do {
@@ -430,13 +442,15 @@ std::shared_ptr<IntermediateQuery> QPSParser::parse() {
     while (isSuchThat() || this->check({QPSTokenType::PATTERN})) {
 
         if (isSuchThat()) {
-        for (const auto &clause : suchThatClause()) {
-          query->addClause(clause);
+            for (const auto &clause : suchThatClause()) {
+              query->addClause(clause);
+            }
         }
-      }
-        if (this->match({QPSTokenType::PATTERN})) {
-            std::shared_ptr<PatternClause> pattern = this->pattern();
-            if (pattern) query->addClause(pattern);
+
+        if (this->check({QPSTokenType::PATTERN})) {
+            for (const auto &clause : patternClause()) {
+                query->addClause(clause);
+            }
         }
     }
 
