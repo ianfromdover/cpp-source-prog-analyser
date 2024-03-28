@@ -21,6 +21,8 @@ public:
     std::vector<std::vector<std::string>> getRelationshipTable(QueryPkbVirtual &) override;
 
     string &stripCharacters(string &str, const string &chars);
+
+    std::size_t hash() const override;
 };
 
 

@@ -24,6 +24,7 @@ public:
     void setReturnType(std::shared_ptr<Returnable> r);
     std::vector<std::shared_ptr<Constraint>> getConstraints();
     void addConstraint(std::shared_ptr<Constraint>);
+    void removeConstraints();
     std::vector<std::shared_ptr<Entity>> getDeclarations();
     void addDeclaration(const std::shared_ptr<Entity>&);
     std::shared_ptr<Entity> getEntityInDeclaration(std::string);

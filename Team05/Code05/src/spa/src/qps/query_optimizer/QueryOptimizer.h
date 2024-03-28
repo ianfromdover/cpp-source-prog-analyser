@@ -11,7 +11,7 @@
 class QueryOptimizer {
 public:
     virtual ~QueryOptimizer() = default;
-    virtual void optimize() = 0;
+    virtual void optimize(QueryObject& qo) = 0;
 };
 
 #endif //SPA_QUERYOPTIMIZER_H

@@ -73,3 +73,8 @@ std::vector<std::vector<std::string>> ModifiesPConstraint::getRelationshipTable(
 
     return table.getTable();
 }
+
+std::size_t ModifiesPConstraint::hash() const {
+    // TODO
+    return 0;
+}

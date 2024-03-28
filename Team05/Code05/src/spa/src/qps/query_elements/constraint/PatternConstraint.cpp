@@ -13,3 +13,8 @@ std::string PatternConstraint::getConstraintClass() {
 Table PatternConstraint::getRelationshipTable(QueryPkbVirtual &) {
     return {};
 }
+
+std::size_t PatternConstraint::hash() const {
+    // TODO
+    return 0;
+}

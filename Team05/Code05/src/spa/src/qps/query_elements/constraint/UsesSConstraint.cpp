@@ -77,3 +77,8 @@ bool UsesSConstraint::isStatementSynonym(std::string type) {
     };
     return std::find(statementVector.begin(), statementVector.end(), type) != statementVector.end();
 }
+
+std::size_t UsesSConstraint::hash() const {
+    // TODO
+    return 0;
+}

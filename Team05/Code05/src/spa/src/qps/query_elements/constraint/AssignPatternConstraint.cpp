@@ -93,3 +93,8 @@ std::string& AssignPatternConstraint::stripCharacters(std::string& str, const st
 
     return str;
 }
+
+std::size_t AssignPatternConstraint::hash() const {
+    // TODO
+    return 0;
+}

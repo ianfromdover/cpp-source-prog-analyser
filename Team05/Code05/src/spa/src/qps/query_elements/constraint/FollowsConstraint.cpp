@@ -95,7 +95,8 @@ std::size_t FollowsConstraint::hash() const {
 
     std::size_t hashValue = 0;
 
-    // Combine hash values for intVar and stringVar while maintaining their order
+    // Combine hash values for both stringVars while maintaining their order
+    hashValue ^= stringHasher(CONSTRAINT_TYPE_FOLLOWS) + 0x9e3779b9 + (hashValue << 6) + (hashValue >> 2);
     hashValue ^= stringHasher(s1) + 0x9e3779b9 + (hashValue << 6) + (hashValue >> 2);
     hashValue ^= stringHasher(s2) + 0x9e3779b9 + (hashValue << 6) + (hashValue >> 2);
 

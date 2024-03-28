@@ -13,6 +13,7 @@ public:
     std::string getConstraintClass() override;
     virtual std::shared_ptr<AssignEntity> getPatternConstraintIdentifier() = 0;
     Table getRelationshipTable(QueryPkbVirtual &) override;
+    std::size_t hash() const override;
 };
 
 #endif //PROJECT_PATTERNCONSTRAINT_H

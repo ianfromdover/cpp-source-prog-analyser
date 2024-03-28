@@ -87,3 +87,19 @@ bool FollowsTConstraint::isStatementSynonym(std::string type) {
     };
     return std::find(statementVector.begin(), statementVector.end(), type) != statementVector.end();
 }
+
+std::size_t FollowsTConstraint::hash() const {
+    std::hash<std::string> stringHasher;
+
+    std::string s1 = constraintArguments[0]->getArgumentValue();
+    std::string s2 = constraintArguments[1]->getArgumentValue();
+
+    std::size_t hashValue = 0;
+
+    // Combine hash values for both stringVars while maintaining their order
+    hashValue ^= stringHasher(CONSTRAINT_TYPE_FOLLOWST) + 0x9e3779b9 + (hashValue << 6) + (hashValue >> 2);
+    hashValue ^= stringHasher(s1) + 0x9e3779b9 + (hashValue << 6) + (hashValue >> 2);
+    hashValue ^= stringHasher(s2) + 0x9e3779b9 + (hashValue << 6) + (hashValue >> 2);
+
+    return hashValue;
+}

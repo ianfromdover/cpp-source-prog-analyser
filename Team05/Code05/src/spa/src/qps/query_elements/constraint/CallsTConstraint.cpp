@@ -102,3 +102,8 @@ std::string& CallsTConstraint::stripCharacters(std::string& str, const std::stri
 
     return str;
 }
+
+std::size_t CallsTConstraint::hash() const {
+    // TODO
+    return 0;
+}

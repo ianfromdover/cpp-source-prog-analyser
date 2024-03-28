@@ -24,6 +24,9 @@ public:
     bool isEntitySynonym(std::string type);
 
     string &stripCharacters(string &str, const string &chars);
+
+    std::size_t hash() const override;
+
 };
 
 
