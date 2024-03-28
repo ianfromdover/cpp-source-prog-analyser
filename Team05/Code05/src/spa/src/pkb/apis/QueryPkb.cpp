@@ -12,6 +12,20 @@ QueryPkb::QueryPkb(std::shared_ptr<PkbStorage> p) {
     pkb = std::move(p);
 }
 
+// on-demand --------------------------------------------------------------
+bool checkAffects(StmtNo affector, StmtNo affected) {
+    return false;
+}
+bool checkNextT(StmtNo before, StmtNo after) {
+    return false;
+}
+bool resetAffects() {
+    return false;
+}
+bool resetNextT() {
+    return false;
+}
+
 // entities --------------------------------------------------------------
 Table QueryPkb::getCallTable() {
     return pkb->callTable->getAllAStr();
@@ -136,22 +150,24 @@ Table QueryPkb::getWhileStmtsByVar(VarName var) {
 }
 // relations --------------------------------------------------------------
 
+/*
 // generated each query
 Table QueryPkb::getAffectsTable() {
-    return pkb->affectsTable->getAllAB();
+    return {{}}; // derive from the accepted affects object
 }
-Table QueryPkb::getAffectsAllBefore() {
-    return pkb->affectsTable->getAllKeysA();
+Table QueryPkb::getAffectsAllAffectors() {
+    return {{}}; // derive from the accepted affects object
 }
-Table QueryPkb::getAffectsAllAfter() {
-    return pkb->affectsTable->getAllValuesB();
+Table QueryPkb::getAffectsAllAffected() {
+    return {{}}; // derive from the accepted affects object
 }
-Table QueryPkb::getAffectsAfterByBefore(StmtNo before) {
-    return TableUtils::toTable(pkb->affectsTable->getRelatedValues(before));
+Table QueryPkb::getAffectsAffectedByAffector(StmtNo affector) {
+    return {{}}; // derive from the accepted affects object
 }
-Table QueryPkb::getAffectsBeforeByAfter(StmtNo after) {
-    return TableUtils::toTable(pkb->affectsTable->getRelatedKeys(after));
+Table QueryPkb::getAffectsAffectorsByAffected(StmtNo affected) {
+    return {{}}; // derive from the accepted affects object
 }
+ */
 
 Table QueryPkb::getCallsTable() {
     return pkb->callsTable->getAllStrStr();
@@ -265,22 +281,24 @@ Table QueryPkb::getNextBeforeByAfter(StmtNo after) {
     return TableUtils::toTable(pkb->nextTable->getRelatedKeys(after));
 }
 
+/*
 // generated each query
 Table QueryPkb::getNextTTable() {
-    return pkb->nextTTable->getAllAB();
+    return {{}}; // derive from the accepted nextT object
 }
 Table QueryPkb::getNextTAllBefore() {
-    return pkb->nextTTable->getAllKeysA();
+    return {{}}; // derive from the accepted nextT object
 }
 Table QueryPkb::getNextTAllAfter() {
-    return pkb->nextTTable->getAllValuesB();
+    return {{}}; // derive from the accepted nextT object
 }
 Table QueryPkb::getNextTAfterByBefore(StmtNo before) {
-    return TableUtils::toTable(pkb->nextTTable->getRelatedValues(before));
+    return {{}}; // derive from the accepted nextT object
 }
 Table QueryPkb::getNextTBeforeByAfter(StmtNo after) {
-    return TableUtils::toTable(pkb->nextTTable->getRelatedKeys(after));
+    return {{}}; // derive from the accepted nextT object
 }
+ */
 
 Table QueryPkb::getParentTable() {
     return pkb->parentTable->getAllAB();

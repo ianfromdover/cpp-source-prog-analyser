@@ -13,6 +13,10 @@ class BasePkbPopulator {
 public:
     virtual ~BasePkbPopulator() = default;
 
+    // on-demand
+    virtual bool setAffectsObj() = 0; // add param after SP implements
+    virtual bool setNextTObj() = 0; // add param after SP implements
+
     // entity
     virtual bool addCallStmt(int stmtNo, std::string name) = 0;
     virtual bool addConst(int stmtNo, int val) = 0;
@@ -23,7 +27,6 @@ public:
     virtual bool addVar(int stmtNo, std::string name) = 0;
 
     // relation
-    virtual bool addAffects(int before, int after) = 0;
     virtual bool addCalls(std::string caller, std::string called) = 0;
     virtual bool addCallsT(std::string caller, std::string called) = 0;
     virtual bool addFollows(int before, int after) = 0;
@@ -31,7 +34,6 @@ public:
     virtual bool addModifiesP(std::string procName, std::string name) = 0;
     virtual bool addModifiesS(int stmtNo, std::string name) = 0;
     virtual bool addNext(int before, int after) = 0;
-    virtual bool addNextT(int before, int after) = 0;
     virtual bool addParent(int parent, int child) = 0;
     virtual bool addParentT(int ancestor, int descendant) = 0;
     virtual bool addPatternAsgn(int stmtNo, std::string lhs, std::string rhs) = 0;

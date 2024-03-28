@@ -61,6 +61,10 @@ public:
     void setCalls(std::vector<std::vector<std::string>> t);
     void setCallsT(std::vector<std::vector<std::string>> t);
 
+    bool checkAffects(StmtNo affector, StmtNo affected) override;
+    bool checkNextT(StmtNo before, StmtNo after) override;
+    bool resetAffects() override;
+    bool resetNextT() override;
     // entities --------------------------------------------------------------
     Table getCallTable() override;
     Table getCallAllStmts() override;
@@ -112,10 +116,10 @@ public:
 
     // relations --------------------------------------------------------------
     Table getAffectsTable() override; // generated each query
-    Table getAffectsAllBefore() override;
-    Table getAffectsAllAfter() override;
-    Table getAffectsAfterByBefore(StmtNo before) override;
-    Table getAffectsBeforeByAfter(StmtNo after) override;
+    Table getAffectsAllAffectors() override;
+    Table getAffectsAllAffected() override;
+    Table getAffectsAffectedByAffector(StmtNo before) override;
+    Table getAffectsAffectorsByAffected(StmtNo after) override;
 
     Table getCallsTable() override;
     Table getCallsAllCallers() override;

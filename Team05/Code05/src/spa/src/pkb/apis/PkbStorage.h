@@ -24,7 +24,6 @@ public:
     // relations
     std::shared_ptr<PatternAssignTable> patternAssignTable = std::make_shared<PatternAssignTable>();
 
-    std::shared_ptr<PkbTable<StmtNo, StmtNo>> affectsTable = std::make_shared<PkbTable<StmtNo, StmtNo>>();
     std::shared_ptr<PkbTable<ProcName, ProcName>> callsTable = std::make_shared<PkbTable<ProcName, ProcName>>();
     std::shared_ptr<PkbTable<ProcName, ProcName>> callsTTable = std::make_shared<PkbTable<ProcName, ProcName>>();
     std::shared_ptr<PkbTable<StmtNo, StmtNo>> followsTable = std::make_shared<PkbTable<StmtNo, StmtNo>>();
@@ -32,7 +31,6 @@ public:
     std::shared_ptr<PkbTable<ProcName, VarName>> modifiesPTable = std::make_shared<PkbTable<ProcName, VarName>>();
     std::shared_ptr<PkbTable<StmtNo, VarName>> modifiesSTable = std::make_shared<PkbTable<StmtNo, VarName>>();
     std::shared_ptr<PkbTable<StmtNo, StmtNo>> nextTable = std::make_shared<PkbTable<StmtNo, StmtNo>>();
-    std::shared_ptr<PkbTable<StmtNo, StmtNo>> nextTTable = std::make_shared<PkbTable<StmtNo, StmtNo>>();
     std::shared_ptr<PkbTable<StmtNo, StmtNo>> parentTable = std::make_shared<PkbTable<StmtNo, StmtNo>>();
     std::shared_ptr<PkbTable<StmtNo, StmtNo>> parentTTable = std::make_shared<PkbTable<StmtNo, StmtNo>>();
     std::shared_ptr<PkbTable<StmtNo, VarName>> patternIfTable = std::make_shared<PkbTable<StmtNo, std::string>>();

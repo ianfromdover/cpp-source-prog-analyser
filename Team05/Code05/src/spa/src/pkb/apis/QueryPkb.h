@@ -9,6 +9,12 @@ private:
 public:
     explicit QueryPkb(std::shared_ptr<PkbStorage> p);
 
+    // on-demand --------------------------------------------------------------
+    bool checkAffects(StmtNo affector, StmtNo affected) override;
+    bool checkNextT(StmtNo before, StmtNo after) override;
+    bool resetAffects() override;
+    bool resetNextT() override;
+
     // entities --------------------------------------------------------------
     Table getCallTable() override;
     Table getCallAllStmts() override;
@@ -59,11 +65,13 @@ public:
     Table getWhileStmtsByVar(VarName var) override;
 
     // relations --------------------------------------------------------------
+    /*
     Table getAffectsTable() override; // generated each query
-    Table getAffectsAllBefore() override;
-    Table getAffectsAllAfter() override;
-    Table getAffectsAfterByBefore(StmtNo before) override;
-    Table getAffectsBeforeByAfter(StmtNo after) override;
+    Table getAffectsAllAffectors() override;
+    Table getAffectsAllAffected() override;
+    Table getAffectsAffectedByAffector(StmtNo affector) override;
+    Table getAffectsAffectorsByAffected(StmtNo affected) override;
+     */
 
     Table getCallsTable() override;
     Table getCallsAllCallers() override;
@@ -107,11 +115,13 @@ public:
     Table getNextAfterByBefore(StmtNo before) override;
     Table getNextBeforeByAfter(StmtNo after) override;
 
+    /*
     Table getNextTTable() override; // generated each query
     Table getNextTAllBefore() override;
     Table getNextTAllAfter() override;
     Table getNextTAfterByBefore(StmtNo before) override;
     Table getNextTBeforeByAfter(StmtNo after) override;
+    */
 
     Table getParentTable() override;
     Table getParentAllChildren() override;

@@ -6,7 +6,14 @@
 
 class QueryPkbVirtual {
 public:
-    // entities --------------------------------------------------------------
+
+    // on-demand --------------------------------------------------------------
+    virtual bool checkAffects(StmtNo affector, StmtNo affected) = 0;
+    virtual bool checkNextT(StmtNo before, StmtNo after) = 0;
+    virtual bool resetAffects() = 0;
+    virtual bool resetNextT() = 0;
+
+    // entities ----------------------------------------------------`----------
     // (StmtNo | ProcName)
     virtual Table getCallTable() = 0;
     virtual Table getCallAllStmts() = 0;
@@ -66,12 +73,14 @@ public:
 
     // relations --------------------------------------------------------------
 
+    /*
     // (StmtNo | StmtNo)
     virtual Table getAffectsTable() = 0; // generated each query
-    virtual Table getAffectsAllBefore() = 0;
-    virtual Table getAffectsAllAfter() = 0;
-    virtual Table getAffectsAfterByBefore(StmtNo before) = 0;
-    virtual Table getAffectsBeforeByAfter(StmtNo after) = 0;
+    virtual Table getAffectsAllAffectors() = 0;
+    virtual Table getAffectsAllAffected() = 0;
+    virtual Table getAffectsAffectedByAffector(StmtNo affector) = 0;
+    virtual Table getAffectsAffectorsByAffected(StmtNo affected) = 0;
+     */
 
     // (ProcName | ProcName)
     virtual Table getCallsTable() = 0;
@@ -122,12 +131,14 @@ public:
     virtual Table getNextAfterByBefore(StmtNo before) = 0;
     virtual Table getNextBeforeByAfter(StmtNo after) = 0;
 
+    /*
     // (StmtNo | StmtNo)
     virtual Table getNextTTable() = 0; // generated each query
     virtual Table getNextTAllBefore() = 0;
     virtual Table getNextTAllAfter() = 0;
     virtual Table getNextTAfterByBefore(StmtNo before) = 0;
     virtual Table getNextTBeforeByAfter(StmtNo after) = 0;
+     */
 
     // (StmtNo | StmtNo)
     virtual Table getParentTable() = 0;

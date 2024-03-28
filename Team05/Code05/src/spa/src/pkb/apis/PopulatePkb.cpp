@@ -4,6 +4,14 @@ PopulatePkb::PopulatePkb(std::shared_ptr<PkbStorage> p) {
     pkb = std::move(p);
 }
 
+// ----------- on-demand
+bool setAffectsObj() {
+    return false;
+}
+bool setNextTObj() {
+    return false;
+}
+
 // ----------- entity
 bool PopulatePkb::addCallStmt(int stmtNo, std::string name) {
     return pkb->callTable->add(stmtNo, name);
@@ -37,10 +45,6 @@ bool PopulatePkb::addVar(int stmtNo, std::string name) {
 }
 
 // ----------- relation
-bool PopulatePkb::addAffects(int before, int after) {
-    return pkb->affectsTable->add(before, after);
-}
-
 bool PopulatePkb::addCalls(std::string caller, std::string called) {
     return pkb->callsTable->add(caller, called);
 }
@@ -67,10 +71,6 @@ bool PopulatePkb::addModifiesS(int stmtNo, std::string name) {
 
 bool PopulatePkb::addNext(int before, int after) {
     return pkb->nextTable->add(before, after);
-}
-
-bool PopulatePkb::addNextT(int before, int after) {
-    return pkb->nextTTable->add(before, after);
 }
 
 bool PopulatePkb::addParent(int parent, int child) {

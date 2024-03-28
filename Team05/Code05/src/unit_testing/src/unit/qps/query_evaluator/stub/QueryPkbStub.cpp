@@ -95,7 +95,19 @@ void QueryPkbStub::setCallsT(Table t) {
     callsTTable = std::move(t);
 }
 
-// implement the rest of the functions for call, const, if, print, proc, read
+bool checkAffects(StmtNo affector, StmtNo affected) {
+    return false;
+}
+bool checkNextT(StmtNo before, StmtNo after) {
+    return false;
+}
+bool resetAffects() {
+    return false;
+}
+bool resetNextT() {
+    return false;
+}
+
 Table QueryPkbStub::getCallTable() {
     return callTable;
 }
@@ -248,19 +260,19 @@ Table QueryPkbStub::getAffectsTable() {
     return affectsTable;
 }
 
-Table QueryPkbStub::getAffectsAllBefore() {
+Table QueryPkbStub::getAffectsAllAffectors() {
     return {{}};
 }
 
-Table QueryPkbStub::getAffectsAllAfter() {
+Table QueryPkbStub::getAffectsAllAffected() {
     return {{}};
 }
 
-Table QueryPkbStub::getAffectsAfterByBefore(StmtNo before) {
+Table QueryPkbStub::getAffectsAffectedByAffector(StmtNo before) {
     return {{}};
 }
 
-Table QueryPkbStub::getAffectsBeforeByAfter(StmtNo after) {
+Table QueryPkbStub::getAffectsAffectorsByAffected(StmtNo after) {
     return {{}};
 }
 
@@ -272,7 +284,6 @@ Table QueryPkbStub::getCallsAllCallers() {
     return {{}};
 }
 
-// implement all the remaining unimplemented tables at the bottom of the file
 Table QueryPkbStub::getCallsAllCalled() {
     return {{}};
 }
