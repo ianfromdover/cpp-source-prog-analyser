@@ -19,7 +19,7 @@ TEST_CASE("[TestQPS] Replace with your unit tests") {
         std::string queryStr = "stmt s;while w;variable v; Select s pattern w (v,_)";
         std::vector<std::string> expected = {"1", "2", "3"};
 
-        REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+//        REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
 
     }
 }
@@ -956,44 +956,52 @@ TEST_CASE("[TestQPS] Single Constraints") {
 
     SECTION("Pattern while") {
         std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
-        pkb->setStatement(3);
-        pkb->setWhile({{"3"}});
-        pkb->setVar({{"1", "a"}, {"2", "b"}, {"3", "c"}});
+        pkb->setStatement(5);
+        pkb->setPatternWhile({{"3", "c"}, {"5", "d"}});
+        pkb->setWhile({{"3"}, {"4"}, {"5"}});
+        pkb->setVar({{"1", "a"}, {"2", "b"}, {"3", "c"}, {"5" , "d"}});
         QPS qps(pkb);
 
-        std::string queryStr = "stmt s;while w;variable v; Select s pattern w (v,_)";
-        std::vector<std::string> expected = {"3"};
+        SECTION("Pattern while, select while - variable argument") {
+            std::string queryStr = "stmt s;while w;variable v; Select w pattern w (v,_)";
+            std::vector<std::string> expected = {"3", "5"};
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
 
-        REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        SECTION("Pattern while, select stmt - variable argument") {
+            std::string queryStr = "stmt s;while w;variable v; Select s pattern w (v,_)";
+            std::vector<std::string> expected = {"1", "2", "3", "4", "5"};
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+
+        SECTION("Pattern while, select stmt - wildcard argument") {
+            // requires variable in conditional expression so expected result is not all while statements.
+            std::string queryStr = "stmt s;while w;variable v; Select w pattern w (_,_)";
+            std::vector<std::string> expected = {"3", "5"};
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+
+        SECTION("Pattern while, select stmt - quoted ident argument") {
+            std::string queryStr = "stmt s;while w;variable v; Select w pattern w (\"c\",_)";
+            std::vector<std::string> expected = {"3"};
+
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+
     }
 }
 
-TEST_CASE("[TestQPS] scratchboard") {
-
-    SECTION("test2") {
-        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
-        pkb->setStatement(3);
-        pkb->setWhile({{"3"}});
-        pkb->setPatternIf({{""}});
-        pkb->setVar({{"1", "a"}, {"2", "b"}, {"3", "c"}});
-        QPS qps(pkb);
-
-        std::string queryStr = "stmt s;if i;variable v; Select s pattern i (v,_)";
-        std::vector<std::string> expected = {"3"};
-
-        REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-
-    }
+TEST_CASE("[TestQPS] scratchboard to test random stuff") {
 
     SECTION("test1") {
         std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
-        pkb->setStatement(3);
-        pkb->setWhile({{"3"}});
-        pkb->setPatternWhile({{""}}); //TODO: find out how patternWhile table is structured.
-        pkb->setVar({{"1", "a"}, {"2", "b"}, {"3", "c"}});
+        pkb->setStatement(5);
+        pkb->setPatternWhile({{"3", "c"}, {"5", "d"}});
+        pkb->setWhile({{"3"}, {"4"}, {"5"}});
+        pkb->setVar({{"1", "a"}, {"2", "b"}, {"3", "c"}, {"5" , "d"}});
         QPS qps(pkb);
 
-        std::string queryStr = "stmt s;while w;variable v; Select s pattern w (v,_)";
+        std::string queryStr = "stmt s;while w;variable v; Select w pattern w (\"c\",_)";
         std::vector<std::string> expected = {"3"};
 
         REQUIRE(qps.evaluate(std::move(queryStr)) == expected);

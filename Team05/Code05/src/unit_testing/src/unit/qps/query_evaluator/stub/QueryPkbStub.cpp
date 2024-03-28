@@ -272,7 +272,7 @@ Table QueryPkbStub::getPatternIfByVar(VarName var) {
     return {{}};
 }
 Table QueryPkbStub::getPatternIfTable() {
-    return table;
+    return patternIfTable;
 }
 Table QueryPkbStub::getPatternWhileByNum(StmtNo sNum) {
     return {{}};
@@ -281,7 +281,7 @@ Table QueryPkbStub::getPatternWhileByVar(VarName var) {
     return {{}};
 }
 Table QueryPkbStub::getPatternWhileTable() {
-    return table;
+    return patternWhileTable;
 }
 Table QueryPkbStub::getCallsByCaller(ProcName caller) {
     return {{}};

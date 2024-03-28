@@ -23,16 +23,7 @@ std::vector<std::shared_ptr<ConstraintArgument>> WhilePatternConstraint::getCons
 }
 
 std::vector<std::vector<std::string>> WhilePatternConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
-    std::vector<std::vector<std::string>> temp = pkb.getPatternWhileTable();
-    std::vector<std::vector<std::string>> res;
-
-    for (const auto& entry : temp){
-        // guaranteed 2 columns
-        std::string stmtNo = entry[0];
-        std::string lhs = entry[1].substr(0, entry[1].find('='));
-        std::string rhs = entry[1].substr(entry[1].find('=')+1);
-        res.push_back({stmtNo, lhs,rhs});
-    }
+    Table res = pkb.getPatternWhileTable();
 
     std::vector<std::shared_ptr<ConstraintArgument>> args = getConstraintArguments();
 
@@ -45,7 +36,7 @@ std::vector<std::vector<std::string>> WhilePatternConstraint::getRelationshipTab
     if (args[0]->getEntityType() == TYPE_VARIABLE){
         std::vector<std::vector<std::string>> t = args[0]->getEntityTable(pkb);
         ResultTable entityTable(t);
-        entityTable.removeColumnByIndex(0);
+//        entityTable.removeColumnByIndex(0);
         table.add(entityTable.getTable());
     } else if (args[0]->getEntityType() == TYPE_QUOTED_IDENT){
         std::string string1=args[0]->getArgumentValue();
