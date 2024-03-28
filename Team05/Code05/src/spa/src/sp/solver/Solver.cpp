@@ -6,9 +6,9 @@
 #include <queue>
 
 template <typename T>
-void Solver<T>::solve(const std::shared_ptr<CFG>& cfg, Meet meet, Transfer transfer, T init) {
-    std::unordered_map<std::shared_ptr<Block>, T> in;
-    std::unordered_map<std::shared_ptr<Block>, T> out;
+auto Solver<T>::solve(const std::shared_ptr<CFG>& cfg, Meet meet, Transfer transfer, T init) -> std::pair<Facts, Facts> {
+    Facts in;
+    Facts out;
     std::queue<std::shared_ptr<Block>> worklist;
 
     in.insert({ cfg->getEntryBlock(), init });
@@ -36,4 +36,6 @@ void Solver<T>::solve(const std::shared_ptr<CFG>& cfg, Meet meet, Transfer trans
             }
         }
     }
+
+    return { std::move(in), std::move(out) };
 }
