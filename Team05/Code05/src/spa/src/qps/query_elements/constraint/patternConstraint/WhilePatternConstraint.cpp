@@ -24,7 +24,7 @@ std::vector<std::shared_ptr<ConstraintArgument>> WhilePatternConstraint::getCons
 }
 
 std::vector<std::vector<std::string>> WhilePatternConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
-    std::vector<std::vector<std::string>> temp = pkb.getPatternAsgnTable(); // TODO: get pattern if
+    std::vector<std::vector<std::string>> temp = pkb.getPatternWhileTable();
     std::vector<std::vector<std::string>> res;
 
     for (const auto& entry : temp){
@@ -39,9 +39,8 @@ std::vector<std::vector<std::string>> WhilePatternConstraint::getRelationshipTab
 
     std::string stmtHeader = constraintIdentifier->getIdentifier();
     std::string lhsHeader = args[0]->getEntityType() == TYPE_VARIABLE ? args[0]->getArgumentValue() : "WHILEPATLHS";
-    std::string rhsHeader = "WHILEPATRHS";
 
-    res.insert(res.begin(), {stmtHeader, lhsHeader, rhsHeader});
+    res.insert(res.begin(), {stmtHeader, lhsHeader});
     ResultTable table(res);
 
     if (args[0]->getEntityType() == TYPE_VARIABLE){
@@ -55,17 +54,7 @@ std::vector<std::vector<std::string>> WhilePatternConstraint::getRelationshipTab
         table.filterByColumnExact(lhsHeader,stripped);
     }
 
-    if (args[1]->getEntityType()== TYPE_EXPRESSION){
-        std::string string1=args[1]->getArgumentValue();
-        string stripped = stripCharacters(string1,"\"");
-        table.filterByColumnExact(rhsHeader,stripped);
-    } else if (args[1]->getEntityType()==TYPE_EXPRESSION_W_WILDCARD){
-        std::string string1=args[1]->getArgumentValue();
-        string stripped = stripCharacters(string1,"\"");
-        table.filterByColumnPartial(rhsHeader,"\\b" + stripped + "\\b");
-    }
-
-    for (const std::string& header : {"WHILEPATLHS", "WHILEPATRHS"}){
+    for (const std::string& header : {"WHILEPATLHS"}){
         table.removeColumnByHeader(const_cast<string &>(header));
     }
 
