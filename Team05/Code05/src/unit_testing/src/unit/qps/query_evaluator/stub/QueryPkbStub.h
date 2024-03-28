@@ -30,6 +30,8 @@ private:
     std::vector<std::vector<std::string>> modifiesSTable;
     std::vector<std::vector<std::string>> modifiesPTable;
     std::vector<std::vector<std::string>> patternAsgnTable;
+    std::vector<std::vector<std::string>> patternWhileTable;
+    std::vector<std::vector<std::string>> patternIfTable;
     std::vector<std::vector<std::string>> callsTable;
     std::vector<std::vector<std::string>> callsTTable;
     std::vector<std::vector<std::string>> nextTable;
@@ -55,6 +57,8 @@ public:
     void setModifies(std::vector<std::vector<std::string>> t);
     void setModifiesP(std::vector<std::vector<std::string>> t);
     void setPatternAsgn(std::vector<std::vector<std::string>> t);
+    void setPatternWhile(std::vector<std::vector<std::string>> t);
+    void setPatternIf(std::vector<std::vector<std::string>> t);
     void setCalls(std::vector<std::vector<std::string>> t);
     void setCallsT(std::vector<std::vector<std::string>> t);
 

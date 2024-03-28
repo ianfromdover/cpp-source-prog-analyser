@@ -16,7 +16,7 @@ AssignPatternConstraint::AssignPatternConstraint(std::shared_ptr<EntityReference
 }
 
 std::string AssignPatternConstraint::getConstraintType() {
-    return CONSTRAINT_CLASS_PATTERN;
+    return CONSTRAINT_TYPE_PATTERN_ASSIGN;
 }
 
 std::shared_ptr<Entity> AssignPatternConstraint::getPatternConstraintIdentifier() {

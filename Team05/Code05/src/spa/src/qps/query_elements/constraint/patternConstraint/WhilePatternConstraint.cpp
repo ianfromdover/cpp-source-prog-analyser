@@ -7,12 +7,11 @@
 // Second argument in patternConstraint can only be wildcard.
 WhilePatternConstraint::WhilePatternConstraint(std::shared_ptr<EntityReference> arg1, std::shared_ptr<WhileEntity> assignment) {
     constraintArguments.push_back(arg1);
-    constraintArguments.push_back(ConstraintArgCreator::createStatementRefWildcard());
     constraintIdentifier = std::move(assignment);
 }
 
 std::string WhilePatternConstraint::getConstraintType() {
-    return CONSTRAINT_CLASS_PATTERN;
+    return CONSTRAINT_TYPE_PATTERN_WHILE;
 }
 
 std::shared_ptr<Entity> WhilePatternConstraint::getPatternConstraintIdentifier() {

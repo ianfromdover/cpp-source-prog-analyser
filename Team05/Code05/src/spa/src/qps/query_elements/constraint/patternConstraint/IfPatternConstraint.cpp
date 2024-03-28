@@ -11,7 +11,7 @@ IfPatternConstraint::IfPatternConstraint(std::shared_ptr<EntityReference> arg1, 
 }
 
 std::string IfPatternConstraint::getConstraintType() {
-    return CONSTRAINT_CLASS_PATTERN;
+    return CONSTRAINT_TYPE_PATTERN_IF;
 }
 
 std::shared_ptr<Entity> IfPatternConstraint::getPatternConstraintIdentifier() {

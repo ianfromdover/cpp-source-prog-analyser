@@ -940,8 +940,8 @@ TEST_CASE("[TestQPS] Single Constraints") {
 
     SECTION("ModifiesP") {
         std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
-      pkb->setProcedure({{"a"}, {"b"}});
-      pkb->setVar({{"c", "c"}, {"d", "d"}});
+        pkb->setProcedure({{"a"}, {"b"}});
+        pkb->setVar({{"c", "c"}, {"d", "d"}});
         pkb->setModifiesP({{"a", "c"}, {"a", "d"}, {"b", "d"}});
         QPS qps(pkb);
 
@@ -952,6 +952,52 @@ TEST_CASE("[TestQPS] Single Constraints") {
 
             REQUIRE(qps.evaluate(queryStr) == expected);
         }
+    }
+
+    SECTION("Pattern while") {
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
+        pkb->setStatement(3);
+        pkb->setWhile({{"3"}});
+        pkb->setVar({{"1", "a"}, {"2", "b"}, {"3", "c"}});
+        QPS qps(pkb);
+
+        std::string queryStr = "stmt s;while w;variable v; Select s pattern w (v,_)";
+        std::vector<std::string> expected = {"3"};
+
+        REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+    }
+}
+
+TEST_CASE("[TestQPS] scratchboard") {
+
+    SECTION("test2") {
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
+        pkb->setStatement(3);
+        pkb->setWhile({{"3"}});
+        pkb->setPatternIf({{""}});
+        pkb->setVar({{"1", "a"}, {"2", "b"}, {"3", "c"}});
+        QPS qps(pkb);
+
+        std::string queryStr = "stmt s;if i;variable v; Select s pattern i (v,_)";
+        std::vector<std::string> expected = {"3"};
+
+        REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+
+    }
+
+    SECTION("test1") {
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
+        pkb->setStatement(3);
+        pkb->setWhile({{"3"}});
+        pkb->setPatternWhile({{""}}); //TODO: find out how patternWhile table is structured.
+        pkb->setVar({{"1", "a"}, {"2", "b"}, {"3", "c"}});
+        QPS qps(pkb);
+
+        std::string queryStr = "stmt s;while w;variable v; Select s pattern w (v,_)";
+        std::vector<std::string> expected = {"3"};
+
+        REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+
     }
 }
 
