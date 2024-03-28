@@ -15,7 +15,8 @@ TEST_CASE("[TestQPS] Replace with your unit tests") {
         pkb->setStatement(3);
         QPS qps(pkb);
 
-        std::string queryStr = "stmt s; Select s";
+        //std::string queryStr = "stmt s;if i;variable v; Select s pattern i (v,_,_)";
+        std::string queryStr = "stmt s;while w;variable v; Select s pattern w (v,_)";
         std::vector<std::string> expected = {"1", "2", "3"};
 
         REQUIRE(qps.evaluate(std::move(queryStr)) == expected);

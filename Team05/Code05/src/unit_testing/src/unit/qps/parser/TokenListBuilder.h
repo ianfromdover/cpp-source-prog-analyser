@@ -24,6 +24,10 @@ public:
         return stmt().identifier().semicolon();
     };
 
+    TokenListBuilder singleIfDeclaration() {
+        return ifStmt().identifier().semicolon();
+    };
+
     TokenListBuilder multiStmtDeclaration() {
         return stmt().identifier().comma().identifier().semicolon();
     };
@@ -60,7 +64,15 @@ public:
         return procedure().identifier().comma().identifier().semicolon();
     };
 
-    TokenListBuilder validPattern(){
+    TokenListBuilder validIfPattern(){
+        return pattern().identifier().leftParen().identifier().comma().wildcard().comma().wildcard().rightParen();
+    }
+
+    TokenListBuilder validWhilePattern(){
+        return pattern().identifier().leftParen().identifier().comma().wildcard().rightParen();
+    };
+
+    TokenListBuilder validAssignPattern(){
         return pattern().identifier().leftParen().identifier().comma().wildcard().rightParen();
     };
 

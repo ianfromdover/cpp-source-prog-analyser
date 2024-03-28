@@ -265,11 +265,15 @@ std::shared_ptr<PatternClause> QPSParser::assignPattern() {
       QPSToken exprSpec = this->exprSpec();
       this->consume(QPSTokenType::RIGHT_PAREN, "Expect ')' after expr spec.");
 
-      PatternClause patternCl(synAssign.getLexeme(), entRef,
-                              QPSTokenType::QPSTypeInfo::ENT_REF, exprSpec,
-                              QPSTokenType::EXPR_REF);
+//      PatternClause patternCl(synAssign.getLexeme(), entRef,
+//                              QPSTokenType::QPSTypeInfo::ENT_REF, exprSpec,
+//                              QPSTokenType::EXPR_REF);
 
-      return std::make_shared<PatternClause>(patternCl);
+      PatternClause patternCl1(synAssign.getLexeme());
+      patternCl1.addArg(entRef, QPSTokenType::ENT_REF);
+        patternCl1.addArg(exprSpec, QPSTokenType::EXPR_REF);
+
+      return std::make_shared<PatternClause>(patternCl1);
     } catch (QPSParseException &e) {
       current = state;
       return nullptr;
@@ -287,10 +291,13 @@ std::shared_ptr<PatternClause> QPSParser::whilePattern() {
     QPSToken wildcard = this->consume(QPSTokenType::WILDCARD, "Expect '_' as second argument");
     this->consume(QPSTokenType::RIGHT_PAREN, "Expect ')' after expr spec.");
 
-    PatternClause patternCl(synAssign.getLexeme(), entRef, QPSTokenType::QPSTypeInfo::ENT_REF, wildcard,
-                            QPSTokenType::EXPR_REF);
+    //PatternClause patternCl(synAssign.getLexeme(), entRef, QPSTokenType::QPSTypeInfo::ENT_REF, wildcard,
+    //                        QPSTokenType::EXPR_REF);
+    PatternClause patternCl1(synAssign.getLexeme());
+    patternCl1.addArg(entRef, QPSTokenType::ENT_REF);
+    patternCl1.addArg(wildcard, QPSTokenType::ENT_REF);
 
-    return std::make_shared<PatternClause>(patternCl);
+    return std::make_shared<PatternClause>(patternCl1);
   } catch (QPSParseException &e) {
     current = state;
     return nullptr;
@@ -300,7 +307,7 @@ std::shared_ptr<PatternClause> QPSParser::whilePattern() {
 std::shared_ptr<PatternClause> QPSParser::ifPattern() {
   int state = current;
   try {
-    QPSToken synAssign = this->synonym(this->consume(QPSTokenType::IDENTIFIER, "Expect identifier."));
+    QPSToken synIf = this->synonym(this->consume(QPSTokenType::IDENTIFIER, "Expect identifier."));
 
     this->consume(QPSTokenType::LEFT_PAREN, "Expect '(' after identifier.");
     QPSToken entRef = this->entRef();
@@ -310,10 +317,13 @@ std::shared_ptr<PatternClause> QPSParser::ifPattern() {
     QPSToken wildcard2 = this->consume(QPSTokenType::WILDCARD, "Expect '_' as third argument");
     this->consume(QPSTokenType::RIGHT_PAREN, "Expect ')' after expr spec.");
 
-    PatternClause patternCl(synAssign.getLexeme(), entRef, QPSTokenType::QPSTypeInfo::ENT_REF, wildcard,
-                            QPSTokenType::EXPR_REF);
+    PatternClause patternCl1(synIf.getLexeme());
+    patternCl1.addArg(entRef, QPSTokenType::ENT_REF);
+    patternCl1.addArg(wildcard, QPSTokenType::ENT_REF);
+    patternCl1.addArg(wildcard2, QPSTokenType::ENT_REF);
 
-    return std::make_shared<PatternClause>(patternCl);
+
+    return std::make_shared<PatternClause>(patternCl1);
   } catch (QPSParseException &e) {
     current = state;
     return nullptr;

@@ -10,18 +10,26 @@ std::string PatternSynDeclarationRule::validate(IntermediateQuery& query) {
     std::string patternSyn = query.getPatternClause()->getPatternSynonym(); // Assumed to only have one select element
 
     for (const auto& clause : query.clauses){
-        if (clause->getType() == Clause::ClauseType::DECLARATION) {
-            std::shared_ptr<DeclarationClause> declarationCl = std::dynamic_pointer_cast<DeclarationClause>(clause);
-            for (const auto& kvp : declarationCl->getAllDeclarations()){
-                if (kvp.first == QPSTokenType::QPSTypeInfo::ASSIGN && kvp.second == patternSyn) {
-                    return "";
-                }
-                if (kvp.first == QPSTokenType::QPSTypeInfo::WHILE && kvp.second == patternSyn) {
-                  return "";
-                }
+        if (clause->getType() == Clause::ClauseType::PATTERN) {
+            auto synonymTypeMap = query.getSynonymTypeMap();
+            PatternClause cl = static_cast<PatternClause&>(*clause);
+            if (!(validatePatternClause(cl, synonymTypeMap))) {
+                return VALIDATION_RULE_SYN_ASSIGN_DECLARATION;
             }
         }
     }
 
-    return VALIDATION_RULE_SYN_ASSIGN_DECLARATION;
+    return "";
+}
+
+bool PatternSynDeclarationRule::validatePatternClause(PatternClause & cl, std::map<std::string,QType> declarationTypeMap){
+    std::string patternSyn = cl.getPatternSynonym();
+
+    auto it = declarationTypeMap.find(patternSyn);
+
+    if (it == declarationTypeMap.end()){
+        return false;
+    }
+
+    return it->second == QType::ASSIGN || it->second == QType::WHILE || it->second == QType::IF;
 }

@@ -7,7 +7,7 @@
 void IfPatternConstraintBuilder::addPatternClause(std::shared_ptr<PatternClause> pattern, shared_ptr<QueryObject> qo) {
     std::string synName = pattern->getPatternSynonym();
     syn = ConstraintArgCreator::createIfEntity(synName);
-    arg1 = buildArgAsEntityRef(pattern->getFirstArg(), pattern->getFirstReferenceType(), qo);
+    arg1 = buildArgAsEntityRef(pattern->getArgAtIndex(0), pattern->getReferenceTypeAtIndex(0), qo);
     shared_ptr<IfPatternConstraint> patternConstraint =  make_shared<IfPatternConstraint>(arg1, syn);
     constraintClause = patternConstraint;
 }

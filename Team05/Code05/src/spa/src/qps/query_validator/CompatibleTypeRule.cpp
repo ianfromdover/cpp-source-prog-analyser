@@ -16,7 +16,7 @@ std::string CompatibleTypeRule::validate(IntermediateQuery & query) {
         }
     }
     if (query.hasPatternClause()){
-        results += validatePattern(*query.getPatternClause(),declarationMap);
+        //results += validatePattern(*query.getPatternClause(),declarationMap);
     }
     return results;
 }
@@ -76,18 +76,18 @@ std::string CompatibleTypeRule::validatePattern(PatternClause cl, std::map<std::
         patternSynType = declarationMap.find(cl.getPatternSynonym())->second;
   }
 
-  if (patternSynType == QPSTokenType::QPSTypeInfo::ASSIGN || patternSynType == QPSTokenType::QPSTypeInfo::WHILE) {
-    QPSTokenType::QPSTypeInfo arg1Type =
-        cl.getFirstArgType() == QPSTokenType::QPSTypeInfo::SYNONYM
-            ? declarationMap.find(cl.getFirstArg().getLexeme())->second
-            : cl.getFirstArgType();
-
-    if (arg1Type == QPSTokenType::QPSTypeInfo::VARIABLE ||
-        arg1Type == QPSTokenType::QPSTypeInfo::QUOTED_IDENT ||
-        arg1Type == QPSTokenType::QPSTypeInfo::WILDCARD) {
-      return "";
-    }
-  }
+//  if (patternSynType == QPSTokenType::QPSTypeInfo::ASSIGN || patternSynType == QPSTokenType::QPSTypeInfo::WHILE) {
+//    QPSTokenType::QPSTypeInfo arg1Type =
+//        cl.getFirstArgType() == QPSTokenType::QPSTypeInfo::SYNONYM
+//            ? declarationMap.find(cl.getFirstArg().getLexeme())->second
+//            : cl.getFirstArgType();
+//
+//    if (arg1Type == QPSTokenType::QPSTypeInfo::VARIABLE ||
+//        arg1Type == QPSTokenType::QPSTypeInfo::QUOTED_IDENT ||
+//        arg1Type == QPSTokenType::QPSTypeInfo::WILDCARD) {
+//      return "";
+//    }
+//  }
 
   return VALIDATION_RULE_PATTERN_ARGUMENT;
 }

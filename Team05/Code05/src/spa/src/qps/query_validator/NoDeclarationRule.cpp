@@ -17,8 +17,8 @@ std::string NoDeclarationRule::validate(IntermediateQuery & query) {
     for (const auto& clause : query.clauses){
         if (clause->getType() == Clause::ClauseType::PATTERN) {
             std::shared_ptr<PatternClause> patternCl = std::dynamic_pointer_cast<PatternClause>(clause);
-            if (patternCl->getFirstArgType() == QPSTokenType::QPSTypeInfo::SYNONYM){
-                usedSyns.push_back(patternCl->getFirstArgValue());
+            if (patternCl->getArgTypeAtIndex(0) == QPSTokenType::QPSTypeInfo::SYNONYM){
+                usedSyns.push_back(patternCl->getArgValueAtIndex(0));
             }
             // Expression Spec cannot be a synonym, no need to check
         }

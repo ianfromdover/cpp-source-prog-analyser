@@ -22,6 +22,12 @@ private:
       std::map<std::string, QPSTokenType::QPSTypeInfo> declarationMap);
   static bool isStatementType(const QPSTokenType::QPSTypeInfo &type);
 
+  static inline std::map<QType ,int> typeArgCountMap = {
+          {QType::ASSIGN, 2},
+          {QType::WHILE, 2},
+          {QType::IF, 3}
+  };
+
   static inline std::map<QPSTokenType::QPSTypeInfo,
                          std::pair<std::vector<QPSTokenType::QPSTypeInfo>,
                                    std::vector<QPSTokenType::QPSTypeInfo>>>
