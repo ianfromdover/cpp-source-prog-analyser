@@ -7,8 +7,13 @@
 #include <utility>
 
 void AssignPatternConstraintBuilder::addPatternClause(std::shared_ptr<PatternClause> pattern, shared_ptr<QueryObject> qo) {
-    std::string synName = pattern->getPatternSynonym();
-    syn = ConstraintArgCreator::createAssignEntity(synName);
+//    std::string synName = pattern->getPatternSynonym();
+//    syn = ConstraintArgCreator::createAssignEntity(synName);
+    auto entity = qo->getEntityInDeclaration(pattern->getPatternSynonym());
+    if (entity->getEntityType() != TYPE_ASSIGN) {
+        throw QPSException("Not of type assign for assign pattern");
+    }
+    syn = dynamic_pointer_cast<AssignEntity>(entity);
     arg1 = buildArgAsEntityRef(pattern->getArgAtIndex(0), pattern->getReferenceTypeAtIndex(0), qo);
     arg2 = buildArgAsExpressionRef(pattern->getArgAtIndex(1), pattern->getReferenceTypeAtIndex(1), qo);
     shared_ptr<AssignPatternConstraint> patternConstraint =  make_shared<AssignPatternConstraint>(arg1, arg2, syn);
