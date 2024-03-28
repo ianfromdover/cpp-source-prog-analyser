@@ -5,10 +5,10 @@ PopulatePkb::PopulatePkb(std::shared_ptr<PkbStorage> p) {
 }
 
 // ----------- on-demand
-bool setAffectsObj() {
+bool PopulatePkb::setAffectsObj() {
     return false;
 }
-bool setNextTObj() {
+bool PopulatePkb::setNextTObj() {
     return false;
 }
 

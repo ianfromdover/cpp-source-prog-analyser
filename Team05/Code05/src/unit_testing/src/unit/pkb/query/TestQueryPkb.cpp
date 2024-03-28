@@ -852,39 +852,41 @@ TEST_CASE("Test QueryPkb getNext methods") {
 }
 
 
+/*
 TEST_CASE("Test QueryPkb getNextT methods") {
 
-    std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
-    QueryPkb queryPkb(pkb);
+std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
+QueryPkb queryPkb(pkb);
 
-    // Add records to nextTTable
-    pkb->nextTTable->add(1, 2);
-    pkb->nextTTable->add(2, 3);
-    pkb->nextTTable->add(2, 4);
-    pkb->nextTTable->add(1, 4);
+// Add records to nextTTable
+pkb->nextTTable->add(1, 2);
+pkb->nextTTable->add(2, 3);
+pkb->nextTTable->add(2, 4);
+pkb->nextTTable->add(1, 4);
 
-    SECTION("Test getNextTByBefore() method") {
+SECTION("Test getNextTByBefore() method") {
 
-        Table test = queryPkb.getNextTAfterByBefore(1);
-        REQUIRE(test.size() == 2);
-        REQUIRE(TableUtils::isPresent(test, {{"2"}, {"4"}}));
+    Table test = queryPkb.getNextTAfterByBefore(1);
+    REQUIRE(test.size() == 2);
+    REQUIRE(TableUtils::isPresent(test, {{"2"}, {"4"}}));
 
-    }
-
-    SECTION("Test getNextTByAfter() method") {
-
-        Table test = queryPkb.getNextTBeforeByAfter(4);
-        REQUIRE(test.size() == 2);
-        REQUIRE(TableUtils::isPresent(test, {{"1"}, {"2"}}));
-
-    }
-
-    SECTION("Test getNextTTable() method") {
-
-        // Retrieve nextTTable and verify its contents
-        Table nextTTable = queryPkb.getNextTTable();
-        REQUIRE(nextTTable.size() == 4);
-        REQUIRE(TableUtils::isPresent(nextTTable, {{"1", "2"}, {"2", "3"}, {"1", "4"}, {"2", "4"}}));
-
-    }
 }
+
+SECTION("Test getNextTByAfter() method") {
+
+    Table test = queryPkb.getNextTBeforeByAfter(4);
+    REQUIRE(test.size() == 2);
+    REQUIRE(TableUtils::isPresent(test, {{"1"}, {"2"}}));
+
+}
+
+SECTION("Test getNextTTable() method") {
+
+    // Retrieve nextTTable and verify its contents
+    Table nextTTable = queryPkb.getNextTTable();
+    REQUIRE(nextTTable.size() == 4);
+    REQUIRE(TableUtils::isPresent(nextTTable, {{"1", "2"}, {"2", "3"}, {"1", "4"}, {"2", "4"}}));
+
+}
+}
+ */

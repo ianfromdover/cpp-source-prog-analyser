@@ -12,6 +12,14 @@ class PkbStubSp : public BasePkbPopulator {
     std::multiset<std::string> singleCalls;
 
 public:
+    // add param after SP implements
+    bool setAffectsObj() override {
+        return false;
+    }
+    // add param after SP implements
+    bool setNextTObj() override {
+        return false;
+    }
     bool addRead(StmtNo sNum, VarName name) override {
         //std::cout << "addRead called" << std::endl;
         pairCalls.insert({std::to_string(sNum), name});
@@ -122,21 +130,9 @@ public:
 
     // TODO: check again, now is just to make it compile
 
-    bool addAffects(int before, int after) override {
-        //std::cout << "addAffects called" << std::endl;
-        pairCalls.insert({std::to_string(before), std::to_string(after)});
-        return true;
-    }
-
     bool addNext(int before, int after) override {
         //std::cout << "addAffects called" << std::endl;
         pairCalls.insert({std::to_string(before), std::to_string(after)});
-        return true;
-    }
-
-    bool addNextT(int before, int after) override {
-        //std::cout << "addAffects called" << std::endl;
-        pairCallsT.insert({std::to_string(before), std::to_string(after)});
         return true;
     }
 

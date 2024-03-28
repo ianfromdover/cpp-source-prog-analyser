@@ -115,11 +115,13 @@ public:
     Table getWhileStmtsByVar(VarName var) override;
 
     // relations --------------------------------------------------------------
+    /*
     Table getAffectsTable() override; // generated each query
     Table getAffectsAllAffectors() override;
     Table getAffectsAllAffected() override;
     Table getAffectsAffectedByAffector(StmtNo before) override;
     Table getAffectsAffectorsByAffected(StmtNo after) override;
+     */
 
     Table getCallsTable() override;
     Table getCallsAllCallers() override;
@@ -163,11 +165,13 @@ public:
     Table getNextAfterByBefore(StmtNo before) override;
     Table getNextBeforeByAfter(StmtNo after) override;
 
+    /*
     Table getNextTTable() override; // generated each query
     Table getNextTAllBefore() override;
     Table getNextTAllAfter() override;
     Table getNextTAfterByBefore(StmtNo before) override;
     Table getNextTBeforeByAfter(StmtNo after) override;
+     */
 
     Table getParentTable() override;
     Table getParentAllChildren() override;

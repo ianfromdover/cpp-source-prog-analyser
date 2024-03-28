@@ -13,16 +13,16 @@ QueryPkb::QueryPkb(std::shared_ptr<PkbStorage> p) {
 }
 
 // on-demand --------------------------------------------------------------
-bool checkAffects(StmtNo affector, StmtNo affected) {
+bool QueryPkb::checkAffects(StmtNo affector, StmtNo affected) {
     return false;
 }
-bool checkNextT(StmtNo before, StmtNo after) {
+bool QueryPkb::checkNextT(StmtNo before, StmtNo after) {
     return false;
 }
-bool resetAffects() {
+bool QueryPkb::resetAffects() {
     return false;
 }
-bool resetNextT() {
+bool QueryPkb::resetNextT() {
     return false;
 }
 

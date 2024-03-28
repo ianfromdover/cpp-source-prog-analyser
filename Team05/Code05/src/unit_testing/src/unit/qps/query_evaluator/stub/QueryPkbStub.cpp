@@ -95,16 +95,16 @@ void QueryPkbStub::setCallsT(Table t) {
     callsTTable = std::move(t);
 }
 
-bool checkAffects(StmtNo affector, StmtNo affected) {
+bool QueryPkbStub::checkAffects(StmtNo affector, StmtNo affected) {
     return false;
 }
-bool checkNextT(StmtNo before, StmtNo after) {
+bool QueryPkbStub::checkNextT(StmtNo before, StmtNo after) {
     return false;
 }
-bool resetAffects() {
+bool QueryPkbStub::resetAffects() {
     return false;
 }
-bool resetNextT() {
+bool QueryPkbStub::resetNextT() {
     return false;
 }
 
@@ -256,6 +256,7 @@ Table QueryPkbStub::getWhileStmtsByVar(VarName var) {
     return {{}};
 }
 
+/*
 Table QueryPkbStub::getAffectsTable() {
     return affectsTable;
 }
@@ -275,6 +276,7 @@ Table QueryPkbStub::getAffectsAffectedByAffector(StmtNo before) {
 Table QueryPkbStub::getAffectsAffectorsByAffected(StmtNo after) {
     return {{}};
 }
+ */
 
 Table QueryPkbStub::getCallsTable() {
     return callsTable;
@@ -416,6 +418,7 @@ Table QueryPkbStub::getNextBeforeByAfter(StmtNo after) {
     return {{}};
 }
 
+/*
 Table QueryPkbStub::getNextTTable() {
     return nextTTable;
 }
@@ -435,6 +438,7 @@ Table QueryPkbStub::getNextTAfterByBefore(StmtNo before) {
 Table QueryPkbStub::getNextTBeforeByAfter(StmtNo after) {
     return {{}};
 }
+ */
 
 Table QueryPkbStub::getParentTable() {
     return parentTable;
