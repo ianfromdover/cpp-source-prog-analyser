@@ -12,8 +12,9 @@ class Solver {
 public:
     using Meet = std::function<T(const T&, const T&)>;
     using Transfer = std::function<T(const std::shared_ptr<Block>&, const T&)>;
+    using Facts = std::unordered_map<std::shared_ptr<Block>, T>;
 public:
-    static void solve(const std::shared_ptr<CFG>& cfg, Meet meet, Transfer transfer, T init);
+    static auto solve(const std::shared_ptr<CFG>& cfg, Meet meet, Transfer transfer, T init) -> std::pair<Facts, Facts>;
 };
 
 
