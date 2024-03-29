@@ -104,6 +104,17 @@ std::string& CallsTConstraint::stripCharacters(std::string& str, const std::stri
 }
 
 std::size_t CallsTConstraint::hash() const {
-    // TODO
-    return 0;
+    std::hash<std::string> stringHasher;
+
+    std::string s1 = constraintArguments[0]->getArgumentValue();
+    std::string s2 = constraintArguments[1]->getArgumentValue();
+
+    std::size_t hashValue = 0;
+
+    // Combine hash values for both stringVars while maintaining their order
+    hashValue ^= stringHasher(CONSTRAINT_TYPE_CALLST) + HASH_OFFSET + (hashValue << 6) + (hashValue >> 2);
+    hashValue ^= stringHasher(s1) + HASH_OFFSET + (hashValue << 6) + (hashValue >> 2);
+    hashValue ^= stringHasher(s2) + HASH_OFFSET + (hashValue << 6) + (hashValue >> 2);
+
+    return hashValue;
 }

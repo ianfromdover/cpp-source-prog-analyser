@@ -95,6 +95,18 @@ std::string& AssignPatternConstraint::stripCharacters(std::string& str, const st
 }
 
 std::size_t AssignPatternConstraint::hash() const {
-    // TODO
-    return 0;
+    std::hash<std::string> stringHasher;
+
+    std::string s1 = constraintArguments[0]->getArgumentValue();
+    std::string s2 = constraintArguments[1]->getArgumentValue();
+
+    std::size_t hashValue = 0;
+
+    // Combine hash values for both stringVars while maintaining their order
+    // TODO: how does the pattern if, while, assign differentiate in the query object?
+    hashValue ^= stringHasher(CONSTRAINT_CLASS_PATTERN) + HASH_OFFSET + (hashValue << 6) + (hashValue >> 2);
+    hashValue ^= stringHasher(s1) + HASH_OFFSET + (hashValue << 6) + (hashValue >> 2);
+    hashValue ^= stringHasher(s2) + HASH_OFFSET + (hashValue << 6) + (hashValue >> 2);
+
+    return hashValue;
 }
