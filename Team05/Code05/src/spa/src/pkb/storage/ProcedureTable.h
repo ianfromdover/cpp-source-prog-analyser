@@ -15,9 +15,7 @@ private:
 public:
     ProcedureTable();
     // Adds a procedure name to the table, returns false if it already exists
-    bool addProc(ProcName name);
+    bool add(ProcName name);
     // Returns all the procedure names
-    vector<Str> getProcByName(ProcName name);
-    // Returns all the procedure names
-    Table getAllAsStrings();
+    Table getAll();
 };
