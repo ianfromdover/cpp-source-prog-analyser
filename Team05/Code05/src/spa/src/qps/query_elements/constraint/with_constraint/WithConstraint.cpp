@@ -31,3 +31,19 @@ std::vector<std::vector<std::string>> WithConstraint::getRelationshipTable(Query
 bool WithConstraint::isVariable(std::string s) {
     return s == TYPE_VAR_WITH;
 }
+
+std::size_t WithConstraint::hash() const {
+    std::hash<std::string> stringHasher;
+
+    std::string s1 = constraintArguments[0]->getArgumentValue();
+    std::string s2 = constraintArguments[1]->getArgumentValue();
+
+    std::size_t hashValue = 0;
+
+    // Combine hash values for both stringVars while maintaining their order
+    hashValue ^= stringHasher(CONSTRAINT_TYPE_WITH) + HASH_OFFSET + (hashValue << 6) + (hashValue >> 2);
+    hashValue ^= stringHasher(s1) + HASH_OFFSET + (hashValue << 6) + (hashValue >> 2);
+    hashValue ^= stringHasher(s2) + HASH_OFFSET + (hashValue << 6) + (hashValue >> 2);
+
+    return hashValue;
+}

@@ -6,7 +6,7 @@
 #define SPA_DUPLICATEREMOVALOPTIMIZER_H
 
 #include "../QueryOptimizer.h"
-#include "qps/query_elements/constraint/RelationshipConstraint.h"
+#include "qps/query_elements/constraint/relationship_constraint/RelationshipConstraint.h"
 
 class DuplicateRemovalOptimizer : public QueryOptimizer {
 public:

@@ -3,8 +3,8 @@
 //
 
 #include "catch.hpp"
-#include "qps/query_elements/constraint/FollowsConstraint.h"
-#include "qps/query_elements/constraint/FollowsTConstraint.h"
+#include "qps/query_elements/constraint/relationship_constraint/FollowsConstraint.h"
+#include "qps/query_elements/constraint/relationship_constraint/FollowsTConstraint.h"
 #include "qps/query_elements/constraint_argument/statement_reference/StatementEntity.h"
 
 TEST_CASE("Test hash function on FollowsConstraint and FollowsTConstraint") {

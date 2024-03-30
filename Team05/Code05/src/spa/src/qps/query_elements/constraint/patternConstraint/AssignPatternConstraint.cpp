@@ -88,8 +88,7 @@ std::size_t AssignPatternConstraint::hash() const {
     std::size_t hashValue = 0;
 
     // Combine hash values for both stringVars while maintaining their order
-    // TODO: how does the pattern if, while, assign differentiate in the query object?
-    hashValue ^= stringHasher(CONSTRAINT_CLASS_PATTERN) + HASH_OFFSET + (hashValue << 6) + (hashValue >> 2);
+    hashValue ^= stringHasher(CONSTRAINT_TYPE_PATTERN_ASSIGN) + HASH_OFFSET + (hashValue << 6) + (hashValue >> 2);
     hashValue ^= stringHasher(s1) + HASH_OFFSET + (hashValue << 6) + (hashValue >> 2);
     hashValue ^= stringHasher(s2) + HASH_OFFSET + (hashValue << 6) + (hashValue >> 2);
 
