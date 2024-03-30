@@ -30,3 +30,7 @@ Table ReadEntity::getEntityTable(QueryPkbVirtual &pkb) {
     entityTable.insert(entityTable.begin(), {this->identifier, "READRHS"});
     return entityTable;
 }
+
+std::vector<std::vector<std::string>> ReadEntity::getRawTable(QueryPkbVirtual &pkb) {
+    return pkb.getReadTable();
+}

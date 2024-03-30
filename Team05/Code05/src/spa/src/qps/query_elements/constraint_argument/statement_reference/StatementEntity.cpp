@@ -32,3 +32,7 @@ Table StatementEntity::getEntityTable(QueryPkbVirtual &pkb) {
     return entityTable;
 }
 
+std::vector<std::vector<std::string>> StatementEntity::getRawTable(QueryPkbVirtual &pkb) {
+    return pkb.getStmtTable();
+}
+

@@ -18,6 +18,7 @@ public:
     std::string value;
 //    std::pair<Column<std::string>, Column<std::string>> getPkbTable() override;
     Table getEntityTable(QueryPkbVirtual & pkb) override;
+    std::vector<std::vector<std::string>> getRawTable(QueryPkbVirtual & pkb) override;
 };
 
 #endif //SPA_STATEMENTENTITY_H

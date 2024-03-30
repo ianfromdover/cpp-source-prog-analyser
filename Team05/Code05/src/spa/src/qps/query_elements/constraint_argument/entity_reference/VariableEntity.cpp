@@ -35,3 +35,7 @@ Table VariableEntity::getEntityTable(QueryPkbVirtual &pkb) {
     table.removeAllColumnsExceptIndex(1);
     return table.getTable();
 }
+
+std::vector<std::vector<std::string>> VariableEntity::getRawTable(QueryPkbVirtual &pkb) {
+    return pkb.getVarTable();
+}

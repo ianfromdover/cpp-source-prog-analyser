@@ -34,3 +34,7 @@ Table ConstantEntity::getEntityTable(QueryPkbVirtual &pkb) {
     }
     return entityTable;
 }
+
+std::vector<std::vector<std::string>> ConstantEntity::getRawTable(QueryPkbVirtual &pkb) {
+    return pkb.getConstTable();
+}

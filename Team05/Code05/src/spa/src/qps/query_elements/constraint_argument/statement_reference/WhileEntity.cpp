@@ -31,3 +31,7 @@ Table WhileEntity::getEntityTable(QueryPkbVirtual &pkb) {
     entityTable.insert(entityTable.begin(), {this->identifier, "WhileVar"});
     return entityTable;
 }
+
+std::vector<std::vector<std::string>> WhileEntity::getRawTable(QueryPkbVirtual &pkb) {
+    return pkb.getWhileTable();
+}

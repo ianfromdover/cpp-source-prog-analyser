@@ -3,7 +3,7 @@
 //
 
 #include "StatementRefWildcard.h"
-#include "qps/exceptions/QPSException.h"
+#include "qps/Exceptions/QPSException.h"
 
 
 std::string StatementRefWildcard::getEntityType() {
@@ -18,7 +18,11 @@ std::string StatementRefWildcard::getArgumentValue() {
     return "_";
 }
 
-Table StatementRefWildcard::getEntityTable(QueryPkbVirtual &pkb) {
+std::vector<std::vector<std::string>> StatementRefWildcard::getEntityTable(QueryPkbVirtual &pkb) {
+    throw QPSException("Invalid PKB Query");
+}
+
+std::vector<std::vector<std::string>> StatementRefWildcard::getRawTable(QueryPkbVirtual &pkb) {
     throw QPSException("Invalid PKB Query");
 }
 

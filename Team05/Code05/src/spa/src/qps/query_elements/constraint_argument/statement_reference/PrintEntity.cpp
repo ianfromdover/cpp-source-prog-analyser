@@ -30,3 +30,7 @@ Table PrintEntity::getEntityTable(QueryPkbVirtual &pkb) {
     entityTable.insert(entityTable.begin(), {this->identifier, "PRINTRHS"});
     return entityTable;
 }
+
+std::vector<std::vector<std::string>> PrintEntity::getRawTable(QueryPkbVirtual &pkb) {
+    return pkb.getPrintTable();
+}

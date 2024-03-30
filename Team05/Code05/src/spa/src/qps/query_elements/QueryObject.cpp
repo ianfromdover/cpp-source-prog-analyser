@@ -12,6 +12,14 @@ void QueryObject::setReturnType(std::shared_ptr<Returnable> ptr) {
     returnType = std::move(ptr);
 }
 
+void QueryObject::setReturnTuple(std::shared_ptr<Tuple> ptr) {
+    returnType = std::move(ptr);
+}
+
+void QueryObject::setReturnBoolean(std::shared_ptr<Boolean> ptr) {
+    returnType = std::move(ptr);
+}
+
 std::vector<std::shared_ptr<Constraint>> QueryObject::getConstraints() {
     return constraints;
 }

@@ -30,3 +30,7 @@ Table CallEntity::getEntityTable(QueryPkbVirtual &pkb) {
     entityTable.insert(entityTable.begin(), {this->identifier, "CALLRHS"});
     return entityTable;
 }
+
+std::vector<std::vector<std::string>> CallEntity::getRawTable(QueryPkbVirtual &pkb) {
+    return pkb.getCallTable();
+}

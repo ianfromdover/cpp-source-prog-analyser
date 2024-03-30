@@ -34,3 +34,7 @@ Table AssignEntity::getEntityTable(QueryPkbVirtual & pkb ) {
     entityTable.insert(entityTable.begin(), {this->identifier, "ASSIGNRHS"});
     return entityTable;
 }
+
+std::vector<std::vector<std::string>> AssignEntity::getRawTable(QueryPkbVirtual &pkb) {
+    return pkb.getPatternAsgnTable();
+}

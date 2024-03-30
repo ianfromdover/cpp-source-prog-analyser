@@ -16,6 +16,7 @@ public:
 
     Table getEntityTable(QueryPkbVirtual & pkb) override;
 
+    std::vector<std::vector<std::string>> getRawTable(QueryPkbVirtual & pkb) override;
 };
 
 

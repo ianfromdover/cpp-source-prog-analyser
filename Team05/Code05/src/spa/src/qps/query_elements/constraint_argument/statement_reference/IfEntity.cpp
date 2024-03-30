@@ -31,3 +31,7 @@ Table IfEntity::getEntityTable(QueryPkbVirtual &pkb) {
     return entityTable;
 }
 
+std::vector<std::vector<std::string>> IfEntity::getRawTable(QueryPkbVirtual &pkb) {
+    return pkb.getIfTable();
+}
+
