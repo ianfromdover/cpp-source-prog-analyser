@@ -59,6 +59,10 @@ std::shared_ptr<Formattable> QueryEvaluator::evaluate(QueryObject & query) {
 
     } else {
         if (!results.isEmpty() && !results.hasEntries()) {
+            if (returnable->getReturnType() == RETURN_BOOL_RESULT) {
+                std::vector<std::string> val = {"FALSE"};
+                return std::make_shared<StringResult>(val);
+            }
             return getEmptyResult();
         }
         this->results.add(select.getTable());
