@@ -15,7 +15,7 @@ protected:
 public:
     explicit Expression(std::string);
     std::string getEntityType() override;
-    std::string getArgumentValue() override;
+    std::vector<std::string> getArgumentValue() override;
     std::string toString() override;
 
     Table getEntityTable(QueryPkbVirtual & pkb) override;

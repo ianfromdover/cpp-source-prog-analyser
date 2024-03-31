@@ -42,7 +42,7 @@ Table AssignPatternConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     std::vector<std::shared_ptr<ConstraintArgument>> args = getConstraintArguments();
 
     std::string stmtHeader = constraintIdentifier->getIdentifier();
-    std::string lhsHeader = args[0]->getEntityType() == TYPE_VARIABLE ? args[0]->getArgumentValue() : "ASSIGNLHS";
+    std::string lhsHeader = args[0]->getEntityType() == TYPE_VARIABLE ? args[0]->getArgumentValue()[0] : "ASSIGNLHS";
     std::string rhsHeader = "ASSIGNRHS";
 
     res.insert(res.begin(), {stmtHeader, lhsHeader, rhsHeader});
@@ -54,17 +54,17 @@ Table AssignPatternConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
         entityTable.removeColumnByIndex(0);
         table.add(entityTable.getTable());
     } else if (args[0]->getEntityType() == TYPE_QUOTED_IDENT){
-        std::string string1=args[0]->getArgumentValue();
+        std::string string1=args[0]->getArgumentValue()[0];
         string stripped = stripCharacters(string1,"\"");
         table.filterByColumnExact(lhsHeader,stripped);
     }
 
     if (args[1]->getEntityType()== TYPE_EXPRESSION){
-        std::string string1=args[1]->getArgumentValue();
+        std::string string1=args[1]->getArgumentValue()[0];
         string stripped = stripCharacters(string1,"\"");
         table.filterByColumnExact(rhsHeader,stripped);
     } else if (args[1]->getEntityType()==TYPE_EXPRESSION_W_WILDCARD){
-        std::string string1=args[1]->getArgumentValue();
+        std::string string1=args[1]->getArgumentValue()[0];
         string stripped = stripCharacters(string1,"\"");
         table.filterByColumnPartial(rhsHeader,
                                     StringUtils::formatAsRegex(stripped));

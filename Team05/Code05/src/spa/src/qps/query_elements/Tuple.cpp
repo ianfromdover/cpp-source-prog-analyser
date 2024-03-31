@@ -20,13 +20,12 @@ std::vector<std::vector<std::string>> Tuple::getEntityTable(QueryPkbVirtual &pkb
     return result;
 }
 
-std::string Tuple::getArgumentValue() {
-    std::string result;
+std::vector<std::string> Tuple::getArgumentValue() {
+    std::vector<std::string> result;
     for (size_t i = 0; i < entityVector.size(); ++i) {
-        result += entityVector.at(i)->getArgumentValue();
-        if (i < entityVector.size() - 1) {
-            result += ", ";
-        }
+        //we assume that there will not be tuples in a tuple; all entities will therefore only have one argValue
+        std::string val = entityVector.at(i)->getArgumentValue()[0];
+        result.push_back(val);
     }
     return result;
 }

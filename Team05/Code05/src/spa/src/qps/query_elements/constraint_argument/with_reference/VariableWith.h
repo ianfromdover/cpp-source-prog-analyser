@@ -22,7 +22,7 @@ public:
     std::string getReturnType() override;
     std::string getEntityType() override;
     std::string toString() override;
-    std::string getArgumentValue() override;
+    std::vector<std::string> getArgumentValue() override;
     std::vector<std::vector<std::string>> getEntityTable(QueryPkbVirtual & pkb) override;
     std::string getVarName();
     QPSTokenType::QPSTypeInfo getVarAttribute();

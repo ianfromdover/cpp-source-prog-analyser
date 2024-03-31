@@ -28,7 +28,7 @@ std::vector<std::vector<std::string>> IfPatternConstraint::getRelationshipTable(
     std::vector<std::shared_ptr<ConstraintArgument>> args = getConstraintArguments();
 
     std::string stmtHeader = constraintIdentifier->getIdentifier();
-    std::string lhsHeader = args[0]->getEntityType() == TYPE_VARIABLE ? args[0]->getArgumentValue() : "IF_PATTERN";
+    std::string lhsHeader = args[0]->getEntityType() == TYPE_VARIABLE ? args[0]->getArgumentValue()[0] : "IF_PATTERN";
 
     res.insert(res.begin(), {stmtHeader, lhsHeader});
     ResultTable table(res);
@@ -39,7 +39,7 @@ std::vector<std::vector<std::string>> IfPatternConstraint::getRelationshipTable(
 //        entityTable.removeColumnByIndex(0);
         table.add(entityTable.getTable());
     } else if (args[0]->getEntityType() == TYPE_QUOTED_IDENT){
-        std::string string1=args[0]->getArgumentValue();
+        std::string string1=args[0]->getArgumentValue()[0];
         string stripped = stripCharacters(string1,"\"");
         table.filterByColumnExact(lhsHeader,stripped);
     }

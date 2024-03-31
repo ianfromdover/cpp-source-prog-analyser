@@ -14,8 +14,8 @@ std::string StatementRefWildcard::toString() {
     return "_ [STMT WILDCARD]";
 }
 
-std::string StatementRefWildcard::getArgumentValue() {
-    return "_";
+std::vector<std::string> StatementRefWildcard::getArgumentValue() {
+    return {"_"};
 }
 
 std::vector<std::vector<std::string>> StatementRefWildcard::getEntityTable(QueryPkbVirtual &pkb) {

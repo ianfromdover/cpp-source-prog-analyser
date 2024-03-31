@@ -20,8 +20,8 @@ std::string ProcedureEntity::toString() {
     return this->identifier + " [PROCEDURE]";
 }
 
-std::string ProcedureEntity::getArgumentValue() {
-    return this->identifier;
+std::vector<std::string> ProcedureEntity::getArgumentValue() {
+    return {this->identifier};
 }
 
 Table ProcedureEntity::getEntityTable(QueryPkbVirtual &pkb) {

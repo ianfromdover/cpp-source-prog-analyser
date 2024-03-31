@@ -20,8 +20,8 @@ std::string PrintEntity::toString() {
     return this->identifier + " [PRINT]";
 }
 
-std::string PrintEntity::getArgumentValue() {
-    return this->identifier;
+std::vector<std::string> PrintEntity::getArgumentValue() {
+    return {this->identifier};
 }
 
 Table PrintEntity::getEntityTable(QueryPkbVirtual &pkb) {

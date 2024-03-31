@@ -12,6 +12,6 @@ std::string ExpressionRefWildcard::toString() {
     return "_ [EXPR WILDCARD]";
 }
 
-std::string ExpressionRefWildcard::getArgumentValue() {
-    return "_";
+std::vector<std::string> ExpressionRefWildcard::getArgumentValue() {
+    return {"_"};
 }

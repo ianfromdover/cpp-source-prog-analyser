@@ -27,7 +27,7 @@ std::shared_ptr<Formattable> QueryEvaluator::evaluate(QueryObject & query) {
 
     if (results.hasEntries() && ResultTable::findCommonHeaders(results.getTable(), select.getTable()).empty()) {
         // Get the return type column that we want
-        std::string column = returnable->getArgumentValue();
+        std::string column = returnable->getArgumentValue()[0];
         std::vector<string> val = this->select.getDistinctColumn(column);
         std::shared_ptr<StringResult> sd = std::make_shared<StringResult>(val);
         return sd;
@@ -36,7 +36,7 @@ std::shared_ptr<Formattable> QueryEvaluator::evaluate(QueryObject & query) {
             return getEmptyResult();
         }
         this->results.add(select.getTable());
-        std::string column = returnable->getArgumentValue();
+        std::string column = returnable->getArgumentValue()[0];
         std::vector<string> val = this->results.getDistinctColumn(column);
         std::shared_ptr<StringResult> sd = std::make_shared<StringResult>(val);
         return sd;
