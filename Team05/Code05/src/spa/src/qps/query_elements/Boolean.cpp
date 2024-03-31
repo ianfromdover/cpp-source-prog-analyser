@@ -5,7 +5,7 @@
 #include "Boolean.h"
 
 std::string Boolean::getReturnType() {
-    return std::string();
+    return RETURN_BOOL_RESULT;
 }
 
 std::string Boolean::toString() {

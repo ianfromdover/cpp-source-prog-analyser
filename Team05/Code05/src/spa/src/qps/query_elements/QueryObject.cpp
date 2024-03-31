@@ -12,7 +12,7 @@ void QueryObject::setReturnType(std::shared_ptr<Returnable> ptr) {
     returnType = std::move(ptr);
 }
 
-void QueryObject::setReturnTuple(std::shared_ptr<Tuple> ptr) {
+void QueryObject::setReturnTuple(std::shared_ptr<TupleReturnable> ptr) {
     returnType = std::move(ptr);
 }
 

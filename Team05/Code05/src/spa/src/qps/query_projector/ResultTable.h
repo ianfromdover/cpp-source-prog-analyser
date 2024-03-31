@@ -221,6 +221,20 @@ public:
         }
     }
 
+    std::vector<std::vector<std::string>> getDistinctColumns(std::vector<std::string> colNames) {
+        try {
+            if (_table.empty()) return {{}};
+            std::vector<std::vector<std::string>> result;
+            for (std::string colName : colNames) {
+                std::vector<std::string> oneCol = getDistinctColumn(colName);
+                result.push_back(oneCol);
+            }
+            return result;
+        } catch (std::runtime_error& e){
+            return {};
+        }
+    }
+
     static vector<string> findCommonHeaders(const table& a, const table& b) {
         try {
             vector<string> commonHeaders;

@@ -35,12 +35,18 @@ void QueryObjectBuilder::setSingleSelectClause() {
 
     // TODO: if condition check intermediate query has boolean select
     if (false) {
-
+        qo->setReturnType(std::make_shared<Boolean>());
     }
 
     //TODO: if condition check intermediate query has multiple select entity
     if (false) {
-
+        std::vector<std::string> names = intermediateObject->getSelectClause()->selectElements;
+        auto tupleReturn  = std::make_shared<TupleReturnable>();
+        for (std::string name : names) {
+            auto entity = qo->getEntityInDeclaration(name);
+            tupleReturn->addEntityVector(entity);
+        }
+        qo->setReturnType(tupleReturn);
     }
 }
 
