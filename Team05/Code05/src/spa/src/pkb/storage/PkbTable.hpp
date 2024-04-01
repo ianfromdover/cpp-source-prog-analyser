@@ -34,6 +34,9 @@ private:
     // Check if a pair exists in the map.
     bool containsPair(A key, B value);
 
+    // Convert a map into a table
+    std::shared_ptr<Table> makeTable(bool isFwdMap);
+
 public:
     PkbTable() = default;
     ~PkbTable() = default;
@@ -42,7 +45,7 @@ public:
      * @brief Insert a mapping from key to value. If the mapping already exists, nothing is done.
      * @returns True if the mapping is inserted, false if the mapping already exists.
      */
-    bool add(A key, B value);
+    bool add(const A& key, const B& value);
 
     /**
      * @brief Retrieve the values associated using its key.
@@ -58,24 +61,25 @@ public:
 
     /**
      * @return Returns a 1-column table of all the keys in the map as strings
-     * Call the appropriate function based on whether A and B are strings
      */
-    Table getAllKeysA();
-    Table getAllKeysStr(); // call this if typeof(A) is a string
-    Table getAllValuesB();
-    Table getAllValuesStr(); // call this if typeof(B) is a string
+    Table getAllKeys();
+    Table getAllValues();
 
     /**
      * @return Returns a 2-column table of all the key-value pairs in the map as strings
-     * Call the appropriate function based on whether A and B are strings
      */
-    Table getAllStrStr();
-    Table getAllStrB(); // eg. call this if typeof(A) is a string and B is not
-    Table getAllAStr();
-    Table getAllAB();
+    Table getAll();
 };
 
 // ---------------------------- Implementation ----------------------------
+template<typename T>
+inline std::string to_string(const T& val) {
+    return std::to_string(val);
+}
+
+inline std::string to_string(const std::string& str) {
+    return str;
+}
 
 template<typename A, typename B>
 bool PkbTable<A, B>::containsKey(const A key) {
@@ -89,55 +93,82 @@ bool PkbTable<A, B>::containsValue(const B value) {
 
 template<typename A, typename B>
 bool PkbTable<A, B>::containsPair(A key, B value) {
+    // ai-gen start (gpt, 0, e)
+    // prompt: https://chat.openai.com/share/aa74c9ed-3538-44b9-9e67-b7ed58d4e913
     // check if the key and value are in the maps
-    if (!containsKey(key) || !containsValue(value)) {
+    auto fwdIter = forwardMap.find(key);
+    if (fwdIter == forwardMap.end()) {
         return false;
     }
 
-    // check if there are values associated with the key and value
-    const std::vector<A>& keys = getRelatedKeys(value);
-    const std::vector<B>& values = getRelatedValues(key);
-    if (keys.empty() || values.empty()) {
-        return false;
-    }
-
-    // e.g. does this contains pair(1, "x") in my StmtNo-VarName table?
-    // line 1 associated with  [x, y, z], find x
-    // var "x" appears on line [1, 2, 3], find 1
-    bool keyHasThisValue = std::find(values.begin(), values.end(), value) != values.end();
-    bool valueHasThisKey = std::find(keys.begin(), keys.end(), key) != keys.end();
-    return keyHasThisValue && valueHasThisKey;
-}
-
-template<typename A, typename B>
-bool PkbTable<A, B>::add(const A key, const B value) {
-    // ai-gen start (copilot, 1, e)
-    // prompt: used copilot
-    if (containsPair(key, value)) {
-        return false;
-    }
-    // ai-gen end
-    auto kPtr = std::make_shared<A>(key);
-    auto vPtr = std::make_shared<B>(value);
-
-    try {
-        // if key does not exist, create a new set with the value
-        if (!containsKey(key)) {
-            forwardMap[*kPtr] = {vPtr};
-        } else {
-            forwardMap[*kPtr].insert(vPtr);
+    // directly search for shared_ptr with value in the set
+    auto& valSet = fwdIter->second;
+    for (const auto& valPtr : valSet) {
+        if (*valPtr != value) {
+            continue;
         }
 
-        // do the same for value
-        if (!containsValue(value)) {
-            backwardMap[*vPtr] = {kPtr};
+        auto bkwdIter = backwardMap.find(value);
+        if (bkwdIter == backwardMap.end()) {
+            return false; // found value in fwdMap but not in bkwdMap
+        }
+        auto keySet = bkwdIter->second;
+        for (const auto& keyPtr : keySet) {
+            if (*keyPtr == key) {
+                return true; // found the pair in both directions
+            }
+        }
+    }
+    return false;
+    // ai-gen end
+}
+
+// ai-gen start (gpt, 2, e)
+// prompt: https://chat.openai.com/share/4bb3d614-d4ca-4580-ad0e-b664ace5e254
+template<typename A, typename B>
+std::shared_ptr<Table> PkbTable<A, B>::makeTable(bool isFwdMap) {
+    auto result = std::make_shared<Table>();
+    try {
+        // lambda function
+        auto processMap = [&](auto& map) {
+            for (auto& pair : map) {
+                result->push_back({to_string(pair.first)});
+            }
+        };
+
+        if (isFwdMap) {
+            processMap(forwardMap);
         } else {
-            backwardMap[*vPtr].insert(kPtr);
+            processMap(backwardMap);
         }
     } catch (std::exception e) {
         throw PkbException(e.what());
     }
+    return result;
+}
+// ai-gen end
+
+template<typename A, typename B>
+bool PkbTable<A, B>::add(const A& key, const B& value) {
+    // ai-gen start (gpt, 0, e)
+    // prompt: https://chat.openai.com/share/aa74c9ed-3538-44b9-9e67-b7ed58d4e913
+    try {
+        if (containsPair(key, value)) {
+            return false;
+        }
+
+        // directly insert shared_ptr of val into fwdMap
+        auto& valSet = forwardMap[key]; // create a new set if key does not exist
+        valSet.emplace(std::make_shared<B>(value));
+
+        // directly insert shared_ptr of key into bkwdMap
+        auto& keySet = backwardMap[value]; // create a new set if value does not exist
+        keySet.emplace(std::make_shared<A>(key));
+    } catch (std::exception e) {
+        throw PkbException(e.what());
+    }
     return true;
+    // ai-gen end
 }
 
 template<typename A, typename B>
@@ -172,103 +203,28 @@ std::vector<A> PkbTable<A, B>::getRelatedKeys(B value) {
     return result;
 }
 
-// the following 4 functions cannot be abstracted into 2 because of the template types
+// ai-gen start (gpt, 2, e)
+// prompt: https://chat.openai.com/share/4bb3d614-d4ca-4580-ad0e-b664ace5e254
 template<typename A, typename B>
-Table PkbTable<A, B>::getAllKeysA() {
-    auto result = std::make_shared<Table>();
-    try {
-        for (auto& pair : forwardMap) {
-            result->push_back({to_string(pair.first)});
-        }
-    } catch (std::exception e) {
-        throw PkbException(e.what());
-    }
-    return *result;
+Table PkbTable<A, B>::getAllKeys() {
+    return *makeTable(true);
 }
 
 template<typename A, typename B>
-Table PkbTable<A, B>::getAllKeysStr() {
-    auto result = std::make_shared<Table>();
-    try {
-        for (auto& pair : forwardMap) {
-            result->push_back({pair.first});
-        }
-    } catch (std::exception e) {
-        throw PkbException(e.what());
-    }
-    return *result;
+Table PkbTable<A, B>::getAllValues() {
+    return *makeTable(false);
 }
 
 template<typename A, typename B>
-Table PkbTable<A, B>::getAllValuesB() {
-    auto result = std::make_shared<Table>();
-    try {
-        for (auto& pair : backwardMap) {
-            result->push_back({to_string(pair.first)});
-        }
-    } catch (std::exception e) {
-        throw PkbException(e.what());
-    }
-    return *result;
-}
-
-template<typename A, typename B>
-Table PkbTable<A, B>::getAllValuesStr() {
-    auto result = std::make_shared<Table>();
-    try {
-        for (auto& pair : backwardMap) {
-            result->push_back({pair.first});
-        }
-    } catch (std::exception e) {
-        throw PkbException(e.what());
-    }
-    return *result;
-}
-
-template<typename A, typename B>
-Table PkbTable<A, B>::getAllStrStr() {
-    auto result = std::make_shared<Table>();
-    for (auto &pair: forwardMap) {
-        for (auto &ptr: pair.second) {
-            result->push_back({pair.first, *ptr});
-        }
-    }
-    return *result;
-}
-
-template<typename A, typename B>
-Table PkbTable<A, B>::getAllStrB() {
+Table PkbTable<A, B>::getAll() {
     auto result = std::make_shared<Table>();
     for (auto& pair : forwardMap) {
+        std::string key = to_string(pair.first);
         for (auto& ptr : pair.second) {
-            std::string item = std::to_string(*ptr);
-            result->push_back({pair.first, item});
-        }
-    }
-    return *result;
-}
-
-template<typename A, typename B>
-Table PkbTable<A, B>::getAllAStr() {
-    auto result = std::make_shared<Table>();
-    for (auto& pair : forwardMap) {
-        std::string key = std::to_string(pair.first);
-        for (auto& ptr : pair.second) {
-            result->push_back({key, *ptr});
-        }
-    }
-    return *result;
-}
-
-template<typename A, typename B>
-Table PkbTable<A, B>::getAllAB() {
-    auto result = std::make_shared<Table>();
-    for (auto& pair : forwardMap) {
-        std::string key = std::to_string(pair.first);
-        for (auto& ptr : pair.second) {
-            std::string item = std::to_string(*ptr);
+            std::string item = to_string(*ptr);
             result->push_back({key, item});
         }
     }
     return *result;
 }
+// ai-gen end
