@@ -42,7 +42,7 @@ public:
      * @brief Insert a mapping from key to value. If the mapping already exists, nothing is done.
      * @returns True if the mapping is inserted, false if the mapping already exists.
      */
-    bool add(A key, B value);
+    bool add(const A& key, const B& value);
 
     /**
      * @brief Retrieve the values associated using its key.
@@ -89,55 +89,57 @@ bool PkbTable<A, B>::containsValue(const B value) {
 
 template<typename A, typename B>
 bool PkbTable<A, B>::containsPair(A key, B value) {
+    // ai-gen start (gpt, 0, e)
+    // prompt: https://chat.openai.com/share/aa74c9ed-3538-44b9-9e67-b7ed58d4e913
     // check if the key and value are in the maps
-    if (!containsKey(key) || !containsValue(value)) {
+    auto fwdIter = forwardMap.find(key);
+    if (fwdIter == forwardMap.end()) {
         return false;
     }
 
-    // check if there are values associated with the key and value
-    const std::vector<A>& keys = getRelatedKeys(value);
-    const std::vector<B>& values = getRelatedValues(key);
-    if (keys.empty() || values.empty()) {
-        return false;
-    }
+    // directly search for shared_ptr with value in the set
+    auto& valSet = fwdIter->second;
+    for (const auto& valPtr : valSet) {
+        if (*valPtr != value) {
+            continue;
+        }
 
-    // e.g. does this contains pair(1, "x") in my StmtNo-VarName table?
-    // line 1 associated with  [x, y, z], find x
-    // var "x" appears on line [1, 2, 3], find 1
-    bool keyHasThisValue = std::find(values.begin(), values.end(), value) != values.end();
-    bool valueHasThisKey = std::find(keys.begin(), keys.end(), key) != keys.end();
-    return keyHasThisValue && valueHasThisKey;
+        auto bkwdIter = backwardMap.find(value);
+        if (bkwdIter == backwardMap.end()) {
+            return false; // found value in fwdMap but not in bkwdMap
+        }
+        auto keySet = bkwdIter->second;
+        for (const auto& keyPtr : keySet) {
+            if (*keyPtr == key) {
+                return true; // found the pair in both directions
+            }
+        }
+    }
+    return false;
+    // ai-gen end
 }
 
 template<typename A, typename B>
-bool PkbTable<A, B>::add(const A key, const B value) {
-    // ai-gen start (copilot, 1, e)
-    // prompt: used copilot
-    if (containsPair(key, value)) {
-        return false;
-    }
-    // ai-gen end
-    auto kPtr = std::make_shared<A>(key);
-    auto vPtr = std::make_shared<B>(value);
-
+bool PkbTable<A, B>::add(const A& key, const B& value) {
+    // ai-gen start (gpt, 0, e)
+    // prompt: https://chat.openai.com/share/aa74c9ed-3538-44b9-9e67-b7ed58d4e913
     try {
-        // if key does not exist, create a new set with the value
-        if (!containsKey(key)) {
-            forwardMap[*kPtr] = {vPtr};
-        } else {
-            forwardMap[*kPtr].insert(vPtr);
+        if (containsPair(key, value)) {
+            return false;
         }
 
-        // do the same for value
-        if (!containsValue(value)) {
-            backwardMap[*vPtr] = {kPtr};
-        } else {
-            backwardMap[*vPtr].insert(kPtr);
-        }
+        // directly insert shared_ptr of val into fwdMap
+        auto& valSet = forwardMap[key]; // create a new set if key does not exist
+        valSet.emplace(std::make_shared<B>(value));
+
+        // directly insert shared_ptr of key into bkwdMap
+        auto& keySet = backwardMap[value]; // create a new set if value does not exist
+        keySet.emplace(std::make_shared<A>(key));
     } catch (std::exception e) {
         throw PkbException(e.what());
     }
     return true;
+    // ai-gen end
 }
 
 template<typename A, typename B>
