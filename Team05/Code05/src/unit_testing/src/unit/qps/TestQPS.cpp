@@ -24,6 +24,23 @@ TEST_CASE("[TestQPS] Replace with your unit tests") {
     }
 }
 
+TEST_CASE("[TestQPS] If pattern argument tests"){
+    SECTION("stmt"){
+        std::string queryStr = "stmt s;if i; Select s pattern i(s,_,_)";
+        std::vector<std::string> expected = {"SemanticError"};
+
+        std::vector<std::string> results = testHelper(queryStr);
+        REQUIRE(results == expected);
+    }
+    SECTION("while"){
+        std::string queryStr = "stmt s;if i; Select s pattern i(w,_,_)";
+        std::vector<std::string> expected = {"SemanticError"};
+
+        std::vector<std::string> results = testHelper(queryStr);
+        REQUIRE(results == expected);
+    }
+}
+
 TEST_CASE("[TestQPS] Boolean return tests"){
   std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
   pkb->setParent({{"1","2"}});
@@ -45,6 +62,12 @@ TEST_CASE("[TestQPS] Boolean return tests"){
     std::vector<std::string> expected = {"TRUE"};
     REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
   }
+  SECTION("boolean as synonym"){
+      std::string queryStr = "stmt BOOLEAN; Select BOOLEAN";
+      std::vector<std::string> expected = {"FALSE"};
+      REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+
 }
 
 TEST_CASE("[TestQPS] Tuple return tests"){
@@ -62,6 +85,63 @@ TEST_CASE("[TestQPS] Tuple return tests"){
     std::vector<std::string> expected = {"1 1","2 2"};
     REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
   }
+    SECTION("empty constraints2"){
+        std::string queryStr = "stmt s,s1; Select <s>";
+        std::vector<std::string> expected = {"1","2"};
+        REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+    }
+}
+
+TEST_CASE("invalid pattern synonyms"){
+    SECTION("statement"){
+        std::string queryStr = "stmt s; Select s pattern s(_,_)";
+        std::vector<std::string> expected = {"SemanticError"};
+
+        std::vector<std::string> results = testHelper(queryStr);
+        REQUIRE(results == expected);
+    }
+    SECTION("read"){
+        std::string queryStr = "read r; Select r pattern r(_,_)";
+        std::vector<std::string> expected = {"SemanticError"};
+
+        std::vector<std::string> results = testHelper(queryStr);
+        REQUIRE(results == expected);
+    }
+    SECTION("print"){
+        std::string queryStr = "print p; Select p pattern p(_,_)";
+        std::vector<std::string> expected = {"SemanticError"};
+
+        std::vector<std::string> results = testHelper(queryStr);
+        REQUIRE(results == expected);
+    }
+    SECTION("procedure"){
+        std::string queryStr = "procedure p; Select p pattern p(_,_)";
+        std::vector<std::string> expected = {"SemanticError"};
+
+        std::vector<std::string> results = testHelper(queryStr);
+        REQUIRE(results == expected);
+    }
+    SECTION("call"){
+        std::string queryStr = "call c; Select c pattern c(_,_)";
+        std::vector<std::string> expected = {"SemanticError"};
+
+        std::vector<std::string> results = testHelper(queryStr);
+        REQUIRE(results == expected);
+    }
+    SECTION("variable"){
+        std::string queryStr = "variable v; Select v pattern v(_,_)";
+        std::vector<std::string> expected = {"SemanticError"};
+
+        std::vector<std::string> results = testHelper(queryStr);
+        REQUIRE(results == expected);
+    }
+    SECTION("constant"){
+        std::string queryStr = "constant c; Select c pattern c(_,_)";
+        std::vector<std::string> expected = {"SemanticError"};
+
+        std::vector<std::string> results = testHelper(queryStr);
+        REQUIRE(results == expected);
+    }
 }
 
 TEST_CASE("[TestQPS] Syntax Error Tests"){

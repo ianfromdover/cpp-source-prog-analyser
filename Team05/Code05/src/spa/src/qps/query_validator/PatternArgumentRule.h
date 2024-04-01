@@ -22,7 +22,7 @@ class PatternArgumentRule : public Rule {
 
     bool validateArgCount(PatternClause &patternClause, QType type);
 
-    bool validateArgType(PatternClause &patternClause, QType type);
+    bool validateArgType(PatternClause &patternClause, QType type, map<std::string, QType> synonymTypeMap);
 };
 
 

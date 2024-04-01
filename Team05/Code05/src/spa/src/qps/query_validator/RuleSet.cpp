@@ -7,10 +7,12 @@
 #include "NoDeclarationRule.h"
 #include "PatternSynDeclarationRule.h"
 #include "SingleDeclarationRule.h"
+#include "PatternArgumentRule.h"
 
 RuleSet::RuleSet() {
     rules.push_back(new class PatternSynDeclarationRule());
     rules.push_back(new class CompatibleTypeRule());
+    rules.push_back(new class PatternArgumentRule());
 
 }
 
