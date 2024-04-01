@@ -156,6 +156,22 @@ TEST_CASE("tokenize_boolean") {
   }
 }
 
+TEST_CASE("tokenize_tuple") {
+  SECTION("openSynClose") {
+    std::string source = "<a>";
+    std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+    REQUIRE(compareExpected(tokens, {QPSTokenType::LEFT_A_BRAC, QPSTokenType::IDENTIFIER, QPSTokenType::RIGHT_A_BRAC,
+                                     QPSTokenType::END_OF_FILE}));
+  }
+  SECTION("openSynSynSynClose") {
+    std::string source = "<a,b,c>";
+    std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+    REQUIRE(compareExpected(tokens, {QPSTokenType::LEFT_A_BRAC, QPSTokenType::IDENTIFIER, QPSTokenType::COMMA, QPSTokenType::IDENTIFIER, QPSTokenType::COMMA, QPSTokenType::IDENTIFIER, QPSTokenType::RIGHT_A_BRAC,
+                                     QPSTokenType::END_OF_FILE}));
+  }
+
+}
+
 TEST_CASE("tokenize_pattern_patternToken") {
     SECTION("pattern_patternToken") {
         std::string source = "pattern";

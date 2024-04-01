@@ -24,6 +24,29 @@ TEST_CASE("[TestQPS] Replace with your unit tests") {
     }
 }
 
+TEST_CASE("[TestQPS] Boolean return tests"){
+  std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
+  pkb->setParent({{"1","2"}});
+  pkb->setStatement(2);
+  pkb->setVar({{"1","v"},
+               {"1","k"},
+               {"2","c"},
+               {"2","i"}});
+  //        pkb->setVar({{"v"},{"k"},{"c"},{"i"}}); // HOTFIX
+  QPS qps(pkb);
+
+//  SECTION("empty constraints"){
+//    std::string queryStr = "Select BOOLEAN";
+//    std::vector<std::string> expected = {"FALSE"};
+//    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+//  }
+  SECTION("non empty constraints"){
+    std::string queryStr = "stmt s;Select BOOLEAN such that Parent(s,_)";
+    std::vector<std::string> expected = {"TRUE"};
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+}
+
 TEST_CASE("[TestQPS] Syntax Error Tests"){
     SECTION("only declarations"){
         std::string queryStr = "stmt s;";
@@ -236,7 +259,6 @@ TEST_CASE("[TestQPS] Semantic Error Tests"){
                 R"(Select s pattern a(v, _))",
                 R"(Select s such that Parent*(a, b))",
                 R"(variable v; Select s such that Uses(_, v))"
-//                R"()"
         };
 
         for (auto & s : queryLs){
@@ -337,8 +359,6 @@ TEST_CASE("[TestQPS] No Constraints"){
 
         REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
     }
-
-
 }
 
 TEST_CASE("[TestQPS] Multiple Constraints"){

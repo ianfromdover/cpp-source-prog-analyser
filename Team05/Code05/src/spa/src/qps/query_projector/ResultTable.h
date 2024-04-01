@@ -57,23 +57,7 @@ public:
     }
 
     table removeDuplicateColumn(table t){
-        if (hasDuplicatedHeaders(t)){
-            std::vector<std::string> headers = t[0];
-            std::sort(headers.begin(), headers.end());
-            auto last = std::unique(headers.begin(), headers.end());
-            headers.erase(last, headers.end());
-            table result;
-            result.push_back(headers);
-            for (size_t i = 1; i < t.size(); ++i) {
-                std::vector<std::string> row;
-                for (const auto& header: headers){
-                    size_t index = findColumnIndex(t, header);
-                    row.push_back(t[i][index]);
-                }
-                result.push_back(row);
-            }
-            return result;
-        }
+
         return t;
     }
 
@@ -236,6 +220,7 @@ public:
     }
 
     static vector<string> findCommonHeaders(const table& a, const table& b) {
+      if (a.empty() || b.empty()) return {};
         try {
             vector<string> commonHeaders;
             for (const auto &headerA: a[0]) {

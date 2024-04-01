@@ -562,16 +562,16 @@ TEST_CASE("expressionWildcard_TokenizertoQOBuilder_returnsCorrect") {
 }
 
 // Not in milestone 1 scope (procedures)
-//TEST_CASE("EntityWildcard_TokenizertoQOBuilder_returnsCorrect") {
-//    std::string source = "procedure p;"
-//                         "variable v; "
-//                         "Select p "
-//                         "such that Modifies(p, _)";
-//    std::string processed = testHelper1(source);
-//    std::string output = "{RETURN}: p [PROCEDURE]\n{DECLARATIONS}: p [PROCEDURE], v [VARIABLE]\n{CONSTRAINTS}: ModifiesP(p [PROCEDURE], _ [ENT WILDCARD])";
-//    REQUIRE(processed == output);
-//    cout << processed;
-//}
+TEST_CASE("EntityWildcard_TokenizertoQOBuilder_returnsCorrect") {
+    std::string source = "procedure p;"
+                         "variable v; "
+                         "Select p "
+                         "such that Modifies(p, _)";
+    std::string processed = testHelper1(source);
+    std::string output = "{RETURN}: p [PROCEDURE]\n{DECLARATIONS}: p [PROCEDURE], v [VARIABLE]\n{CONSTRAINTS}: ModifiesP(p [PROCEDURE], _ [ENT WILDCARD])";
+    REQUIRE(processed == output);
+    cout << processed;
+}
 
 TEST_CASE("StatementWildcard_TokenizertoQOBuilder_returnsCorrect") {
     std::string source = "if f;"

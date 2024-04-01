@@ -144,8 +144,15 @@ std::shared_ptr<SelectClause> QPSParser::select() {
     QPSToken declarationType = this->consume(QPSTokenType::SELECT, "Expect select type.");
     std::shared_ptr<SelectClause> selectCl = std::make_shared<SelectClause>();
     if (this->check(QPSTokenType::BOOLEAN)) {
-        this->consume(QPSTokenType::BOOLEAN, "Expect 'BOOLEAN' after 'Select'.");
-        selectCl->setSelectBool();
+      this->consume(QPSTokenType::BOOLEAN, "Expect 'BOOLEAN' after 'Select'.");
+      selectCl->setSelectBool();
+    } else if (this->check(QPSTokenType::LEFT_A_BRAC)){
+        this->consume(QPSTokenType::LEFT_A_BRAC, "Expect '<' after 'Select'.");
+        do {
+          QPSToken entityType = this->synonym(this->consume(QPSTokenType::IDENTIFIER, "Expect identifier."));
+          selectCl->addSelect(entityType.getLexeme());
+        } while (this->match({QPSTokenType::COMMA}));
+        this->consume(QPSTokenType::RIGHT_A_BRAC, "Expect '>' after identifier.");
     } else {
       QPSToken entityType = this->synonym(this->consume(QPSTokenType::IDENTIFIER, "Expect identifier."));
       selectCl->addSelect(entityType.getLexeme());

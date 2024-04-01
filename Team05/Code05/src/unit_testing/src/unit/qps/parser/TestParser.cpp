@@ -65,6 +65,40 @@ TEST_CASE("singleDeclaration_singleSelect_singleRelationship1") {
     }
 }
 
+TEST_CASE("boolean_select"){
+  SECTION("simple boolean select") {
+    QPSTokenList tokens;
+    tokens = TokenListBuilder().validBooleanSelect().get();
+
+    QPSParser parser(tokens);
+    REQUIRE_NOTHROW(parser.parse());
+  }
+  SECTION("single declaration and single boolean select") {
+    QPSTokenList tokens;
+    tokens = TokenListBuilder().singleStmtDeclaration().validBooleanSelect().get();
+
+    QPSParser parser(tokens);
+    REQUIRE_NOTHROW(parser.parse());
+  }
+}
+
+TEST_CASE("tuple select"){
+    SECTION("single tuple element"){
+      QPSTokenList tokens;
+      tokens = TokenListBuilder().validSingleTupleSelect().get();
+
+      QPSParser parser(tokens);
+      REQUIRE_NOTHROW(parser.parse());
+    }
+    SECTION("multi tuple element"){
+      QPSTokenList tokens;
+      tokens = TokenListBuilder().validMultiTupleSelect().get();
+
+      QPSParser parser(tokens);
+      REQUIRE_NOTHROW(parser.parse());
+    }
+}
+
 TEST_CASE("singleDeclaration_singleSelect_singlePattern") {
 
     SECTION("pattern_synonym_wildcard") {
