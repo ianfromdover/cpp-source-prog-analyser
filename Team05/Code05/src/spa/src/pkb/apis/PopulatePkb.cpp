@@ -4,25 +4,33 @@ PopulatePkb::PopulatePkb(std::shared_ptr<PkbStorage> p) {
     pkb = std::move(p);
 }
 
+// ----------- on-demand
+bool PopulatePkb::setAffectsObj() {
+    return false;
+}
+bool PopulatePkb::setNextTObj() {
+    return false;
+}
+
 // ----------- entity
 bool PopulatePkb::addCallStmt(int stmtNo, std::string name) {
-    return pkb->callTable->addCall(stmtNo, name);
+    return pkb->callTable->add(stmtNo, name);
 }
 
 bool PopulatePkb::addConst(int stmtNo, int val) {
-    return pkb->constTable->addConst(stmtNo, val);
+    return pkb->constTable->add(stmtNo, val);
 }
 
 bool PopulatePkb::addPrint(int stmtNo, std::string name) {
-    return pkb->printTable->addPrint(stmtNo, name);
+    return pkb->printTable->add(stmtNo, name);
 }
 
 bool PopulatePkb::addProcedure(std::string name) {
-    return pkb->procedureTable->addProc(name);
+    return pkb->procedureTable->add(name);
 }
 
 bool PopulatePkb::addRead(int stmtNo, std::string name) {
-    return pkb->readTable->addRead(stmtNo, name);
+    return pkb->readTable->add(stmtNo, name);
 }
 
 bool PopulatePkb::addFinalStatementNo(int stmtNo) {
@@ -33,52 +41,44 @@ bool PopulatePkb::addFinalStatementNo(int stmtNo) {
 }
 
 bool PopulatePkb::addVar(int stmtNo, std::string name) {
-    return pkb->varTable->addVar(stmtNo, name);
+    return pkb->varTable->add(stmtNo, name);
 }
 
 // ----------- relation
-bool PopulatePkb::addAffects(int before, int after) {
-    return pkb->affectsTable->addAffects(before, after);
-}
-
 bool PopulatePkb::addCalls(std::string caller, std::string called) {
-    return pkb->callsTable->addCalls(caller, called);
+    return pkb->callsTable->add(caller, called);
 }
 
 bool PopulatePkb::addCallsT(std::string caller, std::string called) {
-    return pkb->callsTTable->addCallsT(caller, called);
+    return pkb->callsTTable->add(caller, called);
 }
 
 bool PopulatePkb::addFollows(int before, int after) {
-    return pkb->followsTable->addFollows(before, after);
+    return pkb->followsTable->add(before, after);
 }
 
 bool PopulatePkb::addFollowsT(int before, int after) {
-    return pkb->followsTTable->addFollowsT(before, after);
+    return pkb->followsTTable->add(before, after);
 }
 
 bool PopulatePkb::addModifiesP(std::string procName, std::string name) {
-    return pkb->modifiesPTable->addModifiesP(procName, name);
+    return pkb->modifiesPTable->add(procName, name);
 }
 
 bool PopulatePkb::addModifiesS(int stmtNo, std::string name) {
-    return pkb->modifiesSTable->addModifiesS(stmtNo, name);
+    return pkb->modifiesSTable->add(stmtNo, name);
 }
 
 bool PopulatePkb::addNext(int before, int after) {
-    return pkb->nextTable->addNext(before, after);
-}
-
-bool PopulatePkb::addNextT(int before, int after) {
-    return pkb->nextTTable->addNextT(before, after);
+    return pkb->nextTable->add(before, after);
 }
 
 bool PopulatePkb::addParent(int parent, int child) {
-    return pkb->parentTable->addParent(parent, child);
+    return pkb->parentTable->add(parent, child);
 }
 
 bool PopulatePkb::addParentT(int ancestor, int descendant) {
-    return pkb->parentTTable->addParentT(ancestor, descendant);
+    return pkb->parentTTable->add(ancestor, descendant);
 }
 
 bool PopulatePkb::addPatternAsgn(int stmtNo, std::string lhs, std::string rhs) {
@@ -89,17 +89,17 @@ bool PopulatePkb::addPatternAsgn(int stmtNo, std::string lhs, std::string rhs) {
 }
 
 bool PopulatePkb::addPatternIf(int stmtNo, std::string name) {
-    return pkb->patternIfTable->addIf(stmtNo, name);
+    return pkb->patternIfTable->add(stmtNo, name);
 }
 
 bool PopulatePkb::addPatternWhile(int stmtNo, std::string name) {
-    return pkb->patternWhileTable->addWhile(stmtNo, name);
+    return pkb->patternWhileTable->add(stmtNo, name);
 }
 
 bool PopulatePkb::addUsesP(std::string procName, std::string name) {
-    return pkb->usesPTable->addUsesP(procName, name);
+    return pkb->usesPTable->add(procName, name);
 }
 
 bool PopulatePkb::addUsesS(int stmtNo, std::string name) {
-    return pkb->usesSTable->addUsesS(stmtNo, name);
+    return pkb->usesSTable->add(stmtNo, name);
 }
