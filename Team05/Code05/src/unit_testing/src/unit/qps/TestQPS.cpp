@@ -35,14 +35,31 @@ TEST_CASE("[TestQPS] Boolean return tests"){
   //        pkb->setVar({{"v"},{"k"},{"c"},{"i"}}); // HOTFIX
   QPS qps(pkb);
 
-//  SECTION("empty constraints"){
-//    std::string queryStr = "Select BOOLEAN";
-//    std::vector<std::string> expected = {"FALSE"};
-//    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-//  }
+  SECTION("empty constraints"){
+    std::string queryStr = "Select BOOLEAN";
+    std::vector<std::string> expected = {"FALSE"};
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
   SECTION("non empty constraints"){
     std::string queryStr = "stmt s;Select BOOLEAN such that Parent(s,_)";
     std::vector<std::string> expected = {"TRUE"};
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+}
+
+TEST_CASE("[TestQPS] Tuple return tests"){
+  std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
+  pkb->setStatement(2);
+  QPS qps(pkb);
+
+  SECTION("empty constraints"){
+    std::string queryStr = "stmt s,s1; Select <s,s1>";
+    std::vector<std::string> expected = {"1 1","1 2","2 1","2 2"};
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+  SECTION("empty constraints1"){
+    std::string queryStr = "stmt s,s1; Select <s,s>";
+    std::vector<std::string> expected = {"1 1","2 2"};
     REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
   }
 }

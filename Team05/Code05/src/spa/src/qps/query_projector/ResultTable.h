@@ -206,17 +206,22 @@ public:
     }
 
     std::vector<std::vector<std::string>> getDistinctColumns(std::vector<std::string> colNames) {
-        try {
-            if (_table.empty()) return {{}};
-            std::vector<std::vector<std::string>> result;
-            for (std::string colName : colNames) {
-                std::vector<std::string> oneCol = getDistinctColumn(colName);
-                result.push_back(oneCol);
-            }
-            return result;
-        } catch (std::runtime_error& e){
-            return {};
+      std::vector<size_t> indices;
+        indices.reserve(colNames.size());
+        for (const auto& colName : colNames) {
+            indices.push_back(findColumnIndex(_table, colName));
         }
+
+        std::vector<std::vector<std::string>> result;
+        result.push_back(colNames);
+        for (size_t i = 1; i < _table.size(); ++i) {
+            std::vector<std::string> row;
+            for (const auto& index : indices) {
+                row.push_back(_table[i][index]);
+            }
+            result.push_back(row);
+        }
+        return ResultTable(result).getTable();
     }
 
     static vector<string> findCommonHeaders(const table& a, const table& b) {

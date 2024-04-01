@@ -22,10 +22,13 @@ std::vector<std::string> TupleStringResult::format() {
     if (results.empty() || results[0].empty()) {
         return ans;
     }
-    for (int i = 0; i < results.size(); i++) {
+    for (int i = 1; i < results.size(); i++) {
         std::string row;
         for (int j = 0; j < results[0].size(); j ++) {
             row += results[i][j];
+            if (j != results[0].size() - 1) {
+              row += " ";
+            }
         }
         ans.push_back(row);
     }

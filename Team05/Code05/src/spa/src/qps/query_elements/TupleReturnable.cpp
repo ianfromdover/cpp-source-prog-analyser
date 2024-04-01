@@ -3,6 +3,7 @@
 //
 
 #include "TupleReturnable.h"
+#include "qps/query_projector/ResultTable.h"
 
 void TupleReturnable::addEntityVector(std::shared_ptr<Entity> e) {
     if (this->entityVector.empty()) {
@@ -13,11 +14,13 @@ void TupleReturnable::addEntityVector(std::shared_ptr<Entity> e) {
 
 std::vector<std::vector<std::string>> TupleReturnable::getEntityTable(QueryPkbVirtual &pkb) {
     std::vector<std::vector<std::string>> result;
+    ResultTable rs;
     for (std::shared_ptr<Entity> ent : entityVector) {
         std::vector<std::vector<std::string>> table = ent->getEntityTable(pkb);
-        result.push_back(table.at(0));
+        rs.add(table);
+//        result.push_back(table.at(0));
     }
-    return result;
+    return rs._table;
 }
 
 std::vector<std::string> TupleReturnable::getArgumentValue() {
