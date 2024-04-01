@@ -18,6 +18,8 @@
 #include "qps/query_elements/constraint/CallsConstraint.h"
 #include "qps/query_elements/constraint/CallsTConstraint.h"
 #include "qps/query_elements/constraint/NextConstraint.h"
+#include "qps/query_elements/constraint/NextTConstraint.h"
+#include "qps/query_elements/constraint/AffectsConstraint.h"
 #include <stdexcept>
 
 class ConstraintBuilderTemplate {

@@ -58,6 +58,8 @@ bool QPSMultiCharacterStrategy::expectSynonymNext(const std::string &name, QPSTo
             {"Calls", QPSTokenType::CALLS},
             {"Calls*",    QPSTokenType::CALLS_T},
             {"Next",    QPSTokenType::NEXT},
+            {"Next*",    QPSTokenType::NEXT_T},
+            {"Affects",    QPSTokenType::AFFECTS},
 
             {"Select",    QPSTokenType::SELECT},
             {"that",      QPSTokenType::THAT},
