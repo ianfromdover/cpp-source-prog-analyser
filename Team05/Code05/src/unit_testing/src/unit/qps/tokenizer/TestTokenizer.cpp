@@ -135,6 +135,27 @@ TEST_CASE("tokenize_suchThat_suchThatToken"){
     }
 }
 
+TEST_CASE("tokenize_boolean") {
+  SECTION("boolean_identToken") {
+    std::string source = "BOOLEAN";
+    std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+    REQUIRE(compareExpected(tokens, {QPSTokenType::IDENTIFIER,
+                                     QPSTokenType::END_OF_FILE}));
+  }
+  SECTION("selectBoolean_booleanToken") {
+    std::string source = "Select BOOLEAN";
+    std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+    REQUIRE(compareExpected(tokens, {QPSTokenType::SELECT, QPSTokenType::BOOLEAN,
+                                     QPSTokenType::END_OF_FILE}));
+  }
+  SECTION("stmtBoolean_identToken") {
+    std::string source = "stmt BOOLEAN";
+    std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+    REQUIRE(compareExpected(tokens, {QPSTokenType::STMT1, QPSTokenType::IDENTIFIER,
+                                     QPSTokenType::END_OF_FILE}));
+  }
+}
+
 TEST_CASE("tokenize_pattern_patternToken") {
     SECTION("pattern_patternToken") {
         std::string source = "pattern";

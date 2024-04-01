@@ -21,7 +21,7 @@ public:
         STMT1, READ, PRINT, CALL, WHILE, IF, ASSIGN, VARIABLE, CONSTANT, PROCEDURE,
 
         // Select Keywords
-        SELECT,
+        SELECT, BOOLEAN,
 
         // Such That Keywords
         SUCH, THAT,

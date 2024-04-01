@@ -14,6 +14,7 @@ std::string PatternArgumentRule::validate(IntermediateQuery & query) {
             return VALIDATION_RULE_SYN_ASSIGN_DECLARATION;
         }
     }
+    return "";
 }
 
 bool PatternArgumentRule::validateArgCount(PatternClause & patternClause, QType type) {

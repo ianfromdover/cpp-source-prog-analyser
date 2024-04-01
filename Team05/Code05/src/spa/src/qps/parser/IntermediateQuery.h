@@ -34,7 +34,7 @@ public:
     std::shared_ptr<PatternClause> getPatternClause();
     std::vector<std::shared_ptr<RelationshipClause>> getAllRelationshipClauses();
     std::vector<std::shared_ptr<PatternClause>> getAllPatternClauses();
-    void processDeclarations(); // TODO: move responsibility to validator.
+    void processDeclarations();
 
 
     std::map<std::string, QPSTokenType::QPSTypeInfo> getSynonymTypeMap();

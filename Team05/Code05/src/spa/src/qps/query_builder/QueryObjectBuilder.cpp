@@ -34,7 +34,7 @@ void QueryObjectBuilder::setSingleSelectClause() {
     }
 
     // TODO: if condition check intermediate query has boolean select
-    if (false) {
+    if (intermediateObject->getSelectClause()->isSelectBool()) {
         qo->setReturnType(std::make_shared<Boolean>());
     }
 

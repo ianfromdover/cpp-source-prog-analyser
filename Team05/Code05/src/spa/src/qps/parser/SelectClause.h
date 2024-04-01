@@ -16,9 +16,17 @@ public:
 
     void addSelect(const std::string &);
 
+    void setSelectBool(){
+        selectBool = true;
+    }
+
     std::vector<std::string> getAllSelect();
 
     std::vector<std::string> selectElements;
+
+    bool isSelectBool() {
+        return selectBool;
+    }
 
     bool operator==(const SelectClause& other) const  {
         return selectElements == other.selectElements;
@@ -31,6 +39,9 @@ public:
         }
         return result;
     }
+
+  private:
+    bool selectBool = false;
 
 };
 
