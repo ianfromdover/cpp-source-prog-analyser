@@ -5,7 +5,7 @@
 #ifndef SPA_CFGEXTRACTOR_H
 #define SPA_CFGEXTRACTOR_H
 
-#include "pkb/apis/PopulatePKB.h"
+#include "pkb/apis/PopulatePkb.h"
 #include "sp/ast/Stmt.h"
 
 class CFG;

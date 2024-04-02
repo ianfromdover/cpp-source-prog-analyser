@@ -5,7 +5,7 @@
 #include <stdexcept>
 #include "QPSParser.h"
 #include "IntermediateQuery.h"
-#include "qps/Exceptions/QPSParseException.h"
+#include "qps/exceptions/QPSParseException.h"
 #include "sp/api/formatter/ExprFormatter.h"
 
 using token = QPSTokenType::QPSTypeInfo;

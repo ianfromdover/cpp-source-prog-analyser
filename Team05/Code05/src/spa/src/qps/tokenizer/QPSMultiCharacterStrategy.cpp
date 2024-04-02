@@ -4,7 +4,7 @@
 
 #include <map>
 #include "QPSMultiCharacterStrategy.h"
-#include "qps/Exceptions/QPSTokenizeException.h"
+#include "qps/exceptions/QPSTokenizeException.h"
 
 
 bool QPSMultiCharacterStrategy::tokenize(char character, std::stringstream &stream, QPSTokenList &tokens,
