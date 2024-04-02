@@ -546,7 +546,7 @@ TEST_CASE("SingleConcretePatternConstraint_TokenizertoQOBuilder_returnsCorrect")
                          "Select a "
                          " pattern a (\"someExpr\", _\"wildcardExpr\"_)";
     std::string processed = testHelper1(source);
-    std::string output = "{RETURN}: a [ASSIGN]\n{DECLARATIONS}: a [ASSIGN]\n{CONSTRAINTS}: Pattern(\"someExpr\" [QUOTED IDENT], \"wildcardExpr\" [EXPR WITH WILDCARD])";
+    std::string output = "{RETURN}: a [ASSIGN]\n{DECLARATIONS}: a [ASSIGN]\n{CONSTRAINTS}: PatternAssign(\"someExpr\" [QUOTED IDENT], \"wildcardExpr\" [EXPR WITH WILDCARD])";
     REQUIRE(processed == output);
     cout << processed;
 }
@@ -556,7 +556,7 @@ TEST_CASE("expressionWildcard_TokenizertoQOBuilder_returnsCorrect") {
                          "Select a "
                          " pattern a (_, _\"wildcardExpr\"_)";
     std::string processed = testHelper1(source);
-    std::string output = "{RETURN}: a [ASSIGN]\n{DECLARATIONS}: a [ASSIGN]\n{CONSTRAINTS}: Pattern(_ [ENT WILDCARD], \"wildcardExpr\" [EXPR WITH WILDCARD])";
+    std::string output = "{RETURN}: a [ASSIGN]\n{DECLARATIONS}: a [ASSIGN]\n{CONSTRAINTS}: PatternAssign(_ [ENT WILDCARD], \"wildcardExpr\" [EXPR WITH WILDCARD])";
     REQUIRE(processed == output);
     cout << processed;
 }
@@ -593,7 +593,7 @@ TEST_CASE("1ConstraintWithPattern_TokenizertoQOBuilder_returnsCorrect") {
                          "such that Parent(_, r) "
                          " pattern a (_, _\"wildcardExpr\"_)";
     std::string processed = testHelper1(source);
-    std::string output = "{RETURN}: r [READ]\n{DECLARATIONS}: a [ASSIGN], f [IF], r [READ]\n{CONSTRAINTS}: Parent(_ [STMT WILDCARD], r [READ]), Pattern(_ [ENT WILDCARD], \"wildcardExpr\" [EXPR WITH WILDCARD])";
+    std::string output = "{RETURN}: r [READ]\n{DECLARATIONS}: a [ASSIGN], f [IF], r [READ]\n{CONSTRAINTS}: Parent(_ [STMT WILDCARD], r [READ]), PatternAssign(_ [ENT WILDCARD], \"wildcardExpr\" [EXPR WITH WILDCARD])";
     REQUIRE(processed == output);
     cout << processed;
 }
