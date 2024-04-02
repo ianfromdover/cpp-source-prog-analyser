@@ -1,7 +1,6 @@
 #include <fstream>
 #include "TestWrapper.h"
-#include "qps/QPS.h"
-#include "../../spa/src/common/base_exception/BaseException.h"
+#include "common/base_exception/BaseException.h"
 
 // implementation code of WrapperFactory - do NOT modify the next 5 lines
 AbstractWrapper* WrapperFactory::wrapper = 0;
@@ -29,7 +28,11 @@ void TestWrapper::parse(std::string filename) {
     }
     theFile.close();
     try {
-        sp.exec(input);
+        const auto tokens = sp.scan(input);
+        const auto program = sp.parse(tokens);
+        sp.validate(program);
+        sp.extract(program);
+        this->affects = std::make_shared<Affects>(CFG::compile(program), queryPkb);
     } catch (BaseException& exception) {
         // handle exception
         std::cerr << "Caught BaseException: " << exception.what() << std::endl;
@@ -53,10 +56,6 @@ void TestWrapper::evaluate(std::string query, std::list<std::string>& results) {
         std::cerr << "Caught BaseException: " << exception.what() << std::endl;
         exit(1); // exit silently
     }
-}
-
-TestWrapper::TestWrapper() {
-
 }
 
 

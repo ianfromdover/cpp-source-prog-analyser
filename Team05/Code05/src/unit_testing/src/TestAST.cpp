@@ -1929,14 +1929,18 @@ TEST_CASE("Test Affects") {
         }
     )";
 
-    const auto& storage = std::make_shared<PkbStorage>();
-    auto pkb = std::make_shared<PopulatePkb>(storage);
-    auto sp = SourceProcessor(pkb);
+    const auto& pkb = std::make_shared<PkbStorage>();
+    auto populatePkb = std::make_shared<PopulatePkb>(pkb);
+    auto queryPkb = std::make_shared<QueryPkb>(pkb);
+
+    auto sp = SourceProcessor(populatePkb);
     const auto& tokens = sp.scan(source);
     const auto& program = sp.parse(tokens);
     sp.validate(program);
+    sp.extract(program);
+
     const auto& cfgs = CFG::compile(program);
-    auto affects = Affects(cfgs);
+    auto affects = Affects(cfgs, queryPkb);
     const auto [in, out] = affects.get(1, 2);
 
     for (const auto& block : *cfgs->at("main")->getBlocks()) {
