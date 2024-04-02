@@ -66,6 +66,8 @@ bool QPSMultiCharacterStrategy::expectSynonymNext(const std::string &name, QPSTo
           {"and", QPSTokenType::AND},
           {"that",      QPSTokenType::THAT},
             {"pattern",   QPSTokenType::PATTERN},
+            {"not",   QPSTokenType::NOT},
+
     };
 
     auto it = declarationKeywords.find(name);
@@ -76,6 +78,21 @@ bool QPSMultiCharacterStrategy::expectSynonymNext(const std::string &name, QPSTo
                 tokens.getTokens().pop_back();
                 tokens.addToken(QPSTokenType::SUCH, t.getLexeme());
                 tokens.addToken(QPSTokenType::THAT, name);
+            } else {
+                tokens.addToken(QPSTokenType::IDENTIFIER, name);
+            }
+            return false;
+        }
+        if (it->second == QPSTokenType::NOT){
+            if (!tokens.getTokens().empty() &&
+                    (tokens.getTokens().back()->getType().getInfo() == QPSTokenType::AND ||
+                    tokens.getTokens().back()->getType().getInfo() == QPSTokenType::THAT)) {
+                tokens.addToken(QPSTokenType::NOT, name);
+            } else if (tokens.getTokens().size()>1 &&
+                        tokens.getTokens()[tokens.getTokens().size()-2]->getType().getInfo() == QPSTokenType::SELECT) {
+                // Handle edge case of not being a select synonym
+                tokens.addToken(QPSTokenType::NOT, name);
+
             } else {
                 tokens.addToken(QPSTokenType::IDENTIFIER, name);
             }

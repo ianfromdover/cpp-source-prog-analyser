@@ -37,7 +37,7 @@ public:
     USES_P,
     CALLS,
     CALLS_T,
-    AND,
+    AND, NOT,
 
     // Entity References
         ENT_REF,

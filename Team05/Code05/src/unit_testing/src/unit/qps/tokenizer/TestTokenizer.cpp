@@ -135,6 +135,41 @@ TEST_CASE("tokenize_suchThat_suchThatToken"){
     }
 }
 
+TEST_CASE("tokenize_not"){
+    SECTION("simple not"){
+        std::string source = "not";
+        std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+        REQUIRE(compareExpected(tokens, {QPSTokenType::IDENTIFIER, QPSTokenType::END_OF_FILE}));
+    }
+    SECTION("select ident not pattern"){
+        std::string source = "Select s not pattern";
+        std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+        REQUIRE(compareExpected(tokens, {QPSTokenType::SELECT, QPSTokenType::IDENTIFIER, QPSTokenType::NOT, QPSTokenType::PATTERN, QPSTokenType::END_OF_FILE}));
+    }
+    SECTION("select not as synonym"){
+        std::string source = "Select not not pattern";
+        std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+        REQUIRE(compareExpected(tokens, {QPSTokenType::SELECT, QPSTokenType::IDENTIFIER, QPSTokenType::NOT, QPSTokenType::PATTERN, QPSTokenType::END_OF_FILE}));
+    }
+    SECTION("not as declaration synonym"){
+        std::string source = "stmt not; Select s";
+        std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+        REQUIRE(compareExpected(tokens, {QPSTokenType::STMT1, QPSTokenType::IDENTIFIER, QPSTokenType::SEMICOLON, QPSTokenType::SELECT, QPSTokenType::IDENTIFIER, QPSTokenType::END_OF_FILE}));
+    }
+    SECTION("select not as synonym with and operator"){
+        std::string source = "Select not not Follows(not,not) and not Follows(not,not)";
+        std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+        REQUIRE(compareExpected(tokens,
+             {QPSTokenType::SELECT, QPSTokenType::IDENTIFIER,
+              QPSTokenType::NOT,
+              QPSTokenType::FOLLOWS, QPSTokenType::LEFT_PAREN, QPSTokenType::IDENTIFIER, QPSTokenType::COMMA, QPSTokenType::IDENTIFIER, QPSTokenType::RIGHT_PAREN,
+              QPSTokenType::AND,
+              QPSTokenType::NOT,
+              QPSTokenType::FOLLOWS, QPSTokenType::LEFT_PAREN, QPSTokenType::IDENTIFIER, QPSTokenType::COMMA, QPSTokenType::IDENTIFIER, QPSTokenType::RIGHT_PAREN,
+              QPSTokenType::END_OF_FILE}));
+    }
+}
+
 TEST_CASE("tokenize_boolean") {
   SECTION("boolean_identToken") {
     std::string source = "BOOLEAN";
