@@ -8,24 +8,50 @@
 std::pair<Definitions, Uses> DefUseExtractor::extract(const std::shared_ptr<CFG> &cfg) {
     this->defs = Definitions();
     this->uses = Uses();
+    this->calls = Calls();
 
     for (const auto& block : *cfg->getBlocks()) {
         this->currentBlock = block;
-        this->defs[this->currentBlock] = std::unordered_set<VarPoint>();
-        this->uses[this->currentBlock] = std::unordered_set<VarPoint>();
+        this->defs.insert({ this->currentBlock, std::unordered_set<VarPoint>() });
+        this->uses.insert({ this->currentBlock, std::unordered_set<VarPoint>() });
         auto _ = std::make_shared<Accumulator>();
         this->visitStmtList(block->getStmts(), _);
     }
 
+    this->extractDefinitionsFromCalls();
+
     return { std::move(this->defs), std::move(this->uses) };
 }
 
-void DefUseExtractor::addToDefinitions(const VarPoint &def) {
+void DefUseExtractor::extractDefinitionsFromCalls() {
+    std::unordered_set<std::string> defNames;
+    for (const auto& [_, blockDefs] : this->defs) {
+        for (const auto& def : blockDefs) {
+            defNames.insert(def.getName());
+        }
+    }
+
+    for (const auto& [block, blockCalls] : this->calls) {
+        for (const auto& call : blockCalls) {
+            for (const auto& defName : defNames) {
+                if (this->queryPkb->isModifiesP(call.getName(), defName)) {
+                    this->defs.at(block).insert(VarPoint(defName, call.getStmtNo()));
+                }
+            }
+        }
+    }
+}
+
+void DefUseExtractor::addToDefinitions(const VarPoint& def) {
     this->defs.at(this->currentBlock).insert(def);
 }
 
-void DefUseExtractor::addToUses(const VarPoint &use) {
+void DefUseExtractor::addToUses(const VarPoint& use) {
     this->uses.at(this->currentBlock).insert(use);
+}
+
+void DefUseExtractor::addToCalls(const VarPoint& call) {
+    this->calls.at(this->currentBlock).insert(call);
 }
 
 void DefUseExtractor::visitProcedure(const Procedure &procedure, std::shared_ptr<Accumulator> &_) {
@@ -43,7 +69,8 @@ void DefUseExtractor::visitPrintStmt(const Print &stmt, std::shared_ptr<Accumula
 }
 
 void DefUseExtractor::visitCallStmt(const Call &stmt, std::shared_ptr<Accumulator>& _) {
-    // TODO: Figure out how to handle this.
+    const auto call = VarPoint(stmt.getProcName(), stmt.getStmtNo());
+    this->addToCalls(call);
 }
 
 void DefUseExtractor::visitWhileStmt(const While &stmt, std::shared_ptr<Accumulator>& _) {
