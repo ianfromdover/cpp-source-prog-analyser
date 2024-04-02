@@ -192,6 +192,9 @@ std::vector<std::shared_ptr<RelationshipClause>> QPSParser::relCond() {
 }
 
 std::shared_ptr<RelationshipClause> QPSParser::relRef() {
+    if (this->match({QPSTokenType::NOT})){
+        // TODO: set not flag
+    }
   if (this->match({QPSTokenType::PARENT, QPSTokenType::PARENT_T,
                    QPSTokenType::FOLLOWS, QPSTokenType::FOLLOWS_T})) {
     QPSToken relationshipType = this->previous();
@@ -266,6 +269,9 @@ QPSToken QPSParser::any() {
 std::shared_ptr<PatternClause> QPSParser::assignPattern() {
     int state = current;
     try {
+        if (this->match({QPSTokenType::NOT})){
+            // TODO: set not flag
+        }
       QPSToken synAssign = this->synonym(
           this->consume(QPSTokenType::IDENTIFIER, "Expect identifier."));
 
@@ -293,6 +299,9 @@ std::shared_ptr<PatternClause> QPSParser::assignPattern() {
 std::shared_ptr<PatternClause> QPSParser::whilePattern() {
   int state = current;
   try {
+      if (this->match({QPSTokenType::NOT})){
+          // TODO: set not flag
+      }
     QPSToken synAssign = this->synonym(this->consume(QPSTokenType::IDENTIFIER, "Expect identifier."));
 
     this->consume(QPSTokenType::LEFT_PAREN, "Expect '(' after identifier.");
@@ -317,6 +326,9 @@ std::shared_ptr<PatternClause> QPSParser::whilePattern() {
 std::shared_ptr<PatternClause> QPSParser::ifPattern() {
   int state = current;
   try {
+      if (this->match({QPSTokenType::NOT})){
+          // TODO: set not flag
+      }
     QPSToken synIf = this->synonym(this->consume(QPSTokenType::IDENTIFIER, "Expect identifier."));
 
     this->consume(QPSTokenType::LEFT_PAREN, "Expect '(' after identifier.");

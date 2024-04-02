@@ -85,7 +85,11 @@ public:
     }
 
     TokenListBuilder validParent(){
-        return suchThat().parent().leftParen().identifier().comma().identifier().rightParen();
+        return suchThat().validParentWithoutSuchThat();
+    }
+
+    TokenListBuilder validParentWithoutSuchThat(){
+        return parent().leftParen().identifier().comma().identifier().rightParen();
     }
 
     TokenListBuilder validParentStar(){
@@ -220,6 +224,17 @@ public:
         tokenList.addToken(type::LEFT_PAREN, "(");
         return *this;
     };
+
+    TokenListBuilder _and(){
+        tokenList.addToken(type::AND, "and");
+        return *this;
+    };
+
+    TokenListBuilder _not(){
+        tokenList.addToken(type::NOT, "not");
+        return *this;
+    };
+
 
     TokenListBuilder leftA_Brac() {
         tokenList.addToken(type::LEFT_A_BRAC, "<");

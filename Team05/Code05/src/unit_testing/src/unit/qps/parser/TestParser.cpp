@@ -99,6 +99,30 @@ TEST_CASE("tuple select"){
     }
 }
 
+TEST_CASE("not parsing"){
+    SECTION("single not pattern"){
+        QPSTokenList tokens;
+        tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().suchThat()._not().validParentWithoutSuchThat().get();
+
+        QPSParser parser(tokens);
+        REQUIRE_NOTHROW(parser.parse());
+    }
+    SECTION("multi not pattern"){
+        QPSTokenList tokens;
+        tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().suchThat()._not().validParentWithoutSuchThat().suchThat()._not().validParentWithoutSuchThat().get();
+
+        QPSParser parser(tokens);
+        REQUIRE_NOTHROW(parser.parse());
+    }
+    SECTION("multi not pattern with and"){
+        QPSTokenList tokens;
+        tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().suchThat()._not().validParentWithoutSuchThat()._and()._not().validParentWithoutSuchThat().get();
+
+        QPSParser parser(tokens);
+        REQUIRE_NOTHROW(parser.parse());
+    }
+}
+
 TEST_CASE("singleDeclaration_singleSelect_singlePattern") {
 
     SECTION("pattern_synonym_wildcard") {
