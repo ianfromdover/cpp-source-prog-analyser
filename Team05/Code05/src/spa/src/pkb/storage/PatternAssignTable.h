@@ -2,7 +2,7 @@
 #define SPA_PATTERN_ASGN_TABLE_H
 
 #include "common/SpaTypes.h"
-#include "pkb/storage/base/TwoSideMap.hpp"
+#include "PkbTable.hpp"
 
 /**
  * Stores the pattern relationship for assign statements.
@@ -13,9 +13,9 @@
  */
 class PatternAssignTable {
 private:
-    TwoSideMap<StmtNo, VarName> stmtLhsMap;
-    TwoSideMap<StmtNo, VarName> stmtRhsMap;
-    TwoSideMap<VarName, VarName> lhsRhsMap;
+    PkbTable<StmtNo, VarName> stmtLhsMap;
+    PkbTable<StmtNo, VarName> stmtRhsMap;
+    PkbTable<VarName, VarName> lhsRhsMap;
 public:
     PatternAssignTable();
 

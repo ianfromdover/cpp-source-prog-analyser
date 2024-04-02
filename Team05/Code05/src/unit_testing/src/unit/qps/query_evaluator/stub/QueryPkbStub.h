@@ -30,12 +30,13 @@ private:
     std::vector<std::vector<std::string>> modifiesSTable;
     std::vector<std::vector<std::string>> modifiesPTable;
     std::vector<std::vector<std::string>> patternAsgnTable;
-    std::vector<std::vector<std::string>> patternWhileTable;
     std::vector<std::vector<std::string>> patternIfTable;
+    std::vector<std::vector<std::string>> patternWhileTable;
     std::vector<std::vector<std::string>> callsTable;
     std::vector<std::vector<std::string>> callsTTable;
     std::vector<std::vector<std::string>> nextTable;
     std::vector<std::vector<std::string>> nextTTable;
+    std::vector<std::vector<std::string>> affectsTable;
 
 public:
     void setRead(Table t);
@@ -57,86 +58,159 @@ public:
     void setModifies(std::vector<std::vector<std::string>> t);
     void setModifiesP(std::vector<std::vector<std::string>> t);
     void setPatternAsgn(std::vector<std::vector<std::string>> t);
-    void setPatternWhile(std::vector<std::vector<std::string>> t);
-    void setPatternIf(std::vector<std::vector<std::string>> t);
     void setCalls(std::vector<std::vector<std::string>> t);
     void setCallsT(std::vector<std::vector<std::string>> t);
 
-    // lack of implementation is causing errors, so implement duds for MS2 first.
-    Table getCallByNum(StmtNo sNum) override;
-    Table getCallByProc(ProcName proc) override;
+    bool checkAffects(StmtNo affector, StmtNo affected) override;
+    bool checkNextT(StmtNo before, StmtNo after) override;
+    bool resetAffects() override;
+    bool resetNextT() override;
+    // entities --------------------------------------------------------------
     Table getCallTable() override;
-    Table getProcByName(ProcName proc) override;
-    Table getProcTable() override;
-    Table getReadByNum(StmtNo sNum) override;
-    Table getReadByVar(VarName var) override;
-    Table getReadTable() override;
-    Table getIfByNum(StmtNo sNum) override;
-    Table getIfByVar(VarName var) override;
-    Table getIfStmts() override;
-    Table getIfTable() override;
-    Table getWhileByNum(StmtNo sNum) override;
-    Table getWhileByVar(VarName var) override;
-    Table getWhileStmts() override;
-    Table getWhileTable() override;
-    Table getPrintByNum(StmtNo sNum) override;
-    Table getPrintByVar(VarName var) override;
-    Table getPrintTable() override;
-    Table getStmtByNum(StmtNo sNum) override;
-    Table getStmtTable() override;
-    Table getVars() override;
-    Table getVarTable() override;
-    Table getConstByName(VarName var) override;
-    Table getConsts() override;
+    Table getCallAllStmts() override;
+    Table getCallAllProcs() override;
+    Table getCallProcsByStmt(StmtNo sNum) override;
+    Table getCallStmtsByProc(ProcName proc) override;
+
     Table getConstTable() override;
-    Table getFollowsByBefore(StmtNo before) override;
-    Table getFollowsByAfter(StmtNo after) override;
-    Table getFollowsTable() override;
-    Table getFollowsTByBefore(StmtNo before) override;
-    Table getFollowsTByAfter(StmtNo after) override;
-    Table getFollowsTTable() override;
-    Table getParentByParent(StmtNo parent) override;
-    Table getParentByChild(StmtNo child) override;
-    Table getParentTable() override;
-    Table getParentTByParent(StmtNo parent) override;
-    Table getParentTByChild(StmtNo child) override;
-    Table getParentTTable() override;
-    Table getUsesSByNum(StmtNo user) override;
-    Table getUsesSByVar(VarName used) override;
-    Table getUsesSTable() override;
-    // TODO: add UsesP
-    Table getUsesPTable() override;
-    Table getModifiesSByNum(StmtNo modifier) override;
-    Table getModifiesSByVar(VarName modified) override;
-    Table getModifiesSTable() override;
-    Table getModifiesPByProc(ProcName modifier) override;
-    Table getModifiesPByVar(VarName modified) override;
-    Table getModifiesPTable() override;
-    Table getPatternAsgnByNum(StmtNo sNum) override;
-    Table getPatternAsgnByLhs(std::string Lhs) override;
-    Table getPatternAsgnByRhs(std::string Rhs) override;
-    Table getPatternAsgnByLhsPartial(std::string LhsPartial) override;
-    Table getPatternAsgnByRhsPartial(std::string RhsPartial) override;
-    Table getPatternAsgnTable() override;
-    Table getPatternIfByNum(StmtNo sNum) override;
-    Table getPatternIfByVar(VarName var) override;
-    Table getPatternIfTable() override;
-    Table getPatternWhileByNum(StmtNo sNum) override;
-    Table getPatternWhileByVar(VarName var) override;
-    Table getPatternWhileTable() override;
-    Table getCallsByCaller(ProcName caller) override;
-    Table getCallsByCalled(ProcName called) override;
+    Table getConstAllStmts() override;
+    Table getConstAllValues() override;
+    Table getConstStmtsByVal(StmtNo sNum) override;
+    Table getConstValuesByStmt(StmtNo sNum) override;
+
+    Table getIfTable() override;
+    Table getIfAllStmts() override;
+    Table getIfAllVars() override;
+    Table getIfVarsByStmt(StmtNo sNum) override;
+    Table getIfStmtsByVar(VarName var) override;
+
+    Table getPrintTable() override;
+    Table getPrintAllStmts() override;
+    Table getPrintAllVars() override;
+    Table getPrintVarsByStmt(StmtNo sNum) override;
+    Table getPrintStmtsByVar(VarName var) override;
+
+    Table getProcTable() override;
+    // should i add a containsProc method? for with clause
+
+    Table getReadTable() override;
+    Table getReadAllStmts() override;
+    Table getReadAllVars() override;
+    Table getReadVarsByStmt(StmtNo sNum) override;
+    Table getReadStmtsByVar(VarName var) override;
+
+    Table getStmtTable() override;
+    // should i add a containsStmt method? for with clause
+
+    Table getVarTable() override;
+    Table getVarAllStmts() override;
+    Table getVarAllVars() override;
+    Table getVarVarsByStmt(StmtNo sNum) override;
+    Table getVarStmtsByVar(VarName var) override;
+
+    Table getWhileTable() override;
+    Table getWhileAllStmts() override;
+    Table getWhileAllVars() override;
+    Table getWhileVarsByStmt(StmtNo sNum) override;
+    Table getWhileStmtsByVar(VarName var) override;
+
+    // relations --------------------------------------------------------------
+    /*
+    Table getAffectsTable() override; // generated each query
+    Table getAffectsAllAffectors() override;
+    Table getAffectsAllAffected() override;
+    Table getAffectsAffectedByAffector(StmtNo before) override;
+    Table getAffectsAffectorsByAffected(StmtNo after) override;
+     */
+
     Table getCallsTable() override;
-    Table getCallsTByCaller(ProcName caller) override;
-    Table getCallsTByCalled(ProcName called) override;
+    Table getCallsAllCallers() override;
+    Table getCallsAllCalled() override;
+    Table getCallsCalledByCaller(ProcName caller) override;
+    Table getCallsCallerByCalled(ProcName called) override;
+
     Table getCallsTTable() override;
-    Table getNextByBefore(StmtNo before) override;
-    Table getNextByAfter(StmtNo after) override;
+    Table getCallsTAllCallers() override;
+    Table getCallsTAllCalled() override;
+    Table getCallsTCalledByCaller(ProcName caller) override;
+    Table getCallsTCallerByCalled(ProcName called) override;
+
+    Table getFollowsTable() override;
+    Table getFollowsAllBefore() override;
+    Table getFollowsAllAfter() override;
+    Table getFollowsAfterByBefore(StmtNo before) override;
+    Table getFollowsBeforeByAfter(StmtNo after) override;
+
+    Table getFollowsTTable() override;
+    Table getFollowsTAllBefore() override;
+    Table getFollowsTAllAfter() override;
+    Table getFollowsTAfterByBefore(StmtNo before) override;
+    Table getFollowsTBeforeByAfter(StmtNo after) override;
+
+    Table getModifiesPTable() override;
+    Table getModifiesPAllProcs() override;
+    Table getModifiesPAllVars() override;
+    Table getModifiesPVarsByProc(ProcName modifier) override;
+    Table getModifiesPProcsByVar(VarName modified) override;
+
+    Table getModifiesSTable() override;
+    Table getModifiesSAllStmts() override;
+    Table getModifiesSAllVars() override;
+    Table getModifiesSVarsByStmt(StmtNo modifier) override;
+    Table getModifiesSStmtsByVar(VarName modified) override;
+
     Table getNextTable() override;
-    Table getNextTByBefore(StmtNo before) override;
-    Table getNextTByAfter(StmtNo after) override;
-    Table getNextTTable() override;
-    Table getAffectsByBefore(StmtNo before) override;
-    Table getAffectsByAfter(StmtNo after) override;
-    Table getAffectsTable() override;
+    Table getNextAllBefore() override;
+    Table getNextAllAfter() override;
+    Table getNextAfterByBefore(StmtNo before) override;
+    Table getNextBeforeByAfter(StmtNo after) override;
+
+    /*
+    Table getNextTTable() override; // generated each query
+    Table getNextTAllBefore() override;
+    Table getNextTAllAfter() override;
+    Table getNextTAfterByBefore(StmtNo before) override;
+    Table getNextTBeforeByAfter(StmtNo after) override;
+     */
+
+    Table getParentTable() override;
+    Table getParentAllChildren() override;
+    Table getParentAllParents() override;
+    Table getParentChildByParent(StmtNo parent) override;
+    Table getParentParentByChild(StmtNo child) override;
+
+    Table getParentTTable() override;
+    Table getParentTAllChildren() override;
+    Table getParentTAllParents() override;
+    Table getParentTChildByParent(StmtNo parent) override;
+    Table getParentTParentByChild(StmtNo child) override;
+
+    Table getPatternAsgnTable() override;
+    Table getPatternAsgnByStmt(StmtNo sNum) override;
+    Table getPatternAsgnByLhs(VarName Lhs) override;
+    Table getPatternAsgnByRhs(std::string Rhs) override;
+
+    Table getPatternIfTable() override;
+    Table getPatternIfAllStmts() override;
+    Table getPatternIfAllVars() override;
+    Table getPatternIfVarsByStmt(StmtNo sNum) override;
+    Table getPatternIfStmtsByVar(VarName var) override;
+
+    Table getPatternWhileTable() override;
+    Table getPatternWhileAllStmts() override;
+    Table getPatternWhileAllVars() override;
+    Table getPatternWhileVarsByStmt(StmtNo sNum) override;
+    Table getPatternWhileStmtsByVar(VarName var) override;
+
+    Table getUsesPTable() override;
+    Table getUsesPAllProcs() override;
+    Table getUsesPAllVars() override;
+    Table getUsesPVarsByProc(ProcName user) override;
+    Table getUsesPProcsByVar(VarName used) override;
+
+    Table getUsesSTable() override;
+    Table getUsesSAllStmts() override;
+    Table getUsesSAllVars() override;
+    Table getUsesSVarsByStmt(StmtNo user) override;
+    Table getUsesSStmtsByVar(VarName used) override;
 };
