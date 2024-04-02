@@ -4,7 +4,7 @@
 
 #include "Affects.h"
 
-Affects::Affects(const std::shared_ptr<CFGs> &cfgs) {
+Affects::Affects(const std::shared_ptr<CFGs> &cfgs, const std::shared_ptr<QueryPkb>& queryPkb) : extractor(queryPkb) {
     this->cfgs = cfgs;
     this->defUseChain = DefUseChain();
     this->meet = [](const DefinitionSet& s1, const DefinitionSet& s2) {
@@ -24,7 +24,6 @@ Affects::Affects(const std::shared_ptr<CFGs> &cfgs) {
         out.insert(gen.begin(), gen.end());
         return std::move(out);
     };
-    this->extractor = DefUseExtractor();
 }
 
 // TODO: Consider renaming this method to "intersection".

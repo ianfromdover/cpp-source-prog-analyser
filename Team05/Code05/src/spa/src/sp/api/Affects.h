@@ -27,7 +27,7 @@ private:
     static DefinitionSet computeKillSet(const DefinitionSet& in, const DefinitionSet& gen);
     static void computeSetDifference(DefinitionSet& minuend, const DefinitionSet& subtrahend);
 public:
-    explicit Affects(const std::shared_ptr<CFGs>& cfgs);
+    explicit Affects(const std::shared_ptr<CFGs>& cfgs, const std::shared_ptr<QueryPkb>& queryPkb);
     std::pair<Solver<DefinitionSet>::Facts, Solver<DefinitionSet>::Facts> get(StmtNo s1, StmtNo s2);
     void flush();
 };
