@@ -95,228 +95,483 @@ void QueryPkbStub::setCallsT(Table t) {
     callsTTable = std::move(t);
 }
 
-Table QueryPkbStub::getCallByNum(StmtNo sNum) {
-    return {{}};
+bool QueryPkbStub::checkAffects(StmtNo affector, StmtNo affected) {
+    return false;
 }
-Table QueryPkbStub::getCallByProc(ProcName proc) {
-    return {{}};
+bool QueryPkbStub::checkNextT(StmtNo before, StmtNo after) {
+    return false;
 }
+bool QueryPkbStub::resetAffects() {
+    return false;
+}
+bool QueryPkbStub::resetNextT() {
+    return false;
+}
+
 Table QueryPkbStub::getCallTable() {
     return callTable;
 }
-Table QueryPkbStub::getProcByName(ProcName proc) {
+
+Table QueryPkbStub::getCallAllStmts() {
     return {{}};
 }
-Table QueryPkbStub::getProcTable() {
-    return procedureTable;
-}
-Table QueryPkbStub::getReadByNum(StmtNo sNum) {
+
+Table QueryPkbStub::getCallAllProcs() {
     return {{}};
 }
-Table QueryPkbStub::getReadByVar(VarName var) {
+
+Table QueryPkbStub::getCallProcsByStmt(StmtNo sNum) {
     return {{}};
 }
-Table QueryPkbStub::getReadTable() {
-    return readTable;
-}
-Table QueryPkbStub::getIfByNum(StmtNo sNum) {
+
+Table QueryPkbStub::getCallStmtsByProc(ProcName proc) {
     return {{}};
 }
-Table QueryPkbStub::getIfByVar(VarName var) {
-    return {{}};
-}
-Table QueryPkbStub::getIfStmts() {
-    return table;
-}
-Table QueryPkbStub::getIfTable() {
-    return ifTable;
-}
-Table QueryPkbStub::getWhileByNum(StmtNo sNum) {
-    return {{}};
-}
-Table QueryPkbStub::getWhileByVar(VarName var) {
-    return {{}};
-}
-Table QueryPkbStub::getWhileStmts() {
-    return table;
-}
-Table QueryPkbStub::getWhileTable() {
-    return whileTable;
-}
-Table QueryPkbStub::getPrintByNum(StmtNo sNum) {
-    return {{}};
-}
-Table QueryPkbStub::getPrintByVar(VarName var) {
-    return {{}};
-}
-Table QueryPkbStub::getPrintTable() {
-    return printTable;
-}
-Table QueryPkbStub::getStmtByNum(StmtNo sNum) {
-    return {{}};
-}
-Table QueryPkbStub::getStmtTable() {
-    return statementTable;
-}
-Table QueryPkbStub::getVars() {
-    return table;
-}
-Table QueryPkbStub::getVarTable() {
-    return varTable;
-}
-Table QueryPkbStub::getConstByName(VarName var) {
-    return {{}};
-}
-Table QueryPkbStub::getConsts() {
-    return table;
-}
+
 Table QueryPkbStub::getConstTable() {
     return constTable;
 }
-Table QueryPkbStub::getFollowsByBefore(StmtNo before) {
+
+Table QueryPkbStub::getConstAllStmts() {
     return {{}};
 }
-Table QueryPkbStub::getFollowsByAfter(StmtNo after) {
+
+Table QueryPkbStub::getConstAllValues() {
     return {{}};
 }
+
+Table QueryPkbStub::getConstStmtsByVal(ConstVal val) {
+    return {{}};
+}
+
+Table QueryPkbStub::getConstValuesByStmt(StmtNo sNum) {
+    return {{}};
+}
+
+Table QueryPkbStub::getIfTable() {
+    return ifTable;
+}
+
+Table QueryPkbStub::getIfAllStmts() {
+    return {{}};
+}
+
+Table QueryPkbStub::getIfAllVars() {
+    return {{}};
+}
+
+Table QueryPkbStub::getIfVarsByStmt(StmtNo sNum) {
+    return {{}};
+}
+
+Table QueryPkbStub::getIfStmtsByVar(VarName var) {
+    return {{}};
+}
+
+Table QueryPkbStub::getPrintTable() {
+    return printTable;
+}
+
+Table QueryPkbStub::getPrintAllStmts() {
+    return {{}};
+}
+
+Table QueryPkbStub::getPrintAllVars() {
+    return {{}};
+}
+
+Table QueryPkbStub::getPrintVarsByStmt(StmtNo sNum) {
+    return {{}};
+}
+
+Table QueryPkbStub::getPrintStmtsByVar(VarName var) {
+    return {{}};
+}
+
+Table QueryPkbStub::getProcTable() {
+    return procedureTable;
+}
+
+Table QueryPkbStub::getReadTable() {
+    return readTable;
+}
+
+Table QueryPkbStub::getReadAllStmts() {
+    return {{}};
+}
+
+Table QueryPkbStub::getReadAllVars() {
+    return {{}};
+}
+
+Table QueryPkbStub::getReadVarsByStmt(StmtNo sNum) {
+    return {{}};
+}
+
+Table QueryPkbStub::getReadStmtsByVar(VarName var) {
+    return {{}};
+}
+
+Table QueryPkbStub::getStmtTable() {
+    return statementTable;
+}
+
+Table QueryPkbStub::getVarTable() {
+    return varTable;
+}
+
+Table QueryPkbStub::getVarAllStmts() {
+    return {{}};
+}
+
+Table QueryPkbStub::getVarAllVars() {
+    return {{}};
+}
+
+Table QueryPkbStub::getVarVarsByStmt(StmtNo sNum) {
+    return {{}};
+}
+
+Table QueryPkbStub::getVarStmtsByVar(VarName var) {
+    return {{}};
+}
+
+Table QueryPkbStub::getWhileTable() {
+    return whileTable;
+}
+
+Table QueryPkbStub::getWhileAllStmts() {
+    return {{}};
+}
+
+Table QueryPkbStub::getWhileAllVars() {
+    return {{}};
+}
+
+Table QueryPkbStub::getWhileVarsByStmt(StmtNo sNum) {
+    return {{}};
+}
+
+Table QueryPkbStub::getWhileStmtsByVar(VarName var) {
+    return {{}};
+}
+
+/*
+Table QueryPkbStub::getAffectsTable() {
+    return affectsTable;
+}
+
+Table QueryPkbStub::getAffectsAllAffectors() {
+    return {{}};
+}
+
+Table QueryPkbStub::getAffectsAllAffected() {
+    return {{}};
+}
+
+Table QueryPkbStub::getAffectsAffectedByAffector(StmtNo before) {
+    return {{}};
+}
+
+Table QueryPkbStub::getAffectsAffectorsByAffected(StmtNo after) {
+    return {{}};
+}
+ */
+
+Table QueryPkbStub::getCallsTable() {
+    return callsTable;
+}
+
+Table QueryPkbStub::getCallsAllCallers() {
+    return {{}};
+}
+
+Table QueryPkbStub::getCallsAllCalled() {
+    return {{}};
+}
+
+Table QueryPkbStub::getCallsCalledByCaller(ProcName caller) {
+    return {{}};
+}
+
+Table QueryPkbStub::getCallsCallerByCalled(ProcName called) {
+    return {{}};
+}
+
+Table QueryPkbStub::getCallsTTable() {
+    return callsTTable;
+}
+
+Table QueryPkbStub::getCallsTAllCallers() {
+    return {{}};
+}
+
+Table QueryPkbStub::getCallsTAllCalled() {
+    return {{}};
+}
+
+Table QueryPkbStub::getCallsTCalledByCaller(ProcName caller) {
+    return {{}};
+}
+
+Table QueryPkbStub::getCallsTCallerByCalled(ProcName called) {
+    return {{}};
+}
+
 Table QueryPkbStub::getFollowsTable() {
     return followsTable;
 }
-Table QueryPkbStub::getFollowsTByBefore(StmtNo before) {
+
+Table QueryPkbStub::getFollowsAllBefore() {
     return {{}};
 }
-Table QueryPkbStub::getFollowsTByAfter(StmtNo after) {
+
+Table QueryPkbStub::getFollowsAllAfter() {
     return {{}};
 }
+
+Table QueryPkbStub::getFollowsAfterByBefore(StmtNo before) {
+    return {{}};
+}
+
+Table QueryPkbStub::getFollowsBeforeByAfter(StmtNo after) {
+    return {{}};
+}
+
 Table QueryPkbStub::getFollowsTTable() {
     return followsTTable;
 }
-Table QueryPkbStub::getParentByParent(StmtNo parent) {
+
+Table QueryPkbStub::getFollowsTAllBefore() {
     return {{}};
 }
-Table QueryPkbStub::getParentByChild(StmtNo child) {
+
+Table QueryPkbStub::getFollowsTAllAfter() {
     return {{}};
 }
-Table QueryPkbStub::getParentTable() {
-    return parentTable;
-}
-Table QueryPkbStub::getParentTByParent(StmtNo parent) {
+
+Table QueryPkbStub::getFollowsTAfterByBefore(StmtNo before) {
     return {{}};
 }
-Table QueryPkbStub::getParentTByChild(StmtNo child) {
+
+Table QueryPkbStub::getFollowsTBeforeByAfter(StmtNo after) {
     return {{}};
 }
-Table QueryPkbStub::getParentTTable() {
-    return parentTTable;
-}
-Table QueryPkbStub::getUsesSByNum(StmtNo user) {
-    return {{}};
-}
-Table QueryPkbStub::getUsesSByVar(VarName used) {
-    return {{}};
-}
-Table QueryPkbStub::getUsesSTable() {
-    return usesSTable;
-}
-Table QueryPkbStub::getUsesPTable() {
-    return usesPTable;
-}
-Table QueryPkbStub::getModifiesSByNum(StmtNo modifier) {
-    return {{}};
-}
-Table QueryPkbStub::getModifiesSByVar(VarName modified) {
-    return {{}};
-}
-Table QueryPkbStub::getModifiesSTable() {
-    return modifiesSTable;
-}
-Table QueryPkbStub::getModifiesPByProc(ProcName modifier) {
-    return {{}};
-}
-Table QueryPkbStub::getModifiesPByVar(VarName modified) {
-    return {{}};
-}
+
 Table QueryPkbStub::getModifiesPTable() {
     return modifiesPTable;
 }
-Table QueryPkbStub::getPatternAsgnByNum(StmtNo sNum) {
+
+Table QueryPkbStub::getModifiesPAllProcs() {
     return {{}};
 }
-Table QueryPkbStub::getPatternAsgnByLhs(std::string Lhs) {
+
+Table QueryPkbStub::getModifiesPAllVars() {
+    return {{}};
+}
+
+Table QueryPkbStub::getModifiesPVarsByProc(ProcName modifier) {
+    return {{}};
+}
+
+Table QueryPkbStub::getModifiesPProcsByVar(VarName modified) {
+    return {{}};
+}
+
+Table QueryPkbStub::getModifiesSTable() {
+    return modifiesSTable;
+}
+
+Table QueryPkbStub::getModifiesSAllStmts() {
+    return {{}};
+}
+
+Table QueryPkbStub::getModifiesSAllVars() {
+    return {{}};
+}
+
+Table QueryPkbStub::getModifiesSVarsByStmt(StmtNo modifier) {
+    return {{}};
+}
+
+Table QueryPkbStub::getModifiesSStmtsByVar(VarName modified) {
+    return {{}};
+}
+
+Table QueryPkbStub::getNextTable() {
+    return nextTable;
+}
+
+Table QueryPkbStub::getNextAllBefore() {
+    return {{}};
+}
+
+Table QueryPkbStub::getNextAllAfter() {
+    return {{}};
+}
+
+Table QueryPkbStub::getNextAfterByBefore(StmtNo before) {
+    return {{}};
+}
+
+Table QueryPkbStub::getNextBeforeByAfter(StmtNo after) {
+    return {{}};
+}
+
+/*
+Table QueryPkbStub::getNextTTable() {
+    return nextTTable;
+}
+
+Table QueryPkbStub::getNextTAllBefore() {
+    return {{}};
+}
+
+Table QueryPkbStub::getNextTAllAfter() {
+    return {{}};
+}
+
+Table QueryPkbStub::getNextTAfterByBefore(StmtNo before) {
+    return {{}};
+}
+
+Table QueryPkbStub::getNextTBeforeByAfter(StmtNo after) {
+    return {{}};
+}
+ */
+
+Table QueryPkbStub::getParentTable() {
+    return parentTable;
+}
+
+Table QueryPkbStub::getParentAllChildren() {
+    return {{}};
+}
+
+Table QueryPkbStub::getParentAllParents() {
+    return {{}};
+}
+
+Table QueryPkbStub::getParentChildByParent(StmtNo parent) {
+    return {{}};
+}
+
+Table QueryPkbStub::getParentParentByChild(StmtNo child) {
+    return {{}};
+}
+
+Table QueryPkbStub::getParentTTable() {
+    return parentTTable;
+}
+
+Table QueryPkbStub::getParentTAllChildren() {
+    return {{}};
+}
+
+Table QueryPkbStub::getParentTAllParents() {
+    return {{}};
+}
+
+Table QueryPkbStub::getParentTChildByParent(StmtNo parent) {
+    return {{}};
+}
+
+Table QueryPkbStub::getParentTParentByChild(StmtNo child) {
+    return {{}};
+}
+
+Table QueryPkbStub::getPatternAsgnTable() {
+    return patternAsgnTable;
+}
+
+Table QueryPkbStub::getPatternAsgnByStmt(StmtNo sNum) {
+    return {{}};
+}
+
+Table QueryPkbStub::getPatternAsgnByLhs(VarName Lhs) {
     return {{}};
 }
 Table QueryPkbStub::getPatternAsgnByRhs(std::string Rhs) {
     return {{}};
 }
-Table QueryPkbStub::getPatternAsgnByLhsPartial(std::string LhsPartial) {
-    return {{}};
-}
-Table QueryPkbStub::getPatternAsgnByRhsPartial(std::string RhsPartial) {
-    return {{}};
-}
-Table QueryPkbStub::getPatternAsgnTable() {
-    return patternAsgnTable;
-}
-Table QueryPkbStub::getPatternIfByNum(StmtNo sNum) {
-    return {{}};
-}
-Table QueryPkbStub::getPatternIfByVar(VarName var) {
-    return {{}};
-}
+
 Table QueryPkbStub::getPatternIfTable() {
-    return table;
+    return patternIfTable;
 }
-Table QueryPkbStub::getPatternWhileByNum(StmtNo sNum) {
+
+Table QueryPkbStub::getPatternIfAllStmts() {
     return {{}};
 }
-Table QueryPkbStub::getPatternWhileByVar(VarName var) {
+
+Table QueryPkbStub::getPatternIfAllVars() {
     return {{}};
 }
+
+Table QueryPkbStub::getPatternIfVarsByStmt(StmtNo sNum) {
+    return {{}};
+}
+
+Table QueryPkbStub::getPatternIfStmtsByVar(VarName var) {
+    return {{}};
+}
+
 Table QueryPkbStub::getPatternWhileTable() {
-    return table;
+    return patternWhileTable;
 }
-Table QueryPkbStub::getCallsByCaller(ProcName caller) {
+
+Table QueryPkbStub::getPatternWhileAllStmts() {
     return {{}};
 }
-Table QueryPkbStub::getCallsByCalled(ProcName called) {
+
+Table QueryPkbStub::getPatternWhileAllVars() {
     return {{}};
 }
-Table QueryPkbStub::getCallsTable() {
-    return callsTable;
-}
-Table QueryPkbStub::getCallsTByCaller(ProcName caller) {
+
+Table QueryPkbStub::getPatternWhileVarsByStmt(StmtNo sNum) {
     return {{}};
 }
-Table QueryPkbStub::getCallsTByCalled(ProcName called) {
+
+Table QueryPkbStub::getPatternWhileStmtsByVar(VarName var) {
     return {{}};
 }
-Table QueryPkbStub::getCallsTTable() {
-    return callsTTable;
+
+Table QueryPkbStub::getUsesPTable() {
+    return usesPTable;
 }
-Table QueryPkbStub::getNextByBefore(StmtNo before) {
+
+Table QueryPkbStub::getUsesPAllProcs() {
     return {{}};
 }
-Table QueryPkbStub::getNextByAfter(StmtNo after) {
+
+Table QueryPkbStub::getUsesPAllVars() {
     return {{}};
 }
-Table QueryPkbStub::getNextTable() {
-    return nextTable;
-}
-Table QueryPkbStub::getNextTByBefore(StmtNo before) {
+
+Table QueryPkbStub::getUsesPVarsByProc(ProcName user) {
     return {{}};
 }
-Table QueryPkbStub::getNextTByAfter(StmtNo after) {
+
+Table QueryPkbStub::getUsesPProcsByVar(VarName used) {
     return {{}};
 }
-Table QueryPkbStub::getNextTTable() {
-    return nextTTable;
+
+Table QueryPkbStub::getUsesSTable() {
+    return usesSTable;
 }
-Table QueryPkbStub::getAffectsByBefore(StmtNo before) {
+
+Table QueryPkbStub::getUsesSAllStmts() {
     return {{}};
 }
-Table QueryPkbStub::getAffectsByAfter(StmtNo after) {
+
+Table QueryPkbStub::getUsesSAllVars() {
     return {{}};
 }
-Table QueryPkbStub::getAffectsTable() {
-    return table;
+
+Table QueryPkbStub::getUsesSVarsByStmt(StmtNo user) {
+    return {{}};
 }
+
+Table QueryPkbStub::getUsesSStmtsByVar(VarName used) {
+    return {{}};
+}
+
