@@ -64,7 +64,7 @@ TEST_CASE("SP-PKB Integration Test - SIMPLE Program 1") {
         }
     )";
 
-    std::shared_ptr<PkbStorage> p=std::make_shared<PkbStorage>();
+    std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
     auto pkb = make_shared<PopulatePkb>(p);
     auto pkb1 = QueryPkb(p);
     auto sp = SourceProcessor(pkb);
