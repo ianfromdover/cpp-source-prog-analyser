@@ -57,23 +57,7 @@ public:
     }
 
     table removeDuplicateColumn(table t){
-        if (hasDuplicatedHeaders(t)){
-            std::vector<std::string> headers = t[0];
-            std::sort(headers.begin(), headers.end());
-            auto last = std::unique(headers.begin(), headers.end());
-            headers.erase(last, headers.end());
-            table result;
-            result.push_back(headers);
-            for (size_t i = 1; i < t.size(); ++i) {
-                std::vector<std::string> row;
-                for (const auto& header: headers){
-                    size_t index = findColumnIndex(t, header);
-                    row.push_back(t[i][index]);
-                }
-                result.push_back(row);
-            }
-            return result;
-        }
+
         return t;
     }
 
@@ -221,7 +205,27 @@ public:
         }
     }
 
+    std::vector<std::vector<std::string>> getDistinctColumns(std::vector<std::string> colNames) {
+      std::vector<size_t> indices;
+        indices.reserve(colNames.size());
+        for (const auto& colName : colNames) {
+            indices.push_back(findColumnIndex(_table, colName));
+        }
+
+        std::vector<std::vector<std::string>> result;
+        result.push_back(colNames);
+        for (size_t i = 1; i < _table.size(); ++i) {
+            std::vector<std::string> row;
+            for (const auto& index : indices) {
+                row.push_back(_table[i][index]);
+            }
+            result.push_back(row);
+        }
+        return ResultTable(result).getTable();
+    }
+
     static vector<string> findCommonHeaders(const table& a, const table& b) {
+      if (a.empty() || b.empty()) return {};
         try {
             vector<string> commonHeaders;
             for (const auto &headerA: a[0]) {

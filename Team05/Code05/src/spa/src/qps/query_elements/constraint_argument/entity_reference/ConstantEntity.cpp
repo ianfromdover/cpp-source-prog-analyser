@@ -20,8 +20,8 @@ std::string ConstantEntity::toString() {
     return this->identifier + " [CONST]";
 }
 
-std::string ConstantEntity::getArgumentValue() {
-    return this->identifier;
+std::vector<std::string> ConstantEntity::getArgumentValue() {
+    return {this->identifier};
 }
 
 Table ConstantEntity::getEntityTable(QueryPkbVirtual &pkb) {
@@ -33,4 +33,8 @@ Table ConstantEntity::getEntityTable(QueryPkbVirtual &pkb) {
         row.erase(row.begin());
     }
     return entityTable;
+}
+
+std::vector<std::vector<std::string>> ConstantEntity::getRawTable(QueryPkbVirtual &pkb) {
+    return pkb.getConstTable();
 }

@@ -91,4 +91,26 @@ std::shared_ptr<PatternClause> IntermediateQuery::getPatternClause() {
     throw QPSException("No pattern clause found");
 }
 
+std::vector<std::shared_ptr<RelationshipClause>> IntermediateQuery::getAllRelationshipClauses() {
+    std::vector<std::shared_ptr<RelationshipClause>> relationshipClauses;
+    for (const auto &clause: clauses) {
+        if (clause->getType() == Clause::ClauseType::RELATIONSHIP) {
+            auto rCaluse = std::dynamic_pointer_cast<RelationshipClause>(clause);
+            relationshipClauses.push_back(rCaluse);
+        }
+    }
+    return relationshipClauses;
+}
+
+std::vector<std::shared_ptr<PatternClause>> IntermediateQuery::getAllPatternClauses() {
+    std::vector<std::shared_ptr<PatternClause>> patternClauses;
+    for (const auto &clause: clauses) {
+        if (clause->getType() == Clause::ClauseType::PATTERN) {
+            auto pCaluse = std::dynamic_pointer_cast<PatternClause>(clause);
+            patternClauses.push_back(pCaluse);
+        }
+    }
+    return patternClauses;
+}
+
 

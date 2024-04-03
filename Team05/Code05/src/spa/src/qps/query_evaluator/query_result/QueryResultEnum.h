@@ -7,7 +7,8 @@
 
 enum QueryResultEnum {
     INTEGER,
-    STRING
+    STRING,
+    TUPLE_STRING
 };
 
 #endif //SPA_QUERYRESULTENUM_H

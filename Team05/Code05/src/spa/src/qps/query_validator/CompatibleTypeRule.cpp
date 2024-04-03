@@ -5,15 +5,18 @@
 #include <algorithm>
 
 #include "CompatibleTypeRule.h"
+#include "qps/exceptions/QPSException.h"
 
 std::string CompatibleTypeRule::validate(IntermediateQuery & query) {
     std::string results;
     std::map<std::string, QPSTokenType::QPSTypeInfo> declarationMap = query.getSynonymTypeMap();
     if (query.hasRelationshipClause()){
-        results += validateRelationship(*query.getRelationshipClause(),declarationMap);
+        for (auto & cl : query.getAllRelationshipClauses()){
+            results += validateRelationship(*cl,declarationMap);
+        }
     }
     if (query.hasPatternClause()){
-        results += validatePattern(*query.getPatternClause(),declarationMap);
+        //results += validatePattern(*query.getPatternClause(),declarationMap);
     }
     return results;
 }
@@ -65,15 +68,28 @@ std::string CompatibleTypeRule::validateRelationship(
 }
 
 std::string CompatibleTypeRule::validatePattern(PatternClause cl, std::map<std::string, QPSTokenType::QPSTypeInfo> declarationMap) {
-    QPSTokenType::QPSTypeInfo arg1Type = cl.getFirstArgType()==QPSTokenType::QPSTypeInfo::SYNONYM ? declarationMap.find(cl.getFirstArg().getLexeme())->second : cl.getFirstArgType();
 
-    if (arg1Type == QPSTokenType::QPSTypeInfo::VARIABLE ||
-    arg1Type == QPSTokenType::QPSTypeInfo::QUOTED_IDENT ||
-    arg1Type == QPSTokenType::QPSTypeInfo::WILDCARD) {
-        return "";
-    }
+  QPSTokenType::QPSTypeInfo patternSynType;
+  if (declarationMap.find(cl.getPatternSynonym())==declarationMap.end()){
+        throw std::runtime_error("pattern synonym not found");
+  } else {
+        patternSynType = declarationMap.find(cl.getPatternSynonym())->second;
+  }
 
-    return VALIDATION_RULE_PATTERN_ARGUMENT;
+//  if (patternSynType == QPSTokenType::QPSTypeInfo::ASSIGN || patternSynType == QPSTokenType::QPSTypeInfo::WHILE) {
+//    QPSTokenType::QPSTypeInfo arg1Type =
+//        cl.getFirstArgType() == QPSTokenType::QPSTypeInfo::SYNONYM
+//            ? declarationMap.find(cl.getFirstArg().getLexeme())->second
+//            : cl.getFirstArgType();
+//
+//    if (arg1Type == QPSTokenType::QPSTypeInfo::VARIABLE ||
+//        arg1Type == QPSTokenType::QPSTypeInfo::QUOTED_IDENT ||
+//        arg1Type == QPSTokenType::QPSTypeInfo::WILDCARD) {
+//      return "";
+//    }
+//  }
+
+  return VALIDATION_RULE_PATTERN_ARGUMENT;
 }
 
 bool CompatibleTypeRule::isStatementType(

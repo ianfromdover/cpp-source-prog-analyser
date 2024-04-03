@@ -6,18 +6,19 @@
 #define SPA_CONSTRAINTBUILDERTEMPLATE_H
 
 #include "qps/query_builder/ConstraintArgCreator.h"
-#include "qps/query_elements/constraint/FollowsConstraint.h"
-#include "qps/query_elements/constraint/FollowsTConstraint.h"
-#include "qps/query_elements/constraint/ParentConstraint.h"
-#include "qps/query_elements/constraint/ParentTConstraint.h"
-#include "qps/query_elements/constraint/UsesSConstraint.h"
-#include "qps/query_elements/constraint/UsesPConstraint.h"
-#include "qps/query_elements/constraint/ModifiesSConstraint.h"
-#include "qps/query_elements/constraint/ModifiesPConstraint.h"
-#include "qps/query_elements/constraint/AssignPatternConstraint.h"
-#include "qps/query_elements/constraint/CallsConstraint.h"
-#include "qps/query_elements/constraint/CallsTConstraint.h"
-#include "qps/query_elements/constraint/NextConstraint.h"
+#include "qps/query_elements/constraint/relationship_constraint/FollowsConstraint.h"
+#include "qps/query_elements/constraint/relationship_constraint/FollowsTConstraint.h"
+#include "qps/query_elements/constraint/relationship_constraint/ParentConstraint.h"
+#include "qps/query_elements/constraint/relationship_constraint/ParentTConstraint.h"
+#include "qps/query_elements/constraint/relationship_constraint/UsesSConstraint.h"
+#include "qps/query_elements/constraint/relationship_constraint/UsesPConstraint.h"
+#include "qps/query_elements/constraint/relationship_constraint/ModifiesSConstraint.h"
+#include "qps/query_elements/constraint/relationship_constraint/ModifiesPConstraint.h"
+#include "qps/query_elements/constraint/patternConstraint/AssignPatternConstraint.h"
+#include "qps/query_elements/constraint/relationship_constraint/CallsConstraint.h"
+#include "qps/query_elements/constraint/relationship_constraint/CallsTConstraint.h"
+#include "qps/query_elements/constraint/relationship_constraint/NextConstraint.h"
+
 #include <stdexcept>
 
 class ConstraintBuilderTemplate {

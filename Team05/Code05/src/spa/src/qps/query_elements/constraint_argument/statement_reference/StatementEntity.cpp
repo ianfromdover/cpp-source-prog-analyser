@@ -17,8 +17,8 @@ StatementEntity::StatementEntity(std::string s) {
     identifier = std::move(s);
 }
 
-std::string StatementEntity::getArgumentValue() {
-    return this->identifier;
+std::vector<std::string> StatementEntity::getArgumentValue() {
+    return {this->identifier};
 }
 
 std::string StatementEntity::toString() {
@@ -30,5 +30,9 @@ Table StatementEntity::getEntityTable(QueryPkbVirtual &pkb) {
     // Insertion of headers into our entity table
     entityTable.insert(entityTable.begin(), {this->identifier});
     return entityTable;
+}
+
+std::vector<std::vector<std::string>> StatementEntity::getRawTable(QueryPkbVirtual &pkb) {
+    return pkb.getStmtTable();
 }
 

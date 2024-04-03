@@ -20,8 +20,8 @@ std::string PrintEntity::toString() {
     return this->identifier + " [PRINT]";
 }
 
-std::string PrintEntity::getArgumentValue() {
-    return this->identifier;
+std::vector<std::string> PrintEntity::getArgumentValue() {
+    return {this->identifier};
 }
 
 Table PrintEntity::getEntityTable(QueryPkbVirtual &pkb) {
@@ -29,4 +29,8 @@ Table PrintEntity::getEntityTable(QueryPkbVirtual &pkb) {
     // Insertion of headers into our entity table
     entityTable.insert(entityTable.begin(), {this->identifier, "PRINTRHS"});
     return entityTable;
+}
+
+std::vector<std::vector<std::string>> PrintEntity::getRawTable(QueryPkbVirtual &pkb) {
+    return pkb.getPrintTable();
 }

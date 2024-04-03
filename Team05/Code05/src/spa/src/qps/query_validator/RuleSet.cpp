@@ -3,14 +3,16 @@
 //
 
 #include "RuleSet.h"
-#include "SingleDeclarationRule.h"
-#include "NoDeclarationRule.h"
-#include "SynAssignDeclarationRule.h"
 #include "CompatibleTypeRule.h"
+#include "NoDeclarationRule.h"
+#include "PatternSynDeclarationRule.h"
+#include "SingleDeclarationRule.h"
+#include "PatternArgumentRule.h"
 
 RuleSet::RuleSet() {
-    rules.push_back(new class SynAssignDeclarationRule());
+    rules.push_back(new class PatternSynDeclarationRule());
     rules.push_back(new class CompatibleTypeRule());
+    rules.push_back(new class PatternArgumentRule());
 
 }
 
