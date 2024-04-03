@@ -16,10 +16,10 @@ AssignPatternConstraint::AssignPatternConstraint(std::shared_ptr<EntityReference
 }
 
 std::string AssignPatternConstraint::getConstraintType() {
-    return CONSTRAINT_CLASS_PATTERN;
+    return CONSTRAINT_TYPE_PATTERN_ASSIGN;
 }
 
-std::shared_ptr<AssignEntity> AssignPatternConstraint::getPatternConstraintIdentifier() {
+std::shared_ptr<Entity> AssignPatternConstraint::getPatternConstraintIdentifier() {
     return constraintIdentifier;
 }
 
@@ -42,7 +42,7 @@ Table AssignPatternConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     std::vector<std::shared_ptr<ConstraintArgument>> args = getConstraintArguments();
 
     std::string stmtHeader = constraintIdentifier->getIdentifier();
-    std::string lhsHeader = args[0]->getEntityType() == TYPE_VARIABLE ? args[0]->getArgumentValue() : "ASSIGNLHS";
+    std::string lhsHeader = args[0]->getEntityType() == TYPE_VARIABLE ? args[0]->getArgumentValue()[0] : "ASSIGNLHS";
     std::string rhsHeader = "ASSIGNRHS";
 
     res.insert(res.begin(), {stmtHeader, lhsHeader, rhsHeader});
@@ -54,17 +54,17 @@ Table AssignPatternConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
         entityTable.removeColumnByIndex(0);
         table.add(entityTable.getTable());
     } else if (args[0]->getEntityType() == TYPE_QUOTED_IDENT){
-        std::string string1=args[0]->getArgumentValue();
+        std::string string1=args[0]->getArgumentValue()[0];
         string stripped = stripCharacters(string1,"\"");
         table.filterByColumnExact(lhsHeader,stripped);
     }
 
     if (args[1]->getEntityType()== TYPE_EXPRESSION){
-        std::string string1=args[1]->getArgumentValue();
+        std::string string1=args[1]->getArgumentValue()[0];
         string stripped = stripCharacters(string1,"\"");
         table.filterByColumnExact(rhsHeader,stripped);
     } else if (args[1]->getEntityType()==TYPE_EXPRESSION_W_WILDCARD){
-        std::string string1=args[1]->getArgumentValue();
+        std::string string1=args[1]->getArgumentValue()[0];
         string stripped = stripCharacters(string1,"\"");
         table.filterByColumnPartial(rhsHeader,
                                     StringUtils::formatAsRegex(stripped));
@@ -77,19 +77,4 @@ Table AssignPatternConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     return table.getTable();
 }
 
-std::string& AssignPatternConstraint::stripCharacters(std::string& str, const std::string& chars) {
-    // Find the first character position after excluding leading characters
-    std::size_t first = str.find_first_not_of(chars);
-    if (first == std::string::npos) {
-        // If there are no characters other than the ones to strip, return an empty string
-        return str = "";
-    }
 
-    // Find the position of the last character not matching the strip characters
-    std::size_t last = str.find_last_not_of(chars);
-
-    // Erase the leading and trailing characters
-    str = str.substr(first, (last - first + 1));
-
-    return str;
-}

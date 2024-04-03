@@ -15,11 +15,132 @@ TEST_CASE("[TestQPS] Replace with your unit tests") {
         pkb->setStatement(3);
         QPS qps(pkb);
 
-        std::string queryStr = "stmt s; Select s";
+        //std::string queryStr = "stmt s;if i;variable v; Select s pattern i (v,_,_)";
+        std::string queryStr = "stmt s;while w;variable v; Select s pattern w (v,_)";
         std::vector<std::string> expected = {"1", "2", "3"};
 
-        REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+//        REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
 
+    }
+}
+
+TEST_CASE("[TestQPS] If pattern argument tests"){
+    SECTION("stmt"){
+        std::string queryStr = "stmt s;if i; Select s pattern i(s,_,_)";
+        std::vector<std::string> expected = {"SemanticError"};
+
+        std::vector<std::string> results = testHelper(queryStr);
+        REQUIRE(results == expected);
+    }
+    SECTION("while"){
+        std::string queryStr = "stmt s;if i; Select s pattern i(w,_,_)";
+        std::vector<std::string> expected = {"SemanticError"};
+
+        std::vector<std::string> results = testHelper(queryStr);
+        REQUIRE(results == expected);
+    }
+}
+
+TEST_CASE("[TestQPS] Boolean return tests"){
+  std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
+  pkb->setParent({{"1","2"}});
+  pkb->setStatement(2);
+  pkb->setVar({{"1","v"},
+               {"1","k"},
+               {"2","c"},
+               {"2","i"}});
+  //        pkb->setVar({{"v"},{"k"},{"c"},{"i"}}); // HOTFIX
+  QPS qps(pkb);
+
+  SECTION("empty constraints"){
+    std::string queryStr = "Select BOOLEAN";
+    std::vector<std::string> expected = {"FALSE"};
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+  SECTION("non empty constraints"){
+    std::string queryStr = "stmt s;Select BOOLEAN such that Parent(s,_)";
+    std::vector<std::string> expected = {"TRUE"};
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+  SECTION("boolean as synonym"){
+      std::string queryStr = "stmt BOOLEAN; Select BOOLEAN";
+      std::vector<std::string> expected = {"FALSE"};
+      REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+
+}
+
+TEST_CASE("[TestQPS] Tuple return tests"){
+  std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
+  pkb->setStatement(2);
+  QPS qps(pkb);
+
+  SECTION("empty constraints"){
+    std::string queryStr = "stmt s,s1; Select <s,s1>";
+    std::vector<std::string> expected = {"1 1","1 2","2 1","2 2"};
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+  SECTION("empty constraints1"){
+    std::string queryStr = "stmt s,s1; Select <s,s>";
+    std::vector<std::string> expected = {"1 1","2 2"};
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+    SECTION("empty constraints2"){
+        std::string queryStr = "stmt s,s1; Select <s>";
+        std::vector<std::string> expected = {"1","2"};
+        REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+    }
+}
+
+TEST_CASE("invalid pattern synonyms"){
+    SECTION("statement"){
+        std::string queryStr = "stmt s; Select s pattern s(_,_)";
+        std::vector<std::string> expected = {"SemanticError"};
+
+        std::vector<std::string> results = testHelper(queryStr);
+        REQUIRE(results == expected);
+    }
+    SECTION("read"){
+        std::string queryStr = "read r; Select r pattern r(_,_)";
+        std::vector<std::string> expected = {"SemanticError"};
+
+        std::vector<std::string> results = testHelper(queryStr);
+        REQUIRE(results == expected);
+    }
+    SECTION("print"){
+        std::string queryStr = "print p; Select p pattern p(_,_)";
+        std::vector<std::string> expected = {"SemanticError"};
+
+        std::vector<std::string> results = testHelper(queryStr);
+        REQUIRE(results == expected);
+    }
+    SECTION("procedure"){
+        std::string queryStr = "procedure p; Select p pattern p(_,_)";
+        std::vector<std::string> expected = {"SemanticError"};
+
+        std::vector<std::string> results = testHelper(queryStr);
+        REQUIRE(results == expected);
+    }
+    SECTION("call"){
+        std::string queryStr = "call c; Select c pattern c(_,_)";
+        std::vector<std::string> expected = {"SemanticError"};
+
+        std::vector<std::string> results = testHelper(queryStr);
+        REQUIRE(results == expected);
+    }
+    SECTION("variable"){
+        std::string queryStr = "variable v; Select v pattern v(_,_)";
+        std::vector<std::string> expected = {"SemanticError"};
+
+        std::vector<std::string> results = testHelper(queryStr);
+        REQUIRE(results == expected);
+    }
+    SECTION("constant"){
+        std::string queryStr = "constant c; Select c pattern c(_,_)";
+        std::vector<std::string> expected = {"SemanticError"};
+
+        std::vector<std::string> results = testHelper(queryStr);
+        REQUIRE(results == expected);
     }
 }
 
@@ -235,7 +356,6 @@ TEST_CASE("[TestQPS] Semantic Error Tests"){
                 R"(Select s pattern a(v, _))",
                 R"(Select s such that Parent*(a, b))",
                 R"(variable v; Select s such that Uses(_, v))"
-//                R"()"
         };
 
         for (auto & s : queryLs){
@@ -336,8 +456,6 @@ TEST_CASE("[TestQPS] No Constraints"){
 
         REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
     }
-
-
 }
 
 TEST_CASE("[TestQPS] Multiple Constraints"){
@@ -939,8 +1057,8 @@ TEST_CASE("[TestQPS] Single Constraints") {
 
     SECTION("ModifiesP") {
         std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
-      pkb->setProcedure({{"a"}, {"b"}});
-      pkb->setVar({{"c", "c"}, {"d", "d"}});
+        pkb->setProcedure({{"a"}, {"b"}});
+        pkb->setVar({{"c", "c"}, {"d", "d"}});
         pkb->setModifiesP({{"a", "c"}, {"a", "d"}, {"b", "d"}});
         QPS qps(pkb);
 
@@ -951,6 +1069,98 @@ TEST_CASE("[TestQPS] Single Constraints") {
 
             REQUIRE(qps.evaluate(queryStr) == expected);
         }
+    }
+
+    SECTION("Pattern while") {
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
+        pkb->setStatement(5);
+        pkb->setPatternWhile({{"3", "c"}, {"5", "d"}});
+        pkb->setWhile({{"3"}, {"4"}, {"5"}});
+        pkb->setVar({{"1", "a"}, {"2", "b"}, {"3", "c"}, {"5" , "d"}});
+        QPS qps(pkb);
+
+        SECTION("Pattern while, select while - variable argument") {
+            std::string queryStr = "stmt s;while w;variable v; Select w pattern w (v,_)";
+            std::vector<std::string> expected = {"3", "5"};
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+
+        SECTION("Pattern while, select stmt - variable argument") {
+            std::string queryStr = "stmt s;while w;variable v; Select s pattern w (v,_)";
+            std::vector<std::string> expected = {"1", "2", "3", "4", "5"};
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+
+        SECTION("Pattern while, select stmt - wildcard argument") {
+            // requires variable in conditional expression so expected result is not all while statements.
+            std::string queryStr = "stmt s;while w;variable v; Select w pattern w (_,_)";
+            std::vector<std::string> expected = {"3", "5"};
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+
+        SECTION("Pattern while, select stmt - quoted ident argument") {
+            std::string queryStr = "stmt s;while w;variable v; Select w pattern w (\"c\",_)";
+            std::vector<std::string> expected = {"3"};
+
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+    }
+
+//    SECTION("Pattern if") {
+//        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
+//        pkb->setStatement(5);
+//        pkb->setPatternIf({{"3", "c"}, {"5", "d"}});
+//        pkb->setIf({{"3"}, {"4"}, {"5"}});
+//        pkb->setVar({{"1", "a"}, {"2", "b"}, {"3", "c"}, {"5" , "d"}});
+//        QPS qps(pkb);
+//
+//        SECTION("Pattern if, select if - variable argument") {
+//            std::string queryStr = "stmt s;while i;variable v; Select i pattern i (v,_, _)";
+//            std::vector<std::string> expected = {"3", "5"};
+//            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+//        }
+//
+//        SECTION("Pattern if, select stmt - variable argument") {
+//            std::string queryStr = "stmt s;while i;variable v; Select s pattern i (v,_,_)";
+//            std::vector<std::string> expected = {"1", "2", "3", "4", "5"};
+//            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+//        }
+//
+//        SECTION("Pattern if, select stmt - wildcard argument") {
+//            // requires variable in conditional expression so expected result is not all while statements.
+//            std::string queryStr = "stmt s;while i;variable v; Select i pattern i (_,_,_)";
+//            std::vector<std::string> expected = {"3", "5"};
+//            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+//        }
+//
+//        SECTION("Pattern if, select stmt - quoted ident argument") {
+//            std::string queryStr = "stmt s;while i;variable v; Select i pattern i (\"c\",_, _)";
+//            std::vector<std::string> expected = {"3"};
+//
+//            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+//        }
+//    }
+
+
+}
+
+TEST_CASE("[TestQPS] scratchboard to test random stuff") {
+
+
+    SECTION("test1") {
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
+        pkb->setFollowsT({{"1", "2"},
+                          {"1", "3"},
+                          {"1", "4"},
+                          {"2", "7"}});
+        pkb->setStatement(7);
+        QPS qps(pkb);
+
+        std::string queryStr = "stmt s,s1; Select s such that Follows*(_, _)";
+        std::vector<std::string> expected = {"1", "2", "3", "4",
+                                             "5", "6", "7"};
+
+        REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
     }
 }
 

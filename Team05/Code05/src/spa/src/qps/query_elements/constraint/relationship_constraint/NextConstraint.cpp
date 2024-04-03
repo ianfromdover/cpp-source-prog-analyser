@@ -1,40 +1,39 @@
 //
-// Created by tohzh on 8/2/2024.
+// Created by sjh_9 on 22/3/2024.
 //
 
-#include "FollowsTConstraint.h"
+#include "NextConstraint.h"
+#include "pkb/apis/QueryPkb.h"
 #include "qps/query_projector/ResultTable.h"
 
-FollowsTConstraint::FollowsTConstraint(std::shared_ptr<StatementReference> s1, std::shared_ptr<StatementReference> s2) {
+NextConstraint::NextConstraint(std::shared_ptr<StatementReference> s1, std::shared_ptr<StatementReference>  s2) {
     constraintArguments.push_back(s1);
     constraintArguments.push_back(s2);
 }
 
-std::string FollowsTConstraint::getConstraintType() {
-    return CONSTRAINT_TYPE_FOLLOWST;
+std::string NextConstraint::getConstraintType() {
+    return CONSTRAINT_TYPE_NEXT;
 }
 
-std::vector<std::shared_ptr<ConstraintArgument>> FollowsTConstraint::getConstraintArguments() {
+std::vector<std::shared_ptr<ConstraintArgument>> NextConstraint::getConstraintArguments() {
     return constraintArguments;
 }
 
-
-Table FollowsTConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
+Table NextConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     // Get follows table and populate it into our results table
-    Table result = pkb.getFollowsTTable();
+    std::vector<std::vector<std::string>> result = pkb.getNextTable();
 
     // Get constraint arguments and initialise it as our table headers
     std::vector<std::shared_ptr<ConstraintArgument>> args = getConstraintArguments();
     std::string lhsEntityType = args[0] -> getEntityType();
     std::string rhsEntityType = args[1] -> getEntityType();
 
-    std::string lhsHeader = isStatementSynonym(lhsEntityType) ? args[0]->getArgumentValue() : "FollowsTLHS";
-    std::string rhsHeader = isStatementSynonym(rhsEntityType) ? args[1]->getArgumentValue() : "FollowsTRHS";
+    std::string lhsHeader = isStatementSynonym(lhsEntityType) ? args[0]->getArgumentValue()[0] : "NextLHS";
+    std::string rhsHeader = isStatementSynonym(rhsEntityType) ? args[1]->getArgumentValue()[0] : "NextRHS";
 
     if (lhsHeader==rhsHeader) {
         return {{lhsHeader}};
     }
-
     // Insertion of headers into our results table
     result.insert(result.begin(), {lhsHeader, rhsHeader});
     ResultTable table(result);
@@ -46,10 +45,10 @@ Table FollowsTConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     }
     if (isStatementSynonym(lhsEntityType)) {
         // Get entity table by type
-        Table entityTable = args[0]->getEntityTable(pkb);
+        std::vector<std::vector<std::string>> entityTable = args[0]->getEntityTable(pkb);
         ResultTable entityTableResult(entityTable);
         if (lhsEntityType != TYPE_STATEMENT) {
-          entityTableResult.removeAllColumnsExceptIndex(0);
+            entityTableResult.removeColumnByIndex(1);
         }
         table.add(entityTableResult.getTable());
     }
@@ -59,28 +58,26 @@ Table FollowsTConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
         std::vector<std::string> intVals = {args[1]->getArgumentValue()};
         table.filterByColumnValues(rhsHeader, intVals);
     }
-
     if (isStatementSynonym(rhsEntityType)) {
-        // Get entity table by type
-        Table entityTable = args[1]->getEntityTable(pkb);
+        std::vector<std::vector<std::string>> entityTable = args[1]->getEntityTable(pkb);
         ResultTable entityTableResult(entityTable);
         if (rhsEntityType != TYPE_STATEMENT) {
-          entityTableResult.removeAllColumnsExceptIndex(0);
+            entityTableResult.removeColumnByIndex(1);
         }
         table.add(entityTableResult.getTable());
     }
 
-    if (lhsHeader == "FollowsTLHS"){
+    if (lhsHeader == "NextLHS"){
         table.removeColumnByHeader(lhsHeader);
     }
-    if (rhsHeader == "FollowsTRHS"){
+    if (rhsHeader == "NextRHS"){
         table.removeColumnByHeader(rhsHeader);
     }
 
     return table.getTable();
 }
 
-bool FollowsTConstraint::isStatementSynonym(std::string type) {
+bool NextConstraint::isStatementSynonym(std::string type) {
     vector<std::string> statementVector = {
             TYPE_STATEMENT, TYPE_READ, TYPE_PRINT, TYPE_ASSIGN,
             TYPE_CALL, TYPE_WHILE, TYPE_IF

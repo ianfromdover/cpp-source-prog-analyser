@@ -43,6 +43,5 @@ std::shared_ptr<QueryObject> QueryPreprocessor::processQuery(std::string & query
 
     QueryObjectBuilder builder;
     std::shared_ptr<QueryObject> qo = builder.build(intermediateQuery);
-
     return qo;
 }

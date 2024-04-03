@@ -17,6 +17,10 @@ bool QPSMultiCharacterStrategy::tokenize(char character, std::stringstream &stre
         if (declarationStarted) {
             if (tokens.getTokens().back()->getType().getInfo() == QPSTokenType::SELECT) {
                 declarationStarted = false;
+                if (name == "BOOLEAN") {
+                    tokens.addToken(QPSTokenType::BOOLEAN, name);
+                    return true;
+                }
             }
             tokens.addToken(QPSTokenType::IDENTIFIER, name);
         } else if (expectSynonymNext(name, tokens)) {
@@ -87,6 +91,16 @@ bool QPSMultiCharacterStrategy::expectSynonymNext(const std::string &name, QPSTo
             tokens.addToken(QPSTokenType::IDENTIFIER, name);
           }
           return false;
+        }
+        if (it->second == QPSTokenType::BOOLEAN) {
+          if (!tokens.getTokens().empty() && tokens.getTokens().back()->getType().getInfo() == QPSTokenType::SELECT) {
+            QPSToken t = *tokens.getTokens().back();
+            tokens.getTokens().pop_back();
+            tokens.addToken(QPSTokenType::SUCH, t.getLexeme());
+            tokens.addToken(QPSTokenType::THAT, name);
+          } else {
+            tokens.addToken(QPSTokenType::IDENTIFIER, name);
+          }
         }
         tokens.addToken(it->second, name);
         return true;

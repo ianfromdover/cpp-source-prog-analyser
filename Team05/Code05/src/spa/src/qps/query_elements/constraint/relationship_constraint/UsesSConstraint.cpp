@@ -1,39 +1,35 @@
 //
-// Created by tohzh on 10/2/2024.
+// Created by tohzh on 15/2/2024.
 //
 
-#include "ParentTConstraint.h"
-#include "pkb/apis/QueryPkb.h"
+#include "UsesSConstraint.h"
 #include "qps/query_projector/ResultTable.h"
+#include "common/StringUtils.h"
 
-ParentTConstraint::ParentTConstraint(std::shared_ptr<ConstraintArgument> s1, std::shared_ptr<ConstraintArgument> s2) {
+UsesSConstraint::UsesSConstraint(std::shared_ptr<StatementReference> s1, std::shared_ptr<EntityReference> s2) {
     constraintArguments.push_back(s1);
     constraintArguments.push_back(s2);
 }
 
-std::string ParentTConstraint::getConstraintType() {
-    return CONSTRAINT_TYPE_PARENTT;
+std::string UsesSConstraint::getConstraintType() {
+    return CONSTRAINT_TYPE_USESS;
 }
 
-std::vector<std::shared_ptr<ConstraintArgument>> ParentTConstraint::getConstraintArguments() {
+std::vector<std::shared_ptr<ConstraintArgument>> UsesSConstraint::getConstraintArguments() {
     return constraintArguments;
 }
 
-Table ParentTConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
-    // Get parentT table and populate it into our results table
-    Table result = pkb.getParentTTable();
+Table UsesSConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
+    // Get uses table and populate it into our results table
+    Table result = pkb.getUsesSTable();
 
     // Get constraint arguments and initialise it as our table headers
     std::vector<std::shared_ptr<ConstraintArgument>> args = getConstraintArguments();
     std::string lhsEntityType = args[0] -> getEntityType();
     std::string rhsEntityType = args[1] -> getEntityType();
 
-    std::string lhsHeader = isStatementSynonym(lhsEntityType) ? args[0]->getArgumentValue() : "PARENTTLHS";
-    std::string rhsHeader = isStatementSynonym(rhsEntityType) ? args[1]->getArgumentValue() : "PARENTTRHS";
-
-    if (lhsHeader==rhsHeader) {
-        return {{lhsHeader}};
-    }
+    std::string lhsHeader = isStatementSynonym(lhsEntityType) ? args[0]->getArgumentValue()[0] : "UsesLHS";
+    std::string rhsHeader = rhsEntityType == TYPE_VARIABLE ? args[1]->getArgumentValue()[0] : "UsesRHS";
 
     // Insertion of headers into our results table
     result.insert(result.begin(), {lhsHeader, rhsHeader});
@@ -41,7 +37,7 @@ Table ParentTConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
 
     // Handling LHS by Entity Type
     if (lhsEntityType == TYPE_INTEGER) {
-        std::vector<std::string> intVals = {args[0]->getArgumentValue()};
+        std::vector<std::string> intVals = {args[0]->getArgumentValue()[0]};
         table.filterByColumnValues(lhsHeader, intVals);
     }
     if (isStatementSynonym(lhsEntityType)) {
@@ -52,30 +48,31 @@ Table ParentTConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     }
 
     // Handling RHS by Entity Type
-    if (rhsEntityType == TYPE_INTEGER) {
-        std::vector<std::string> intVals = {args[1]->getArgumentValue()};
-        table.filterByColumnValues(rhsHeader, intVals);
-    }
-    if (isStatementSynonym(rhsEntityType)) {
+    if (rhsEntityType == TYPE_VARIABLE) {
         // Get entity table by type
         Table entityTable = args[1]->getEntityTable(pkb);
         ResultTable entityTableResult(entityTable);
         table.add(entityTableResult.getTable());
     }
+    if (rhsEntityType == TYPE_QUOTED_IDENT) {
+        std::string string = args[1]->getArgumentValue()[0];
+        std::string rhsHeaderNew = StringUtils::stripCharacters(string,"\"");
+        table.filterByColumnExact(rhsHeader,rhsHeaderNew);
+    }
 
-    if (lhsHeader == "PARENTTLHS"){
+    if (lhsHeader == "UsesLHS"){
         table.removeColumnByHeader(lhsHeader);
     }
-    if (rhsHeader == "PARENTTRHS"){
+    if (rhsHeader == "UsesRHS"){
         table.removeColumnByHeader(rhsHeader);
     }
 
     return table.getTable();
 }
 
-bool ParentTConstraint::isStatementSynonym(std::string type) {
+bool UsesSConstraint::isStatementSynonym(std::string type) {
     vector<std::string> statementVector = {
-            TYPE_STATEMENT, TYPE_READ, TYPE_PRINT, TYPE_ASSIGN,
+            TYPE_STATEMENT, TYPE_PRINT, TYPE_ASSIGN,
             TYPE_CALL, TYPE_WHILE, TYPE_IF
     };
     return std::find(statementVector.begin(), statementVector.end(), type) != statementVector.end();

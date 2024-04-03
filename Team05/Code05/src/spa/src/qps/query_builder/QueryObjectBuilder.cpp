@@ -17,8 +17,6 @@ void QueryObjectBuilder::setSingleRelationshipConstraint(std::shared_ptr<Relatio
 }
 
 void QueryObjectBuilder::setSinglePatternClause(std::shared_ptr<PatternClause> patternClause, shared_ptr<QueryObject> qo) {
-//    AssignPatternConstraintBuilder builder;
-//    qo->addConstraint(builder.buildPatternConstraint(std::move(patternClause), std::move(qo)));
     shared_ptr<Constraint> ptr = PatternConstraintDirector::process(std::move(patternClause), qo);
     qo->addConstraint(ptr);
 }
@@ -28,24 +26,51 @@ void QueryObjectBuilder::setSingleSelectClause() {
     if (!intermediateObject->hasSelectClause()) {
         return;
     }
-    std::string name = intermediateObject->getSelectClause()->selectElements[0];
-    qo->setReturnType(qo->getEntityInDeclaration(name));
+
+    if (intermediateObject->getSelectClause()->isSelectBool()) {
+      qo->setReturnType(std::make_shared<Boolean>());
+    }
+
+    else if (intermediateObject->getSelectClause()->getAllSelect().size() == 1) {
+        std::string name = intermediateObject->getSelectClause()->selectElements[0];
+        qo->setReturnType(qo->getEntityInDeclaration(name));
+    }
+
+    else if (intermediateObject->getSelectClause()->getAllSelect().size() > 1) {
+        std::vector<std::string> names = intermediateObject->getSelectClause()->selectElements;
+        auto tupleReturn  = std::make_shared<TupleReturnable>();
+        for (std::string name : names) {
+            auto entity = qo->getEntityInDeclaration(name);
+            tupleReturn->addEntityVector(entity);
+        }
+        qo->setReturnType(tupleReturn);
+    } else {
+        throw QPSException("Invalid select clause");
+    }
 }
 
-//only need one relationship for milestone 1
 void QueryObjectBuilder::setAllRelationshipConstraint() {
     if (!intermediateObject->hasRelationshipClause()) {
         return;
     }
-    setSingleRelationshipConstraint(intermediateObject->getRelationshipClause(), this->getQueryObjectRepresentation());
+
+    auto relationClauseVector = intermediateObject->getAllRelationshipClauses();
+    for (auto relationClause : relationClauseVector) {
+        setSingleRelationshipConstraint(relationClause, this->getQueryObjectRepresentation());
+    }
+
 }
 
-//only need one pattern for milestone 1
+
 void QueryObjectBuilder::setAllPatternClauses() {
     if (!intermediateObject->hasPatternClause()) {
         return;
     }
-    setSinglePatternClause(intermediateObject->getPatternClause(), this->getQueryObjectRepresentation());
+    auto patternClauseVector = intermediateObject->getAllPatternClauses();
+    for (auto patternClause : patternClauseVector) {
+        setSinglePatternClause(patternClause, this->getQueryObjectRepresentation());
+    }
+
 }
 
 

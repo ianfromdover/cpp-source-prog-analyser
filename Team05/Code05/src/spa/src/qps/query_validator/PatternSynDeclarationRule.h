@@ -7,9 +7,13 @@
 
 #include "Rule.h"
 
-class SynAssignDeclarationRule : public Rule{
+typedef QPSTokenType::QPSTypeInfo QType;
+
+class PatternSynDeclarationRule : public Rule{
 public:
     std::string validate(IntermediateQuery&) override;
+
+    bool validatePatternClause(PatternClause &cl, map<std::string, QType> declarationTypeMap);
 };
 
 

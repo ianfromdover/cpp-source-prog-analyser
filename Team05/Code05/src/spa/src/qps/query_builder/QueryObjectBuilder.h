@@ -21,6 +21,8 @@
 #include "constraint_builder/relationship_builders/UsesSConstraintBuilder.h"
 #include "constraint_builder/RelationshipConstraintDirector.h"
 #include "constraint_builder/PatternConstraintDirector.h"
+#include "qps/query_elements/Boolean.h"
+
 
 class QueryObjectBuilder {
 private:

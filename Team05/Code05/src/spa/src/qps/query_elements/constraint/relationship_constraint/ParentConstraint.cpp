@@ -27,8 +27,8 @@ Table ParentConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     std::string lhsEntityType = args[0] -> getEntityType();
     std::string rhsEntityType = args[1] -> getEntityType();
 
-    std::string lhsHeader = isStatementSynonym(lhsEntityType) ? args[0]->getArgumentValue() : "PARENTLHS";
-    std::string rhsHeader = isStatementSynonym(rhsEntityType) ? args[1]->getArgumentValue() : "PARENTRHS";
+    std::string lhsHeader = isStatementSynonym(lhsEntityType) ? args[0]->getArgumentValue()[0] : "PARENTLHS";
+    std::string rhsHeader = isStatementSynonym(rhsEntityType) ? args[1]->getArgumentValue()[0] : "PARENTRHS";
 
     if (lhsHeader==rhsHeader) {
         return {{lhsHeader}};
@@ -40,7 +40,7 @@ Table ParentConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
 
     // Handling LHS by Entity Type
     if (lhsEntityType == TYPE_INTEGER) {
-        std::vector<std::string> intVals = {args[0]->getArgumentValue()};
+        std::vector<std::string> intVals = {args[0]->getArgumentValue()[0]};
         table.filterByColumnValues(lhsHeader, intVals);
     }
     if (isStatementSynonym(lhsEntityType)) {
@@ -53,7 +53,7 @@ Table ParentConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
 
     // Handling RHS by Entity Type
     if (rhsEntityType == TYPE_INTEGER) {
-        std::vector<std::string> intVals = {args[1]->getArgumentValue()};
+        std::vector<std::string> intVals = {args[1]->getArgumentValue()[0]};
         table.filterByColumnValues(rhsHeader, intVals);
     }
     if (isStatementSynonym(rhsEntityType)) {

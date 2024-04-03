@@ -9,15 +9,16 @@
 #include "pkb/apis/QueryPkbVirtual.h"
 
 
-class WhileEntity : public StatementReference, public  Entity {
+class WhileEntity : public StatementReference, public Entity {
 public:
     explicit WhileEntity(std::string);
     std::string getReturnType() override;
     std::string getEntityType() override;
     std::string toString() override;
-    std::string getArgumentValue() override;
+    std::vector<std::string> getArgumentValue() override;
 
     Table getEntityTable(QueryPkbVirtual & pkb) override;
+    std::vector<std::vector<std::string>> getRawTable(QueryPkbVirtual & pkb) override;
 };
 
 

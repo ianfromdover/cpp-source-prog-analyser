@@ -24,6 +24,10 @@ public:
         return stmt().identifier().semicolon();
     };
 
+    TokenListBuilder singleIfDeclaration() {
+        return ifStmt().identifier().semicolon();
+    };
+
     TokenListBuilder multiStmtDeclaration() {
         return stmt().identifier().comma().identifier().semicolon();
     };
@@ -60,7 +64,15 @@ public:
         return procedure().identifier().comma().identifier().semicolon();
     };
 
-    TokenListBuilder validPattern(){
+    TokenListBuilder validIfPattern(){
+        return pattern().identifier().leftParen().identifier().comma().wildcard().comma().wildcard().rightParen();
+    }
+
+    TokenListBuilder validWhilePattern(){
+        return pattern().identifier().leftParen().identifier().comma().wildcard().rightParen();
+    };
+
+    TokenListBuilder validAssignPattern(){
         return pattern().identifier().leftParen().identifier().comma().wildcard().rightParen();
     };
 
@@ -86,6 +98,18 @@ public:
 
     TokenListBuilder validCallsStar(){
         return suchThat().callsStar().leftParen().identifier().comma().identifier().rightParen();
+    }
+
+    TokenListBuilder validBooleanSelect(){
+        return select().boolean();
+    }
+
+    TokenListBuilder validSingleTupleSelect(){
+        return select().leftA_Brac().identifier().rightA_Brac();
+    }
+
+    TokenListBuilder validMultiTupleSelect(){
+      return select().leftA_Brac().identifier().comma().identifier().comma().identifier().rightA_Brac();
     }
 
     TokenListBuilder validUses(){
@@ -151,6 +175,11 @@ public:
         return *this;
     };
 
+    TokenListBuilder boolean() {
+        tokenList.addToken(type::BOOLEAN, "BOOLEAN");
+        return *this;
+    };
+
     TokenListBuilder quotedIdent() {
         tokenList.addToken(type::QUOTE, "\"");
         tokenList.addToken(type::IDENTIFIER, "s");
@@ -190,6 +219,16 @@ public:
     TokenListBuilder leftParen() {
         tokenList.addToken(type::LEFT_PAREN, "(");
         return *this;
+    };
+
+    TokenListBuilder leftA_Brac() {
+        tokenList.addToken(type::LEFT_A_BRAC, "<");
+        return *this;
+    };
+
+    TokenListBuilder rightA_Brac() {
+      tokenList.addToken(type::RIGHT_A_BRAC, ">");
+      return *this;
     };
 
     TokenListBuilder rightParen() {

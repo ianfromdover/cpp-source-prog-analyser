@@ -17,11 +17,15 @@ QuotedIdentity::QuotedIdentity(std::string& s) {
     this->val = s;
 }
 
-std::string QuotedIdentity::getArgumentValue() {
-    return this->val;
+std::vector<std::string> QuotedIdentity::getArgumentValue() {
+    return {this->val};
 }
 
 Table QuotedIdentity::getEntityTable(QueryPkbVirtual &pkb) {
+    throw QPSException("Invalid QPS Query");
+}
+
+std::vector<std::vector<std::string>> QuotedIdentity::getRawTable(QueryPkbVirtual &pkb) {
     throw QPSException("Invalid QPS Query");
 }
 

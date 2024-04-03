@@ -21,7 +21,7 @@ std::vector<VarName> PatternAssignTable::getLhsVarsFromStmt(StmtNo stmtNo) {
     return stmtLhsMap.getRelatedValues(stmtNo);
 }
 Table PatternAssignTable::getAllStmtLhs() {
-    return stmtLhsMap.getAllAStr();
+    return stmtLhsMap.getAll();
 }
 
 // -------- For StmtNo | VarName RHS table
@@ -36,7 +36,7 @@ std::vector<VarName> PatternAssignTable::getRhsVarsFromStmt(StmtNo stmtNo) {
     return stmtRhsMap.getRelatedValues(stmtNo);
 }
 Table PatternAssignTable::getAllStmtRhs() {
-    return stmtRhsMap.getAllAStr();
+    return stmtRhsMap.getAll();
 }
 
 // -------- For VarName LHS | VarName RHS table
@@ -51,12 +51,12 @@ std::vector<VarName> PatternAssignTable::getRhsFromLhs(VarName lhs) {
 }
 // ai-gen end
 Table PatternAssignTable::getAllLhsRhs() {
-    return lhsRhsMap.getAllStrStr();
+    return lhsRhsMap.getAll();
 }
 
 // -------- For StmtNo | VarName LHS | VarName RHS table
 Table PatternAssignTable::getAllAsStrings() {
-    Table result = stmtLhsMap.getAllAStr();
+    Table result = stmtLhsMap.getAll();
     for (auto& stmtLhsPair : result) {
         int stmtNo = std::stoi(stmtLhsPair[0]);
         string lhs = stmtLhsPair[1];
