@@ -20,6 +20,24 @@ std::vector<std::shared_ptr<ConstraintArgument>> FollowsConstraint::getConstrain
 }
 
 Table FollowsConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
+    if (this->getNot()) {
+        Table wholeSet = pkb.getFollowsTable();
+        Table subSet = getTable(pkb);
+        return ResultTable::minusTable(wholeSet, subSet);
+    } else {
+        return getTable(pkb);
+    }
+}
+
+bool FollowsConstraint::isStatementSynonym(std::string type) {
+    vector<std::string> statementVector = {
+            TYPE_STATEMENT, TYPE_READ, TYPE_PRINT, TYPE_ASSIGN,
+            TYPE_CALL, TYPE_WHILE, TYPE_IF
+    };
+    return std::find(statementVector.begin(), statementVector.end(), type) != statementVector.end();
+}
+
+Table FollowsConstraint::getTable(QueryPkbVirtual &pkb) {
     // Get follows table and populate it into our results table
     Table result = pkb.getFollowsTable();
 
@@ -48,7 +66,7 @@ Table FollowsConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
         Table entityTable = args[0]->getEntityTable(pkb);
         ResultTable entityTableResult(entityTable);
         if (lhsEntityType != TYPE_STATEMENT) {
-  //          entityTableResult.removeColumnByIndex(1);
+            //          entityTableResult.removeColumnByIndex(1);
             entityTableResult.removeAllColumnsExceptIndex(0);
         }
         table.add(entityTableResult.getTable());
@@ -77,12 +95,4 @@ Table FollowsConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     }
 
     return table.getTable();
-}
-
-bool FollowsConstraint::isStatementSynonym(std::string type) {
-    vector<std::string> statementVector = {
-            TYPE_STATEMENT, TYPE_READ, TYPE_PRINT, TYPE_ASSIGN,
-            TYPE_CALL, TYPE_WHILE, TYPE_IF
-    };
-    return std::find(statementVector.begin(), statementVector.end(), type) != statementVector.end();
 }

@@ -23,6 +23,16 @@ std::vector<std::shared_ptr<ConstraintArgument>> IfPatternConstraint::getConstra
 }
 
 std::vector<std::vector<std::string>> IfPatternConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
+    if (this->getNot()) {
+        Table wholeSet = pkb.getPatternIfTable();
+        Table subSet = getTable(pkb);
+        return ResultTable::minusTable(wholeSet, subSet);
+    } else {
+        return getTable(pkb);
+    }
+}
+
+Table IfPatternConstraint::getTable(QueryPkbVirtual &pkb) {
     Table res = pkb.getPatternIfTable();
 
     std::vector<std::shared_ptr<ConstraintArgument>> args = getConstraintArguments();

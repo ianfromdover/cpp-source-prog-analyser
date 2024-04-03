@@ -14,6 +14,7 @@
 class FollowsTConstraint : public RelationshipConstraint{
 private:
     std::vector<std::shared_ptr<ConstraintArgument>> constraintArguments;
+    Table getTable(QueryPkbVirtual &pkb);
 public:
     FollowsTConstraint(std::shared_ptr<StatementReference> , std::shared_ptr<StatementReference> );
     std::string getConstraintType() override;

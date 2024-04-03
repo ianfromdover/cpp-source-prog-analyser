@@ -15,6 +15,7 @@ class WhilePatternConstraint : public PatternConstraint {
 private:
     std::vector<std::shared_ptr<ConstraintArgument>> constraintArguments;
     std::shared_ptr<WhileEntity> constraintIdentifier;
+    Table getTable(QueryPkbVirtual &pkb);
 public:
     WhilePatternConstraint(std::shared_ptr<EntityReference>, std::shared_ptr<WhileEntity>);
     std::string getConstraintType() override;

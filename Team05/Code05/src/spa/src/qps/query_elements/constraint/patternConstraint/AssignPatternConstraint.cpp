@@ -28,6 +28,16 @@ std::vector<std::shared_ptr<ConstraintArgument>> AssignPatternConstraint::getCon
 }
 
 Table AssignPatternConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
+    if (this->getNot()) {
+        Table wholeSet = pkb.getPatternAsgnTable();
+        Table subSet = getTable(pkb);
+        return ResultTable::minusTable(wholeSet, subSet);
+    } else {
+        return getTable(pkb);
+    }
+}
+
+Table AssignPatternConstraint::getTable(QueryPkbVirtual &pkb) {
     Table temp = pkb.getPatternAsgnTable();
     Table res;
 

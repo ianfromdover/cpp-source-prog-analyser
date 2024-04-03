@@ -20,6 +20,24 @@ std::vector<std::shared_ptr<ConstraintArgument>> UsesSConstraint::getConstraintA
 }
 
 Table UsesSConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
+    if (this->getNot()) {
+        Table wholeSet = pkb.getUsesSTable();
+        Table subSet = getTable(pkb);
+        return ResultTable::minusTable(wholeSet, subSet);
+    } else {
+        return getTable(pkb);
+    }
+}
+
+bool UsesSConstraint::isStatementSynonym(std::string type) {
+    vector<std::string> statementVector = {
+            TYPE_STATEMENT, TYPE_PRINT, TYPE_ASSIGN,
+            TYPE_CALL, TYPE_WHILE, TYPE_IF
+    };
+    return std::find(statementVector.begin(), statementVector.end(), type) != statementVector.end();
+}
+
+Table UsesSConstraint::getTable(QueryPkbVirtual &pkb) {
     // Get uses table and populate it into our results table
     Table result = pkb.getUsesSTable();
 
@@ -68,12 +86,4 @@ Table UsesSConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     }
 
     return table.getTable();
-}
-
-bool UsesSConstraint::isStatementSynonym(std::string type) {
-    vector<std::string> statementVector = {
-            TYPE_STATEMENT, TYPE_PRINT, TYPE_ASSIGN,
-            TYPE_CALL, TYPE_WHILE, TYPE_IF
-    };
-    return std::find(statementVector.begin(), statementVector.end(), type) != statementVector.end();
 }

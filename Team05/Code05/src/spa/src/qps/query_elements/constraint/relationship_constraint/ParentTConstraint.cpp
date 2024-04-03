@@ -20,6 +20,24 @@ std::vector<std::shared_ptr<ConstraintArgument>> ParentTConstraint::getConstrain
 }
 
 Table ParentTConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
+    if (this->getNot()) {
+        Table wholeSet = pkb.getParentTTable();
+        Table subSet = getTable(pkb);
+        return ResultTable::minusTable(wholeSet, subSet);
+    } else {
+        return getTable(pkb);
+    }
+}
+
+bool ParentTConstraint::isStatementSynonym(std::string type) {
+    vector<std::string> statementVector = {
+            TYPE_STATEMENT, TYPE_READ, TYPE_PRINT, TYPE_ASSIGN,
+            TYPE_CALL, TYPE_WHILE, TYPE_IF
+    };
+    return std::find(statementVector.begin(), statementVector.end(), type) != statementVector.end();
+}
+
+Table ParentTConstraint::getTable(QueryPkbVirtual &pkb) {
     // Get parentT table and populate it into our results table
     Table result = pkb.getParentTTable();
 
@@ -71,12 +89,4 @@ Table ParentTConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     }
 
     return table.getTable();
-}
-
-bool ParentTConstraint::isStatementSynonym(std::string type) {
-    vector<std::string> statementVector = {
-            TYPE_STATEMENT, TYPE_READ, TYPE_PRINT, TYPE_ASSIGN,
-            TYPE_CALL, TYPE_WHILE, TYPE_IF
-    };
-    return std::find(statementVector.begin(), statementVector.end(), type) != statementVector.end();
 }

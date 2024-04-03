@@ -19,6 +19,32 @@ std::vector<std::shared_ptr<ConstraintArgument>> UsesPConstraint::getConstraintA
 }
 
 std::vector<std::vector<std::string>> UsesPConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
+    if (this->getNot()) {
+        Table wholeSet = pkb.getUsesPTable();
+        Table subSet = getTable(pkb);
+        return ResultTable::minusTable(wholeSet, subSet);
+    } else {
+        return getTable(pkb);
+    }
+}
+
+std::string& UsesPConstraint::stripCharacters(std::string& str, const std::string& chars) {
+    // Find the first character position after excluding leading characters
+    std::size_t first = str.find_first_not_of(chars);
+    if (first == std::string::npos) {
+        // If there are no characters other than the ones to strip, return an empty string
+        return str = "";
+    }
+    // Find the position of the last character not matching the strip characters
+    std::size_t last = str.find_last_not_of(chars);
+
+    // Erase the leading and trailing characters
+    str = str.substr(first, (last - first + 1));
+
+    return str;
+}
+
+Table UsesPConstraint::getTable(QueryPkbVirtual &pkb) {
     // Get follows table and populate it into our results table
     std::vector<std::vector<std::string>> result = pkb.getUsesPTable();
 
@@ -70,20 +96,4 @@ std::vector<std::vector<std::string>> UsesPConstraint::getRelationshipTable(Quer
     }
 
     return table.getTable();
-}
-
-std::string& UsesPConstraint::stripCharacters(std::string& str, const std::string& chars) {
-    // Find the first character position after excluding leading characters
-    std::size_t first = str.find_first_not_of(chars);
-    if (first == std::string::npos) {
-        // If there are no characters other than the ones to strip, return an empty string
-        return str = "";
-    }
-    // Find the position of the last character not matching the strip characters
-    std::size_t last = str.find_last_not_of(chars);
-
-    // Erase the leading and trailing characters
-    str = str.substr(first, (last - first + 1));
-
-    return str;
 }

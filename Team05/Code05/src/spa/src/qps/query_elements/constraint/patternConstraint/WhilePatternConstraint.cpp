@@ -23,6 +23,16 @@ std::vector<std::shared_ptr<ConstraintArgument>> WhilePatternConstraint::getCons
 }
 
 std::vector<std::vector<std::string>> WhilePatternConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
+    if (this->getNot()) {
+        Table wholeSet = pkb.getPatternWhileTable();
+        Table subSet = getTable(pkb);
+        return ResultTable::minusTable(wholeSet, subSet);
+    } else {
+        return getTable(pkb);
+    }
+}
+
+Table WhilePatternConstraint::getTable(QueryPkbVirtual &pkb) {
     Table res = pkb.getPatternWhileTable();
 
     std::vector<std::shared_ptr<ConstraintArgument>> args = getConstraintArguments();

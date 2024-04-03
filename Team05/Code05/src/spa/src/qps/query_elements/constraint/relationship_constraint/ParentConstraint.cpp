@@ -18,9 +18,7 @@ std::vector<std::shared_ptr<ConstraintArgument>> ParentConstraint::getConstraint
     return constraintArguments;
 }
 
-
-
-Table ParentConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
+Table ParentConstraint::getTable(QueryPkbVirtual & pkb) {
     // Get parent table and populate it into our results table
     Table result = pkb.getParentTable();
 
@@ -74,6 +72,16 @@ Table ParentConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     }
 
     return table.getTable();
+}
+
+Table ParentConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
+    if (this->getNot()) {
+        Table wholeSet = pkb.getParentTable();
+        Table subSet = getTable(pkb);
+        return ResultTable::minusTable(wholeSet, subSet);
+    } else {
+        return getTable(pkb);
+    }
 }
 
 bool ParentConstraint::isStatementSynonym(std::string type) {

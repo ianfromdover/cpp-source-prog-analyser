@@ -14,6 +14,7 @@
 class UsesPConstraint : public RelationshipConstraint {
 private:
     std::vector<std::shared_ptr<ConstraintArgument>> constraintArguments;
+    Table getTable(QueryPkbVirtual &pkb);
 public:
     UsesPConstraint(std::shared_ptr<EntityReference> , std::shared_ptr<EntityReference> );
     std::string getConstraintType() override;
