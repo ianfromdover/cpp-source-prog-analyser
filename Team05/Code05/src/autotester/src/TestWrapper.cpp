@@ -32,7 +32,7 @@ void TestWrapper::parse(std::string filename) {
         const auto program = sp.parse(tokens);
         sp.validate(program);
         sp.extract(program);
-        this->affects = std::make_shared<Affects>(CFG::compile(program), queryPkb);
+        this->affects = std::make_shared<Affects>(std::make_shared<CFGCollection>(program), queryPkb);
     } catch (BaseException& exception) {
         // handle exception
         std::cerr << "Caught BaseException: " << exception.what() << std::endl;

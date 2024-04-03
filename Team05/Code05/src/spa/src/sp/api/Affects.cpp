@@ -4,9 +4,8 @@
 
 #include "Affects.h"
 
-Affects::Affects(const std::shared_ptr<CFGs> &cfgs, const std::shared_ptr<QueryPkb>& queryPkb) : extractor(queryPkb) {
-    this->cfgs = cfgs;
-    this->defUseChain = DefUseChain();
+Affects::Affects(const std::shared_ptr<CFGCollection>& cfgCollection, const std::shared_ptr<QueryPkb>& queryPkb) : extractor(queryPkb) {
+    this->cfgCollection = cfgCollection;
     this->meet = [](const DefinitionSet& s1, const DefinitionSet& s2) {
         auto result = s1;
         result.insert(s2.begin(), s2.end());
@@ -54,29 +53,35 @@ void Affects::computeSetDifference(DefinitionSet &minuend, const DefinitionSet &
     }
 }
 
-std::pair<Solver<DefinitionSet>::Facts, Solver<DefinitionSet>::Facts> Affects::compute() {
-    // TODO: Consider if analysis should be conducted on specific CFGs (given by get(s1, s2)) or on all CFGs.
-    // TODO: Figure out how to conduct analysis across procedures (because of call).
+void Affects::compute(const std::shared_ptr<CFG>& cfg) {
     // TODO: Figure out how to populate def-use chain (especially if CFGs are incrementally analyzed across get calls).
-    // TODO: When implementation is done, return void.
-    for (const auto& [_, cfg] : *cfgs) {
-        std::tie(this->currentCFGDefinitions, this->currentCFGUses) = this->extractor.extract(cfg);
-        const auto [in, out] = Solver<DefinitionSet>::solve(cfg, this->meet, this->transfer, DefinitionSet());
-        return { std::move(in), std::move(out) };
-    }
+
+    std::tie(this->currentCFGDefinitions, this->currentCFGUses) = this->extractor.extract(cfg);
+    const auto [in, out] = Solver<DefinitionSet>::solve(cfg, this->meet, this->transfer, DefinitionSet());
 }
 
-std::pair<Solver<DefinitionSet>::Facts, Solver<DefinitionSet>::Facts> Affects::get(StmtNo s1, StmtNo s2) {
-//    if (this->defUseChain.empty()) {
-//        this->compute();
-//    }
-//    return false;
-    // TODO: Revisit this this when compute implementation is complete.
-    // TODO: When implementation is done, return bool.
-    return this->compute();
+bool Affects::get(StmtNo s1, StmtNo s2) {
+    const auto cfg = this->cfgCollection->find(s1);
+    if (!cfg || !(*cfg)->containsStmtNo(s2)) {
+        return false;
+    }
+
+    const auto procedureName = (*cfg)->getProcedureName();
+    auto defUseChainIt = this->defUseChainMap.find(procedureName);
+    if (defUseChainIt == this->defUseChainMap.end()) {
+        this->compute(*cfg);
+        defUseChainIt = this->defUseChainMap.find(procedureName);
+    }
+
+    const auto defUseChain = defUseChainIt->second;
+    const auto defUseIt = defUseChain.find(s1);
+    if (defUseIt == defUseChain.end()) {
+        return false;
+    }
+
+    return defUseIt->second.find(s2) != defUseIt->second.end();
 }
 
 void Affects::flush() {
-    // TODO: Revisit this this when compute implementation is complete.
-    this->defUseChain.clear();
+    this->defUseChainMap.clear();
 }

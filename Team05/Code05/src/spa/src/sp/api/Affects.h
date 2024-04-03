@@ -6,7 +6,7 @@
 #define SPA_AFFECTS_H
 
 #include <unordered_map>
-#include "sp/cfg/CFG.h"
+#include "sp/cfg/CFGCollection.h"
 #include "sp/solver/Solver.h"
 #include "DefUseExtractor.h"
 
@@ -15,20 +15,20 @@ using DefUseChain = std::unordered_map<StmtNo, std::unordered_set<StmtNo>>;
 
 class Affects {
 private:
-    std::shared_ptr<CFGs> cfgs;
-    DefUseChain defUseChain;
+    std::shared_ptr<CFGCollection> cfgCollection;
+    std::unordered_map<std::string, DefUseChain> defUseChainMap;
     Solver<DefinitionSet>::Meet meet;
     Solver<DefinitionSet>::Transfer transfer;
     DefUseExtractor extractor;
     Definitions currentCFGDefinitions;
     Uses currentCFGUses;
 private:
-    std::pair<Solver<DefinitionSet>::Facts, Solver<DefinitionSet>::Facts> compute();
+    void compute(const std::shared_ptr<CFG>& cfg);
     static DefinitionSet computeKillSet(const DefinitionSet& in, const DefinitionSet& gen);
     static void computeSetDifference(DefinitionSet& minuend, const DefinitionSet& subtrahend);
 public:
-    explicit Affects(const std::shared_ptr<CFGs>& cfgs, const std::shared_ptr<QueryPkb>& queryPkb);
-    std::pair<Solver<DefinitionSet>::Facts, Solver<DefinitionSet>::Facts> get(StmtNo s1, StmtNo s2);
+    explicit Affects(const std::shared_ptr<CFGCollection>& cfgCollection, const std::shared_ptr<QueryPkb>& queryPkb);
+    bool get(StmtNo s1, StmtNo s2);
     void flush();
 };
 

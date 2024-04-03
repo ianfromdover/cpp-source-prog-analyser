@@ -12,8 +12,6 @@
 
 class CFG;
 
-using CFGs = std::unordered_map<std::string, std::shared_ptr<CFG>>;
-
 class CFG : private ProgramVisitor {
 private:
     std::string procedureName;
@@ -38,8 +36,10 @@ public:
     void accept(CfgExtractor& visitor) const;
     [[nodiscard]] std::shared_ptr<Block> getEntryBlock() const;
     [[nodiscard]] std::shared_ptr<Blocks> getBlocks() const;
+    [[nodiscard]] std::string getProcedureName() const;
+    [[nodiscard]] std::pair<StmtNo, StmtNo> getRange() const;
+    [[nodiscard]] bool containsStmtNo(StmtNo stmtNo) const;
     std::string toString();
-    static std::shared_ptr<CFGs> compile(const std::shared_ptr<Program>& program);
 };
 
 
