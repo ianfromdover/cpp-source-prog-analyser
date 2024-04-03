@@ -53,9 +53,6 @@ Table NextTConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
         ResultTable entityTableResult(entityTable);
         if (lhsEntityType != TYPE_STATEMENT) {
             entityTableResult.removeColumnByIndex(1);
-            if (lhsEntityType == TYPE_ASSIGN) {
-                entityTableResult.removeColumnByIndex(1);
-            }
             table.add(entityTableResult.getTable());
         }
     }
@@ -70,9 +67,6 @@ Table NextTConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
         ResultTable entityTableResult(entityTable);
         if (rhsEntityType != TYPE_STATEMENT) {
             entityTableResult.removeColumnByIndex(1);
-            if (rhsEntityType == TYPE_ASSIGN) {
-                entityTableResult.removeColumnByIndex(1);
-            }
             table.add(entityTableResult.getTable());
         }
     }
