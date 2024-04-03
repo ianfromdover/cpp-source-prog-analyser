@@ -414,25 +414,31 @@ public:
         vector<string> headerA = a[0];
         vector<string> headerB = b[0];
 
-        vector<string> valAtA = getValuesWithHeadersAtIndex(a, commonHeaders, rowA);
-        vector<string> valAtB = getValuesWithHeadersAtIndex(b, commonHeaders, rowB);
+        vector<string> valAtA = getValuesAtHeadersAtIndex(a, commonHeaders, rowA);
+        vector<string> valAtB = getValuesAtHeadersAtIndex(b, commonHeaders, rowB);
         return valAtA == valAtB;
     }
 
-    // returns values with Headers at a certain index
-    static vector<string> getValuesWithHeadersAtIndex(const table& t, const vector<string>& headers, int index) {
+    // returns values at Headers at a certain index
+    static vector<string> getValuesAtHeadersAtIndex(const table& t, const vector<string>& headers, int index) {
         vector<string> res;
         vector<string> actualHeader = t[0];
-        for (string value : headers) {
-            for (int i = 0; i < actualHeader.size(); i++) {
-                if (std::find(actualHeader.begin(), actualHeader.end(), value) != actualHeader.end()) {
-                    // i is the index where the header is found.
-                    res.push_back(t[index][i]);
-                    break;
-                }
+        return getValuesAtHeadersAtIndexRecurse(t, headers, index, actualHeader, res);
+    }
+
+    static vector<string> getValuesAtHeadersAtIndexRecurse(const table& t, vector<string> leftToFind,
+                                                           int index, vector<string> actualHeader, vector<string> ans) {
+        if (leftToFind.empty()) {
+            return ans;
+        }
+        string find = leftToFind[0];
+        leftToFind.erase(leftToFind.begin());
+        for (int headerIndex = 0; headerIndex < actualHeader.size(); headerIndex++) {
+            if (actualHeader[headerIndex] == find) {
+                ans.push_back(t[index][headerIndex]);
+                return getValuesAtHeadersAtIndexRecurse(t, leftToFind, index, actualHeader, ans);
             }
         }
-        return res;
     }
 
 

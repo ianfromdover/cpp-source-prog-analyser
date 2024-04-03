@@ -32,10 +32,29 @@ TEST_CASE("ResultTable_minus") {
     b.push_back(header2_val2);
     b.push_back(header2_val3);
 
+    SECTION("returnsValuesWithHeadersAtIndex") {
+        SECTION("oneCommonHeader") {
+            vector<string> header = {"names"};
+            vector<string> res = ResultTable::getValuesAtHeadersAtIndex(b, header, 3);
+            vector<string> expected = {"barry"};
+            REQUIRE(expected == res);
+        }
+
+        SECTION("twoCommonHeader") {
+            vector<string> header = {"names", "animals"};
+            vector<string> res = ResultTable::getValuesAtHeadersAtIndex(b, header, 1);
+            vector<string> expected = {"tom", "cat"};
+            REQUIRE(expected == res);
+        }
+    }
+
     SECTION("minustable") {
         table c = ResultTable::minusTable(a, b);
-        ResultTable res = ResultTable(c);
-        cout<< res.toString();
+        table expected;
+        expected.push_back(header1);
+        expected.push_back(header1_val3);
+        expected.push_back(header1_val4);
+        REQUIRE(expected == c);
     }
 
 }
