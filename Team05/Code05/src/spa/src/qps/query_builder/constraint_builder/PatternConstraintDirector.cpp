@@ -9,26 +9,26 @@
 std::shared_ptr<Constraint> PatternConstraintDirector::process(shared_ptr<PatternClause> r,
                                                                     shared_ptr<QueryObject> qo) {
     QPSTokenType::QPSTypeInfo type = PatternConstraintDirector::getPatternType(r, qo);
+    shared_ptr<PatternConstraintBuilderTemplate> b;
     switch (type) {
         case (QPSTokenType::ASSIGN): {
-            AssignPatternConstraintBuilder b;
-            b.addConstraintClause(std::move(r), std::move(qo));
-            return b.build();
+            b = make_shared<AssignPatternConstraintBuilder>();
+            break;
         }
         case (QPSTokenType::IF): {
-            IfPatternConstraintBuilder b;
-            b.addConstraintClause(std::move(r), std::move(qo));
-            return b.build();
+            b = make_shared<IfPatternConstraintBuilder>();
+            break;
         }
         case (QPSTokenType::WHILE): {
-            WhilePatternConstraintBuilder b;
-            b.addConstraintClause(std::move(r), std::move(qo));
-            return b.build();
+            b = make_shared<WhilePatternConstraintBuilder>();
+            break;
         }
         default: {
             throw QPSException("Invalid pattern type");
         }
     }
+    b->buildPatternConstraint(std::move(r), std::move(qo));
+    return b->build();
 }
 
 QPSTokenType::QPSTypeInfo PatternConstraintDirector::getPatternType(shared_ptr<PatternClause> patternC, shared_ptr<QueryObject> qo) {

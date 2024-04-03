@@ -16,13 +16,20 @@
 class QueryPkbVirtual;
 
 class Constraint {
+private:
+    bool isNot = false;
 public:
     virtual std::string getConstraintClass() = 0;
     virtual std::string getConstraintType() = 0;
     virtual std::vector<std::shared_ptr<ConstraintArgument>>  getConstraintArguments() = 0;
     std:: string toString();
-
     virtual Table getRelationshipTable(QueryPkbVirtual &) =0;
+    void setNot(bool val) {
+        this->isNot = val;
+    }
+    bool getNot() {
+        return this->isNot;
+    }
 
 };
 
