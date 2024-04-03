@@ -425,9 +425,9 @@ public:
         vector<string> actualHeader = t[0];
         for (string value : headers) {
             for (int i = 0; i < actualHeader.size(); i++) {
-                if (std::find(actualHeader.begin(), actualHeader.end(), actualHeader[i]) != actualHeader.end()) {
+                if (std::find(actualHeader.begin(), actualHeader.end(), value) != actualHeader.end()) {
                     // i is the index where the header is found.
-                    res.push_back(t[i][index]);
+                    res.push_back(t[index][i]);
                     break;
                 }
             }
