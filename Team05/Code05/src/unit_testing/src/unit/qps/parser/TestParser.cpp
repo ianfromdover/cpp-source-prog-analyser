@@ -19,7 +19,7 @@ generateTokenList(std::initializer_list<std::pair<QPSTokenType::QPSTypeInfo, std
 TEST_CASE("scratch pad parser") {
     SECTION("pattern_modifies"){
         QPSTokenList tokens;
-        tokens = TokenListBuilder().multiAssignDeclaration().select().identifier().validCalls().get();
+        tokens = TokenListBuilder().singleIfDeclaration().select().identifier().validIfPattern().get();
 
         QPSParser parser(tokens);
         REQUIRE_NOTHROW(parser.parse());
@@ -62,6 +62,40 @@ TEST_CASE("singleDeclaration_singleSelect_singleRelationship1") {
 
         QPSParser parser(tokens);
         REQUIRE_NOTHROW(parser.parse());
+    }
+}
+
+TEST_CASE("boolean_select"){
+  SECTION("simple boolean select") {
+    QPSTokenList tokens;
+    tokens = TokenListBuilder().validBooleanSelect().get();
+
+    QPSParser parser(tokens);
+    REQUIRE_NOTHROW(parser.parse());
+  }
+  SECTION("single declaration and single boolean select") {
+    QPSTokenList tokens;
+    tokens = TokenListBuilder().singleStmtDeclaration().validBooleanSelect().get();
+
+    QPSParser parser(tokens);
+    REQUIRE_NOTHROW(parser.parse());
+  }
+}
+
+TEST_CASE("tuple select"){
+    SECTION("single tuple element"){
+      QPSTokenList tokens;
+      tokens = TokenListBuilder().validSingleTupleSelect().get();
+
+      QPSParser parser(tokens);
+      REQUIRE_NOTHROW(parser.parse());
+    }
+    SECTION("multi tuple element"){
+      QPSTokenList tokens;
+      tokens = TokenListBuilder().validMultiTupleSelect().get();
+
+      QPSParser parser(tokens);
+      REQUIRE_NOTHROW(parser.parse());
     }
 }
 
@@ -685,42 +719,42 @@ TEST_CASE("singleDeclaration_singleSelect_singleRelationship") {
 TEST_CASE("singleDeclaration_singleSelect_singlePattern_singleRelationship") {
     SECTION("pattern_parents"){
         QPSTokenList tokens;
-        tokens = TokenListBuilder().multiStmtDeclaration().select().identifier().validPattern().validFollows().get();
+        tokens = TokenListBuilder().multiStmtDeclaration().select().identifier().validAssignPattern().validFollows().get();
 
         QPSParser parser(tokens);
         REQUIRE_NOTHROW(parser.parse());
     }
     SECTION("pattern_parentsStar"){
         QPSTokenList tokens;
-        tokens = TokenListBuilder().multiReadDeclaration().select().identifier().validPattern().validParentStar().get();
+        tokens = TokenListBuilder().multiReadDeclaration().select().identifier().validAssignPattern().validParentStar().get();
 
         QPSParser parser(tokens);
         REQUIRE_NOTHROW(parser.parse());
     }
     SECTION("pattern_follows"){
         QPSTokenList tokens;
-        tokens = TokenListBuilder().multiPrintDeclaration().select().identifier().validPattern().validFollows().get();
+        tokens = TokenListBuilder().multiPrintDeclaration().select().identifier().validAssignPattern().validFollows().get();
 
         QPSParser parser(tokens);
         REQUIRE_NOTHROW(parser.parse());
     }
     SECTION("pattern_followsStar"){
         QPSTokenList tokens;
-        tokens = TokenListBuilder().multiWhileDeclaration().select().identifier().validPattern().validFollowsStar().get();
+        tokens = TokenListBuilder().multiWhileDeclaration().select().identifier().validAssignPattern().validFollowsStar().get();
 
         QPSParser parser(tokens);
         REQUIRE_NOTHROW(parser.parse());
     }
     SECTION("pattern_uses"){
         QPSTokenList tokens;
-        tokens = TokenListBuilder().multiIfDeclaration().select().identifier().validPattern().validFollows().get();
+        tokens = TokenListBuilder().multiIfDeclaration().select().identifier().validAssignPattern().validFollows().get();
 
         QPSParser parser(tokens);
         REQUIRE_NOTHROW(parser.parse());
     }
     SECTION("pattern_modifies"){
         QPSTokenList tokens;
-        tokens = TokenListBuilder().multiAssignDeclaration().select().identifier().validPattern().validFollows().get();
+        tokens = TokenListBuilder().multiAssignDeclaration().select().identifier().validAssignPattern().validFollows().get();
 
         QPSParser parser(tokens);
         REQUIRE_NOTHROW(parser.parse());
@@ -730,42 +764,42 @@ TEST_CASE("singleDeclaration_singleSelect_singlePattern_singleRelationship") {
 TEST_CASE("singleDeclaration_singleSelect_singleRelationship_singlePattern") {
     SECTION("parents_pattern"){
         QPSTokenList tokens;
-        tokens = TokenListBuilder().multiAssignDeclaration().select().identifier().validParent().validPattern().get();
+        tokens = TokenListBuilder().multiAssignDeclaration().select().identifier().validParent().validAssignPattern().get();
 
         QPSParser parser(tokens);
         REQUIRE_NOTHROW(parser.parse());
     }
     SECTION("parentsStar_pattern"){
         QPSTokenList tokens;
-        tokens = TokenListBuilder().multiIfDeclaration().select().identifier().validParentStar().validPattern().get();
+        tokens = TokenListBuilder().multiIfDeclaration().select().identifier().validParentStar().validAssignPattern().get();
 
         QPSParser parser(tokens);
         REQUIRE_NOTHROW(parser.parse());
     }
     SECTION("follows_pattern"){
         QPSTokenList tokens;
-        tokens = TokenListBuilder().multiWhileDeclaration().select().identifier().validFollows().validPattern().get();
+        tokens = TokenListBuilder().multiWhileDeclaration().select().identifier().validFollows().validAssignPattern().get();
 
         QPSParser parser(tokens);
         REQUIRE_NOTHROW(parser.parse());
     }
     SECTION("followsStar_pattern"){
         QPSTokenList tokens;
-        tokens = TokenListBuilder().multiVariableDeclaration().select().identifier().validFollowsStar().validPattern().get();
+        tokens = TokenListBuilder().multiVariableDeclaration().select().identifier().validFollowsStar().validAssignPattern().get();
 
         QPSParser parser(tokens);
         REQUIRE_NOTHROW(parser.parse());
     }
     SECTION("uses_pattern"){
         QPSTokenList tokens;
-        tokens = TokenListBuilder().multiConstantDeclaration().select().identifier().validUses().validPattern().get();
+        tokens = TokenListBuilder().multiConstantDeclaration().select().identifier().validUses().validAssignPattern().get();
 
         QPSParser parser(tokens);
         REQUIRE_NOTHROW(parser.parse());
     }
     SECTION("modifies_pattern"){
         QPSTokenList tokens;
-        tokens = TokenListBuilder().multiProcedureDeclaration().select().identifier().validModifies().validPattern().get();
+        tokens = TokenListBuilder().multiProcedureDeclaration().select().identifier().validModifies().validAssignPattern().get();
 
         QPSParser parser(tokens);
         REQUIRE_NOTHROW(parser.parse());
@@ -776,7 +810,7 @@ TEST_CASE("singleDeclaration_singleSelect_singleRelationship_singlePattern") {
 TEST_CASE("invalid syntax"){
     SECTION("suchThat_pattern"){
         QPSTokenList tokens;
-        tokens = TokenListBuilder().multiStmtDeclaration().select().identifier().suchThat().validPattern().get();
+        tokens = TokenListBuilder().multiStmtDeclaration().select().identifier().suchThat().validAssignPattern().get();
         QPSParser parser(tokens);
         REQUIRE_THROWS(parser.parse());
     }

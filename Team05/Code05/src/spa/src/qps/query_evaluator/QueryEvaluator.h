@@ -10,6 +10,7 @@
 #include "qps/query_elements/QueryObject.h"
 #include "pkb/apis/QueryPkb.h"
 #include "qps/query_evaluator/query_result/QueryResult.h"
+#include "qps/query_evaluator/query_result/TupleStringResult.h"
 #include "qps/query_projector/Formattable.h"
 #include "qps/query_projector/ResultTable.h"
 
@@ -26,6 +27,8 @@ private:
     std::shared_ptr<Formattable> getEmptyResult();
 
     void processReturnable(shared_ptr<Returnable> r);
+
+    shared_ptr<Formattable> evalHelper(shared_ptr<Returnable> returnable);
 };
 
 

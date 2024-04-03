@@ -142,11 +142,21 @@ std::shared_ptr<DeclarationClause> QPSParser::declaration() {
 std::shared_ptr<SelectClause> QPSParser::select() {
 
     QPSToken declarationType = this->consume(QPSTokenType::SELECT, "Expect select type.");
-    QPSToken entityType = this->synonym(this->consume(QPSTokenType::IDENTIFIER, "Expect identifier."));
-
     std::shared_ptr<SelectClause> selectCl = std::make_shared<SelectClause>();
-    selectCl->addSelect(entityType.getLexeme());
-
+    if (this->check(QPSTokenType::BOOLEAN)) {
+      this->consume(QPSTokenType::BOOLEAN, "Expect 'BOOLEAN' after 'Select'.");
+      selectCl->setSelectBool();
+    } else if (this->check(QPSTokenType::LEFT_A_BRAC)){
+        this->consume(QPSTokenType::LEFT_A_BRAC, "Expect '<' after 'Select'.");
+        do {
+          QPSToken entityType = this->synonym(this->consume(QPSTokenType::IDENTIFIER, "Expect identifier."));
+          selectCl->addSelect(entityType.getLexeme());
+        } while (this->match({QPSTokenType::COMMA}));
+        this->consume(QPSTokenType::RIGHT_A_BRAC, "Expect '>' after identifier.");
+    } else {
+      QPSToken entityType = this->synonym(this->consume(QPSTokenType::IDENTIFIER, "Expect identifier."));
+      selectCl->addSelect(entityType.getLexeme());
+    }
     return selectCl;
 }
 
@@ -155,6 +165,22 @@ std::vector<std::shared_ptr<RelationshipClause>> QPSParser::suchThatClause() {
   this->consume(QPSTokenType::THAT, "Expect 'that' after 'such'.");
   return relCond();
 }
+
+std::vector<std::shared_ptr<PatternClause>> QPSParser::patternClause() {
+    std::vector<std::shared_ptr<PatternClause>> cls;
+        this->consume(QPSTokenType::PATTERN, "Expect 'pattern'.");
+    do {
+        std::shared_ptr<PatternClause> pattern;
+        if ((pattern = this->assignPattern()) || (pattern = this->whilePattern()) || (pattern = this->ifPattern())){
+          cls.push_back(pattern);
+        } else {
+          throw QPSParseException("invalid pattern syntax");
+        }
+    } while (this->match({QPSTokenType::AND}));
+    return cls;
+}
+
+
 
 std::vector<std::shared_ptr<RelationshipClause>> QPSParser::relCond() {
   std::vector<std::shared_ptr<RelationshipClause>> relConds;
@@ -237,19 +263,81 @@ QPSToken QPSParser::any() {
                           "]: invalid argument.");
 }
 
-std::shared_ptr<PatternClause> QPSParser::pattern() {
+std::shared_ptr<PatternClause> QPSParser::assignPattern() {
+    int state = current;
+    try {
+      QPSToken synAssign = this->synonym(
+          this->consume(QPSTokenType::IDENTIFIER, "Expect identifier."));
+
+      this->consume(QPSTokenType::LEFT_PAREN, "Expect '(' after identifier.");
+      QPSToken entRef = this->entRef();
+      this->consume(QPSTokenType::COMMA, "Expect ',' after entRef.");
+      QPSToken exprSpec = this->exprSpec();
+      this->consume(QPSTokenType::RIGHT_PAREN, "Expect ')' after expr spec.");
+
+//      PatternClause patternCl(synAssign.getLexeme(), entRef,
+//                              QPSTokenType::QPSTypeInfo::ENT_REF, exprSpec,
+//                              QPSTokenType::EXPR_REF);
+
+      PatternClause patternCl1(synAssign.getLexeme());
+      patternCl1.addArg(entRef, QPSTokenType::ENT_REF);
+        patternCl1.addArg(exprSpec, QPSTokenType::EXPR_REF);
+
+      return std::make_shared<PatternClause>(patternCl1);
+    } catch (QPSParseException &e) {
+      current = state;
+      return nullptr;
+    }
+}
+
+std::shared_ptr<PatternClause> QPSParser::whilePattern() {
+  int state = current;
+  try {
     QPSToken synAssign = this->synonym(this->consume(QPSTokenType::IDENTIFIER, "Expect identifier."));
 
     this->consume(QPSTokenType::LEFT_PAREN, "Expect '(' after identifier.");
     QPSToken entRef = this->entRef();
     this->consume(QPSTokenType::COMMA, "Expect ',' after entRef.");
-    QPSToken exprSpec = this->exprSpec();
+    QPSToken wildcard = this->consume(QPSTokenType::WILDCARD, "Expect '_' as second argument");
     this->consume(QPSTokenType::RIGHT_PAREN, "Expect ')' after expr spec.");
 
-    PatternClause patternCl(synAssign.getLexeme(), entRef, QPSTokenType::QPSTypeInfo::ENT_REF, exprSpec,
-                            QPSTokenType::EXPR_REF);
+    //PatternClause patternCl(synAssign.getLexeme(), entRef, QPSTokenType::QPSTypeInfo::ENT_REF, wildcard,
+    //                        QPSTokenType::EXPR_REF);
+    PatternClause patternCl1(synAssign.getLexeme());
+    patternCl1.addArg(entRef, QPSTokenType::ENT_REF);
+    patternCl1.addArg(wildcard, QPSTokenType::ENT_REF);
 
-    return std::make_shared<PatternClause>(patternCl);
+    return std::make_shared<PatternClause>(patternCl1);
+  } catch (QPSParseException &e) {
+    current = state;
+    return nullptr;
+  }
+}
+
+std::shared_ptr<PatternClause> QPSParser::ifPattern() {
+  int state = current;
+  try {
+    QPSToken synIf = this->synonym(this->consume(QPSTokenType::IDENTIFIER, "Expect identifier."));
+
+    this->consume(QPSTokenType::LEFT_PAREN, "Expect '(' after identifier.");
+    QPSToken entRef = this->entRef();
+    this->consume(QPSTokenType::COMMA, "Expect ',' after entRef.");
+    QPSToken wildcard = this->consume(QPSTokenType::WILDCARD, "Expect '_' as second argument");
+    this->consume(QPSTokenType::COMMA, "Expect ',' after entRef.");
+    QPSToken wildcard2 = this->consume(QPSTokenType::WILDCARD, "Expect '_' as third argument");
+    this->consume(QPSTokenType::RIGHT_PAREN, "Expect ')' after expr spec.");
+
+    PatternClause patternCl1(synIf.getLexeme());
+    patternCl1.addArg(entRef, QPSTokenType::ENT_REF);
+    patternCl1.addArg(wildcard, QPSTokenType::ENT_REF);
+    patternCl1.addArg(wildcard2, QPSTokenType::ENT_REF);
+
+
+    return std::make_shared<PatternClause>(patternCl1);
+  } catch (QPSParseException &e) {
+    current = state;
+    return nullptr;
+  }
 }
 
 QPSToken QPSParser::stmtRef() {
@@ -431,13 +519,15 @@ std::shared_ptr<IntermediateQuery> QPSParser::parse() {
     while (isSuchThat() || this->check({QPSTokenType::PATTERN})) {
 
         if (isSuchThat()) {
-        for (const auto &clause : suchThatClause()) {
-          query->addClause(clause);
+            for (const auto &clause : suchThatClause()) {
+              query->addClause(clause);
+            }
         }
-      }
-        if (this->match({QPSTokenType::PATTERN})) {
-            std::shared_ptr<PatternClause> pattern = this->pattern();
-            if (pattern) query->addClause(pattern);
+
+        if (this->check({QPSTokenType::PATTERN})) {
+            for (const auto &clause : patternClause()) {
+                query->addClause(clause);
+            }
         }
     }
 

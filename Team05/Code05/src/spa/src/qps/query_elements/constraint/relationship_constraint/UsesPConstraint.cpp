@@ -27,8 +27,8 @@ std::vector<std::vector<std::string>> UsesPConstraint::getRelationshipTable(Quer
     std::string lhsEntityType = args[0] -> getEntityType();
     std::string rhsEntityType = args[1] -> getEntityType();
 
-    std::string lhsHeader = lhsEntityType == TYPE_PROCEDURE ? args[0]->getArgumentValue() : "UsesPLHS";
-    std::string rhsHeader = rhsEntityType == TYPE_VARIABLE ? args[1]->getArgumentValue() : "UsesPRHS";
+    std::string lhsHeader = lhsEntityType == TYPE_PROCEDURE ? args[0]->getArgumentValue()[0] : "UsesPLHS";
+    std::string rhsHeader = rhsEntityType == TYPE_VARIABLE ? args[1]->getArgumentValue()[0] : "UsesPRHS";
 
     if (lhsHeader==rhsHeader) {
         return {{lhsHeader}};
@@ -45,7 +45,7 @@ std::vector<std::vector<std::string>> UsesPConstraint::getRelationshipTable(Quer
         table.add(entityTable);
     }
     if (lhsEntityType == TYPE_QUOTED_IDENT){
-        std::string string1=args[0]->getArgumentValue();
+        std::string string1=args[0]->getArgumentValue()[0];
         string stripped = stripCharacters(string1,"\"");
         table.filterByColumnExact(lhsHeader,stripped);
     }
@@ -57,7 +57,7 @@ std::vector<std::vector<std::string>> UsesPConstraint::getRelationshipTable(Quer
         table.add(entityTable);
     }
     if (rhsEntityType == TYPE_QUOTED_IDENT){
-        std::string string1=args[1]->getArgumentValue();
+        std::string string1=args[1]->getArgumentValue()[0];
         string stripped = stripCharacters(string1,"\"");
         table.filterByColumnExact(rhsHeader,stripped);
     }

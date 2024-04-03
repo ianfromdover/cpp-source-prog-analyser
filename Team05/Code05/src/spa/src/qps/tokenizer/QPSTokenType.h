@@ -15,13 +15,13 @@ public:
         IDENTIFIER,
 
         // Punctuation
-        SEMICOLON, LEFT_PAREN, RIGHT_PAREN, COMMA, QUOTE,
+        SEMICOLON, LEFT_PAREN, RIGHT_PAREN, COMMA, QUOTE, LEFT_A_BRAC, RIGHT_A_BRAC,
 
         // Design Entities
         STMT1, READ, PRINT, CALL, WHILE, IF, ASSIGN, VARIABLE, CONSTANT, PROCEDURE,
 
         // Select Keywords
-        SELECT,
+        SELECT, BOOLEAN,
 
         // Such That Keywords
         SUCH, THAT,
@@ -51,6 +51,10 @@ public:
         //SYNONYM,            // synonym : already exists
         INTEGER,
 
+        // With References
+        VAR_WITH,
+        INT_WHITH,
+
         // Pattern Keywords
         PATTERN,
 
@@ -66,8 +70,11 @@ public:
         // Expression Operators
         PLUS, MINUS, STAR, SLASH, PERCENT,
 
+        // With clause attributes
+        PROCNAME, VARNAME, STMT,
+
         // Others
-        END_OF_FILE
+        END_OF_FILE, TODO
     };
 
 private:

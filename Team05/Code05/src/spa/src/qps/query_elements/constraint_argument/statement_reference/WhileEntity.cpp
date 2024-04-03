@@ -21,8 +21,8 @@ std::string WhileEntity::toString() {
     return this->identifier + " [WHILE]";
 }
 
-std::string WhileEntity::getArgumentValue() {
-    return this->identifier;
+std::vector<std::string> WhileEntity::getArgumentValue() {
+    return {this->identifier};
 }
 
 Table WhileEntity::getEntityTable(QueryPkbVirtual &pkb) {
@@ -30,4 +30,8 @@ Table WhileEntity::getEntityTable(QueryPkbVirtual &pkb) {
     // Insertion of headers into our entity table
     entityTable.insert(entityTable.begin(), {this->identifier, "WhileVar"});
     return entityTable;
+}
+
+std::vector<std::vector<std::string>> WhileEntity::getRawTable(QueryPkbVirtual &pkb) {
+    return pkb.getWhileTable();
 }

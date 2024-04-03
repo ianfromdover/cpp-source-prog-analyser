@@ -15,6 +15,7 @@ public:
     virtual std::string getReturnType() = 0;
     virtual std::string getEntityType() = 0;
     virtual Table getEntityTable(QueryPkbVirtual &pkb) = 0;
+    virtual std::vector<std::vector<std::string>> getRawTable(QueryPkbVirtual &pkb) = 0;
     std::string getIdentifier() {
         return identifier;
     }

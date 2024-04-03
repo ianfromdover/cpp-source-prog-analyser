@@ -28,8 +28,8 @@ Table ModifiesSConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     std::string lhsEntityType = args[0] -> getEntityType();
     std::string rhsEntityType = args[1] -> getEntityType();
 
-    std::string lhsHeader = isStatementSynonym(lhsEntityType) ? args[0]->getArgumentValue() : "ModifiesLHS";
-    std::string rhsHeader = rhsEntityType == TYPE_VARIABLE ? args[1]->getArgumentValue() : "ModifiesRHS";
+    std::string lhsHeader = isStatementSynonym(lhsEntityType) ? args[0]->getArgumentValue()[0] : "ModifiesLHS";
+    std::string rhsHeader = rhsEntityType == TYPE_VARIABLE ? args[1]->getArgumentValue()[0] : "ModifiesRHS";
 
     // Insertion of headers into our results table
     result.insert(result.begin(), {lhsHeader, rhsHeader});
@@ -37,7 +37,7 @@ Table ModifiesSConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
 
     // Handling LHS by Entity Type
     if (lhsEntityType == TYPE_INTEGER) {
-        std::vector<std::string> intVals = {args[0]->getArgumentValue()};
+        std::vector<std::string> intVals = {args[0]->getArgumentValue()[0]};
         table.filterByColumnValues(lhsHeader, intVals);
     }
     if (isStatementSynonym(lhsEntityType)) {
@@ -55,7 +55,7 @@ Table ModifiesSConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
         table.add(entityTableResult.getTable());
     }
     if (rhsEntityType == TYPE_QUOTED_IDENT) {
-        std::string string = args[1]->getArgumentValue();
+        std::string string = args[1]->getArgumentValue()[0];
         std::string rhsHeaderNew = StringUtils::stripCharacters(string,"\"");
         table.filterByColumnExact(rhsHeader,rhsHeaderNew);
     }

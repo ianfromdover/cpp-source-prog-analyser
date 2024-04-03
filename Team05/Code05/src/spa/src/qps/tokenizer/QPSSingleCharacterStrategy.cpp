@@ -46,6 +46,14 @@ bool QPSSingleCharacterStrategy::tokenize(char character, std::stringstream &str
         case '%':
             type = QPSTokenType::PERCENT;
             break;
+        case '<':
+          type = QPSTokenType::LEFT_A_BRAC;
+          prevTokenIsKeyword = true;
+          break;
+        case '>':
+          type = QPSTokenType::RIGHT_A_BRAC;
+          prevTokenIsKeyword = false;
+          break;
 
         default:
             isTokenFound = false;
