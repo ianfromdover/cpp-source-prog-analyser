@@ -4,7 +4,9 @@
 #include "catch.hpp"
 #include "pkb/apis/PkbStorage.h"
 #include "pkb/apis/PopulatePkb.h"
+#include "pkb/apis/QueryPkb.h"
 #include "sp/SourceProcessor.h"
+#include "common/TableUtils.h"
 
 using namespace std;
 
@@ -64,42 +66,43 @@ TEST_CASE("SP-PKB Integration Test - SIMPLE Program 1") {
 
     std::shared_ptr<PkbStorage> p=std::make_shared<PkbStorage>();
     auto pkb = make_shared<PopulatePkb>(p);
+    auto pkb1 = QueryPkb(p);
     auto sp = SourceProcessor(pkb);
     sp.exec(codeSnippet);
 
     // Entity Tables
 
     SECTION("Check for Procedure Entries") {
-        std::multiset<std::string> resultsVector = {
+        Table resultsVector = {
                 {"program1"}, {"program2"}, {"program3"}
         };
-        REQUIRE(1 == 1);
+        REQUIRE(TableUtils::isPresent(pkb1.getProcTable(), resultsVector));
     }
 
     SECTION("Check for Pattern Assign Entries") {
-        std::multiset<std::tuple<std::string, std::string, std::string>> resultsVector = {
-                {"2", "x", "(x+1)"}, {"3", "y", "((y-1)+z)"},
-                {"4", "z", "2"}, {"7", "x", "0"},
-                {"8", "y", "0"}, {"9", "z", "0"},
-                {"10", "x", "1"}, {"11", "z", "((x+y)+2)"},
-                {"12", "x", "(x+1)"}, {"13", "z", "(y+x)"},
-                {"25", "k", "(((k*1)+(10*r))+h)"}, {"26", "k", "(k+1)"},
-                {"27", "z", "(x-y)"}, {"28", "k", "(((z+((y/k)*1))+(10*r))+h)"},
-                {"30", "z", "(x-y)"}, {"31", "k", "(z+(((y*k)*r)/h))"}
+        Table resultsVector = {
+                {"2", "x=(x+1)"}, {"3", "y=((y-1)+z)"},
+                {"4", "z=2"}, {"7", "x=0"},
+                {"8", "y=0"}, {"9", "z=0"},
+                {"10", "x=1"}, {"11", "z=((x+y)+2)"},
+                {"12", "x=(x+1)"}, {"13", "z=(y+x)"},
+                {"25", "k=(((k*1)+(10*r))+h)"}, {"26", "k=(k+1)"},
+                {"27", "z=(x-y)"}, {"28", "k=(((z+((y/k)*1))+(10*r))+h)"},
+                {"30", "z=(x-y)"}, {"31", "k=(z+(((y*k)*r)/h))"}
         };
-        REQUIRE(1 == 1);
+        REQUIRE(TableUtils::isPresent(pkb1.getPatternAsgnTable(), resultsVector));
     }
 
     SECTION("Check for Call Entries") {
-        std::multiset<pair<std::string, std::string>> resultsVector = {
+        Table resultsVector = {
                 {"6", "program2"},
                 {"20", "program3"}
         };
-        REQUIRE(1 == 1);
+        REQUIRE(TableUtils::isPresent(pkb1.getCallTable(), resultsVector));
     }
 
     SECTION("Check for Const Entries") {
-        std::multiset<pair<std::string, std::string>> resultsVector = {
+        Table resultsVector = {
                 {"2", "1"}, {"3", "1"}, {"4", "2"}, {"7", "0"}, {"8", "0"},
                 {"9", "0"}, {"10", "1"}, {"11", "2"},
                 {"5", "3"}, {"1", "4"}, {"12", "1"},
@@ -107,36 +110,36 @@ TEST_CASE("SP-PKB Integration Test - SIMPLE Program 1") {
                 {"24", "0"}, {"21", "2"}, {"28", "1"},
                 {"28", "10"}, {"17", "4"}
         };
-        REQUIRE(1 == 1);
+        REQUIRE(TableUtils::isPresent(pkb1.getConstTable(), resultsVector));
     }
 
     SECTION("Check for If Entries") {
-        std::multiset<pair<std::string, std::string>> resultsVector = {
+        Table resultsVector = {
                 {"5", "z"}, {"1", "x"},
                 {"1", "y"}, {"1", "k"},
                 {"1", "u"}, {"24", "k"}
         };
-        REQUIRE(1 == 1);
+        REQUIRE(TableUtils::isPresent(pkb1.getPatternIfTable(), resultsVector));
     }
 
     SECTION("Check for Print Entries") {
-        std::multiset<pair<std::string, std::string>> resultsVector = {
+        Table resultsVector = {
                 {"15", "y"}, {"18", "x"},
                 {"22", "z"}, {"23", "y"},
                 {"29", "k"}, {"32", "t"}
         };
-        REQUIRE(1 == 1);
+        REQUIRE(TableUtils::isPresent(pkb1.getPrintTable(), resultsVector));
     }
 
     SECTION("Check for Read Entries") {
-        std::multiset<pair<std::string, std::string>> resultsVector = {
+        Table resultsVector = {
                 {"14", "x"}, {"16", "z"}, {"19", "y"}
         };
-        REQUIRE(1 == 1);
+        REQUIRE(TableUtils::isPresent(pkb1.getReadTable(), resultsVector));
     }
 
     SECTION("Check for Statement Entries") {
-        std::multiset<std::string> resultsVector = {
+        Table resultsVector = {
                 {"1"}, {"2"}, {"3"}, {"4"}, {"5"},
                 {"6"}, {"7"}, {"8"}, {"9"}, {"10"},
                 {"11"}, {"12"}, {"13"}, {"14"}, {"15"},
@@ -145,11 +148,11 @@ TEST_CASE("SP-PKB Integration Test - SIMPLE Program 1") {
                 {"26"}, {"27"}, {"28"}, {"29"}, {"30"},
                 {"31"}, {"32"}
         };
-        REQUIRE(1 == 1);
+        REQUIRE(TableUtils::isPresent(pkb1.getStmtTable(), resultsVector));
     }
 
     SECTION("Check for Variable Entries") {
-        std::multiset<pair<std::string, std::string>> resultsVector = {
+        Table resultsVector = {
                 {"2", "x"}, {"3", "y"}, {"3", "z"}, {"4", "z"},
                 {"7", "x"}, {"8", "y"}, {"9", "z"}, {"10", "x"},
                 {"11", "z"}, {"11", "x"}, {"11", "y"}, {"5", "z"},
@@ -165,36 +168,36 @@ TEST_CASE("SP-PKB Integration Test - SIMPLE Program 1") {
                 {"30", "y"}, {"31", "z"}, {"31", "y"}, {"31", "k"},
                 {"31", "r"}, {"31", "h"}, {"32", "t"}
         };
-        REQUIRE(1 == 1);
+        REQUIRE(TableUtils::isPresent(pkb1.getVarTable(), resultsVector));
     }
 
     SECTION("Check for While Entries") {
-        std::multiset<pair<std::string, std::string>> resultsVector = {
+        Table resultsVector = {
                 {"21", "y"}, {"17", "x"},
                 {"17", "y"}, {"17", "k"},
                 {"17", "u"},
         };
-        REQUIRE(1 == 1);
+        REQUIRE(TableUtils::isPresent(pkb1.getPatternWhileTable(), resultsVector));
     }
 
     // Relations Table
     SECTION("Check for Calls Entries") {
-        std::multiset<pair<std::string, std::string>> resultsVector = {
+        Table resultsVector = {
                 {"program1", "program2"}, {"program2", "program3"},
         };
-        REQUIRE(1 == 1);
+        REQUIRE(TableUtils::isPresent(pkb1.getCallsTable(), resultsVector));
     }
 
     SECTION("Check for CallsT Entries") {
-        std::multiset<pair<std::string, std::string>> resultsVector = {
+        Table resultsVector = {
                 {"program1", "program2"}, {"program2", "program3"},
                 {"program1", "program3"}
         };
-        REQUIRE(1 == 1);
+        REQUIRE(TableUtils::isPresent(pkb1.getCallsTTable(), resultsVector));
     }
 
     SECTION("Check for Follows Entries") {
-        std::multiset<pair<std::string, std::string>> resultsVector = {
+        Table resultsVector = {
                 {"2", "3"}, {"3", "4"}, {"6", "7"},
                 {"7", "8"}, {"8", "9"}, {"10", "11"},
                 {"1", "12"}, {"12", "13"}, {"13", "14"},
@@ -203,11 +206,11 @@ TEST_CASE("SP-PKB Integration Test - SIMPLE Program 1") {
                 {"23", "24"}, {"21", "27"}, {"27", "28"},
                 {"28", "29"}, {"30", "31"}, {"31", "32"}
         };
-        REQUIRE(1 == 1);
+        REQUIRE(TableUtils::isPresent(pkb1.getFollowsTable(), resultsVector));
     }
 
     SECTION("Check for FollowsT Entries") {
-        std::multiset<pair<std::string, std::string>>resultsVector = {
+        Table resultsVector = {
                 {"2", "3"}, {"2", "4"}, {"3", "4"},
                 {"6", "7"}, {"6", "8"}, {"7", "8"},
                 {"6", "9"}, {"7", "9"}, {"8", "9"},
@@ -227,11 +230,11 @@ TEST_CASE("SP-PKB Integration Test - SIMPLE Program 1") {
                 {"28", "29"}, {"30", "31"}, {"30", "32"},
                 {"31", "32"},
         };
-        REQUIRE(1 == 1);
+        REQUIRE(TableUtils::isPresent(pkb1.getFollowsTTable(), resultsVector));
     }
 
     SECTION("Check for ModifiesS Entries") {
-        std::multiset<pair<std::string, std::string>> resultsVector = {
+        Table resultsVector = {
             {"2", "x"}, {"3", "y"}, {"4", "z"},
             {"6", "y"},{"17", "y"},{"19", "y"},
             {"20", "z"}, {"30", "z"}, {"20", "k"},
@@ -246,22 +249,22 @@ TEST_CASE("SP-PKB Integration Test - SIMPLE Program 1") {
             {"12", "x"}, {"13", "z"},{"14", "x"},
             {"16", "z"},
         };
-        REQUIRE(1 == 1);
+        REQUIRE(TableUtils::isPresent(pkb1.getModifiesSTable(), resultsVector));
     }
 
     SECTION("Check for ModifiesP Entries") {
-        std::multiset<pair<std::string, std::string>> resultsVector = {
+        Table resultsVector = {
             {"program2", "y"}, {"program3", "z"},
             {"program3", "k"}, {"program2", "z"},
             {"program1", "k"}, {"program2", "k"},
             {"program1", "y"}, {"program1", "x"},
             {"program1", "z"},
         };
-        REQUIRE(1 == 1);
+        REQUIRE(TableUtils::isPresent(pkb1.getModifiesPTable(), resultsVector));
     }
 
     SECTION("Check for Parent Entries") {
-        std::multiset<pair<std::string, std::string>> resultsVector = {
+        Table resultsVector = {
                 {"1", "2"}, {"1", "3"}, {"1", "4"},
                 {"1", "5"}, {"5", "6"}, {"5", "7"},
                 {"5", "8"}, {"5", "9"}, {"5", "10"},
@@ -271,11 +274,11 @@ TEST_CASE("SP-PKB Integration Test - SIMPLE Program 1") {
                 {"24", "26"}, {"17", "27"}, {"17", "28"},
                 {"17", "29"},
         };
-        REQUIRE(1 == 1);
+        REQUIRE(TableUtils::isPresent(pkb1.getParentTable(), resultsVector));
     }
 
     SECTION("Check for ParentT Entries") {
-        std::multiset<pair<std::string, std::string>> resultsVector = {
+        Table resultsVector = {
                 {"1", "2"}, {"1", "3"}, {"1", "4"},
                 {"1", "5"}, {"1", "6"}, {"5", "6"},
                 {"1", "7"}, {"5", "7"}, {"1", "8"},
@@ -289,11 +292,11 @@ TEST_CASE("SP-PKB Integration Test - SIMPLE Program 1") {
                 {"21", "26"}, {"24", "26"}, {"17", "27"},
                 {"17", "28"}, {"17", "29"},
         };
-        REQUIRE(1 == 1);
+        REQUIRE(TableUtils::isPresent(pkb1.getParentTTable(), resultsVector));
     }
 
     SECTION("Check for UsesS Entries") {
-        std::multiset<pair<std::string, std::string>> resultsVector = {
+        Table resultsVector = {
             {"2", "x"}, {"3", "y"}, {"3", "z"},
             {"1", "u"}, {"5", "u"}, {"6", "u"},
             {"17", "u"}, {"18", "x"}, {"20", "x"},
@@ -322,11 +325,11 @@ TEST_CASE("SP-PKB Integration Test - SIMPLE Program 1") {
             {"12", "x"}, {"13", "y"}, {"13", "x"},
             {"15", "y"},
         };
-        REQUIRE(1 == 1);
+        REQUIRE(TableUtils::isPresent(pkb1.getUsesSTable(), resultsVector));
     }
 
     SECTION("Check for UsesP Entries") {
-        std::multiset<pair<std::string, std::string>> resultsVector = {
+        Table resultsVector = {
             {"program1", "u"}, {"program2", "u"},
             {"program3", "x"}, {"program3", "z"},
             {"program3", "y"}, {"program3", "k"},
@@ -340,6 +343,6 @@ TEST_CASE("SP-PKB Integration Test - SIMPLE Program 1") {
             {"program2", "k"}, {"program1", "x"},
             {"program1", "y"},
         };
-        REQUIRE(1 == 1);
+        REQUIRE(TableUtils::isPresent(pkb1.getUsesPTable(), resultsVector));
     }
 }
