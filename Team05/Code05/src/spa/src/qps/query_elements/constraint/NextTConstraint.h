@@ -19,8 +19,8 @@ public:
     Table getRelationshipTable(QueryPkbVirtual &) override;
 
     bool isStatementSynonym(std::string type);
-
-    std::vector<std::string> getDistinctColumnByIndex(const vector<vector<Str>> &entityTable, int index);
+    vector<string> flattenTable(const Table &table);
+    Table generateCartesianProductTable(const vector<string> &table);
 };
 
 #endif //SPA_NEXTTCONSTRAINT_H

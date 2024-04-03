@@ -21,66 +21,76 @@ std::vector<std::shared_ptr<ConstraintArgument>> AffectsConstraint::getConstrain
 }
 
 Table AffectsConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
-    // Initialise results table
-    std::vector<std::vector<std::string>> result;
+    // Initialise retrieved table
+    Table assign = pkb.getPatternAsgnTable();
+    Table retrieved = generateCartesianProductTable(getDistinctColumnByIndex(assign,0));
+
+    // Initialise empty result table
+    Table result;
 
     // Get constraint arguments and initialise it as our table headers
     std::vector<std::shared_ptr<ConstraintArgument>> args = getConstraintArguments();
     std::string lhsEntityType = args[0] -> getEntityType();
     std::string rhsEntityType = args[1] -> getEntityType();
 
-    std::string lhsHeader = lhsEntityType ==  TYPE_ASSIGN ? args[0]->getArgumentValue() : "AffectsLHS";
-    std::string rhsHeader = rhsEntityType ==  TYPE_ASSIGN ? args[1]->getArgumentValue() : "AffectsRHS";
+    std::string lhsHeader = lhsEntityType == TYPE_ASSIGN ? args[0]->getArgumentValue() : "AffectsLHS";
+    std::string rhsHeader = rhsEntityType == TYPE_ASSIGN ? args[1]->getArgumentValue() : "AffectsRHS";
 
-    // Insertion of headers into our results table
-    result.insert(result.begin(), {lhsHeader, rhsHeader});
+    // Insertion of headers into our retrieved and result table
+    retrieved.insert(retrieved.begin(), {lhsHeader, rhsHeader});
+    result.insert(retrieved.begin(), {lhsHeader, rhsHeader});
 
-    // Stores LHS values and RHS values in a 1D vector
-    std::vector<std::string> lhsValues;
-    std::vector<std::string> rhsValues;
+    // Initialise retrieved table as ResultTable to conduct operations
+    ResultTable table(retrieved);
 
     // Handling LHS by Entity Type
     if (lhsEntityType == TYPE_INTEGER) {
-        lhsValues.push_back(args[0]->getArgumentValue());
-    }
-    if (lhsEntityType == TYPE_ASSIGN) {
-        // Get entity table by type
-        std::vector<std::vector<std::string>> entityTable = args[0]->getEntityTable(pkb);
-        lhsValues = getDistinctColumnByIndex(entityTable, 0);
+        std::vector<std::string> intVals = {args[0]->getArgumentValue()};
+        table.filterByColumnValues(lhsHeader, intVals);
     }
 
     // Handling RHS by Entity Type
     if (rhsEntityType == TYPE_INTEGER) {
-        rhsValues.push_back(args[1]->getArgumentValue());
-    }
-    if (rhsEntityType == TYPE_ASSIGN) {
-        // Get entity table by type
-        std::vector<std::vector<std::string>> entityTable = args[1]->getEntityTable(pkb);
-        rhsValues = getDistinctColumnByIndex(entityTable, 0);
+        std::vector<std::string> intVals = {args[1]->getArgumentValue()};
+        table.filterByColumnValues(rhsHeader, intVals);
     }
 
-    // Populate results table
-    for (const auto& lhsVal : lhsValues) {
-        for (const auto& rhsVal : rhsValues) {
-            if (pkb.checkAffects(std::stoi(lhsVal), std::stoi(rhsVal))) {
-                result.push_back({lhsVal, rhsVal});
-            }
+    // Retrieve rawTable
+    auto rawTable = table.getTable();
+    // Remove header used for operations
+    auto noHeaderTable = rawTable.erase(rawTable.begin());
+    // Check against PKB to see if there is a NextT relationship
+    for (const auto& row : rawTable) {
+        if (pkb.checkNextT(stoi(row.at(0)), stoi(row.at(1)))) {
+            result.push_back({row.at(0), row.at(1)});
         }
     }
 
-    ResultTable table(result);
+    // Initialise result table as ResultTable to conduct operations
+    ResultTable final(result);
 
+    // Remove columns by header
     if (lhsHeader == "AffectsLHS"){
-        table.removeColumnByHeader(lhsHeader);
+        final.removeColumnByHeader(lhsHeader);
     }
     if (rhsHeader == "AffectsRHS"){
-        table.removeColumnByHeader(rhsHeader);
+        final.removeColumnByHeader(rhsHeader);
     }
 
-    return table.getTable();
+    return final.getTable();
 }
 
-std::vector<std::string> AffectsConstraint::getDistinctColumnByIndex(const table& entityTable, int index) {
+Table AffectsConstraint::generateCartesianProductTable(const vector<string>& table) {
+    vector<vector<string>> product;
+    for (const auto& col1 : table) {
+        for (const auto& col2 : table) {
+            product.push_back({col1, col2});
+        }
+    }
+    return product;
+}
+
+vector<string> AffectsConstraint::getDistinctColumnByIndex(const Table& entityTable, int index) {
     std::set<std::string> uniqueValues;
     for (const auto& row : entityTable) {
         if (!row.empty()) {

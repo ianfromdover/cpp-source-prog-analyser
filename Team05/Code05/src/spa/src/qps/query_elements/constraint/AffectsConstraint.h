@@ -20,7 +20,8 @@ public:
     std::vector<std::shared_ptr<ConstraintArgument>> getConstraintArguments() override;
     Table getRelationshipTable(QueryPkbVirtual &) override;
 
-    std::vector<std::string> getDistinctColumnByIndex(const vector<vector<Str>> &entityTable, int index);
+    Table generateCartesianProductTable(const vector<string> &table);
+    vector<string> getDistinctColumnByIndex(const Table &entityTable, int index);
 };
 
 
