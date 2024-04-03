@@ -18,6 +18,8 @@ std::vector<std::shared_ptr<ConstraintArgument>> ParentConstraint::getConstraint
     return constraintArguments;
 }
 
+
+
 Table ParentConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     // Get parent table and populate it into our results table
     Table result = pkb.getParentTable();
