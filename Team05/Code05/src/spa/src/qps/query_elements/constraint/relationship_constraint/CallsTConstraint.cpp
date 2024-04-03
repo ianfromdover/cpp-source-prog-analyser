@@ -2,32 +2,32 @@
 // Created by tohzh on 6/3/2024.
 //
 
-#include "CallsConstraint.h"
+#include "CallsTConstraint.h"
 
-CallsConstraint::CallsConstraint(std::shared_ptr<EntityReference> s1, std::shared_ptr<EntityReference>  s2) {
+CallsTConstraint::CallsTConstraint(std::shared_ptr<EntityReference> s1, std::shared_ptr<EntityReference>  s2) {
     constraintArguments.push_back(s1);
     constraintArguments.push_back(s2);
 }
 
-std::string CallsConstraint::getConstraintType() {
-    return CONSTRAINT_TYPE_CALLS;
+std::string CallsTConstraint::getConstraintType() {
+    return CONSTRAINT_TYPE_CALLST;
 }
 
-std::vector<std::shared_ptr<ConstraintArgument>> CallsConstraint::getConstraintArguments() {
+std::vector<std::shared_ptr<ConstraintArgument>> CallsTConstraint::getConstraintArguments() {
     return constraintArguments;
 }
 
-Table CallsConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
+Table CallsTConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     // Get follows table and populate it into our results table
-    Table result = pkb.getCallsTable();
+    Table result = pkb.getCallsTTable();
 
     // Get constraint arguments and initialise it as our table headers
     std::vector<std::shared_ptr<ConstraintArgument>> args = getConstraintArguments();
     std::string lhsEntityType = args[0] -> getEntityType();
     std::string rhsEntityType = args[1] -> getEntityType();
 
-    std::string lhsHeader = lhsEntityType == TYPE_PROCEDURE ? args[0]->getArgumentValue() : "CallsLHS";
-    std::string rhsHeader = rhsEntityType == TYPE_PROCEDURE ? args[1]->getArgumentValue() : "CallsRHS";
+    std::string lhsHeader = lhsEntityType == TYPE_PROCEDURE ? args[0]->getArgumentValue()[0] : "CallsTLHS";
+    std::string rhsHeader = rhsEntityType == TYPE_PROCEDURE ? args[1]->getArgumentValue()[0] : "CallsTRHS";
 
     if (lhsHeader==rhsHeader) {
         return {{lhsHeader}};
@@ -44,7 +44,7 @@ Table CallsConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
         table.add(entityTable);
     }
     if (lhsEntityType == TYPE_QUOTED_IDENT){
-        std::string string1=args[0]->getArgumentValue();
+        std::string string1=args[0]->getArgumentValue()[0];
         string stripped = stripCharacters(string1,"\"");
         table.filterByColumnExact(lhsHeader,stripped);
     }
@@ -56,22 +56,22 @@ Table CallsConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
         table.add(entityTable);
     }
     if (rhsEntityType == TYPE_QUOTED_IDENT){
-        std::string string1=args[1]->getArgumentValue();
+        std::string string1=args[1]->getArgumentValue()[0];
         string stripped = stripCharacters(string1,"\"");
         table.filterByColumnExact(rhsHeader,stripped);
     }
 
-    if (lhsHeader == "CallsLHS"){
+    if (lhsHeader == "CallsTLHS"){
         table.removeColumnByHeader(lhsHeader);
     }
-    if (rhsHeader == "CallsRHS"){
+    if (rhsHeader == "CallsTRHS"){
         table.removeColumnByHeader(rhsHeader);
     }
 
     return table.getTable();
 }
 
-bool CallsConstraint::isStatementSynonym(std::string type) {
+bool CallsTConstraint::isStatementSynonym(std::string type) {
     vector<std::string> statementVector = {
             TYPE_STATEMENT, TYPE_READ, TYPE_PRINT, TYPE_ASSIGN,
             TYPE_CALL, TYPE_WHILE, TYPE_IF
@@ -79,14 +79,14 @@ bool CallsConstraint::isStatementSynonym(std::string type) {
     return std::find(statementVector.begin(), statementVector.end(), type) != statementVector.end();
 }
 
-bool CallsConstraint::isEntitySynonym(std::string type) {
+bool CallsTConstraint::isEntitySynonym(std::string type) {
     vector<std::string> entityVector = {
             TYPE_PROCEDURE, TYPE_VARIABLE, TYPE_CONSTANT
     };
     return std::find(entityVector.begin(), entityVector.end(), type) != entityVector.end();
 }
 
-std::string& CallsConstraint::stripCharacters(std::string& str, const std::string& chars) {
+std::string& CallsTConstraint::stripCharacters(std::string& str, const std::string& chars) {
     // Find the first character position after excluding leading characters
     std::size_t first = str.find_first_not_of(chars);
     if (first == std::string::npos) {

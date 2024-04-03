@@ -28,13 +28,13 @@ bool QueryPkb::resetNextT() {
 
 // entities --------------------------------------------------------------
 Table QueryPkb::getCallTable() {
-    return pkb->callTable->getAllAStr();
+    return pkb->callTable->getAll();
 }
 Table QueryPkb::getCallAllStmts() {
-    return pkb->callTable->getAllKeysA();
+    return pkb->callTable->getAllKeys();
 }
 Table QueryPkb::getCallAllProcs() {
-    return pkb->callTable->getAllValuesStr();
+    return pkb->callTable->getAllValues();
 }
 Table QueryPkb::getCallProcsByStmt(StmtNo sNum) {
     return TableUtils::toTable(pkb->callTable->getRelatedValues(sNum));
@@ -44,13 +44,13 @@ Table QueryPkb::getCallStmtsByProc(ProcName proc) {
 }
 
 Table QueryPkb::getConstTable() {
-    return pkb->constTable->getAllAB();
+    return pkb->constTable->getAll();
 }
 Table QueryPkb::getConstAllStmts() {
-    return pkb->constTable->getAllKeysA();
+    return pkb->constTable->getAllKeys();
 }
 Table QueryPkb::getConstAllValues() {
-    return pkb->constTable->getAllValuesB();
+    return pkb->constTable->getAllValues();
 }
 Table QueryPkb::getConstStmtsByVal(ConstVal val) {
     return TableUtils::toTable(pkb->constTable->getRelatedKeys(val));
@@ -60,13 +60,13 @@ Table QueryPkb::getConstValuesByStmt(StmtNo sNum) {
 }
 
 Table QueryPkb::getIfTable() {
-    return pkb->patternIfTable->getAllAStr();
+    return pkb->patternIfTable->getAll();
 }
 Table QueryPkb::getIfAllStmts() {
-    return pkb->patternIfTable->getAllKeysA();
+    return pkb->patternIfTable->getAllKeys();
 }
 Table QueryPkb::getIfAllVars() {
-    return pkb->patternIfTable->getAllValuesStr();
+    return pkb->patternIfTable->getAllValues();
 }
 Table QueryPkb::getIfVarsByStmt(StmtNo sNum) {
     return TableUtils::toTable(pkb->patternIfTable->getRelatedValues(sNum));
@@ -76,13 +76,13 @@ Table QueryPkb::getIfStmtsByVar(VarName var) {
 }
 
 Table QueryPkb::getPrintTable() {
-    return pkb->printTable->getAllAStr();
+    return pkb->printTable->getAll();
 }
 Table QueryPkb::getPrintAllStmts() {
-    return pkb->printTable->getAllKeysA();
+    return pkb->printTable->getAllKeys();
 }
 Table QueryPkb::getPrintAllVars() {
-    return pkb->printTable->getAllValuesStr();
+    return pkb->printTable->getAllValues();
 }
 Table QueryPkb::getPrintVarsByStmt(StmtNo sNum) {
     return TableUtils::toTable(pkb->printTable->getRelatedValues(sNum));
@@ -97,13 +97,13 @@ Table QueryPkb::getProcTable() {
 // should I add a containsProc method? for with clause
 
 Table QueryPkb::getReadTable() {
-    return pkb->readTable->getAllAStr();
+    return pkb->readTable->getAll();
 }
 Table QueryPkb::getReadAllStmts() {
-    return pkb->readTable->getAllKeysA();
+    return pkb->readTable->getAllKeys();
 }
 Table QueryPkb::getReadAllVars() {
-    return pkb->readTable->getAllValuesStr();
+    return pkb->readTable->getAllValues();
 }
 Table QueryPkb::getReadVarsByStmt(StmtNo sNum) {
     return TableUtils::toTable(pkb->readTable->getRelatedValues(sNum));
@@ -118,13 +118,13 @@ Table QueryPkb::getStmtTable() {
 // should i add a containsStmt method? for with clause
 
 Table QueryPkb::getVarTable() {
-    return pkb->varTable->getAllAStr();
+    return pkb->varTable->getAll();
 }
 Table QueryPkb::getVarAllStmts() {
-    return pkb->varTable->getAllKeysA();
+    return pkb->varTable->getAllKeys();
 }
 Table QueryPkb::getVarAllVars() {
-    return pkb->varTable->getAllValuesStr();
+    return pkb->varTable->getAllValues();
 }
 Table QueryPkb::getVarVarsByStmt(StmtNo sNum) {
     return TableUtils::toTable(pkb->varTable->getRelatedValues(sNum));
@@ -134,13 +134,13 @@ Table QueryPkb::getVarStmtsByVar(VarName var) {
 }
 
 Table QueryPkb::getWhileTable() {
-    return pkb->patternWhileTable->getAllAStr();
+    return pkb->patternWhileTable->getAll();
 }
 Table QueryPkb::getWhileAllStmts() {
-    return pkb->patternWhileTable->getAllKeysA();
+    return pkb->patternWhileTable->getAllKeys();
 }
 Table QueryPkb::getWhileAllVars() {
-    return pkb->patternWhileTable->getAllValuesStr();
+    return pkb->patternWhileTable->getAllValues();
 }
 Table QueryPkb::getWhileVarsByStmt(StmtNo sNum) {
     return TableUtils::toTable(pkb->patternWhileTable->getRelatedValues(sNum));
@@ -170,13 +170,13 @@ Table QueryPkb::getAffectsAffectorsByAffected(StmtNo affected) {
  */
 
 Table QueryPkb::getCallsTable() {
-    return pkb->callsTable->getAllStrStr();
+    return pkb->callsTable->getAll();
 }
 Table QueryPkb::getCallsAllCallers() {
-    return pkb->callsTable->getAllKeysStr();
+    return pkb->callsTable->getAllKeys();
 }
 Table QueryPkb::getCallsAllCalled() {
-    return pkb->callsTable->getAllValuesStr();
+    return pkb->callsTable->getAllValues();
 }
 Table QueryPkb::getCallsCalledByCaller(ProcName caller) {
     return TableUtils::toTable(pkb->callsTable->getRelatedValues(caller));
@@ -186,13 +186,13 @@ Table QueryPkb::getCallsCallerByCalled(ProcName called) {
 }
 
 Table QueryPkb::getCallsTTable() {
-    return pkb->callsTTable->getAllStrStr();
+    return pkb->callsTTable->getAll();
 }
 Table QueryPkb::getCallsTAllCallers() {
-    return pkb->callsTTable->getAllKeysStr();
+    return pkb->callsTTable->getAllKeys();
 }
 Table QueryPkb::getCallsTAllCalled() {
-    return pkb->callsTTable->getAllValuesStr();
+    return pkb->callsTTable->getAllValues();
 }
 Table QueryPkb::getCallsTCalledByCaller(ProcName caller) {
     return TableUtils::toTable(pkb->callsTTable->getRelatedValues(caller));
@@ -202,13 +202,13 @@ Table QueryPkb::getCallsTCallerByCalled(ProcName called) {
 }
 
 Table QueryPkb::getFollowsTable() {
-    return pkb->followsTable->getAllAB();
+    return pkb->followsTable->getAll();
 }
 Table QueryPkb::getFollowsAllBefore() {
-    return pkb->followsTable->getAllKeysA();
+    return pkb->followsTable->getAllKeys();
 }
 Table QueryPkb::getFollowsAllAfter() {
-    return pkb->followsTable->getAllValuesB();
+    return pkb->followsTable->getAllValues();
 }
 Table QueryPkb::getFollowsAfterByBefore(StmtNo before) {
     return TableUtils::toTable(pkb->followsTable->getRelatedValues(before));
@@ -218,13 +218,13 @@ Table QueryPkb::getFollowsBeforeByAfter(StmtNo after) {
 }
 
 Table QueryPkb::getFollowsTTable() {
-    return pkb->followsTTable->getAllAB();
+    return pkb->followsTTable->getAll();
 }
 Table QueryPkb::getFollowsTAllBefore() {
-    return pkb->followsTTable->getAllKeysA();
+    return pkb->followsTTable->getAllKeys();
 }
 Table QueryPkb::getFollowsTAllAfter() {
-    return pkb->followsTTable->getAllValuesB();
+    return pkb->followsTTable->getAllValues();
 }
 Table QueryPkb::getFollowsTAfterByBefore(StmtNo before) {
     return TableUtils::toTable(pkb->followsTTable->getRelatedValues(before));
@@ -234,13 +234,13 @@ Table QueryPkb::getFollowsTBeforeByAfter(StmtNo after) {
 }
 
 Table QueryPkb::getModifiesPTable() {
-    return pkb->modifiesPTable->getAllStrStr();
+    return pkb->modifiesPTable->getAll();
 }
 Table QueryPkb::getModifiesPAllProcs() {
-    return pkb->modifiesPTable->getAllKeysStr();
+    return pkb->modifiesPTable->getAllKeys();
 }
 Table QueryPkb::getModifiesPAllVars() {
-    return pkb->modifiesPTable->getAllValuesStr();
+    return pkb->modifiesPTable->getAllValues();
 }
 Table QueryPkb::getModifiesPVarsByProc(ProcName modifier) {
     return TableUtils::toTable(pkb->modifiesPTable->getRelatedValues(modifier));
@@ -250,13 +250,13 @@ Table QueryPkb::getModifiesPProcsByVar(VarName modified) {
 }
 
 Table QueryPkb::getModifiesSTable() {
-    return pkb->modifiesSTable->getAllAStr();
+    return pkb->modifiesSTable->getAll();
 }
 Table QueryPkb::getModifiesSAllStmts() {
-    return pkb->modifiesSTable->getAllKeysA();
+    return pkb->modifiesSTable->getAllKeys();
 }
 Table QueryPkb::getModifiesSAllVars() {
-    return pkb->modifiesSTable->getAllValuesStr();
+    return pkb->modifiesSTable->getAllValues();
 }
 Table QueryPkb::getModifiesSVarsByStmt(StmtNo modifier) {
     return TableUtils::toTable(pkb->modifiesSTable->getRelatedValues(modifier));
@@ -266,13 +266,13 @@ Table QueryPkb::getModifiesSStmtsByVar(VarName modified) {
 }
 
 Table QueryPkb::getNextTable() {
-    return pkb->nextTable->getAllAB();
+    return pkb->nextTable->getAll();
 }
 Table QueryPkb::getNextAllBefore() {
-    return pkb->nextTable->getAllKeysA();
+    return pkb->nextTable->getAllKeys();
 }
 Table QueryPkb::getNextAllAfter() {
-    return pkb->nextTable->getAllValuesB();
+    return pkb->nextTable->getAllValues();
 }
 Table QueryPkb::getNextAfterByBefore(StmtNo before) {
     return TableUtils::toTable(pkb->nextTable->getRelatedValues(before));
@@ -301,13 +301,13 @@ Table QueryPkb::getNextTBeforeByAfter(StmtNo after) {
  */
 
 Table QueryPkb::getParentTable() {
-    return pkb->parentTable->getAllAB();
+    return pkb->parentTable->getAll();
 }
 Table QueryPkb::getParentAllChildren() {
-    return pkb->parentTable->getAllKeysA();
+    return pkb->parentTable->getAllKeys();
 }
 Table QueryPkb::getParentAllParents() {
-    return pkb->parentTable->getAllValuesB();
+    return pkb->parentTable->getAllValues();
 }
 Table QueryPkb::getParentChildByParent(StmtNo parent) {
     return TableUtils::toTable(pkb->parentTable->getRelatedValues(parent));
@@ -317,13 +317,13 @@ Table QueryPkb::getParentParentByChild(StmtNo child) {
 }
 
 Table QueryPkb::getParentTTable() {
-    return pkb->parentTTable->getAllAB();
+    return pkb->parentTTable->getAll();
 }
 Table QueryPkb::getParentTAllChildren() {
-    return pkb->parentTTable->getAllKeysA();
+    return pkb->parentTTable->getAllKeys();
 }
 Table QueryPkb::getParentTAllParents() {
-    return pkb->parentTTable->getAllValuesB();
+    return pkb->parentTTable->getAllValues();
 }
 Table QueryPkb::getParentTChildByParent(StmtNo parent) {
     return TableUtils::toTable(pkb->parentTTable->getRelatedValues(parent));
@@ -347,13 +347,13 @@ Table QueryPkb::getPatternAsgnByRhs(std::string Rhs) {
 }
 
 Table QueryPkb::getPatternIfTable() {
-    return pkb->patternIfTable->getAllAStr();
+    return pkb->patternIfTable->getAll();
 }
 Table QueryPkb::getPatternIfAllStmts() {
-    return pkb->patternIfTable->getAllKeysA();
+    return pkb->patternIfTable->getAllKeys();
 }
 Table QueryPkb::getPatternIfAllVars() {
-    return pkb->patternIfTable->getAllValuesStr();
+    return pkb->patternIfTable->getAllValues();
 }
 Table QueryPkb::getPatternIfVarsByStmt(StmtNo sNum) {
     return TableUtils::toTable(pkb->patternIfTable->getRelatedValues(sNum));
@@ -363,13 +363,13 @@ Table QueryPkb::getPatternIfStmtsByVar(VarName var) {
 }
 
 Table QueryPkb::getPatternWhileTable() {
-    return pkb->patternWhileTable->getAllAStr();
+    return pkb->patternWhileTable->getAll();
 }
 Table QueryPkb::getPatternWhileAllStmts() {
-    return pkb->patternWhileTable->getAllKeysA();
+    return pkb->patternWhileTable->getAllKeys();
 }
 Table QueryPkb::getPatternWhileAllVars() {
-    return pkb->patternWhileTable->getAllValuesStr();
+    return pkb->patternWhileTable->getAllValues();
 }
 Table QueryPkb::getPatternWhileVarsByStmt(StmtNo sNum) {
     return TableUtils::toTable(pkb->patternWhileTable->getRelatedValues(sNum));
@@ -379,13 +379,13 @@ Table QueryPkb::getPatternWhileStmtsByVar(VarName var) {
 }
 
 Table QueryPkb::getUsesPTable() {
-    return pkb->usesPTable->getAllStrStr();
+    return pkb->usesPTable->getAll();
 }
 Table QueryPkb::getUsesPAllProcs() {
-    return pkb->usesPTable->getAllKeysStr();
+    return pkb->usesPTable->getAllKeys();
 }
 Table QueryPkb::getUsesPAllVars() {
-    return pkb->usesPTable->getAllValuesStr();
+    return pkb->usesPTable->getAllValues();
 }
 Table QueryPkb::getUsesPVarsByProc(ProcName user) {
     return TableUtils::toTable(pkb->usesPTable->getRelatedValues(user));
@@ -395,13 +395,13 @@ Table QueryPkb::getUsesPProcsByVar(VarName used) {
 }
 
 Table QueryPkb::getUsesSTable() {
-    return pkb->usesSTable->getAllAStr();
+    return pkb->usesSTable->getAll();
 }
 Table QueryPkb::getUsesSAllStmts() {
-    return pkb->usesSTable->getAllKeysA();
+    return pkb->usesSTable->getAllKeys();
 }
 Table QueryPkb::getUsesSAllVars() {
-    return pkb->usesSTable->getAllValuesStr();
+    return pkb->usesSTable->getAllValues();
 }
 Table QueryPkb::getUsesSVarsByStmt(StmtNo user) {
     return TableUtils::toTable(pkb->usesSTable->getRelatedValues(user));

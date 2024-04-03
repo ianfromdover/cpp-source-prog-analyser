@@ -21,8 +21,8 @@ std::string VariableEntity::toString() {
     return this->identifier + " [VARIABLE]";
 }
 
-std::string VariableEntity::getArgumentValue() {
-    return this->identifier;
+std::vector<std::string> VariableEntity::getArgumentValue() {
+    return {this->identifier};
 }
 
 Table VariableEntity::getEntityTable(QueryPkbVirtual &pkb) {
@@ -34,4 +34,8 @@ Table VariableEntity::getEntityTable(QueryPkbVirtual &pkb) {
     ResultTable table(entityTable);
     table.removeAllColumnsExceptIndex(1);
     return table.getTable();
+}
+
+std::vector<std::vector<std::string>> VariableEntity::getRawTable(QueryPkbVirtual &pkb) {
+    return pkb.getVarTable();
 }

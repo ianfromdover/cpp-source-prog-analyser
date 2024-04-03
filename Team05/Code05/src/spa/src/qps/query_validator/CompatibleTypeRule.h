@@ -11,12 +11,23 @@ typedef QPSTokenType::QPSTypeInfo QType;
 
 class CompatibleTypeRule : public Rule {
 public:
-    std::string validate(IntermediateQuery &) override;
+  std::string validate(IntermediateQuery &) override;
 
 private:
-    std::string validateRelationship(RelationshipClause& cl, std::map<std::string, QPSTokenType::QPSTypeInfo> declarationMap);
-    std::string validatePattern(PatternClause cl, std::map<std::string, QPSTokenType::QPSTypeInfo> declarationMap);
-    static bool isStatementType(const QPSTokenType::QPSTypeInfo &type);
+  std::string validateRelationship(
+      RelationshipClause &cl,
+      std::map<std::string, QPSTokenType::QPSTypeInfo> declarationMap);
+  std::string validatePattern(
+      PatternClause cl,
+      std::map<std::string, QPSTokenType::QPSTypeInfo> declarationMap);
+  static bool isStatementType(const QPSTokenType::QPSTypeInfo &type);
+
+  static inline std::map<QType ,int> typeArgCountMap = {
+          {QType::ASSIGN, 2},
+          {QType::WHILE, 2},
+          {QType::IF, 3}
+  };
+
   static inline std::map<QPSTokenType::QPSTypeInfo,
                          std::pair<std::vector<QPSTokenType::QPSTypeInfo>,
                                    std::vector<QPSTokenType::QPSTypeInfo>>>

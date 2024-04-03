@@ -7,8 +7,8 @@
 
 #include <utility>
 
-std::string Expression::getArgumentValue() {
-    return regularExpression;
+std::vector<std::string> Expression::getArgumentValue() {
+    return {regularExpression};
 }
 
 std::string Expression::getEntityType() {
@@ -24,5 +24,9 @@ std::string Expression::toString() {
 }
 
 Table Expression::getEntityTable(QueryPkbVirtual &pkb) {
+    throw QPSException("Invalid QPS Query");
+}
+
+std::vector<std::vector<std::string>> Expression::getRawTable(QueryPkbVirtual &pkb) {
     throw QPSException("Invalid QPS Query");
 }

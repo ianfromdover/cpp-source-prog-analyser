@@ -5,8 +5,8 @@
 #include "ExpressionWithWildcard.h"
 #include "qps/exceptions/QPSException.h"
 
-std::string ExpressionWithWildcard::getArgumentValue() {
-    return regularExpression;
+std::vector<std::string> ExpressionWithWildcard::getArgumentValue() {
+    return {regularExpression};
 }
 
 std::string ExpressionWithWildcard::getEntityType() {

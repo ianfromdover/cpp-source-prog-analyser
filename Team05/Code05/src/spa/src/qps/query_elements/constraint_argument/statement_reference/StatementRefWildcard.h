@@ -12,10 +12,11 @@ class StatementRefWildcard : public StatementReference {
 public:
     std::string getEntityType() override;
     std::string toString() override;
-    std::string getArgumentValue() override;
+    std::vector<std::string> getArgumentValue() override;
 
     Table getEntityTable(QueryPkbVirtual & pkb) override;
 
+    std::vector<std::vector<std::string>> getRawTable(QueryPkbVirtual & pkb) override;
 };
 
 

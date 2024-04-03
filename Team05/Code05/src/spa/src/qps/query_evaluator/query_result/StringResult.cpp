@@ -34,3 +34,5 @@ std::vector<std::string> StringResult::intersect(std::shared_ptr<StringResult> a
                           back_inserter(finalResult));
     return finalResult;
 }
+
+
