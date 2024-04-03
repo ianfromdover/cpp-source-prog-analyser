@@ -168,6 +168,77 @@ TEST_CASE("tokenize_not"){
               QPSTokenType::FOLLOWS, QPSTokenType::LEFT_PAREN, QPSTokenType::IDENTIFIER, QPSTokenType::COMMA, QPSTokenType::IDENTIFIER, QPSTokenType::RIGHT_PAREN,
               QPSTokenType::END_OF_FILE}));
     }
+    SECTION("select not as synonym with pattern"){
+      std::string source = "Select not such that not Follows(not,not) such that not Follows(not,not)";
+      std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+      REQUIRE(compareExpected(tokens,
+                              {QPSTokenType::SELECT, QPSTokenType::IDENTIFIER, QPSTokenType::SUCH, QPSTokenType::THAT,
+                               QPSTokenType::NOT,
+                               QPSTokenType::FOLLOWS, QPSTokenType::LEFT_PAREN, QPSTokenType::IDENTIFIER, QPSTokenType::COMMA, QPSTokenType::IDENTIFIER, QPSTokenType::RIGHT_PAREN,
+                               QPSTokenType::SUCH, QPSTokenType::THAT,
+                               QPSTokenType::NOT,
+                               QPSTokenType::FOLLOWS, QPSTokenType::LEFT_PAREN, QPSTokenType::IDENTIFIER, QPSTokenType::COMMA, QPSTokenType::IDENTIFIER, QPSTokenType::RIGHT_PAREN,
+                               QPSTokenType::END_OF_FILE}));
+    }
+}
+
+TEST_CASE("tokenize with and not"){
+  SECTION("with as synonym"){
+    std::string source = "Select with with not not";
+    std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+    REQUIRE(compareExpected(tokens, {QPSTokenType::SELECT, QPSTokenType::IDENTIFIER, QPSTokenType::WITH, QPSTokenType::NOT, QPSTokenType::IDENTIFIER,
+                                     QPSTokenType::END_OF_FILE}));
+  }
+  SECTION("with as synonym"){
+    std::string source = "Select <with> with not";
+    std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+    REQUIRE(compareExpected(tokens, {QPSTokenType::SELECT, QPSTokenType::LEFT_A_BRAC, QPSTokenType::IDENTIFIER, QPSTokenType::RIGHT_A_BRAC, QPSTokenType::WITH, QPSTokenType::NOT,
+                                     QPSTokenType::END_OF_FILE}));
+  }
+}
+
+TEST_CASE("tokenize with attributes"){
+    SECTION("procName"){
+        std::string source = "with s.procName";
+        std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+        REQUIRE(compareExpected(tokens, {QPSTokenType::WITH, QPSTokenType::IDENTIFIER, QPSTokenType::DECIMAL, QPSTokenType::WITHPROCNAME, QPSTokenType::END_OF_FILE}));
+    }
+    SECTION("varName"){
+      std::string source = "with s.varName";
+      std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+      REQUIRE(compareExpected(tokens, {QPSTokenType::WITH, QPSTokenType::IDENTIFIER, QPSTokenType::DECIMAL, QPSTokenType::WITHVARNAME, QPSTokenType::END_OF_FILE}));
+    }
+    SECTION("value"){
+      std::string source = "with s.value";
+      std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+      REQUIRE(compareExpected(tokens, {QPSTokenType::WITH, QPSTokenType::IDENTIFIER, QPSTokenType::DECIMAL, QPSTokenType::WITHVALUE, QPSTokenType::END_OF_FILE}));
+    }
+    SECTION("stmt#"){
+      std::string source = "with s.stmt#";
+      std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+      REQUIRE(compareExpected(tokens, {QPSTokenType::WITH, QPSTokenType::IDENTIFIER, QPSTokenType::DECIMAL, QPSTokenType::WITHSTMT, QPSTokenType::END_OF_FILE}));
+    }
+}
+
+TEST_CASE("tokenize_with"){
+  SECTION("with as synonym"){
+    std::string source = "stmt with";
+    std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+    REQUIRE(compareExpected(tokens, {QPSTokenType::STMT1, QPSTokenType::IDENTIFIER,
+                                     QPSTokenType::END_OF_FILE}));
+  }
+  SECTION("with clause"){
+    std::string source = "Select with with";
+    std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+    REQUIRE(compareExpected(tokens, {QPSTokenType::SELECT, QPSTokenType::IDENTIFIER, QPSTokenType::WITH,
+                                     QPSTokenType::END_OF_FILE}));
+  }
+  SECTION("with not clause"){
+    std::string source = "Select with with not pattern";
+    std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+    REQUIRE(compareExpected(tokens, {QPSTokenType::SELECT, QPSTokenType::IDENTIFIER, QPSTokenType::WITH, QPSTokenType::NOT, QPSTokenType::IDENTIFIER,
+                                     QPSTokenType::END_OF_FILE}));
+  }
 }
 
 TEST_CASE("tokenize_boolean") {

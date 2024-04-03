@@ -15,7 +15,7 @@ public:
         IDENTIFIER,
 
         // Punctuation
-        SEMICOLON, LEFT_PAREN, RIGHT_PAREN, COMMA, QUOTE, LEFT_A_BRAC, RIGHT_A_BRAC,
+        SEMICOLON, LEFT_PAREN, RIGHT_PAREN, COMMA, QUOTE, LEFT_A_BRAC, RIGHT_A_BRAC,DECIMAL,
 
         // Design Entities
         STMT1, READ, PRINT, CALL, WHILE, IF, ASSIGN, VARIABLE, CONSTANT, PROCEDURE,
@@ -25,6 +25,9 @@ public:
 
         // Such That Keywords
         SUCH, THAT,
+
+        // With Keywords
+        WITH, WITHPROCNAME, WITHVARNAME, WITHVALUE, WITHSTMT,
 
         // Relationships
         PARENT, PARENT_T,
