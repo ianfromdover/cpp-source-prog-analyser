@@ -6,7 +6,9 @@
 #define SPA_SOLVER_H
 
 #include <queue>
+#include <functional>
 #include "sp/cfg/CFG.h"
+
 
 template<typename T>
 class Solver {
