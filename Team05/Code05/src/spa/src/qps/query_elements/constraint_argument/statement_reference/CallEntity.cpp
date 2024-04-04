@@ -20,8 +20,8 @@ std::string CallEntity::toString() {
     return this->identifier + " [CALL]";
 }
 
-std::string CallEntity::getArgumentValue() {
-    return this->identifier;
+std::vector<std::string> CallEntity::getArgumentValue() {
+    return {this->identifier};
 }
 
 Table CallEntity::getEntityTable(QueryPkbVirtual &pkb) {
@@ -29,4 +29,8 @@ Table CallEntity::getEntityTable(QueryPkbVirtual &pkb) {
     // Insertion of headers into our entity table
     entityTable.insert(entityTable.begin(), {this->identifier, "CALLRHS"});
     return entityTable;
+}
+
+std::vector<std::vector<std::string>> CallEntity::getRawTable(QueryPkbVirtual &pkb) {
+    return pkb.getCallTable();
 }

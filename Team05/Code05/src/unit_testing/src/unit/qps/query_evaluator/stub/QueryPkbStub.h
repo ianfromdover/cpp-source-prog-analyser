@@ -58,6 +58,8 @@ public:
     void setModifies(std::vector<std::vector<std::string>> t);
     void setModifiesP(std::vector<std::vector<std::string>> t);
     void setPatternAsgn(std::vector<std::vector<std::string>> t);
+    void setPatternWhile(std::vector<std::vector<std::string>> t);
+    void setPatternIf(std::vector<std::vector<std::string>> t);
     void setCalls(std::vector<std::vector<std::string>> t);
     void setCallsT(std::vector<std::vector<std::string>> t);
 

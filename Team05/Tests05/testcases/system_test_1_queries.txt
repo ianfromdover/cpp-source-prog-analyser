@@ -401,17 +401,17 @@ k,x,y,z
 81 - Parent and Follows
 stmt s1,s2;
 Select s1 such that Parent(s1, s2) such that Follows(s1, s2)
-1,17,21,24,5
+none
 5000
 82 - Parent and Follows*
 stmt s1,s2;
 Select s1 such that Parent(s1, s2) such that Follows*(s1, s2)
-1,17,21,24,5
+none
 5000
 83 - Parent* and Follows
 stmt s;
 Select s such that Parent*(s, 9) such that Follows(1, 2)
-1,5
+none
 5000
 84 - No Declarations
 stmt s;

@@ -22,8 +22,8 @@ std::string AssignEntity::toString() {
     return this->identifier + " [ASSIGN]";
 }
 
-std::string AssignEntity::getArgumentValue() {
-    return this->identifier;
+std::vector<std::string> AssignEntity::getArgumentValue() {
+    return {this->identifier};
 }
 
 Table AssignEntity::getEntityTable(QueryPkbVirtual & pkb ) {
@@ -33,4 +33,8 @@ Table AssignEntity::getEntityTable(QueryPkbVirtual & pkb ) {
     //    "ASSIGNLHS", "ASSIGNRHS"});
     entityTable.insert(entityTable.begin(), {this->identifier, "ASSIGNRHS"});
     return entityTable;
+}
+
+std::vector<std::vector<std::string>> AssignEntity::getRawTable(QueryPkbVirtual &pkb) {
+    return pkb.getPatternAsgnTable();
 }

@@ -79,6 +79,14 @@ void QueryPkbStub::setPatternAsgn(Table t) {
     patternAsgnTable = std::move(t);
 }
 
+void QueryPkbStub::setPatternWhile(Table t) {
+    patternWhileTable = std::move(t);
+}
+
+void QueryPkbStub::setPatternIf(Table t) {
+    patternIfTable = std::move(t);
+}
+
 void QueryPkbStub::setUsesP(Table t) {
     usesPTable = std::move(t);
 }

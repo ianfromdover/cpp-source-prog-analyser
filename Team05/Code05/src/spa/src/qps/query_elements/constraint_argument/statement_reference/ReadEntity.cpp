@@ -20,8 +20,8 @@ std::string ReadEntity::toString() {
     return this->identifier + " [READ]";
 }
 
-std::string ReadEntity::getArgumentValue() {
-    return this->identifier;
+std::vector<std::string> ReadEntity::getArgumentValue() {
+    return {this->identifier};
 }
 
 Table ReadEntity::getEntityTable(QueryPkbVirtual &pkb) {
@@ -29,4 +29,8 @@ Table ReadEntity::getEntityTable(QueryPkbVirtual &pkb) {
     // Insertion of headers into our entity table
     entityTable.insert(entityTable.begin(), {this->identifier, "READRHS"});
     return entityTable;
+}
+
+std::vector<std::vector<std::string>> ReadEntity::getRawTable(QueryPkbVirtual &pkb) {
+    return pkb.getReadTable();
 }

@@ -20,8 +20,8 @@ std::string IfEntity::toString() {
     return this->identifier + " [IF]";
 }
 
-std::string IfEntity::getArgumentValue() {
-    return this->identifier;
+std::vector<std::string> IfEntity::getArgumentValue() {
+    return {this->identifier};
 }
 
 Table IfEntity::getEntityTable(QueryPkbVirtual &pkb) {
@@ -29,5 +29,9 @@ Table IfEntity::getEntityTable(QueryPkbVirtual &pkb) {
     // Insertion of headers into our entity table
     entityTable.insert(entityTable.begin(), {this->identifier, "IFRHS"});
     return entityTable;
+}
+
+std::vector<std::vector<std::string>> IfEntity::getRawTable(QueryPkbVirtual &pkb) {
+    return pkb.getIfTable();
 }
 

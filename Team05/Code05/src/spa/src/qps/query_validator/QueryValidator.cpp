@@ -23,6 +23,7 @@ std::vector<std::string> QueryValidator::validateQuery(IntermediateQuery & inter
             std::string result = rule->validate(intermediateQuery);
             if (!result.empty()){
                 validationResults.push_back(result);
+                return validationResults;
             }
         }
     }
