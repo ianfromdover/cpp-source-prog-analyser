@@ -199,24 +199,44 @@ TEST_CASE("tokenize with and not"){
 
 TEST_CASE("tokenize with attributes"){
     SECTION("procName"){
-        std::string source = "with s.procName";
+        std::string source = "with not.procName";
         std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
         REQUIRE(compareExpected(tokens, {QPSTokenType::WITH, QPSTokenType::IDENTIFIER, QPSTokenType::DECIMAL, QPSTokenType::WITHPROCNAME, QPSTokenType::END_OF_FILE}));
     }
     SECTION("varName"){
-      std::string source = "with s.varName";
+      std::string source = "with not.varName";
       std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
       REQUIRE(compareExpected(tokens, {QPSTokenType::WITH, QPSTokenType::IDENTIFIER, QPSTokenType::DECIMAL, QPSTokenType::WITHVARNAME, QPSTokenType::END_OF_FILE}));
     }
     SECTION("value"){
-      std::string source = "with s.value";
+      std::string source = "with not.value";
       std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
       REQUIRE(compareExpected(tokens, {QPSTokenType::WITH, QPSTokenType::IDENTIFIER, QPSTokenType::DECIMAL, QPSTokenType::WITHVALUE, QPSTokenType::END_OF_FILE}));
     }
     SECTION("stmt#"){
-      std::string source = "with s.stmt#";
+      std::string source = "with not.stmt#";
       std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
       REQUIRE(compareExpected(tokens, {QPSTokenType::WITH, QPSTokenType::IDENTIFIER, QPSTokenType::DECIMAL, QPSTokenType::WITHSTMT, QPSTokenType::END_OF_FILE}));
+    }
+    SECTION("not procName"){
+      std::string source = "with not not.procName";
+      std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+      REQUIRE(compareExpected(tokens, {QPSTokenType::WITH, QPSTokenType::NOT, QPSTokenType::IDENTIFIER, QPSTokenType::DECIMAL, QPSTokenType::WITHPROCNAME, QPSTokenType::END_OF_FILE}));
+    }
+    SECTION("not varName"){
+      std::string source = "with not not.varName";
+      std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+      REQUIRE(compareExpected(tokens, {QPSTokenType::WITH, QPSTokenType::NOT, QPSTokenType::IDENTIFIER, QPSTokenType::DECIMAL, QPSTokenType::WITHVARNAME, QPSTokenType::END_OF_FILE}));
+    }
+    SECTION("not value"){
+      std::string source = "with not not.value";
+      std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+      REQUIRE(compareExpected(tokens, {QPSTokenType::WITH, QPSTokenType::NOT, QPSTokenType::IDENTIFIER, QPSTokenType::DECIMAL, QPSTokenType::WITHVALUE, QPSTokenType::END_OF_FILE}));
+    }
+    SECTION("not stmt#"){
+      std::string source = "with not not.stmt#";
+      std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
+      REQUIRE(compareExpected(tokens, {QPSTokenType::WITH, QPSTokenType::NOT, QPSTokenType::IDENTIFIER, QPSTokenType::DECIMAL, QPSTokenType::WITHSTMT, QPSTokenType::END_OF_FILE}));
     }
 }
 

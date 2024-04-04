@@ -28,19 +28,20 @@ public:
 
         // With Keywords
         WITH, WITHPROCNAME, WITHVARNAME, WITHVALUE, WITHSTMT,
+        ATTR_REF,
 
         // Relationships
         PARENT, PARENT_T,
         FOLLOWS, FOLLOWS_T,
-    MODIFIES,
-    MODIFIES_S,
-    MODIFIES_P,
-    USES,
-    USES_S,
-    USES_P,
-    CALLS,
-    CALLS_T,
-    AND, NOT,
+        MODIFIES,
+        MODIFIES_S,
+        MODIFIES_P,
+        USES,
+        USES_S,
+        USES_P,
+        CALLS,
+        CALLS_T,
+        AND, NOT,
 
     // Entity References
         ENT_REF,

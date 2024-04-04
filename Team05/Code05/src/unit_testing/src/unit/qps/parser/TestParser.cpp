@@ -5,7 +5,6 @@
 #include <iostream>
 #include "catch.hpp"
 #include "qps/parser/QPSParser.h"
-#include "qps/parser/Demo.h"
 #include "TokenListBuilder.h"
 #include "IntermediateBuilder.h"
 
