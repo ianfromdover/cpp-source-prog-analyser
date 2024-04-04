@@ -4,6 +4,7 @@
 
 #include "QPSParser.h"
 #include "IntermediateQuery.h"
+#include "WithClause.h"
 #include "qps/Exceptions/QPSParseException.h"
 #include "sp/api/formatter/ExprFormatter.h"
 #include <stdexcept>
@@ -178,6 +179,69 @@ std::vector<std::shared_ptr<PatternClause>> QPSParser::patternClause() {
         }
     } while (this->match({QPSTokenType::AND}));
     return cls;
+}
+
+std::vector<std::shared_ptr<WithClause>> QPSParser::withClause(){
+  std::vector<std::shared_ptr<WithClause>> cls;
+  this->consume(QPSTokenType::WITH, "Expect 'with'.");
+  do {
+    bool isNot = this->match({QPSTokenType::NOT});
+    std::shared_ptr<QPSToken> arg1, arg2;
+    QPSTokenType::QPSTypeInfo arg1Type, arg1Attr, arg2Type, arg2Attr;
+    bool isArg1Attr = false, isArg2Attr = false;
+    // first argument
+    if (this->check(QPSTokenType::QUOTE)) {
+      arg1 = std::make_shared<QPSToken>(this->quotedIdent());
+      arg1Type = QPSTokenType::QPSTypeInfo::QUOTED_IDENT;
+    } else if (this->match({QPSTokenType::INTEGER})){
+      arg1 = std::make_shared<QPSToken>(this->previous());
+      arg1Type = QPSTokenType::QPSTypeInfo::INTEGER;
+    } else if (this->match({QPSTokenType::IDENTIFIER})){
+      arg1 = std::make_shared<QPSToken>(this->synonym(this->previous()));
+      arg1Type = QPSTokenType::QPSTypeInfo::ATTR_REF;
+      this->consume(QPSTokenType::DECIMAL, "Expect '.' after synonym.");
+      if  (this->match({QPSTokenType::WITHSTMT, QPSTokenType::WITHPROCNAME, QPSTokenType::WITHVARNAME, QPSTokenType::WITHVALUE})){
+        isArg1Attr = true;
+        arg1Attr = this->previous().getType().getInfo();
+      } else {
+        throw QPSParseException("Expect attribute after synonym.");
+      }
+    } else {
+      throw QPSParseException("Expect synonym or quoted identifier.");
+    }
+
+    this->consume(QPSTokenType::EQUAL, "Expect '='.");
+
+    // second argument
+    if (this->check(QPSTokenType::QUOTE)) {
+      arg2 = std::make_shared<QPSToken>(this->quotedIdent());
+      arg1Type = QPSTokenType::QPSTypeInfo::QUOTED_IDENT;
+    } else if (this->match({QPSTokenType::INTEGER})){
+      arg2 = std::make_shared<QPSToken>(this->previous());
+      arg2Type = QPSTokenType::QPSTypeInfo::INTEGER;
+    } else if (this->match({QPSTokenType::IDENTIFIER})){
+      arg2 = std::make_shared<QPSToken>(this->synonym(this->previous()));
+      arg2Type = QPSTokenType::QPSTypeInfo::ATTR_REF;
+      this->consume(QPSTokenType::DECIMAL, "Expect '.' after synonym.");
+      if  (this->match({QPSTokenType::WITHSTMT, QPSTokenType::WITHPROCNAME, QPSTokenType::WITHVARNAME, QPSTokenType::WITHVALUE})){
+        isArg2Attr = true;
+        arg2Attr = this->previous().getType().getInfo();
+      } else {
+        throw QPSParseException("Expect attribute after synonym.");
+      }
+    } else {
+      throw QPSParseException("Expect synonym or quoted identifier.");
+    }
+
+    std::shared_ptr<WithClause> withCl = std::make_shared<WithClause>(*arg1, *arg2, arg1Type, arg2Type);
+    if (isArg1Attr) withCl->setFirstArgAttribute(arg1Attr);
+    if (isArg2Attr) withCl->setSecondArgAttribute(arg2Attr);
+    if (isNot) withCl->setNot(true);
+    cls.push_back(withCl);
+
+  } while (this->match({QPSTokenType::AND}));
+
+  return cls;
 }
 
 
@@ -366,24 +430,29 @@ QPSToken QPSParser::stmtRef() {
 
 QPSToken QPSParser::entRef() {
   int initial = current;
-  if (this->match({QPSTokenType::IDENTIFIER, QPSTokenType::WILDCARD, QPSTokenType::QUOTE})) {
+  if (this->match({QPSTokenType::IDENTIFIER, QPSTokenType::WILDCARD})) {
         if (this->checkPrevious(QPSTokenType::IDENTIFIER))
             return synonym(this->previous());
 
         if (this->checkPrevious(QPSTokenType::WILDCARD))
             return this->previous();
-
-        if (this->checkPrevious(QPSTokenType::QUOTE)) {
-            QPSToken ident = this->consume(QPSTokenType::IDENTIFIER, "Expect identifier.");
-            this->consume(QPSTokenType::QUOTE, "Expect quote.");
-
-            QPSTokenType type(QPSTokenType::QUOTED_IDENT);
-            QPSToken newToken = QPSToken(type, "\"" + ident.getLexeme() + "\"");
-            return newToken;
-        }
+    }
+    if (this->check(QPSTokenType::QUOTE)){
+      return this->quotedIdent();
     }
   current = initial;
   throw QPSParseException("at [" + std::to_string(current) + "]: invalid statement reference.");
+}
+
+QPSToken QPSParser::quotedIdent() {
+  this->consume(QPSTokenType::QUOTE, "Expect quote.");
+  QPSToken ident = this->consume(QPSTokenType::IDENTIFIER, "Expect identifier.");
+  this->consume(QPSTokenType::QUOTE, "Expect quote.");
+
+  QPSTokenType type(QPSTokenType::QUOTED_IDENT);
+  QPSToken newToken = QPSToken(type, "\"" + ident.getLexeme() + "\"");
+  return newToken;
+
 }
 
 QPSToken QPSParser::synonym(QPSToken t) {
@@ -524,7 +593,7 @@ std::shared_ptr<IntermediateQuery> QPSParser::parse() {
         throw QPSParseException("at [" + std::to_string(current) + "]: Expect select clause.");
     }
 
-    while (isSuchThat() || this->check({QPSTokenType::PATTERN})) {
+    while (isSuchThat() || this->check({QPSTokenType::PATTERN,QPSTokenType::WITH})) {
 
         if (isSuchThat()) {
             for (const auto &clause : suchThatClause()) {
@@ -536,6 +605,12 @@ std::shared_ptr<IntermediateQuery> QPSParser::parse() {
             for (const auto &clause : patternClause()) {
                 query->addClause(clause);
             }
+        }
+
+        if (this->check({QPSTokenType::WITH})) {
+          for (const auto &clause : withClause()) {
+            query->addClause(clause);
+          }
         }
     }
 

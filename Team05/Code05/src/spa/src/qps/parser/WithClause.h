@@ -25,7 +25,7 @@ public:
     throw QPSException("Second argument is not set");
   }
 
-  WithClause(QPSToken &t1, QPSToken &t2, QPSTokenType::QPSTypeInfo type1, QPSTokenType::QPSTypeInfo type2) : Clause(ClauseType::WITH) {
+  WithClause(QPSToken &t1, QPSToken &t2,  QPSTokenType::QPSTypeInfo type1, QPSTokenType::QPSTypeInfo type2) : Clause(ClauseType::WITH) {
     firstArg = std::make_shared<QPSToken>(t1);
     secondArg = std::make_shared<QPSToken>(t2);
     firstArgType = type1;
@@ -84,6 +84,10 @@ public:
    * getFirstArgAttribute() = QPSType::WITHVALUE
    * getSecondArgAttribute() = QPSType::WITHVARNAME
    */
+
+  std::string toString() {
+    return "With: []";
+  }
 
 private:
   std::shared_ptr<QPSToken> firstArg;

@@ -5,16 +5,16 @@
 #ifndef SPA_QPSPARSER_H
 #define SPA_QPSPARSER_H
 
-#include <memory>
-#include <vector>
+#include "DeclarationClause.h"
+#include "IntermediateQuery.h"
+#include "PatternClause.h"
+#include "RelationshipClause.h"
+#include "SelectClause.h"
+#include "WithClause.h"
 #include "qps/tokenizer/QPSToken.h"
 #include "qps/tokenizer/QPSTokenList.h"
-#include "DeclarationClause.h"
-#include "SelectClause.h"
-#include "RelationshipClause.h"
-#include "PatternClause.h"
-#include "IntermediateQuery.h"
-
+#include <memory>
+#include <vector>
 
 class QPSParser {
 private:
@@ -54,6 +54,8 @@ private:
 
     std::vector<std::shared_ptr<PatternClause>> patternClause();
 
+    std::vector<std::shared_ptr<WithClause>> withClause();
+
     QPSToken consume(QPSTokenType::QPSTypeInfo type, const std::string &message);
 
     std::shared_ptr<DeclarationClause> declaration();
@@ -79,6 +81,8 @@ private:
     QPSToken any();
 
     QPSToken synonym(QPSToken t);
+
+    QPSToken quotedIdent();
 
     QPSToken exprSpec();
 

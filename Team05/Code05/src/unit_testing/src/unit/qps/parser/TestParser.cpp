@@ -25,6 +25,271 @@ TEST_CASE("scratch pad parser") {
     }
 }
 
+TEST_CASE("with clause"){
+  SECTION("attrStmt LHS and attrStmt RHS"){
+    QPSTokenList tokens;
+    tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().with().attrStmt().equal().attrStmt().get();
+    QPSParser parser(tokens);
+    IntermediateQuery query;
+    REQUIRE_NOTHROW(query = *parser.parse());
+  }
+
+  SECTION("attrStmt LHS and attrVarName RHS"){
+    QPSTokenList tokens;
+    tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().with().attrStmt().equal().attrVar().get();
+    QPSParser parser(tokens);
+    IntermediateQuery query;
+    REQUIRE_NOTHROW(query = *parser.parse());
+  }
+
+  SECTION("attrStmt LHS and attrProcName RHS"){
+    QPSTokenList tokens;
+    tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().with().attrStmt().equal().attrProc().get();
+    QPSParser parser(tokens);
+    IntermediateQuery query;
+    REQUIRE_NOTHROW(query = *parser.parse());
+  }
+
+  SECTION("attrStmt LHS and attrValue RHS"){
+    QPSTokenList tokens;
+    tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().with().attrStmt().equal().attrValue().get();
+    QPSParser parser(tokens);
+    IntermediateQuery query;
+    REQUIRE_NOTHROW(query = *parser.parse());
+  }
+
+  SECTION("attrStmt LHS and int RHS"){
+    QPSTokenList tokens;
+    tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().with().attrStmt().equal().integer().get();
+    QPSParser parser(tokens);
+    IntermediateQuery query;
+    REQUIRE_NOTHROW(query = *parser.parse());
+  }
+  SECTION("attrStmt LHS and quoted ident RHS"){
+    QPSTokenList tokens;
+    tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().with().attrStmt().equal().quotedIdent().get();
+    QPSParser parser(tokens);
+    IntermediateQuery query;
+    REQUIRE_NOTHROW(query = *parser.parse());
+  }
+
+  SECTION("attrVarName LHS and RHS"){
+    QPSTokenList tokens;
+    tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().with().attrVar().equal().attrVar().get();
+
+    QPSParser parser(tokens);
+    IntermediateQuery query;
+    REQUIRE_NOTHROW(query = *parser.parse());
+  }
+  SECTION("attrVarName LHS and attrStmt RHS"){
+    QPSTokenList tokens;
+    tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().with().attrVar().equal().attrStmt().get();
+    QPSParser parser(tokens);
+    IntermediateQuery query;
+    REQUIRE_NOTHROW(query = *parser.parse());
+  }
+  SECTION("attrVarName LHS and attrProcName RHS"){
+    QPSTokenList tokens;
+    tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().with().attrVar().equal().attrProc().get();
+    QPSParser parser(tokens);
+    IntermediateQuery query;
+    REQUIRE_NOTHROW(query = *parser.parse());
+  }
+  SECTION("attrVarName LHS and attrValue RHS"){
+    QPSTokenList tokens;
+    tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().with().attrVar().equal().attrValue().get();
+    QPSParser parser(tokens);
+    IntermediateQuery query;
+    REQUIRE_NOTHROW(query = *parser.parse());
+  }
+  SECTION("attrVarName LHS and int RHS"){
+    QPSTokenList tokens;
+    tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().with().attrVar().equal().integer().get();
+    QPSParser parser(tokens);
+    IntermediateQuery query;
+    REQUIRE_NOTHROW(query = *parser.parse());
+  }
+  SECTION("attrVarName LHS and quoted ident RHS"){
+    QPSTokenList tokens;
+    tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().with().attrVar().equal().quotedIdent().get();
+    QPSParser parser(tokens);
+    IntermediateQuery query;
+    REQUIRE_NOTHROW(query = *parser.parse());
+  }
+
+
+  SECTION("attrProcName LHS and RHS"){
+    QPSTokenList tokens;
+    tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().with().attrProc().equal().attrProc().get();
+
+    QPSParser parser(tokens);
+    IntermediateQuery query;
+    REQUIRE_NOTHROW(query = *parser.parse());
+  }
+  SECTION("attrProc LHS and attrStmt RHS"){
+    QPSTokenList tokens;
+    tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().with().attrProc().equal().attrStmt().get();
+    QPSParser parser(tokens);
+    IntermediateQuery query;
+    REQUIRE_NOTHROW(query = *parser.parse());
+  }
+  SECTION("attrProc LHS and attrVarName RHS"){
+    QPSTokenList tokens;
+    tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().with().attrProc().equal().attrVar().get();
+    QPSParser parser(tokens);
+    IntermediateQuery query;
+    REQUIRE_NOTHROW(query = *parser.parse());
+  }
+  SECTION("attrProc LHS and int RHS"){
+    QPSTokenList tokens;
+    tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().with().attrProc().equal().integer().get();
+    QPSParser parser(tokens);
+    IntermediateQuery query;
+    REQUIRE_NOTHROW(query = *parser.parse());
+  }
+  SECTION("attrProc LHS and quoted ident RHS"){
+    QPSTokenList tokens;
+    tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().with().attrProc().equal().quotedIdent().get();
+    QPSParser parser(tokens);
+    IntermediateQuery query;
+    REQUIRE_NOTHROW(query = *parser.parse());
+  }
+
+
+  SECTION("attrValue LHS and RHS"){
+    QPSTokenList tokens;
+    tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().with().attrValue().equal().attrValue().get();
+
+    QPSParser parser(tokens);
+    IntermediateQuery query;
+    REQUIRE_NOTHROW(query = *parser.parse());
+  }
+  SECTION("attrValue LHS and attrStmt RHS"){
+    QPSTokenList tokens;
+    tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().with().attrValue().equal().attrStmt().get();
+    QPSParser parser(tokens);
+    IntermediateQuery query;
+    REQUIRE_NOTHROW(query = *parser.parse());
+  }
+
+  SECTION("attrValue LHS and attrVarName RHS"){
+    QPSTokenList tokens;
+    tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().with().attrValue().equal().attrVar().get();
+    QPSParser parser(tokens);
+    IntermediateQuery query;
+    REQUIRE_NOTHROW(query = *parser.parse());
+  }
+  SECTION("attrValue LHS and attrProcName RHS"){
+    QPSTokenList tokens;
+    tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().with().attrValue().equal().attrProc().get();
+    QPSParser parser(tokens);
+    IntermediateQuery query;
+    REQUIRE_NOTHROW(query = *parser.parse());
+  }
+  SECTION("attrValue LHS and int RHS"){
+    QPSTokenList tokens;
+    tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().with().attrValue().equal().integer().get();
+    QPSParser parser(tokens);
+    IntermediateQuery query;
+    REQUIRE_NOTHROW(query = *parser.parse());
+  }
+  SECTION("attrValue LHS and quoted ident RHS"){
+    QPSTokenList tokens;
+    tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().with().attrValue().equal().quotedIdent().get();
+    QPSParser parser(tokens);
+    IntermediateQuery query;
+    REQUIRE_NOTHROW(query = *parser.parse());
+  }
+
+  SECTION("int LHS and RHS"){
+    QPSTokenList tokens;
+    tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().with().integer().equal().integer().get();
+
+    QPSParser parser(tokens);
+    IntermediateQuery query;
+    REQUIRE_NOTHROW(query = *parser.parse());
+  }
+  SECTION("int LHS and attrStmt RHS"){
+    QPSTokenList tokens;
+    tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().with().integer().equal().attrStmt().get();
+    QPSParser parser(tokens);
+    IntermediateQuery query;
+    REQUIRE_NOTHROW(query = *parser.parse());
+  }
+  SECTION("int LHS and attrVarName RHS"){
+    QPSTokenList tokens;
+    tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().with().integer().equal().attrVar().get();
+    QPSParser parser(tokens);
+    IntermediateQuery query;
+    REQUIRE_NOTHROW(query = *parser.parse());
+  }
+  SECTION("int LHS and attrProcName RHS"){
+    QPSTokenList tokens;
+    tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().with().integer().equal().attrProc().get();
+    QPSParser parser(tokens);
+    IntermediateQuery query;
+    REQUIRE_NOTHROW(query = *parser.parse());
+  }
+  SECTION("int LHS and attrValue RHS"){
+    QPSTokenList tokens;
+    tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().with().integer().equal().attrValue().get();
+    QPSParser parser(tokens);
+    IntermediateQuery query;
+    REQUIRE_NOTHROW(query = *parser.parse());
+  }
+  SECTION("int LHS and quoted ident RHS"){
+    QPSTokenList tokens;
+    tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().with().integer().equal().quotedIdent().get();
+    QPSParser parser(tokens);
+    IntermediateQuery query;
+    REQUIRE_NOTHROW(query = *parser.parse());
+  }
+
+  SECTION("quoted ident LHS and RHS"){
+    QPSTokenList tokens;
+    tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().with().quotedIdent().equal().quotedIdent().get();
+
+    QPSParser parser(tokens);
+    IntermediateQuery query;
+    REQUIRE_NOTHROW(query = *parser.parse());
+  }
+  SECTION("quoted ident LHS and attrStmt RHS"){
+    QPSTokenList tokens;
+    tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().with().quotedIdent().equal().attrStmt().get();
+    QPSParser parser(tokens);
+    IntermediateQuery query;
+    REQUIRE_NOTHROW(query = *parser.parse());
+  }
+  SECTION("quoted ident LHS and attrVarName RHS"){
+    QPSTokenList tokens;
+    tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().with().quotedIdent().equal().attrVar().get();
+    QPSParser parser(tokens);
+    IntermediateQuery query;
+    REQUIRE_NOTHROW(query = *parser.parse());
+  }
+  SECTION("quoted ident LHS and attrProcName RHS"){
+    QPSTokenList tokens;
+    tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().with().quotedIdent().equal().attrProc().get();
+    QPSParser parser(tokens);
+    IntermediateQuery query;
+    REQUIRE_NOTHROW(query = *parser.parse());
+  }
+  SECTION("quoted ident LHS and attrValue RHS"){
+    QPSTokenList tokens;
+    tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().with().quotedIdent().equal().attrValue().get();
+    QPSParser parser(tokens);
+    IntermediateQuery query;
+    REQUIRE_NOTHROW(query = *parser.parse());
+  }
+  SECTION("quoted ident LHS and int RHS"){
+    QPSTokenList tokens;
+    tokens = TokenListBuilder().singleStmtDeclaration().select().identifier().with().quotedIdent().equal().integer().get();
+    QPSParser parser(tokens);
+    IntermediateQuery query;
+    REQUIRE_NOTHROW(query = *parser.parse());
+  }
+}
+
 // Unit Tests for QPS
 
 TEST_CASE("singleDeclaration_singleSelect") {

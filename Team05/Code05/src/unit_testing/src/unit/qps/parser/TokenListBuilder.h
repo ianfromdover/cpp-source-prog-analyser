@@ -129,6 +129,57 @@ public:
         return *this;
     };
 
+    TokenListBuilder with() {
+      tokenList.addToken(type::WITH, "with");
+      return *this;
+    };
+
+    TokenListBuilder dot() {
+      tokenList.addToken(type::DECIMAL, ".");
+      return *this;
+    };
+
+    TokenListBuilder withStmt() {
+      tokenList.addToken(type::WITHSTMT, "stmt#");
+      return *this;
+    };
+
+    TokenListBuilder withProcName() {
+      tokenList.addToken(type::WITHPROCNAME, "procName");
+      return *this;
+    };
+
+    TokenListBuilder withVarName() {
+      tokenList.addToken(type::WITHVARNAME, "varName");
+      return *this;
+    };
+
+    TokenListBuilder withValue() {
+      tokenList.addToken(type::WITHVALUE, "value");
+      return *this;
+    };
+
+    TokenListBuilder equal() {
+      tokenList.addToken(type::EQUAL, "=");
+      return *this;
+    };
+
+    TokenListBuilder attrStmt() {
+      return identifier().dot().withStmt();
+    };
+
+    TokenListBuilder attrProc() {
+      return identifier().dot().withProcName();
+    };
+
+    TokenListBuilder attrVar() {
+      return identifier().dot().withVarName();
+    };
+
+    TokenListBuilder attrValue() {
+      return identifier().dot().withValue();
+    };
+
     TokenListBuilder follows() {
         tokenList.addToken(type::FOLLOWS, "Follows");
         return *this;
