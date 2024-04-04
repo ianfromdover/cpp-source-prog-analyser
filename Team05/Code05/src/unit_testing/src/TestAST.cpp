@@ -9,7 +9,7 @@
 #include "sp/api/formatter/ExprFormatter.h"
 #include "sp/exception/FormatterException.h"
 #include "sp/cfg/CFG.h"
-#include "catch.hpp"
+#include "sp/api/Affects.h"
 
 using namespace std;
 void require(bool b) {
@@ -1786,7 +1786,7 @@ TEST_CASE("AST to CFG") {
 
     auto sp = SourceProcessor(nullptr);
     const auto& program = sp.parse(sp.scan(source));
-    REQUIRE(CFG::compile(program)->at("main")->toString() == expect);
+    REQUIRE(CFGCollection(program).find("main").value()->toString() == expect);
 }
 
 TEST_CASE("test") {
@@ -1912,3 +1912,48 @@ TEST_CASE("test") {
         require(true);
     }
 }
+
+
+//TEST_CASE("Test Affects") {
+//    const auto source = R"(
+//        procedure main {
+//            x = 0;
+//            y = 1;
+//            z = 2;
+//
+//            if (x == 0) then {
+//                x = 3;
+//            } else {
+//                x = 4;
+//            }
+//        }
+//    )";
+//
+//    const auto& pkb = std::make_shared<PkbStorage>();
+//    auto populatePkb = std::make_shared<PopulatePkb>(pkb);
+//    auto queryPkb = std::make_shared<QueryPkb>(pkb);
+//
+//    auto sp = SourceProcessor(populatePkb);
+//    const auto& tokens = sp.scan(source);
+//    const auto& program = sp.parse(tokens);
+//    sp.validate(program);
+//    sp.extract(program);
+//
+//    const auto& cfgCollection = std::make_shared<CFGCollection>(program);
+//    auto affects = Affects(cfgCollection, queryPkb);
+//    const auto [in, out] = affects.get(1, 2);
+//
+//    for (const auto& block : *cfgCollection->getCFGs()->at(0)->getBlocks()) {
+//        std::cout << block->toString() << std::endl;
+//        std::cout << "In: [" << std::endl;
+//        for (const auto& var : in.at(block)) {
+//            std::cout << "(" << var.getName() << ", " << std::to_string(var.getStmtNo()) << ")" << std::endl;
+//        }
+//        std::cout << "]" << std::endl;
+//        std::cout << "Out: [" << std::endl;
+//        for (const auto& var : out.at(block)) {
+//            std::cout << "(" << var.getName() << ", " << std::to_string(var.getStmtNo()) << ")" << std::endl;
+//        }
+//        std::cout << "]" << std::endl;
+//    }
+//}

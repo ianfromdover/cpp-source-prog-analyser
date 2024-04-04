@@ -248,6 +248,9 @@ Table QueryPkb::getModifiesPVarsByProc(ProcName modifier) {
 Table QueryPkb::getModifiesPProcsByVar(VarName modified) {
     return TableUtils::toTable(pkb->modifiesPTable->getRelatedKeys(modified));
 }
+bool QueryPkb::isModifiesP(ProcName p, VarName v) {
+    return pkb->modifiesPTable->containsPair(p, v);
+}
 
 Table QueryPkb::getModifiesSTable() {
     return pkb->modifiesSTable->getAll();

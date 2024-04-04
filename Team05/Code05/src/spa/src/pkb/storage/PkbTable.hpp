@@ -31,15 +31,15 @@ private:
     // Check if a value exists in the backwardMap.
     bool containsValue(B value);
 
-    // Check if a pair exists in the map.
-    bool containsPair(A key, B value);
-
     // Convert a map into a table
     std::shared_ptr<Table> makeTable(bool isFwdMap);
 
 public:
     PkbTable() = default;
     ~PkbTable() = default;
+
+    // Check if a pair exists in the map.
+    bool containsPair(A key, B value);
 
     /**
      * @brief Insert a mapping from key to value. If the mapping already exists, nothing is done.
@@ -91,6 +91,31 @@ bool PkbTable<A, B>::containsValue(const B value) {
     return backwardMap.find(value) != backwardMap.end();
 }
 
+// ai-gen start (gpt, 2, e)
+// prompt: https://chat.openai.com/share/4bb3d614-d4ca-4580-ad0e-b664ace5e254
+template<typename A, typename B>
+std::shared_ptr<Table> PkbTable<A, B>::makeTable(bool isFwdMap) {
+    auto result = std::make_shared<Table>();
+    try {
+        // lambda function
+        auto processMap = [&](auto& map) {
+            for (auto& pair : map) {
+                result->push_back({to_string(pair.first)});
+            }
+        };
+
+        if (isFwdMap) {
+            processMap(forwardMap);
+        } else {
+            processMap(backwardMap);
+        }
+    } catch (std::exception e) {
+        throw PkbException(e.what());
+    }
+    return result;
+}
+// ai-gen end
+
 template<typename A, typename B>
 bool PkbTable<A, B>::containsPair(A key, B value) {
     // ai-gen start (gpt, 0, e)
@@ -122,31 +147,6 @@ bool PkbTable<A, B>::containsPair(A key, B value) {
     return false;
     // ai-gen end
 }
-
-// ai-gen start (gpt, 2, e)
-// prompt: https://chat.openai.com/share/4bb3d614-d4ca-4580-ad0e-b664ace5e254
-template<typename A, typename B>
-std::shared_ptr<Table> PkbTable<A, B>::makeTable(bool isFwdMap) {
-    auto result = std::make_shared<Table>();
-    try {
-        // lambda function
-        auto processMap = [&](auto& map) {
-            for (auto& pair : map) {
-                result->push_back({to_string(pair.first)});
-            }
-        };
-
-        if (isFwdMap) {
-            processMap(forwardMap);
-        } else {
-            processMap(backwardMap);
-        }
-    } catch (std::exception e) {
-        throw PkbException(e.what());
-    }
-    return result;
-}
-// ai-gen end
 
 template<typename A, typename B>
 bool PkbTable<A, B>::add(const A& key, const B& value) {

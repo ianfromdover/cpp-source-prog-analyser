@@ -385,6 +385,9 @@ Table QueryPkbStub::getModifiesPVarsByProc(ProcName modifier) {
 Table QueryPkbStub::getModifiesPProcsByVar(VarName modified) {
     return {{}};
 }
+bool QueryPkbStub::isModifiesP(ProcName p, VarName v) {
+    return false;
+}
 
 Table QueryPkbStub::getModifiesSTable() {
     return modifiesSTable;
