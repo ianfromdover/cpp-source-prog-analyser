@@ -192,35 +192,36 @@ std::vector<std::shared_ptr<RelationshipClause>> QPSParser::relCond() {
 }
 
 std::shared_ptr<RelationshipClause> QPSParser::relRef() {
+  bool isNot = false;
+  std::shared_ptr<RelationshipClause> cl;
     if (this->match({QPSTokenType::NOT})){
-        // TODO: set not flag
+        isNot = true;
     }
   if (this->match({QPSTokenType::PARENT, QPSTokenType::PARENT_T,
                    QPSTokenType::FOLLOWS, QPSTokenType::FOLLOWS_T})) {
     QPSToken relationshipType = this->previous();
     std::vector<QPSToken> args = this->argsStmtStmt();
-    RelationshipClause relCl(relationshipType.getType().getInfo(), args[0],
+    cl = std::make_shared<RelationshipClause>(relationshipType.getType().getInfo(), args[0],
                              QPSTokenType::STMT_REF, args[1],
                              QPSTokenType::STMT_REF);
-    return std::make_shared<RelationshipClause>(relCl);
   } else if (this->match({token::CALLS, token::CALLS_T})) {
     QPSToken relationshipType = this->previous();
     std::vector<QPSToken> args = this->argsEntEnt();
-    RelationshipClause relCl(relationshipType.getType().getInfo(), args[0],
+    cl = std::make_shared<RelationshipClause>(relationshipType.getType().getInfo(), args[0],
                              QPSTokenType::ENT_REF, args[1],
                              QPSTokenType::ENT_REF);
-    return std::make_shared<RelationshipClause>(relCl);
   } else if (this->match({token::MODIFIES, token::USES})) {
     QPSToken relationshipType = this->previous();
     std::vector<QPSToken> args = this->argsAnyEnt();
-    RelationshipClause relCl(relationshipType.getType().getInfo(), args[0],
+    cl = std::make_shared<RelationshipClause>(relationshipType.getType().getInfo(), args[0],
                              QPSTokenType::STMT_REF, args[1],
                              QPSTokenType::ENT_REF);
-    return std::make_shared<RelationshipClause>(relCl);
   } else {
     throw QPSParseException("at [" + std::to_string(current) +
                             "]: invalid relationship reference.");
   }
+  if (isNot) cl->setNot(true);
+  return cl;
 }
 
 std::vector<QPSToken> QPSParser::argsStmtStmt() {
@@ -268,10 +269,9 @@ QPSToken QPSParser::any() {
 
 std::shared_ptr<PatternClause> QPSParser::assignPattern() {
     int state = current;
+    bool isNot = false;
     try {
-        if (this->match({QPSTokenType::NOT})){
-            // TODO: set not flag
-        }
+      isNot = this->match({QPSTokenType::NOT});
       QPSToken synAssign = this->synonym(
           this->consume(QPSTokenType::IDENTIFIER, "Expect identifier."));
 
@@ -281,15 +281,12 @@ std::shared_ptr<PatternClause> QPSParser::assignPattern() {
       QPSToken exprSpec = this->exprSpec();
       this->consume(QPSTokenType::RIGHT_PAREN, "Expect ')' after expr spec.");
 
-//      PatternClause patternCl(synAssign.getLexeme(), entRef,
-//                              QPSTokenType::QPSTypeInfo::ENT_REF, exprSpec,
-//                              QPSTokenType::EXPR_REF);
+      PatternClause patternCl(synAssign.getLexeme());
+      patternCl.addArg(entRef, QPSTokenType::ENT_REF);
+      patternCl.addArg(exprSpec, QPSTokenType::EXPR_REF);
+      if (isNot) patternCl.setNot(true);
 
-      PatternClause patternCl1(synAssign.getLexeme());
-      patternCl1.addArg(entRef, QPSTokenType::ENT_REF);
-        patternCl1.addArg(exprSpec, QPSTokenType::EXPR_REF);
-
-      return std::make_shared<PatternClause>(patternCl1);
+      return std::make_shared<PatternClause>(patternCl);
     } catch (QPSParseException &e) {
       current = state;
       return nullptr;
@@ -298,10 +295,9 @@ std::shared_ptr<PatternClause> QPSParser::assignPattern() {
 
 std::shared_ptr<PatternClause> QPSParser::whilePattern() {
   int state = current;
+  bool isNot = false;
   try {
-      if (this->match({QPSTokenType::NOT})){
-          // TODO: set not flag
-      }
+    isNot = this->match({QPSTokenType::NOT});
     QPSToken synAssign = this->synonym(this->consume(QPSTokenType::IDENTIFIER, "Expect identifier."));
 
     this->consume(QPSTokenType::LEFT_PAREN, "Expect '(' after identifier.");
@@ -325,10 +321,9 @@ std::shared_ptr<PatternClause> QPSParser::whilePattern() {
 
 std::shared_ptr<PatternClause> QPSParser::ifPattern() {
   int state = current;
+  bool isNot = false;
   try {
-      if (this->match({QPSTokenType::NOT})){
-          // TODO: set not flag
-      }
+      isNot = this->match({QPSTokenType::NOT});
     QPSToken synIf = this->synonym(this->consume(QPSTokenType::IDENTIFIER, "Expect identifier."));
 
     this->consume(QPSTokenType::LEFT_PAREN, "Expect '(' after identifier.");
@@ -339,13 +334,14 @@ std::shared_ptr<PatternClause> QPSParser::ifPattern() {
     QPSToken wildcard2 = this->consume(QPSTokenType::WILDCARD, "Expect '_' as third argument");
     this->consume(QPSTokenType::RIGHT_PAREN, "Expect ')' after expr spec.");
 
-    PatternClause patternCl1(synIf.getLexeme());
-    patternCl1.addArg(entRef, QPSTokenType::ENT_REF);
-    patternCl1.addArg(wildcard, QPSTokenType::ENT_REF);
-    patternCl1.addArg(wildcard2, QPSTokenType::ENT_REF);
+    PatternClause patternCl(synIf.getLexeme());
+    patternCl.addArg(entRef, QPSTokenType::ENT_REF);
+    patternCl.addArg(wildcard, QPSTokenType::ENT_REF);
+    patternCl.addArg(wildcard2, QPSTokenType::ENT_REF);
 
+    if (isNot) patternCl.setNot(true);
 
-    return std::make_shared<PatternClause>(patternCl1);
+    return std::make_shared<PatternClause>(patternCl);
   } catch (QPSParseException &e) {
     current = state;
     return nullptr;
