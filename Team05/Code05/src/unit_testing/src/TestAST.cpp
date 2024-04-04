@@ -10,6 +10,7 @@
 #include "sp/exception/FormatterException.h"
 #include "sp/cfg/CFG.h"
 #include "sp/api/Affects.h"
+#include "sp/api/NextT.h"
 
 using namespace std;
 void require(bool b) {
@@ -1466,66 +1467,40 @@ TEST_CASE("Test ExprFormatter API") {
 }
 
 TEST_CASE("Test Extractor") {
-    std::string codeSnippet = R"(
-procedure main {
-            read x;
-            read y;
-            print x;
-            print y;
-            z = 3;
-
-            if (x == 0) then {
-                x = x + 1;
-                y = y - 1;
-                z = 2;
-            } else {
-                x = x + 2;
-                y = y + 1;
-
-                if (z != 3) then {
-                    x = 0;
-                    y = 0;
-                    z = 0;
-                } else {
-                    x = 1;
-                    z = x + y + 2;
-                }
-            }
-
-            x = x + 1;
-            z = y + x;
-
-            while (x < 5) {
-                print x;
-                print y;
-                while (y < 2) {
-                    print z;
-                    print y;
-                }
-                z = x - y;
-                k = z + y;
-
-                if (k > 0) then {
-                    k = k - 1;
-                } else {
-                    k = k + 1;
-                }
-
-                print k;
-            }
-
-            print x;
-            print y;
-            print z;
+    std::string input = R"(
+        procedure Second {
+           x = 0;
+           i = 5;
+           while (i!=0) {
+             x = x + 2*y;
+             i = i - 1;
+           }
+           if (x==1) then {
+             x = x+1;
+           } else {
+             z = 1;
+           }
+           z = z + x + i;
+           y = z + 2;
+           x = x * y + z;
         }
     )";
 
     std::shared_ptr<PkbStorage> p=std::make_shared<PkbStorage>();
     auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
-    sp.exec(codeSnippet);
-
-    require(true);
+    const auto tokens = sp.scan(input);
+    const auto program = sp.parse(tokens);
+    sp.validate(program);
+    sp.extract(program);
+    auto nextT = std::make_shared<NextT>(std::make_shared<CFGCollection>(program));
+//    for (int i = 1; i <= 11; i++) {
+//        for (int j = 1; j <= 11; j++) {
+//            std::string result = nextT->get(i, j) ? "true" : "false";
+//            std::cout << "{" << i << ", " << j << "} = " << result << std::endl;
+//        }
+//    }
+    require(1==1);
 }
 
 TEST_CASE("expression matching") {
@@ -1957,3 +1932,4 @@ TEST_CASE("test") {
 //        std::cout << "]" << std::endl;
 //    }
 //}
+

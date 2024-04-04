@@ -166,3 +166,16 @@ std::string CFG::toString() {
 void CFG::accept(CfgExtractor &visitor) const {
     visitor.visitCFG(*this);
 }
+
+std::optional<std::shared_ptr<Block>> CFG::find(int index) {
+    for (const auto& block : *blocks) {
+        auto front = block->getRange()->first;
+        auto back = block->getRange()->second;
+        if (index >= front && index <= back) {
+            return block;
+        }
+    }
+    return nullopt;
+}
+
+

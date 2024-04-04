@@ -40,6 +40,7 @@ public:
     [[nodiscard]] std::pair<StmtNo, StmtNo> getRange() const;
     [[nodiscard]] bool containsStmtNo(StmtNo stmtNo) const;
     std::string toString();
+    optional<shared_ptr<Block>> find(int index);
 };
 
 

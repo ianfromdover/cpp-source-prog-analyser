@@ -33,6 +33,7 @@ void TestWrapper::parse(std::string filename) {
         sp.validate(program);
         sp.extract(program);
         this->affects = std::make_shared<Affects>(std::make_shared<CFGCollection>(program), queryPkb);
+        this->nextT = std::make_shared<NextT>(std::make_shared<CFGCollection>(program));
     } catch (BaseException& exception) {
         // handle exception
         std::cerr << "Caught BaseException: " << exception.what() << std::endl;
@@ -57,5 +58,4 @@ void TestWrapper::evaluate(std::string query, std::list<std::string>& results) {
         exit(1); // exit silently
     }
 }
-
 

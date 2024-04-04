@@ -12,6 +12,7 @@
 #include "qps/QPS.h"
 #include "sp/SourceProcessor.h"
 #include "sp/api/Affects.h"
+#include "sp/api/NextT.h"
 
 class TestWrapper : public AbstractWrapper {
 private:
@@ -21,6 +22,8 @@ private:
     SourceProcessor sp;
     QPS qps;
     std::shared_ptr<Affects> affects;
+    std::shared_ptr<NextT> nextT;
+
 public:
     // default constructor
     TestWrapper()
