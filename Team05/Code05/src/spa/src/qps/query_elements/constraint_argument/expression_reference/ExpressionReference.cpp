@@ -10,10 +10,10 @@ std::string ExpressionReference::getReferenceType() {
 }
 
 Table ExpressionReference::getEntityTable(QueryPkbVirtual &pkb) {
-    throw QPSException("Invalid QPS Query");
+    throw QPSException(ERROR_INVALID_QUERY);
 }
 
 std::vector<std::vector<std::string>> ExpressionReference::getRawTable(QueryPkbVirtual &pkb) {
-    throw QPSException("Invalid QPS Query");
+    throw QPSException(ERROR_INVALID_QUERY);
 }
 

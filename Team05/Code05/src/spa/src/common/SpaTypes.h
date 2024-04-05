@@ -60,7 +60,7 @@
 #define VALIDATION_RULE_RELATIONSHIP_ARGUMENT "RelationshipArgumentRule"
 #define VALIDATION_RULE_PATTERN_ARGUMENT "PatternArgumentRule"
 
-// for getRelationshipTables
+// headers for getRelationshipTables
 #define HEADER_ASSIGNLHS "ASSIGNLHS"
 #define HEADER_ASSIGNRHS "ASSIGNRHS"
 #define HEADER_IFPATTERN "IF_PATTERN"
@@ -85,6 +85,18 @@
 #define HEADER_USESPRHS "UsesPRHS"
 #define HEADER_USESSLHS "UsesSLHS"
 #define HEADER_USESSRHS "UsesSRHS"
+
+//headers for getEntityTable
+#define HEADER_ENT_CONSTANTLHS "CONSTANTLHS"
+#define HEADER_ENT_ASSIGNRHS "ASSIGNRHS"
+#define HEADER_ENT_CALLRHS "CALLRHS"
+#define HEADER_ENT_IFRHS "IFRHS"
+#define HEADER_ENT_PRINTRHS "PRINTRHS"
+#define HEADER_ENT_READRHS "READRHS"
+#define HEADER_ENT_WHILEVAR "WhileVar"
+
+// error message
+#define ERROR_INVALID_QUERY "Invalid QPS Query"
 
 #define LNNO "line_number"
 #define PROC "procedure"
