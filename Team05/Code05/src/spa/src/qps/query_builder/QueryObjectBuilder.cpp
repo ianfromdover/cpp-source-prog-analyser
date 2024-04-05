@@ -27,20 +27,25 @@ void QueryObjectBuilder::setSingleSelectClause() {
         return;
     }
 
-    // TODO: if condition check intermediate query only has 1 select entity
-    if (true) {
+    if (intermediateObject->getSelectClause()->isSelectBool()) {
+      qo->setReturnType(std::make_shared<Boolean>());
+    }
+
+    else if (intermediateObject->getSelectClause()->getAllSelect().size() == 1) {
         std::string name = intermediateObject->getSelectClause()->selectElements[0];
         qo->setReturnType(qo->getEntityInDeclaration(name));
     }
 
-    // TODO: if condition check intermediate query has boolean select
-    if (false) {
-
-    }
-
-    //TODO: if condition check intermediate query has multiple select entity
-    if (false) {
-
+    else if (intermediateObject->getSelectClause()->getAllSelect().size() > 1) {
+        std::vector<std::string> names = intermediateObject->getSelectClause()->selectElements;
+        auto tupleReturn  = std::make_shared<TupleReturnable>();
+        for (std::string name : names) {
+            auto entity = qo->getEntityInDeclaration(name);
+            tupleReturn->addEntityVector(entity);
+        }
+        qo->setReturnType(tupleReturn);
+    } else {
+        throw QPSException("Invalid select clause");
     }
 }
 

@@ -15,13 +15,13 @@ public:
         IDENTIFIER,
 
         // Punctuation
-        SEMICOLON, LEFT_PAREN, RIGHT_PAREN, COMMA, QUOTE,
+        SEMICOLON, LEFT_PAREN, RIGHT_PAREN, COMMA, QUOTE, LEFT_A_BRAC, RIGHT_A_BRAC,
 
         // Design Entities
         STMT1, READ, PRINT, CALL, WHILE, IF, ASSIGN, VARIABLE, CONSTANT, PROCEDURE,
 
         // Select Keywords
-        SELECT,
+        SELECT, BOOLEAN,
 
         // Such That Keywords
         SUCH, THAT,
@@ -29,17 +29,13 @@ public:
         // Relationships
         PARENT, PARENT_T,
         FOLLOWS, FOLLOWS_T,
-    MODIFIES,
-    MODIFIES_S,
-    MODIFIES_P,
-    USES,
-    USES_S,
-    USES_P,
-    CALLS,
-    CALLS_T,
-    AND,
+        MODIFIES, MODIFIES_S, MODIFIES_P,
+        USES, USES_S, USES_P,
+        CALLS, CALLS_T,
+        NEXT,
+        AND,
 
-    // Entity References
+        // Entity References
         ENT_REF,
         WILDCARD,           // '_'
         SYNONYM,            // synonym

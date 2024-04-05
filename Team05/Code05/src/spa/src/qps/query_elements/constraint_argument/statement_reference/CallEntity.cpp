@@ -20,8 +20,8 @@ std::string CallEntity::toString() {
     return this->identifier + " [CALL]";
 }
 
-std::string CallEntity::getArgumentValue() {
-    return this->identifier;
+std::vector<std::string> CallEntity::getArgumentValue() {
+    return {this->identifier};
 }
 
 Table CallEntity::getEntityTable(QueryPkbVirtual &pkb) {

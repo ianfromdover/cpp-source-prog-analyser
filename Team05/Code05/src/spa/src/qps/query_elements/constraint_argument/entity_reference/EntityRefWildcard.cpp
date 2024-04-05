@@ -13,8 +13,8 @@ std::string EntityRefWildcard::toString() {
     return "_ [ENT WILDCARD]";
 }
 
-std::string EntityRefWildcard::getArgumentValue() {
-    return "_";
+std::vector<std::string> EntityRefWildcard::getArgumentValue() {
+    return {"_"};
 }
 
 std::vector<std::vector<std::string>> EntityRefWildcard::getEntityTable(QueryPkbVirtual &pkb) {

@@ -9,7 +9,7 @@ std::string Constraint::toString() {
     std::string str = getConstraintType() + "(" + this->getConstraintArguments()[0]->toString();
 
     if (this->getConstraintArguments().size() > 1) {
-        str += ", " + this->getConstraintArguments()[1]->toString() + ")";
+        str += ", " + this->getConstraintArguments()[1]->toString();
     }
 
     str += + ")";

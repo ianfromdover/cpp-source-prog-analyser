@@ -12,8 +12,8 @@ VariableWith::VariableWith(std::string name, QPSTokenType::QPSTypeInfo attribute
 }
 
 
-std::string VariableWith::getArgumentValue() {
-    return getVarName();
+std::vector<std::string> VariableWith::getArgumentValue() {
+    return {getVarName()};
 }
 
 std::vector<std::vector<std::string>> VariableWith::getEntityTable(QueryPkbVirtual &pkb) {

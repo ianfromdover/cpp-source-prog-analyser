@@ -13,7 +13,7 @@ public:
     explicit IntegerArgument(int a) : value(a) {};
     IntegerArgument() = default;
     std::string getEntityType() override;
-    std::string getArgumentValue() override;
+    std::vector<std::string> getArgumentValue() override;
     int value;
     std::string toString() override;
     Table getEntityTable(QueryPkbVirtual & pkb) override;

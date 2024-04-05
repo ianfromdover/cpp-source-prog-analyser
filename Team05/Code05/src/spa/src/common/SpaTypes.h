@@ -27,6 +27,7 @@
 
 #define RETURN_INT_RESULT "IntResult"
 #define RETURN_STR_RESULT "StrResult"
+#define RETURN_BOOL_RESULT "BoolResult"
 
 #define REFERENCE_TYPE_EXPRESSION "ExpressionReference"
 #define REFERENCE_TYPE_ENTITY "EntityReference"
@@ -51,6 +52,7 @@
 #define CONSTRAINT_TYPE_PATTERN_IF "PatternIf"
 #define CONSTRAINT_TYPE_PATTERN_ASSIGN "PatternAssign"
 #define CONSTRAINT_TYPE_PATTERN_WHILE "PatternWhile"
+#define CONSTRAINT_TYPE_NEXT "Next"
 
 // Used for hashing
 #define CONSTRAINT_TYPE_PATTERN_ASGN "PatternAsgn"

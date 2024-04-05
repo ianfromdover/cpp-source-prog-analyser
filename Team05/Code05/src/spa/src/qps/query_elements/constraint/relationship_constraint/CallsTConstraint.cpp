@@ -26,8 +26,8 @@ Table CallsTConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     std::string lhsEntityType = args[0] -> getEntityType();
     std::string rhsEntityType = args[1] -> getEntityType();
 
-    std::string lhsHeader = lhsEntityType == TYPE_PROCEDURE ? args[0]->getArgumentValue() : "CallsTLHS";
-    std::string rhsHeader = rhsEntityType == TYPE_PROCEDURE ? args[1]->getArgumentValue() : "CallsTRHS";
+    std::string lhsHeader = lhsEntityType == TYPE_PROCEDURE ? args[0]->getArgumentValue()[0] : "CallsTLHS";
+    std::string rhsHeader = rhsEntityType == TYPE_PROCEDURE ? args[1]->getArgumentValue()[0] : "CallsTRHS";
 
     if (lhsHeader==rhsHeader) {
         return {{lhsHeader}};
@@ -44,7 +44,7 @@ Table CallsTConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
         table.add(entityTable);
     }
     if (lhsEntityType == TYPE_QUOTED_IDENT){
-        std::string string1=args[0]->getArgumentValue();
+        std::string string1=args[0]->getArgumentValue()[0];
         string stripped = stripCharacters(string1,"\"");
         table.filterByColumnExact(lhsHeader,stripped);
     }
@@ -56,7 +56,7 @@ Table CallsTConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
         table.add(entityTable);
     }
     if (rhsEntityType == TYPE_QUOTED_IDENT){
-        std::string string1=args[1]->getArgumentValue();
+        std::string string1=args[1]->getArgumentValue()[0];
         string stripped = stripCharacters(string1,"\"");
         table.filterByColumnExact(rhsHeader,stripped);
     }

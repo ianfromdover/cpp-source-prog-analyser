@@ -2,11 +2,11 @@
 // Created by Alex on 16/2/2024.
 //
 
+#include <stdexcept>
 #include "QPSParser.h"
 #include "IntermediateQuery.h"
 #include "qps/Exceptions/QPSParseException.h"
 #include "sp/api/formatter/ExprFormatter.h"
-#include <stdexcept>
 
 using token = QPSTokenType::QPSTypeInfo;
 
@@ -57,11 +57,13 @@ bool QPSParser::isRelationship() {
                                QPSTokenType::PARENT_T,
                                QPSTokenType::FOLLOWS,
                                QPSTokenType::FOLLOWS_T,
+                               QPSTokenType::USES,
                                QPSTokenType::USES_S,
+                               QPSTokenType::MODIFIES,
                                QPSTokenType::MODIFIES_S,
-                      QPSTokenType::MODIFIES, QPSTokenType::USES,
-                      QPSTokenType::CALLS,
-                               QPSTokenType::CALLS_T});
+                               QPSTokenType::CALLS,
+                               QPSTokenType::CALLS_T,
+                               QPSTokenType::NEXT});
 }
 
 bool QPSParser::isSuchThat() {
@@ -142,11 +144,21 @@ std::shared_ptr<DeclarationClause> QPSParser::declaration() {
 std::shared_ptr<SelectClause> QPSParser::select() {
 
     QPSToken declarationType = this->consume(QPSTokenType::SELECT, "Expect select type.");
-    QPSToken entityType = this->synonym(this->consume(QPSTokenType::IDENTIFIER, "Expect identifier."));
-
     std::shared_ptr<SelectClause> selectCl = std::make_shared<SelectClause>();
-    selectCl->addSelect(entityType.getLexeme());
-
+    if (this->check(QPSTokenType::BOOLEAN)) {
+      this->consume(QPSTokenType::BOOLEAN, "Expect 'BOOLEAN' after 'Select'.");
+      selectCl->setSelectBool();
+    } else if (this->check(QPSTokenType::LEFT_A_BRAC)){
+        this->consume(QPSTokenType::LEFT_A_BRAC, "Expect '<' after 'Select'.");
+        do {
+          QPSToken entityType = this->synonym(this->consume(QPSTokenType::IDENTIFIER, "Expect identifier."));
+          selectCl->addSelect(entityType.getLexeme());
+        } while (this->match({QPSTokenType::COMMA}));
+        this->consume(QPSTokenType::RIGHT_A_BRAC, "Expect '>' after identifier.");
+    } else {
+      QPSToken entityType = this->synonym(this->consume(QPSTokenType::IDENTIFIER, "Expect identifier."));
+      selectCl->addSelect(entityType.getLexeme());
+    }
     return selectCl;
 }
 
@@ -183,7 +195,8 @@ std::vector<std::shared_ptr<RelationshipClause>> QPSParser::relCond() {
 
 std::shared_ptr<RelationshipClause> QPSParser::relRef() {
   if (this->match({QPSTokenType::PARENT, QPSTokenType::PARENT_T,
-                   QPSTokenType::FOLLOWS, QPSTokenType::FOLLOWS_T})) {
+                   QPSTokenType::FOLLOWS, QPSTokenType::FOLLOWS_T,
+                   QPSTokenType::NEXT})) {
     QPSToken relationshipType = this->previous();
     std::vector<QPSToken> args = this->argsStmtStmt();
     RelationshipClause relCl(relationshipType.getType().getInfo(), args[0],

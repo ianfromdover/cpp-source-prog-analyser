@@ -20,8 +20,8 @@ std::string IfEntity::toString() {
     return this->identifier + " [IF]";
 }
 
-std::string IfEntity::getArgumentValue() {
-    return this->identifier;
+std::vector<std::string> IfEntity::getArgumentValue() {
+    return {this->identifier};
 }
 
 Table IfEntity::getEntityTable(QueryPkbVirtual &pkb) {

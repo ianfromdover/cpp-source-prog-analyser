@@ -16,8 +16,8 @@ std::string LiteralWith::toString() {
     return this->value + " [LITERAL WITH]";
 }
 
-std::string LiteralWith::getArgumentValue() {
-    return this->value;
+std::vector<std::string> LiteralWith::getArgumentValue() {
+    return {this->value};
 }
 
 std::vector<std::vector<std::string>> LiteralWith::getEntityTable(QueryPkbVirtual &pkb) {

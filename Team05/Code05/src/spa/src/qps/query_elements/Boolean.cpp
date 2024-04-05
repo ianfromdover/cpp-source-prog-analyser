@@ -5,15 +5,15 @@
 #include "Boolean.h"
 
 std::string Boolean::getReturnType() {
-    return std::string();
+    return RETURN_BOOL_RESULT;
 }
 
 std::string Boolean::toString() {
     return std::string();
 }
 
-std::string Boolean::getArgumentValue() {
-    return std::string();
+std::vector<std::string> Boolean::getArgumentValue() {
+    return std::vector<std::string>();
 }
 
 std::vector<std::vector<std::string>> Boolean::getEntityTable(QueryPkbVirtual &pkb) {

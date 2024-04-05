@@ -17,8 +17,8 @@ QuotedIdentity::QuotedIdentity(std::string& s) {
     this->val = s;
 }
 
-std::string QuotedIdentity::getArgumentValue() {
-    return this->val;
+std::vector<std::string> QuotedIdentity::getArgumentValue() {
+    return {this->val};
 }
 
 Table QuotedIdentity::getEntityTable(QueryPkbVirtual &pkb) {

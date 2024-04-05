@@ -17,8 +17,8 @@ StatementEntity::StatementEntity(std::string s) {
     identifier = std::move(s);
 }
 
-std::string StatementEntity::getArgumentValue() {
-    return this->identifier;
+std::vector<std::string> StatementEntity::getArgumentValue() {
+    return {this->identifier};
 }
 
 std::string StatementEntity::toString() {

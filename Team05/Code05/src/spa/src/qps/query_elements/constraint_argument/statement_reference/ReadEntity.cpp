@@ -20,8 +20,8 @@ std::string ReadEntity::toString() {
     return this->identifier + " [READ]";
 }
 
-std::string ReadEntity::getArgumentValue() {
-    return this->identifier;
+std::vector<std::string> ReadEntity::getArgumentValue() {
+    return {this->identifier};
 }
 
 Table ReadEntity::getEntityTable(QueryPkbVirtual &pkb) {

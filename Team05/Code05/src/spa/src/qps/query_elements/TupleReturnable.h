@@ -2,22 +2,22 @@
 // Created by tohzh on 21/3/2024.
 //
 
-#ifndef SPA_TUPLE_H
-#define SPA_TUPLE_H
+#ifndef SPA_TUPLERETURNABLE_H
+#define SPA_TUPLERETURNABLE_H
 
 
 #include "Returnable.h"
 #include "Entity.h"
 
-class Tuple : public Returnable {
+class TupleReturnable : public Returnable {
 public:
     std::vector<std::shared_ptr<Entity>> entityVector;
     void addEntityVector(std::shared_ptr<Entity>);
     std::string getReturnType() override;
     std::string toString() override;
-    std::string getArgumentValue() override;
+    std::vector<std::string> getArgumentValue() override;
     std::vector<std::vector<std::string>> getEntityTable(QueryPkbVirtual &pkb) override;
 };
 
 
-#endif //SPA_TUPLE_H
+#endif //SPA_TUPLERETURNABLE_H

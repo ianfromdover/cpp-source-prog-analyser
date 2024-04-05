@@ -14,7 +14,7 @@ class ConstraintArgument {
 public:
     virtual std::string getReferenceType() = 0;
     virtual std::string getEntityType() = 0;
-    virtual std::string getArgumentValue() = 0;
+    virtual std::vector<std::string> getArgumentValue() = 0;
     virtual std::string toString() = 0;
 
     virtual Table getEntityTable(QueryPkbVirtual & pkb) =0;

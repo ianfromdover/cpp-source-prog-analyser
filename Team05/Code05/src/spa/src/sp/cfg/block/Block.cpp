@@ -46,7 +46,7 @@ std::string Block::rangesToString(const std::shared_ptr<Blocks>& blocks) {
     return str;
 }
 
-std::string Block::toString() {
+std::string Block::toString() const {
     const auto& self = std::make_shared<Blocks>();
     self->push_back(std::make_shared<Block>(*this));
     std::string str = "\tBlock" + Block::rangesToString(self) + ": [\n\t\tpredecessors: ";
@@ -66,3 +66,8 @@ std::shared_ptr<Blocks> Block::getSuccessors() const {
 std::shared_ptr<Blocks> Block::getPredecessors() const {
     return this->predecessors;
 }
+
+bool Block::isDummy() {
+    return this->stmts->empty();
+}
+

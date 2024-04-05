@@ -100,6 +100,18 @@ public:
         return suchThat().callsStar().leftParen().identifier().comma().identifier().rightParen();
     }
 
+    TokenListBuilder validBooleanSelect(){
+        return select().boolean();
+    }
+
+    TokenListBuilder validSingleTupleSelect(){
+        return select().leftA_Brac().identifier().rightA_Brac();
+    }
+
+    TokenListBuilder validMultiTupleSelect(){
+      return select().leftA_Brac().identifier().comma().identifier().comma().identifier().rightA_Brac();
+    }
+
     TokenListBuilder validUses(){
         return suchThat().uses().leftParen().identifier().comma().identifier().rightParen();
     }
@@ -163,6 +175,11 @@ public:
         return *this;
     };
 
+    TokenListBuilder boolean() {
+        tokenList.addToken(type::BOOLEAN, "BOOLEAN");
+        return *this;
+    };
+
     TokenListBuilder quotedIdent() {
         tokenList.addToken(type::QUOTE, "\"");
         tokenList.addToken(type::IDENTIFIER, "s");
@@ -202,6 +219,16 @@ public:
     TokenListBuilder leftParen() {
         tokenList.addToken(type::LEFT_PAREN, "(");
         return *this;
+    };
+
+    TokenListBuilder leftA_Brac() {
+        tokenList.addToken(type::LEFT_A_BRAC, "<");
+        return *this;
+    };
+
+    TokenListBuilder rightA_Brac() {
+      tokenList.addToken(type::RIGHT_A_BRAC, ">");
+      return *this;
     };
 
     TokenListBuilder rightParen() {

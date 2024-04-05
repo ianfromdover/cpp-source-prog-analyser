@@ -7,8 +7,8 @@
 
 #include <utility>
 
-std::string Expression::getArgumentValue() {
-    return regularExpression;
+std::vector<std::string> Expression::getArgumentValue() {
+    return {regularExpression};
 }
 
 std::string Expression::getEntityType() {

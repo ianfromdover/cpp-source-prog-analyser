@@ -20,8 +20,8 @@ std::string ConstantEntity::toString() {
     return this->identifier + " [CONST]";
 }
 
-std::string ConstantEntity::getArgumentValue() {
-    return this->identifier;
+std::vector<std::string> ConstantEntity::getArgumentValue() {
+    return {this->identifier};
 }
 
 Table ConstantEntity::getEntityTable(QueryPkbVirtual &pkb) {

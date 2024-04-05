@@ -80,7 +80,14 @@ private:
             {QType::VARIABLE, QType::WILDCARD, QType::QUOTED_IDENT}}},
           {QType::MODIFIES_P,
            {{QType::PROCEDURE, QType::QUOTED_IDENT, QType::WILDCARD},
-            {QType::VARIABLE, QType::WILDCARD, QType::QUOTED_IDENT}}}};
+            {QType::VARIABLE, QType::WILDCARD, QType::QUOTED_IDENT}}},
+          {QType::NEXT,
+            {{QType::CALL, QType::STMT1, QType::PRINT, QType::READ, QType::WHILE,
+              QType::IF, QType::ASSIGN, QType::INTEGER, QType::WILDCARD},
+             {QType::CALL, QType::STMT1, QType::PRINT, QType::READ, QType::WHILE,
+              QType::IF, QType::ASSIGN, QType::INTEGER, QType::WILDCARD}}}};
+
 };
 
-#endif // SPA_COMPATIBLETYPERULE_H
+
+#endif //SPA_COMPATIBLETYPERULE_H
