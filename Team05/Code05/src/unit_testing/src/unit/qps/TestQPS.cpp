@@ -395,11 +395,11 @@ TEST_CASE("[TestQPS] Tuple return tests"){
     std::vector<std::string> expected = {"1 1","2 2"};
     REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
   }
-    SECTION("empty constraints2"){
-        std::string queryStr = "stmt s,s1; Select <s>";
-        std::vector<std::string> expected = {"1","2"};
-        REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-    }
+  SECTION("empty constraints2"){
+    std::string queryStr = "stmt s,s1; Select <s>";
+    std::vector<std::string> expected = {"1","2"};
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
 }
 
 TEST_CASE("invalid pattern synonyms"){
@@ -841,6 +841,20 @@ TEST_CASE("[TestQPS] Single Constraints") {
                          {"2", "7"}});
         pkb->setStatement(7);
         QPS qps(pkb);
+
+        SECTION("both synonym not") {
+          std::string queryStr = "stmt s,s1; Select s such that not Follows(s, s1)";
+          std::vector<std::string> expected = {"1", "5", "6", "7"};
+
+          REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+        SECTION("right synonym not") {
+          std::string queryStr = "stmt s; Select s such that not Follows(1, s)";
+          std::vector<std::string> expected = {"1", "5", "6", "7"};
+
+          REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+
 
         SECTION("right synonym") {
             std::string queryStr = "stmt s; Select s such that Follows(1, s)";

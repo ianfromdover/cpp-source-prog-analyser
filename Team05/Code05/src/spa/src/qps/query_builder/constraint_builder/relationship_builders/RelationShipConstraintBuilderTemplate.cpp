@@ -8,8 +8,8 @@
 
 std::shared_ptr<Constraint> RelationshipConstraintBuilderTemplate::buildRelationConstraint(shared_ptr<RelationshipClause> rsClause, shared_ptr<QueryObject> qo) {
     this->reset();
-    this->setNotAttribute(rsClause);
-    this->addConstraintClause(std::move(rsClause), qo);
+  this->addConstraintClause(rsClause, qo);
+  this->setNotAttribute(rsClause);
     return this->build();
 }
 
