@@ -3,65 +3,61 @@
 //
 
 #include "RelationshipConstraintDirector.h"
+
+#include <utility>
 #include "qps/query_elements/QueryObject.h"
 
 
 std::shared_ptr<Constraint> RelationshipConstraintDirector::process(shared_ptr<RelationshipClause> r,
                                                                     shared_ptr<QueryObject> qo) {
     QPSTokenType::QPSTypeInfo type = r->getRelationshipType();
+    shared_ptr<RelationshipConstraintBuilderTemplate> b;
     switch (type) {
         case (QPSTokenType::FOLLOWS): {
-            FollowsConstraintBuilder b;
-            b.addConstraintClause(r, qo);
-            return b.build();
+            b = make_shared<FollowsConstraintBuilder>();
+            break;
         }
         case (QPSTokenType::FOLLOWS_T): {
-            FollowsTConstraintBuilder b;
-            b.addConstraintClause(r, qo);
-            return b.build();
+            b = make_shared<FollowsTConstraintBuilder>();
+            break;
         }
         case (QPSTokenType::PARENT): {
-            ParentConstraintBuilder b;
-            b.addConstraintClause(r, qo);
-            return b.build();
+            b = make_shared<ParentConstraintBuilder>();
+            break;
         }
         case (QPSTokenType::PARENT_T): {
-            ParentTConstraintBuilder b;
-            b.addConstraintClause(r, qo);
-            return b.build();
+            b = make_shared<ParentTConstraintBuilder>();
+            break;
         }
         case (QPSTokenType::USES_S): {
-            UsesSConstraintBuilder b;
-            b.addConstraintClause(r, qo);
-            return b.build();
+            b = make_shared<UsesSConstraintBuilder>();
+            break;
         }
         case (QPSTokenType::USES_P): {
-            UsesPConstraintBuilder b;
-            b.addConstraintClause(r, qo);
-            return b.build();
+            b = make_shared<UsesPConstraintBuilder>();
+            break;
         }
         case (QPSTokenType::MODIFIES_P): {
-            ModifiesPConstraintBuilder b;
-            b.addConstraintClause(r, qo);
-            return b.build();
+            b = make_shared<ModifiesPConstraintBuilder>();
+            break;
         }
         case (QPSTokenType::MODIFIES_S): {
-            ModifiesSConstraintBuilder b;
-            b.addConstraintClause(r, qo);
-            return b.build();
+            b = make_shared<ModifiesSConstraintBuilder>();
+            break;
         }
         case (QPSTokenType::CALLS): {
-            CallsConstraintBuilder b;
-            b.addConstraintClause(r, qo);
-            return b.build();
+            b = make_shared<CallsConstraintBuilder>();
+            break;
         }
         case (QPSTokenType::CALLS_T): {
-            CallsTConstraintBuilder b;
-            b.addConstraintClause(r, qo);
-            return b.build();
+            b = make_shared<CallsTConstraintBuilder>();
+            break;
         }
         default: {
             throw std::invalid_argument("Invalid relationship constraint token");
         }
     }
+    b->buildRelationConstraint(r, std::move(qo));
+    return b->build();
+
 }

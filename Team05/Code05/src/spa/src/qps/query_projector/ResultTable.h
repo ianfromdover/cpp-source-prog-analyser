@@ -378,6 +378,69 @@ public:
         return ss.str();
     }
 
+    // table a - table b based on commonHeaders
+    static table minusTable(const table& a, const table& b) {
+        vector<string> commonHeaders = findCommonHeaders(a, b);
+        if (a.empty() || b.empty() || commonHeaders.empty()) {
+            return a;
+        }
+        table result;
+        result.push_back(a[0]); // add headers to result
+        // now that we know there must be common headers between a & b
+        // check if rows with commonHeaders have same value, if it does not have same values, insert into result
+        // start from i = 1, j = 1 to ignore the header
+        for (int aRow = 1; aRow < a.size(); aRow ++) {
+            for (int bRow = 1; bRow < b.size(); bRow ++) {
+                if (isSameValuesBasedHeaderAndIndex(a, b, aRow, bRow, commonHeaders)) {
+                    // same so we 'minus' them away and discard the value
+                    // we found a same values so we do not have to continue searching
+                    break;
+                } else {
+                    // different; it is not subtracted.
+                    // however, we cannot add it to our results just yet as it could be subtracted at the very end
+                    if (bRow == b.size() - 1) {
+                        // results is only added when we search through the entirety of bRow and fail to find a corresponding match
+                        result.push_back(a[aRow]);
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    // checks if table a and b have the same values based on commonHeader and Index
+    static bool isSameValuesBasedHeaderAndIndex(const table& a, const table& b, int rowA, int rowB, const vector<string>& commonHeaders) {
+        bool isSame = true;
+        vector<string> headerA = a[0];
+        vector<string> headerB = b[0];
+
+        vector<string> valAtA = getValuesAtHeadersAtIndex(a, commonHeaders, rowA);
+        vector<string> valAtB = getValuesAtHeadersAtIndex(b, commonHeaders, rowB);
+        return valAtA == valAtB;
+    }
+
+    // returns values at Headers at a certain index
+    static vector<string> getValuesAtHeadersAtIndex(const table& t, const vector<string>& headers, int index) {
+        vector<string> res;
+        vector<string> actualHeader = t[0];
+        return getValuesAtHeadersAtIndexRecurse(t, headers, index, actualHeader, res);
+    }
+
+    static vector<string> getValuesAtHeadersAtIndexRecurse(const table& t, vector<string> leftToFind,
+                                                           int index, vector<string> actualHeader, vector<string> ans) {
+        if (leftToFind.empty()) {
+            return ans;
+        }
+        string find = leftToFind[0];
+        leftToFind.erase(leftToFind.begin());
+        for (int headerIndex = 0; headerIndex < actualHeader.size(); headerIndex++) {
+            if (actualHeader[headerIndex] == find) {
+                ans.push_back(t[index][headerIndex]);
+                return getValuesAtHeadersAtIndexRecurse(t, leftToFind, index, actualHeader, ans);
+            }
+        }
+    }
+
 
 };
 

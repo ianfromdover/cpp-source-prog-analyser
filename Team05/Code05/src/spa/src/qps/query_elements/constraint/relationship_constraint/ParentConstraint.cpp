@@ -18,7 +18,7 @@ std::vector<std::shared_ptr<ConstraintArgument>> ParentConstraint::getConstraint
     return constraintArguments;
 }
 
-Table ParentConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
+Table ParentConstraint::getTable(QueryPkbVirtual & pkb) {
     // Get parent table and populate it into our results table
     Table result = pkb.getParentTable();
 
@@ -27,8 +27,8 @@ Table ParentConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     std::string lhsEntityType = args[0] -> getEntityType();
     std::string rhsEntityType = args[1] -> getEntityType();
 
-    std::string lhsHeader = isStatementSynonym(lhsEntityType) ? args[0]->getArgumentValue()[0] : "PARENTLHS";
-    std::string rhsHeader = isStatementSynonym(rhsEntityType) ? args[1]->getArgumentValue()[0] : "PARENTRHS";
+    std::string lhsHeader = isStatementSynonym(lhsEntityType) ? args[0]->getArgumentValue()[0] : HEADER_PARENTLHS;
+    std::string rhsHeader = isStatementSynonym(rhsEntityType) ? args[1]->getArgumentValue()[0] : HEADER_PARENTRHS;
 
     if (lhsHeader==rhsHeader) {
         return {{lhsHeader}};
@@ -72,6 +72,16 @@ Table ParentConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     }
 
     return table.getTable();
+}
+
+Table ParentConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
+    if (this->getNot()) {
+        Table wholeSet = pkb.getParentTable();
+        Table subSet = getTable(pkb);
+        return ResultTable::minusTable(wholeSet, subSet);
+    } else {
+        return getTable(pkb);
+    }
 }
 
 bool ParentConstraint::isStatementSynonym(std::string type) {

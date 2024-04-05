@@ -18,6 +18,48 @@ std::vector<std::shared_ptr<ConstraintArgument>> CallsConstraint::getConstraintA
 }
 
 Table CallsConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
+    if (this->getNot()) {
+        Table wholeSet = pkb.getCallsTable();
+        Table subSet = getTable(pkb);
+        return ResultTable::minusTable(wholeSet, subSet);
+    } else {
+        return getTable(pkb);
+    }
+}
+
+bool CallsConstraint::isStatementSynonym(std::string type) {
+    vector<std::string> statementVector = {
+            TYPE_STATEMENT, TYPE_READ, TYPE_PRINT, TYPE_ASSIGN,
+            TYPE_CALL, TYPE_WHILE, TYPE_IF
+    };
+    return std::find(statementVector.begin(), statementVector.end(), type) != statementVector.end();
+}
+
+bool CallsConstraint::isEntitySynonym(std::string type) {
+    vector<std::string> entityVector = {
+            TYPE_PROCEDURE, TYPE_VARIABLE, TYPE_CONSTANT
+    };
+    return std::find(entityVector.begin(), entityVector.end(), type) != entityVector.end();
+}
+
+std::string& CallsConstraint::stripCharacters(std::string& str, const std::string& chars) {
+    // Find the first character position after excluding leading characters
+    std::size_t first = str.find_first_not_of(chars);
+    if (first == std::string::npos) {
+        // If there are no characters other than the ones to strip, return an empty string
+        return str = "";
+    }
+
+    // Find the position of the last character not matching the strip characters
+    std::size_t last = str.find_last_not_of(chars);
+
+    // Erase the leading and trailing characters
+    str = str.substr(first, (last - first + 1));
+
+    return str;
+}
+
+Table CallsConstraint::getTable(QueryPkbVirtual &pkb) {
     // Get follows table and populate it into our results table
     Table result = pkb.getCallsTable();
 
@@ -26,8 +68,8 @@ Table CallsConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     std::string lhsEntityType = args[0] -> getEntityType();
     std::string rhsEntityType = args[1] -> getEntityType();
 
-    std::string lhsHeader = lhsEntityType == TYPE_PROCEDURE ? args[0]->getArgumentValue()[0] : "CallsLHS";
-    std::string rhsHeader = rhsEntityType == TYPE_PROCEDURE ? args[1]->getArgumentValue()[0] : "CallsRHS";
+    std::string lhsHeader = lhsEntityType == TYPE_PROCEDURE ? args[0]->getArgumentValue()[0] : HEADER_CALLSLHS;
+    std::string rhsHeader = rhsEntityType == TYPE_PROCEDURE ? args[1]->getArgumentValue()[0] : HEADER_CALLSRHS;
 
     if (lhsHeader==rhsHeader) {
         return {{lhsHeader}};
@@ -61,44 +103,12 @@ Table CallsConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
         table.filterByColumnExact(rhsHeader,stripped);
     }
 
-    if (lhsHeader == "CallsLHS"){
+    if (lhsHeader == HEADER_CALLSLHS){
         table.removeColumnByHeader(lhsHeader);
     }
-    if (rhsHeader == "CallsRHS"){
+    if (rhsHeader == HEADER_CALLSRHS){
         table.removeColumnByHeader(rhsHeader);
     }
 
     return table.getTable();
-}
-
-bool CallsConstraint::isStatementSynonym(std::string type) {
-    vector<std::string> statementVector = {
-            TYPE_STATEMENT, TYPE_READ, TYPE_PRINT, TYPE_ASSIGN,
-            TYPE_CALL, TYPE_WHILE, TYPE_IF
-    };
-    return std::find(statementVector.begin(), statementVector.end(), type) != statementVector.end();
-}
-
-bool CallsConstraint::isEntitySynonym(std::string type) {
-    vector<std::string> entityVector = {
-            TYPE_PROCEDURE, TYPE_VARIABLE, TYPE_CONSTANT
-    };
-    return std::find(entityVector.begin(), entityVector.end(), type) != entityVector.end();
-}
-
-std::string& CallsConstraint::stripCharacters(std::string& str, const std::string& chars) {
-    // Find the first character position after excluding leading characters
-    std::size_t first = str.find_first_not_of(chars);
-    if (first == std::string::npos) {
-        // If there are no characters other than the ones to strip, return an empty string
-        return str = "";
-    }
-
-    // Find the position of the last character not matching the strip characters
-    std::size_t last = str.find_last_not_of(chars);
-
-    // Erase the leading and trailing characters
-    str = str.substr(first, (last - first + 1));
-
-    return str;
 }

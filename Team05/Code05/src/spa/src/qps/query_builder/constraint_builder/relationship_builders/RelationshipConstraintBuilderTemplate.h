@@ -8,10 +8,10 @@
 #include "qps/query_builder/constraint_builder/ConstraintBuilderTemplate.h"
 
 class RelationshipConstraintBuilderTemplate : public ConstraintBuilderTemplate {
-private:
-    virtual void addConstraintClause(shared_ptr<RelationshipClause>, shared_ptr<QueryObject>) = 0;
 public:
     std::shared_ptr<Constraint> buildRelationConstraint(shared_ptr<RelationshipClause>, shared_ptr<QueryObject>);
+    virtual void setNotAttribute(shared_ptr<RelationshipClause>);
+    virtual void addConstraintClause(shared_ptr<RelationshipClause>, shared_ptr<QueryObject>) = 0;
 };
 
 

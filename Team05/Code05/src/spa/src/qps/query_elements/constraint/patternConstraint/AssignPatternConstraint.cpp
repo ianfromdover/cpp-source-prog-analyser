@@ -28,6 +28,16 @@ std::vector<std::shared_ptr<ConstraintArgument>> AssignPatternConstraint::getCon
 }
 
 Table AssignPatternConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
+    if (this->getNot()) {
+        Table wholeSet = pkb.getPatternAsgnTable();
+        Table subSet = getTable(pkb);
+        return ResultTable::minusTable(wholeSet, subSet);
+    } else {
+        return getTable(pkb);
+    }
+}
+
+Table AssignPatternConstraint::getTable(QueryPkbVirtual &pkb) {
     Table temp = pkb.getPatternAsgnTable();
     Table res;
 
@@ -42,8 +52,8 @@ Table AssignPatternConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     std::vector<std::shared_ptr<ConstraintArgument>> args = getConstraintArguments();
 
     std::string stmtHeader = constraintIdentifier->getIdentifier();
-    std::string lhsHeader = args[0]->getEntityType() == TYPE_VARIABLE ? args[0]->getArgumentValue()[0] : "ASSIGNLHS";
-    std::string rhsHeader = "ASSIGNRHS";
+    std::string lhsHeader = args[0]->getEntityType() == TYPE_VARIABLE ? args[0]->getArgumentValue()[0] : HEADER_ASSIGNLHS;
+    std::string rhsHeader = HEADER_ASSIGNRHS;
 
     res.insert(res.begin(), {stmtHeader, lhsHeader, rhsHeader});
     ResultTable table(res);
@@ -70,7 +80,7 @@ Table AssignPatternConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
                                     StringUtils::formatAsRegex(stripped));
     }
 
-    for (const std::string& header : {"ASSIGNLHS", "ASSIGNRHS"}){
+    for (const std::string& header : {HEADER_ASSIGNLHS, HEADER_ASSIGNRHS}){
         table.removeColumnByHeader(const_cast<string &>(header));
     }
 

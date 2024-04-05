@@ -11,8 +11,9 @@
 class PatternConstraintBuilderTemplate : public ConstraintBuilderTemplate {
 private:
     virtual void addConstraintClause(shared_ptr<PatternClause>, shared_ptr<QueryObject>) = 0;
+    void setNotAttribute(shared_ptr<PatternClause>);
 public:
-    std::shared_ptr<Constraint> buildRelationConstraint(shared_ptr<PatternClause>, shared_ptr<QueryObject>);
+    std::shared_ptr<Constraint> buildPatternConstraint(shared_ptr<PatternClause>, shared_ptr<QueryObject>);
 };
 
 #endif //SPA_PATTERNCONSTRAINTBUILDERTEMPLATE_H

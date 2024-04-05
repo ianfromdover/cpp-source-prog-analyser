@@ -15,7 +15,7 @@ private:
     shared_ptr<AssignEntity> syn;
     void addPatternClause(std::shared_ptr<PatternClause>, shared_ptr<QueryObject>);
 public:
-    void addConstraintClause(shared_ptr<PatternClause>, shared_ptr<QueryObject>);
+    void addConstraintClause(shared_ptr<PatternClause>, shared_ptr<QueryObject>) override;
 };
 
 #endif //SPA_ASSIGNPATTERNCONSTRAINTBUILDER_H

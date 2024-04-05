@@ -14,6 +14,7 @@
 class CallsConstraint : public RelationshipConstraint {
 private:
     std::vector<std::shared_ptr<ConstraintArgument>> constraintArguments;
+    Table getTable(QueryPkbVirtual &pkb);
 public:
     CallsConstraint(std::shared_ptr<EntityReference>, std::shared_ptr<EntityReference>);
     std::string getConstraintType() override;

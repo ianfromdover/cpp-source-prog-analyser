@@ -22,10 +22,10 @@ std::vector<std::string> QuotedIdentity::getArgumentValue() {
 }
 
 Table QuotedIdentity::getEntityTable(QueryPkbVirtual &pkb) {
-    throw QPSException("Invalid QPS Query");
+    throw QPSException(ERROR_INVALID_QUERY);
 }
 
 std::vector<std::vector<std::string>> QuotedIdentity::getRawTable(QueryPkbVirtual &pkb) {
-    throw QPSException("Invalid QPS Query");
+    throw QPSException(ERROR_INVALID_QUERY);
 }
 

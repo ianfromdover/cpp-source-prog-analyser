@@ -19,11 +19,11 @@ std::vector<std::string> StatementRefWildcard::getArgumentValue() {
 }
 
 std::vector<std::vector<std::string>> StatementRefWildcard::getEntityTable(QueryPkbVirtual &pkb) {
-    throw QPSException("Invalid PKB Query");
+    throw QPSException(ERROR_INVALID_QUERY);
 }
 
 std::vector<std::vector<std::string>> StatementRefWildcard::getRawTable(QueryPkbVirtual &pkb) {
-    throw QPSException("Invalid PKB Query");
+    throw QPSException(ERROR_INVALID_QUERY);
 }
 
 

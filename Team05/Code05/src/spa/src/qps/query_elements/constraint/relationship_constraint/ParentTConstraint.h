@@ -11,6 +11,7 @@
 class ParentTConstraint :public RelationshipConstraint {
 private:
     std::vector<std::shared_ptr<ConstraintArgument>> constraintArguments;
+    Table getTable(QueryPkbVirtual &pkb);
 public:
     ParentTConstraint(std::shared_ptr<ConstraintArgument>, std::shared_ptr<ConstraintArgument>);
     std::string getConstraintType() override;
