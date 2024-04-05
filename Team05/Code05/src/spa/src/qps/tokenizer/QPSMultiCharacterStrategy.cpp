@@ -14,6 +14,9 @@ bool QPSMultiCharacterStrategy::tokenize(char character, std::stringstream &stre
         if (starAllowed(name) && '*' == static_cast<char>(stream.peek())){
             name += static_cast<char>(stream.get());
         }
+        if (poundAllowed(name) && '#' == static_cast<char>(stream.peek())){
+          name += static_cast<char>(stream.get());
+        }
         if (declarationStarted) {
             if (tokens.getTokens().back()->getType().getInfo() == QPSTokenType::SELECT) {
                 declarationStarted = false;
@@ -62,10 +65,19 @@ bool QPSMultiCharacterStrategy::expectSynonymNext(const std::string &name, QPSTo
           {"Calls", QPSTokenType::CALLS},
           {"Calls*",    QPSTokenType::CALLS_T},
 
+        // With
+        {"stmt#",   QPSTokenType::WITHSTMT},
+        {"value",   QPSTokenType::WITHVALUE},
+        {"procName",   QPSTokenType::WITHPROCNAME},
+        {"varName",   QPSTokenType::WITHVARNAME},
+        {"with",   QPSTokenType::WITH},
+
             {"Select",    QPSTokenType::SELECT},
           {"and", QPSTokenType::AND},
           {"that",      QPSTokenType::THAT},
             {"pattern",   QPSTokenType::PATTERN},
+            {"not",   QPSTokenType::NOT},
+
     };
 
     auto it = declarationKeywords.find(name);
@@ -80,6 +92,25 @@ bool QPSMultiCharacterStrategy::expectSynonymNext(const std::string &name, QPSTo
                 tokens.addToken(QPSTokenType::IDENTIFIER, name);
             }
             return false;
+        }
+        if (it->second == QPSTokenType::NOT){
+            if (!tokens.getTokens().empty() && (
+                  tokens.getTokens().back()->getType().getInfo() == QPSTokenType::AND ||
+                  tokens.getTokens().back()->getType().getInfo() == QPSTokenType::WITH ||
+                    tokens.getTokens().back()->getType().getInfo() == QPSTokenType::THAT)) {
+                tokens.addToken(QPSTokenType::NOT, name);
+            } else if (tokens.getTokens().size()>1 &&
+                        tokens.getTokens()[tokens.getTokens().size()-2]->getType().getInfo() == QPSTokenType::SELECT) {
+                // Handle edge case of not being a select synonym
+                tokens.addToken(QPSTokenType::NOT, name);
+            } else {
+                tokens.addToken(QPSTokenType::IDENTIFIER, name);
+            }
+            return false;
+        }
+        if (it->second == QPSTokenType::WITH){
+          tokens.addToken(QPSTokenType::WITH, name);
+          return false;
         }
         if (it->second == QPSTokenType::AND) {
           if (!tokens.getTokens().empty() &&
@@ -100,6 +131,11 @@ bool QPSMultiCharacterStrategy::expectSynonymNext(const std::string &name, QPSTo
           } else {
             tokens.addToken(QPSTokenType::IDENTIFIER, name);
           }
+        }
+        if ((tokens.getTokens().size() > 2) && (
+        tokens.getTokens()[tokens.getTokens().size()-2]->getType().getInfo() == QPSTokenType::WITH)){
+                tokens.addToken(QPSTokenType::IDENTIFIER, name);
+                return false;
         }
         tokens.addToken(it->second, name);
         return true;
@@ -128,4 +164,10 @@ bool QPSMultiCharacterStrategy::starAllowed(const std::string& name) {
             {"Calls",      QPSTokenType::CALLS}};
 
     return declarationKeywords.find(name) != declarationKeywords.end();
+}
+
+bool QPSMultiCharacterStrategy::poundAllowed(const std::string& name) {
+  static const std::map<std::string, QPSTokenType::QPSTypeInfo> declarationKeywords = {
+      {"stmt",      QPSTokenType::STMT1}};
+  return declarationKeywords.find(name) != declarationKeywords.end();
 }

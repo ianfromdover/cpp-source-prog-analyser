@@ -54,6 +54,15 @@ bool QPSSingleCharacterStrategy::tokenize(char character, std::stringstream &str
           type = QPSTokenType::RIGHT_A_BRAC;
           prevTokenIsKeyword = false;
           break;
+        case '.':
+          if (!tokens.getTokens().empty()){
+            std::string s = tokens.getTokens().back()->getLexeme();
+            tokens.getTokens().pop_back();
+            tokens.addToken(QPSTokenType::IDENTIFIER, s);
+          }
+          type = QPSTokenType::DECIMAL;
+          prevTokenIsKeyword = false;
+          break;
 
         default:
             isTokenFound = false;
