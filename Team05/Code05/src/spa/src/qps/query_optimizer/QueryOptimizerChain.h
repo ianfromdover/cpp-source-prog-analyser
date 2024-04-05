@@ -21,8 +21,11 @@ public:
         optimizers.push_back(std::move(optimizer));
     }
 
-    void removeOptimizer() {
-        // TODO: how to remove the optimizer from the list?
+    void removeOptimizer(int i) {
+        if (i >= 0 && static_cast<size_t>(i) < optimizers.size()) {
+            // Remove the optimizer at index i
+            optimizers.erase(optimizers.begin() + i);
+        }
     }
 
     void clearOptimizers() {
@@ -31,6 +34,10 @@ public:
 
     void sortOptimizers() {
         // TODO: how to determine which to do first?
+    }
+
+    std::vector<std::unique_ptr<QueryOptimizer>>& getOptimizers() {
+        return optimizers;
     }
 
     void optimize(QueryObject& qo)  {
