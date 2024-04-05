@@ -5,16 +5,15 @@
 #ifndef SPA_INTERMEDIATEQUERY_H
 #define SPA_INTERMEDIATEQUERY_H
 
-
-#include <vector>
-#include <memory>
-#include <map>
 #include "Clause.h"
 #include "DeclarationClause.h"
-#include "SelectClause.h"
-#include "RelationshipClause.h"
 #include "PatternClause.h"
-
+#include "RelationshipClause.h"
+#include "SelectClause.h"
+#include "WithClause.h"
+#include <map>
+#include <memory>
+#include <vector>
 
 class IntermediateQuery {
 public:
@@ -35,7 +34,7 @@ public:
     std::shared_ptr<PatternClause> getPatternClause();
     std::vector<std::shared_ptr<RelationshipClause>> getAllRelationshipClauses();
     std::vector<std::shared_ptr<PatternClause>> getAllPatternClauses();
-    std::vector<std::shared_ptr<PatternClause>> getAllWithClauses();
+    std::vector<std::shared_ptr<WithClause>> getAllWithClauses() ;
     void processDeclarations();
 
 

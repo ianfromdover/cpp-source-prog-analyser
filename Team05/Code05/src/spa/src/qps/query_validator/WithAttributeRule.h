@@ -7,8 +7,28 @@
 
 #include "Rule.h"
 
+using QType = QPSTokenType::QPSTypeInfo;
+
 class WithAttributeRule : public Rule {
   std::string validate(IntermediateQuery &) override;
+
+  std::map<QType, QType> compatibleTypes = {
+      {QType::PROCEDURE, QType ::WITHPROCNAME},
+      {QType::CALL, QType ::WITHPROCNAME},
+      {QType::VARIABLE, QType ::WITHVARNAME},
+      {QType::READ, QType ::WITHVARNAME},
+      {QType::PRINT, QType ::WITHVARNAME},
+
+      {QType::CONSTANT, QType ::INTEGER},
+
+      {QType::STMT1, QType ::WITHSTMT},
+      {QType::READ, QType ::WITHSTMT},
+      {QType::PRINT, QType ::WITHSTMT},
+      {QType::CALL, QType ::WITHSTMT},
+      {QType::WHILE, QType ::WITHSTMT},
+      {QType::IF, QType ::WITHSTMT},
+      {QType::ASSIGN, QType ::WITHSTMT},
+  };
 };
 
 #endif // SPA_WITHATTRIBUTERULE_H
