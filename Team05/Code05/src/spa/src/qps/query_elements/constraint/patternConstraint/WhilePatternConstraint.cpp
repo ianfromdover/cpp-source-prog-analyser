@@ -38,7 +38,7 @@ Table WhilePatternConstraint::getTable(QueryPkbVirtual &pkb) {
     std::vector<std::shared_ptr<ConstraintArgument>> args = getConstraintArguments();
 
     std::string stmtHeader = constraintIdentifier->getIdentifier();
-    std::string lhsHeader = args[0]->getEntityType() == TYPE_VARIABLE ? args[0]->getArgumentValue()[0] : "WHILEPATLHS";
+    std::string lhsHeader = args[0]->getEntityType() == TYPE_VARIABLE ? args[0]->getArgumentValue()[0] : HEADER_WHILEPATTERN;
 
     res.insert(res.begin(), {stmtHeader, lhsHeader});
     ResultTable table(res);
@@ -54,7 +54,7 @@ Table WhilePatternConstraint::getTable(QueryPkbVirtual &pkb) {
         table.filterByColumnExact(lhsHeader,stripped);
     }
 
-    for (const std::string& header : {"WHILEPATLHS"}){
+    for (const std::string& header : {HEADER_WHILEPATTERN}){
         table.removeColumnByHeader(const_cast<string &>(header));
     }
 

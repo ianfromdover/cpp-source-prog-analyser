@@ -68,8 +68,8 @@ Table CallsConstraint::getTable(QueryPkbVirtual &pkb) {
     std::string lhsEntityType = args[0] -> getEntityType();
     std::string rhsEntityType = args[1] -> getEntityType();
 
-    std::string lhsHeader = lhsEntityType == TYPE_PROCEDURE ? args[0]->getArgumentValue()[0] : "CallsLHS";
-    std::string rhsHeader = rhsEntityType == TYPE_PROCEDURE ? args[1]->getArgumentValue()[0] : "CallsRHS";
+    std::string lhsHeader = lhsEntityType == TYPE_PROCEDURE ? args[0]->getArgumentValue()[0] : HEADER_CALLSLHS;
+    std::string rhsHeader = rhsEntityType == TYPE_PROCEDURE ? args[1]->getArgumentValue()[0] : HEADER_CALLSRHS;
 
     if (lhsHeader==rhsHeader) {
         return {{lhsHeader}};
@@ -103,10 +103,10 @@ Table CallsConstraint::getTable(QueryPkbVirtual &pkb) {
         table.filterByColumnExact(rhsHeader,stripped);
     }
 
-    if (lhsHeader == "CallsLHS"){
+    if (lhsHeader == HEADER_CALLSLHS){
         table.removeColumnByHeader(lhsHeader);
     }
-    if (rhsHeader == "CallsRHS"){
+    if (rhsHeader == HEADER_CALLSRHS){
         table.removeColumnByHeader(rhsHeader);
     }
 

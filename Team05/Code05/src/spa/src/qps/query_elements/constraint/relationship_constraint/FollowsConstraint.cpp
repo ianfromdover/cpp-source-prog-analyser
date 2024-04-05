@@ -46,8 +46,8 @@ Table FollowsConstraint::getTable(QueryPkbVirtual &pkb) {
     std::string lhsEntityType = args[0] -> getEntityType();
     std::string rhsEntityType = args[1] -> getEntityType();
 
-    std::string lhsHeader = isStatementSynonym(lhsEntityType) ? args[0]->getArgumentValue()[0] : "FollowsLHS";
-    std::string rhsHeader = isStatementSynonym(rhsEntityType) ? args[1]->getArgumentValue()[0] : "FollowsRHS";
+    std::string lhsHeader = isStatementSynonym(lhsEntityType) ? args[0]->getArgumentValue()[0] : HEADER_FOLLOWSLHS;
+    std::string rhsHeader = isStatementSynonym(rhsEntityType) ? args[1]->getArgumentValue()[0] : HEADER_FOLLOWSRHS;
 
     if (lhsHeader==rhsHeader) {
         return {{lhsHeader}};
@@ -87,10 +87,10 @@ Table FollowsConstraint::getTable(QueryPkbVirtual &pkb) {
         table.add(entityTableResult.getTable());
     }
 
-    if (lhsHeader == "FollowsLHS"){
+    if (lhsHeader == HEADER_FOLLOWSLHS){
         table.removeColumnByHeader(lhsHeader);
     }
-    if (rhsHeader == "FollowsRHS"){
+    if (rhsHeader == HEADER_FOLLOWSRHS){
         table.removeColumnByHeader(rhsHeader);
     }
 

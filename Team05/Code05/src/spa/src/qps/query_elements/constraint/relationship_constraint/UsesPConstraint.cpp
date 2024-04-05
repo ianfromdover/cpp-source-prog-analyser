@@ -53,8 +53,8 @@ Table UsesPConstraint::getTable(QueryPkbVirtual &pkb) {
     std::string lhsEntityType = args[0] -> getEntityType();
     std::string rhsEntityType = args[1] -> getEntityType();
 
-    std::string lhsHeader = lhsEntityType == TYPE_PROCEDURE ? args[0]->getArgumentValue()[0] : "UsesPLHS";
-    std::string rhsHeader = rhsEntityType == TYPE_VARIABLE ? args[1]->getArgumentValue()[0] : "UsesPRHS";
+    std::string lhsHeader = lhsEntityType == TYPE_PROCEDURE ? args[0]->getArgumentValue()[0] : HEADER_USESPLHS;
+    std::string rhsHeader = rhsEntityType == TYPE_VARIABLE ? args[1]->getArgumentValue()[0] : HEADER_USESPRHS;
 
     if (lhsHeader==rhsHeader) {
         return {{lhsHeader}};
@@ -88,10 +88,10 @@ Table UsesPConstraint::getTable(QueryPkbVirtual &pkb) {
         table.filterByColumnExact(rhsHeader,stripped);
     }
 
-    if (lhsHeader == "CallsTLHS"){
+    if (lhsHeader == HEADER_USESPLHS){
         table.removeColumnByHeader(lhsHeader);
     }
-    if (rhsHeader == "CallsTRHS"){
+    if (rhsHeader == HEADER_USESPRHS){
         table.removeColumnByHeader(rhsHeader);
     }
 

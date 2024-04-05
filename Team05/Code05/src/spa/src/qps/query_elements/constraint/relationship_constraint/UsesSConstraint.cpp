@@ -46,8 +46,8 @@ Table UsesSConstraint::getTable(QueryPkbVirtual &pkb) {
     std::string lhsEntityType = args[0] -> getEntityType();
     std::string rhsEntityType = args[1] -> getEntityType();
 
-    std::string lhsHeader = isStatementSynonym(lhsEntityType) ? args[0]->getArgumentValue()[0] : "UsesLHS";
-    std::string rhsHeader = rhsEntityType == TYPE_VARIABLE ? args[1]->getArgumentValue()[0] : "UsesRHS";
+    std::string lhsHeader = isStatementSynonym(lhsEntityType) ? args[0]->getArgumentValue()[0] : HEADER_USESSLHS;
+    std::string rhsHeader = rhsEntityType == TYPE_VARIABLE ? args[1]->getArgumentValue()[0] : HEADER_USESSRHS;
 
     // Insertion of headers into our results table
     result.insert(result.begin(), {lhsHeader, rhsHeader});
@@ -78,10 +78,10 @@ Table UsesSConstraint::getTable(QueryPkbVirtual &pkb) {
         table.filterByColumnExact(rhsHeader,rhsHeaderNew);
     }
 
-    if (lhsHeader == "UsesLHS"){
+    if (lhsHeader == HEADER_USESSLHS){
         table.removeColumnByHeader(lhsHeader);
     }
-    if (rhsHeader == "UsesRHS"){
+    if (rhsHeader == HEADER_USESSRHS){
         table.removeColumnByHeader(rhsHeader);
     }
 

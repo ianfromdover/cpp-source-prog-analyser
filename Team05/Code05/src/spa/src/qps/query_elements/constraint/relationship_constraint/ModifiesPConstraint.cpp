@@ -39,8 +39,8 @@ Table ModifiesPConstraint::getTable(QueryPkbVirtual &pkb) {
     std::string lhsEntityType = args[0] -> getEntityType();
     std::string rhsEntityType = args[1] -> getEntityType();
 
-    std::string lhsHeader = lhsEntityType == TYPE_PROCEDURE ? args[0]->getArgumentValue()[0] : "ModifiesPLHS";
-    std::string rhsHeader = rhsEntityType == TYPE_VARIABLE ? args[1]->getArgumentValue()[0] : "ModifiesPRHS";
+    std::string lhsHeader = lhsEntityType == TYPE_PROCEDURE ? args[0]->getArgumentValue()[0] : HEADER_MODIFIESTLHS;
+    std::string rhsHeader = rhsEntityType == TYPE_VARIABLE ? args[1]->getArgumentValue()[0] : HEADER_MODIFIESTRHS;
 
     if (lhsHeader==rhsHeader) {
         return {{lhsHeader}};
@@ -74,10 +74,10 @@ Table ModifiesPConstraint::getTable(QueryPkbVirtual &pkb) {
         table.filterByColumnExact(rhsHeader,rhsHeaderNew);
     }
 
-    if (lhsHeader == "ModifiesPLHS"){
+    if (lhsHeader == HEADER_MODIFIESTLHS){
         table.removeColumnByHeader(lhsHeader);
     }
-    if (rhsHeader == "ModifiesPRHS"){
+    if (rhsHeader == HEADER_MODIFIESTRHS){
         table.removeColumnByHeader(rhsHeader);
     }
 
