@@ -8,15 +8,14 @@
 
 std::shared_ptr<Constraint> RelationshipConstraintBuilderTemplate::buildRelationConstraint(shared_ptr<RelationshipClause> rsClause, shared_ptr<QueryObject> qo) {
     this->reset();
-    this->addConstraintClause(std::move(rsClause), qo);
     this->setNotAttribute(rsClause);
+    this->addConstraintClause(std::move(rsClause), qo);
     return this->build();
 }
 
 // this function assumes that a constraintclause has already been created.
 void RelationshipConstraintBuilderTemplate::setNotAttribute(shared_ptr<RelationshipClause> rs) {
-    // NOT TODO: find rs not attribute
-    if (false) {
+    if (rs->isNot()) {
         this->constraintClause->setNot(true);
     }
 }

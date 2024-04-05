@@ -9,15 +9,15 @@
 std::shared_ptr<Constraint>
 PatternConstraintBuilderTemplate::buildPatternConstraint(shared_ptr<PatternClause> patternClause, shared_ptr<QueryObject> qo) {
     this->reset();
-    this->addConstraintClause(std::move(patternClause), std::move(qo));
     this->setNotAttribute(patternClause);
+    this->addConstraintClause(std::move(patternClause), std::move(qo));
     return this->build();
 }
 
 //assumes that constraint clause is created
-void PatternConstraintBuilderTemplate::setNotAttribute(shared_ptr<PatternClause>) {
+void PatternConstraintBuilderTemplate::setNotAttribute(shared_ptr<PatternClause> cl) {
     // NOT TODO: find rs not attribute
-    if (false) {
+    if (cl->isNot()) {
         this->constraintClause->setNot(true);
     }
 }
