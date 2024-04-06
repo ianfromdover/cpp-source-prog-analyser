@@ -94,7 +94,7 @@ std::size_t NextConstraint::hash() const {
     std::size_t hashValue = 0;
 
     // Combine hash values for both stringVars while maintaining their order
-    hashValue ^= stringHasher(CONSTRAINT_TYPE_FOLLOWS) + HASH_OFFSET + (hashValue << 6) + (hashValue >> 2);
+    hashValue ^= stringHasher(CONSTRAINT_TYPE_NEXT) + HASH_OFFSET + (hashValue << 6) + (hashValue >> 2);
     hashValue ^= stringHasher(s1) + HASH_OFFSET + (hashValue << 6) + (hashValue >> 2);
     hashValue ^= stringHasher(s2) + HASH_OFFSET + (hashValue << 6) + (hashValue >> 2);
 
