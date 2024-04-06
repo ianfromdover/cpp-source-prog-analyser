@@ -59,6 +59,7 @@
 #define VALIDATION_RULE_WILDCARD_ARGUMENT "WildcardArgumentRule"
 #define VALIDATION_RULE_RELATIONSHIP_ARGUMENT "RelationshipArgumentRule"
 #define VALIDATION_RULE_PATTERN_ARGUMENT "PatternArgumentRule"
+#define VALIDATION_RULE_WITH_ATTRIBUTE "WithAttributeRule"
 
 // headers for getRelationshipTables
 #define HEADER_ASSIGNLHS "ASSIGNLHS"

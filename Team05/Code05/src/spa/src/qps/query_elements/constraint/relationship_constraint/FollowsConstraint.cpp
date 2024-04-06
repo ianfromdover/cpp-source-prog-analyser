@@ -21,12 +21,31 @@ std::vector<std::shared_ptr<ConstraintArgument>> FollowsConstraint::getConstrain
 
 Table FollowsConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     if (this->getNot()) {
-        Table wholeSet = pkb.getFollowsTable();
+        Table wholeSet = getFullTable(pkb);
         Table subSet = getTable(pkb);
         return ResultTable::minusTable(wholeSet, subSet);
     } else {
         return getTable(pkb);
     }
+}
+
+Table FollowsConstraint::getFullTable(QueryPkbVirtual &pkb){
+  std::vector<std::shared_ptr<ConstraintArgument>> args = getConstraintArguments();
+  std::string lhsEntityType = args[0] -> getEntityType();
+  std::string rhsEntityType = args[1] -> getEntityType();
+
+  if (isStatementSynonym(lhsEntityType) || isStatementSynonym(rhsEntityType)) {
+    ResultTable t;
+    if (isStatementSynonym(lhsEntityType)) {
+      t.add(args[0]->getEntityTable(pkb));
+    }
+    if (isStatementSynonym(rhsEntityType)) {
+      t.add(args[1]->getEntityTable(pkb));
+    }
+    return t.getTable();;
+  } else {
+    return pkb.getFollowsTable();
+  }
 }
 
 bool FollowsConstraint::isStatementSynonym(std::string type) {
