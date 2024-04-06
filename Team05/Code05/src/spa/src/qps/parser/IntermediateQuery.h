@@ -52,6 +52,7 @@ public:
         return result;
     }
 
+
 private:
     bool hasClauseType(Clause::ClauseType type);
 

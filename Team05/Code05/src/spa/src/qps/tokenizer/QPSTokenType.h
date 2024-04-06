@@ -56,8 +56,9 @@ public:
         INTEGER,
 
         // With References
+        WITH_REF,
         VAR_WITH,
-        INT_WHITH,
+        INT_WITH,
 
         // Pattern Keywords
         PATTERN,
@@ -78,7 +79,7 @@ public:
         PROCNAME, VARNAME, STMT,
 
         // Others
-        END_OF_FILE, TODO
+        END_OF_FILE, TODO, ERR_NULL
     };
 
 private:

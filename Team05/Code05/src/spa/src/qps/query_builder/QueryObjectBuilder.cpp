@@ -21,6 +21,10 @@ void QueryObjectBuilder::setSinglePatternClause(std::shared_ptr<PatternClause> p
     qo->addConstraint(ptr);
 }
 
+void QueryObjectBuilder::setSingleWithClause(std::shared_ptr<WithClause> withClause, shared_ptr<QueryObject> qo) {
+    shared_ptr<Constraint> ptr = WithConstraintDirector::process(std::move(withClause), qo);
+    qo->addConstraint(ptr);
+}
 
 void QueryObjectBuilder::setSingleSelectClause() {
     if (!intermediateObject->hasSelectClause()) {
@@ -70,9 +74,17 @@ void QueryObjectBuilder::setAllPatternClauses() {
     for (auto patternClause : patternClauseVector) {
         setSinglePatternClause(patternClause, this->getQueryObjectRepresentation());
     }
-
 }
 
+void QueryObjectBuilder::setAllWithConstraint() {
+    if (!intermediateObject->hasWithClause()) {
+        return;
+    }
+    auto withClauseVector = intermediateObject->getAllWithClauses();
+    for (auto withClause : withClauseVector) {
+        setSingleWithClause(withClause, this->getQueryObjectRepresentation());
+    }
+}
 
 void QueryObjectBuilder::setAllDeclarationClauses() {
     if (!intermediateObject->hasDeclarationClause()) {
@@ -101,8 +113,11 @@ std::shared_ptr<QueryObject> QueryObjectBuilder::build(shared_ptr<IntermediateQu
     setAllRelationshipConstraint();
     setSingleSelectClause(); // has to be done after declaration
     setAllPatternClauses();
+    setAllWithConstraint();
     return getQueryObjectRepresentation();
 }
+
+
 
 
 

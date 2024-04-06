@@ -33,6 +33,9 @@ protected:
     std::shared_ptr<ExpressionReference> buildArgAsExpressionRef(QPSToken&, QPSTokenType::QPSTypeInfo, shared_ptr<QueryObject>);
     std::shared_ptr<StatementReference> buildArgAsStatementRef(QPSToken&, QPSTokenType::QPSTypeInfo, shared_ptr<QueryObject>);
     std::shared_ptr<EntityReference> buildArgAsEntityRef(QPSToken&, QPSTokenType::QPSTypeInfo, shared_ptr<QueryObject>);
+
+    shared_ptr<WithReference>
+    buildArgAsWithRef(QPSToken &token, QPSTokenType::QPSTypeInfo ref, shared_ptr<QueryObject> qo);
 };
 
 

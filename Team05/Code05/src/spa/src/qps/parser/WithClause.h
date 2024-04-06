@@ -51,6 +51,21 @@ public:
     }
       return secondArgAttribute;
   }
+
+    QPSTokenType::QPSTypeInfo getFirstArgAttributeNoException() {
+        if (!firstArgAttribute){
+            return QPSTokenType::ERR_NULL;
+        }
+        return firstArgAttribute;
+    }
+
+    QPSTokenType::QPSTypeInfo getSecondArgAttributeNoException(){
+        if (!secondArgAttribute){
+            return QPSTokenType::ERR_NULL;
+        }
+        return secondArgAttribute;
+    }
+
   void setFirstArgAttribute(QPSTokenType::QPSTypeInfo &type){
     firstArgAttribute = type;
   }

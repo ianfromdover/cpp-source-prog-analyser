@@ -21,6 +21,7 @@
 #include "constraint_builder/relationship_builders/UsesSConstraintBuilder.h"
 #include "constraint_builder/RelationshipConstraintDirector.h"
 #include "constraint_builder/PatternConstraintDirector.h"
+#include "constraint_builder/WithConstraintDirector.h"
 #include "qps/query_elements/Boolean.h"
 
 
@@ -31,8 +32,10 @@ private:
     void reset();
     void setSingleRelationshipConstraint(std::shared_ptr<RelationshipClause>, shared_ptr<QueryObject>);
     void setSinglePatternClause(std::shared_ptr<PatternClause>, shared_ptr<QueryObject>);
+    void setSingleWithClause(std::shared_ptr<WithClause>, shared_ptr<QueryObject>);
     void setSingleSelectClause();
     void setAllRelationshipConstraint();
+    void setAllWithConstraint();
     void setAllPatternClauses();
     void setAllDeclarationClauses();
     std::shared_ptr<QueryObject> getQueryObjectRepresentation();
