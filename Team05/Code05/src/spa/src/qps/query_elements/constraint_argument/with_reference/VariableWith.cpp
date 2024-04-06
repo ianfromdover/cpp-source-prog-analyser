@@ -18,24 +18,26 @@ std::vector<std::string> VariableWith::getArgumentValue() {
 
 std::vector<std::vector<std::string>> VariableWith::getEntityTable(QueryPkbVirtual &pkb) {
     auto entityTable = getRawTable(pkb);
-    // TODO: filter according to attributes. procName vs Stmt
     if (!hasMoreThanOneColumn(entityTable)) {
+        // only has one column
         entityTable.insert(entityTable.begin(), {this->varName});
-        return entityTable;
+        return ResultTable::duplicateColumn(entityTable, this->varName, HEADER_ENT_WITH_TOMERGE);
     }
-    entityTable.insert(entityTable.begin(), {this->varName, "LiteralWith"});
+    entityTable.insert(entityTable.begin(), {this->varName, HEADER_ENT_WITHVAR});
+    std::shared_ptr<table> duplicatedTable;
     if (varAttribute == QPSTokenType::STMT) {
-        //drop right
-        entityTable = removeColumnByIndex(1, entityTable);
-        entityTable.insert(entityTable.begin(), {this->varName});
+        //duplicate left
+        duplicatedTable = make_shared<table>(ResultTable::duplicateColumn(entityTable, this->varName, HEADER_ENT_WITH_TOMERGE));
     } else if (varAttribute == QPSTokenType::VARNAME || varAttribute == QPSTokenType::PROCNAME) {
-        //drop left
-        entityTable = removeColumnByIndex(0, entityTable);
-        entityTable.insert(entityTable.begin(), {this->varName});
+        //duplicate right
+        duplicatedTable = make_shared<table>(ResultTable::duplicateColumn(entityTable, HEADER_ENT_WITH_TOMERGE, HEADER_ENT_WITH_TOMERGE));
     } else {
         throw new QPSException("Invalid token type provided for with variable");
     }
-    return entityTable;
+
+    auto res  = ResultTable(*duplicatedTable);
+    res.removeColumnByHeader(HEADER_ENT_WITHVAR);
+    return res.getTable();
 }
 
 std::string VariableWith::toString() {

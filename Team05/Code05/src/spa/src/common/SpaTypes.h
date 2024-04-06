@@ -95,6 +95,8 @@
 #define HEADER_ENT_PRINTRHS "PRINTRHS"
 #define HEADER_ENT_READRHS "READRHS"
 #define HEADER_ENT_WHILEVAR "WhileVar"
+#define HEADER_ENT_WITHVAR "VariableWith"
+#define HEADER_ENT_WITH_TOMERGE "*TOMERGE*" // special character is used so that it will not clash with possible syn names.
 
 // error message
 #define ERROR_INVALID_QUERY "Invalid QPS Query"

@@ -9,6 +9,7 @@
 #include "../../Entity.h"
 #include "qps/tokenizer/QPSTokenType.h"
 #include "qps/Exceptions/QPSException.h"
+#include "qps/query_projector/ResultTable.h"
 
 class VariableWith : public WithReference, public Entity {
 private:

@@ -6,6 +6,7 @@
 #define SPA_RESULTTABLE_H
 
 
+#include <utility>
 #include <vector>
 #include <string>
 #include <algorithm>
@@ -130,7 +131,7 @@ public:
         return std::find(_table[0].begin(), _table[0].end(), header) != _table[0].end();
     }
 
-    void removeColumnByHeader(std::string& header){
+    void removeColumnByHeader(std::string header){
         if (hasHeader(header)) {
             size_t index = findColumnIndex(_table, header);
             removeColumnByIndex(index);
@@ -408,6 +409,38 @@ public:
         return result;
     }
 
+    static table duplicateColumn(table a, std::string headerToDuplicate, const std::string& newHeaderName) {
+        if (a.empty()) {
+            return a; // nothing to duplicate; table is empty
+        }
+        int indexOfHeaderToDuplicate = getIndexOfHeader(a, std::move(headerToDuplicate));
+        if (indexOfHeaderToDuplicate < 0) {
+            return a; // nothing to duplicate, header to duplicate is not found
+        }
+        int numEntries = a.size();
+        for (int i = 0; i < numEntries; i ++) {
+            if (i == 0) {
+                a[0].push_back(newHeaderName); // insert the new header name into the first row (headers)
+            }
+            std::string valToDuplicate = a[i][indexOfHeaderToDuplicate];
+            a[i].push_back(valToDuplicate);
+        }
+        return a;
+    }
+
+    static int getIndexOfHeader(table a, std::string headerName) {
+        if (a.empty()) {
+            return -1;
+        }
+        vector<string> actualHeaders = a[0];
+        for (int i = 0; i < actualHeaders.size(); i++) {
+            if (headerName == actualHeaders[i]) {
+                return i;
+            }
+        }
+        return -2; // headerName is not found in table
+    }
+
     // checks if table a and b have the same values based on commonHeader and Index
     static bool isSameValuesBasedHeaderAndIndex(const table& a, const table& b, int rowA, int rowB, const vector<string>& commonHeaders) {
         bool isSame = true;
@@ -426,6 +459,9 @@ public:
         return getValuesAtHeadersAtIndexRecurse(t, headers, index, actualHeader, res);
     }
 
+
+    // has missing control flow as it is intended to be used with minusTable. Therefore, all header values in
+    // leftToFind should be in actualheader.
     static vector<string> getValuesAtHeadersAtIndexRecurse(const table& t, vector<string> leftToFind,
                                                            int index, vector<string> actualHeader, vector<string> ans) {
         if (leftToFind.empty()) {

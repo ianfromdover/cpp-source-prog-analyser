@@ -23,7 +23,10 @@ Table FollowsConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     if (this->getNot()) {
         Table wholeSet = getFullTable(pkb);
         Table subSet = getTable(pkb);
-        return ResultTable::minusTable(wholeSet, subSet);
+        Table result = ResultTable::minusTable(wholeSet, subSet);
+//        cout << ResultTable(wholeSet).toString();
+//        cout << "*********************";
+        return result;
     } else {
         return getTable(pkb);
     }
