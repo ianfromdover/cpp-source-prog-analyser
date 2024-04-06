@@ -77,8 +77,8 @@ std::vector<std::vector<std::string>> ModifiesPConstraint::getRelationshipTable(
 std::size_t ModifiesPConstraint::hash() const {
     std::hash<std::string> stringHasher;
 
-    std::string s1 = constraintArguments[0]->getArgumentValue();
-    std::string s2 = constraintArguments[1]->getArgumentValue();
+    std::string s1 = constraintArguments[0]->getArgumentValue()[0];
+    std::string s2 = constraintArguments[0]->getArgumentValue()[0];
 
     std::size_t hashValue = 0;
 

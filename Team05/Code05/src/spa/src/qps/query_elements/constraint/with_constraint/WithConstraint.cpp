@@ -35,8 +35,8 @@ bool WithConstraint::isVariable(std::string s) {
 std::size_t WithConstraint::hash() const {
     std::hash<std::string> stringHasher;
 
-    std::string s1 = constraintArguments[0]->getArgumentValue();
-    std::string s2 = constraintArguments[1]->getArgumentValue();
+    std::string s1 = constraintArguments[0]->getArgumentValue()[0];
+    std::string s2 = constraintArguments[0]->getArgumentValue()[0];
 
     std::size_t hashValue = 0;
 

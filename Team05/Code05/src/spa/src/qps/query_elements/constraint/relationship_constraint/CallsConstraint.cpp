@@ -106,8 +106,8 @@ std::string& CallsConstraint::stripCharacters(std::string& str, const std::strin
 std::size_t CallsConstraint::hash() const {
     std::hash<std::string> stringHasher;
 
-    std::string s1 = constraintArguments[0]->getArgumentValue();
-    std::string s2 = constraintArguments[1]->getArgumentValue();
+    std::string s1 = constraintArguments[0]->getArgumentValue()[0];
+    std::string s2 = constraintArguments[0]->getArgumentValue()[0];
 
     std::size_t hashValue = 0;
 
