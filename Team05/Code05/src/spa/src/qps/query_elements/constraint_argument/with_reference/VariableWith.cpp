@@ -19,7 +19,7 @@ std::vector<std::string> VariableWith::getArgumentValue() {
 std::vector<std::vector<std::string>> VariableWith::getEntityTable(QueryPkbVirtual &pkb) {
     auto entityTable = getRawTable(pkb);
     if (!hasMoreThanOneColumn(entityTable)) {
-        // only has one column
+        // only has one column, duplicate that column
         entityTable.insert(entityTable.begin(), {this->varName});
         return ResultTable::duplicateColumn(entityTable, this->varName, HEADER_ENT_WITH_TOMERGE);
     }
