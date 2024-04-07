@@ -5,8 +5,7 @@
 #include "WithConstraintBuilderTemplate.h"
 
 void WithConstraintBuilderTemplate::setNotAttribute(shared_ptr<WithClause> wClause) {
-    // NOT TODO: find rs not attribute
-    if (false) {
+    if (wClause->isNot()) {
         this->constraintClause->setNot(true);
     }
 }
