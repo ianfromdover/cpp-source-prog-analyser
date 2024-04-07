@@ -10,7 +10,6 @@
 
 class CallsExtractor : public RelationExtractor {
 private:
-    std::unordered_set<std::string> visitedProcedures;
     std::shared_ptr<Program> program;
 public:
     // Constructor
