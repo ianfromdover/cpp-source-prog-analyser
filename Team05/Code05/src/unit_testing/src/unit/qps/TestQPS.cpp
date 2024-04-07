@@ -1498,7 +1498,7 @@ TEST_CASE("[TestQPS] scratchboard to test random stuff") {
                       {"2","Porange"},
                       {"2","Pelephant"}});
         pkb->setProcedure({{"a"}, {"b"}, {"c"}, {"d"}, {"f"}, {"g"}});
-        pkb->setCallsT({{"a", "b"}, {"c", "d"}, {"b", "c"}, {"f", "g"}, {"a", "c"}, {"a", "d"}, {"b", "d"}});
+        pkb->setCalls({{"a", "b"}, {"c", "d"}, {"b", "c"}, {"f", "g"}});
         QPS qps(pkb);
 
         SECTION("variable.varName = quoted ident") {
@@ -1519,6 +1519,18 @@ TEST_CASE("[TestQPS] scratchboard to test random stuff") {
             std::string queryStr = "stmt s; variable v, v1; Select s such that Uses(s, v) with v.varName = v1.varName";
             std::vector<std::string> expected = {"1", "2"};
 
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+
+        SECTION("p1.procname = quoted ident") {
+            std::string queryStr = "procedure p1, p2; Select p1 such that Calls(p1, p2) with p1.procName = \"a\"";
+            std::vector<std::string> expected = {"a"};
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+
+        SECTION("p1.procname = p2.procname") {
+            std::string queryStr = "procedure p1, p2; Select p1 such that Calls(p1, p2) with p1.procName = p2.procName";
+            std::vector<std::string> expected = {"a", "b", "c", "f"};
             REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
         }
     }
