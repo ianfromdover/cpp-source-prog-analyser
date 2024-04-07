@@ -21,6 +21,8 @@ public:
     void visitIfStmt(const If& stmt, shared_ptr<Accumulator>& parentInfo) override;
     void visitAssignStmt(const Assign& stmt, shared_ptr<Accumulator>& parentInfo) override;
     void visitStmtList(const shared_ptr<vector<shared_ptr<Stmt>>>& stmts, shared_ptr<Accumulator> &info) override;
+
+    void updateParentInfo(const int stmtNo, shared_ptr<Accumulator> &prevStmtInfo);
 };
 
 #endif //SPA_PARENTEXTRACTOR_H
