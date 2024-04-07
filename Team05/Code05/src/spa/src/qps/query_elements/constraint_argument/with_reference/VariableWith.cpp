@@ -42,10 +42,12 @@ std::vector<std::vector<std::string>> VariableWith::getEntityTable(QueryPkbVirtu
     entityTable.insert(entityTable.begin(), headers);
     if (varAttribute == QPSTokenType::WITHSTMT) {
         //duplicate left
-        duplicatedTable = make_shared<table>(ResultTable::duplicateColumn(entityTable, this->varName, HEADER_ENT_WITH_TOMERGE));
+        duplicatedTable = make_shared<table>(ResultTable::duplicateColumnBasedOnIndex(entityTable,
+                                                                                      0, HEADER_ENT_WITH_TOMERGE));
     } else if (varAttribute == QPSTokenType::WITHVARNAME || varAttribute == QPSTokenType::WITHPROCNAME) {
         //duplicate left
-        duplicatedTable = make_shared<table>(ResultTable::duplicateColumn(entityTable, HEADER_ENT_WITHVAR, HEADER_ENT_WITH_TOMERGE));
+        duplicatedTable = make_shared<table>(ResultTable::duplicateColumnBasedOnIndex(entityTable,
+                                                                                      1, HEADER_ENT_WITH_TOMERGE));
     } else {
         throw new QPSException("Invalid token type provided for with variable");
     }

@@ -409,6 +409,13 @@ public:
         return result;
     }
 
+    static table duplicateColumnBasedOnIndex(table a, int index, const std::string& newHeaderName) {
+        if (a.empty() || a[0].size() < index) {
+            return a;
+        }
+        return duplicateColumn(a, a[0][index], newHeaderName);
+    }
+
     static table duplicateColumn(table a, std::string headerToDuplicate, const std::string& newHeaderName) {
         if (a.empty()) {
             return a; // nothing to duplicate; table is empty
