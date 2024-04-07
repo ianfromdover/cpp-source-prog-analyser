@@ -6,6 +6,8 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include "sp/api/Affects.h"
+#include "sp/api/NextT.h"
 
 // should rename to virtual also, and have ref to pkb
 // add destructuors to others
@@ -14,8 +16,8 @@ public:
     virtual ~BasePkbPopulator() = default;
 
     // on-demand
-    virtual bool setAffectsObj() = 0; // add param after SP implements
-    virtual bool setNextTObj() = 0; // add param after SP implements
+    virtual bool setAffectsObj(std::shared_ptr<Affects> a) = 0;
+    virtual bool setNextTObj(std::shared_ptr<NextT> n) = 0;
 
     // entity
     virtual bool addCallStmt(int stmtNo, std::string name) = 0;

@@ -1,12 +1,6 @@
 #include <utility>
 #include "QueryPkb.h"
 #include "common/TableUtils.h"
-/**
- * TODO: implement
-getPatternAsgnByStmt(StmtNo sNum) {
-getPatternAsgnByLhs(VarName Lhs) {
-getPatternAsgnByRhs(std::string Rhs) {
- */
 
 QueryPkb::QueryPkb(std::shared_ptr<PkbStorage> p) {
     pkb = std::move(p);
@@ -14,15 +8,20 @@ QueryPkb::QueryPkb(std::shared_ptr<PkbStorage> p) {
 
 // on-demand --------------------------------------------------------------
 bool QueryPkb::checkAffects(StmtNo affector, StmtNo affected) {
-    return false;
+    return pkb->affects->get(affector, affected);
 }
 bool QueryPkb::checkNextT(StmtNo before, StmtNo after) {
-    return false;
+    return pkb->nextT->get(before, after);
 }
 bool QueryPkb::resetAffects() {
-    return false;
+    // TODO: add guard clause if pkb or affects is not assigned yet
+    pkb->affects->flush();
+    return true;
 }
 bool QueryPkb::resetNextT() {
+    // TODO: SP to implement
+    // TODO: add guard clause if pkb or nextT is not assigned yet
+    // pkb->nextT->flush();
     return false;
 }
 
