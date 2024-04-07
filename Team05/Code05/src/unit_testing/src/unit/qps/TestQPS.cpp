@@ -1430,61 +1430,97 @@ TEST_CASE("[TestQPS] Single Constraints") {
         }
     }
 
-//    SECTION("Pattern if") {
-//        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
-//        pkb->setStatement(5);
-//        pkb->setPatternIf({{"3", "c"}, {"5", "d"}});
-//        pkb->setIf({{"3"}, {"4"}, {"5"}});
-//        pkb->setVar({{"1", "a"}, {"2", "b"}, {"3", "c"}, {"5" , "d"}});
-//        QPS qps(pkb);
-//
-//        SECTION("Pattern if, select if - variable argument") {
-//            std::string queryStr = "stmt s;while i;variable v; Select i pattern i (v,_, _)";
-//            std::vector<std::string> expected = {"3", "5"};
-//            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-//        }
-//
-//        SECTION("Pattern if, select stmt - variable argument") {
-//            std::string queryStr = "stmt s;while i;variable v; Select s pattern i (v,_,_)";
-//            std::vector<std::string> expected = {"1", "2", "3", "4", "5"};
-//            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-//        }
-//
-//        SECTION("Pattern if, select stmt - wildcard argument") {
-//            // requires variable in conditional expression so expected result is not all while statements.
-//            std::string queryStr = "stmt s;while i;variable v; Select i pattern i (_,_,_)";
-//            std::vector<std::string> expected = {"3", "5"};
-//            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-//        }
-//
-//        SECTION("Pattern if, select stmt - quoted ident argument") {
-//            std::string queryStr = "stmt s;while i;variable v; Select i pattern i (\"c\",_, _)";
-//            std::vector<std::string> expected = {"3"};
-//
-//            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-//        }
-//    }
+    SECTION("Pattern if") {
+        std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
+        pkb->setStatement(5);
+        pkb->setPatternIf({{"3", "c"}, {"5", "d"}});
+        pkb->setIf({{"3"}, {"4"}, {"5"}});
+        pkb->setVar({{"1", "a"}, {"2", "b"}, {"3", "c"}, {"5" , "d"}});
+        QPS qps(pkb);
+
+        SECTION("Pattern if, select if - variable argument") {
+            std::string queryStr = "stmt s; if i;variable v; Select i pattern i (v,_, _)";
+            std::vector<std::string> expected = {"3", "5"};
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+
+        SECTION("Pattern if, select stmt - variable argument") {
+            std::string queryStr = "stmt s; if i;variable v; Select s pattern i (v,_,_)";
+            std::vector<std::string> expected = {"1", "2", "3", "4", "5"};
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+
+        SECTION("Pattern if, select stmt - wildcard argument") {
+            // requires variable in conditional expression so expected result is not all while statements.
+            std::string queryStr = "stmt s;if i;variable v; Select i pattern i (_,_,_)";
+            std::vector<std::string> expected = {"3", "5"};
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+
+        SECTION("Pattern if, select stmt - quoted ident argument") {
+            std::string queryStr = "stmt s;if i;variable v; Select i pattern i (\"c\",_, _)";
+            std::vector<std::string> expected = {"3"};
+
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+    }
 
 
 }
 
 TEST_CASE("[TestQPS] scratchboard to test random stuff") {
 
-
-    SECTION("test1") {
+    SECTION("with constraint") {
         std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
-        pkb->setFollowsT({{"1", "2"},
-                          {"1", "3"},
-                          {"1", "4"},
-                          {"2", "7"}});
+        pkb->setUses({{"1", "apple"},
+                      {"1", "kool"},
+                      {"1", "orange"},
+                      {"2", "kool"},
+                      {"1", "Papple"},
+                      {"1", "Pkool"},
+                      {"1", "Porange"},
+                      {"2", "Pkool"}}); // uses(read, variable) is invalid, uses variable and print
         pkb->setStatement(7);
+        pkb->setModifies({{"1", "Rapple"},
+                          {"1", "Rkool"},
+                          {"1", "Rorange"},
+                          {"2", "Rkool"}}); // modifies read
+        pkb->setVar({{"1","apple"},
+                     {"1","kool"},
+                     {"2","orange"},
+                     {"2","elephant"}});
+        pkb->setRead({{"1","Rapple"},
+                     {"1","Rkool"},
+                     {"2","Rorange"},
+                     {"2","Relephant"}});
+        pkb->setPrint({{"1","Papple"},
+                      {"1","Pkool"},
+                      {"2","Porange"},
+                      {"2","Pelephant"}});
+        pkb->setProcedure({{"a"}, {"b"}, {"c"}, {"d"}, {"f"}, {"g"}});
+        pkb->setCallsT({{"a", "b"}, {"c", "d"}, {"b", "c"}, {"f", "g"}, {"a", "c"}, {"a", "d"}, {"b", "d"}});
         QPS qps(pkb);
 
-        std::string queryStr = "stmt s,s1; Select s such that Follows*(_, _)";
-        std::vector<std::string> expected = {"1", "2", "3", "4",
-                                             "5", "6", "7"};
+        SECTION("variable.varName = quoted ident") {
+            std::string queryStr = "stmt s; variable v; Select s such that Uses(s, v) with v.varName = \"kool\"";
+            std::vector<std::string> expected = {"1"};
 
-        REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+
+        SECTION("variable.varName = variable.varName (same)") {
+            std::string queryStr = "stmt s; variable v; Select s such that Uses(s, v) with v.varName = v.varName";
+            std::vector<std::string> expected = {"1", "2"};
+
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+
+        SECTION("variable.varName = variable.varName (different)") {
+            std::string queryStr = "stmt s; variable v, v1; Select s such that Uses(s, v) with v.varName = v1.varName";
+            std::vector<std::string> expected = {"1", "2"};
+
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
     }
 }
 
