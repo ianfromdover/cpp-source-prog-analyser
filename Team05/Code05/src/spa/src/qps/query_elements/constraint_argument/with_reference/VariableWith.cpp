@@ -16,6 +16,20 @@ std::vector<std::string> VariableWith::getArgumentValue() {
     return {getVarName()};
 }
 
+// column that returns value based on SELECT should be synonym name
+// return columns of tables are {statement number, synonym name}
+std::vector<std::string> VariableWith::getHeadersForTable() {
+    std::set<std::string> returnSynName = {TYPE_VARIABLE, TYPE_PROCEDURE, TYPE_CALL};
+    std::string currType = this->variable->getEntityType();
+    if (returnSynName.find(currType) == returnSynName.end()) {
+        // not inside the set
+        // this entity returns statement number
+        return {this->varName, HEADER_ENT_WITHVAR};
+    } else {
+        return {HEADER_ENT_WITHVAR, this->varName};
+    }
+}
+
 std::vector<std::vector<std::string>> VariableWith::getEntityTable(QueryPkbVirtual &pkb) {
     auto entityTable = getRawTable(pkb);
     if (!hasMoreThanOneColumn(entityTable)) {
@@ -23,14 +37,15 @@ std::vector<std::vector<std::string>> VariableWith::getEntityTable(QueryPkbVirtu
         entityTable.insert(entityTable.begin(), {this->varName});
         return ResultTable::duplicateColumn(entityTable, this->varName, HEADER_ENT_WITH_TOMERGE);
     }
-    entityTable.insert(entityTable.begin(), {HEADER_ENT_WITHVAR, this->varName});
     std::shared_ptr<table> duplicatedTable;
+    auto headers = getHeadersForTable();
+    entityTable.insert(entityTable.begin(), headers);
     if (varAttribute == QPSTokenType::WITHSTMT) {
         //duplicate left
-        duplicatedTable = make_shared<table>(ResultTable::duplicateColumn(entityTable, HEADER_ENT_WITHVAR, HEADER_ENT_WITH_TOMERGE));
-    } else if (varAttribute == QPSTokenType::WITHVARNAME || varAttribute == QPSTokenType::WITHPROCNAME) {
-        //duplicate right
         duplicatedTable = make_shared<table>(ResultTable::duplicateColumn(entityTable, this->varName, HEADER_ENT_WITH_TOMERGE));
+    } else if (varAttribute == QPSTokenType::WITHVARNAME || varAttribute == QPSTokenType::WITHPROCNAME) {
+        //duplicate left
+        duplicatedTable = make_shared<table>(ResultTable::duplicateColumn(entityTable, HEADER_ENT_WITHVAR, HEADER_ENT_WITH_TOMERGE));
     } else {
         throw new QPSException("Invalid token type provided for with variable");
     }

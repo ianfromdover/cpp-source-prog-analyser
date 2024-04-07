@@ -1488,7 +1488,15 @@ TEST_CASE("[TestQPS] scratchboard to test random stuff") {
         pkb->setVar({{"1","apple"},
                      {"1","kool"},
                      {"2","orange"},
-                     {"2","elephant"}});
+                     {"2","elephant"},
+                     {"1","Rapple"},
+                     {"1","Rkool"},
+                     {"2","Rorange"},
+                     {"2","Relephant"},
+                     {"1","Papple"},
+                     {"1","Pkool"},
+                     {"2","Porange"},
+                     {"2","Pelephant"}});
         pkb->setRead({{"1","Rapple"},
                      {"1","Rkool"},
                      {"2","Rorange"},
@@ -1553,21 +1561,21 @@ TEST_CASE("[TestQPS] scratchboard to test random stuff") {
 
         SECTION("Print") {
             SECTION("print.varName = quoted ident") {
-                std::string queryStr = "stmt s; print v; Select s such that Uses(s, v) with v.varName = \"kool\"";
+                std::string queryStr = "variable v; print s; Select s such that Uses(s, v) with s.varName = \"Pkool\"";
                 std::vector<std::string> expected = {"1"};
 
                 REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
             }
 
             SECTION("print.varName = print.varName (same)") {
-                std::string queryStr = "stmt s; print v; Select s such that Uses(s, v) with v.varName = v.varName";
+                std::string queryStr = "variable v; print s; Select s such that Uses(s, v) with s.varName = s.varName";
                 std::vector<std::string> expected = {"1", "2"};
 
                 REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
             }
 
             SECTION("print.varName = print.varName (different)") {
-                std::string queryStr = "stmt s; print v, v1; Select s such that Uses(s, v) with v.varName = v1.varName";
+                std::string queryStr = "variable v; print p, p1; Select p such that Uses(p, v) with p.varName = p1.varName";
                 std::vector<std::string> expected = {"1", "2"};
 
                 REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
