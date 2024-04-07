@@ -8,11 +8,11 @@
 #include "sp/cfg/CFG.h"
 #include "sp/visitor/ProgramVisitor.h"
 #include "VarPoint.h"
-#include "pkb/apis/QueryPkb.h"
 
 using Definitions = unordered_map<std::shared_ptr<Block>, std::unordered_set<VarPoint>>;
 using Uses = Definitions;
 
+class QueryPkb;
 class DefUseExtractor : private ProgramVisitor {
 private:
     Definitions defs;

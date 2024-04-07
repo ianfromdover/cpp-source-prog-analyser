@@ -8,9 +8,9 @@
 #include <vector>
 #include "sp/ast/Program.h"
 #include "sp/cfg/block/Block.h"
-#include "sp/extractor/CfgExtractor.h"
 
 class CFG;
+class CfgExtractor;
 
 class CFG : private ProgramVisitor {
 private:

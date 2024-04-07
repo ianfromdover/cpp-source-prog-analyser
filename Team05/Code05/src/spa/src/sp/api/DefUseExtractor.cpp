@@ -3,6 +3,7 @@
 //
 
 #include "DefUseExtractor.h"
+#include "pkb/apis/QueryPkb.h"
 #include <cassert>
 
 std::pair<Definitions, Uses> DefUseExtractor::extract(const std::shared_ptr<CFG> &cfg) {

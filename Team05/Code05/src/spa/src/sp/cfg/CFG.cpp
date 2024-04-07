@@ -3,6 +3,7 @@
 //
 
 #include "CFG.h"
+#include "sp/extractor/CfgExtractor.h"
 
 CFG::CFG(const std::shared_ptr<Procedure>& procedure) {
     this->procedureName = procedure->getName();
