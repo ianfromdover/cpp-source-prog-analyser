@@ -30,7 +30,7 @@ public:
     }
 
     static void assignScore(shared_ptr<Constraint>& constraint) {
-        // TODO: assign score based on constraint class
+        // Assign score based on constraint class
         std::vector<std::string> priorityClasses = {CONSTRAINT_TYPE_FOLLOWS, CONSTRAINT_TYPE_FOLLOWST,
                                                     CONSTRAINT_TYPE_PARENT, CONSTRAINT_TYPE_PARENTT,
                                                     CONSTRAINT_TYPE_USESS, CONSTRAINT_TYPE_USESP,
@@ -46,7 +46,7 @@ public:
 //            constraint->priority += 10;
 //        }
 
-        // TODO: assign score based on arguments
+        // Assign score based on arguments
         std::vector<std::string> priorityTypes = {TYPE_INTEGER, TYPE_CONSTANT, TYPE_EXPRESSION, TYPE_PROCEDURE};
         auto arguments = constraint->getConstraintArguments();
         for (const auto& argument : arguments) {
@@ -54,9 +54,6 @@ public:
                 constraint->priority += 1;
             }
         }
-
-        // TODO: assign score based on what arguments are already shown in the constraints vector
-        // create hashmap of statement names
     }
 
 };

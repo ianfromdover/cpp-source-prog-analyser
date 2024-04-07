@@ -58,59 +58,50 @@ TEST_CASE("Test optimizer chain") {
 
     StatementEntity s1("s1");
     StatementEntity s2("s2");
-    FollowsConstraint fc = FollowsConstraint(std::make_shared<StatementEntity>(s1),
+    IntegerArgument two(2);
+    IntegerArgument three(3);
+    ProcedureEntity p1("proc1");
+    ProcedureEntity p2("proc2");
+    FollowsConstraint fc = FollowsConstraint(std::make_shared<IntegerArgument>(two),
             std::make_shared<StatementEntity>(s2));
-    FollowsConstraint fcCopy = FollowsConstraint(std::make_shared<StatementEntity>(s1),
+    FollowsConstraint fcCopy = FollowsConstraint(std::make_shared<IntegerArgument>(two),
             std::make_shared<StatementEntity>(s2));
-    FollowsConstraint fcCopyCopy = FollowsConstraint(std::make_shared<StatementEntity>(s1),
+    FollowsConstraint fcCopyCopy = FollowsConstraint(std::make_shared<IntegerArgument>(two),
             std::make_shared<StatementEntity>(s2));
     FollowsTConstraint ftc = FollowsTConstraint(std::make_shared<StatementEntity>(s1),
             std::make_shared<StatementEntity>(s2));
     FollowsTConstraint ftcCopy = FollowsTConstraint(std::make_shared<StatementEntity>(s1),
             std::make_shared<StatementEntity>(s2));
-    qo.addConstraint(make_shared<FollowsConstraint>(fc));
-    qo.addConstraint(make_shared<FollowsConstraint>(fcCopy));
-    qo.addConstraint(make_shared<FollowsConstraint>(fcCopyCopy));
-    qo.addConstraint(make_shared<FollowsTConstraint>(ftc));
-    qo.addConstraint(make_shared<FollowsTConstraint>(ftcCopy));
-    REQUIRE(qo.getConstraints().size() == 5);
-    shared_ptr<Constraint> fcElement = qo.getConstraints()[0];
-
-    chain.addOptimizer(std::make_unique<DuplicateRemovalOptimizer>(duplicateRemovalOptimizer));
-    chain.optimize(qo);
-
-    // Testing DuplicateRemovalOptimizer
-    shared_ptr<Constraint> fcElementAfter = qo.getConstraints()[0];
-    REQUIRE(qo.getConstraints().size() == 2);
-    REQUIRE(fcElement == fcElementAfter);
-
-    qo.removeConstraints();
-
     // Add more constraints to test ConstraintOrderOptimizer
-    IntegerArgument two(2);
-    IntegerArgument three(3);
-    ProcedureEntity p1("proc1");
-    ProcedureEntity p2("proc2");
     FollowsConstraint fcConst = FollowsConstraint(std::make_shared<IntegerArgument>(two),
             std::make_shared<IntegerArgument>(three));
     CallsConstraint cc = CallsConstraint(std::make_shared<ProcedureEntity>(p1),
             std::make_shared<ProcedureEntity>(p2));
     shared_ptr<FollowsConstraint> firstConstraint = make_shared<FollowsConstraint>(fcConst);
     shared_ptr<FollowsConstraint> secondConstraint = make_shared<FollowsConstraint>(fc);
-    shared_ptr<CallsConstraint> thirdConstraint = make_shared<CallsConstraint>(cc);
-    qo.addConstraint(thirdConstraint);
+    shared_ptr<FollowsTConstraint> thirdConstraint = make_shared<FollowsTConstraint>(ftc);
+    shared_ptr<CallsConstraint> fourthConstraint = make_shared<CallsConstraint>(cc);
+    qo.addConstraint(fourthConstraint);
     qo.addConstraint(firstConstraint);
     qo.addConstraint(secondConstraint);
+    qo.addConstraint(thirdConstraint);
+    qo.addConstraint(make_shared<FollowsConstraint>(fcCopy));
+    qo.addConstraint(make_shared<FollowsConstraint>(fcCopyCopy));
+    qo.addConstraint(make_shared<FollowsTConstraint>(ftcCopy));
+    REQUIRE(qo.getConstraints().size() == 7);
 
-    chain.removeOptimizer(0); // Remove the duplicate removal optimizer
+    chain.addOptimizer(std::make_unique<DuplicateRemovalOptimizer>(duplicateRemovalOptimizer));
     chain.addOptimizer(std::make_unique<ConstraintOrderOptimizer>(constraintOrderOptimizer));
     chain.optimize(qo);
 
+    // Testing DuplicateRemovalOptimizer
+    REQUIRE(qo.getConstraints().size() == 4);
+
     // Testing ConstraintOrderOptimizer
-    REQUIRE(qo.getConstraints().size() == 3);
     REQUIRE(qo.getConstraints()[0] == firstConstraint);
     REQUIRE(qo.getConstraints()[1] == secondConstraint);
     REQUIRE(qo.getConstraints()[2] == thirdConstraint);
+    REQUIRE(qo.getConstraints()[3] == fourthConstraint);
 
     // Test other optimizers here
 }
