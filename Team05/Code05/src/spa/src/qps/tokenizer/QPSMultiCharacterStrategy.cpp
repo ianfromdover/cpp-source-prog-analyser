@@ -128,7 +128,8 @@ bool QPSMultiCharacterStrategy::starAllowed(const std::string& name) {
             // Design entities
             {"Parent",      QPSTokenType::PARENT},
             {"Follows",      QPSTokenType::FOLLOWS},
-            {"Calls",      QPSTokenType::CALLS}};
+            {"Calls",      QPSTokenType::CALLS},
+            {"Next", QPSTokenType::NEXT}};
 
     return declarationKeywords.find(name) != declarationKeywords.end();
 }

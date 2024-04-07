@@ -25,7 +25,7 @@ bool NextT::get(StmtNo s1, StmtNo s2) {
     if (!cfg || !(*cfg)->containsStmtNo(s2)) {
         return false;
     };
-    
+
     // Check if the two statements belong in the same block and s1 < s2
     const auto blockS1 = (*cfg)->find(s1);
     const auto blockS2 = (*cfg)->find(s2);

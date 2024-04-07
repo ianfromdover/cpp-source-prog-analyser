@@ -34,6 +34,8 @@ void TestWrapper::parse(std::string filename) {
         sp.extract(program);
         this->affects = std::make_shared<Affects>(std::make_shared<CFGCollection>(program), queryPkb);
         this->nextT = std::make_shared<NextT>(std::make_shared<CFGCollection>(program));
+        populatePkb->setAffectsObj(this->affects);
+        populatePkb->setNextTObj(this->nextT);
     } catch (BaseException& exception) {
         // handle exception
         std::cerr << "Caught BaseException: " << exception.what() << std::endl;

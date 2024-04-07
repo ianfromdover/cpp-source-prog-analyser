@@ -38,7 +38,7 @@ Table AffectsConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
 
     // Insertion of headers into our retrieved and result table
     retrieved.insert(retrieved.begin(), {lhsHeader, rhsHeader});
-    result.insert(retrieved.begin(), {lhsHeader, rhsHeader});
+    result.insert(result.begin(), {lhsHeader, rhsHeader});
 
     // Initialise retrieved table as ResultTable to conduct operations
     ResultTable table(retrieved);
