@@ -1588,7 +1588,7 @@ TEST_CASE("[TestQPS] scratchboard to test random stuff") {
             }
         }
 
-        SECTION("Statement") {
+        SECTION("Statement number") {
             SECTION("statement.stmt = quoted ident") {
                 std::string queryStr = "stmt s; Select s such that Parent(1, s) with s.stmt =\"4\"";
                 std::vector<std::string> expected = {"4"};
@@ -1598,6 +1598,18 @@ TEST_CASE("[TestQPS] scratchboard to test random stuff") {
             SECTION("statement.stmt = statement.stmt") {
                 std::string queryStr = "stmt s; Select s such that Parent(1, s) with s.stmt = s.stmt";
                 std::vector<std::string> expected = {"2", "3", "4"};
+                REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+            }
+
+            SECTION("read.stmt = quoted ident") {
+                std::string queryStr = "stmt s; read v; Select s such that Modifies(s, v) with v.stmt = \"1\"";
+                std::vector<std::string> expected = {"1"};
+                REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+            }
+
+            SECTION("print.stmt = print.stmt") {
+                std::string queryStr = "stmt s; print v; Select s such that Uses(s, v) with v.stmt = v.stmt";
+                std::vector<std::string> expected = {"1", "2"};
                 REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
             }
         }
