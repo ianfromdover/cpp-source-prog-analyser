@@ -13,16 +13,25 @@ bool QueryPkb::checkAffects(StmtNo affector, StmtNo affected) {
 bool QueryPkb::checkNextT(StmtNo before, StmtNo after) {
     return pkb->nextT->get(before, after);
 }
+
 bool QueryPkb::resetAffects() {
-    // TODO: add guard clause if pkb or affects is not assigned yet
+    // Guard clause to check if pkb or affects is not assigned yet
+    if (pkb == nullptr || pkb->affects == nullptr) {
+        return false; // Indicates that the reset could not be performed
+    }
     pkb->affects->flush();
     return true;
 }
+
 bool QueryPkb::resetNextT() {
-    // TODO: add guard clause if pkb or nextT is not assigned yet
+    // Guard clause to check if pkb or nextT is not assigned yet
+    if (pkb == nullptr || pkb->nextT == nullptr) {
+        return false; // Indicates that the reset could not be performed
+    }
     pkb->nextT->flush();
     return true;
 }
+
 
 // entities --------------------------------------------------------------
 Table QueryPkb::getCallTable() {
