@@ -1508,7 +1508,7 @@ TEST_CASE("[TestQPS] scratchboard to test random stuff") {
         SECTION("variable") {
             SECTION("variable.varName = quoted ident") {
                 std::string queryStr = "stmt s; variable v; Select s such that Uses(s, v) with v.varName = \"kool\"";
-                std::vector<std::string> expected = {"1"};
+                std::vector<std::string> expected = {"1", "2"};
 
                 REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
             }

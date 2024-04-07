@@ -3,9 +3,11 @@
 //
 
 #include "LiteralWith.h"
+#include "..\..\..\..\..\..\..\src\spa\src\common\StringUtils.h"
 
 LiteralWith::LiteralWith(std::string i) {
-    this->value = std::move(i);
+    std::string str = StringUtils::stripCharacters(i, "\"");
+    this->value = std::move(str);
 }
 
 std::string LiteralWith::getEntityType() {
