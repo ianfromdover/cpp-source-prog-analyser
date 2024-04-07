@@ -65,6 +65,16 @@ std::shared_ptr<Constraint> RelationshipConstraintDirector::process(shared_ptr<R
             b.addConstraintClause(r, qo);
             return b.build();
         }
+        case (QPSTokenType::NEXT_T): {
+            NextTConstraintBuilder b;
+            b.addConstraintClause(r, qo);
+            return b.build();
+        }
+        case (QPSTokenType::AFFECTS): {
+            AffectsConstraintBuilder b;
+            b.addConstraintClause(r, qo);
+            return b.build();
+        }
         default: {
             throw std::invalid_argument("Invalid relationship constraint token");
         }

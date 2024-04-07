@@ -16,6 +16,8 @@
 #include "qps/query_builder/constraint_builder/relationship_builders/CallsConstraintBuilder.h"
 #include "qps/query_builder/constraint_builder/relationship_builders/CallsTConstraintBuilder.h"
 #include "qps/query_builder/constraint_builder/relationship_builders/NextConstraintBuilder.h"
+#include "qps/query_builder/constraint_builder/relationship_builders/NextTConstraintBuilder.h"
+#include "qps/query_builder/constraint_builder/relationship_builders/AffectsConstraintBuilder.h"
 
 class RelationshipConstraintDirector {
 public:

@@ -58,7 +58,7 @@ std::shared_ptr<If> AstFactory::createIf(StmtNo stmtNo, std::shared_ptr<Expr> co
     return std::make_shared<If>(stmtNo, std::move(condition), std::move(thenBranch), std::move(elseBranch));
 }
 
-std::shared_ptr<Assign> AstFactory::createAssign(StmtNo stmtNo, std::shared_ptr<Expr> variable,
+std::shared_ptr<Assign> AstFactory::createAssign(StmtNo stmtNo, std::shared_ptr<Variable> variable,
                                                  std::shared_ptr<Expr> value) {
     return std::make_shared<Assign>(stmtNo, std::move(variable), std::move(value));
 }

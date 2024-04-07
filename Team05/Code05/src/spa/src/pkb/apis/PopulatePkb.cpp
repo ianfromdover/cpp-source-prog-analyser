@@ -5,11 +5,17 @@ PopulatePkb::PopulatePkb(std::shared_ptr<PkbStorage> p) {
 }
 
 // ----------- on-demand
-bool PopulatePkb::setAffectsObj() {
-    return false;
+bool PopulatePkb::setAffectsObj(std::shared_ptr<Affects> a) {
+    // TODO: add guard clause if PKB is not initialised
+    // TODO: add guard clause if affects object is null
+    pkb->affects = std::move(a);
+    return true;
 }
-bool PopulatePkb::setNextTObj() {
-    return false;
+bool PopulatePkb::setNextTObj(std::shared_ptr<NextT> n) {
+    // TODO: add guard clause if PKB is not initialised
+    // TODO: add guard clause if nextT object is null
+    pkb->nextT = std::move(n);
+    return true;
 }
 
 // ----------- entity
