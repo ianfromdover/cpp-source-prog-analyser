@@ -1,12 +1,6 @@
 #include <utility>
 #include "QueryPkb.h"
 #include "common/TableUtils.h"
-/**
- * TODO: implement
-getPatternAsgnByStmt(StmtNo sNum) {
-getPatternAsgnByLhs(VarName Lhs) {
-getPatternAsgnByRhs(std::string Rhs) {
- */
 
 QueryPkb::QueryPkb(std::shared_ptr<PkbStorage> p) {
     pkb = std::move(p);
@@ -14,17 +8,30 @@ QueryPkb::QueryPkb(std::shared_ptr<PkbStorage> p) {
 
 // on-demand --------------------------------------------------------------
 bool QueryPkb::checkAffects(StmtNo affector, StmtNo affected) {
-    return false;
+    return pkb->affects->get(affector, affected);
 }
 bool QueryPkb::checkNextT(StmtNo before, StmtNo after) {
-    return false;
+    return pkb->nextT->get(before, after);
 }
+
 bool QueryPkb::resetAffects() {
-    return false;
+    // Guard clause to check if pkb or affects is not assigned yet
+    if (pkb == nullptr || pkb->affects == nullptr) {
+        return false; // Indicates that the reset could not be performed
+    }
+    pkb->affects->flush();
+    return true;
 }
+
 bool QueryPkb::resetNextT() {
-    return false;
+    // Guard clause to check if pkb or nextT is not assigned yet
+    if (pkb == nullptr || pkb->nextT == nullptr) {
+        return false; // Indicates that the reset could not be performed
+    }
+    pkb->nextT->flush();
+    return true;
 }
+
 
 // entities --------------------------------------------------------------
 Table QueryPkb::getCallTable() {
@@ -247,6 +254,9 @@ Table QueryPkb::getModifiesPVarsByProc(ProcName modifier) {
 }
 Table QueryPkb::getModifiesPProcsByVar(VarName modified) {
     return TableUtils::toTable(pkb->modifiesPTable->getRelatedKeys(modified));
+}
+bool QueryPkb::isModifiesP(ProcName p, VarName v) {
+    return pkb->modifiesPTable->containsPair(p, v);
 }
 
 Table QueryPkb::getModifiesSTable() {

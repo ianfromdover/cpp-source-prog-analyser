@@ -116,6 +116,7 @@ public:
     virtual Table getModifiesPAllVars() = 0;
     virtual Table getModifiesPVarsByProc(ProcName modifier) = 0;
     virtual Table getModifiesPProcsByVar(VarName modified) = 0;
+    virtual bool isModifiesP(ProcName p, VarName v) = 0;
 
     // (StmtNo | VarName)
     virtual Table getModifiesSTable() = 0;

@@ -3,6 +3,7 @@
 //
 
 #include "CFG.h"
+#include "sp/extractor/CfgExtractor.h"
 
 CFG::CFG(const std::shared_ptr<Procedure>& procedure) {
     this->procedureName = procedure->getName();
@@ -16,6 +17,38 @@ std::shared_ptr<Block> CFG::getEntryBlock() const {
 
 std::shared_ptr<Blocks> CFG::getBlocks() const {
     return this->blocks;
+}
+
+std::string CFG::getProcedureName() const {
+    return this->procedureName;
+}
+
+std::pair<StmtNo, StmtNo> CFG::getRange() const {
+    auto start = -1;
+    auto end = -1;
+
+    for (const auto& block : *this->blocks) {
+        const auto range = block->getRange();
+        if (range) {
+            start = range->first;
+            break;
+        }
+    }
+
+    for (auto it = this->blocks->rbegin(); it != this->blocks->rend(); ++it) {
+        const auto range = (*it)->getRange();
+        if (range) {
+            end = range->second;
+            break;
+        }
+    }
+
+    return { start, end };
+}
+
+bool CFG::containsStmtNo(StmtNo stmtNo) const {
+    const auto range = this->getRange();
+    return range.first <= stmtNo && stmtNo <= range.second;
 }
 
 void CFG::compile(const std::shared_ptr<Procedure>& procedure) {
@@ -118,14 +151,6 @@ void CFG::visitIfStmt(const If& stmt, std::shared_ptr<Accumulator>& _) {
     this->addBlock(mergeBlock);
 }
 
-std::shared_ptr<CFGs> CFG::compile(const std::shared_ptr<Program>& program) {
-    const auto& cfgs = std::make_shared<CFGs>();
-    for (const auto& procedure : *program->getProcedures()) {
-        cfgs->insert({ procedure->getName(), std::make_shared<CFG>(procedure) });
-    }
-    return cfgs;
-}
-
 std::string CFG::toString() {
     std::string str = "CFG [" + this->procedureName + "]: [\n";
     for (size_t i = 0; i < this->blocks->size(); i++) {
@@ -142,3 +167,20 @@ std::string CFG::toString() {
 void CFG::accept(CfgExtractor &visitor) const {
     visitor.visitCFG(*this);
 }
+
+std::optional<std::shared_ptr<Block>> CFG::find(int index) {
+    for (const auto& block : *blocks) {
+        auto range = block->getRange();
+        if (!range) {
+            continue;
+        }
+        auto front = block->getRange()->first;
+        auto back = block->getRange()->second;
+        if (index >= front && index <= back) {
+            return block;
+        }
+    }
+    return std::nullopt;
+}
+
+
