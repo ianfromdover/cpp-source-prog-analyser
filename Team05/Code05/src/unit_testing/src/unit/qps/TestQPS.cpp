@@ -1612,6 +1612,12 @@ TEST_CASE("[TestQPS] scratchboard to test random stuff") {
                 std::vector<std::string> expected = {"1", "2"};
                 REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
             }
+
+            SECTION("print.stmt = statement.stmt") {
+                std::string queryStr = "stmt s; print v; Select s such that Uses(s, v) with v.stmt = s.stmt";
+                std::vector<std::string> expected = {"1", "2"};
+                REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+            }
         }
     }
 }
