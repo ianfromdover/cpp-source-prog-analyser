@@ -215,7 +215,7 @@ std::vector<std::shared_ptr<WithClause>> QPSParser::withClause(){
     // second argument
     if (this->check(QPSTokenType::QUOTE)) {
       arg2 = std::make_shared<QPSToken>(this->quotedIdent());
-      arg1Type = QPSTokenType::QPSTypeInfo::QUOTED_IDENT;
+      arg2Type = QPSTokenType::QPSTypeInfo::QUOTED_IDENT;
     } else if (this->match({QPSTokenType::INTEGER})){
       arg2 = std::make_shared<QPSToken>(this->previous());
       arg2Type = QPSTokenType::QPSTypeInfo::INTEGER;

@@ -421,9 +421,10 @@ public:
         for (int i = 0; i < numEntries; i ++) {
             if (i == 0) {
                 a[0].push_back(newHeaderName); // insert the new header name into the first row (headers)
+            } else {
+              std::string valToDuplicate = a[i][indexOfHeaderToDuplicate];
+              a[i].push_back(valToDuplicate);
             }
-            std::string valToDuplicate = a[i][indexOfHeaderToDuplicate];
-            a[i].push_back(valToDuplicate);
         }
         return a;
     }

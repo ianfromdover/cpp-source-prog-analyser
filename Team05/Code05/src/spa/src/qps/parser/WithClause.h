@@ -110,8 +110,8 @@ private:
 
   QPSTokenType::QPSTypeInfo firstArgType;
   QPSTokenType::QPSTypeInfo secondArgType;
-  QPSTokenType::QPSTypeInfo firstArgAttribute;
-  QPSTokenType::QPSTypeInfo secondArgAttribute;
+  QPSTokenType::QPSTypeInfo firstArgAttribute = QPSTokenType::ERR_NULL;
+  QPSTokenType::QPSTypeInfo secondArgAttribute = QPSTokenType::ERR_NULL;
 };
 
 #endif // SPA_WITHCLAUSE_H
