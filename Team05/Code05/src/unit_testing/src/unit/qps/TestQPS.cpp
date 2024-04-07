@@ -1538,21 +1538,21 @@ TEST_CASE("[TestQPS] scratchboard to test random stuff") {
 
         SECTION("Read") {
             SECTION("read.varName = quoted ident") {
-                std::string queryStr = "stmt s; read v; Select s such that Modifies(s, v) with v.varName = \"kool\"";
+                std::string queryStr = "stmt s; variable v;read r; Select r such that Modifies(r, v) with r.varName = \"kool\"";
                 std::vector<std::string> expected = {"1"};
 
                 REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
             }
 
             SECTION("read.varName = read.varName (same)") {
-                std::string queryStr = "stmt s; read v; Select s such that Modifies(s, v) with v.varName = v.varName";
+                std::string queryStr = "stmt s; variable v;read r; Select r such that Modifies(r, v) with r.varName = v.varName";
                 std::vector<std::string> expected = {"1", "2"};
 
                 REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
             }
 
             SECTION("read.varName = read.varName (different)") {
-                std::string queryStr = "stmt s; read v, v1; Select s such that Modifies(s, v) with v.varName = v1.varName";
+                std::string queryStr = "stmt s; variable v;read r,r1; Select r such that Modifies(r, v) with r.varName = r1.varName";
                 std::vector<std::string> expected = {"1", "2"};
 
                 REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
