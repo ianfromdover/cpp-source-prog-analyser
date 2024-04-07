@@ -93,7 +93,10 @@ std::vector<std::vector<std::string>> VariableWith::getRawTable(QueryPkbVirtual 
 }
 
 bool VariableWith::hasMoreThanOneColumn(std::vector<std::vector<std::string>> entityTable) {
-    return entityTable.size() > 1;
+    if (entityTable.size() < 0) {
+        return false;
+    }
+    return entityTable[0].size() > 1;
 }
 
 std::vector<std::vector<std::string>> VariableWith::removeColumnByIndex(int i, std::vector<std::vector<std::string>> table){
