@@ -14,14 +14,14 @@ private:
     Solver<Aggregator>::Meet meet;
     Solver<Aggregator>::Transfer transfer;
     std::shared_ptr<CFGCollection> cfgCollection;
-    Solver<Aggregator>::Facts in;
-    Solver<Aggregator>::Facts out;
-
+    std::unordered_map<std::string, pair<Solver<Aggregator>::Facts, Solver<Aggregator>::Facts>> factChainMap;
 
 public:
     explicit NextT(const std::shared_ptr<CFGCollection>& cfgCollection);
     bool get(StmtNo s1, StmtNo s2);
+    void flush();
 
+    void compute(const shared_ptr<CFG> &cfg, const string &procedureName);
 };
 
 

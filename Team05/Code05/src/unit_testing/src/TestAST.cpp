@@ -1484,6 +1484,58 @@ TEST_CASE("Test Extractor") {
            y = z + 2;
            x = x * y + z;
         }
+
+        procedure Third {
+            read x;
+            read y;
+            print x;
+            print y;
+            z = 3;
+
+            if (x == 0) then {
+                x = x + 1;
+                y = y - 1;
+                z = 2;
+            } else {
+                x = x + 2;
+                y = y + 1;
+
+                if (z != 3) then {
+                    x = 0;
+                    y = 0;
+                    z = 0;
+                } else {
+                    x = 1;
+                    z = x + y + 2;
+                }
+            }
+
+            x = x + 1;
+            z = y + x;
+
+            while (x < 5) {
+                print x;
+                print y;
+                while (y < 2) {
+                    print z;
+                    print y;
+                }
+                z = x - y;
+                k = z + y;
+
+                if (k > 0) then {
+                    k = k - 1;
+                } else {
+                    k = k + 1;
+                }
+
+                print k;
+            }
+
+            print x;
+            print y;
+            print z;
+        }
     )";
 
     std::shared_ptr<PkbStorage> p=std::make_shared<PkbStorage>();
@@ -1494,12 +1546,13 @@ TEST_CASE("Test Extractor") {
     sp.validate(program);
     sp.extract(program);
     auto nextT = std::make_shared<NextT>(std::make_shared<CFGCollection>(program));
-//    for (int i = 1; i <= 11; i++) {
-//        for (int j = 1; j <= 11; j++) {
+//    for (int i = 1; i <= 45; i++) {
+//        for (int j = 1; j <= 45; j++) {
 //            std::string result = nextT->get(i, j) ? "true" : "false";
 //            std::cout << "{" << i << ", " << j << "} = " << result << std::endl;
 //        }
 //    }
+    nextT->flush();
     require(1==1);
 }
 

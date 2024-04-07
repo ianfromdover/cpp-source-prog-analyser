@@ -19,10 +19,9 @@ bool QueryPkb::resetAffects() {
     return true;
 }
 bool QueryPkb::resetNextT() {
-    // TODO: SP to implement
     // TODO: add guard clause if pkb or nextT is not assigned yet
-    // pkb->nextT->flush();
-    return false;
+    pkb->nextT->flush();
+    return true;
 }
 
 // entities --------------------------------------------------------------

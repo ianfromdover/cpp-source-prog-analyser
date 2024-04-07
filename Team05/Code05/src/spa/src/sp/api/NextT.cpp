@@ -25,6 +25,7 @@ bool NextT::get(StmtNo s1, StmtNo s2) {
     if (!cfg || !(*cfg)->containsStmtNo(s2)) {
         return false;
     };
+    
     // Check if the two statements belong in the same block and s1 < s2
     const auto blockS1 = (*cfg)->find(s1);
     const auto blockS2 = (*cfg)->find(s2);
@@ -32,15 +33,25 @@ bool NextT::get(StmtNo s1, StmtNo s2) {
         return true;
     }
     // Check if solver was previously ran
-    if (in.empty() && out.empty()) {
-        const auto [tempIn, tempOut] = Solver<Aggregator>::solve(*cfg, this->meet, this->transfer, Aggregator());
-        this->in = tempIn;
-        this->out = tempOut;
+    const auto procedureName = (*cfg)->getProcedureName();
+    auto factChainIt = this->factChainMap.find(procedureName);
+    if (factChainIt == this->factChainMap.end()) {
+        this->compute(*cfg, procedureName);
+        factChainIt = this->factChainMap.find(procedureName);
     }
-    //
-    if (in[*blockS2].info.find(*blockS1) != in[*blockS2].info.end()) {
+    // Check if BlockS1 is in the Aggregator of BlockS2
+    if (factChainIt->second.first[*blockS2].info.find(*blockS1) != factChainIt->second.first[*blockS2].info.end()) {
         return true;
     }
-
     return false;
+}
+
+void NextT::flush() {
+    this->factChainMap.clear();
+}
+
+void NextT::compute(const shared_ptr<CFG> &cfg, const std::string& procedureName) {
+    std::cout << "Computed for " << procedureName << std::endl;
+    const auto [tempIn, tempOut] =Solver<Aggregator>::solve(cfg, this->meet, this->transfer, Aggregator());
+    this->factChainMap.insert({procedureName, {tempIn, tempOut}});
 }
