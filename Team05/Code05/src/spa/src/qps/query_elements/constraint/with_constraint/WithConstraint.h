@@ -23,6 +23,7 @@ public:
     std::vector<std::shared_ptr<ConstraintArgument>>  getConstraintArguments() override;
 
     std::vector<std::vector<std::string>> getRelationshipTable(QueryPkbVirtual &) override;
+    std::size_t hash() const override;
 };
 
 

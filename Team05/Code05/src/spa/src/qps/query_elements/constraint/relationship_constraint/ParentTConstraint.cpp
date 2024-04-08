@@ -80,3 +80,19 @@ bool ParentTConstraint::isStatementSynonym(std::string type) {
     };
     return std::find(statementVector.begin(), statementVector.end(), type) != statementVector.end();
 }
+
+std::size_t ParentTConstraint::hash() const {
+    std::hash<std::string> stringHasher;
+
+    std::string s1 = constraintArguments[0]->getArgumentValue()[0];
+    std::string s2 = constraintArguments[0]->getArgumentValue()[0];
+
+    std::size_t hashValue = 0;
+
+    // Combine hash values for both stringVars while maintaining their order
+    hashValue ^= stringHasher(CONSTRAINT_TYPE_PARENTT) + HASH_OFFSET + (hashValue << 6) + (hashValue >> 2);
+    hashValue ^= stringHasher(s1) + HASH_OFFSET + (hashValue << 6) + (hashValue >> 2);
+    hashValue ^= stringHasher(s2) + HASH_OFFSET + (hashValue << 6) + (hashValue >> 2);
+
+    return hashValue;
+}

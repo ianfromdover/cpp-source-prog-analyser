@@ -21,6 +21,7 @@ public:
     bool isStatementSynonym(std::string type);
     vector<string> flattenTable(const Table &table);
     Table generateCartesianProductTable(const vector<string> &table);
+    std::size_t hash() const override;
 };
 
 #endif //SPA_NEXTTCONSTRAINT_H

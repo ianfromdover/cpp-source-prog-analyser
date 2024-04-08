@@ -56,12 +56,19 @@
 #define CONSTRAINT_TYPE_NEXTT "NextT"
 #define CONSTRAINT_TYPE_AFFECTS "Affects"
 
+// Used for hashing
+#define CONSTRAINT_TYPE_PATTERN_ASGN "PatternAsgn"
+#define CONSTRAINT_TYPE_PATTERN_IF "PatternIf"
+#define CONSTRAINT_TYPE_PATTERN_WHILE "PatternWhile"
+
 #define VALIDATION_RULE_SINGLE_DECLARATION "SingleDeclarationRule"
 #define VALIDATION_RULE_NO_DECLARATION "NoDeclarationRule"
 #define VALIDATION_RULE_SYN_ASSIGN_DECLARATION "SynAssignDeclarationRule"
 #define VALIDATION_RULE_WILDCARD_ARGUMENT "WildcardArgumentRule"
 #define VALIDATION_RULE_RELATIONSHIP_ARGUMENT "RelationshipArgumentRule"
 #define VALIDATION_RULE_PATTERN_ARGUMENT "PatternArgumentRule"
+
+#define HASH_OFFSET 0x9e3779b9
 
 
 #define LNNO "line_number"

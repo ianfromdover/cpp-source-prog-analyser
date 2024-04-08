@@ -18,6 +18,7 @@ public:
     Table getRelationshipTable(QueryPkbVirtual &) override;
 
     bool isStatementSynonym(string type);
+    std::size_t hash() const override;
 };
 
 

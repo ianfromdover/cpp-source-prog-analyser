@@ -260,7 +260,79 @@ public:
         }
     }
 
-    static Table nestedLoopJoin(const table& tableA, const table& tableB) {
+    // TODO: remove the nestedLoopJoin once testing proves that hashJoin is faster
+
+//    static Table nestedLoopJoin(const table& tableA, const table& tableB) {
+//        // guaranteed to have common headers
+//        table result;
+//
+//        map<string, size_t> headerIndex;
+//        vector<string> headers;
+//
+//        for (size_t i = 0; i < tableA[0].size(); ++i) {
+//            headerIndex[tableA[0][i]] = i;
+//            headers.push_back(tableA[0][i]);
+//        }
+//        size_t offset = tableA[0].size();
+//        for (size_t i = 0; i < tableB[0].size(); ++i) {
+//            if (headerIndex.find(tableB[0][i]) == headerIndex.end()) {
+//                headerIndex[tableB[0][i]] = i + offset;
+//                headers.push_back(tableB[0][i]);
+//            }
+//        }
+//
+//        // find common headers
+//        vector<string> commonHeaders = findCommonHeaders(tableA, tableB);
+//
+//        map<string, size_t> headerMapA;
+//        map<string, size_t> headerMapB;
+//
+//        for (size_t i = 0; i < commonHeaders.size(); ++i) {
+//            headerMapA[commonHeaders[i]] = findColumnIndex(tableA, commonHeaders[i]);
+//            headerMapB[commonHeaders[i]] = findColumnIndex(tableB, commonHeaders[i]);
+//        }
+//
+//        // insert all headers
+//        result.push_back(headers);
+//
+//        // iterate through table a
+//        for (size_t i = 1; i < tableA.size(); ++i) {
+//            // iterate through table b
+//            vector<string> entryA = tableA[i];
+//            for (size_t j = 1; j < tableB.size(); ++j) {
+//                vector<string> entryB = tableB[j];
+//
+//                bool match = false;
+//                for (const auto& header: commonHeaders) {
+//                    if (entryA[headerMapA[header]] == entryB[headerMapB[header]]) {
+//                        match = true;
+//                    } else {
+//                        match = false;
+//                        break;
+//                    }
+//                }
+//
+//                if (match){
+//                    // join records
+//                    vector<string> row;
+//                    for (const auto& e: entryA) {
+//                        row.push_back(e);
+//                    }
+//                    for (int i=0;i<entryB.size();i++){
+//                        string header = tableB[0][i];
+//                        if (std::find(commonHeaders.begin(), commonHeaders.end(), header) == commonHeaders.end()){
+//                            row.push_back(entryB[i]);
+//                        }
+//                    }
+//                    result.push_back(row);
+//                }
+//            }
+//        }
+//
+//        return result;
+//    }
+
+    static Table hashJoin(const Table& tableA, const Table& tableB) {
         // guaranteed to have common headers
         table result;
 
@@ -293,37 +365,41 @@ public:
         // insert all headers
         result.push_back(headers);
 
-        // iterate through table a
+        // Build hash table for tableB based on common headers
+        unordered_multimap<string, size_t> hashTableB;
+        for (size_t i = 1; i < tableB.size(); ++i) {
+            string key;
+            for (const auto& header : commonHeaders) {
+                size_t index = findColumnIndex(tableB, header);
+                key += tableB[i][index];
+            }
+            hashTableB.emplace(key, i);
+        }
+
+        // Probe tableA and perform hash join
         for (size_t i = 1; i < tableA.size(); ++i) {
-            // iterate through table b
-            vector<string> entryA = tableA[i];
-            for (size_t j = 1; j < tableB.size(); ++j) {
-                vector<string> entryB = tableB[j];
+            string key;
+            for (const auto& header : commonHeaders) {
+                size_t index = findColumnIndex(tableA, header);
+                key += tableA[i][index];
+            }
 
-                bool match = false;
-                for (const auto& header: commonHeaders) {
-                    if (entryA[headerMapA[header]] == entryB[headerMapB[header]]) {
-                        match = true;
-                    } else {
-                        match = false;
-                        break;
+            // Find matching entries in tableB based on the key
+            auto range = hashTableB.equal_range(key);
+            for (auto it = range.first; it != range.second; ++it) {
+                // Join matching records from tableA and tableB
+                vector<string> row;
+                for (const auto& e : tableA[i]) {
+                    row.push_back(e);
+                }
+                size_t indexB = it->second;
+                for (size_t j = 0; j < tableB[indexB].size(); ++j) {
+                    string header = tableB[0][j];
+                    if (find(commonHeaders.begin(), commonHeaders.end(), header) == commonHeaders.end()) {
+                        row.push_back(tableB[indexB][j]);
                     }
                 }
-
-                if (match){
-                    // join records
-                    vector<string> row;
-                    for (const auto& e: entryA) {
-                        row.push_back(e);
-                    }
-                    for (int i=0;i<entryB.size();i++){
-                        string header = tableB[0][i];
-                        if (std::find(commonHeaders.begin(), commonHeaders.end(), header) == commonHeaders.end()){
-                            row.push_back(entryB[i]);
-                        }
-                    }
-                    result.push_back(row);
-                }
+                result.push_back(row);
             }
         }
 
@@ -335,7 +411,7 @@ public:
         vector<string> commonHeaders = findCommonHeaders(a, b);
 
         if (!commonHeaders.empty()) {
-            return nestedLoopJoin(a, b);
+            return hashJoin(a, b);
         }
         else {
             // Perform cross product

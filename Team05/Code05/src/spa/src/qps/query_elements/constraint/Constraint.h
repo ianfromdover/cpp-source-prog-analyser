@@ -17,12 +17,15 @@ class QueryPkbVirtual;
 
 class Constraint {
 public:
+    int priority = 0; // Used in constraint ordering for optimization
     virtual std::string getConstraintClass() = 0;
     virtual std::string getConstraintType() = 0;
     virtual std::vector<std::shared_ptr<ConstraintArgument>>  getConstraintArguments() = 0;
     std:: string toString();
 
     virtual Table getRelationshipTable(QueryPkbVirtual &) =0;
+
+    virtual std::size_t hash() const = 0;
 
 };
 
