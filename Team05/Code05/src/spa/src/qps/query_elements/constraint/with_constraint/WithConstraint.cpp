@@ -26,7 +26,7 @@ std::vector<std::vector<std::string>> WithConstraint::getRelationshipTable(Query
     // join based on the header: HEADER_ENT_WITH_TOMERGE
     auto table1 = constraintArguments[0]->getEntityTable(pkb);
     auto table2 = constraintArguments[1]->getEntityTable(pkb);
-    table result = ResultTable::nestedLoopJoin(table1, table2);
+    table result = ResultTable::hashJoin(table1, table2);
     ResultTable ans = ResultTable(result);
     ans.removeColumnByHeader(HEADER_ENT_WITH_TOMERGE);
     return ans.getTable();

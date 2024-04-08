@@ -29,14 +29,6 @@ Table FollowsTConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     }
 }
 
-bool FollowsTConstraint::isStatementSynonym(std::string type) {
-    vector<std::string> statementVector = {
-            TYPE_STATEMENT, TYPE_READ, TYPE_PRINT, TYPE_ASSIGN,
-            TYPE_CALL, TYPE_WHILE, TYPE_IF
-    };
-    return std::find(statementVector.begin(), statementVector.end(), type) != statementVector.end();
-}
-
 Table FollowsTConstraint::getTable(QueryPkbVirtual &pkb) {
     // Get follows table and populate it into our results table
     Table result = pkb.getFollowsTTable();
