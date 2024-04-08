@@ -53,6 +53,8 @@
 #define CONSTRAINT_TYPE_PATTERN_ASSIGN "PatternAssign"
 #define CONSTRAINT_TYPE_PATTERN_WHILE "PatternWhile"
 #define CONSTRAINT_TYPE_NEXT "Next"
+#define CONSTRAINT_TYPE_NEXTT "NextT"
+#define CONSTRAINT_TYPE_AFFECTS "Affects"
 
 // Used for hashing
 #define CONSTRAINT_TYPE_PATTERN_ASGN "PatternAsgn"

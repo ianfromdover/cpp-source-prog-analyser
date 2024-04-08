@@ -34,6 +34,9 @@ std::vector<std::string> QPS::evaluate(std::string queryString) {
     QueryEvaluator eval(*pkb);
     std::shared_ptr<Formattable> results = eval.evaluate(*query);
 
+    pkb->resetAffects();
+    pkb->resetNextT();
+
     return results->format();
 
 }

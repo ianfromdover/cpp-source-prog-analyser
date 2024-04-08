@@ -9,7 +9,8 @@
 #include "sp/api/formatter/ExprFormatter.h"
 #include "sp/exception/FormatterException.h"
 #include "sp/cfg/CFG.h"
-#include "catch.hpp"
+#include "sp/api/Affects.h"
+#include "sp/api/NextT.h"
 
 using namespace std;
 void require(bool b) {
@@ -1451,6 +1452,137 @@ TEST_CASE("Next relationship") {
     }
 }
 
+TEST_CASE("NextT relationship") {
+    std::string codeSnippet = R"(
+    procedure f {
+        if (x==1) then {
+            while (y==1) {
+                call f1;
+                y = 1;
+            }
+        } else {
+            y=3;
+        }
+        read y;
+        print t;
+        y = 2;
+    }
+
+    procedure f1 {
+        call f2;
+    }
+
+    procedure f2 {
+        x=1;
+    }
+    )";
+
+    std::shared_ptr<PkbStorage> p=std::make_shared<PkbStorage>();
+    auto pkb = make_shared<PopulatePkb>(p);
+    auto sp = SourceProcessor(pkb);
+    QueryPkb pkb1(p);
+    auto queryPkb = std::make_shared<QueryPkb>(pkb1);
+    const auto tokens = sp.scan(codeSnippet);
+    const auto program = sp.parse(tokens);
+    sp.validate(program);
+    sp.extract(program);
+    auto affects = std::make_shared<Affects>(std::make_shared<CFGCollection>(program), queryPkb);
+    auto nextT = std::make_shared<NextT>(std::make_shared<CFGCollection>(program));
+    pkb->setNextTObj(nextT);
+    pkb->setAffectsObj(affects);
+    QPS qps(queryPkb);
+
+    SECTION("Select s1 such that Next*(s1, s2)") {
+        std::string query = "stmt s1; stmt s2; Select s1 such that Next*(s1, s2)";
+        std::vector<std::string> expected = {"1", "2", "3", "4", "5", "6", "7"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+
+    SECTION("Select s2 such that Next*(i, s2)") {
+        std::string query = "if i; stmt s2; Select s2 such that Next*(i, s2)";
+        std::vector<std::string> expected = { "2", "3", "4", "5", "6", "7", "8" };
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+
+    SECTION("Select s2 such that Next*(s1, s2)") {
+        std::string query = "stmt s1; stmt s2; Select s2 such that Next*(s1, s2)";
+        std::vector<std::string> expected = { "2", "3", "4", "5", "6", "7", "8" };
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+
+    SECTION("Select s1 such that Next*(s1, 3)") {
+        std::string query = "stmt s1; stmt s2; Select s1 such that Next*(s1, 3)";
+        std::vector<std::string> expected = { "1", "2", "3", "4" };
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+
+    SECTION("Select s2 such that Next*(3, s2)") {
+        std::string query = "stmt s1; stmt s2; Select s2 such that Next*(3, s2)";
+        std::vector<std::string> expected = { "2", "3", "4", "6", "7", "8"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+
+    SECTION("Select s1 such that Next*(s1, _)") {
+        std::string query = "stmt s1; Select s1 such that Next*(s1, _)";
+        std::vector<std::string> expected = {"1", "2", "3", "4", "5", "6", "7" };
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+
+    SECTION("Select s2 such that Next*(_, s2)") {
+        std::string query = "stmt s2; Select s2 such that Next(_, s2)";
+        std::vector<std::string> expected = {"2", "3", "4", "5", "6", "7", "8"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+
+    SECTION("Select s1 such that Next*(_, _)") {
+        std::string query = "stmt s1; Select s1 such that Next*(_, _)";
+        std::vector<std::string> expected = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+
+    SECTION("Select s1 such that Next*(2, 3)") {
+        std::string query = "stmt s1; Select s1 such that Next*(2, 3)";
+        std::vector<std::string> expected = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+
+    SECTION("Select s1 such that Next*(3, 2)") {
+        std::string query = "stmt s1; Select s1 such that Next*(3, 2)";
+        std::vector<std::string> expected = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+}
+
 TEST_CASE("Test ExprFormatter API") {
     REQUIRE(ExprFormatter::format("x") == "x");
     REQUIRE(ExprFormatter::format("x + 1") == "(x+1)");
@@ -1466,8 +1598,25 @@ TEST_CASE("Test ExprFormatter API") {
 }
 
 TEST_CASE("Test Extractor") {
-    std::string codeSnippet = R"(
-procedure main {
+    std::string input = R"(
+        procedure Second {
+           x = 0;
+           i = 5;
+           while (i!=0) {
+             x = x + 2*y;
+             i = i - 1;
+           }
+           if (x==1) then {
+             x = x+1;
+           } else {
+             z = 1;
+           }
+           z = z + x + i;
+           y = z + 2;
+           x = x * y + z;
+        }
+
+        procedure Third {
             read x;
             read y;
             print x;
@@ -1523,9 +1672,19 @@ procedure main {
     std::shared_ptr<PkbStorage> p=std::make_shared<PkbStorage>();
     auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
-    sp.exec(codeSnippet);
-
-    require(true);
+    const auto tokens = sp.scan(input);
+    const auto program = sp.parse(tokens);
+    sp.validate(program);
+    sp.extract(program);
+    auto nextT = std::make_shared<NextT>(std::make_shared<CFGCollection>(program));
+//    for (int i = 1; i <= 45; i++) {
+//        for (int j = 1; j <= 45; j++) {
+//            std::string result = nextT->get(i, j) ? "true" : "false";
+//            std::cout << "{" << i << ", " << j << "} = " << result << std::endl;
+//        }
+//    }
+    nextT->flush();
+    require(1==1);
 }
 
 TEST_CASE("expression matching") {
@@ -1786,7 +1945,7 @@ TEST_CASE("AST to CFG") {
 
     auto sp = SourceProcessor(nullptr);
     const auto& program = sp.parse(sp.scan(source));
-    REQUIRE(CFG::compile(program)->at("main")->toString() == expect);
+    REQUIRE(CFGCollection(program).find("main").value()->toString() == expect);
 }
 
 TEST_CASE("test") {
@@ -1912,3 +2071,49 @@ TEST_CASE("test") {
         require(true);
     }
 }
+
+
+//TEST_CASE("Test Affects") {
+//    const auto source = R"(
+//        procedure main {
+//            x = 0;
+//            y = 1;
+//            z = 2;
+//
+//            if (x == 0) then {
+//                x = 3;
+//            } else {
+//                x = 4;
+//            }
+//        }
+//    )";
+//
+//    const auto& pkb = std::make_shared<PkbStorage>();
+//    auto populatePkb = std::make_shared<PopulatePkb>(pkb);
+//    auto queryPkb = std::make_shared<QueryPkb>(pkb);
+//
+//    auto sp = SourceProcessor(populatePkb);
+//    const auto& tokens = sp.scan(source);
+//    const auto& program = sp.parse(tokens);
+//    sp.validate(program);
+//    sp.extract(program);
+//
+//    const auto& cfgCollection = std::make_shared<CFGCollection>(program);
+//    auto affects = Affects(cfgCollection, queryPkb);
+//    const auto [in, out] = affects.get(1, 2);
+//
+//    for (const auto& block : *cfgCollection->getCFGs()->at(0)->getBlocks()) {
+//        std::cout << block->toString() << std::endl;
+//        std::cout << "In: [" << std::endl;
+//        for (const auto& var : in.at(block)) {
+//            std::cout << "(" << var.getName() << ", " << std::to_string(var.getStmtNo()) << ")" << std::endl;
+//        }
+//        std::cout << "]" << std::endl;
+//        std::cout << "Out: [" << std::endl;
+//        for (const auto& var : out.at(block)) {
+//            std::cout << "(" << var.getName() << ", " << std::to_string(var.getStmtNo()) << ")" << std::endl;
+//        }
+//        std::cout << "]" << std::endl;
+//    }
+//}
+

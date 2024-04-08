@@ -11,15 +11,15 @@
 #include "sp/extractor/RelationExtractor.h"
 #include "sp/extractor/relation_extractor/ParentExtractor.h"
 #include "sp/parser/Parser.h"
+#include "sp/api/Affects.h"
 
 class SourceProcessor {
 private:
-    shared_ptr<BasePkbPopulator> pkb;
- 
+    std::shared_ptr<BasePkbPopulator> pkb;
 public:
-    explicit SourceProcessor(shared_ptr<BasePkbPopulator> pkb) : pkb(std::move(pkb)) {};
+    explicit SourceProcessor(std::shared_ptr<BasePkbPopulator> pkb) : pkb(std::move(pkb)) {};
     void exec(const std::string& source);
-    shared_ptr<std::vector<std::shared_ptr<Token>>> scan(const std::string& source);
+    std::shared_ptr<std::vector<std::shared_ptr<Token>>> scan(const std::string& source);
     std::shared_ptr<Program> parse(const std::shared_ptr<std::vector<std::shared_ptr<Token>>>& tokens);
     void validate(const std::shared_ptr<Program>& program);
     void extract(const std::shared_ptr<Program>& program);

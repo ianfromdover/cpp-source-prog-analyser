@@ -18,6 +18,8 @@
 #include "qps/query_elements/constraint/relationship_constraint/CallsConstraint.h"
 #include "qps/query_elements/constraint/relationship_constraint/CallsTConstraint.h"
 #include "qps/query_elements/constraint/relationship_constraint/NextConstraint.h"
+#include "qps/query_elements/constraint/relationship_constraint/NextTConstraint.h"
+#include "qps/query_elements/constraint/relationship_constraint/AffectsConstraint.h"
 
 #include <stdexcept>
 

@@ -5,12 +5,9 @@
 #include "UsesExtractor.h"
 
 void UsesExtractor::visitProcedure(const Procedure& procedure, std::shared_ptr<Accumulator>& info) {
-    if (this->visitedProcedures.find(procedure.getName()) == this->visitedProcedures.end()) {
-        this->visitedProcedures.insert(procedure.getName());
-        auto parentInfo = std::make_shared<Accumulator>(*info);
-        parentInfo->stringInfo.emplace_back(procedure.getName());
-        this->visitStmtList(procedure.getBody(), parentInfo);
-    }
+    auto parentInfo = std::make_shared<Accumulator>(*info);
+    parentInfo->stringInfo.emplace_back(procedure.getName());
+    this->visitStmtList(procedure.getBody(), parentInfo);
 }
 
 void UsesExtractor::visitPrintStmt(const Print& stmt, shared_ptr<Accumulator>& parentInfo) {

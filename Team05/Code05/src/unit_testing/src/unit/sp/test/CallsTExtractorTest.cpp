@@ -13,7 +13,8 @@ TEST_CASE("CallsT_TestSequentialIfIfNestingChain") {
     std::multiset<pair<std::string, std::string>> resultsVector = {
             {"AssignCallPrintRead", "IfElseWithStmtsBeforeAndInside"},
             {"AssignCallPrintRead", "IfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside"},
-            {"IfElseWithStmtsBeforeAndInside", "IfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside"}
+            {"IfElseWithStmtsBeforeAndInside", "IfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside"},
+            {"IfElseWithStmtsBeforeAndInside", "IfElseWithNestedIfElsePlusNestedStmtsBeforeAndInside"},
     };
     auto program = astPrograms.createSequentialIfIfNestingChain();
     auto pkb = make_shared<PkbStubSp>();
@@ -28,6 +29,16 @@ TEST_CASE("CallsT_TestSequentialIfWhileNestingChain") {
     std::multiset<pair<std::string, std::string>> resultsVector = {
             {"AssignCallPrintRead", "IfElseWithNestedWhilePlusNestedStmtsBeforeAndInside"},
             {"AssignCallPrintRead", "WhileWithStmtsBeforeAndInside"},
+            {"IfElseWithNestedWhilePlusNestedStmtsBeforeAndInside", "WhileWithStmtsBeforeAndInside"},
+            {"AssignCallPrintRead", "WhileWithStmtsBeforeAndInside"},
+            {"IfElseWithNestedWhilePlusNestedStmtsBeforeAndInside", "WhileWithStmtsBeforeAndInside"},
+            {"AssignCallPrintRead", "WhileWithStmtsBeforeAndInside"},
+            {"IfElseWithNestedWhilePlusNestedStmtsBeforeAndInside", "WhileWithStmtsBeforeAndInside"},
+            {"AssignCallPrintRead", "WhileWithStmtsBeforeAndInside"},
+            {"IfElseWithNestedWhilePlusNestedStmtsBeforeAndInside", "WhileWithStmtsBeforeAndInside"},
+            {"IfElseWithNestedWhilePlusNestedStmtsBeforeAndInside", "WhileWithStmtsBeforeAndInside"},
+            {"IfElseWithNestedWhilePlusNestedStmtsBeforeAndInside", "WhileWithStmtsBeforeAndInside"},
+            {"IfElseWithNestedWhilePlusNestedStmtsBeforeAndInside", "WhileWithStmtsBeforeAndInside"},
             {"IfElseWithNestedWhilePlusNestedStmtsBeforeAndInside", "WhileWithStmtsBeforeAndInside"},
     };
     auto program = astPrograms.createSequentialIfWhileNestingChain();
@@ -44,6 +55,13 @@ TEST_CASE("CallsT_TestSequentialWhileIfNestingChain") {
             {"AssignCallPrintRead", "WhileWithNestedIfElsePlusNestedStmtsBeforeAndInside"},
             {"AssignCallPrintRead", "WhileWithStmtsBeforeAndInside"},
             {"WhileWithNestedIfElsePlusNestedStmtsBeforeAndInside", "WhileWithStmtsBeforeAndInside"},
+            {"AssignCallPrintRead", "WhileWithStmtsBeforeAndInside"},
+            {"WhileWithNestedIfElsePlusNestedStmtsBeforeAndInside", "WhileWithStmtsBeforeAndInside"},
+            {"AssignCallPrintRead", "WhileWithStmtsBeforeAndInside"},
+            {"WhileWithNestedIfElsePlusNestedStmtsBeforeAndInside", "WhileWithStmtsBeforeAndInside"},
+            {"WhileWithNestedIfElsePlusNestedStmtsBeforeAndInside", "WhileWithStmtsBeforeAndInside"},
+            {"WhileWithNestedIfElsePlusNestedStmtsBeforeAndInside", "WhileWithStmtsBeforeAndInside"},
+            {"WhileWithNestedIfElsePlusNestedStmtsBeforeAndInside", "WhileWithStmtsBeforeAndInside"},
     };
     auto program = astPrograms.createSequentialWhileIfNestingChain();
     auto pkb = make_shared<PkbStubSp>();
@@ -58,6 +76,10 @@ TEST_CASE("CallsT_TestSequentialWhileWhileNestingChain") {
     std::multiset<pair<std::string, std::string>> resultsVector = {
             {"AssignCallPrintRead", "WhileWithNestedWhilePlusNestedStmtsBeforeAndInside"},
             {"AssignCallPrintRead", "WhileWithStmtsBeforeAndInside"},
+            {"WhileWithNestedWhilePlusNestedStmtsBeforeAndInside", "WhileWithStmtsBeforeAndInside"},
+            {"AssignCallPrintRead", "WhileWithStmtsBeforeAndInside"},
+            {"WhileWithNestedWhilePlusNestedStmtsBeforeAndInside", "WhileWithStmtsBeforeAndInside"},
+            {"WhileWithNestedWhilePlusNestedStmtsBeforeAndInside", "WhileWithStmtsBeforeAndInside"},
             {"WhileWithNestedWhilePlusNestedStmtsBeforeAndInside", "WhileWithStmtsBeforeAndInside"},
     };
     auto program = astPrograms.createSequentialWhileWhileNestingChain();

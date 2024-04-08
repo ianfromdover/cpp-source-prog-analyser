@@ -154,6 +154,7 @@ public:
     Table getModifiesPAllVars() override;
     Table getModifiesPVarsByProc(ProcName modifier) override;
     Table getModifiesPProcsByVar(VarName modified) override;
+    bool isModifiesP(ProcName p, VarName v) override;
 
     Table getModifiesSTable() override;
     Table getModifiesSAllStmts() override;

@@ -4,7 +4,7 @@
 
 #include <map>
 #include "QPSMultiCharacterStrategy.h"
-#include "qps/Exceptions/QPSTokenizeException.h"
+#include "qps/exceptions/QPSTokenizeException.h"
 
 
 bool QPSMultiCharacterStrategy::tokenize(char character, std::stringstream &stream, QPSTokenList &tokens,
@@ -62,6 +62,8 @@ bool QPSMultiCharacterStrategy::expectSynonymNext(const std::string &name, QPSTo
             {"Calls", QPSTokenType::CALLS},
             {"Calls*",    QPSTokenType::CALLS_T},
             {"Next",    QPSTokenType::NEXT},
+            {"Next*",    QPSTokenType::NEXT_T},
+            {"Affects",    QPSTokenType::AFFECTS},
 
             {"Select",    QPSTokenType::SELECT},
             {"that",      QPSTokenType::THAT},
@@ -126,7 +128,8 @@ bool QPSMultiCharacterStrategy::starAllowed(const std::string& name) {
             // Design entities
             {"Parent",      QPSTokenType::PARENT},
             {"Follows",      QPSTokenType::FOLLOWS},
-            {"Calls",      QPSTokenType::CALLS}};
+            {"Calls",      QPSTokenType::CALLS},
+            {"Next", QPSTokenType::NEXT}};
 
     return declarationKeywords.find(name) != declarationKeywords.end();
 }

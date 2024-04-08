@@ -7,10 +7,14 @@
 
 #include "pkb/storage/PatternAssignTable.h"
 #include "pkb/storage/PkbTable.hpp"
+#include "sp/api/Affects.h"
+#include "sp/api/NextT.h"
 
 class PkbStorage {
 public:
     PkbStorage() = default;
+    std::shared_ptr<Affects> affects;
+    std::shared_ptr<NextT> nextT;
     // entities
     std::shared_ptr<ProcedureTable> procedureTable = std::make_shared<ProcedureTable>();
     std::shared_ptr<StatementTable> statementTable = std::make_shared<StatementTable>();

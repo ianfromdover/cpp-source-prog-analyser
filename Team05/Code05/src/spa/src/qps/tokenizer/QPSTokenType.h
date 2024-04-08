@@ -32,7 +32,8 @@ public:
         MODIFIES, MODIFIES_S, MODIFIES_P,
         USES, USES_S, USES_P,
         CALLS, CALLS_T,
-        NEXT,
+        NEXT, NEXT_T,
+        AFFECTS,
         AND,
 
         // Entity References

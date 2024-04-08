@@ -5,7 +5,7 @@
 #include <stdexcept>
 #include "QPSParser.h"
 #include "IntermediateQuery.h"
-#include "qps/Exceptions/QPSParseException.h"
+#include "qps/exceptions/QPSParseException.h"
 #include "sp/api/formatter/ExprFormatter.h"
 
 using token = QPSTokenType::QPSTypeInfo;
@@ -63,7 +63,10 @@ bool QPSParser::isRelationship() {
                                QPSTokenType::MODIFIES_S,
                                QPSTokenType::CALLS,
                                QPSTokenType::CALLS_T,
-                               QPSTokenType::NEXT});
+                               QPSTokenType::NEXT,
+                               QPSTokenType::NEXT_T,
+                               QPSTokenType::AFFECTS,
+                               });
 }
 
 bool QPSParser::isSuchThat() {
@@ -196,7 +199,7 @@ std::vector<std::shared_ptr<RelationshipClause>> QPSParser::relCond() {
 std::shared_ptr<RelationshipClause> QPSParser::relRef() {
   if (this->match({QPSTokenType::PARENT, QPSTokenType::PARENT_T,
                    QPSTokenType::FOLLOWS, QPSTokenType::FOLLOWS_T,
-                   QPSTokenType::NEXT})) {
+                   QPSTokenType::NEXT, QPSTokenType::NEXT_T, QPSTokenType::AFFECTS})) {
     QPSToken relationshipType = this->previous();
     std::vector<QPSToken> args = this->argsStmtStmt();
     RelationshipClause relCl(relationshipType.getType().getInfo(), args[0],
