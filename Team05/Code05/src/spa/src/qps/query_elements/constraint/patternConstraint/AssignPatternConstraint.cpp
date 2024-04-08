@@ -88,3 +88,19 @@ Table AssignPatternConstraint::getTable(QueryPkbVirtual &pkb) {
 }
 
 
+
+std::size_t AssignPatternConstraint::hash() const {
+    std::hash<std::string> stringHasher;
+
+    std::string s1 = constraintArguments[0]->getArgumentValue()[0];
+    std::string s2 = constraintArguments[0]->getArgumentValue()[0];
+
+    std::size_t hashValue = 0;
+
+    // Combine hash values for both stringVars while maintaining their order
+    hashValue ^= stringHasher(CONSTRAINT_TYPE_PATTERN_ASSIGN) + HASH_OFFSET + (hashValue << 6) + (hashValue >> 2);
+    hashValue ^= stringHasher(s1) + HASH_OFFSET + (hashValue << 6) + (hashValue >> 2);
+    hashValue ^= stringHasher(s2) + HASH_OFFSET + (hashValue << 6) + (hashValue >> 2);
+
+    return hashValue;
+}

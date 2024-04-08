@@ -3,8 +3,8 @@
 rem Run the auto tester and generate the xml in ./test/out.xml
 
 set EXECUTABLE_PATH=".\cmake-build-debug-visual-studio\src\autotester\autotester.exe"
-set SOURCE_PATH="..\Tests05\Sample_source.txt"
-set QUERY_PATH="..\Tests05\Sample_queries.txt"
+set SOURCE_PATH="..\Tests05\testcases\system_test_1_source.txt"
+set QUERY_PATH="..\Tests05\testcases\system_test_1_queries.txt"
 set OUTPUT_XML_PATH="./tests/out.xml"
 
 echo [+] - Running AutoTester...

@@ -21,6 +21,8 @@ public:
     Table getFullTable(QueryPkbVirtual &pkb);
 
     bool isStatementSynonym(string type);
+
+    std::size_t hash() const override;
 };
 
 

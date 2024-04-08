@@ -21,6 +21,7 @@ public:
     std::shared_ptr<Entity> getPatternConstraintIdentifier() override;
     std::vector<std::shared_ptr<ConstraintArgument>>  getConstraintArguments() override;
     Table getRelationshipTable(QueryPkbVirtual &) override;
+    std::size_t hash() const override;
 };
 
 

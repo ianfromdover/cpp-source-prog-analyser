@@ -112,3 +112,7 @@ std::string QueryObject::getConstraintString() {
     return constraintString;
 }
 
+void QueryObject::removeConstraints() {
+    constraints.clear();
+}
+

@@ -18,8 +18,7 @@ public:
     std::vector<std::shared_ptr<ConstraintArgument>> getConstraintArguments() override;
     Table getRelationshipTable(QueryPkbVirtual &) override;
     bool isStatementSynonym(string type);
-
-
+    std::size_t hash() const override;
 };
 
 

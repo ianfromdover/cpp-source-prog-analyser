@@ -23,6 +23,8 @@ public:
 
     bool isStatementSynonym(string type);
 
+    std::size_t hash() const override;
+
 };
 
 
