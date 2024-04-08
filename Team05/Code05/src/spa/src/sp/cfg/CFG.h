@@ -10,8 +10,7 @@
 #include "sp/cfg/block/Block.h"
 
 class CFG;
-
-using CFGs = std::unordered_map<std::string, std::shared_ptr<CFG>>;
+class CfgExtractor;
 
 class CFG : private ProgramVisitor {
 private:
@@ -34,10 +33,14 @@ private:
     void visitIfStmt(const If& stmt, std::shared_ptr<Accumulator>& _) override;
 public:
     explicit CFG(const std::shared_ptr<Procedure>& procedure);
+    void accept(CfgExtractor& visitor) const;
     [[nodiscard]] std::shared_ptr<Block> getEntryBlock() const;
     [[nodiscard]] std::shared_ptr<Blocks> getBlocks() const;
+    [[nodiscard]] std::string getProcedureName() const;
+    [[nodiscard]] std::pair<StmtNo, StmtNo> getRange() const;
+    [[nodiscard]] bool containsStmtNo(StmtNo stmtNo) const;
     std::string toString();
-    static std::shared_ptr<CFGs> compile(const std::shared_ptr<Program>& program);
+    optional<shared_ptr<Block>> find(int index);
 };
 
 

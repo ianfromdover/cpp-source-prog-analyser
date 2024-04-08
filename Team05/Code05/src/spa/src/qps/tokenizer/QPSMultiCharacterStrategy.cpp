@@ -4,7 +4,7 @@
 
 #include <map>
 #include "QPSMultiCharacterStrategy.h"
-#include "qps/Exceptions/QPSTokenizeException.h"
+#include "qps/exceptions/QPSTokenizeException.h"
 
 
 bool QPSMultiCharacterStrategy::tokenize(char character, std::stringstream &stream, QPSTokenList &tokens,
@@ -60,10 +60,13 @@ bool QPSMultiCharacterStrategy::expectSynonymNext(const std::string &name, QPSTo
             {"Follows*",  QPSTokenType::FOLLOWS_T},
             {"Parent",    QPSTokenType::PARENT},
             {"Parent*",   QPSTokenType::PARENT_T},
-          {"Modifies", QPSTokenType::MODIFIES},
-          {"Uses", QPSTokenType::USES},
-          {"Calls", QPSTokenType::CALLS},
-          {"Calls*",    QPSTokenType::CALLS_T},
+            {"Modifies", QPSTokenType::MODIFIES},
+            {"Uses", QPSTokenType::USES},
+            {"Calls", QPSTokenType::CALLS},
+            {"Calls*",    QPSTokenType::CALLS_T},
+            {"Next",    QPSTokenType::NEXT},
+            {"Next*",    QPSTokenType::NEXT_T},
+            {"Affects",    QPSTokenType::AFFECTS},
 
         // With
         {"stmt#",   QPSTokenType::WITHSTMT},
@@ -73,11 +76,11 @@ bool QPSMultiCharacterStrategy::expectSynonymNext(const std::string &name, QPSTo
         {"with",   QPSTokenType::WITH},
 
             {"Select",    QPSTokenType::SELECT},
-          {"and", QPSTokenType::AND},
-          {"that",      QPSTokenType::THAT},
+            {"that",      QPSTokenType::THAT},
             {"pattern",   QPSTokenType::PATTERN},
             {"not",   QPSTokenType::NOT},
 
+            {"and",   QPSTokenType::AND},
     };
 
     auto it = declarationKeywords.find(name);
@@ -161,7 +164,8 @@ bool QPSMultiCharacterStrategy::starAllowed(const std::string& name) {
             // Design entities
             {"Parent",      QPSTokenType::PARENT},
             {"Follows",      QPSTokenType::FOLLOWS},
-            {"Calls",      QPSTokenType::CALLS}};
+            {"Calls",      QPSTokenType::CALLS},
+            {"Next", QPSTokenType::NEXT}};
 
     return declarationKeywords.find(name) != declarationKeywords.end();
 }

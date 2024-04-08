@@ -4,22 +4,29 @@
 #include <set>
 #include "pkb/apis/BasePkbPopulator.h"
 #include "common/SpaTypes.h"
+#include "sp/api/Affects.h"
+#include "sp/api/NextT.h"
 
 class PkbStubSp : public BasePkbPopulator {
     std::multiset<std::tuple<std::string, std::string, std::string>> tupleCalls;
     std::multiset<std::pair<std::string, std::string>> pairCalls;
     std::multiset<std::pair<std::string, std::string>> pairCallsT;
     std::multiset<std::string> singleCalls;
+    // TODO: not sure how SP wants to test this (ian - PKB)
+    // std::shared_ptr<Affects> affects;
+    // std::shared_ptr<NextT> nextT;
 
 public:
-    // add param after SP implements
-    bool setAffectsObj() override {
+    // TODO: not sure how SP wants to test this (ian - PKB)
+    bool setAffectsObj(std::shared_ptr<Affects> a) override {
         return false;
     }
-    // add param after SP implements
-    bool setNextTObj() override {
+
+    // TODO: not sure how SP wants to test this (ian - PKB)
+    bool setNextTObj(std::shared_ptr<NextT> n) override {
         return false;
     }
+
     bool addRead(StmtNo sNum, VarName name) override {
         //std::cout << "addRead called" << std::endl;
         pairCalls.insert({std::to_string(sNum), name});

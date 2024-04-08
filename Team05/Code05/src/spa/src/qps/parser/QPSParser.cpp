@@ -2,12 +2,12 @@
 // Created by Alex on 16/2/2024.
 //
 
+#include <stdexcept>
 #include "QPSParser.h"
 #include "IntermediateQuery.h"
 #include "WithClause.h"
 #include "qps/Exceptions/QPSParseException.h"
 #include "sp/api/formatter/ExprFormatter.h"
-#include <stdexcept>
 
 using token = QPSTokenType::QPSTypeInfo;
 
@@ -58,11 +58,16 @@ bool QPSParser::isRelationship() {
                                QPSTokenType::PARENT_T,
                                QPSTokenType::FOLLOWS,
                                QPSTokenType::FOLLOWS_T,
+                               QPSTokenType::USES,
                                QPSTokenType::USES_S,
+                               QPSTokenType::MODIFIES,
                                QPSTokenType::MODIFIES_S,
-                      QPSTokenType::MODIFIES, QPSTokenType::USES,
-                      QPSTokenType::CALLS,
-                               QPSTokenType::CALLS_T});
+                               QPSTokenType::CALLS,
+                               QPSTokenType::CALLS_T,
+                               QPSTokenType::NEXT,
+                               QPSTokenType::NEXT_T,
+                               QPSTokenType::AFFECTS,
+                               });
 }
 
 bool QPSParser::isSuchThat() {
@@ -262,7 +267,8 @@ std::shared_ptr<RelationshipClause> QPSParser::relRef() {
         isNot = true;
     }
   if (this->match({QPSTokenType::PARENT, QPSTokenType::PARENT_T,
-                   QPSTokenType::FOLLOWS, QPSTokenType::FOLLOWS_T})) {
+                   QPSTokenType::FOLLOWS, QPSTokenType::FOLLOWS_T,
+                   QPSTokenType::NEXT, QPSTokenType::NEXT_T, QPSTokenType::AFFECTS})) {
     QPSToken relationshipType = this->previous();
     std::vector<QPSToken> args = this->argsStmtStmt();
     cl = std::make_shared<RelationshipClause>(relationshipType.getType().getInfo(), args[0],

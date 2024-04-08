@@ -104,15 +104,19 @@ void QueryPkbStub::setCallsT(Table t) {
 }
 
 bool QueryPkbStub::checkAffects(StmtNo affector, StmtNo affected) {
+    // TODO: QPS to implement
     return false;
 }
 bool QueryPkbStub::checkNextT(StmtNo before, StmtNo after) {
+    // TODO: QPS to implement
     return false;
 }
 bool QueryPkbStub::resetAffects() {
+    // TODO: QPS to implement
     return false;
 }
 bool QueryPkbStub::resetNextT() {
+    // TODO: QPS to implement
     return false;
 }
 
@@ -384,6 +388,9 @@ Table QueryPkbStub::getModifiesPVarsByProc(ProcName modifier) {
 
 Table QueryPkbStub::getModifiesPProcsByVar(VarName modified) {
     return {{}};
+}
+bool QueryPkbStub::isModifiesP(ProcName p, VarName v) {
+    return false;
 }
 
 Table QueryPkbStub::getModifiesSTable() {

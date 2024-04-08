@@ -12,72 +12,30 @@ void FollowsExtractor::visitProcedure(const Procedure &procedure, std::shared_pt
 }
 
 void FollowsExtractor::visitReadStmt(const Read& stmt, shared_ptr<Accumulator>& prevStmtInfo) {
-    for (const auto& stmtNo : prevStmtInfo->info) {
-        if (&stmtNo == &prevStmtInfo->info.back()) {
-            //std::cout << "pkb.addFollows(" << stmtNo << ", " << stmt.getStmtNo() << ");" << std::endl;
-            pkb->addFollows(stmtNo, stmt.getStmtNo());
-        }
-        //std::cout << "pkb.addFollowsT(" << stmtNo << ", " << stmt.getStmtNo() << ");" << std::endl;
-        pkb->addFollowsT(stmtNo, stmt.getStmtNo());
-    }
+    updateFollowsInfo(stmt.getStmtNo(), prevStmtInfo);
 }
 
 void FollowsExtractor::visitPrintStmt(const Print& stmt, shared_ptr<Accumulator>& prevStmtInfo) {
-    for (const auto& stmtNo : prevStmtInfo->info) {
-        if (&stmtNo == &prevStmtInfo->info.back()) {
-            //std::cout << "pkb.addFollows(" << stmtNo << ", " << stmt.getStmtNo() << ");" << std::endl;
-            pkb->addFollows(stmtNo, stmt.getStmtNo());
-        }
-        //std::cout << "pkb.addFollowsT(" << stmtNo << ", " << stmt.getStmtNo() << ");" << std::endl;
-        pkb->addFollowsT(stmtNo, stmt.getStmtNo());
-    }
+    updateFollowsInfo(stmt.getStmtNo(), prevStmtInfo);
 }
 
 void FollowsExtractor::visitCallStmt(const Call& stmt, shared_ptr<Accumulator>& prevStmtInfo) {
-    for (const auto& stmtNo : prevStmtInfo->info) {
-        if (&stmtNo == &prevStmtInfo->info.back()) {
-            //std::cout << "pkb.addFollows(" << stmtNo << ", " << stmt.getStmtNo() << ");" << std::endl;
-            pkb->addFollows(stmtNo, stmt.getStmtNo());
-        }
-        //std::cout << "pkb.addFollowsT(" << stmtNo << ", " << stmt.getStmtNo() << ");" << std::endl;
-        pkb->addFollowsT(stmtNo, stmt.getStmtNo());
-    }
+    updateFollowsInfo(stmt.getStmtNo(), prevStmtInfo);
 }
 
 void FollowsExtractor::visitWhileStmt(const While& stmt, shared_ptr<Accumulator>& prevStmtInfo) {
-    for (const auto& stmtNo : prevStmtInfo->info) {
-        if (&stmtNo == &prevStmtInfo->info.back()) {
-            //std::cout << "pkb.addFollows(" << stmtNo << ", " << stmt.getStmtNo() << ");" << std::endl;
-            pkb->addFollows(stmtNo, stmt.getStmtNo());
-        }
-        //std::cout << "pkb.addFollowsT(" << stmtNo << ", " << stmt.getStmtNo() << ");" << std::endl;
-        pkb->addFollowsT(stmtNo, stmt.getStmtNo());
-    }
+    updateFollowsInfo(stmt.getStmtNo(), prevStmtInfo);
     this->visitStmtList(stmt.getBody(), prevStmtInfo);
 }
 
 void FollowsExtractor::visitIfStmt(const If& stmt, shared_ptr<Accumulator>& prevStmtInfo) {
-    for (const auto& stmtNo : prevStmtInfo->info) {
-        if (&stmtNo == &prevStmtInfo->info.back()) {
-            //std::cout << "pkb.addFollows(" << stmtNo << ", " << stmt.getStmtNo() << ");" << std::endl;
-            pkb->addFollows(stmtNo, stmt.getStmtNo());
-        }
-        //std::cout << "pkb.addFollowsT(" << stmtNo << ", " << stmt.getStmtNo() << ");" << std::endl;
-        pkb->addFollowsT(stmtNo, stmt.getStmtNo());
-    }
+    updateFollowsInfo(stmt.getStmtNo(), prevStmtInfo);
     this->visitStmtList(stmt.getThenBranch(), prevStmtInfo);
     this->visitStmtList(stmt.getElseBranch(), prevStmtInfo);
 }
 
 void FollowsExtractor::visitAssignStmt(const Assign& stmt, shared_ptr<Accumulator>& prevStmtInfo) {
-    for (const auto& stmtNo : prevStmtInfo->info) {
-        if (&stmtNo == &prevStmtInfo->info.back()) {
-            //std::cout << "pkb.addFollows(" << stmtNo << ", " << stmt.getStmtNo() << ");" << std::endl;
-            pkb->addFollows(stmtNo, stmt.getStmtNo());
-        }
-        //std::cout << "pkb.addFollowsT(" << stmtNo << ", " << stmt.getStmtNo() << ");" << std::endl;
-        pkb->addFollowsT(stmtNo, stmt.getStmtNo());
-    }
+    updateFollowsInfo(stmt.getStmtNo(), prevStmtInfo);
 }
 
 void FollowsExtractor::visitStmtList(const shared_ptr<vector<shared_ptr<Stmt>>>& stmts, shared_ptr<Accumulator> &info) {
@@ -85,5 +43,16 @@ void FollowsExtractor::visitStmtList(const shared_ptr<vector<shared_ptr<Stmt>>>&
     for (const auto& childStmt : *stmts) {
         childStmt->accept(*this, newStmtInfo);
         newStmtInfo->info.emplace_back(childStmt->getStmtNo());
+    }
+}
+
+void FollowsExtractor::updateFollowsInfo(const int stmtNo, std::shared_ptr<Accumulator>& prevStmtInfo) {
+    for (const auto& prevStmtNo : prevStmtInfo->info) {
+        if (prevStmtNo == prevStmtInfo->info.back()) {
+            //std::cout << "pkb.addFollows(" << stmtNo << ", " << stmt.getStmtNo() << ");" << std::endl;
+            pkb->addFollows(prevStmtNo, stmtNo);
+        }
+        //std::cout << "pkb.addFollowsT(" << stmtNo << ", " << stmt.getStmtNo() << ");" << std::endl;
+        pkb->addFollowsT(prevStmtNo, stmtNo);
     }
 }

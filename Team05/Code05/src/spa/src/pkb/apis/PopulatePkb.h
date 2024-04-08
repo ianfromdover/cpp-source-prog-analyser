@@ -3,6 +3,8 @@
 
 #include "pkb/apis/BasePkbPopulator.h"
 #include "PkbStorage.h"
+#include "sp/api/Affects.h"
+#include "sp/api/NextT.h"
 
 /**
  * Methods arranged alphabetically to easily compare with project files
@@ -14,8 +16,8 @@ public:
     PopulatePkb(std::shared_ptr<PkbStorage> p);
 
     // on-demand
-    virtual bool setAffectsObj() override; // add param after SP implements
-    virtual bool setNextTObj() override; // add param after SP implements
+    bool setAffectsObj(std::shared_ptr<Affects> a) override;
+    bool setNextTObj(std::shared_ptr<NextT> n) override;
 
     // entity
     bool addCallStmt(int stmtNo, std::string name) override;

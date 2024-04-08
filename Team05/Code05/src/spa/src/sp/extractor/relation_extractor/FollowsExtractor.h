@@ -23,6 +23,7 @@ public:
     void visitIfStmt(const If& stmt, shared_ptr<Accumulator>& prevStmtInfo) override;
     void visitAssignStmt(const Assign& stmt, shared_ptr<Accumulator>& prevStmtInfo) override;
     void visitStmtList(const shared_ptr<vector<shared_ptr<Stmt>>> &stmts, shared_ptr<Accumulator> &info) override;
+    void updateFollowsInfo(const int stmtNo, shared_ptr<Accumulator> &prevStmtInfo);
 };
 
 

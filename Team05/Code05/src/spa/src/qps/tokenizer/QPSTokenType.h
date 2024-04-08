@@ -42,8 +42,10 @@ public:
         CALLS,
         CALLS_T,
         AND, NOT,
+        NEXT, NEXT_T,
+        AFFECTS,
 
-    // Entity References
+        // Entity References
         ENT_REF,
         WILDCARD,           // '_'
         SYNONYM,            // synonym

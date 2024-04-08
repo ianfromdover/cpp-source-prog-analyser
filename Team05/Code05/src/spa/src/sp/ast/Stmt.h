@@ -113,15 +113,15 @@ public:
 
 class Assign : public Stmt {
 private:
-    std::shared_ptr<Expr> variable;
+    std::shared_ptr<Variable> variable;
     std::shared_ptr<Expr> value;
 
 public:
-    Assign(StmtNo stmtNo, std::shared_ptr<Expr> variable, std::shared_ptr<Expr> value)
+    Assign(StmtNo stmtNo, std::shared_ptr<Variable> variable, std::shared_ptr<Expr> value)
         : Stmt(stmtNo), variable(std::move(variable)), value(std::move(value)) {}
     void accept(ProgramVisitor& visitor, shared_ptr<Accumulator>& parentInfo) override;
     [[nodiscard]] std::string toString() const override;
-    [[nodiscard]] std::shared_ptr<Expr> const& getVariable() const;
+    [[nodiscard]] std::shared_ptr<Variable> const& getVariable() const;
     [[nodiscard]] std::shared_ptr<Expr> const& getValue() const;
 };
 
