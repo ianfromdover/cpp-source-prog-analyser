@@ -3,7 +3,7 @@
 //
 
 #include "LiteralWith.h"
-#include "..\..\..\..\..\..\..\src\spa\src\common\StringUtils.h"
+#include "common/StringUtils.h"
 
 LiteralWith::LiteralWith(std::string i) {
     std::string str = StringUtils::stripCharacters(i, "\"");
