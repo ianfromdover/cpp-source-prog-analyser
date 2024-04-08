@@ -1687,6 +1687,74 @@ TEST_CASE("Test Extractor") {
     require(1==1);
 }
 
+TEST_CASE("expression matchingq") {
+    std::string codeSnippet = R"(
+    procedure program1 {
+    if ((x != 4 + y) || (k == 4 + u)) then {
+        x = x + 1;
+        y = y - 1 + z;
+        z = 2;
+    } else {
+        if (z != 3) then {
+            call program2;
+            x = 0;
+            y = 0;
+            z = 0;
+        } else {
+            x = 1;
+            z = x + y + 2;
+        }
+    }
+    x = x + 1;
+    z = y + x;
+    read x;
+    print y;
+    read z;
+}
+
+procedure program2 {
+    while ((x != 4 + y) && (k != 4 + u)) {
+        print x;
+        read y;
+        call program3;
+        while (y < 2) {
+            print z;
+            print y;
+            if (k > 0) then {
+                k = k * 1 + 10 * r + h;
+            } else {
+                k = k + 1;
+            }
+        }
+        z = x - y;
+        k = z + y / k * 1 + 10 * r + h;
+        print k;
+    }
+}
+
+procedure program3 {
+        z = x - y;
+        k = z + y * k * r / h;
+        print t;
+}
+    )";
+    std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
+    auto pkb = make_shared<PopulatePkb>(p);
+    auto sp = SourceProcessor(pkb);
+    sp.exec(codeSnippet);
+    QueryPkb pkb1(p);
+    QPS qps(std::make_shared<QueryPkb>(pkb1));
+
+    SECTION("match (_,_b/c_)") {
+        std::string query = "stmt s; Select s such that Parent*(s, 9) such that Parent(1, 2)";
+        std::vector<std::string> expected = {"1","5"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+}
+
 TEST_CASE("expression matching") {
   std::string codeSnippet = R"(
     procedure f {

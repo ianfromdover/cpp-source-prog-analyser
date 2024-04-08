@@ -20,6 +20,16 @@ std::vector<std::shared_ptr<ConstraintArgument>> ModifiesSConstraint::getConstra
 }
 
 Table ModifiesSConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
+    if (this->getNot()) {
+        Table wholeSet = pkb.getModifiesSTable();
+        Table subSet = getTable(pkb);
+        return ResultTable::minusTable(wholeSet, subSet);
+    } else {
+        return getTable(pkb);
+    }
+}
+
+Table ModifiesSConstraint::getTable(QueryPkbVirtual &pkb) {
     // Get modifies table and populate it into our results table
     Table result = pkb.getModifiesSTable();
 
@@ -28,8 +38,8 @@ Table ModifiesSConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     std::string lhsEntityType = args[0] -> getEntityType();
     std::string rhsEntityType = args[1] -> getEntityType();
 
-    std::string lhsHeader = isStatementSynonym(lhsEntityType) ? args[0]->getArgumentValue()[0] : "ModifiesLHS";
-    std::string rhsHeader = rhsEntityType == TYPE_VARIABLE ? args[1]->getArgumentValue()[0] : "ModifiesRHS";
+    std::string lhsHeader = isStatementSynonym(lhsEntityType) ? args[0]->getArgumentValue()[0] : HEADER_MODIFIESSLHS;
+    std::string rhsHeader = rhsEntityType == TYPE_VARIABLE ? args[1]->getArgumentValue()[0] : HEADER_MODIFIESSRHS;
 
     // Insertion of headers into our results table
     result.insert(result.begin(), {lhsHeader, rhsHeader});
@@ -60,10 +70,10 @@ Table ModifiesSConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
         table.filterByColumnExact(rhsHeader,rhsHeaderNew);
     }
 
-    if (lhsHeader == "ModifiesLHS") {
+    if (lhsHeader == HEADER_MODIFIESSLHS) {
         table.removeColumnByHeader(lhsHeader);
     }
-    if (rhsHeader == "ModifiesRHS") {
+    if (rhsHeader == HEADER_MODIFIESSRHS) {
         table.removeColumnByHeader(rhsHeader);
     }
 

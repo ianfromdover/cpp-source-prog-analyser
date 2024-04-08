@@ -14,6 +14,7 @@ class AssignPatternConstraint : public PatternConstraint {
 private:
     std::vector<std::shared_ptr<ConstraintArgument>> constraintArguments;
     std::shared_ptr<AssignEntity> constraintIdentifier;
+    Table getTable(QueryPkbVirtual &pkb);
 public:
     AssignPatternConstraint(std::shared_ptr<EntityReference>, std::shared_ptr<ExpressionReference> , std::shared_ptr<AssignEntity>);
     std::string getConstraintType() override;

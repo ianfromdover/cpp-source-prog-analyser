@@ -14,6 +14,7 @@
 class ModifiesSConstraint : public RelationshipConstraint {
 private:
     std::vector<std::shared_ptr<ConstraintArgument>> constraintArguments;
+    Table getTable(QueryPkbVirtual &pkb);
 public:
     ModifiesSConstraint(std::shared_ptr<StatementReference> , std::shared_ptr<EntityReference> );
     std::string getConstraintType() override;

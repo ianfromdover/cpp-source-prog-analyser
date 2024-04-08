@@ -19,6 +19,16 @@ std::vector<std::shared_ptr<ConstraintArgument>> UsesPConstraint::getConstraintA
 }
 
 std::vector<std::vector<std::string>> UsesPConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
+    if (this->getNot()) {
+        Table wholeSet = pkb.getUsesPTable();
+        Table subSet = getTable(pkb);
+        return ResultTable::minusTable(wholeSet, subSet);
+    } else {
+        return getTable(pkb);
+    }
+}
+
+Table UsesPConstraint::getTable(QueryPkbVirtual &pkb) {
     // Get follows table and populate it into our results table
     std::vector<std::vector<std::string>> result = pkb.getUsesPTable();
 
@@ -27,8 +37,8 @@ std::vector<std::vector<std::string>> UsesPConstraint::getRelationshipTable(Quer
     std::string lhsEntityType = args[0] -> getEntityType();
     std::string rhsEntityType = args[1] -> getEntityType();
 
-    std::string lhsHeader = lhsEntityType == TYPE_PROCEDURE ? args[0]->getArgumentValue()[0] : "UsesPLHS";
-    std::string rhsHeader = rhsEntityType == TYPE_VARIABLE ? args[1]->getArgumentValue()[0] : "UsesPRHS";
+    std::string lhsHeader = lhsEntityType == TYPE_PROCEDURE ? args[0]->getArgumentValue()[0] : HEADER_USESPLHS;
+    std::string rhsHeader = rhsEntityType == TYPE_VARIABLE ? args[1]->getArgumentValue()[0] : HEADER_USESPRHS;
 
     if (lhsHeader==rhsHeader) {
         return {{lhsHeader}};
@@ -62,10 +72,10 @@ std::vector<std::vector<std::string>> UsesPConstraint::getRelationshipTable(Quer
         table.filterByColumnExact(rhsHeader,stripped);
     }
 
-    if (lhsHeader == "CallsTLHS"){
+    if (lhsHeader == HEADER_USESPLHS){
         table.removeColumnByHeader(lhsHeader);
     }
-    if (rhsHeader == "CallsTRHS"){
+    if (rhsHeader == HEADER_USESPRHS){
         table.removeColumnByHeader(rhsHeader);
     }
 

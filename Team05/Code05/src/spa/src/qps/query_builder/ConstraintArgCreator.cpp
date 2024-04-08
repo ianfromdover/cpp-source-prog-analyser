@@ -62,12 +62,7 @@ std::shared_ptr<ConstraintArgument> ConstraintArgCreator::buildArg(QPSTokenType:
         case QPSTokenType::SYNONYM:
             return dynamic_pointer_cast<ConstraintArgument>(qo->getEntityInDeclaration(identifier));
             break;
-        case QPSTokenType::VAR_WITH: {
-            auto attribute = QPSTokenType::TODO; //TODO : somehow get attribute
-            return ConstraintArgCreator::createVariableWith(identifier, attribute, qo);
-            break;
-        }
-        case QPSTokenType::INT_WHITH:
+        case QPSTokenType::INT_WITH:
             return ConstraintArgCreator::createIntegerWith(identifier);
             break;
         default:

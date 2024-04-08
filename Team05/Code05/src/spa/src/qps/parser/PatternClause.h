@@ -18,20 +18,16 @@ public:
     PatternClause(std::string syn, QPSToken &t1, QPSTokenType::QPSTypeInfo type1, QPSToken &t2,
                   QPSTokenType::QPSTypeInfo type2) : Clause(ClauseType::PATTERN) {
         synonym = std::move(syn);
-        firstArg = std::make_shared<QPSToken>(t1);
-        firstArgType = type1;
-        secondArg = std::make_shared<QPSToken>(t2);
-        secondArgType = type2;
+        args.push_back(std::make_shared<QPSToken>(t1));
+        args.push_back(std::make_shared<QPSToken>(t2));
+        argRefTypes.push_back(type1);
+        argRefTypes.push_back(type2);
     }
 
     explicit PatternClause(std::string syn) : Clause(ClauseType::PATTERN){
         synonym = std::move(syn);
         args = std::vector<std::shared_ptr<QPSToken>>();
         argRefTypes = std::vector<QPSTokenType::QPSTypeInfo>();
-
-        // TODO: remove once fully deprecated
-        firstArgType = QPSTokenType::QPSTypeInfo::TODO;
-        secondArgType = QPSTokenType::QPSTypeInfo::TODO;
     };
 
     std::string getPatternSynonym();
@@ -51,30 +47,9 @@ public:
         argCount++;
     };
 
-//    QPSTokenType::QPSTypeInfo getFirstArgType();
-//
-//    QPSTokenType::QPSTypeInfo getFirstReferenceType();
-//
-//    std::string getFirstArgValue();
-//
-//    QPSTokenType::QPSTypeInfo getSecondArgType();
-//
-//    QPSTokenType::QPSTypeInfo getSecondReferenceType();
-//
-//    std::string getSecondArgValue();
-//
-//    QPSToken &getFirstArg();
-//
-//    QPSToken &getSecondArg();
-
     bool operator==(const PatternClause& other) const{
         return
-        synonym == other.synonym &&
-        *firstArg == *other.firstArg &&
-        firstArgType == other.firstArgType &&
-        *secondArg == *other.secondArg &&
-        secondArgType == other.secondArgType;
-
+        synonym == other.synonym;
     }
 
     std::string toString() {
@@ -83,12 +58,6 @@ public:
 
 private:
     std::string synonym;
-
-    std::shared_ptr<QPSToken> firstArg;
-    QPSTokenType::QPSTypeInfo firstArgType;
-
-    std::shared_ptr<QPSToken> secondArg;
-    QPSTokenType::QPSTypeInfo secondArgType;
 
     std::vector<std::shared_ptr<QPSToken>> args;
     std::vector<QPSTokenType::QPSTypeInfo> argRefTypes;

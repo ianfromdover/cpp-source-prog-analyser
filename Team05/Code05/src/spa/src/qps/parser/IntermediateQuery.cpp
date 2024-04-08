@@ -2,14 +2,14 @@
 // Created by Alex on 16/2/2024.
 //
 
+#include "IntermediateQuery.h"
+#include "PatternClause.h"
+#include "RelationshipClause.h"
+#include "SelectClause.h"
+#include "WithClause.h"
+#include "qps/exceptions/QPSException.h"
 #include <algorithm>
 #include <stdexcept>
-#include "IntermediateQuery.h"
-#include "SelectClause.h"
-#include "RelationshipClause.h"
-#include "PatternClause.h"
-#include "qps/exceptions/QPSException.h"
-
 
 void IntermediateQuery::addClause(const std::shared_ptr<Clause> &clause) {
     clauses.push_back(clause);
@@ -29,6 +29,10 @@ bool IntermediateQuery::hasRelationshipClause() {
 
 bool IntermediateQuery::hasPatternClause() {
     return hasClauseType(Clause::ClauseType::PATTERN);
+}
+
+bool IntermediateQuery::hasWithClause() {
+  return hasClauseType(Clause::ClauseType::WITH);
 }
 
 bool IntermediateQuery::hasClauseType(Clause::ClauseType type) {
@@ -95,8 +99,8 @@ std::vector<std::shared_ptr<RelationshipClause>> IntermediateQuery::getAllRelati
     std::vector<std::shared_ptr<RelationshipClause>> relationshipClauses;
     for (const auto &clause: clauses) {
         if (clause->getType() == Clause::ClauseType::RELATIONSHIP) {
-            auto rCaluse = std::dynamic_pointer_cast<RelationshipClause>(clause);
-            relationshipClauses.push_back(rCaluse);
+            auto rClause = std::dynamic_pointer_cast<RelationshipClause>(clause);
+            relationshipClauses.push_back(rClause);
         }
     }
     return relationshipClauses;
@@ -106,11 +110,22 @@ std::vector<std::shared_ptr<PatternClause>> IntermediateQuery::getAllPatternClau
     std::vector<std::shared_ptr<PatternClause>> patternClauses;
     for (const auto &clause: clauses) {
         if (clause->getType() == Clause::ClauseType::PATTERN) {
-            auto pCaluse = std::dynamic_pointer_cast<PatternClause>(clause);
-            patternClauses.push_back(pCaluse);
+            auto pClause = std::dynamic_pointer_cast<PatternClause>(clause);
+            patternClauses.push_back(pClause);
         }
     }
     return patternClauses;
+}
+
+std::vector<std::shared_ptr<WithClause>> IntermediateQuery::getAllWithClauses() {
+    std::vector<std::shared_ptr<WithClause>> withClauses;
+    for (const auto &clause: clauses) {
+        if (clause->getType() == Clause::ClauseType::WITH) {
+            auto wClause = std::dynamic_pointer_cast<WithClause>(clause);
+            withClauses.push_back(wClause);
+        }
+    }
+    return withClauses;
 }
 
 

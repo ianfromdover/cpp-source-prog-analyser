@@ -23,12 +23,22 @@ std::vector<std::shared_ptr<ConstraintArgument>> WhilePatternConstraint::getCons
 }
 
 std::vector<std::vector<std::string>> WhilePatternConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
+    if (this->getNot()) {
+        Table wholeSet = pkb.getPatternWhileTable();
+        Table subSet = getTable(pkb);
+        return ResultTable::minusTable(wholeSet, subSet);
+    } else {
+        return getTable(pkb);
+    }
+}
+
+Table WhilePatternConstraint::getTable(QueryPkbVirtual &pkb) {
     Table res = pkb.getPatternWhileTable();
 
     std::vector<std::shared_ptr<ConstraintArgument>> args = getConstraintArguments();
 
     std::string stmtHeader = constraintIdentifier->getIdentifier();
-    std::string lhsHeader = args[0]->getEntityType() == TYPE_VARIABLE ? args[0]->getArgumentValue()[0] : "WHILEPATLHS";
+    std::string lhsHeader = args[0]->getEntityType() == TYPE_VARIABLE ? args[0]->getArgumentValue()[0] : HEADER_WHILEPATTERN;
 
     res.insert(res.begin(), {stmtHeader, lhsHeader});
     ResultTable table(res);
@@ -44,7 +54,7 @@ std::vector<std::vector<std::string>> WhilePatternConstraint::getRelationshipTab
         table.filterByColumnExact(lhsHeader,stripped);
     }
 
-    for (const std::string& header : {"WHILEPATLHS"}){
+    for (const std::string& header : {HEADER_WHILEPATTERN}){
         table.removeColumnByHeader(const_cast<string &>(header));
     }
 

@@ -13,6 +13,7 @@ class IfPatternConstraint : public PatternConstraint {
 private:
     std::vector<std::shared_ptr<ConstraintArgument>> constraintArguments;
     std::shared_ptr<IfEntity> constraintIdentifier;
+    Table getTable(QueryPkbVirtual &pkb);
 public:
     IfPatternConstraint(std::shared_ptr<EntityReference>, std::shared_ptr<IfEntity>);
     std::string getConstraintType() override;

@@ -21,6 +21,16 @@ std::vector<std::shared_ptr<ConstraintArgument>> ModifiesPConstraint::getConstra
 }
 
 std::vector<std::vector<std::string>> ModifiesPConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
+    if (this->getNot()) {
+        Table wholeSet = pkb.getModifiesPTable();
+        Table subSet = getTable(pkb);
+        return ResultTable::minusTable(wholeSet, subSet);
+    } else {
+        return getTable(pkb);
+    }
+}
+
+Table ModifiesPConstraint::getTable(QueryPkbVirtual &pkb) {
     // Get follows table and populate it into our results table
     std::vector<std::vector<std::string>> result = pkb.getModifiesPTable();
 
@@ -29,8 +39,8 @@ std::vector<std::vector<std::string>> ModifiesPConstraint::getRelationshipTable(
     std::string lhsEntityType = args[0] -> getEntityType();
     std::string rhsEntityType = args[1] -> getEntityType();
 
-    std::string lhsHeader = lhsEntityType == TYPE_PROCEDURE ? args[0]->getArgumentValue()[0] : "ModifiesPLHS";
-    std::string rhsHeader = rhsEntityType == TYPE_VARIABLE ? args[1]->getArgumentValue()[0] : "ModifiesPRHS";
+    std::string lhsHeader = lhsEntityType == TYPE_PROCEDURE ? args[0]->getArgumentValue()[0] : HEADER_MODIFIESTLHS;
+    std::string rhsHeader = rhsEntityType == TYPE_VARIABLE ? args[1]->getArgumentValue()[0] : HEADER_MODIFIESTRHS;
 
     if (lhsHeader==rhsHeader) {
         return {{lhsHeader}};
@@ -64,10 +74,10 @@ std::vector<std::vector<std::string>> ModifiesPConstraint::getRelationshipTable(
         table.filterByColumnExact(rhsHeader,rhsHeaderNew);
     }
 
-    if (lhsHeader == "ModifiesPLHS"){
+    if (lhsHeader == HEADER_MODIFIESTLHS){
         table.removeColumnByHeader(lhsHeader);
     }
-    if (rhsHeader == "ModifiesPRHS"){
+    if (rhsHeader == HEADER_MODIFIESTRHS){
         table.removeColumnByHeader(rhsHeader);
     }
 

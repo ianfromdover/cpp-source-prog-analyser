@@ -6,6 +6,7 @@
 #define SPA_RESULTTABLE_H
 
 
+#include <utility>
 #include <vector>
 #include <string>
 #include <algorithm>
@@ -130,7 +131,7 @@ public:
         return std::find(_table[0].begin(), _table[0].end(), header) != _table[0].end();
     }
 
-    void removeColumnByHeader(std::string& header){
+    void removeColumnByHeader(std::string header){
         if (hasHeader(header)) {
             size_t index = findColumnIndex(_table, header);
             removeColumnByIndex(index);
@@ -262,75 +263,75 @@ public:
 
     // TODO: remove the nestedLoopJoin once testing proves that hashJoin is faster
 
-//    static Table nestedLoopJoin(const table& tableA, const table& tableB) {
-//        // guaranteed to have common headers
-//        table result;
-//
-//        map<string, size_t> headerIndex;
-//        vector<string> headers;
-//
-//        for (size_t i = 0; i < tableA[0].size(); ++i) {
-//            headerIndex[tableA[0][i]] = i;
-//            headers.push_back(tableA[0][i]);
-//        }
-//        size_t offset = tableA[0].size();
-//        for (size_t i = 0; i < tableB[0].size(); ++i) {
-//            if (headerIndex.find(tableB[0][i]) == headerIndex.end()) {
-//                headerIndex[tableB[0][i]] = i + offset;
-//                headers.push_back(tableB[0][i]);
-//            }
-//        }
-//
-//        // find common headers
-//        vector<string> commonHeaders = findCommonHeaders(tableA, tableB);
-//
-//        map<string, size_t> headerMapA;
-//        map<string, size_t> headerMapB;
-//
-//        for (size_t i = 0; i < commonHeaders.size(); ++i) {
-//            headerMapA[commonHeaders[i]] = findColumnIndex(tableA, commonHeaders[i]);
-//            headerMapB[commonHeaders[i]] = findColumnIndex(tableB, commonHeaders[i]);
-//        }
-//
-//        // insert all headers
-//        result.push_back(headers);
-//
-//        // iterate through table a
-//        for (size_t i = 1; i < tableA.size(); ++i) {
-//            // iterate through table b
-//            vector<string> entryA = tableA[i];
-//            for (size_t j = 1; j < tableB.size(); ++j) {
-//                vector<string> entryB = tableB[j];
-//
-//                bool match = false;
-//                for (const auto& header: commonHeaders) {
-//                    if (entryA[headerMapA[header]] == entryB[headerMapB[header]]) {
-//                        match = true;
-//                    } else {
-//                        match = false;
-//                        break;
-//                    }
-//                }
-//
-//                if (match){
-//                    // join records
-//                    vector<string> row;
-//                    for (const auto& e: entryA) {
-//                        row.push_back(e);
-//                    }
-//                    for (int i=0;i<entryB.size();i++){
-//                        string header = tableB[0][i];
-//                        if (std::find(commonHeaders.begin(), commonHeaders.end(), header) == commonHeaders.end()){
-//                            row.push_back(entryB[i]);
-//                        }
-//                    }
-//                    result.push_back(row);
-//                }
-//            }
-//        }
-//
-//        return result;
-//    }
+    static Table nestedLoopJoin(const table& tableA, const table& tableB) {
+        // guaranteed to have common headers
+        table result;
+
+        map<string, size_t> headerIndex;
+        vector<string> headers;
+
+        for (size_t i = 0; i < tableA[0].size(); ++i) {
+            headerIndex[tableA[0][i]] = i;
+            headers.push_back(tableA[0][i]);
+        }
+        size_t offset = tableA[0].size();
+        for (size_t i = 0; i < tableB[0].size(); ++i) {
+            if (headerIndex.find(tableB[0][i]) == headerIndex.end()) {
+                headerIndex[tableB[0][i]] = i + offset;
+                headers.push_back(tableB[0][i]);
+            }
+        }
+
+        // find common headers
+        vector<string> commonHeaders = findCommonHeaders(tableA, tableB);
+
+        map<string, size_t> headerMapA;
+        map<string, size_t> headerMapB;
+
+        for (size_t i = 0; i < commonHeaders.size(); ++i) {
+            headerMapA[commonHeaders[i]] = findColumnIndex(tableA, commonHeaders[i]);
+            headerMapB[commonHeaders[i]] = findColumnIndex(tableB, commonHeaders[i]);
+        }
+
+        // insert all headers
+        result.push_back(headers);
+
+        // iterate through table a
+        for (size_t i = 1; i < tableA.size(); ++i) {
+            // iterate through table b
+            vector<string> entryA = tableA[i];
+            for (size_t j = 1; j < tableB.size(); ++j) {
+                vector<string> entryB = tableB[j];
+
+                bool match = false;
+                for (const auto& header: commonHeaders) {
+                    if (entryA[headerMapA[header]] == entryB[headerMapB[header]]) {
+                        match = true;
+                    } else {
+                        match = false;
+                        break;
+                    }
+                }
+
+                if (match){
+                    // join records
+                    vector<string> row;
+                    for (const auto& e: entryA) {
+                        row.push_back(e);
+                    }
+                    for (int i=0;i<entryB.size();i++){
+                        string header = tableB[0][i];
+                        if (std::find(commonHeaders.begin(), commonHeaders.end(), header) == commonHeaders.end()){
+                            row.push_back(entryB[i]);
+                        }
+                    }
+                    result.push_back(row);
+                }
+            }
+        }
+
+        return result;
+    }
 
     static Table hashJoin(const Table& tableA, const Table& tableB) {
         // guaranteed to have common headers
@@ -452,6 +453,112 @@ public:
             ss << std::endl;
         }
         return ss.str();
+    }
+
+    // table a - table b based on commonHeaders
+    static table minusTable(const table& a, const table& b) {
+        vector<string> commonHeaders = findCommonHeaders(a, b);
+        if (a.empty() || b.empty() || commonHeaders.empty()) {
+            return a;
+        }
+        table result;
+        result.push_back(a[0]); // add headers to result
+        // now that we know there must be common headers between a & b
+        // check if rows with commonHeaders have same value, if it does not have same values, insert into result
+        // start from i = 1, j = 1 to ignore the header
+        for (int aRow = 1; aRow < a.size(); aRow ++) {
+            for (int bRow = 1; bRow < b.size(); bRow ++) {
+                if (isSameValuesBasedHeaderAndIndex(a, b, aRow, bRow, commonHeaders)) {
+                    // same so we 'minus' them away and discard the value
+                    // we found a same values so we do not have to continue searching
+                    break;
+                } else {
+                    // different; it is not subtracted.
+                    // however, we cannot add it to our results just yet as it could be subtracted at the very end
+                    if (bRow == b.size() - 1) {
+                        // results is only added when we search through the entirety of bRow and fail to find a corresponding match
+                        result.push_back(a[aRow]);
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    static table duplicateColumnBasedOnIndex(table a, int index, const std::string& newHeaderName) {
+        if (a.empty() || a[0].size() < index) {
+            return a;
+        }
+        return duplicateColumn(a, a[0][index], newHeaderName);
+    }
+
+    static table duplicateColumn(table a, std::string headerToDuplicate, const std::string& newHeaderName) {
+        if (a.empty()) {
+            return a; // nothing to duplicate; table is empty
+        }
+        int indexOfHeaderToDuplicate = getIndexOfHeader(a, std::move(headerToDuplicate));
+        if (indexOfHeaderToDuplicate < 0) {
+            return a; // nothing to duplicate, header to duplicate is not found
+        }
+        int numEntries = a.size();
+        for (int i = 0; i < numEntries; i ++) {
+            if (i == 0) {
+                a[0].push_back(newHeaderName); // insert the new header name into the first row (headers)
+            } else {
+              std::string valToDuplicate = a[i][indexOfHeaderToDuplicate];
+              a[i].push_back(valToDuplicate);
+            }
+        }
+        return a;
+    }
+
+    static int getIndexOfHeader(table a, std::string headerName) {
+        if (a.empty()) {
+            return -1;
+        }
+        vector<string> actualHeaders = a[0];
+        for (int i = 0; i < actualHeaders.size(); i++) {
+            if (headerName == actualHeaders[i]) {
+                return i;
+            }
+        }
+        return -2; // headerName is not found in table
+    }
+
+    // checks if table a and b have the same values based on commonHeader and Index
+    static bool isSameValuesBasedHeaderAndIndex(const table& a, const table& b, int rowA, int rowB, const vector<string>& commonHeaders) {
+        bool isSame = true;
+        vector<string> headerA = a[0];
+        vector<string> headerB = b[0];
+
+        vector<string> valAtA = getValuesAtHeadersAtIndex(a, commonHeaders, rowA);
+        vector<string> valAtB = getValuesAtHeadersAtIndex(b, commonHeaders, rowB);
+        return valAtA == valAtB;
+    }
+
+    // returns values at Headers at a certain index
+    static vector<string> getValuesAtHeadersAtIndex(const table& t, const vector<string>& headers, int index) {
+        vector<string> res;
+        vector<string> actualHeader = t[0];
+        return getValuesAtHeadersAtIndexRecurse(t, headers, index, actualHeader, res);
+    }
+
+
+    // has missing control flow as it is intended to be used with minusTable. Therefore, all header values in
+    // leftToFind should be in actualheader.
+    static vector<string> getValuesAtHeadersAtIndexRecurse(const table& t, vector<string> leftToFind,
+                                                           int index, vector<string> actualHeader, vector<string> ans) {
+        if (leftToFind.empty()) {
+            return ans;
+        }
+        string find = leftToFind[0];
+        leftToFind.erase(leftToFind.begin());
+        for (int headerIndex = 0; headerIndex < actualHeader.size(); headerIndex++) {
+            if (actualHeader[headerIndex] == find) {
+                ans.push_back(t[index][headerIndex]);
+                return getValuesAtHeadersAtIndexRecurse(t, leftToFind, index, actualHeader, ans);
+            }
+        }
     }
 
 

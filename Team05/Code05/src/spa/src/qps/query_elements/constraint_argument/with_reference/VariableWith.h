@@ -9,6 +9,7 @@
 #include "../../Entity.h"
 #include "qps/tokenizer/QPSTokenType.h"
 #include "qps/Exceptions/QPSException.h"
+#include "qps/query_projector/ResultTable.h"
 
 class VariableWith : public WithReference, public Entity {
 private:
@@ -17,6 +18,7 @@ private:
     QPSTokenType::QPSTypeInfo varAttribute;
     bool hasMoreThanOneColumn(std::vector<std::vector<std::string>>);
     std::vector<std::vector<std::string>> removeColumnByIndex(int, std::vector<std::vector<std::string>>);
+    vector<string> getHeadersForTable();
 public:
     VariableWith(std::string, QPSTokenType::QPSTypeInfo);
     std::string getReturnType() override;

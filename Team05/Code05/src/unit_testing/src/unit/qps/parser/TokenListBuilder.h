@@ -85,7 +85,11 @@ public:
     }
 
     TokenListBuilder validParent(){
-        return suchThat().parent().leftParen().identifier().comma().identifier().rightParen();
+        return suchThat().validParentWithoutSuchThat();
+    }
+
+    TokenListBuilder validParentWithoutSuchThat(){
+        return parent().leftParen().identifier().comma().identifier().rightParen();
     }
 
     TokenListBuilder validParentStar(){
@@ -123,6 +127,57 @@ public:
     TokenListBuilder select() {
         tokenList.addToken(type::SELECT, "Select");
         return *this;
+    };
+
+    TokenListBuilder with() {
+      tokenList.addToken(type::WITH, "with");
+      return *this;
+    };
+
+    TokenListBuilder dot() {
+      tokenList.addToken(type::DECIMAL, ".");
+      return *this;
+    };
+
+    TokenListBuilder withStmt() {
+      tokenList.addToken(type::WITHSTMT, "stmt#");
+      return *this;
+    };
+
+    TokenListBuilder withProcName() {
+      tokenList.addToken(type::WITHPROCNAME, "procName");
+      return *this;
+    };
+
+    TokenListBuilder withVarName() {
+      tokenList.addToken(type::WITHVARNAME, "varName");
+      return *this;
+    };
+
+    TokenListBuilder withValue() {
+      tokenList.addToken(type::WITHVALUE, "value");
+      return *this;
+    };
+
+    TokenListBuilder equal() {
+      tokenList.addToken(type::EQUAL, "=");
+      return *this;
+    };
+
+    TokenListBuilder attrStmt() {
+      return identifier().dot().withStmt();
+    };
+
+    TokenListBuilder attrProc() {
+      return identifier().dot().withProcName();
+    };
+
+    TokenListBuilder attrVar() {
+      return identifier().dot().withVarName();
+    };
+
+    TokenListBuilder attrValue() {
+      return identifier().dot().withValue();
     };
 
     TokenListBuilder follows() {
@@ -220,6 +275,17 @@ public:
         tokenList.addToken(type::LEFT_PAREN, "(");
         return *this;
     };
+
+    TokenListBuilder _and(){
+        tokenList.addToken(type::AND, "and");
+        return *this;
+    };
+
+    TokenListBuilder _not(){
+        tokenList.addToken(type::NOT, "not");
+        return *this;
+    };
+
 
     TokenListBuilder leftA_Brac() {
         tokenList.addToken(type::LEFT_A_BRAC, "<");

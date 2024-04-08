@@ -27,8 +27,15 @@ public:
 
     virtual std::string toString() = 0;
 
+    void setNot(bool _notValue) {
+      _not = _notValue;
+    }
+
+    bool isNot() { return _not; }
+
 private:
     ClauseType type_;
+    bool _not = false;
 };
 
 

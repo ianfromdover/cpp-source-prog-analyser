@@ -3,9 +3,11 @@
 //
 
 #include "LiteralWith.h"
+#include "common/StringUtils.h"
 
 LiteralWith::LiteralWith(std::string i) {
-    this->value = std::move(i);
+    std::string str = StringUtils::stripCharacters(i, "\"");
+    this->value = std::move(str);
 }
 
 std::string LiteralWith::getEntityType() {
@@ -22,7 +24,7 @@ std::vector<std::string> LiteralWith::getArgumentValue() {
 
 std::vector<std::vector<std::string>> LiteralWith::getEntityTable(QueryPkbVirtual &pkb) {
     auto entityTable = getRawTable(pkb);
-    entityTable.insert(entityTable.begin(), {"LiteralWith"});
+    entityTable.insert(entityTable.begin(), {HEADER_ENT_WITH_TOMERGE});
     return entityTable;
 }
 

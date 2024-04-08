@@ -372,7 +372,6 @@ TEST_CASE("singleUsesSConstraint_TokenizertoQOBuilder_returnsCorrect") {
         REQUIRE(processed == output);
     }
 
-//    Not in milestone 1 (procedure)
     SECTION("procedure-var") {
       std::string input = source += "such that Uses(p, v)";
       std::string processed = testHelper1(input);
@@ -383,7 +382,6 @@ TEST_CASE("singleUsesSConstraint_TokenizertoQOBuilder_returnsCorrect") {
       REQUIRE(processed == output);
     }
 
-    //      Not in milestone 1 (call)
     SECTION("call-var") {
       std::string input = source += "such that Uses(c, v)";
       std::string processed = testHelper1(input);
@@ -393,25 +391,6 @@ TEST_CASE("singleUsesSConstraint_TokenizertoQOBuilder_returnsCorrect") {
           "w [WHILE]\n{CONSTRAINTS}: UsesS(c [CALL], v [VARIABLE])";
       REQUIRE(processed == output);
     }
-
-    // Invalid Test case, Uses cannot have wildcard as first argument
-    //    SECTION("wild-wild") {
-    //        std::string input = source += "such that Uses(_, _)";
-    //        std::string processed = testHelper1(input);
-    //        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a
-    //        [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], v [VARIABLE],
-    //        w [WHILE]\n{CONSTRAINTS}: UsesS(_ [STMT WILDCARD], _ [ENT
-    //        WILDCARD])"; REQUIRE(processed == output);
-    //    }
-    //
-    //    SECTION("wild-var") {
-    //        std::string input = source += "such that Uses(_, v)";
-    //        std::string processed = testHelper1(input);
-    //        std::string output = "{RETURN}: pr [PRINT]\n{DECLARATIONS}: a
-    //        [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], v [VARIABLE],
-    //        w [WHILE]\n{CONSTRAINTS}: UsesS(_ [STMT WILDCARD], v [VARIABLE])";
-    //        REQUIRE(processed == output);
-    //    }
 
     SECTION("assign-wild") {
         std::string input = source += "such that Uses(a, _)";
@@ -483,7 +462,6 @@ TEST_CASE("singleModifiesSConstraint_TokenizertoQOBuilder_returnsCorrect") {
         REQUIRE(processed == output);
     }
 
-//    Not in milestone 1
     SECTION("procedure-var") {
       std::string input = source + "such that Modifies(p, v)";
       std::string processed = testHelper1(input);
@@ -504,15 +482,6 @@ TEST_CASE("singleModifiesSConstraint_TokenizertoQOBuilder_returnsCorrect") {
       REQUIRE(processed == output);
     }
 
-    // Invalid Test case, modifies should not take wildcard as 1st argument
-    //    SECTION("wild-var") {
-    //        std::string input = source + "such that Modifies(_, v)";
-    //        std::string processed = testHelper1(input);
-    //        std::string output = "{RETURN}: v [VARIABLE]\n{DECLARATIONS}: a
-    //        [ASSIGN], ifs [IF], pr [PRINT], r [READ], s [STMT], v [VARIABLE],
-    //        w [WHILE]\n{CONSTRAINTS}: ModifiesS(_ [STMT WILDCARD], v
-    //        [VARIABLE])"; REQUIRE(processed == output);
-    //    }
 
     SECTION("assign-wild") {
         std::string input = source + "such that Modifies(a, _)";
@@ -526,7 +495,6 @@ TEST_CASE("singleModifiesSConstraint_TokenizertoQOBuilder_returnsCorrect") {
     }
 }
 
-// Not in milestone 1
 TEST_CASE("singleModifiesPConstraint_TokenizertoQOBuilder_returnsCorrect") {
   std::string source =
       "procedure p;"
@@ -561,7 +529,6 @@ TEST_CASE("expressionWildcard_TokenizertoQOBuilder_returnsCorrect") {
     cout << processed;
 }
 
-// Not in milestone 1 scope (procedures)
 TEST_CASE("EntityWildcard_TokenizertoQOBuilder_returnsCorrect") {
     std::string source = "procedure p;"
                          "variable v; "
@@ -608,7 +575,6 @@ std::string testHelper1(std::string source) {
     std::shared_ptr<IntermediateQuery> intermediateQuery = parser.parse();
     QueryValidator validator;
     validator.validateQuery(*intermediateQuery);
-    // intermediateQuery->processDeclarations();
 
     QueryObjectBuilder builder;
     std::shared_ptr<QueryObject> qo = builder.build(intermediateQuery);

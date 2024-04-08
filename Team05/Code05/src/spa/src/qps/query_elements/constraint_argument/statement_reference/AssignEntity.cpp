@@ -31,7 +31,7 @@ Table AssignEntity::getEntityTable(QueryPkbVirtual & pkb ) {
     // Insertion of headers into our entity table
     //    entityTable.insert(entityTable.begin(), {this->identifier,
     //    "ASSIGNLHS", "ASSIGNRHS"});
-    entityTable.insert(entityTable.begin(), {this->identifier, "ASSIGNRHS"});
+    entityTable.insert(entityTable.begin(), {this->identifier, HEADER_ENT_ASSIGNRHS});
     return entityTable;
 }
 

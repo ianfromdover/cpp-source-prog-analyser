@@ -20,6 +20,16 @@ std::vector<std::shared_ptr<ConstraintArgument>> UsesSConstraint::getConstraintA
 }
 
 Table UsesSConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
+    if (this->getNot()) {
+        Table wholeSet = pkb.getUsesSTable();
+        Table subSet = getTable(pkb);
+        return ResultTable::minusTable(wholeSet, subSet);
+    } else {
+        return getTable(pkb);
+    }
+}
+
+Table UsesSConstraint::getTable(QueryPkbVirtual &pkb) {
     // Get uses table and populate it into our results table
     Table result = pkb.getUsesSTable();
 
@@ -28,8 +38,8 @@ Table UsesSConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     std::string lhsEntityType = args[0] -> getEntityType();
     std::string rhsEntityType = args[1] -> getEntityType();
 
-    std::string lhsHeader = isStatementSynonym(lhsEntityType) ? args[0]->getArgumentValue()[0] : "UsesLHS";
-    std::string rhsHeader = rhsEntityType == TYPE_VARIABLE ? args[1]->getArgumentValue()[0] : "UsesRHS";
+    std::string lhsHeader = isStatementSynonym(lhsEntityType) ? args[0]->getArgumentValue()[0] : HEADER_USESSLHS;
+    std::string rhsHeader = rhsEntityType == TYPE_VARIABLE ? args[1]->getArgumentValue()[0] : HEADER_USESSRHS;
 
     // Insertion of headers into our results table
     result.insert(result.begin(), {lhsHeader, rhsHeader});
@@ -60,10 +70,10 @@ Table UsesSConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
         table.filterByColumnExact(rhsHeader,rhsHeaderNew);
     }
 
-    if (lhsHeader == "UsesLHS"){
+    if (lhsHeader == HEADER_USESSLHS){
         table.removeColumnByHeader(lhsHeader);
     }
-    if (rhsHeader == "UsesRHS"){
+    if (rhsHeader == HEADER_USESSRHS){
         table.removeColumnByHeader(rhsHeader);
     }
 

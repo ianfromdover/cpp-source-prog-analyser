@@ -20,6 +20,38 @@ std::vector<std::shared_ptr<ConstraintArgument>> FollowsConstraint::getConstrain
 }
 
 Table FollowsConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
+    if (this->getNot()) {
+        Table wholeSet = getFullTable(pkb);
+        Table subSet = getTable(pkb);
+        Table result = ResultTable::minusTable(wholeSet, subSet);
+//        cout << ResultTable(wholeSet).toString();
+//        cout << "*********************";
+        return result;
+    } else {
+        return getTable(pkb);
+    }
+}
+
+Table FollowsConstraint::getFullTable(QueryPkbVirtual &pkb){
+  std::vector<std::shared_ptr<ConstraintArgument>> args = getConstraintArguments();
+  std::string lhsEntityType = args[0] -> getEntityType();
+  std::string rhsEntityType = args[1] -> getEntityType();
+
+  if (isStatementSynonym(lhsEntityType) || isStatementSynonym(rhsEntityType)) {
+    ResultTable t;
+    if (isStatementSynonym(lhsEntityType)) {
+      t.add(args[0]->getEntityTable(pkb));
+    }
+    if (isStatementSynonym(rhsEntityType)) {
+      t.add(args[1]->getEntityTable(pkb));
+    }
+    return t.getTable();;
+  } else {
+    return pkb.getFollowsTable();
+  }
+}
+
+Table FollowsConstraint::getTable(QueryPkbVirtual &pkb) {
     // Get follows table and populate it into our results table
     Table result = pkb.getFollowsTable();
 
@@ -28,8 +60,8 @@ Table FollowsConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     std::string lhsEntityType = args[0] -> getEntityType();
     std::string rhsEntityType = args[1] -> getEntityType();
 
-    std::string lhsHeader = isStatementSynonym(lhsEntityType) ? args[0]->getArgumentValue()[0] : "FollowsLHS";
-    std::string rhsHeader = isStatementSynonym(rhsEntityType) ? args[1]->getArgumentValue()[0] : "FollowsRHS";
+    std::string lhsHeader = isStatementSynonym(lhsEntityType) ? args[0]->getArgumentValue()[0] : HEADER_FOLLOWSLHS;
+    std::string rhsHeader = isStatementSynonym(rhsEntityType) ? args[1]->getArgumentValue()[0] : HEADER_FOLLOWSRHS;
 
     if (lhsHeader==rhsHeader) {
         return {{lhsHeader}};
@@ -48,7 +80,7 @@ Table FollowsConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
         Table entityTable = args[0]->getEntityTable(pkb);
         ResultTable entityTableResult(entityTable);
         if (lhsEntityType != TYPE_STATEMENT) {
-  //          entityTableResult.removeColumnByIndex(1);
+            //          entityTableResult.removeColumnByIndex(1);
             entityTableResult.removeAllColumnsExceptIndex(0);
         }
         table.add(entityTableResult.getTable());
@@ -69,10 +101,10 @@ Table FollowsConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
         table.add(entityTableResult.getTable());
     }
 
-    if (lhsHeader == "FollowsLHS"){
+    if (lhsHeader == HEADER_FOLLOWSLHS){
         table.removeColumnByHeader(lhsHeader);
     }
-    if (rhsHeader == "FollowsRHS"){
+    if (rhsHeader == HEADER_FOLLOWSRHS){
         table.removeColumnByHeader(rhsHeader);
     }
 

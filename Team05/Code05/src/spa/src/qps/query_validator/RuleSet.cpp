@@ -7,13 +7,15 @@
 #include "NoDeclarationRule.h"
 #include "PatternSynDeclarationRule.h"
 #include "SingleDeclarationRule.h"
+#include "WithAttributeRule.h"
 #include "PatternArgumentRule.h"
+
 
 RuleSet::RuleSet() {
     rules.push_back(new class PatternSynDeclarationRule());
     rules.push_back(new class CompatibleTypeRule());
     rules.push_back(new class PatternArgumentRule());
-
+    rules.push_back(new class WithAttributeRule());
 }
 
 std::vector<Rule *> RuleSet::getRules() {

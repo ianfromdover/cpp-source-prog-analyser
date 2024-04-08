@@ -22,5 +22,5 @@ std::string ExpressionWithWildcard::toString() {
 }
 
 Table ExpressionWithWildcard::getEntityTable(QueryPkbVirtual &pkb) {
-    throw QPSException("Invalid QPS Query");
+    throw QPSException(ERROR_INVALID_QUERY);
 }

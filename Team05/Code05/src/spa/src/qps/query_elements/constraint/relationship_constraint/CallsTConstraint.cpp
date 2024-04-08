@@ -18,6 +18,33 @@ std::vector<std::shared_ptr<ConstraintArgument>> CallsTConstraint::getConstraint
 }
 
 Table CallsTConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
+    if (this->getNot()) {
+        Table wholeSet = pkb.getCallsTable();
+        Table subSet = getTable(pkb);
+        return ResultTable::minusTable(wholeSet, subSet);
+    } else {
+        return getTable(pkb);
+    }
+}
+
+std::string& CallsTConstraint::stripCharacters(std::string& str, const std::string& chars) {
+    // Find the first character position after excluding leading characters
+    std::size_t first = str.find_first_not_of(chars);
+    if (first == std::string::npos) {
+        // If there are no characters other than the ones to strip, return an empty string
+        return str = "";
+    }
+
+    // Find the position of the last character not matching the strip characters
+    std::size_t last = str.find_last_not_of(chars);
+
+    // Erase the leading and trailing characters
+    str = str.substr(first, (last - first + 1));
+
+    return str;
+}
+
+Table CallsTConstraint::getTable(QueryPkbVirtual &pkb) {
     // Get follows table and populate it into our results table
     Table result = pkb.getCallsTTable();
 
@@ -26,8 +53,8 @@ Table CallsTConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     std::string lhsEntityType = args[0] -> getEntityType();
     std::string rhsEntityType = args[1] -> getEntityType();
 
-    std::string lhsHeader = lhsEntityType == TYPE_PROCEDURE ? args[0]->getArgumentValue()[0] : "CallsTLHS";
-    std::string rhsHeader = rhsEntityType == TYPE_PROCEDURE ? args[1]->getArgumentValue()[0] : "CallsTRHS";
+    std::string lhsHeader = lhsEntityType == TYPE_PROCEDURE ? args[0]->getArgumentValue()[0] : HEADER_CALLSTLHS;
+    std::string rhsHeader = rhsEntityType == TYPE_PROCEDURE ? args[1]->getArgumentValue()[0] : HEADER_CALLSTRHS;
 
     if (lhsHeader==rhsHeader) {
         return {{lhsHeader}};
@@ -61,10 +88,10 @@ Table CallsTConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
         table.filterByColumnExact(rhsHeader,stripped);
     }
 
-    if (lhsHeader == "CallsTLHS"){
+    if (lhsHeader == HEADER_CALLSTLHS){
         table.removeColumnByHeader(lhsHeader);
     }
-    if (rhsHeader == "CallsTRHS"){
+    if (rhsHeader == HEADER_CALLSTRHS){
         table.removeColumnByHeader(rhsHeader);
     }
 
@@ -84,23 +111,6 @@ bool CallsTConstraint::isEntitySynonym(std::string type) {
             TYPE_PROCEDURE, TYPE_VARIABLE, TYPE_CONSTANT
     };
     return std::find(entityVector.begin(), entityVector.end(), type) != entityVector.end();
-}
-
-std::string& CallsTConstraint::stripCharacters(std::string& str, const std::string& chars) {
-    // Find the first character position after excluding leading characters
-    std::size_t first = str.find_first_not_of(chars);
-    if (first == std::string::npos) {
-        // If there are no characters other than the ones to strip, return an empty string
-        return str = "";
-    }
-
-    // Find the position of the last character not matching the strip characters
-    std::size_t last = str.find_last_not_of(chars);
-
-    // Erase the leading and trailing characters
-    str = str.substr(first, (last - first + 1));
-
-    return str;
 }
 
 std::size_t CallsTConstraint::hash() const {

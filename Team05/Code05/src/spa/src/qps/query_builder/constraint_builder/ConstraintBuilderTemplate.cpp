@@ -41,6 +41,12 @@ std::shared_ptr<EntityReference> ConstraintBuilderTemplate::buildArgAsEntityRef(
     return x;
 }
 
-
+std::shared_ptr<WithReference> ConstraintBuilderTemplate::buildArgAsWithRef(QPSToken& token, QPSTokenType::QPSTypeInfo ref, shared_ptr<QueryObject> qo) {
+    if (ref != QPSTokenType::WITH_REF) {
+        throw std::invalid_argument( "Not With reference, is " + to_string(ref) );
+    }
+    auto x = dynamic_pointer_cast<WithReference>(buildArg(token, ref, std::move(qo)));
+    return x;
+}
 
 

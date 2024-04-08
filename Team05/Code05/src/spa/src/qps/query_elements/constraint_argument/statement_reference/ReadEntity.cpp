@@ -27,7 +27,7 @@ std::vector<std::string> ReadEntity::getArgumentValue() {
 Table ReadEntity::getEntityTable(QueryPkbVirtual &pkb) {
     auto entityTable = pkb.getReadTable();
     // Insertion of headers into our entity table
-    entityTable.insert(entityTable.begin(), {this->identifier, "READRHS"});
+    entityTable.insert(entityTable.begin(), {this->identifier, HEADER_ENT_READRHS});
     return entityTable;
 }
 

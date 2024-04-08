@@ -20,6 +20,16 @@ std::vector<std::shared_ptr<ConstraintArgument>> FollowsTConstraint::getConstrai
 
 
 Table FollowsTConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
+    if (this->getNot()) {
+        Table wholeSet = pkb.getFollowsTTable();
+        Table subSet = getTable(pkb);
+        return ResultTable::minusTable(wholeSet, subSet);
+    } else {
+        return getTable(pkb);
+    }
+}
+
+Table FollowsTConstraint::getTable(QueryPkbVirtual &pkb) {
     // Get follows table and populate it into our results table
     Table result = pkb.getFollowsTTable();
 
@@ -28,8 +38,8 @@ Table FollowsTConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     std::string lhsEntityType = args[0] -> getEntityType();
     std::string rhsEntityType = args[1] -> getEntityType();
 
-    std::string lhsHeader = isStatementSynonym(lhsEntityType) ? args[0]->getArgumentValue()[0] : "FollowsTLHS";
-    std::string rhsHeader = isStatementSynonym(rhsEntityType) ? args[1]->getArgumentValue()[0] : "FollowsTRHS";
+    std::string lhsHeader = isStatementSynonym(lhsEntityType) ? args[0]->getArgumentValue()[0] : HEADER_FOLLOWSTLHS;
+    std::string rhsHeader = isStatementSynonym(rhsEntityType) ? args[1]->getArgumentValue()[0] : HEADER_FOLLOWSTRHS;
 
     if (lhsHeader==rhsHeader) {
         return {{lhsHeader}};
@@ -49,7 +59,7 @@ Table FollowsTConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
         Table entityTable = args[0]->getEntityTable(pkb);
         ResultTable entityTableResult(entityTable);
         if (lhsEntityType != TYPE_STATEMENT) {
-          entityTableResult.removeAllColumnsExceptIndex(0);
+            entityTableResult.removeAllColumnsExceptIndex(0);
         }
         table.add(entityTableResult.getTable());
     }
@@ -65,15 +75,15 @@ Table FollowsTConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
         Table entityTable = args[1]->getEntityTable(pkb);
         ResultTable entityTableResult(entityTable);
         if (rhsEntityType != TYPE_STATEMENT) {
-          entityTableResult.removeAllColumnsExceptIndex(0);
+            entityTableResult.removeAllColumnsExceptIndex(0);
         }
         table.add(entityTableResult.getTable());
     }
 
-    if (lhsHeader == "FollowsTLHS"){
+    if (lhsHeader == HEADER_FOLLOWSTLHS){
         table.removeColumnByHeader(lhsHeader);
     }
-    if (rhsHeader == "FollowsTRHS"){
+    if (rhsHeader == HEADER_FOLLOWSTRHS){
         table.removeColumnByHeader(rhsHeader);
     }
 

@@ -23,9 +23,13 @@ std::vector<std::shared_ptr<ConstraintArgument>> WithConstraint::getConstraintAr
 }
 
 std::vector<std::vector<std::string>> WithConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
-    // Get uses table and populate it into our results table
-    std::vector<std::vector<std::string>> result;
-    return result;
+    // join based on the header: HEADER_ENT_WITH_TOMERGE
+    auto table1 = constraintArguments[0]->getEntityTable(pkb);
+    auto table2 = constraintArguments[1]->getEntityTable(pkb);
+    table result = ResultTable::hashJoin(table1, table2);
+    ResultTable ans = ResultTable(result);
+    ans.removeColumnByHeader(HEADER_ENT_WITH_TOMERGE);
+    return ans.getTable();
 }
 
 bool WithConstraint::isVariable(std::string s) {

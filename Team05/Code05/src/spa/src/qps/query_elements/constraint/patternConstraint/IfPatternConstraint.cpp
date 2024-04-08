@@ -23,12 +23,22 @@ std::vector<std::shared_ptr<ConstraintArgument>> IfPatternConstraint::getConstra
 }
 
 std::vector<std::vector<std::string>> IfPatternConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
+    if (this->getNot()) {
+        Table wholeSet = pkb.getPatternIfTable();
+        Table subSet = getTable(pkb);
+        return ResultTable::minusTable(wholeSet, subSet);
+    } else {
+        return getTable(pkb);
+    }
+}
+
+Table IfPatternConstraint::getTable(QueryPkbVirtual &pkb) {
     Table res = pkb.getPatternIfTable();
 
     std::vector<std::shared_ptr<ConstraintArgument>> args = getConstraintArguments();
 
     std::string stmtHeader = constraintIdentifier->getIdentifier();
-    std::string lhsHeader = args[0]->getEntityType() == TYPE_VARIABLE ? args[0]->getArgumentValue()[0] : "IF_PATTERN";
+    std::string lhsHeader = args[0]->getEntityType() == TYPE_VARIABLE ? args[0]->getArgumentValue()[0] : HEADER_IFPATTERN;
 
     res.insert(res.begin(), {stmtHeader, lhsHeader});
     ResultTable table(res);
@@ -44,7 +54,7 @@ std::vector<std::vector<std::string>> IfPatternConstraint::getRelationshipTable(
         table.filterByColumnExact(lhsHeader,stripped);
     }
 
-    for (const std::string& header : {"IF_PATTERN"}){
+    for (const std::string& header : {HEADER_IFPATTERN}){
         table.removeColumnByHeader(const_cast<string &>(header));
     }
 
