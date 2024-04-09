@@ -8,6 +8,7 @@
 #include <vector>
 #include <string>
 #include "Clause.h"
+#include "qps/tokenizer/QPSToken.h"
 
 
 class SelectClause : public Clause {
@@ -21,8 +22,15 @@ public:
     }
 
     std::vector<std::string> getAllSelect();
-
     std::vector<std::string> selectElements;
+
+    void addSelectArgument(QPSToken &entity, QPSToken &attribute);
+    std::vector<QPSToken> getAllSelectEntities();
+    std::vector<QPSToken> getAllSelectAttributes();
+    std::vector<QPSToken> selectEntities;
+    QPSToken getSelectEntityAt(int);
+    std::vector<QPSToken> selectAttributes;
+    QPSToken getSelectAttributeAt(int);
 
     bool isSelectBool() {
         return selectBool;
@@ -42,6 +50,7 @@ public:
 
   private:
     bool selectBool = false;
+
 
 };
 

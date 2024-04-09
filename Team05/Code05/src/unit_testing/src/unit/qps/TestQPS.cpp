@@ -953,11 +953,12 @@ TEST_CASE("[TestQPS] Single Constraints") {
                           {"1", "4"},
                           {"2", "7"}});
         pkb->setStatement(7);
+        pkb->setWhile({{"1","a"},{"2","b"}});
         QPS qps(pkb);
 
         SECTION("right synonym") {
-            std::string queryStr = "stmt s; Select s such that Parent(1, s)";
-            std::vector<std::string> expected = {"2", "3", "4"};
+            std::string queryStr = "while w; Select w such that Parent(1, w)";
+            std::vector<std::string> expected = {"2"};
 
             REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
         }

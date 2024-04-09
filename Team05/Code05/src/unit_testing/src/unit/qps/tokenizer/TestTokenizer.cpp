@@ -12,7 +12,7 @@ static bool compareExpected(std::vector<std::shared_ptr<QPSToken>> tokens,
                             std::initializer_list<QPSTokenType::QPSTypeInfo> expectedTypes);
 
 TEST_CASE("scratch_pad") {
-    std::string source = "assign a; variable v; Select a pattern not not (_,_)";
+    std::string source = "assign a; variable v; Select a.stmt#";
     std::shared_ptr<QPSStrategyList> strategies = std::make_shared<QPSStrategyList>();
     std::shared_ptr<QPSTokenList> tokens = std::make_shared<QPSTokenList>();
     Tokenizer tokenizer(source, strategies, tokens);
