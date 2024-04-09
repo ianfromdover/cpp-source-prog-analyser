@@ -2341,3 +2341,40 @@ TEST_CASE("test") {
 //    }
 //}
 
+TEST_CASE("Error for Milestone2") {
+    std::string codeSnippet = R"(
+    procedure f {
+      while (2 == 3) {
+        print a;
+        while (3 == 2) {
+          x = 1;
+          while (x==2) {
+           u = 2;
+          }
+          if (3 == 8) then {
+            read y;
+          } else {
+            print u;
+          }
+        }
+      }
+    }
+
+    )";
+
+    std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
+    auto pkb = make_shared<PopulatePkb>(p);
+    auto sp = SourceProcessor(pkb);
+    sp.exec(codeSnippet);
+    QueryPkb pkb1(p);
+    QPS qps(std::make_shared<QueryPkb>(pkb1));
+
+    SECTION("To Be removed") {
+        std::string query = "while w, w1; Select w1 such that Parent*(w, w1)";
+        std::vector<std::string> expected = {"3", "5"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+}
