@@ -1616,16 +1616,16 @@ TEST_CASE("[TestQPS] scratchboard to test random stuff") {
             }
 
             SECTION("print.stmt = print.stmt") {
-              std::string queryStr = "stmt s; print pn; Select s such that Parent(s, pn) with v.stmt# = pn v.stmt#";
-              std::vector<std::string> expected = {"1", "2"};
+              std::string queryStr = "stmt s; print pn; Select s such that Parent(s, pn) with pn.stmt# = pn.stmt#";
+              std::vector<std::string> expected = {"1"};
               REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
             }
-//
-//            SECTION("print.stmt = statement.stmt") {
-//                std::string queryStr = "stmt s; print v; Select s such that Parent(s, v) with v.stmt# = s.stmt#";
-//                std::vector<std::string> expected = {"1", "2"};
-//                REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-//            }
+
+            SECTION("print.stmt = statement.stmt") {
+                std::string queryStr = "stmt s; print v; Select s such that Parent(s, v) with v.stmt# = s.stmt#";
+                std::vector<std::string> expected = {};
+                REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+            }
         }
     }
 }

@@ -17,6 +17,162 @@ void require(bool b) {
     REQUIRE(b);
 }
 
+TEST_CASE("Modifssiges Handler - QPS") {
+  std::string codeSnippet = R"(
+    procedure parentTestCase {
+    read a;
+    while(x==1) {
+            print b;
+            c = 1;
+    }
+    if (x==1) then {
+            read d;
+            print e;
+    } else {
+            f = 1;
+            read g;
+    }
+    while(x==1) {
+            print h;
+            while(x==1) {
+                    i = 1;
+                    read j;
+            }
+            call useless;
+            if (x==1) then {
+                    call useless;
+                    print n;
+            } else {
+                    o = 1;
+                    read p;
+            }
+    }
+    if (x==1) then {
+            while(x==1) {
+                    r = 1;
+                    read s;
+            }
+            if (x==1) then {
+                    read m;
+                    print n;
+            } else {
+                    o = 1;
+                    call useless;
+            }
+            print t;
+    } else {
+            u = 1;
+            read v;
+    }
+    if (x==1) then {
+            print w;
+            x = 1;
+    } else {
+            read y;
+            if (x==1) then {
+                    read m;
+                    print n;
+            } else {
+                    o = 1;
+                    read p;
+            }
+            while(x==1) {
+                    print z;
+                    aa = 1;
+            }
+    }
+    while(x==1) {
+            call useless;
+            while(x==1) {
+                    print cc;
+                    while(x==1) {
+                            print dd;
+                            ee = 1;
+                    }
+                    if (x==1) then {
+                            call useless;
+                            print gg;
+                    } else {
+                            hh = 1;
+                            read ii;
+                    }
+            }
+    }
+    if (x==1) then {
+            read ff;
+            if (x==1) then {
+                    read ff;
+                    if (x==1) then {
+                            read ff;
+                            print gg;
+                    } else {
+                            hh = 1;
+                            call useless;
+                    }
+            } else {
+                    hh = 1;
+                    if (x==1) then {
+                            read ff;
+                            print gg;
+                    } else {
+                            hh = 1;
+                            read ii;
+                    }
+            }
+    } else {
+            hh = 1;
+            if (x==1) then {
+                    read ff;
+                    if (x==1) then {
+                            read ff;
+                            print gg;
+                    } else {
+                            hh = 1;
+                            read ii;
+                    }
+                    while(x==1) {
+                            print dd;
+                            ee = 1;
+                    }
+            } else {
+                    hh = 1;
+                    if (x==1) then {
+                            read ff;
+                            print gg;
+                    } else {
+                            hh = 1;
+                            read ii;
+                    }
+                    while(x==1) {
+                            print dd;
+                            ee = 1;
+                    }
+            }
+    }
+}
+
+procedure useless {
+    read zz;
+}
+    )";
+
+  std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
+  auto pkb = make_shared<PopulatePkb>(p);
+  auto sp = SourceProcessor(pkb);
+  sp.exec(codeSnippet);
+  QueryPkb pkb1(p);
+  QPS qps(std::make_shared<QueryPkb>(pkb1));
+
+//  SECTION("Select s such that Modifies(s, v)") {
+//    std::string query = "stmt s1,s2,s3,s4;Select <s1,s2> such that Parent*(s1,s3) such that Parent(s1,s2) such that Parent(s2,s3)";
+//    std::vector<std::string> expected = {"ss"};
+//    std::vector<std::string> ans = qps.evaluate(query);
+//    std::sort(ans.begin(), ans.end());
+//    std::sort(expected.begin(), expected.end());
+//    REQUIRE(ans == expected);
+//  }
+}
+
 TEST_CASE("Modifsies Handler - QPS") {
     std::string codeSnippet = R"(
     procedure computeCentroid {
