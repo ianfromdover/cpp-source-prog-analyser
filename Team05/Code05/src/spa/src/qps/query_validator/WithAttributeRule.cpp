@@ -12,7 +12,7 @@ std::string WithAttributeRule::validate(IntermediateQuery & query) {
       std::string syn = cl->getFirstArg().getLexeme();
       QPSTokenType::QPSTypeInfo synType = synonymTypeMap[syn];
       QPSTokenType::QPSTypeInfo attrType = cl->getFirstArgAttribute();
-      if (compatibleTypes[synType] != attrType){
+      if (std::find(compatibleTypes[synType].begin(), compatibleTypes[synType].end(), attrType) == compatibleTypes[synType].end()){
         return VALIDATION_RULE_WITH_ATTRIBUTE;
       }
     }
@@ -22,7 +22,7 @@ std::string WithAttributeRule::validate(IntermediateQuery & query) {
       std::string syn = cl->getSecondArg().getLexeme();
       QPSTokenType::QPSTypeInfo synType = synonymTypeMap[syn];
       QPSTokenType::QPSTypeInfo attrType = cl->getSecondArgAttribute();
-      if (compatibleTypes[synType] != attrType){
+      if (std::find(compatibleTypes[synType].begin(), compatibleTypes[synType].end(), attrType) == compatibleTypes[synType].end()){
         return VALIDATION_RULE_WITH_ATTRIBUTE;
       }
     }

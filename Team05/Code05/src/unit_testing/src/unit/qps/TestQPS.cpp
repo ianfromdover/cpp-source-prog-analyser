@@ -1544,12 +1544,12 @@ TEST_CASE("[TestQPS] scratchboard to test random stuff") {
                 REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
             }
 
-//            SECTION("read.varName = read.varName (same)") {
-//                std::string queryStr = "stmt s; variable v;read r; Select r such that Modifies(r, v) with r.varName = v.varName";
-//                std::vector<std::string> expected = {"1", "2"};
-//
-//                REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-//            }
+            SECTION("read.varName = read.varName (same)") {
+                std::string queryStr = "stmt s; variable v;read r; Select r such that Modifies(r, v) with r.varName = v.varName";
+                std::vector<std::string> expected = {"1"};
+
+                REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+            }
 
             SECTION("read.varName = read.varName (different)") {
                 std::string queryStr = "stmt s; variable v;read r,r1; Select r such that Modifies(r, v) with r.varName = r1.varName";
@@ -1589,11 +1589,11 @@ TEST_CASE("[TestQPS] scratchboard to test random stuff") {
                 REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
             }
 
-//            SECTION("p1.procname = p2.procname") {
-//                std::string queryStr = "procedure p1, p2; Select p1 such that Calls(p1, p2) with p1.procName = p2.procName";
-//                std::vector<std::string> expected = {"a", "b", "c", "f"};
-//                REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-//            }
+            SECTION("p1.procname = p2.procname") {
+                std::string queryStr = "procedure p1, p2; Select p1 such that Calls(p1, p2) with p1.procName = p2.procName";
+                std::vector<std::string> expected = {};
+                REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+            }
         }
 
         SECTION("Statement number") {
@@ -1609,23 +1609,23 @@ TEST_CASE("[TestQPS] scratchboard to test random stuff") {
                 REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
             }
 
-//            SECTION("read.stmt = quoted ident") {
-//                std::string queryStr = "stmt s; read v; Select s such that Follows(s, v) with v.stmt# = 1";
-//                std::vector<std::string> expected = {"1"};
-//                REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-//            }
-//
-//            SECTION("print.stmt = print.stmt") {
-//                std::string queryStr = "stmt s; print pn; Select s such that Follows(s, pn) with v.stmt# = pn v.stmt#";
-//                std::vector<std::string> expected = {"1", "2"};
-//                REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-//            }
-//
-//            SECTION("print.stmt = statement.stmt") {
-//                std::string queryStr = "stmt s; print v; Select s such that Follows(s, v) with v.stmt# = s.stmt#";
-//                std::vector<std::string> expected = {"1", "2"};
-//                REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
-//            }
+            SECTION("read.stmt = quoted ident") {
+              std::string queryStr = "stmt s; read v; Select s such that Parent(s, v) with v.stmt# = 2";
+              std::vector<std::string> expected = {"1"};
+              REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+            }
+
+            SECTION("print.stmt = print.stmt") {
+              std::string queryStr = "stmt s; print pn; Select s such that Parent(s, pn) with pn.stmt# = pn.stmt#";
+              std::vector<std::string> expected = {"1"};
+              REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+            }
+
+            SECTION("print.stmt = statement.stmt") {
+                std::string queryStr = "stmt s; print v; Select s such that Parent(s, v) with v.stmt# = s.stmt#";
+                std::vector<std::string> expected = {};
+                REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+            }
         }
     }
 }

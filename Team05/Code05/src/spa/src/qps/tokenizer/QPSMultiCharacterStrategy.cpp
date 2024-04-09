@@ -25,6 +25,15 @@ bool QPSMultiCharacterStrategy::tokenize(char character, std::stringstream &stre
                     return true;
                 }
             }
+            else if (name == "not") {
+              QPSTokenType::QPSTypeInfo prevType = tokens.getTokens().back()->getType().getInfo();
+              if (prevType == QPSTokenType::NOT || isDeclarations(prevType) || isPunc(prevType)) {
+                tokens.addToken(QPSTokenType::IDENTIFIER, name);
+              } else {
+                tokens.addToken(QPSTokenType::NOT, name);
+              }
+              return true;
+            }
             tokens.addToken(QPSTokenType::IDENTIFIER, name);
         } else if (expectSynonymNext(name, tokens)) {
             declarationStarted = true;
@@ -100,6 +109,7 @@ bool QPSMultiCharacterStrategy::expectSynonymNext(const std::string &name, QPSTo
             if (!tokens.getTokens().empty() && (
                   tokens.getTokens().back()->getType().getInfo() == QPSTokenType::AND ||
                   tokens.getTokens().back()->getType().getInfo() == QPSTokenType::WITH ||
+                  tokens.getTokens().back()->getType().getInfo() == QPSTokenType::PATTERN ||
                     tokens.getTokens().back()->getType().getInfo() == QPSTokenType::THAT)) {
                 tokens.addToken(QPSTokenType::NOT, name);
             } else if (tokens.getTokens().size()>1 &&
@@ -174,4 +184,29 @@ bool QPSMultiCharacterStrategy::poundAllowed(const std::string& name) {
   static const std::map<std::string, QPSTokenType::QPSTypeInfo> declarationKeywords = {
       {"stmt",      QPSTokenType::STMT1}};
   return declarationKeywords.find(name) != declarationKeywords.end();
+}
+
+bool QPSMultiCharacterStrategy::isDeclarations(QPSTokenType::QPSTypeInfo type){
+  std::vector<QPSTokenType::QPSTypeInfo> map =
+  {QPSTokenType::STMT1,
+    QPSTokenType::READ,
+    QPSTokenType::PRINT,
+    QPSTokenType::WHILE,
+    QPSTokenType::IF,
+    QPSTokenType::CALL,
+    QPSTokenType::ASSIGN,
+    QPSTokenType::VARIABLE,
+    QPSTokenType::CONSTANT,
+    QPSTokenType::PROCEDURE};
+
+  return std::find(map.begin(), map.end(), type) != map.end();
+}
+
+bool QPSMultiCharacterStrategy::isPunc(QPSTokenType::QPSTypeInfo type){
+  std::vector<QPSTokenType::QPSTypeInfo> map =
+      {QPSTokenType::LEFT_A_BRAC,
+        QPSTokenType::LEFT_PAREN,
+       QPSTokenType::COMMA,};
+
+  return std::find(map.begin(), map.end(), type) != map.end();
 }

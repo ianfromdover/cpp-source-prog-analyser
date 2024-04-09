@@ -90,7 +90,7 @@ std::shared_ptr<Formattable> QueryEvaluator::evalHelper(std::shared_ptr<Returnab
         return sd;
     } else {
         // is tuple
-        std::vector<vector<string>> val = this->select.getDistinctColumns(columnList);
+        std::vector<vector<string>> val = this->results.getDistinctColumns(columnList);
         std::shared_ptr<TupleStringResult> sd = std::make_shared<TupleStringResult>(val);
         return sd;
     }
