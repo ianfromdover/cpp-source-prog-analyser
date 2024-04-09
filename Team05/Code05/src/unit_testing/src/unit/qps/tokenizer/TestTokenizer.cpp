@@ -12,7 +12,7 @@ static bool compareExpected(std::vector<std::shared_ptr<QPSToken>> tokens,
                             std::initializer_list<QPSTokenType::QPSTypeInfo> expectedTypes);
 
 TEST_CASE("scratch_pad") {
-    std::string source = "stmt s; Select s such that Follows(1, s) pattern s(_, _\"x+y\"_)";
+    std::string source = "assign a; variable v; Select a pattern not not (_,_)";
     std::shared_ptr<QPSStrategyList> strategies = std::make_shared<QPSStrategyList>();
     std::shared_ptr<QPSTokenList> tokens = std::make_shared<QPSTokenList>();
     Tokenizer tokenizer(source, strategies, tokens);
@@ -157,10 +157,10 @@ TEST_CASE("tokenize_not"){
         REQUIRE(compareExpected(tokens, {QPSTokenType::STMT1, QPSTokenType::IDENTIFIER, QPSTokenType::SEMICOLON, QPSTokenType::SELECT, QPSTokenType::IDENTIFIER, QPSTokenType::END_OF_FILE}));
     }
     SECTION("select not as synonym with and operator"){
-        std::string source = "Select not not Follows(not,not) and not Follows(not,not)";
+        std::string source = "Select not such that not Follows(not,not) and not Follows(not,not)";
         std::vector<std::shared_ptr<QPSToken>> tokens = testHelper(source);
         REQUIRE(compareExpected(tokens,
-             {QPSTokenType::SELECT, QPSTokenType::IDENTIFIER,
+             {QPSTokenType::SELECT, QPSTokenType::IDENTIFIER, QPSTokenType::SUCH, QPSTokenType::THAT,
               QPSTokenType::NOT,
               QPSTokenType::FOLLOWS, QPSTokenType::LEFT_PAREN, QPSTokenType::IDENTIFIER, QPSTokenType::COMMA, QPSTokenType::IDENTIFIER, QPSTokenType::RIGHT_PAREN,
               QPSTokenType::AND,
