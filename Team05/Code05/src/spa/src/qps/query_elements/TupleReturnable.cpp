@@ -54,3 +54,9 @@ std::string TupleReturnable::getReturnType() {
     }
     return result;
 }
+
+std::shared_ptr<Formattable> TupleReturnable::getSelectResults(QueryPkbVirtual &pkb, shared_ptr<ResultTable> rTable, shared_ptr<ResultTable> resultTable) {
+    std::vector<vector<string>> val = rTable->getDistinctColumns(getArgumentValue());
+    std::shared_ptr<TupleStringResult> sd = std::make_shared<TupleStringResult>(val);
+    return sd;
+}

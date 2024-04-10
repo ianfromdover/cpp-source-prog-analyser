@@ -44,8 +44,8 @@ std::vector<std::vector<std::string>> VariableWith::getEntityTable(QueryPkbVirtu
         //duplicate left
         duplicatedTable = make_shared<table>(ResultTable::duplicateColumnBasedOnIndex(entityTable,
                                                                                       0, HEADER_ENT_WITH_TOMERGE));
-    } else if (varAttribute == QPSTokenType::WITHVARNAME || varAttribute == QPSTokenType::WITHPROCNAME) {
-        //duplicate left
+    } else if (varAttribute == QPSTokenType::WITHVARNAME || varAttribute == QPSTokenType::WITHPROCNAME || varAttribute == QPSTokenType::WITHVALUE) {
+        //duplicate right
         duplicatedTable = make_shared<table>(ResultTable::duplicateColumnBasedOnIndex(entityTable,
                                                                                       1, HEADER_ENT_WITH_TOMERGE));
     } else {
@@ -106,4 +106,32 @@ std::vector<std::vector<std::string>> VariableWith::removeColumnByIndex(int i, s
         }
     }
     return table;
+}
+
+bool isInSet(std::set<QPSTokenType::QPSTypeInfo> set, QPSTokenType::QPSTypeInfo token) {
+    if (set.find(token) == set.end()) {
+        // not inside the set
+        return false;
+    } else {
+        return true;
+    }
+}
+
+std::shared_ptr<Formattable>
+VariableWith::getSelectResults(QueryPkbVirtual &pkb, shared_ptr<ResultTable> rTable, shared_ptr<ResultTable> resultTable) {
+    std::vector<std::vector<std::string>> wholeTable = this->getEntityTable(pkb);
+    std::vector<string> val = rTable->getDistinctColumn(varName);
+    val.insert(val.begin(), {varName});
+    std::vector<std::vector<std::string>> subTable = {val};
+    table ans = ResultTable::hashJoin(wholeTable, subTable);
+    auto type = variable->getEntityType();
+    std::set<QPSTokenType::QPSTypeInfo> leftColSet = {QPSTokenType::PROCNAME, QPSTokenType::VARNAME};
+    std::set<QPSTokenType::QPSTypeInfo> rightColSet = {QPSTokenType::WITHVALUE, QPSTokenType::WITHSTMT};
+    if (isInSet(leftColSet, this->getVarAttribute())) {
+        return std::make_shared<StringResult>(ans[0]);
+    } else if (isInSet(rightColSet, this->getVarAttribute())) {
+        return std::make_shared<StringResult>(ans[1]);
+    } else {
+        throw QPSException("qps attribute token is neither in left or right set");
+    }
 }

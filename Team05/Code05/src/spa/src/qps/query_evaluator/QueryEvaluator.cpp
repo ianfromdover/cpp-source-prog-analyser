@@ -4,6 +4,7 @@
 
 #include "QueryEvaluator.h"
 #include <algorithm>
+#include <utility>
 #include "PkbStub.h"
 #include "qps/query_evaluator/query_result/StringResult.h"
 #include "qps/query_evaluator/query_result/IntResult.h"
@@ -26,8 +27,7 @@ std::shared_ptr<Formattable> QueryEvaluator::evaluate(QueryObject & query) {
     processReturnable(returnable);
 
     if (results.hasEntries() && ResultTable::findCommonHeaders(results.getTable(), select.getTable()).empty()) {
-        // Get the return type column that we want
-        return evalHelper(returnable, make_shared<ResultTable>(select));
+        return returnable->getSelectResults(pkb, make_shared<ResultTable>(select), make_shared<ResultTable>(results));
     } else {
         if (!results.isEmpty() && !results.hasEntries()) {
             if (returnable->getReturnType() == RETURN_BOOL_RESULT) {
@@ -37,35 +37,7 @@ std::shared_ptr<Formattable> QueryEvaluator::evaluate(QueryObject & query) {
             return getEmptyResult();
         }
         this->results.add(select.getTable());
-        return evalHelper(returnable, make_shared<ResultTable>(results));
-    }
-}
-
-std::shared_ptr<Formattable> QueryEvaluator::evalHelper(std::shared_ptr<Returnable> returnable, shared_ptr<ResultTable> rTable) {
-    std::vector<std::string> columnList = returnable->getArgumentValue();
-    if (columnList.empty()) {
-        if (returnable->getReturnType() == RETURN_BOOL_RESULT) {
-            // is boolean
-            bool hasEntries = this->results.hasEntries();
-            if (hasEntries) {
-                std::vector<std::string> val = {"TRUE"};
-                return std::make_shared<StringResult>(val);
-            } else {
-                std::vector<std::string> val = {"FALSE"};
-                return std::make_shared<StringResult>(val);
-            }
-        }
-    } else if (columnList.size() == 1) {
-        // is entity
-        std::string column = returnable->getArgumentValue()[0];
-        std::vector<string> val = rTable->getDistinctColumn(column);
-        std::shared_ptr<StringResult> sd = std::make_shared<StringResult>(val);
-        return sd;
-    } else {
-        // is tuple
-        std::vector<vector<string>> val = rTable->getDistinctColumns(columnList);
-        std::shared_ptr<TupleStringResult> sd = std::make_shared<TupleStringResult>(val);
-        return sd;
+        return returnable->getSelectResults(pkb, make_shared<ResultTable>(results), make_shared<ResultTable>(results));
     }
 }
 
