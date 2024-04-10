@@ -25,7 +25,8 @@ std::vector<QPSToken> SelectClause::getAllSelectAttributes() {
 
 
 void SelectClause::addSelectArgument(QPSToken &entity, QPSToken &attribute) {
-
+  selectEntities.push_back(entity);
+  selectAttributes.push_back(attribute);
 }
 
 QPSToken SelectClause::getSelectEntityAt(int i) {

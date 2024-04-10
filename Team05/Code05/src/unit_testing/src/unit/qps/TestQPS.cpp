@@ -24,6 +24,279 @@ TEST_CASE("[TestQPS] Replace with your unit tests") {
     }
 }
 
+TEST_CASE("[TestQPS] basic select attributes") {
+  std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
+  pkb->setStatement(3);
+  pkb->setConst({{"1","1"},{"2","2"},{"3","3"}});
+  pkb->setProcedure({{"1","f1"},{"2","f2"}});
+  pkb->setPatternAsgn({{"1","a3"},{"2","a2"},{"3","a3"}});
+  pkb->setPatternWhile({{"1","w1"},{"2","w2"},{"3","w3"}});
+  pkb->setWhile({{"1","w1"},{"2","w2"},{"3","w3"}});
+  pkb->setPatternIf({{"1","i1"},{"2","i2"},{"3","i3"}});
+  pkb->setIf({{"1","i1"},{"2","i2"},{"3","i3"}});
+  pkb->setCallStmt({{"1","c1"},{"2","c2"},{"3","c3"}});
+  pkb->setRead({{"1","r1"},{"2","r2"},{"3","r3"}});
+  pkb->setPrint({{"1","p1"},{"2","p2"},{"3","p3"}});
+  QPS qps(pkb);
+
+  SECTION("call stmt#a") {
+    std::string queryStr = "stmt s; Select <s.stmt#,s.stmt#>";
+    std::vector<std::string> expected = {"1","2","3"};
+
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+
+  SECTION("statement varName") {
+    std::string queryStr = "stmt s;while w;variable v; Select s.varName";
+    std::vector<std::string> expected = {"SemanticError"};
+
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+  SECTION("statement value") {
+    std::string queryStr = "stmt s; Select s.varName";
+    std::vector<std::string> expected = {"SemanticError"};
+
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+  SECTION("statement procName") {
+    std::string queryStr = "stmt s; Select s.varName";
+    std::vector<std::string> expected = {"SemanticError"};
+
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+  SECTION("statement stmt#") {
+    std::string queryStr = "stmt s; Select s.stmt#";
+    std::vector<std::string> expected = {"1", "2", "3"};
+
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+
+  SECTION("var varName") {
+    std::string queryStr = "variable v; Select v.varName";
+    std::vector<std::string> expected = {"a","b","c"};
+
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+  SECTION("var procName") {
+    std::string queryStr = "variable v; Select v.procName";
+    std::vector<std::string> expected = {"SemanticError"};
+
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+  SECTION("var stmt#") {
+    std::string queryStr = "variable v; Select v.stmt#";
+    std::vector<std::string> expected = {"SemanticError"};
+
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+  SECTION("var value") {
+    std::string queryStr = "variable v; Select v.value";
+    std::vector<std::string> expected = {"SemanticError"};
+
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+
+  SECTION("constant varName") {
+    std::string queryStr = "constant c; Select c.varName";
+    std::vector<std::string> expected = {"SemanticError"};
+
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+  SECTION("constant procName") {
+    std::string queryStr = "stmt s;while w;variable v;constant c; Select c.procName";
+    std::vector<std::string> expected = {"SemanticError"};
+
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+  SECTION("constant value") {
+    std::string queryStr = "stmt s;while w;variable v;constant c; Select c.value";
+    std::vector<std::string> expected = {"1","2","3"};
+
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+  SECTION("constant varName") {
+    std::string queryStr = "stmt s;while w;variable v;constant c; Select c.stmt#";
+    std::vector<std::string> expected = {"SemanticError"};
+
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+
+  SECTION("procedure varName") {
+    std::string queryStr = "stmt s;while w;variable v;constant c;procedure p; Select p.varName";
+    std::vector<std::string> expected = {"SemanticError"};
+
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+  SECTION("procedure procName") {
+    std::string queryStr = "stmt s;while w;variable v;constant c;procedure p; Select p.procName";
+    std::vector<std::string> expected = {"f1","f2"};
+
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+  SECTION("procedure value") {
+    std::string queryStr = "stmt s;while w;variable v;constant c;procedure p; Select p.value";
+    std::vector<std::string> expected = {"SemanticError"};
+
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+  SECTION("procedure stmt#") {
+    std::string queryStr = "stmt s;while w;variable v;constant c;procedure p; Select p.stmt#";
+    std::vector<std::string> expected = {"SemanticError"};
+
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+
+  SECTION("assign varName") {
+    std::string queryStr = "assign a; Select a.varName";
+    std::vector<std::string> expected = {"SemanticError"};
+
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+  SECTION("assign procName") {
+    std::string queryStr = "assign a; Select a.procName";
+    std::vector<std::string> expected = {"SemanticError"};
+
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+  SECTION("assign value") {
+    std::string queryStr = "assign a; Select a.value";
+    std::vector<std::string> expected = {"SemanticError"};
+
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+  SECTION("assign stmt#") {
+    std::string queryStr = "assign a; Select a.stmt#";
+    std::vector<std::string> expected = {"1","2","3"};
+
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+
+  SECTION("while varName") {
+    std::string queryStr = "while w; Select w.varName";
+    std::vector<std::string> expected = {"SemanticError"};
+    
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+  SECTION("while procName") {
+    std::string queryStr = "while w; Select w.procName";
+    std::vector<std::string> expected = {"SemanticError"};
+    
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+  SECTION("while value") {
+    std::string queryStr = "while w; Select w.value";
+    std::vector<std::string> expected = {"SemanticError"};
+    
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+  SECTION("while stmt#") {
+    std::string queryStr = "while w; Select w.stmt#";
+    std::vector<std::string> expected = {"1","2","3"};
+    
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+  
+  SECTION("if varName") {
+    std::string queryStr = "if i; Select i.varName";
+    std::vector<std::string> expected = {"SemanticError"};
+    
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+  SECTION("if procName") {
+    std::string queryStr = "if i; Select i.procName";
+    std::vector<std::string> expected = {"SemanticError"};
+    
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+  SECTION("if value") {
+    std::string queryStr = "if i; Select i.value";
+    std::vector<std::string> expected = {"SemanticError"};
+    
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+  SECTION("if stmt#") {
+    std::string queryStr = "if i; Select i.stmt#";
+    std::vector<std::string> expected = {"1","2","3"};
+    
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+  
+  SECTION("print varName") {
+    std::string queryStr = "print pn; Select pn.varName";
+    std::vector<std::string> expected = {"p1","p2","p3"};
+    
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+  SECTION("print procName") {
+    std::string queryStr = "print pn; Select pn.procName";
+    std::vector<std::string> expected = {"SemanticError"};
+    
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+  SECTION("print value") {
+    std::string queryStr = "print pn; Select pn.value";
+    std::vector<std::string> expected = {"SemanticError"};
+    
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+  SECTION("print stmt#") {
+    std::string queryStr = "print pn; Select pn.stmt#";
+    std::vector<std::string> expected = {"1","2","3"};
+    
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+  
+  SECTION("read varName") {
+    std::string queryStr = "read r; Select r.varName";
+    std::vector<std::string> expected = {"r1","r2","r3"};
+    
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+  SECTION("read procName") {
+    std::string queryStr = "read r; Select r.procName";
+    std::vector<std::string> expected = {"SemanticError"};
+    
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+  SECTION("read value") {
+    std::string queryStr = "read r; Select r.value";
+    std::vector<std::string> expected = {"SemanticError"};
+    
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+  SECTION("read stmt#") {
+    std::string queryStr = "read r; Select r.stmt#";
+    std::vector<std::string> expected = {"1","2","3"};
+    
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+
+  SECTION("call varName") {
+    std::string queryStr = "call c; Select c.varName";
+    std::vector<std::string> expected = {"SemanticError"};
+
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+  SECTION("call procName") {
+    std::string queryStr = "call c; Select c.procName";
+    std::vector<std::string> expected = {"c1","c2","c3"};
+
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+  SECTION("call value") {
+    std::string queryStr = "call c; Select c.value";
+    std::vector<std::string> expected = {"SemanticError"};
+
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+  SECTION("call stmt#") {
+    std::string queryStr = "call c; Select c.stmt#";
+    std::vector<std::string> expected = {"1","2","3"};
+
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+  }
+}
+
 TEST_CASE("[TestQPS] with clause attributes tests"){
   SECTION("stmt varName"){
     std::string queryStr = "stmt s;if i; Select s with s.varName = 1";

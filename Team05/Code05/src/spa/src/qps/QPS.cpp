@@ -23,7 +23,7 @@ std::vector<std::string> QPS::evaluate(std::string queryString) {
     } catch (const SemanticErrorException& e1){
         return std::vector<std::string>({"SemanticError"});
     } catch (const QPSException& e2){
-        return std::vector<std::string>({"SemanticError"});
+        return std::vector<std::string>({"SemanticError??"});
     }
 
     // Add desired optimizers to the optimizer chain
