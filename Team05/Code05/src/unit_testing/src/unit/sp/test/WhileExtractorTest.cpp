@@ -67,6 +67,7 @@ TEST_CASE("While_TestIfElseWithStmtsAfterAndInside") {
 TEST_CASE("While_TestWhileWithStmtsBeforeAndInside") {
     std::multiset<pair<std::string, std::string>> resultsVector = {
             {"5", "x"},
+            {"5", ""},
     };
     auto program =astPrograms.createWhileWithStmtsBeforeAndInside();
     auto pkb = make_shared<PkbStubSp>();
@@ -80,6 +81,7 @@ TEST_CASE("While_TestWhileWithStmtsBeforeAndInside") {
 TEST_CASE("While_TestWhileWithStmtsBeforeAfterAndInside") {
     std::multiset<pair<std::string, std::string>> resultsVector = {
             {"5", "x"},
+            {"5", ""},
     };
     auto program =astPrograms.createWhileWithStmtsBeforeAfterAndInside();
     auto pkb = make_shared<PkbStubSp>();
@@ -93,6 +95,7 @@ TEST_CASE("While_TestWhileWithStmtsBeforeAfterAndInside") {
 TEST_CASE("While_TestWhileWithStmtsAfterAndInside") {
     std::multiset<pair<std::string, std::string>> resultsVector = {
             {"1", "x"},
+            {"1", ""},
     };
     auto program =astPrograms.createWhileWithStmtsAfterAndInside();
     auto pkb = make_shared<PkbStubSp>();
@@ -148,6 +151,8 @@ TEST_CASE("While_TestIfElseWithNestedWhilePlusNestedStmtsBeforeAndInside") {
     std::multiset<pair<std::string, std::string>> resultsVector = {
             {"6", "x"},
             {"15", "x"},
+            {"6", ""},
+            {"15", ""},
     };
     auto program =astPrograms.createIfElseWithNestedWhilePlusNestedStmtsBeforeAndInside();
     auto pkb = make_shared<PkbStubSp>();
@@ -162,6 +167,8 @@ TEST_CASE("While_TestIfElseWithNestedWhilePlusNestedStmtsBeforeAfterAndInside") 
     std::multiset<pair<std::string, std::string>> resultsVector = {
             {"6", "x"},
             {"19", "x"},
+            {"6", ""},
+            {"19", ""},
     };
     auto program =astPrograms.createIfElseWithNestedWhilePlusNestedStmtsBeforeAfterAndInside();
     auto pkb = make_shared<PkbStubSp>();
@@ -176,6 +183,8 @@ TEST_CASE("While_TestIfElseWithNestedWhilePlusNestedStmtsAfterAndInside") {
     std::multiset<pair<std::string, std::string>> resultsVector = {
             {"2", "x"},
             {"11", "x"},
+            {"2", ""},
+            {"11", ""},
     };
     auto program =astPrograms.createIfElseWithNestedWhilePlusNestedStmtsAfterAndInside();
     auto pkb = make_shared<PkbStubSp>();
@@ -189,6 +198,7 @@ TEST_CASE("While_TestIfElseWithNestedWhilePlusNestedStmtsAfterAndInside") {
 TEST_CASE("While_TestWhileWithNestedIfElsePlusNestedStmtsBeforeAndInside") {
     std::multiset<pair<std::string, std::string>> resultsVector = {
             {"1", "x"},
+            {"1", ""},
     };
     auto program =astPrograms.createWhileWithNestedIfElsePlusNestedStmtsBeforeAndInside();
     auto pkb = make_shared<PkbStubSp>();
@@ -202,6 +212,7 @@ TEST_CASE("While_TestWhileWithNestedIfElsePlusNestedStmtsBeforeAndInside") {
 TEST_CASE("While_TestWhileWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside") {
     std::multiset<pair<std::string, std::string>> resultsVector = {
             {"1", "x"},
+            {"1", ""}
     };
     auto program =astPrograms.createWhileWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside();
     auto pkb = make_shared<PkbStubSp>();
@@ -215,6 +226,7 @@ TEST_CASE("While_TestWhileWithNestedIfElsePlusNestedStmtsBeforeAfterAndInside") 
 TEST_CASE("While_TestWhileWithNestedIfElsePlusNestedStmtsAfterAndInside") {
     std::multiset<pair<std::string, std::string>> resultsVector = {
             {"1", "x"},
+            {"1", ""}
     };
     auto program =astPrograms.createWhileWithNestedIfElsePlusNestedStmtsAfterAndInside();
     auto pkb = make_shared<PkbStubSp>();
@@ -229,6 +241,8 @@ TEST_CASE("While_TestWhileWithNestedWhilePlusNestedStmtsBeforeAndInside") {
     std::multiset<pair<std::string, std::string>> resultsVector = {
             {"1", "x"},
             {"6", "x"},
+            {"1", ""},
+            {"6", ""},
     };
     auto program =astPrograms.createWhileWithNestedWhilePlusNestedStmtsBeforeAndInside();
     auto pkb = make_shared<PkbStubSp>();
@@ -243,6 +257,8 @@ TEST_CASE("While_TestWhileWithNestedWhilePlusNestedStmtsBeforeAfterAndInside") {
     std::multiset<pair<std::string, std::string>> resultsVector = {
             {"1", "x"},
             {"6", "x"},
+            {"1", ""},
+            {"6", ""},
     };
     auto program =astPrograms.createWhileWithNestedWhilePlusNestedStmtsBeforeAfterAndInside();
     auto pkb = make_shared<PkbStubSp>();
@@ -257,6 +273,8 @@ TEST_CASE("While_TestWhileWithNestedWhilePlusNestedStmtsAfterAndInside") {
     std::multiset<pair<std::string, std::string>> resultsVector = {
             {"1", "x"},
             {"2", "x"},
+            {"1", ""},
+            {"2", ""},
     };
     auto program =astPrograms.createWhileWithNestedWhilePlusNestedStmtsAfterAndInside();
     auto pkb = make_shared<PkbStubSp>();

@@ -28,7 +28,8 @@ std::vector<std::vector<std::string>> WithConstraint::getRelationshipTable(Query
     auto table2 = constraintArguments[1]->getEntityTable(pkb);
     table result = ResultTable::hashJoin(table1, table2);
     ResultTable ans = ResultTable(result);
-    ans.removeColumnByHeader(HEADER_ENT_WITH_TOMERGE);
+//    ans.removeColumnByHeader(HEADER_ENT_WITH_TOMERGE);
+    removeHeaders({HEADER_ENT_WITH_TOMERGE}, ans);
     return ans.getTable();
 }
 

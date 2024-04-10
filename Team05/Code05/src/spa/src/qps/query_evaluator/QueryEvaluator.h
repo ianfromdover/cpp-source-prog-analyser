@@ -25,10 +25,7 @@ private:
     QueryPkbVirtual& pkb;
     shared_ptr<QueryResult> intersect(shared_ptr<QueryResult> r1, shared_ptr<QueryResult> r2);
     std::shared_ptr<Formattable> getEmptyResult();
-
     void processReturnable(shared_ptr<Returnable> r);
-
-    shared_ptr<Formattable> evalHelper(shared_ptr<Returnable> returnable);
 };
 
 

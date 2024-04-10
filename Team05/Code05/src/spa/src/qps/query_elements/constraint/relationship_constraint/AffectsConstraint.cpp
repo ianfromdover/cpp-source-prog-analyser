@@ -33,8 +33,8 @@ Table AffectsConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     std::string lhsEntityType = args[0] -> getEntityType();
     std::string rhsEntityType = args[1] -> getEntityType();
 
-    std::string lhsHeader = lhsEntityType == TYPE_ASSIGN ? args[0]->getArgumentValue()[0] : "AffectsLHS";
-    std::string rhsHeader = rhsEntityType == TYPE_ASSIGN ? args[1]->getArgumentValue()[0] : "AffectsRHS";
+    std::string lhsHeader = lhsEntityType == TYPE_ASSIGN ? args[0]->getArgumentValue()[0] : HEADER_AFFECTSLHS;
+    std::string rhsHeader = rhsEntityType == TYPE_ASSIGN ? args[1]->getArgumentValue()[0] : HEADER_AFFECTSRHS;
 
     // Insertion of headers into our retrieved and result table
     retrieved.insert(retrieved.begin(), {lhsHeader, rhsHeader});
@@ -70,12 +70,13 @@ Table AffectsConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     ResultTable final(result);
 
     // Remove columns by header
-    if (lhsHeader == "AffectsLHS"){
-        final.removeColumnByHeader(lhsHeader);
-    }
-    if (rhsHeader == "AffectsRHS"){
-        final.removeColumnByHeader(rhsHeader);
-    }
+//    if (lhsHeader == HEADER_AFFECTSLHS){
+//        final.removeColumnByHeader(lhsHeader);
+//    }
+//    if (rhsHeader == HEADER_AFFECTSRHS){
+//        final.removeColumnByHeader(rhsHeader);
+//    }
+    removeHeaders({HEADER_AFFECTSLHS, HEADER_AFFECTSRHS}, final);
 
     return final.getTable();
 }

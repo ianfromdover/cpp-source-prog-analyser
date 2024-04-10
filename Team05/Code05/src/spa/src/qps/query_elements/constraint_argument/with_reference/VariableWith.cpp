@@ -44,8 +44,8 @@ std::vector<std::vector<std::string>> VariableWith::getEntityTable(QueryPkbVirtu
         //duplicate left
         duplicatedTable = make_shared<table>(ResultTable::duplicateColumnBasedOnIndex(entityTable,
                                                                                       0, HEADER_ENT_WITH_TOMERGE));
-    } else if (varAttribute == QPSTokenType::WITHVARNAME || varAttribute == QPSTokenType::WITHPROCNAME) {
-        //duplicate left
+    } else if (varAttribute == QPSTokenType::WITHVARNAME || varAttribute == QPSTokenType::WITHPROCNAME || varAttribute == QPSTokenType::WITHVALUE) {
+        //duplicate right
         duplicatedTable = make_shared<table>(ResultTable::duplicateColumnBasedOnIndex(entityTable,
                                                                                       1, HEADER_ENT_WITH_TOMERGE));
     } else {
@@ -106,4 +106,52 @@ std::vector<std::vector<std::string>> VariableWith::removeColumnByIndex(int i, s
         }
     }
     return table;
+}
+
+bool isInSet(std::set<QPSTokenType::QPSTypeInfo> set, QPSTokenType::QPSTypeInfo token) {
+    if (set.find(token) == set.end()) {
+        // not inside the set
+        return false;
+    } else {
+        return true;
+    }
+}
+
+std::shared_ptr<Formattable>
+VariableWith::getSelectResults(QueryPkbVirtual &pkb, shared_ptr<ResultTable> rTable, shared_ptr<ResultTable> resultTable) {
+    // get the entirety of synonym table
+    std::vector<std::vector<std::string>> wholeTable = this->getEntityTable(pkb);
+
+    // get the related entries of synonym in the intermediate table
+    std::vector<string> val = rTable->getDistinctColumn(varName);
+    // should be only 1 column, so we include the synonym as the header
+    val.insert(val.begin(), {varName});
+    std::vector<std::vector<std::string>> subTable = {val};
+
+    // we join the 2 tables together. We should therefore get a table with at most 2 columns.
+    table ans = ResultTable::hashJoin(wholeTable, subTable);
+
+    // now we have to determine which of the 2 columns to return (depending on the attribute)
+
+    // entities with attributes found here must return left column
+    std::set<QPSTokenType::QPSTypeInfo> leftColSet = {QPSTokenType::WITHSTMT};
+    // entities with attributes found here must return right column
+    std::set<QPSTokenType::QPSTypeInfo> rightColSet = {QPSTokenType::WITHVALUE, QPSTokenType::WITHVARNAME};
+    // entities with attributes found here can either return left or right column
+    std::set<QPSTokenType::QPSTypeInfo> undecidedColSet = {QPSTokenType::WITHPROCNAME};
+    if (isInSet(leftColSet, this->getVarAttribute())) {
+        return std::make_shared<StringResult>(ans[0]);
+    } else if (isInSet(rightColSet, this->getVarAttribute())) {
+        return std::make_shared<StringResult>(ans[1]);
+    } else if (isInSet(undecidedColSet, this->getVarAttribute())) {
+        if (variable->getEntityType() == TYPE_PROCEDURE) {
+            return std::make_shared<StringResult>(ans[0]);
+        } else if (variable->getEntityType() == TYPE_CALL) {
+            return std::make_shared<StringResult>(ans[1]);
+        } else {
+            throw QPSException("qps attribute token should not be in undecided set for [variable WITH]");
+        }
+    } else {
+        throw QPSException("qps attribute token is neither in left, right, undecided set for [variable WITH]");
+    }
 }

@@ -71,12 +71,13 @@ Table CallsConstraint::getTable(QueryPkbVirtual &pkb) {
         table.filterByColumnExact(rhsHeader,stripped);
     }
 
-    if (lhsHeader == HEADER_CALLSLHS){
-        table.removeColumnByHeader(lhsHeader);
-    }
-    if (rhsHeader == HEADER_CALLSRHS){
-        table.removeColumnByHeader(rhsHeader);
-    }
+//    if (lhsHeader == HEADER_CALLSLHS){
+//        table.removeColumnByHeader(lhsHeader);
+//    }
+//    if (rhsHeader == HEADER_CALLSRHS){
+//        table.removeColumnByHeader(rhsHeader);
+//    }
+    removeHeaders({HEADER_CALLSLHS, HEADER_CALLSRHS}, table);
 
     return table.getTable();
 }

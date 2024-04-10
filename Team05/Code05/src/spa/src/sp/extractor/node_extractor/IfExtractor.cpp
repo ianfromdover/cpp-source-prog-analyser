@@ -11,6 +11,8 @@ void IfExtractor::visitWhileStmt(const While& stmt, shared_ptr<Accumulator>& par
 }
 
 void IfExtractor::visitIfStmt(const If& stmt, shared_ptr<Accumulator>& parentInfo) {
+    //std::cout << "{" << "\"" << stmt.getStmtNo() << "\"" << ", " <<  "\"" << "" << "\"" << "}, " << std::endl;
+    pkb->addPatternIf(stmt.getStmtNo(), "");
     this->visitStmtList(stmt.getThenBranch(), parentInfo);
     this->visitStmtList(stmt.getElseBranch(), parentInfo);
     parentInfo->info.emplace_back(stmt.getStmtNo());

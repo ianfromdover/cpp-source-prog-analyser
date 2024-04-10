@@ -78,7 +78,7 @@ public:
         PLUS, MINUS, STAR, SLASH, PERCENT,
 
         // With clause attributes
-        PROCNAME, VARNAME, STMT,
+        PROCNAME, VARNAME, STMT, NULL_ATTRIBUTE,
 
         // Others
         END_OF_FILE, TODO, ERR_NULL

@@ -57,6 +57,7 @@ Table IfPatternConstraint::getTable(QueryPkbVirtual &pkb) {
     for (const std::string& header : {HEADER_IFPATTERN}){
         table.removeColumnByHeader(const_cast<string &>(header));
     }
+//    removeHeaders({HEADER_IFPATTERN}, table);
 
     return table.getTable();
 }

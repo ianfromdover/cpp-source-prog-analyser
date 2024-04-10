@@ -26,6 +26,7 @@ public:
         _table = t;
     };
     ResultTable() = default;
+    bool hasEntriesBool = false;
 
     bool isEmpty(){
         return _table.empty();
@@ -131,8 +132,17 @@ public:
         return std::find(_table[0].begin(), _table[0].end(), header) != _table[0].end();
     }
 
+    void setBoolEntries() {
+        if (hasEntries()) {
+            hasEntriesBool = true;
+        } else {
+            hasEntriesBool = false;
+        }
+    }
+
     void removeColumnByHeader(std::string header){
         if (hasHeader(header)) {
+            setBoolEntries();
             size_t index = findColumnIndex(_table, header);
             removeColumnByIndex(index);
         }
