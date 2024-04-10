@@ -30,6 +30,7 @@ bool QPSSingleCharacterStrategy::tokenize(char character, std::stringstream &str
             break;
         case '"' :
             type = QPSTokenType::QUOTE;
+            prevTokenIsKeyword = false;
             break;
         case '+':
             type = QPSTokenType::PLUS;
