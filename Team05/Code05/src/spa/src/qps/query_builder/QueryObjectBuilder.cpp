@@ -26,7 +26,22 @@ void QueryObjectBuilder::setSingleWithClause(std::shared_ptr<WithClause> withCla
     qo->addConstraint(ptr);
 }
 
-void QueryObjectBuilder::setSingleSelectClause() {
+// TODO: alex to fill up; logic to determine select clause is a variableWith (with attribute)
+// TODO: implement an array selectElementsAttribute[i] where selectElementsAttribute.size() == selectElements.size()
+// TODO: even if select entity does not have any attribute, there must be a corresponding field for selectElementsAttribute
+// TODO: if entity does not have any attribute, set the attribute to QPSTokenType::NULL_ATTRIBUTE
+shared_ptr<Entity> QueryObjectBuilder::setSingleSelectClause(int i) {
+    if (intermediateObject->getSelectClause()->selectElementsAttribute[i] != QPSTokenType::NULL_ATTRIBUTE) {
+        std::string name = intermediateObject->getSelectClause()->selectElements[i];
+        QPSTokenType::QPSTypeInfo attribute = intermediateObject->getSelectClause()->selectElementsAttribute[i];
+        return std::make_shared<VariableWith>(name, attribute);
+    } else {
+        std::string name = intermediateObject->getSelectClause()->selectElements[i];
+        return qo->getEntityInDeclaration(name);
+    }
+}
+
+void QueryObjectBuilder::setSelectClauses() {
     if (!intermediateObject->hasSelectClause()) {
         return;
     }
@@ -36,15 +51,14 @@ void QueryObjectBuilder::setSingleSelectClause() {
     }
 
     else if (intermediateObject->getSelectClause()->getAllSelect().size() == 1) {
-        std::string name = intermediateObject->getSelectClause()->selectElements[0];
-        qo->setReturnType(qo->getEntityInDeclaration(name));
+        qo->setReturnType(setSingleSelectClause(0));
     }
 
     else if (intermediateObject->getSelectClause()->getAllSelect().size() > 1) {
         std::vector<std::string> names = intermediateObject->getSelectClause()->selectElements;
         auto tupleReturn  = std::make_shared<TupleReturnable>();
-        for (std::string name : names) {
-            auto entity = qo->getEntityInDeclaration(name);
+        for (int i = 0; i < intermediateObject->getSelectClause()->getAllSelect().size(); i ++) {
+            auto entity = setSingleSelectClause(i);
             tupleReturn->addEntityVector(entity);
         }
         qo->setReturnType(tupleReturn);
@@ -111,7 +125,7 @@ std::shared_ptr<QueryObject> QueryObjectBuilder::build(shared_ptr<IntermediateQu
     qo = make_shared<QueryObject>();
     setAllDeclarationClauses();
     setAllRelationshipConstraint();
-    setSingleSelectClause(); // has to be done after declaration
+    setSelectClauses(); // has to be done after declaration
     setAllPatternClauses();
     setAllWithConstraint();
     return getQueryObjectRepresentation();

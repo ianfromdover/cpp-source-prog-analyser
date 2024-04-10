@@ -119,13 +119,25 @@ bool isInSet(std::set<QPSTokenType::QPSTypeInfo> set, QPSTokenType::QPSTypeInfo 
 
 std::shared_ptr<Formattable>
 VariableWith::getSelectResults(QueryPkbVirtual &pkb, shared_ptr<ResultTable> rTable, shared_ptr<ResultTable> resultTable) {
+    // get the entirety of synonym table
     std::vector<std::vector<std::string>> wholeTable = this->getEntityTable(pkb);
+
+    // get the related entries of synonym in the intermediate table
     std::vector<string> val = rTable->getDistinctColumn(varName);
+    // should be only 1 column, so we include the synonym as the header
     val.insert(val.begin(), {varName});
     std::vector<std::vector<std::string>> subTable = {val};
+
+    // we join the 2 tables together. We should therefore get a table with at most 2 columns.
     table ans = ResultTable::hashJoin(wholeTable, subTable);
+
+    // now we have to determine which of the 2 columns to return (depending on the attribute)
+
+    // entities with attributes found here must return left column
     std::set<QPSTokenType::QPSTypeInfo> leftColSet = {QPSTokenType::WITHSTMT};
+    // entities with attributes found here must return right column
     std::set<QPSTokenType::QPSTypeInfo> rightColSet = {QPSTokenType::WITHVALUE, QPSTokenType::WITHVARNAME};
+    // entities with attributes found here can either return left or right column
     std::set<QPSTokenType::QPSTypeInfo> undecidedColSet = {QPSTokenType::WITHPROCNAME};
     if (isInSet(leftColSet, this->getVarAttribute())) {
         return std::make_shared<StringResult>(ans[0]);

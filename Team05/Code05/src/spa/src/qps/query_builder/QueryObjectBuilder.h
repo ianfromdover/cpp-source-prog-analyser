@@ -36,7 +36,8 @@ private:
     void setSingleRelationshipConstraint(std::shared_ptr<RelationshipClause>, shared_ptr<QueryObject>);
     void setSinglePatternClause(std::shared_ptr<PatternClause>, shared_ptr<QueryObject>);
     void setSingleWithClause(std::shared_ptr<WithClause>, shared_ptr<QueryObject>);
-    void setSingleSelectClause();
+    void setSelectClauses();
+    shared_ptr<Entity> setSingleSelectClause(int);
     void setAllRelationshipConstraint();
     void setAllWithConstraint();
     void setAllPatternClauses();
