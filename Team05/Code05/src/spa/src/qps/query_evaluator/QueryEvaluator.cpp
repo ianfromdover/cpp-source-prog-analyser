@@ -36,6 +36,10 @@ std::shared_ptr<Formattable> QueryEvaluator::evaluate(QueryObject & query) {
             }
             return getEmptyResult();
         }
+        if (constraints.size() == 0 && returnable->getReturnType() == RETURN_BOOL_RESULT){
+          std::vector<std::string> val = {"TRUE"};
+          return std::make_shared<StringResult>(val);
+        }
         this->results.add(select.getTable());
         return returnable->getSelectResults(pkb, make_shared<ResultTable>(results), make_shared<ResultTable>(results));
     }

@@ -129,6 +129,7 @@ public:
     }
 
     bool hasHeader(std::string& header){
+      if (_table.size() <= 0) return false;
         return std::find(_table[0].begin(), _table[0].end(), header) != _table[0].end();
     }
 
