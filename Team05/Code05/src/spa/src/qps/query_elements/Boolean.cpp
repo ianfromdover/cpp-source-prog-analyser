@@ -22,7 +22,7 @@ std::vector<std::vector<std::string>> Boolean::getEntityTable(QueryPkbVirtual &p
 
 std::shared_ptr<Formattable> Boolean::getSelectResults(QueryPkbVirtual &pkb, shared_ptr<ResultTable> rTable, shared_ptr<ResultTable> resultTable) {
     bool hasEntries = resultTable->hasEntries();
-    if (hasEntries) {
+    if (hasEntries || rTable->hasEntriesBool) {
         std::vector<std::string> val = {"TRUE"};
         return std::make_shared<StringResult>(val);
     } else {

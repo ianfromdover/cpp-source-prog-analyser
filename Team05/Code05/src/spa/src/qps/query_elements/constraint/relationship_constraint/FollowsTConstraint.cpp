@@ -80,12 +80,13 @@ Table FollowsTConstraint::getTable(QueryPkbVirtual &pkb) {
         table.add(entityTableResult.getTable());
     }
 
-    if (lhsHeader == HEADER_FOLLOWSTLHS){
-        table.removeColumnByHeader(lhsHeader);
-    }
-    if (rhsHeader == HEADER_FOLLOWSTRHS){
-        table.removeColumnByHeader(rhsHeader);
-    }
+//    if (lhsHeader == HEADER_FOLLOWSTLHS){
+//        table.removeColumnByHeader(lhsHeader);
+//    }
+//    if (rhsHeader == HEADER_FOLLOWSTRHS){
+//        table.removeColumnByHeader(rhsHeader);
+//    }
+    removeHeaders({HEADER_FOLLOWSTLHS, HEADER_FOLLOWSTRHS}, table);
 
     return table.getTable();
 }

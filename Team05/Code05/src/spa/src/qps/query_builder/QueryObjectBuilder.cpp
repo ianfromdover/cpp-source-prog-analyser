@@ -31,14 +31,14 @@ void QueryObjectBuilder::setSingleWithClause(std::shared_ptr<WithClause> withCla
 // TODO: even if select entity does not have any attribute, there must be a corresponding field for selectElementsAttribute
 // TODO: if entity does not have any attribute, set the attribute to QPSTokenType::NULL_ATTRIBUTE
 shared_ptr<Entity> QueryObjectBuilder::setSingleSelectClause(int i) {
-    if (intermediateObject->getSelectClause()->selectElementsAttribute[i] != QPSTokenType::NULL_ATTRIBUTE) {
-        std::string name = intermediateObject->getSelectClause()->selectElements[i];
-        QPSTokenType::QPSTypeInfo attribute = intermediateObject->getSelectClause()->selectElementsAttribute[i];
-        return std::make_shared<VariableWith>(name, attribute);
-    } else {
+//    if (intermediateObject->getSelectClause()->selectElementsAttribute[i] != QPSTokenType::NULL_ATTRIBUTE) {
+//        std::string name = intermediateObject->getSelectClause()->selectElements[i];
+//        QPSTokenType::QPSTypeInfo attribute = intermediateObject->getSelectClause()->selectElementsAttribute[i];
+//        return std::make_shared<VariableWith>(name, attribute);
+//    } else {
         std::string name = intermediateObject->getSelectClause()->selectElements[i];
         return qo->getEntityInDeclaration(name);
-    }
+//    }
 }
 
 void QueryObjectBuilder::setSelectClauses() {
