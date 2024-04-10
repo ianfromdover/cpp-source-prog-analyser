@@ -124,14 +124,22 @@ VariableWith::getSelectResults(QueryPkbVirtual &pkb, shared_ptr<ResultTable> rTa
     val.insert(val.begin(), {varName});
     std::vector<std::vector<std::string>> subTable = {val};
     table ans = ResultTable::hashJoin(wholeTable, subTable);
-    auto type = variable->getEntityType();
-    std::set<QPSTokenType::QPSTypeInfo> leftColSet = {QPSTokenType::PROCNAME, QPSTokenType::VARNAME};
-    std::set<QPSTokenType::QPSTypeInfo> rightColSet = {QPSTokenType::WITHVALUE, QPSTokenType::WITHSTMT};
+    std::set<QPSTokenType::QPSTypeInfo> leftColSet = {QPSTokenType::WITHSTMT};
+    std::set<QPSTokenType::QPSTypeInfo> rightColSet = {QPSTokenType::WITHVALUE, QPSTokenType::WITHVARNAME};
+    std::set<QPSTokenType::QPSTypeInfo> undecidedColSet = {QPSTokenType::WITHPROCNAME};
     if (isInSet(leftColSet, this->getVarAttribute())) {
         return std::make_shared<StringResult>(ans[0]);
     } else if (isInSet(rightColSet, this->getVarAttribute())) {
         return std::make_shared<StringResult>(ans[1]);
+    } else if (isInSet(undecidedColSet, this->getVarAttribute())) {
+        if (variable->getEntityType() == TYPE_PROCEDURE) {
+            return std::make_shared<StringResult>(ans[0]);
+        } else if (variable->getEntityType() == TYPE_CALL) {
+            return std::make_shared<StringResult>(ans[1]);
+        } else {
+            throw QPSException("qps attribute token should not be in undecided set for [variable WITH]");
+        }
     } else {
-        throw QPSException("qps attribute token is neither in left or right set");
+        throw QPSException("qps attribute token is neither in left, right, undecided set for [variable WITH]");
     }
 }
