@@ -346,7 +346,6 @@ Table QueryPkb::getPatternAsgnTable() {
     return pkb->patternAssignTable->getAllAsStrings();
 }
 Table QueryPkb::getPatternAsgnByStmt(StmtNo sNum) {
-    // TODO: implement
     return {{}}; // 2-col map needed
 }
 Table QueryPkb::getPatternAsgnByLhs(VarName Lhs) {
@@ -354,6 +353,9 @@ Table QueryPkb::getPatternAsgnByLhs(VarName Lhs) {
 }
 Table QueryPkb::getPatternAsgnByRhs(std::string Rhs) {
     return {{}}; // 2-col map needed
+}
+bool QueryPkb::isAsgn(StmtNo sNum) {
+    return pkb->patternAssignTable->isAsgn(sNum);
 }
 
 Table QueryPkb::getPatternIfTable() {

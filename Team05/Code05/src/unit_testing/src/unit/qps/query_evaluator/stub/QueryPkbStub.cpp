@@ -509,6 +509,9 @@ Table QueryPkbStub::getPatternAsgnByLhs(VarName Lhs) {
 Table QueryPkbStub::getPatternAsgnByRhs(std::string Rhs) {
     return {{}};
 }
+bool QueryPkbStub::isAsgn(StmtNo sNum) {
+    return false;
+}
 
 Table QueryPkbStub::getPatternIfTable() {
     return patternIfTable;
