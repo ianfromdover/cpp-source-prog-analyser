@@ -117,7 +117,10 @@ TEST_CASE("SP-PKB Integration Test - SIMPLE Program 1") {
         Table resultsVector = {
                 {"5", "z"}, {"1", "x"},
                 {"1", "y"}, {"1", "k"},
-                {"1", "u"}, {"24", "k"}
+                {"1", "u"}, {"24", "k"},
+                {"5", ""}, {"1", ""},
+                {"1", ""}, {"1", ""},
+                {"1", ""}, {"24", ""}
         };
         REQUIRE(TableUtils::isPresent(pkb1.getPatternIfTable(), resultsVector));
     }
@@ -176,6 +179,9 @@ TEST_CASE("SP-PKB Integration Test - SIMPLE Program 1") {
                 {"21", "y"}, {"17", "x"},
                 {"17", "y"}, {"17", "k"},
                 {"17", "u"},
+                {"21", ""}, {"17", ""},
+                {"17", ""}, {"17", ""},
+                {"17", ""},
         };
         REQUIRE(TableUtils::isPresent(pkb1.getPatternWhileTable(), resultsVector));
     }
