@@ -13,12 +13,17 @@ std::string WithAttributeRule::validate(IntermediateQuery & query) {
     }
   }
 
-  std::shared_ptr<SelectClause> selectClause = query.getSelectClause();
-  for (int i = 0; i < selectClause->getAllSelectEntities().size(); i++){
-    QPSTokenType::QPSTypeInfo attrType = selectClause->getSelectAttributeAt(i).getType().getInfo();
+  if (query.hasSelectClause()) {
+    std::shared_ptr<SelectClause> selectClause = query.getSelectClause();
+    for (int i = 0; i < selectClause->getAllSelectEntities().size(); i++) {
+      QPSTokenType::QPSTypeInfo attrType =
+          selectClause->getSelectAttributeAt(i).getType().getInfo();
 
-    if (attrType != QPSTokenType::QPSTypeInfo::ERR_NULL && checkArgument(QPSTokenType::QPSTypeInfo::ATTR_REF, attrType, selectClause->getSelectEntityAt(i), synonymTypeMap)){
-      return VALIDATION_RULE_WITH_ATTRIBUTE;
+      if (attrType != QPSTokenType::QPSTypeInfo::ERR_NULL &&
+          checkArgument(QPSTokenType::QPSTypeInfo::ATTR_REF, attrType,
+                        selectClause->getSelectEntityAt(i), synonymTypeMap)) {
+        return VALIDATION_RULE_WITH_ATTRIBUTE;
+      }
     }
   }
 

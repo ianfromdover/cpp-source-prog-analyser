@@ -54,7 +54,9 @@ void QueryEvaluator::processConstraints(std::shared_ptr<Constraint> c){
 
 void QueryEvaluator::processReturnable(std::shared_ptr<Returnable> r) {
   table t = r->getEntityTable(pkb);
-  select.add(t);
+  ResultTable tabl = ResultTable(t);
+  tabl.removeColumnByHeader(HEADER_ENT_WITH_TOMERGE);
+  select.add(tabl.getTable());
 }
 
 std::shared_ptr<Formattable> QueryEvaluator::getEmptyResult() {

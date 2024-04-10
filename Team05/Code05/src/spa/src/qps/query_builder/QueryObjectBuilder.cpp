@@ -26,19 +26,17 @@ void QueryObjectBuilder::setSingleWithClause(std::shared_ptr<WithClause> withCla
     qo->addConstraint(ptr);
 }
 
-// TODO: alex to fill up; logic to determine select clause is a variableWith (with attribute)
-// TODO: implement an array selectElementsAttribute[i] where selectElementsAttribute.size() == selectElements.size()
-// TODO: even if select entity does not have any attribute, there must be a corresponding field for selectElementsAttribute
-// TODO: if entity does not have any attribute, set the attribute to QPSTokenType::NULL_ATTRIBUTE
 shared_ptr<Entity> QueryObjectBuilder::setSingleSelectClause(int i) {
-//    if (intermediateObject->getSelectClause()->selectElementsAttribute[i] != QPSTokenType::NULL_ATTRIBUTE) {
-//        std::string name = intermediateObject->getSelectClause()->selectElements[i];
-//        QPSTokenType::QPSTypeInfo attribute = intermediateObject->getSelectClause()->selectElementsAttribute[i];
-//        return std::make_shared<VariableWith>(name, attribute);
-//    } else {
-        std::string name = intermediateObject->getSelectClause()->selectElements[i];
+    if (intermediateObject->getSelectClause()->getSelectAttributeAt(i).getType().getInfo() != QPSTokenType::ERR_NULL) {
+        std::string name = intermediateObject->getSelectClause()->getSelectEntityAt(i).getLexeme();
+        QPSTokenType::QPSTypeInfo attribute = intermediateObject->getSelectClause()->getSelectAttributeAt(i).getType().getInfo();
+        std::shared_ptr<VariableWith> var = std::make_shared<VariableWith>(name, attribute);
+        var->setVariable(qo);
+        return var;
+    } else {
+        std::string name = intermediateObject->getSelectClause()->getSelectEntityAt(i).getLexeme();
         return qo->getEntityInDeclaration(name);
-//    }
+    }
 }
 
 void QueryObjectBuilder::setSelectClauses() {

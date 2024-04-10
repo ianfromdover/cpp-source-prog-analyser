@@ -19,7 +19,7 @@ std::vector<std::string> VariableWith::getArgumentValue() {
 // column that returns value based on SELECT should be synonym name
 // return columns of tables are {statement number, synonym name}
 std::vector<std::string> VariableWith::getHeadersForTable() {
-    std::set<std::string> returnSynName = {TYPE_VARIABLE, TYPE_PROCEDURE, TYPE_CALL};
+    std::set<std::string> returnSynName = {TYPE_VARIABLE, TYPE_PROCEDURE};
     std::string currType = this->variable->getEntityType();
     if (returnSynName.find(currType) == returnSynName.end()) {
         // not inside the set
@@ -93,7 +93,7 @@ std::vector<std::vector<std::string>> VariableWith::getRawTable(QueryPkbVirtual 
 }
 
 bool VariableWith::hasMoreThanOneColumn(std::vector<std::vector<std::string>> entityTable) {
-    if (entityTable.size() < 0) {
+    if (entityTable.size() <= 0) {
         return false;
     }
     return entityTable[0].size() > 1;
@@ -126,10 +126,12 @@ VariableWith::getSelectResults(QueryPkbVirtual &pkb, shared_ptr<ResultTable> rTa
     std::vector<string> val = rTable->getDistinctColumn(varName);
     // should be only 1 column, so we include the synonym as the header
     val.insert(val.begin(), {varName});
-    std::vector<std::vector<std::string>> subTable = {val};
+    std::vector<std::vector<std::string>> subTable = ResultTable::transpose({val});
 
     // we join the 2 tables together. We should therefore get a table with at most 2 columns.
-    table ans = ResultTable::hashJoin(wholeTable, subTable);
+    ResultTable ans = ResultTable(wholeTable);
+    ans.add(subTable);
+//    table ans = temp.getTable();
 
     // now we have to determine which of the 2 columns to return (depending on the attribute)
 
@@ -140,14 +142,18 @@ VariableWith::getSelectResults(QueryPkbVirtual &pkb, shared_ptr<ResultTable> rTa
     // entities with attributes found here can either return left or right column
     std::set<QPSTokenType::QPSTypeInfo> undecidedColSet = {QPSTokenType::WITHPROCNAME};
     if (isInSet(leftColSet, this->getVarAttribute())) {
-        return std::make_shared<StringResult>(ans[0]);
+      std::vector<string> a = ans.getDistinctColumn(0);
+        return std::make_shared<StringResult>(a);
     } else if (isInSet(rightColSet, this->getVarAttribute())) {
-        return std::make_shared<StringResult>(ans[1]);
+      std::vector<string> a = ans.getDistinctColumn(1);
+      return std::make_shared<StringResult>(a);
     } else if (isInSet(undecidedColSet, this->getVarAttribute())) {
         if (variable->getEntityType() == TYPE_PROCEDURE) {
-            return std::make_shared<StringResult>(ans[0]);
+          std::vector<string> a = ans.getDistinctColumn(0);
+          return std::make_shared<StringResult>(a);
         } else if (variable->getEntityType() == TYPE_CALL) {
-            return std::make_shared<StringResult>(ans[1]);
+          std::vector<string> a = ans.getDistinctColumn(1);
+          return std::make_shared<StringResult>(a);
         } else {
             throw QPSException("qps attribute token should not be in undecided set for [variable WITH]");
         }
