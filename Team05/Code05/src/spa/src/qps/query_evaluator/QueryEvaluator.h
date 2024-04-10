@@ -27,8 +27,7 @@ private:
     std::shared_ptr<Formattable> getEmptyResult();
 
     void processReturnable(shared_ptr<Returnable> r);
-
-    shared_ptr<Formattable> evalHelper(shared_ptr<Returnable> returnable);
+    shared_ptr<Formattable> evalHelper(shared_ptr<Returnable> returnable, shared_ptr<ResultTable>);
 };
 
 
