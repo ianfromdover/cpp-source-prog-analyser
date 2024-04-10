@@ -1,5 +1,5 @@
 //
-// Created by yewme on 26/2/2024.
+// Created by yewme on 9/4/2024.
 //
 
 #include "catch.hpp"
@@ -26,7 +26,7 @@ TEST_CASE("Test TableUtils::isPresent testing helper function") {
 TEST_CASE("Test toTable conversion methods") {
 
     std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
-QueryPkb queryPkb(pkb);
+    QueryPkb queryPkb(pkb);
 
     SECTION("Test for string vector") {
         std::vector<std::string> input = {"1", "2", "3"};
@@ -582,7 +582,7 @@ TEST_CASE("Test QueryPkb getUsesP methods") {
         Table usesPTable = queryPkb.getUsesPTable();
         REQUIRE(usesPTable.size() == 5);
         REQUIRE(TableUtils::isPresent(usesPTable, {{"proc1", "x"}, {"proc1", "y"}, {"proc1", "z"},
-                                       {"proc2", "y"}, {"proc2", "z"}}));
+                                                   {"proc2", "y"}, {"proc2", "z"}}));
 
     }
 }
@@ -660,7 +660,7 @@ TEST_CASE("Test QueryPkb getModifiesP methods") {
         Table modifiesPTable = queryPkb.getModifiesPTable();
         REQUIRE(modifiesPTable.size() == 5);
         REQUIRE(TableUtils::isPresent(modifiesPTable, {{"proc1", "x"}, {"proc1", "y"}, {"proc1", "z"},
-                                           {"proc2", "y"}, {"proc2", "z"}}));
+                                                       {"proc2", "y"}, {"proc2", "z"}}));
 
     }
 }
@@ -770,7 +770,7 @@ TEST_CASE("Test QueryPkb getCalls methods") {
         Table callsTable = queryPkb.getCallsTable();
         REQUIRE(callsTable.size() == 5);
         REQUIRE(TableUtils::isPresent(callsTable, {{"proc1", "procx"}, {"proc1", "procy"}, {"proc1", "procz"},
-                                           {"proc2", "procy"}, {"proc2", "procz"}}));
+                                                   {"proc2", "procy"}, {"proc2", "procz"}}));
 
     }
 }
@@ -809,7 +809,7 @@ TEST_CASE("Test QueryPkb getCallsT methods") {
         Table callsTTable = queryPkb.getCallsTTable();
         REQUIRE(callsTTable.size() == 4);
         REQUIRE(TableUtils::isPresent(callsTTable, {{"proc1", "procx"}, {"proc1", "procy"}, {"procx", "procz"},
-                                        {"proc1", "procz"}}));
+                                                    {"proc1", "procz"}}));
 
     }
 }
