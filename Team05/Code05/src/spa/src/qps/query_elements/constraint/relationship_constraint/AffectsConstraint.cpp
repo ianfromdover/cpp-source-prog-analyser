@@ -21,9 +21,6 @@ std::vector<std::shared_ptr<ConstraintArgument>> AffectsConstraint::getConstrain
 }
 
 Table AffectsConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
-    // Initialise retrieved table
-    Table assign = pkb.getPatternAsgnTable();
-    Table retrieved = generateCartesianProductTable(getDistinctColumnByIndex(assign,0));
 
     // Initialise empty result table
     Table result;
@@ -33,8 +30,20 @@ Table AffectsConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     std::string lhsEntityType = args[0] -> getEntityType();
     std::string rhsEntityType = args[1] -> getEntityType();
 
-    std::string lhsHeader = lhsEntityType == TYPE_ASSIGN ? args[0]->getArgumentValue()[0] : HEADER_AFFECTSLHS;
-    std::string rhsHeader = rhsEntityType == TYPE_ASSIGN ? args[1]->getArgumentValue()[0] : HEADER_AFFECTSRHS;
+    std::string lhsHeader = (lhsEntityType == TYPE_STATEMENT || lhsEntityType == TYPE_ASSIGN ) ? args[0]->getArgumentValue()[0] : HEADER_AFFECTSLHS;
+    std::string rhsHeader = (rhsEntityType == TYPE_STATEMENT || rhsEntityType == TYPE_ASSIGN) ? args[1]->getArgumentValue()[0] : HEADER_AFFECTSRHS;
+
+    if (lhsHeader == HEADER_AFFECTSLHS && lhsHeader != TYPE_INTEGER) {
+        return result;
+    }
+
+    if (rhsHeader == HEADER_AFFECTSRHS && rhsHeader != TYPE_INTEGER) {
+        return result;
+    }
+
+    // Initialise retrieved table
+    Table assign = pkb.getPatternAsgnTable();
+    Table retrieved = generateCartesianProductTable(getDistinctColumnByIndex(assign,0));
 
     // Insertion of headers into our retrieved and result table
     retrieved.insert(retrieved.begin(), {lhsHeader, rhsHeader});
