@@ -10,12 +10,13 @@
 #include "sp/solver/Solver.h"
 #include "DefUseExtractor.h"
 
-using DefinitionSet = std::unordered_set<VarPoint>;
+using DefinitionSet = std::unordered_set<std::shared_ptr<VarOccurrence>>;
 using DefUseChain = std::unordered_map<StmtNo, std::unordered_set<StmtNo>>;
 
 class Affects {
 private:
     std::shared_ptr<CFGCollection> cfgCollection;
+    std::shared_ptr<QueryPkb> queryPkb;
     std::unordered_map<std::string, DefUseChain> defUseChainMap;
     Solver<DefinitionSet>::Meet meet;
     Solver<DefinitionSet>::Transfer transfer;

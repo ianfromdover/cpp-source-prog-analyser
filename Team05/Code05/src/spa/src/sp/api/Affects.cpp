@@ -6,6 +6,7 @@
 
 Affects::Affects(const std::shared_ptr<CFGCollection>& cfgCollection, const std::shared_ptr<QueryPkb>& queryPkb) : extractor(queryPkb) {
     this->cfgCollection = cfgCollection;
+    this->queryPkb = queryPkb;
     this->meet = [](const DefinitionSet& s1, const DefinitionSet& s2) {
         auto result = s1;
         result.insert(s2.begin(), s2.end());
@@ -34,11 +35,11 @@ DefinitionSet Affects::computeKillSet(const DefinitionSet &in, const DefinitionS
 
     std::unordered_set<std::string> genNames;
     for (const auto& def : gen) {
-        genNames.insert(def.getName());
+        genNames.insert(def->getName());
     }
 
     for (const auto& def : in) {
-        if (genNames.find(def.getName()) != genNames.end()) {
+        if (genNames.find(def->getName()) != genNames.end()) {
             kill.insert(def);
         }
     }
@@ -61,6 +62,10 @@ void Affects::compute(const std::shared_ptr<CFG>& cfg) {
 }
 
 bool Affects::get(StmtNo s1, StmtNo s2) {
+//    if (!this->queryPkb->isAsgn(s1) || !this->queryPkb->isAsgn(s2)) {
+//        return false;
+//    }
+
     const auto cfg = this->cfgCollection->find(s1);
     if (!cfg || !(*cfg)->containsStmtNo(s2)) {
         return false;

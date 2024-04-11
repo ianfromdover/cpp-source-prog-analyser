@@ -7,25 +7,28 @@
 
 #include "sp/cfg/CFG.h"
 #include "sp/visitor/ProgramVisitor.h"
-#include "VarPoint.h"
+#include "VarOccurrence.h"
 
-using Definitions = unordered_map<std::shared_ptr<Block>, std::unordered_set<VarPoint>>;
+using Definitions = unordered_map<std::shared_ptr<Block>, std::unordered_set<std::shared_ptr<VarOccurrence>>>;
 using Uses = Definitions;
 
 class QueryPkb;
 class DefUseExtractor : private ProgramVisitor {
 private:
-    Definitions defs;
-    Uses uses;
-    using Calls = Definitions;
-    Calls calls;
+    using BlockVarOccurrencesMap = std::unordered_map<std::shared_ptr<Block>,
+            std::unordered_map<std::string, std::shared_ptr<VarOccurrence>>>;
+    BlockVarOccurrencesMap defs;
+    BlockVarOccurrencesMap uses;
+    BlockVarOccurrencesMap calls;
     std::shared_ptr<Block> currentBlock;
     std::shared_ptr<QueryPkb> queryPkb;
 private:
     void extractDefinitionsFromCalls();
-    void addToDefinitions(const VarPoint& def);
-    void addToUses(const VarPoint& use);
-    void addToCalls(const VarPoint& call);
+    std::pair<Definitions, Uses> generateDefUsePair(const std::shared_ptr<CFG> &cfg);
+    void addToBlockVarOccurrencesMap(BlockVarOccurrencesMap& map, const std::string& varName, StmtNo stmtNo);
+    void addToDefs(const std::string& varName, StmtNo stmtNo);
+    void addToUses(const std::string& varName, StmtNo stmtNo);
+    void addToCalls(const std::string& varName, StmtNo stmtNo);
 private:
     void visitProcedure(const Procedure& procedure, std::shared_ptr<Accumulator>& _) override;
     void visitReadStmt(const Read& stmt, std::shared_ptr<Accumulator>& _) override;
