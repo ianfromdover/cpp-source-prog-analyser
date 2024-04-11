@@ -1915,6 +1915,7 @@ TEST_CASE("[TestQPS] Single Constraints") {
             std::vector<std::string> expected = {"4"};
             REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
         }
+
     }
 
 }
@@ -1923,9 +1924,9 @@ TEST_CASE("[TestQPS] scratchboard to test random stuff") {
     std::string queryStr = "procedure p; Select p with not p.procName = \"f1\"";
     std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
     pkb->setStatement(4);
-    pkb->setProcedure({{"3", "f1"}, {"4", "f2"}});
+    pkb->setProcedure({{"f1"}, {"f2"}});
     QPS qps(pkb);
-    std::vector<std::string> expected = {"4"};
+    std::vector<std::string> expected = {"f2"};
     REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
 }
 
