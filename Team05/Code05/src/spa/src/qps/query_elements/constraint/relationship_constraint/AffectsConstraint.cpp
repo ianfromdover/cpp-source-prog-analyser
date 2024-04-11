@@ -76,7 +76,7 @@ Table AffectsConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
 //    if (rhsHeader == HEADER_AFFECTSRHS){
 //        final.removeColumnByHeader(rhsHeader);
 //    }
-    removeHeaders({HEADER_AFFECTSLHS, HEADER_AFFECTSRHS}, final);
+    removeHeaders({HEADER_AFFECTSLHS, HEADER_AFFECTSRHS}, make_shared<ResultTable>(final));
 
     return final.getTable();
 }

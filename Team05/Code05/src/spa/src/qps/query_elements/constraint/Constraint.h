@@ -32,9 +32,9 @@ public:
     bool getNot() {
         return this->isNot;
     }
-    void removeHeaders(std::vector<std::string> toRemove, ResultTable table) {
+    void removeHeaders(std::vector<std::string> toRemove, shared_ptr<ResultTable> table) {
         for (std::string s : toRemove) {
-            table.removeColumnByHeader(s);
+            table->removeColumnByHeader(s);
         }
     }
 

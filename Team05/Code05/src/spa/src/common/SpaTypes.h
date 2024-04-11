@@ -114,6 +114,9 @@
 #define HEADER_ENT_WITHVAR "VariableWith"
 #define HEADER_ENT_WITH_TOMERGE "*TOMERGE*" // special character is used so that it will not clash with possible syn names.
 
+#define HEADER_SPECIAL_ALL_RESULTS "*ALL_RESULT*" // special header used so no joining is done.
+
+
 // error message
 #define ERROR_INVALID_QUERY "Invalid QPS Query"
 

@@ -70,7 +70,7 @@ Table ParentConstraint::getTable(QueryPkbVirtual & pkb) {
 //    if (rhsHeader == HEADER_PARENTRHS){
 //        table.removeColumnByHeader(rhsHeader);
 //    }
-    removeHeaders({HEADER_PARENTLHS, HEADER_PARENTRHS}, table);
+    removeHeaders({HEADER_PARENTLHS, HEADER_PARENTRHS}, make_shared<ResultTable>(table));
 
     return table.getTable();
 }

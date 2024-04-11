@@ -77,7 +77,7 @@ Table CallsConstraint::getTable(QueryPkbVirtual &pkb) {
 //    if (rhsHeader == HEADER_CALLSRHS){
 //        table.removeColumnByHeader(rhsHeader);
 //    }
-    removeHeaders({HEADER_CALLSLHS, HEADER_CALLSRHS}, table);
+    removeHeaders({HEADER_CALLSLHS, HEADER_CALLSRHS}, make_shared<ResultTable>(table));
 
     return table.getTable();
 }

@@ -2,16 +2,12 @@
 
 rem Run the auto tester and generate the xml in ./test/out.xml
 
-set EXECUTABLE_PATH=".\cmake-build-debug-visual-studio\src\autotester\autotester.exe"
+set EXECUTABLE_PATH=".\autotester.exe"
 set SOURCE_PATH="..\Tests05\testcases\system_test_1_source.txt"
 set QUERY_PATH="..\Tests05\testcases\system_test_1_queries.txt"
-set OUTPUT_XML_PATH="./tests/out.xml"
+set OUTPUT_XML_PATH="./out.xml"
 
-echo [+] - Running AutoTester...
->NUL (
-	"%EXECUTABLE_PATH%" "%SOURCE_PATH%" "%QUERY_PATH%" "%OUTPUT_XML_PATH%"
-)
-echo [+] - AutoTester Done!
+
 
 echo [+] - Starting HTTP Server...
 rem Start a python3 http server to serve the folder at localhost:8000
@@ -22,4 +18,4 @@ timeout /t 2
 
 rem Open link with default browser
 echo [+] - Opening link to results...
-powershell -Command "Start-Process -NoNewWindow -FilePath explorer -ArgumentList 'http://localhost:8000/tests/out.xml'"
+powershell -Command "Start-Process -NoNewWindow -FilePath explorer -ArgumentList 'http://localhost:8000/out.xml'"

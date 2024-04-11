@@ -107,7 +107,7 @@ Table FollowsConstraint::getTable(QueryPkbVirtual &pkb) {
 //    if (rhsHeader == HEADER_FOLLOWSRHS){
 //        table.removeColumnByHeader(rhsHeader);
 //    }
-    removeHeaders({HEADER_FOLLOWSLHS, HEADER_FOLLOWSRHS}, table);
+    removeHeaders({HEADER_FOLLOWSLHS, HEADER_FOLLOWSRHS}, make_shared<ResultTable>(table));
 
     return table.getTable();
 }

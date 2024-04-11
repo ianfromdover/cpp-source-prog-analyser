@@ -1,0 +1,623 @@
+<?xml-stylesheet type="text/xsl" href="analysis.xsl"?>
+<test_results>
+<info>
+<name>Code05</name><parsing_time_taken>3.000000</parsing_time_taken>
+</info>
+<queries>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Test assign stmt# attribute with integer">1</id><querystr><![CDATA[assign a; Select a with a.stmt# = 3]]></querystr>
+<stuans>3</stuans>
+<correct>3</correct>
+<time_taken>6.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnBoolean="1" With="1" CondNum="2" RelNum="0" comment="Test integer with assign stmt# attribute">2</id><querystr><![CDATA[assign a; Select BOOLEAN with 3 = a.stmt#]]></querystr>
+<stuans>TRUE</stuans>
+<correct>TRUE</correct>
+<time_taken>6.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Test constant value attribute with integer">3</id><querystr><![CDATA[constant c; Select <c.value> with c.value = 3]]></querystr>
+<stuans>3</stuans>
+<correct>3</correct>
+<time_taken>5.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Test variable varName attribute with identifier">4</id><querystr><![CDATA[variable v; Select v.varName with v.varName = "n"]]></querystr>
+<stuans>n</stuans>
+<correct>n</correct>
+<time_taken>5.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Test procedure procName attribute with procedure">5</id><querystr><![CDATA[procedure p; Select p with p.procName = "main"]]></querystr>
+<stuans>main</stuans>
+<correct>main</correct>
+<time_taken>4.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Test read varName attribute with identifier">6</id><querystr><![CDATA[read r; Select r with r.varName = "a"]]></querystr>
+<stuans>1,10</stuans>
+<correct>1,10</correct>
+<time_taken>4.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Test print varName attribute with identifier">7</id><querystr><![CDATA[print pr; Select pr with pr.varName = "b"]]></querystr>
+<stuans>2</stuans>
+<correct>2</correct>
+<time_taken>3.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Test assign stmt# attribute with assign stmt# attribute">8</id><querystr><![CDATA[assign a; Select a with a.stmt# = a.stmt#]]></querystr>
+<stuans>11,3,5,7,8</stuans>
+<correct>11,3,5,7,8</correct>
+<time_taken>6.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Test assign stmt# attribute with stmt stmt# attribute">9</id><querystr><![CDATA[assign a; stmt s; Select <a.stmt#, s.stmt#> with a.stmt# = s.stmt#]]></querystr>
+<stuans>11 11,3 3,5 5,7 7,8 8</stuans>
+<correct>11 11,3 3,5 5,7 7,8 8</correct>
+<time_taken>5.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Test variable varName attribute with variable varName attribute">10</id><querystr><![CDATA[variable v, v1; Select <v> with v.varName = v1.varName]]></querystr>
+<stuans>a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p</stuans>
+<correct>a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p</correct>
+<time_taken>8.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Test constant value attribute with constant value attribute">11</id><querystr><![CDATA[constant c, c1; Select c.value with c.value = c1.value]]></querystr>
+<stuans>1,2,3,4,5,6,7</stuans>
+<correct>1,2,3,4,5,6,7</correct>
+<time_taken>5.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Test read varName attribute with variable varName attribute">12</id><querystr><![CDATA[variable v; read r; Select v with r.varName = v.varName]]></querystr>
+<stuans>a</stuans>
+<correct>a</correct>
+<time_taken>5.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Test print varName attribute with variable varName attribute">13</id><querystr><![CDATA[variable v; print pr; Select v with pr.varName = v.varName]]></querystr>
+<stuans>b</stuans>
+<correct>b</correct>
+<time_taken>4.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Test procedure procName attribute with call procName attribute">14</id><querystr><![CDATA[procedure p; call c; Select p with p.procName = c.procName]]></querystr>
+<stuans>test</stuans>
+<correct>test</correct>
+<time_taken>4.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Test integer with integer">15</id><querystr><![CDATA[procedure p; Select p with 2 = 2]]></querystr>
+<stuans>main,test</stuans>
+<correct>main,test</correct>
+<time_taken>3.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Test identifier with identifier">16</id><querystr><![CDATA[procedure p; Select p with "x" = "x"]]></querystr>
+<stuans>main,test</stuans>
+<correct>main,test</correct>
+<time_taken>5.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Test while stmt# attribute with integer">17</id><querystr><![CDATA[while w; Select w with w.stmt# = 4]]></querystr>
+<stuans>4</stuans>
+<correct>4</correct>
+<time_taken>3.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Test if stmt# attribute with integer">18</id><querystr><![CDATA[if ifs; Select ifs with ifs.stmt# = 6]]></querystr>
+<stuans>6</stuans>
+<correct>6</correct>
+<time_taken>3.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Test read varName attribute with not identifier">23</id><querystr><![CDATA[read r; Select r with not r.varName = "a"]]></querystr>
+<stuans>1,10</stuans>
+<correct></correct>
+<time_taken>4.000000</time_taken>
+<failed>
+<missing></missing>
+<additional>1,10</additional>
+<summary>
+<expected>0</expected>
+<matched>0</matched>
+<missing>0</missing>
+<additional>2</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Test print varName attribute with not identifier">24</id><querystr><![CDATA[print pr; Select pr with not pr.varName = "b"]]></querystr>
+<stuans>2</stuans>
+<correct></correct>
+<time_taken>3.000000</time_taken>
+<failed>
+<missing></missing>
+<additional>2</additional>
+<summary>
+<expected>0</expected>
+<matched>0</matched>
+<missing>0</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id ReturnBoolean="1" With="1" CondNum="2" RelNum="0" comment="Test while stmt# attribute with not integer">25</id><querystr><![CDATA[while w; Select BOOLEAN with not w.stmt# = 4]]></querystr>
+<stuans>TRUE</stuans>
+<correct>FALSE</correct>
+<time_taken>5.000000</time_taken>
+<failed>
+<missing>FALSE</missing>
+<additional>TRUE</additional>
+<summary>
+<expected>1</expected>
+<matched>0</matched>
+<missing>1</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id ReturnBoolean="1" With="1" CondNum="2" RelNum="0" comment="Test if stmt# attribute with not integer">26</id><querystr><![CDATA[if ifs; Select BOOLEAN with not ifs.stmt# = 6]]></querystr>
+<stuans>TRUE</stuans>
+<correct>FALSE</correct>
+<time_taken>3.000000</time_taken>
+<failed>
+<missing>FALSE</missing>
+<additional>TRUE</additional>
+<summary>
+<expected>1</expected>
+<matched>0</matched>
+<missing>1</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Test read varName attribute with identifier">27</id><querystr><![CDATA[read r; Select r.varName with r.varName = "a"]]></querystr>
+<stuans>a</stuans>
+<correct>a</correct>
+<time_taken>3.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Test print varName attribute with identifier">28</id><querystr><![CDATA[print pr; Select pr.varName with pr.varName = "b"]]></querystr>
+<stuans>b</stuans>
+<correct>b</correct>
+<time_taken>4.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Test call procName attribute with procedure">29</id><querystr><![CDATA[call c; Select c.procName with c.procName = "test"]]></querystr>
+<stuans>test</stuans>
+<correct>test</correct>
+<time_taken>4.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Test stmt# and">30</id><querystr><![CDATA[assign a; stmt s; Select <a, s.stmt#> with a.stmt# = s.stmt# and a.stmt# = 3]]></querystr>
+<stuans>11 11,3 3,5 5,7 7,8 8</stuans>
+<correct>3 3</correct>
+<time_taken>6.000000</time_taken>
+<failed>
+<missing></missing>
+<additional>11 11,5 5,7 7,8 8</additional>
+<summary>
+<expected>1</expected>
+<matched>1</matched>
+<missing>0</missing>
+<additional>4</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Test procName and">31</id><querystr><![CDATA[procedure p; call c; Select <p.procName, c> with c.procName = "test" and p.procName = "main"]]></querystr>
+<stuans></stuans>
+<correct>main 9</correct>
+<time_taken>4.000000</time_taken>
+<failed>
+<missing>main 9</missing>
+<additional></additional>
+<summary>
+<expected>1</expected>
+<matched>0</matched>
+<missing>1</missing>
+<additional>0</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Test varName and">32</id><querystr><![CDATA[variable v; read r; Select <v.varName, r.stmt#> with v.varName = "a" and r.varName = "a"]]></querystr>
+<stuans></stuans>
+<correct>a 1,a 10</correct>
+<time_taken>5.000000</time_taken>
+<failed>
+<missing>a 1,a 10</missing>
+<additional></additional>
+<summary>
+<expected>2</expected>
+<matched>0</matched>
+<missing>2</missing>
+<additional>0</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Test value and">33</id><querystr><![CDATA[constant c; constant c1; Select <c, c1> with c.value = 1 and c1.value = 2]]></querystr>
+<stuans></stuans>
+<correct>1 2</correct>
+<time_taken>6.000000</time_taken>
+<failed>
+<missing>1 2</missing>
+<additional></additional>
+<summary>
+<expected>1</expected>
+<matched>0</matched>
+<missing>1</missing>
+<additional>0</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Test same synonym">34</id><querystr><![CDATA[assign a; Select a with a.stmt# = a.stmt#]]></querystr>
+<stuans>11,3,5,7,8</stuans>
+<correct>11,3,5,7,8</correct>
+<time_taken>4.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Test random spacing">35</id><querystr><![CDATA[procedure p; call c;  Select  <  p.procName , c, p, c . procName, c  > with c.procName="test" and p.procName = "main"]]></querystr>
+<stuans></stuans>
+<correct>main 9 main test 9</correct>
+<time_taken>5.000000</time_taken>
+<failed>
+<missing>main 9 main test 9</missing>
+<additional></additional>
+<summary>
+<expected>1</expected>
+<matched>0</matched>
+<missing>1</missing>
+<additional>0</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id ReturnBoolean="1" With="1" CondNum="2" RelNum="0" comment="Pairwise testing">1000</id><querystr><![CDATA[procedure p; Select BOOLEAN with "main" = p.procName]]></querystr>
+<stuans>TRUE</stuans>
+<correct>TRUE</correct>
+<time_taken>4.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnBoolean="1" With="1" CondNum="2" RelNum="0" >1001</id><querystr><![CDATA[procedure p; read r; Select BOOLEAN with not p.procName = r.varName]]></querystr>
+<stuans>FALSE</stuans>
+<correct>TRUE</correct>
+<time_taken>3.000000</time_taken>
+<failed>
+<missing>TRUE</missing>
+<additional>FALSE</additional>
+<summary>
+<expected>1</expected>
+<matched>0</matched>
+<missing>1</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id ReturnBoolean="1" With="1" CondNum="2" RelNum="0" >1002</id><querystr><![CDATA[read r; print pr; Select BOOLEAN with not r.varName = pr.varName]]></querystr>
+<stuans>FALSE</stuans>
+<correct>TRUE</correct>
+<time_taken>3.000000</time_taken>
+<failed>
+<missing>TRUE</missing>
+<additional>FALSE</additional>
+<summary>
+<expected>1</expected>
+<matched>0</matched>
+<missing>1</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" >1003</id><querystr><![CDATA[print pr; variable v; Select pr with pr.varName = v.varName]]></querystr>
+<stuans>2</stuans>
+<correct>2</correct>
+<time_taken>4.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" >1004</id><querystr><![CDATA[variable v; Select v with v.varName = "a"]]></querystr>
+<stuans>a</stuans>
+<correct>a</correct>
+<time_taken>5.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" >1005</id><querystr><![CDATA[constant co; Select co.value with co.value = 1]]></querystr>
+<stuans>1</stuans>
+<correct>1</correct>
+<time_taken>4.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" >1006</id><querystr><![CDATA[stmt s; read r; Select s with s.stmt# = r.stmt#]]></querystr>
+<stuans>1,10</stuans>
+<correct>1,10</correct>
+<time_taken>3.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnBoolean="1" With="1" CondNum="2" RelNum="0" >1007</id><querystr><![CDATA[read r; print pr; Select BOOLEAN with r.stmt# = pr.stmt#]]></querystr>
+<stuans>FALSE</stuans>
+<correct>FALSE</correct>
+<time_taken>4.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnBoolean="1" With="1" CondNum="2" RelNum="0" >1008</id><querystr><![CDATA[print pr; call c; Select BOOLEAN with pr.stmt# = c.stmt#]]></querystr>
+<stuans>FALSE</stuans>
+<correct>FALSE</correct>
+<time_taken>3.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnBoolean="1" With="1" CondNum="2" RelNum="0" >1009</id><querystr><![CDATA[call c; while w; Select BOOLEAN with c.stmt# = w.stmt#]]></querystr>
+<stuans>FALSE</stuans>
+<correct>FALSE</correct>
+<time_taken>3.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnBoolean="1" With="1" CondNum="2" RelNum="0" >1010</id><querystr><![CDATA[while w; if ifs; Select BOOLEAN with w.stmt# = ifs.stmt#]]></querystr>
+<stuans>FALSE</stuans>
+<correct>FALSE</correct>
+<time_taken>3.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnBoolean="1" With="1" CondNum="2" RelNum="0" >1011</id><querystr><![CDATA[if ifs; assign a; Select BOOLEAN with ifs.stmt# = a.stmt#]]></querystr>
+<stuans>FALSE</stuans>
+<correct>FALSE</correct>
+<time_taken>5.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" >1012</id><querystr><![CDATA[assign a; Select a with a.stmt# = 3]]></querystr>
+<stuans>3</stuans>
+<correct>3</correct>
+<time_taken>5.000000</time_taken>
+<passed/>
+</query>
+<query>
+<id ReturnBoolean="1" With="1" CondNum="2" RelNum="0" comment="SemanticErrors">2000</id><querystr><![CDATA[ Select BOOLEAN with 1 = "a"]]></querystr>
+<stuans>FALSE</stuans>
+<correct>SemanticError</correct>
+<time_taken>2.000000</time_taken>
+<failed>
+<missing>SemanticError</missing>
+<additional>FALSE</additional>
+<summary>
+<expected>1</expected>
+<matched>0</matched>
+<missing>1</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id ReturnBoolean="1" With="1" CondNum="2" RelNum="0" >2001</id><querystr><![CDATA[constant co; procedure p; Select BOOLEAN with co.value = p.procName]]></querystr>
+<stuans>FALSE</stuans>
+<correct>SemanticError</correct>
+<time_taken>3.000000</time_taken>
+<failed>
+<missing>SemanticError</missing>
+<additional>FALSE</additional>
+<summary>
+<expected>1</expected>
+<matched>0</matched>
+<missing>1</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id ReturnBoolean="1" With="1" CondNum="2" RelNum="0" >2002</id><querystr><![CDATA[stmt s; read r; Select BOOLEAN with s.stmt# = r.varName]]></querystr>
+<stuans>FALSE</stuans>
+<correct>SemanticError</correct>
+<time_taken>3.000000</time_taken>
+<failed>
+<missing>SemanticError</missing>
+<additional>FALSE</additional>
+<summary>
+<expected>1</expected>
+<matched>0</matched>
+<missing>1</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id ReturnBoolean="1" With="1" CondNum="2" RelNum="0" >2003</id><querystr><![CDATA[read r; print pr; Select BOOLEAN with r.stmt# = pr.varName]]></querystr>
+<stuans>FALSE</stuans>
+<correct>SemanticError</correct>
+<time_taken>3.000000</time_taken>
+<failed>
+<missing>SemanticError</missing>
+<additional>FALSE</additional>
+<summary>
+<expected>1</expected>
+<matched>0</matched>
+<missing>1</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id ReturnBoolean="1" With="1" CondNum="2" RelNum="0" >2004</id><querystr><![CDATA[print pr; variable v; Select BOOLEAN with pr.stmt# = v.varName]]></querystr>
+<stuans>FALSE</stuans>
+<correct>SemanticError</correct>
+<time_taken>3.000000</time_taken>
+<failed>
+<missing>SemanticError</missing>
+<additional>FALSE</additional>
+<summary>
+<expected>1</expected>
+<matched>0</matched>
+<missing>1</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id ReturnBoolean="1" With="1" CondNum="2" RelNum="0" >2005</id><querystr><![CDATA[call c; Select BOOLEAN with c.stmt# = "a"]]></querystr>
+<stuans>FALSE</stuans>
+<correct>SemanticError</correct>
+<time_taken>3.000000</time_taken>
+<failed>
+<missing>SemanticError</missing>
+<additional>FALSE</additional>
+<summary>
+<expected>1</expected>
+<matched>0</matched>
+<missing>1</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id ReturnBoolean="1" With="1" CondNum="2" RelNum="0" >2006</id><querystr><![CDATA[while w; procedure p; Select BOOLEAN with w.stmt# = p.procName]]></querystr>
+<stuans>FALSE</stuans>
+<correct>SemanticError</correct>
+<time_taken>3.000000</time_taken>
+<failed>
+<missing>SemanticError</missing>
+<additional>FALSE</additional>
+<summary>
+<expected>1</expected>
+<matched>0</matched>
+<missing>1</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id ReturnBoolean="1" With="1" CondNum="2" RelNum="0" >2007</id><querystr><![CDATA[if i; read r; Select BOOLEAN with i.stmt# = r.varName]]></querystr>
+<stuans>FALSE</stuans>
+<correct>SemanticError</correct>
+<time_taken>5.000000</time_taken>
+<failed>
+<missing>SemanticError</missing>
+<additional>FALSE</additional>
+<summary>
+<expected>1</expected>
+<matched>0</matched>
+<missing>1</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id ReturnBoolean="1" With="1" CondNum="2" RelNum="0" >2008</id><querystr><![CDATA[assign a; print pr; Select BOOLEAN with a.stmt# = pr.varName]]></querystr>
+<stuans>FALSE</stuans>
+<correct>SemanticError</correct>
+<time_taken>3.000000</time_taken>
+<failed>
+<missing>SemanticError</missing>
+<additional>FALSE</additional>
+<summary>
+<expected>1</expected>
+<matched>0</matched>
+<missing>1</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Test assign stmt# attribute with not integer">19</id><querystr><![CDATA[assign a; Select a with not a.stmt# = 3]]></querystr>
+<stuans>3</stuans>
+<correct>11,5,8,7</correct>
+<time_taken>3.000000</time_taken>
+<failed>
+<missing>11,5,7,8</missing>
+<additional>3</additional>
+<summary>
+<expected>4</expected>
+<matched>0</matched>
+<missing>4</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Test constant value attribute with not integer">20</id><querystr><![CDATA[constant c; Select c with not c.value = 3]]></querystr>
+<stuans>5</stuans>
+<correct>1,2,4,5,6,7</correct>
+<time_taken>4.000000</time_taken>
+<failed>
+<missing>1,2,4,6,7</missing>
+<additional></additional>
+<summary>
+<expected>6</expected>
+<matched>1</matched>
+<missing>5</missing>
+<additional>0</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Test variable varName attribute with not identifier">21</id><querystr><![CDATA[variable v; Select v with not v.varName = "n"]]></querystr>
+<stuans>n</stuans>
+<correct>a,b,c,d,e,f,g,h,i,j,k,l,m,o,p</correct>
+<time_taken>4.000000</time_taken>
+<failed>
+<missing>a,b,c,d,e,f,g,h,i,j,k,l,m,o,p</missing>
+<additional>n</additional>
+<summary>
+<expected>15</expected>
+<matched>0</matched>
+<missing>15</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id ReturnTuple="1" With="1" CondNum="2" RelNum="0" comment="Test procedure procName attribute with not procedure">22</id><querystr><![CDATA[procedure p; Select p.procName with not p.procName = "main"]]></querystr>
+<stuans>main</stuans>
+<correct>test</correct>
+<time_taken>4.000000</time_taken>
+<failed>
+<missing>test</missing>
+<additional>main</additional>
+<summary>
+<expected>1</expected>
+<matched>0</matched>
+<missing>1</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+</queries>
+</test_results>

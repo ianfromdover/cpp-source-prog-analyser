@@ -29,14 +29,19 @@ std::shared_ptr<Formattable> QueryEvaluator::evaluate(QueryObject & query) {
     if (results.hasEntries() && ResultTable::findCommonHeaders(results.getTable(), select.getTable()).empty()) {
         return returnable->getSelectResults(pkb, make_shared<ResultTable>(select), make_shared<ResultTable>(results));
     } else {
-        if (!results.isEmpty() && !results.hasEntries()) {
+        if (!results.isEmpty() && !results.hasEntries() && !results.hasEntriesBool) {
             if (returnable->getReturnType() == RETURN_BOOL_RESULT) {
                 std::vector<std::string> val = {"FALSE"};
                 return std::make_shared<StringResult>(val);
             }
             return getEmptyResult();
         }
-        this->results.add(select.getTable());
+        if (constraints.size() == 0 && returnable->getReturnType() == RETURN_BOOL_RESULT){
+          std::vector<std::string> val = {"TRUE"};
+          return std::make_shared<StringResult>(val);
+        }
+        auto selectTable = select.getTable();
+        this->results.add(selectTable);
         return returnable->getSelectResults(pkb, make_shared<ResultTable>(results), make_shared<ResultTable>(results));
     }
 }
@@ -54,7 +59,9 @@ void QueryEvaluator::processConstraints(std::shared_ptr<Constraint> c){
 
 void QueryEvaluator::processReturnable(std::shared_ptr<Returnable> r) {
   table t = r->getEntityTable(pkb);
-  select.add(t);
+  ResultTable tabl = ResultTable(t);
+  tabl.removeColumnByHeader(HEADER_ENT_WITH_TOMERGE);
+  select.add(tabl.getTable());
 }
 
 std::shared_ptr<Formattable> QueryEvaluator::getEmptyResult() {

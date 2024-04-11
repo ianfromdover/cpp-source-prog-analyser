@@ -1,0 +1,285 @@
+1 - Test assign stmt# attribute with integer
+assign a;
+Select a with a.stmt# = 3
+3
+5000
+2 - Test integer with assign stmt# attribute
+assign a;
+Select BOOLEAN with 3 = a.stmt#
+TRUE
+5000
+3 - Test constant value attribute with integer
+constant c;
+Select <c.value> with c.value = 3
+3
+5000
+4 - Test variable varName attribute with identifier
+variable v;
+Select v.varName with v.varName = "n"
+n
+5000
+5 - Test procedure procName attribute with procedure
+procedure p;
+Select p with p.procName = "main"
+main
+5000
+6 - Test read varName attribute with identifier
+read r;
+Select r with r.varName = "a"
+1,10
+5000
+7 - Test print varName attribute with identifier
+print pr;
+Select pr with pr.varName = "b"
+2
+5000
+8 - Test assign stmt# attribute with assign stmt# attribute
+assign a;
+Select a with a.stmt# = a.stmt#
+11,3,5,7,8
+5000
+9 - Test assign stmt# attribute with stmt stmt# attribute
+assign a; stmt s;
+Select <a.stmt#, s.stmt#> with a.stmt# = s.stmt#
+11 11,3 3,5 5,7 7,8 8
+5000
+10 - Test variable varName attribute with variable varName attribute
+variable v, v1;
+Select <v> with v.varName = v1.varName
+a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p
+5000
+11 - Test constant value attribute with constant value attribute
+constant c, c1;
+Select c.value with c.value = c1.value
+1,2,3,4,5,6,7
+5000
+12 - Test read varName attribute with variable varName attribute
+variable v; read r;
+Select v with r.varName = v.varName
+a
+5000
+13 - Test print varName attribute with variable varName attribute
+variable v; print pr;
+Select v with pr.varName = v.varName
+b
+5000
+14 - Test procedure procName attribute with call procName attribute
+procedure p; call c;
+Select p with p.procName = c.procName
+test
+5000
+15 - Test integer with integer
+procedure p;
+Select p with 2 = 2
+main,test
+5000
+16 - Test identifier with identifier
+procedure p;
+Select p with "x" = "x"
+main,test
+5000
+17 - Test while stmt# attribute with integer
+while w;
+Select w with w.stmt# = 4
+4
+5000
+18 - Test if stmt# attribute with integer
+if ifs;
+Select ifs with ifs.stmt# = 6
+6
+5000
+23 - Test read varName attribute with not identifier
+read r;
+Select r with not r.varName = "a"
+none
+5000
+24 - Test print varName attribute with not identifier
+print pr;
+Select pr with not pr.varName = "b"
+none
+5000
+25 - Test while stmt# attribute with not integer
+while w;
+Select BOOLEAN with not w.stmt# = 4
+FALSE
+5000
+26 - Test if stmt# attribute with not integer
+if ifs;
+Select BOOLEAN with not ifs.stmt# = 6
+FALSE
+5000
+27 - Test read varName attribute with identifier
+read r;
+Select r.varName with r.varName = "a"
+a
+5000
+28 - Test print varName attribute with identifier
+print pr;
+Select pr.varName with pr.varName = "b"
+b
+5000
+29 - Test call procName attribute with procedure
+call c;
+Select c.procName with c.procName = "test"
+test
+5000
+30 - Test stmt# and
+assign a; stmt s;
+Select <a, s.stmt#> with a.stmt# = s.stmt# and a.stmt# = 3
+3 3
+5000
+31 - Test procName and
+procedure p; call c;
+Select <p.procName, c> with c.procName = "test" and p.procName = "main"
+main 9
+5000
+32 - Test varName and
+variable v; read r;
+Select <v.varName, r.stmt#> with v.varName = "a" and r.varName = "a"
+a 1, a 10
+5000
+33 - Test value and
+constant c; constant c1;
+Select <c, c1> with c.value = 1 and c1.value = 2
+1 2
+5000
+34 - Test same synonym
+assign a;
+Select a with a.stmt# = a.stmt#
+11,3,5,7,8
+5000
+35 - Test random spacing
+procedure p; call c;
+ Select  <  p.procName , c, p, c . procName, c  > with c.procName="test" and p.procName = "main"
+main 9 main test 9
+5000
+1000 - Pairwise testing
+procedure p;
+Select BOOLEAN with "main" = p.procName
+TRUE
+5000
+1001
+procedure p; read r;
+Select BOOLEAN with not p.procName = r.varName
+TRUE
+5000
+1002
+read r; print pr;
+Select BOOLEAN with not r.varName = pr.varName
+TRUE
+5000
+1003
+print pr; variable v;
+Select pr with pr.varName = v.varName
+2
+5000
+1004
+variable v;
+Select v with v.varName = "a"
+a
+5000
+1005
+constant co;
+Select co.value with co.value = 1
+1
+5000
+1006
+stmt s; read r;
+Select s with s.stmt# = r.stmt#
+1,10
+5000
+1007
+read r; print pr;
+Select BOOLEAN with r.stmt# = pr.stmt#
+FALSE
+5000
+1008
+print pr; call c;
+Select BOOLEAN with pr.stmt# = c.stmt#
+FALSE
+5000
+1009
+call c; while w;
+Select BOOLEAN with c.stmt# = w.stmt#
+FALSE
+5000
+1010
+while w; if ifs;
+Select BOOLEAN with w.stmt# = ifs.stmt#
+FALSE
+5000
+1011
+if ifs; assign a;
+Select BOOLEAN with ifs.stmt# = a.stmt#
+FALSE
+5000
+1012
+assign a;
+Select a with a.stmt# = 3
+3
+5000
+2000 - SemanticErrors
+
+Select BOOLEAN with 1 = "a"
+SemanticError
+5000
+2001
+constant co; procedure p;
+Select BOOLEAN with co.value = p.procName
+SemanticError
+5000
+2002
+stmt s; read r;
+Select BOOLEAN with s.stmt# = r.varName
+SemanticError
+5000
+2003
+read r; print pr;
+Select BOOLEAN with r.stmt# = pr.varName
+SemanticError
+5000
+2004
+print pr; variable v;
+Select BOOLEAN with pr.stmt# = v.varName
+SemanticError
+5000
+2005
+call c;
+Select BOOLEAN with c.stmt# = "a"
+SemanticError
+5000
+2006
+while w; procedure p;
+Select BOOLEAN with w.stmt# = p.procName
+SemanticError
+5000
+2007
+if i; read r;
+Select BOOLEAN with i.stmt# = r.varName
+SemanticError
+5000
+2008
+assign a; print pr;
+Select BOOLEAN with a.stmt# = pr.varName
+SemanticError
+5000
+19 - Test assign stmt# attribute with not integer
+assign a;
+Select a with not a.stmt# = 3
+11,5,8,7
+5000
+20 - Test constant value attribute with not integer
+constant c;
+Select c with not c.value = 3
+1,2,4,5,6,7
+5000
+21 - Test variable varName attribute with not identifier
+variable v;
+Select v with not v.varName = "n"
+a,b,c,d,e,f,g,h,i,j,k,l,m,o,p
+5000
+22 - Test procedure procName attribute with not procedure
+procedure p;
+Select p.procName with not p.procName = "main"
+test
+5000
