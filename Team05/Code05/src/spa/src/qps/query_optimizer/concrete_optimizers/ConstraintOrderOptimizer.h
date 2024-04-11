@@ -40,12 +40,6 @@ public:
         }
         // The rest of the constraint classes are not priority, just don't add the score
 
-        // TODO: assign score based on return type, but how to access the return type of the QueryObject?
-//        std::vector<std::string> priorityReturnables = {};
-//        if (std::find(priorityReturnables.begin(), priorityReturnables.end(), "test") != priorityReturnables.end()) {
-//            constraint->priority += 10;
-//        }
-
         // Assign score based on arguments
         std::vector<std::string> priorityTypes = {TYPE_INTEGER, TYPE_CONSTANT, TYPE_EXPRESSION, TYPE_PROCEDURE};
         auto arguments = constraint->getConstraintArguments();

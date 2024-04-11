@@ -10,23 +10,9 @@
 
 class ConstraintGroupOptimizer : public QueryOptimizer {
 private:
-    // Custom hash function for vectors of strings
-    struct VectorHash {
-        std::size_t operator()(const std::vector<std::string>& vec) const {
-            std::size_t hash = 0;
-            for (const auto& str : vec) {
-                hash ^= std::hash<std::string>()(str) + 0x9e3779b9 + (hash << 6) + (hash >> 2);
-            }
-            return hash;
-        }
-    };
 
-    // Custom comparator for vectors of strings
-    struct VectorEqual {
-        bool operator()(const std::vector<std::string>& lhs, const std::vector<std::string>& rhs) const {
-            return lhs == rhs;
-        }
-    };
+    std::unordered_map<std::string, int> synonymMap;
+    std::vector<std::vector<std::shared_ptr<Constraint>>> constraintGroups;
 
     std::vector<std::string> extractSynonyms(const std::shared_ptr<Constraint>& constraint) {
         std::vector<std::string> synonyms;
@@ -37,82 +23,71 @@ private:
         return synonyms;
     }
 
-    std::unordered_map<std::vector<std::string>, std::vector<std::shared_ptr<Constraint>>>::iterator
-    findMatchingKey(const std::vector<std::string>& synonyms) {
-        for (auto iter = synonymMap.begin(); iter != synonymMap.end(); ++iter) {
-            const auto& key = iter->first;
-            for (const auto& synonym : synonyms) {
-                if (std::find(key.begin(), key.end(), synonym) != key.end()) {
-                    return iter;
-                }
+    bool synonymFound(std::vector<std::string> synonyms) {
+        bool result = false;
+        for (auto syn : synonyms) {
+            if (synonymMap.find(syn) != synonymMap.end()) {
+                result = true;
             }
         }
-        return synonymMap.end();
+        return result;
     }
-
-    // Define unordered_map using custom hash function and comparator
-    std::unordered_map<std::vector<std::string>, std::vector<std::shared_ptr<Constraint>>, VectorHash, VectorEqual> synonymMap;
 
 public:
-//    void optimize(QueryObject& queryObject) override {
-//        for (const auto& constraint : queryObject.getConstraints()) {
-//            auto synonyms = extractSynonyms(constraint);
-//            auto iter = findMatchingKey(synonyms);
-//            if (iter != synonymMap.end()) {
-//                // Update existing key
-//                auto updatedKey = iter->first;
-//                for (const auto& synonym : synonyms) {
-//                    if (std::find(updatedKey.begin(), updatedKey.end(), synonym) == updatedKey.end()) {
-//                        updatedKey.push_back(synonym);
-//                    }
-//                }
-//
-//                // Move the constraints to the new key
-//                auto& constraints = synonymMap[updatedKey]; // Get reference to the vector of constraints
-//                constraints.insert(constraints.end(), iter->second.begin(), iter->second.end()); // Move constraints
-//
-//                // Erase the old key
-//                synonymMap.erase(iter);
-//            } else {
-//                // Create new key
-//                synonymMap[synonyms].push_back(constraint);
-//            }
-//        }
-//    }
 
     void optimize(QueryObject& queryObject) override {
+        int index = 0;
         for (const auto& constraint : queryObject.getConstraints()) {
-            auto synonyms = extractSynonyms(constraint);
-            auto iter = findMatchingKey(synonyms);
-            if (iter != synonymMap.end()) {
-                // Update existing key
-                if (iter != synonymMap.end()) {
-                    // Create a new key by appending the new synonyms
-                    auto updatedKey = iter->first;
-                    updatedKey.insert(updatedKey.end(), synonyms.begin(), synonyms.end());
-                    // TODO: replace with the stuff below but it is buggy
-//                    for (const auto& synonym : synonyms) {
-//                        if (std::find(updatedKey.begin(), updatedKey.end(), synonym) == updatedKey.end()) {
-//                            updatedKey.push_back(synonym);
-//                        }
-//                    }
+            // Extract synonyms from the constraint
+            std::vector<std::string> synonyms = extractSynonyms(constraint);
 
-                    // Move the constraints to the new key
-                    synonymMap[updatedKey] = std::move(iter->second);
-
-                    // Erase the old key
-                    synonymMap.erase(iter);
+            if (synonymFound(synonyms)) {
+                for (const auto& syn : synonyms) {
+                    synonymMap.insert({syn, synonymMap[syn]});
                 }
+                // Resize constraintGroups if necessary
+                if (synonymMap[synonyms[0]] >= constraintGroups.size()) {
+                    constraintGroups.resize(synonymMap[synonyms[0]] + 1);
+                }
+                constraintGroups[synonymMap[synonyms[0]]].push_back(constraint);
             } else {
-                // Create new key
-                synonymMap[synonyms].push_back(constraint);
+                for (const auto& syn : synonyms) {
+                    synonymMap.insert({syn, index});
+                }
+                // Resize constraintGroups if necessary
+                if (index >= constraintGroups.size()) {
+                    constraintGroups.resize(index + 1);
+                }
+                constraintGroups[index].push_back(constraint);
+                index++;
+            }
+        }
+
+
+        queryObject.removeConstraints();
+
+        for (auto groups : constraintGroups) {
+            for (auto constraint : groups) {
+                queryObject.addConstraint(constraint);
             }
         }
     }
 
-    std::unordered_map<std::vector<std::string>, std::vector<std::shared_ptr<Constraint>>, VectorHash, VectorEqual> getSynonymMap() {
+    std::unordered_map<std::string, int> getSynonymMap() {
         return synonymMap;
     }
+
+    std::vector<std::vector<std::shared_ptr<Constraint>>> getConstraintGroups() {
+        return constraintGroups;
+    }
+
 };
+
+// TODO: create group clause function which will be able to group the clauses
+// create a vec<vec<constraints>>, each time there is no match of the synonym
+// keep a hashset of <index, synonyms> then if the synonyms is present in the
+// oh no need, just keep the hashset of stuff so that each entry just points to one index, then the index will be the index of the constraint vector
+// eg Follows(s1, s2) then key-value pair will be <s1, 0> and <s2, 0> then if Parent<s2, s3> then it will be grouped in the same index as the first one (index 0)
+// if new synonym found, increase the index field by one then assign the synonyms to the new index
 
 #endif //SPA_CONSTRAINTGROUPOPTIMIZER_H

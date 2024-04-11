@@ -38,16 +38,14 @@ TEST_CASE("Test constraint grouper") {
     optimizer.optimize(qo);
 
     auto synonymMap = optimizer.getSynonymMap();
-    std::vector<std::string> key = {"s", "3", "2", "s", "2", "3"};
-    std::vector<std::string> key2 = {"proc1", "proc2"};
-//    std::vector<std::string> key = {"s", "3", "2", "s", "2", "3", "proc1", "proc2"};
-    std::cout << synonymMap.size() << std::endl;
-    REQUIRE(synonymMap.size() == 2);
-    REQUIRE(synonymMap[key][0] == firstConstraint);
-    std::cout << synonymMap[key].size() << std::endl;
-    std::cout << synonymMap[key2].size() << std::endl;
-//    // TODO: bug fix: now only 2 constraints in the whole map, where did the others go?
-////    REQUIRE(synonymMap[key][1] == secondConstraint);
-////    REQUIRE(synonymMap[key][2] == thirdConstraint);
-//    REQUIRE(synonymMap[key2][0] == fourthConstraint);
+    auto constraintGroups = optimizer.getConstraintGroups();
+    std::string key = "s";
+    std::string key2 = "proc1";
+    REQUIRE(synonymMap.size() == 5);
+    REQUIRE(synonymMap[key] == 0);
+    REQUIRE(synonymMap[key2] == 1);
+    REQUIRE(constraintGroups[0][0] == firstConstraint);
+    REQUIRE(constraintGroups[0][1] == secondConstraint);
+    REQUIRE(constraintGroups[0][2] == thirdConstraint);
+    REQUIRE(constraintGroups[1][0] == fourthConstraint);
 }
