@@ -1905,16 +1905,25 @@ TEST_CASE("[TestQPS] Single Constraints") {
                 REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
             }
         }
-    }
 
+        SECTION("With Not") {
+            std::string queryStr = "assign a; Select a with not a.stmt# = 3";
+            std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
+            pkb->setStatement(4);
+            pkb->setPatternAsgn({{"3", "x=k"}, {"4", "v = P"}});
+            QPS qps(pkb);
+            std::vector<std::string> expected = {"4"};
+            REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+        }
+    }
 
 }
 
 TEST_CASE("[TestQPS] scratchboard to test random stuff") {
-    std::string queryStr = "assign a; Select a with not a.stmt# = 3";
+    std::string queryStr = "procedure p; Select p with not p.procName = \"f1\"";
     std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
     pkb->setStatement(4);
-    pkb->setPatternAsgn({{"3", "x=k"}, {"4", "v = P"}});
+    pkb->setProcedure({{"3", "f1"}, {"4", "f2"}});
     QPS qps(pkb);
     std::vector<std::string> expected = {"4"};
     REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
