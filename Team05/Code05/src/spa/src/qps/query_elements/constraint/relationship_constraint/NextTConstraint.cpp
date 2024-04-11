@@ -32,8 +32,8 @@ Table NextTConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     std::string lhsEntityType = args[0] -> getEntityType();
     std::string rhsEntityType = args[1] -> getEntityType();
 
-    std::string lhsHeader = isStatementSynonym(lhsEntityType) ? args[0]->getArgumentValue()[0] : "NextTLHS";
-    std::string rhsHeader = isStatementSynonym(rhsEntityType) ? args[1]->getArgumentValue()[0] : "NextTRHS";
+    std::string lhsHeader = isStatementSynonym(lhsEntityType) ? args[0]->getArgumentValue()[0] : HEADER_NEXTTLHS;
+    std::string rhsHeader = isStatementSynonym(rhsEntityType) ? args[1]->getArgumentValue()[0] : HEADER_NEXTTRHS;
 
     // Insertion of headers into our retrieved and result table
     retrieved.insert(retrieved.begin(), {lhsHeader, rhsHeader});
@@ -86,12 +86,13 @@ Table NextTConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
     ResultTable final(result);
 
     // Remove columns by header
-    if (lhsHeader == "NextTLHS"){
-        final.removeColumnByHeader(lhsHeader);
-    }
-    if (rhsHeader == "NextTRHS"){
-        final.removeColumnByHeader(rhsHeader);
-    }
+//    if (lhsHeader == HEADER_NEXTTLHS){
+//        final.removeColumnByHeader(lhsHeader);
+//    }
+//    if (rhsHeader == HEADER_NEXTTRHS){
+//        final.removeColumnByHeader(rhsHeader);
+//    }
+    removeHeaders({HEADER_NEXTTLHS, HEADER_NEXTTRHS}, table);
 
     return final.getTable();
 }

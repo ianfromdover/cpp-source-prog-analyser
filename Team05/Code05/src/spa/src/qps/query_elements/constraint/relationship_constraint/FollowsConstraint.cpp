@@ -101,12 +101,13 @@ Table FollowsConstraint::getTable(QueryPkbVirtual &pkb) {
         table.add(entityTableResult.getTable());
     }
 
-    if (lhsHeader == HEADER_FOLLOWSLHS){
-        table.removeColumnByHeader(lhsHeader);
-    }
-    if (rhsHeader == HEADER_FOLLOWSRHS){
-        table.removeColumnByHeader(rhsHeader);
-    }
+//    if (lhsHeader == HEADER_FOLLOWSLHS){
+//        table.removeColumnByHeader(lhsHeader);
+//    }
+//    if (rhsHeader == HEADER_FOLLOWSRHS){
+//        table.removeColumnByHeader(rhsHeader);
+//    }
+    removeHeaders({HEADER_FOLLOWSLHS, HEADER_FOLLOWSRHS}, table);
 
     return table.getTable();
 }

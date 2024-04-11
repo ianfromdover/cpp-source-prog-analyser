@@ -12,6 +12,7 @@
 #include "qps/query_elements/QueryEnums.h"
 #include "common/SpaTypes.h"
 #include "pkb/apis/QueryPkb.h"
+#include "qps/query_projector/ResultTable.h"
 
 class QueryPkbVirtual;
 
@@ -30,6 +31,11 @@ public:
     }
     bool getNot() {
         return this->isNot;
+    }
+    void removeHeaders(std::vector<std::string> toRemove, ResultTable table) {
+        for (std::string s : toRemove) {
+            table.removeColumnByHeader(s);
+        }
     }
 
     virtual std::size_t hash() const = 0;

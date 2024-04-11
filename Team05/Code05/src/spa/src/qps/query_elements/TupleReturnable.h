@@ -8,6 +8,7 @@
 
 #include "Returnable.h"
 #include "Entity.h"
+#include "qps/query_evaluator/query_result/TupleStringResult.h"
 
 class TupleReturnable : public Returnable {
 public:
@@ -17,6 +18,7 @@ public:
     std::string toString() override;
     std::vector<std::string> getArgumentValue() override;
     std::vector<std::vector<std::string>> getEntityTable(QueryPkbVirtual &pkb) override;
+    std::shared_ptr<Formattable> getSelectResults(QueryPkbVirtual &pkb, shared_ptr<ResultTable>, shared_ptr<ResultTable> rTable) override;
 };
 
 

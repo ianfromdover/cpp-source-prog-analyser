@@ -30,6 +30,8 @@ public:
     QPSTokenType::QPSTypeInfo getVarAttribute();
     std::vector<std::vector<std::string>> getRawTable(QueryPkbVirtual & pkb) override;
     void setVariable(std::shared_ptr<QueryObject>) override;
+protected:
+    std::shared_ptr<Formattable> getSelectResults(QueryPkbVirtual &pkb, shared_ptr<ResultTable> rTable, shared_ptr<ResultTable> resultTable) override;
 };
 
 #endif //SPA_VARIABLEWITH_H

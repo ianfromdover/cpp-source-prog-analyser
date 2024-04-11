@@ -83,6 +83,7 @@ Table AssignPatternConstraint::getTable(QueryPkbVirtual &pkb) {
     for (const std::string& header : {HEADER_ASSIGNLHS, HEADER_ASSIGNRHS}){
         table.removeColumnByHeader(const_cast<string &>(header));
     }
+//    removeHeaders({HEADER_ASSIGNLHS, HEADER_ASSIGNRHS}, table);
 
     return table.getTable();
 }

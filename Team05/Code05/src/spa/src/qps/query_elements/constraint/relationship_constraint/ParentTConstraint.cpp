@@ -73,12 +73,13 @@ Table ParentTConstraint::getTable(QueryPkbVirtual &pkb) {
         table.add(entityTableResult.getTable());
     }
 
-    if (lhsHeader == HEADER_PARENTTLHS){
-        table.removeColumnByHeader(lhsHeader);
-    }
-    if (rhsHeader == HEADER_PARENTRHS){
-        table.removeColumnByHeader(rhsHeader);
-    }
+//    if (lhsHeader == HEADER_PARENTTLHS){
+//        table.removeColumnByHeader(lhsHeader);
+//    }
+//    if (rhsHeader == HEADER_PARENTTRHS){
+//        table.removeColumnByHeader(rhsHeader);
+//    }
+    removeHeaders({HEADER_PARENTTLHS, HEADER_PARENTTRHS}, table);
 
     return table.getTable();
 }

@@ -72,12 +72,13 @@ Table UsesPConstraint::getTable(QueryPkbVirtual &pkb) {
         table.filterByColumnExact(rhsHeader,stripped);
     }
 
-    if (lhsHeader == HEADER_USESPLHS){
-        table.removeColumnByHeader(lhsHeader);
-    }
-    if (rhsHeader == HEADER_USESPRHS){
-        table.removeColumnByHeader(rhsHeader);
-    }
+//    if (lhsHeader == HEADER_USESPLHS){
+//        table.removeColumnByHeader(lhsHeader);
+//    }
+//    if (rhsHeader == HEADER_USESPRHS){
+//        table.removeColumnByHeader(rhsHeader);
+//    }
+    removeHeaders({HEADER_USESPLHS, HEADER_USESPRHS}, table);
 
     return table.getTable();
 }
