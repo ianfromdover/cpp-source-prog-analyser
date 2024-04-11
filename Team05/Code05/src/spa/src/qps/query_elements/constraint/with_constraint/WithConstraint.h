@@ -16,12 +16,13 @@ class WithConstraint : public Constraint {
 private:
     std::vector<std::shared_ptr<ConstraintArgument>> constraintArguments;
     bool isVariable(std::string);
+    std::vector<std::vector<std::string>> getTable(QueryPkbVirtual &);
+    std::vector<std::vector<std::string>> getFullTable(QueryPkbVirtual &);
 public:
     WithConstraint(std::shared_ptr<WithReference>, std::shared_ptr<WithReference>);
     std::string getConstraintClass() override;
     std::string getConstraintType() override;
     std::vector<std::shared_ptr<ConstraintArgument>>  getConstraintArguments() override;
-
     std::vector<std::vector<std::string>> getRelationshipTable(QueryPkbVirtual &) override;
     std::size_t hash() const override;
 };

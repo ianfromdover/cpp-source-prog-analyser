@@ -1748,11 +1748,6 @@ TEST_CASE("[TestQPS] Single Constraints") {
         }
     }
 
-
-}
-
-TEST_CASE("[TestQPS] scratchboard to test random stuff") {
-
     SECTION("with constraint") {
         std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
         pkb->setUses({{"1", "apple"},
@@ -1781,13 +1776,13 @@ TEST_CASE("[TestQPS] scratchboard to test random stuff") {
                      {"2","Porange"},
                      {"2","Pelephant"}});
         pkb->setRead({{"1","Rapple"},
-                     {"1","Rkool"},
-                     {"2","Rorange"},
-                     {"2","Relephant"}});
+                      {"1","Rkool"},
+                      {"2","Rorange"},
+                      {"2","Relephant"}});
         pkb->setPrint({{"1","Papple"},
-                      {"1","Pkool"},
-                      {"2","Porange"},
-                      {"2","Pelephant"}});
+                       {"1","Pkool"},
+                       {"2","Porange"},
+                       {"2","Pelephant"}});
         pkb->setParent({{"1", "2"},
                         {"1", "3"},
                         {"1", "4"},
@@ -1893,15 +1888,15 @@ TEST_CASE("[TestQPS] scratchboard to test random stuff") {
             }
 
             SECTION("read.stmt = quoted ident") {
-              std::string queryStr = "stmt s; read v; Select s such that Parent(s, v) with v.stmt# = 2";
-              std::vector<std::string> expected = {"1"};
-              REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+                std::string queryStr = "stmt s; read v; Select s such that Parent(s, v) with v.stmt# = 2";
+                std::vector<std::string> expected = {"1"};
+                REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
             }
 
             SECTION("print.stmt = print.stmt") {
-              std::string queryStr = "stmt s; print pn; Select s such that Parent(s, pn) with pn.stmt# = pn.stmt#";
-              std::vector<std::string> expected = {"1"};
-              REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
+                std::string queryStr = "stmt s; print pn; Select s such that Parent(s, pn) with pn.stmt# = pn.stmt#";
+                std::vector<std::string> expected = {"1"};
+                REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
             }
 
             SECTION("print.stmt = statement.stmt") {
@@ -1911,6 +1906,18 @@ TEST_CASE("[TestQPS] scratchboard to test random stuff") {
             }
         }
     }
+
+
+}
+
+TEST_CASE("[TestQPS] scratchboard to test random stuff") {
+    std::string queryStr = "assign a; Select a with not a.stmt# = 3";
+    std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
+    pkb->setStatement(4);
+    pkb->setPatternAsgn({{"3", "x=k"}, {"4", "v = P"}});
+    QPS qps(pkb);
+    std::vector<std::string> expected = {"4"};
+    REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
 }
 
 

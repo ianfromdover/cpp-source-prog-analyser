@@ -35,6 +35,8 @@ public:
     void add(const table& a){
         if (_table.empty()){
             _table = removeDuplicateColumn(a); // TODO: remove 'removeDuplicateColumn' after pkb patch
+        } else if (a[0][0] == HEADER_SPECIAL_ALL_RESULTS) {
+            return; // is a special table that escapes joining as it is every possible result.
         } else {
             _table = joinOrCrossProduct(removeDuplicateColumn(_table), a);
             removeDuplicateEntires(_table);
