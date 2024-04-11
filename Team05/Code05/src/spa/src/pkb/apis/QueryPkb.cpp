@@ -1,6 +1,7 @@
 #include <utility>
 #include "QueryPkb.h"
 #include "common/TableUtils.h"
+#include "sp/api/Affects.h"
 
 QueryPkb::QueryPkb(std::shared_ptr<PkbStorage> p) {
     pkb = std::move(p);

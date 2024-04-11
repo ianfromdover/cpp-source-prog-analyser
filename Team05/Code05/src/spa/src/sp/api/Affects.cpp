@@ -3,6 +3,7 @@
 //
 
 #include "Affects.h"
+#include "pkb/apis/QueryPkb.h"
 
 Affects::Affects(const std::shared_ptr<CFGCollection>& cfgCollection, const std::shared_ptr<QueryPkb>& queryPkb) : extractor(queryPkb) {
     this->cfgCollection = cfgCollection;
@@ -62,9 +63,9 @@ void Affects::compute(const std::shared_ptr<CFG>& cfg) {
 }
 
 bool Affects::get(StmtNo s1, StmtNo s2) {
-//    if (!this->queryPkb->isAsgn(s1) || !this->queryPkb->isAsgn(s2)) {
-//        return false;
-//    }
+    if (!this->queryPkb->isAsgn(s1) || !this->queryPkb->isAsgn(s2)) {
+        return false;
+    }
 
     const auto cfg = this->cfgCollection->find(s1);
     if (!cfg || !(*cfg)->containsStmtNo(s2)) {

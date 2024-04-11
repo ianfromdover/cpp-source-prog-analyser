@@ -10,6 +10,8 @@
 #include "sp/solver/Solver.h"
 #include "DefUseExtractor.h"
 
+class QueryPkb;
+
 using DefinitionSet = std::unordered_set<std::shared_ptr<VarOccurrence>>;
 using DefUseChain = std::unordered_map<StmtNo, std::unordered_set<StmtNo>>;
 
