@@ -28,7 +28,7 @@ TEST_CASE("[TestQPS] basic select attributes") {
   std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
   pkb->setStatement(3);
   pkb->setConst({{"1","1"},{"2","2"},{"3","3"}});
-  pkb->setProcedure({{"1","f1"},{"2","f2"}});
+  pkb->setProcedure({{"f1"},{"f2"}});
   pkb->setPatternAsgn({{"1","a3"},{"2","a2"},{"3","a3"}});
   pkb->setPatternWhile({{"1","w1"},{"2","w2"},{"3","w3"}});
   pkb->setWhile({{"1","w1"},{"2","w2"},{"3","w3"}});
@@ -1923,9 +1923,9 @@ TEST_CASE("[TestQPS] scratchboard to test random stuff") {
     std::string queryStr = "procedure p; Select p with not p.procName = \"f1\"";
     std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
     pkb->setStatement(4);
-    pkb->setProcedure({{"3", "f1"}, {"4", "f2"}});
+    pkb->setProcedure({{"f1"}, {"f2"}});
     QPS qps(pkb);
-    std::vector<std::string> expected = {"4"};
+    std::vector<std::string> expected = {"f2"};
     REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
 }
 
