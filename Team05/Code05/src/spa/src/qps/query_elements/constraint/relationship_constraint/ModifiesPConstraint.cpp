@@ -80,7 +80,7 @@ Table ModifiesPConstraint::getTable(QueryPkbVirtual &pkb) {
 //    if (rhsHeader == HEADER_MODIFIESTRHS){
 //        table.removeColumnByHeader(rhsHeader);
 //    }
-    removeHeaders({HEADER_MODIFIESTLHS, HEADER_MODIFIESTRHS}, table);
+    removeHeaders({HEADER_MODIFIESTLHS, HEADER_MODIFIESTRHS}, make_shared<ResultTable>(table));
 
     return table.getTable();
 }

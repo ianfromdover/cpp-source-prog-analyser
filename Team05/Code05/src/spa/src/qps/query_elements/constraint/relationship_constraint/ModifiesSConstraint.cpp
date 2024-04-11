@@ -76,7 +76,7 @@ Table ModifiesSConstraint::getTable(QueryPkbVirtual &pkb) {
 //    if (rhsHeader == HEADER_MODIFIESSRHS) {
 //        table.removeColumnByHeader(rhsHeader);
 //    }
-    removeHeaders({HEADER_MODIFIESSLHS, HEADER_MODIFIESSRHS}, table);
+    removeHeaders({HEADER_MODIFIESSLHS, HEADER_MODIFIESSRHS}, make_shared<ResultTable>(table));
 
     return table.getTable();
 }

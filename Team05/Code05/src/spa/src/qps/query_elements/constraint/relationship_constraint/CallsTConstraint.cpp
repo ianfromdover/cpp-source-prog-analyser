@@ -94,7 +94,7 @@ Table CallsTConstraint::getTable(QueryPkbVirtual &pkb) {
 //    if (rhsHeader == HEADER_CALLSTRHS){
 //        table.removeColumnByHeader(rhsHeader);
 //    }
-    removeHeaders({HEADER_CALLSTLHS, HEADER_CALLSTRHS}, table);
+    removeHeaders({HEADER_CALLSTLHS, HEADER_CALLSTRHS}, make_shared<ResultTable>(table));
 
     return table.getTable();
 }

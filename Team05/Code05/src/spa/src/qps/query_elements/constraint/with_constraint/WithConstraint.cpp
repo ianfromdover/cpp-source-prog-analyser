@@ -31,6 +31,7 @@ std::vector<std::vector<std::string>> WithConstraint::getRelationshipTable(Query
             table wholeSet = getFullTable(pkb);
             Table subSet = getTable(pkb);
             table result = ResultTable::minusTable(wholeSet, subSet);
+            removeHeaders({HEADER_ENT_WITH_TOMERGE}, make_shared<ResultTable>(result));
             return result;
         } else if (type1 == TYPE_LITERAL_WITH && type2 == TYPE_LITERAL_WITH) {
             string val1 = args[0]->getArgumentValue()[0];
@@ -51,6 +52,7 @@ std::vector<std::vector<std::string>> WithConstraint::getRelationshipTable(Query
             }
             Table subSet = getTable(pkb);
             table result = ResultTable::minusTable(*wholeSet, subSet);
+            removeHeaders({HEADER_ENT_WITH_TOMERGE}, make_shared<ResultTable>(result));
             return result;
         }
     } else {
@@ -76,7 +78,7 @@ std::vector<std::vector<std::string>> WithConstraint::getTable(QueryPkbVirtual &
     table result = ResultTable::hashJoin(table1, table2);
     ResultTable ans = ResultTable(result);
 //    ans.removeColumnByHeader(HEADER_ENT_WITH_TOMERGE);
-    removeHeaders({HEADER_ENT_WITH_TOMERGE}, ans);
+    removeHeaders({HEADER_ENT_WITH_TOMERGE}, make_shared<ResultTable>(ans));
     return ans.getTable();
 }
 

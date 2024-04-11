@@ -92,7 +92,7 @@ Table NextTConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
 //    if (rhsHeader == HEADER_NEXTTRHS){
 //        final.removeColumnByHeader(rhsHeader);
 //    }
-    removeHeaders({HEADER_NEXTTLHS, HEADER_NEXTTRHS}, table);
+    removeHeaders({HEADER_NEXTTLHS, HEADER_NEXTTRHS}, make_shared<ResultTable>(table));
 
     return final.getTable();
 }

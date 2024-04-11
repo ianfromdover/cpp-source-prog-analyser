@@ -40,7 +40,8 @@ std::shared_ptr<Formattable> QueryEvaluator::evaluate(QueryObject & query) {
           std::vector<std::string> val = {"TRUE"};
           return std::make_shared<StringResult>(val);
         }
-        this->results.add(select.getTable());
+        auto selectTable = select.getTable();
+        this->results.add(selectTable);
         return returnable->getSelectResults(pkb, make_shared<ResultTable>(results), make_shared<ResultTable>(results));
     }
 }
