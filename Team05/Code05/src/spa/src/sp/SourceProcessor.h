@@ -11,7 +11,7 @@
 #include "sp/extractor/RelationExtractor.h"
 #include "sp/extractor/relation_extractor/ParentExtractor.h"
 #include "sp/parser/Parser.h"
-#include "sp/api/Affects.h"
+#include "sp/api/affects/Affects.h"
 
 class SourceProcessor {
 private:

@@ -9,8 +9,8 @@
 #include "sp/api/formatter/ExprFormatter.h"
 #include "sp/exception/FormatterException.h"
 #include "sp/cfg/CFG.h"
-#include "sp/api/Affects.h"
-#include "sp/api/NextT.h"
+#include "sp/api/affects/Affects.h"
+#include "sp/api/nextt/NextT.h"
 
 using namespace std;
 void require(bool b) {

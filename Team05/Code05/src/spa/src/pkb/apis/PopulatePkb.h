@@ -3,8 +3,8 @@
 
 #include "pkb/apis/BasePkbPopulator.h"
 #include "PkbStorage.h"
-#include "sp/api/Affects.h"
-#include "sp/api/NextT.h"
+#include "sp/api/affects/Affects.h"
+#include "sp/api/nextt/NextT.h"
 
 /**
  * Methods arranged alphabetically to easily compare with project files

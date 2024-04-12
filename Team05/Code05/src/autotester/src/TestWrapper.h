@@ -11,8 +11,8 @@
 #include "pkb/apis/QueryPkb.h"
 #include "qps/QPS.h"
 #include "sp/SourceProcessor.h"
-#include "sp/api/Affects.h"
-#include "sp/api/NextT.h"
+#include "sp/api/affects/Affects.h"
+#include "sp/api/nextt/NextT.h"
 
 class TestWrapper : public AbstractWrapper {
 private:

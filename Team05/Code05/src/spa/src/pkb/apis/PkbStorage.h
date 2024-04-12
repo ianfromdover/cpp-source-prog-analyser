@@ -7,7 +7,7 @@
 
 #include "pkb/storage/PatternAssignTable.h"
 #include "pkb/storage/PkbTable.hpp"
-#include "sp/api/NextT.h"
+#include "sp/api/nextt/NextT.h"
 
 class Affects;
 
