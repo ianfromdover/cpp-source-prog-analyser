@@ -23,6 +23,10 @@ public:
     Table generateCartesianProductTable(const vector<string> &table);
     vector<string> getDistinctColumnByIndex(const Table &entityTable, int index);
     std::size_t hash() const override;
+
+    Table getAffectsTable(QueryPkbVirtual &pkb);
+
+    Table getTable(QueryPkbVirtual &pkb);
 };
 
 

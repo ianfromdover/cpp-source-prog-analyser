@@ -40,17 +40,11 @@ Table NextTConstraint::getNextTTable(QueryPkbVirtual & pkb) {
             result.push_back({row.at(0), row.at(1)});
         }
     }
-    ResultTable final(result);
     return result;
 }
 
 Table NextTConstraint::getTable(QueryPkbVirtual & pkb) {
-    // Initialise retrieved table
-    vector<string> flattened = flattenTable(pkb.getStmtTable());
-    Table retrieved = generateCartesianProductTable(flattened);
-
-    // Initialise empty result table
-    Table result;
+    Table result = getNextTTable(pkb);
 
     // Get constraint arguments and initialise it as our table headers
     std::vector<std::shared_ptr<ConstraintArgument>> args = getConstraintArguments();
@@ -60,12 +54,9 @@ Table NextTConstraint::getTable(QueryPkbVirtual & pkb) {
     std::string lhsHeader = isStatementSynonym(lhsEntityType) ? args[0]->getArgumentValue()[0] : HEADER_NEXTTLHS;
     std::string rhsHeader = isStatementSynonym(rhsEntityType) ? args[1]->getArgumentValue()[0] : HEADER_NEXTTRHS;
 
-    // Insertion of headers into our retrieved and result table
-    retrieved.insert(retrieved.begin(), {lhsHeader, rhsHeader});
+    // Insertion of headers into our results table
     result.insert(result.begin(), {lhsHeader, rhsHeader});
-
-    // Initialise retrieved table as ResultTable to conduct operations
-    ResultTable table(retrieved);
+    ResultTable table(result);
 
     // Handling LHS by Entity Type
     if (lhsEntityType == TYPE_INTEGER) {
@@ -78,8 +69,8 @@ Table NextTConstraint::getTable(QueryPkbVirtual & pkb) {
         ResultTable entityTableResult(entityTable);
         if (lhsEntityType != TYPE_STATEMENT) {
             entityTableResult.removeColumnByIndex(1);
-            table.add(entityTableResult.getTable());
         }
+        table.add(entityTableResult.getTable());
     }
 
     // Handling RHS by Entity Type
@@ -92,34 +83,13 @@ Table NextTConstraint::getTable(QueryPkbVirtual & pkb) {
         ResultTable entityTableResult(entityTable);
         if (rhsEntityType != TYPE_STATEMENT) {
             entityTableResult.removeColumnByIndex(1);
-            table.add(entityTableResult.getTable());
         }
+        table.add(entityTableResult.getTable());
     }
 
-    // Retrieve rawTable
-    auto rawTable = table.getTable();
-    // Remove header used for operations
-    auto noHeaderTable = rawTable.erase(rawTable.begin());
-    // Check against PKB to see if there is a NextT relationship
-    for (const auto& row : rawTable) {
-        if (pkb.checkNextT(stoi(row.at(0)), stoi(row.at(1)))) {
-            result.push_back({row.at(0), row.at(1)});
-        }
-    }
-
-    // Initialise result table as ResultTable to conduct operations
-    ResultTable final(result);
-
-    // Remove columns by header
-//    if (lhsHeader == HEADER_NEXTTLHS){
-//        final.removeColumnByHeader(lhsHeader);
-//    }
-//    if (rhsHeader == HEADER_NEXTTRHS){
-//        final.removeColumnByHeader(rhsHeader);
-//    }
     removeHeaders({HEADER_NEXTTLHS, HEADER_NEXTTRHS}, make_shared<ResultTable>(table));
 
-    return final.getTable();
+    return table.getTable();
 }
 
 bool NextTConstraint::isStatementSynonym(std::string type) {

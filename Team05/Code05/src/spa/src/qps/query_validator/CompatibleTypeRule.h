@@ -92,8 +92,10 @@ private:
              {QType::CALL, QType::STMT1, QType::PRINT, QType::READ, QType::WHILE,
               QType::IF, QType::ASSIGN, QType::INTEGER, QType::WILDCARD}}},
           {QType::AFFECTS,
-            {{QType::ASSIGN, QType::INTEGER, QType::WILDCARD},
-             { QType::ASSIGN, QType::INTEGER, QType::WILDCARD}}}};
+            {{QType::CALL, QType::STMT1, QType::PRINT, QType::READ, QType::WHILE,
+              QType::IF, QType::ASSIGN, QType::INTEGER, QType::WILDCARD},
+             {QType::CALL, QType::STMT1, QType::PRINT, QType::READ, QType::WHILE,
+              QType::IF, QType::ASSIGN, QType::INTEGER, QType::WILDCARD}}}};
 
 };
 
