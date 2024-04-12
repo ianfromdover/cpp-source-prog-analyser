@@ -23,6 +23,16 @@ std::shared_ptr<Formattable> QueryEvaluator::evaluate(QueryObject & query) {
         processConstraints(c);
     }
 
+    if (constraints.size() == 1 && results.isAllResults) {
+        // set results to all possible values
+        // isAllResults flag is set to true if constraint is all result
+        // however, to increase computation efficiency, no table is added to resultTable
+        // therefore, resultTable is empty if it is the first constraint.
+        // this if block fixes this issue.
+        auto selectTable = select.getTable();
+        this->results.add(selectTable);
+    }
+
     // Store select clause result into select
     processReturnable(returnable);
 
