@@ -64,7 +64,9 @@ bool isQueryable(std::string type){
 
 void QueryEvaluator::processConstraints(std::shared_ptr<Constraint> c){
     table t = c->getRelationshipTable(pkb);
-    results.add(t);
+    ResultTable tabl = ResultTable(t);
+    tabl.removeColumnByHeader(HEADER_ENT_WITH_TOMERGE);
+    results.add(tabl.getTable());
 }
 
 void QueryEvaluator::processReturnable(std::shared_ptr<Returnable> r) {
