@@ -27,8 +27,8 @@ std::pair<Definitions, Uses> DefUseExtractor::extract(const std::shared_ptr<CFG>
 void DefUseExtractor::extractDefinitionsFromCalls() {
     std::unordered_set<std::string> defNames;
     for (const auto& [_, blockDefs] : this->defs) {
-        for (const auto& [_, def] : blockDefs) {
-            defNames.insert(def->getName());
+        for (const auto& [defName, _] : blockDefs) {
+            defNames.insert(defName);
         }
     }
 

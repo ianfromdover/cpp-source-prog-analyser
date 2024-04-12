@@ -23,13 +23,13 @@ private:
     Solver<DefinitionSet>::Meet meet;
     Solver<DefinitionSet>::Transfer transfer;
     DefUseExtractor extractor;
-    Definitions currentCFGDefinitions;
+    Definitions currentCFGDefs;
     Uses currentCFGUses;
 private:
     void compute(const std::shared_ptr<CFG>& cfg);
     void updateDefUseChain(const std::shared_ptr<CFG>& cfg, const std::unordered_map<std::shared_ptr<Block>, DefinitionSet>& in);
-    static DefinitionSet computeKillSet(const DefinitionSet& in, const DefinitionSet& gen);
-    static void computeSetDifference(DefinitionSet& minuend, const DefinitionSet& subtrahend);
+    static DefinitionSet findKilledDefinitions(const DefinitionSet& in, const DefinitionSet& gen);
+    static void removeKilledDefinitions(DefinitionSet& minuend, const DefinitionSet& subtrahend);
 public:
     explicit Affects(const std::shared_ptr<CFGCollection>& cfgCollection, const std::shared_ptr<QueryPkb>& queryPkb);
     bool get(StmtNo s1, StmtNo s2);

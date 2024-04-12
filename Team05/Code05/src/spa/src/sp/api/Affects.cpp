@@ -14,21 +14,19 @@ Affects::Affects(const std::shared_ptr<CFGCollection>& cfgCollection, const std:
         return result;
     };
     this->transfer = [&](const std::shared_ptr<Block>& block, const DefinitionSet& in) {
-        // TODO: Figure out how variable shadowing within the same block (gen) should be handled (if at all).
-        auto out = in;
         if (block->isDummy()) {
-            return std::move(out);
+            return in;
         }
-        const auto& gen = this->currentCFGDefinitions.at(block);
-        const auto& kill = Affects::computeKillSet(in, gen);
-        Affects::computeSetDifference(out, kill);
+        auto out = in;
+        const auto& gen = this->currentCFGDefs.at(block);
+        const auto& kill = Affects::findKilledDefinitions(in, gen);
+        Affects::removeKilledDefinitions(out, kill);
         out.insert(gen.begin(), gen.end());
         return std::move(out);
     };
 }
 
-// TODO: Consider renaming this method to "intersection".
-DefinitionSet Affects::computeKillSet(const DefinitionSet &in, const DefinitionSet &gen) {
+DefinitionSet Affects::findKilledDefinitions(const DefinitionSet &in, const DefinitionSet &gen) {
     DefinitionSet kill;
     if (in.empty() || gen.empty()) {
         return std::move(kill);
@@ -40,7 +38,6 @@ DefinitionSet Affects::computeKillSet(const DefinitionSet &in, const DefinitionS
     }
 
     for (const auto& def : in) {
-        // TODO: Can there be more than one "in" to kill?
         if (genNames.find(def->getName()) != genNames.end()) {
             kill.insert(def);
         }
@@ -49,15 +46,14 @@ DefinitionSet Affects::computeKillSet(const DefinitionSet &in, const DefinitionS
     return std::move(kill);
 }
 
-// TODO: Consider renaming this method to "difference".
-void Affects::computeSetDifference(DefinitionSet &minuend, const DefinitionSet &subtrahend) {
+void Affects::removeKilledDefinitions(DefinitionSet &minuend, const DefinitionSet &subtrahend) {
     for (const auto& elem : subtrahend) {
         minuend.erase(elem);
     }
 }
 
 void Affects::compute(const std::shared_ptr<CFG>& cfg) {
-    std::tie(this->currentCFGDefinitions, this->currentCFGUses) = this->extractor.extract(cfg);
+    std::tie(this->currentCFGDefs, this->currentCFGUses) = this->extractor.extract(cfg);
     const auto [in, out] = Solver<DefinitionSet>::solve(cfg, this->meet, this->transfer, DefinitionSet());
     this->updateDefUseChain(cfg, in);
 }
@@ -66,7 +62,7 @@ void Affects::updateDefUseChain(const std::shared_ptr<CFG>& cfg, const std::unor
     auto& defUseChain = this->defUseChainMap[cfg->getProcedureName()];
     for (const auto& block : *cfg->getBlocks()) {
         const auto& reachingDefs = in.at(block);
-        const auto& blockDefs = this->currentCFGDefinitions.at(block);
+        const auto& blockDefs = this->currentCFGDefs.at(block);
         const auto& blockUses = this->currentCFGUses.at(block);
 
         for (const auto& use : blockUses) {
@@ -98,6 +94,7 @@ void Affects::updateDefUseChain(const std::shared_ptr<CFG>& cfg, const std::unor
                 }
 
                 std::optional<StmtNo> blockDefStmtNo;
+                // Occurrences are already sorted in ascending order.
                 for (const auto defStmtNo : *(*blockDef)->getOccurrences()) {
                     if (defStmtNo < useStmtNo) {
                         blockDefStmtNo = defStmtNo;
