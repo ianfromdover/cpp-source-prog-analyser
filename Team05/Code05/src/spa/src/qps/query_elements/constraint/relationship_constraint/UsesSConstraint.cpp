@@ -75,7 +75,7 @@ std::size_t UsesSConstraint::hash() const {
     std::hash<std::string> stringHasher;
 
     std::string s1 = constraintArguments[0]->getArgumentValue()[0];
-    std::string s2 = constraintArguments[0]->getArgumentValue()[0];
+    std::string s2 = constraintArguments[1]->getArgumentValue()[0];
 
     std::size_t hashValue = 0;
 
