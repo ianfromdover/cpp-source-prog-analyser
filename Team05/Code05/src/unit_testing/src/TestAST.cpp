@@ -591,6 +591,8 @@ TEST_CASE("Modifies Handler - QPS") {
     QueryPkb pkb1(p);
     QPS qps(std::make_shared<QueryPkb>(pkb1));
 
+
+
     SECTION("Select s such that Modifies(s, v)") {
         std::string query = "stmt s; variable v; Select s such that Modifies(s, v)";
         std::vector<std::string> expected  = {"2", "3", "5", "6", "7", "9", "10", "11"};

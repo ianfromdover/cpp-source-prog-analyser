@@ -21,27 +21,53 @@ std::vector<std::shared_ptr<ConstraintArgument>> AffectsConstraint::getConstrain
 }
 
 Table AffectsConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
+    if (this->getNot()) {
+        Table wholeSet = getAffectsTable(pkb);
+        Table subSet = getTable(pkb);
+        return ResultTable::minusTable(wholeSet, subSet);
+    } else {
+        return getTable(pkb);
+    }
+}
+
+Table AffectsConstraint::getAffectsTable(QueryPkbVirtual & pkb) {
     // Initialise retrieved table
     Table assign = pkb.getPatternAsgnTable();
     Table retrieved = generateCartesianProductTable(getDistinctColumnByIndex(assign,0));
-
     // Initialise empty result table
     Table result;
+    for (const auto& row : retrieved) {
+        if (pkb.checkNextT(stoi(row.at(0)), stoi(row.at(1)))) {
+            result.push_back({row.at(0), row.at(1)});
+        }
+    }
+    return result;
+}
+
+Table AffectsConstraint::getTable(QueryPkbVirtual & pkb) {
+
+    // Initialise empty result table
+    Table result = getAffectsTable(pkb);
 
     // Get constraint arguments and initialise it as our table headers
     std::vector<std::shared_ptr<ConstraintArgument>> args = getConstraintArguments();
     std::string lhsEntityType = args[0] -> getEntityType();
     std::string rhsEntityType = args[1] -> getEntityType();
 
-    std::string lhsHeader = lhsEntityType == TYPE_ASSIGN ? args[0]->getArgumentValue()[0] : HEADER_AFFECTSLHS;
-    std::string rhsHeader = rhsEntityType == TYPE_ASSIGN ? args[1]->getArgumentValue()[0] : HEADER_AFFECTSRHS;
+    std::string lhsHeader = (lhsEntityType == TYPE_STATEMENT || lhsEntityType == TYPE_ASSIGN ) ? args[0]->getArgumentValue()[0] : HEADER_AFFECTSLHS;
+    std::string rhsHeader = (rhsEntityType == TYPE_STATEMENT || rhsEntityType == TYPE_ASSIGN) ? args[1]->getArgumentValue()[0] : HEADER_AFFECTSRHS;
 
-    // Insertion of headers into our retrieved and result table
-    retrieved.insert(retrieved.begin(), {lhsHeader, rhsHeader});
+    if (lhsHeader == HEADER_AFFECTSLHS && !(lhsEntityType  == TYPE_INTEGER || lhsEntityType == TYPE_WILDCARD)) {
+        return {{}};
+    }
+
+    if (rhsHeader == HEADER_AFFECTSRHS && !(rhsEntityType  == TYPE_INTEGER || rhsEntityType  == TYPE_WILDCARD)) {
+        return {{}};
+    }
+
+    // Insertion of headers into our results table
     result.insert(result.begin(), {lhsHeader, rhsHeader});
-
-    // Initialise retrieved table as ResultTable to conduct operations
-    ResultTable table(retrieved);
+    ResultTable table(result);
 
     // Handling LHS by Entity Type
     if (lhsEntityType == TYPE_INTEGER) {
@@ -55,30 +81,9 @@ Table AffectsConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
         table.filterByColumnValues(rhsHeader, intVals);
     }
 
-    // Retrieve rawTable
-    auto rawTable = table.getTable();
-    // Remove header used for operations
-    auto noHeaderTable = rawTable.erase(rawTable.begin());
-    // Check against PKB to see if there is a NextT relationship
-    for (const auto& row : rawTable) {
-        if (pkb.checkNextT(stoi(row.at(0)), stoi(row.at(1)))) {
-            result.push_back({row.at(0), row.at(1)});
-        }
-    }
+    removeHeaders({HEADER_AFFECTSLHS, HEADER_AFFECTSRHS}, make_shared<ResultTable>(table));
 
-    // Initialise result table as ResultTable to conduct operations
-    ResultTable final(result);
-
-    // Remove columns by header
-//    if (lhsHeader == HEADER_AFFECTSLHS){
-//        final.removeColumnByHeader(lhsHeader);
-//    }
-//    if (rhsHeader == HEADER_AFFECTSRHS){
-//        final.removeColumnByHeader(rhsHeader);
-//    }
-    removeHeaders({HEADER_AFFECTSLHS, HEADER_AFFECTSRHS}, make_shared<ResultTable>(final));
-
-    return final.getTable();
+    return table.getTable();
 }
 
 Table AffectsConstraint::generateCartesianProductTable(const vector<string>& table) {

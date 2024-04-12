@@ -1,59 +1,8 @@
 <?xml-stylesheet type="text/xsl" href="analysis.xsl"?>
 <test_results>
 <info>
-<name>Team05</name><parsing_time_taken>16.000000</parsing_time_taken>
+<name>Tests05</name><parsing_time_taken>20.000000</parsing_time_taken>
 </info>
 <queries>
 <query>
 <id ReturnTuple="1" Parent="1" SuchThat="1" CondNum="3" RelNum="1" comment="comment">1</id><querystr><![CDATA[stmt s; Select s such that Parent(s, 15)]]></querystr>
-<stuans>14</stuans>
-<correct>14</correct>
-<time_taken>14.000000</time_taken>
-<passed/>
-</query>
-<query>
-<id ReturnTuple="1" Parent="1" SuchThat="1" CondNum="3" RelNum="1" comment="comment">2</id><querystr><![CDATA[stmt s; Select s such that Parent(s, 16)]]></querystr>
-<stuans>14</stuans>
-<correct>14</correct>
-<time_taken>17.000000</time_taken>
-<passed/>
-</query>
-<query>
-<id ReturnTuple="1" Parent="1" SuchThat="1" CondNum="3" RelNum="1" comment="comment">3</id><querystr><![CDATA[stmt s; Select s such that Parent(s, 17)]]></querystr>
-<stuans>14</stuans>
-<correct>14</correct>
-<time_taken>19.000000</time_taken>
-<passed/>
-</query>
-<query>
-<id ReturnTuple="1" Parent="1" SuchThat="1" CondNum="3" RelNum="1" comment="comment">4</id><querystr><![CDATA[stmt s; Select s such that Parent(s, 20)]]></querystr>
-<stuans>19</stuans>
-<correct>19</correct>
-<time_taken>15.000000</time_taken>
-<passed/>
-</query>
-<query>
-<id ReturnTuple="1" Parent="1" SuchThat="1" CondNum="3" RelNum="1" comment="comment">5</id><querystr><![CDATA[stmt s; Select s such that Parent(14, s)]]></querystr>
-<stuans>15,16,17,21,22</stuans>
-<correct>15,16,17,21,22</correct>
-<time_taken>15.000000</time_taken>
-<passed/>
-</query>
-<query>
-<id ReturnTuple="1" Parent="1" SuchThat="1" CondNum="3" RelNum="1" comment="comment">6</id><querystr><![CDATA[stmt s; Select s such that Parent(6, s)]]></querystr>
-<stuans></stuans>
-<correct>-1</correct>
-<time_taken>11.000000</time_taken>
-<failed>
-<missing>-1</missing>
-<additional></additional>
-<summary>
-<expected>1</expected>
-<matched>0</matched>
-<missing>1</missing>
-<additional>0</additional>
-</summary>
-</failed>
-</query>
-</queries>
-</test_results>

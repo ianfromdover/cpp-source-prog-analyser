@@ -1915,6 +1915,7 @@ TEST_CASE("[TestQPS] Single Constraints") {
             std::vector<std::string> expected = {"4"};
             REQUIRE(qps.evaluate(std::move(queryStr)) == expected);
         }
+
     }
 
 }
