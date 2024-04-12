@@ -9,6 +9,10 @@ PatternAssignTable::PatternAssignTable() = default;
 // prompt: used copilot
 // -------- For StmtNo | VarName LHS table
 
+bool PatternAssignTable::isAsgn(StmtNo sNum) {
+    return stmtLhsMap.containsKey(sNum);
+}
+
 // Adds
 bool PatternAssignTable::addStmtLhs(StmtNo stmtNo, VarName varName) {
     return stmtLhsMap.add(stmtNo, varName);
