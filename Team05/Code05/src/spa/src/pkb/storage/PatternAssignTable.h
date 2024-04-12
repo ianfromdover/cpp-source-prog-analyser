@@ -19,6 +19,7 @@ private:
 public:
     PatternAssignTable();
 
+    bool isAsgn(StmtNo sNum);
     // -------- For StmtNo | VarName LHS table
     bool addStmtLhs(StmtNo stmtNo, VarName varName); // Adds
     std::vector<StmtNo> getStmtsFromLhs(VarName varName); // Gets keys
