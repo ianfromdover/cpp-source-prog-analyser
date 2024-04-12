@@ -18,14 +18,10 @@ std::vector<std::shared_ptr<ConstraintArgument>> UsesPConstraint::getConstraintA
     return constraintArguments;
 }
 
-std::vector<std::vector<std::string>> UsesPConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
-    if (this->getNot()) {
-        Table wholeSet = pkb.getUsesPTable();
-        Table subSet = getTable(pkb);
-        return ResultTable::minusTable(wholeSet, subSet);
-    } else {
-        return getTable(pkb);
-    }
+Table UsesPConstraint::getTableWithDefaultHeadersFromPkb(QueryPkbVirtual &pkb) {
+    auto t = pkb.getUsesPTable();
+    t.insert(t.begin(), getDefaultHeaders());
+    return t;
 }
 
 Table UsesPConstraint::getTable(QueryPkbVirtual &pkb) {
@@ -113,4 +109,8 @@ std::size_t UsesPConstraint::hash() const {
     hashValue ^= stringHasher(s2) + HASH_OFFSET + (hashValue << 6) + (hashValue >> 2);
 
     return hashValue;
+}
+
+std::vector<std::string> UsesPConstraint::getDefaultHeaders() {
+    return {HEADER_USESPLHS, HEADER_USESPRHS};
 }

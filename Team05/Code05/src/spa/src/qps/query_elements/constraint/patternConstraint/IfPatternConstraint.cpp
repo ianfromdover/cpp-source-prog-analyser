@@ -22,16 +22,6 @@ std::vector<std::shared_ptr<ConstraintArgument>> IfPatternConstraint::getConstra
     return constraintArguments;
 }
 
-std::vector<std::vector<std::string>> IfPatternConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
-    if (this->getNot()) {
-        Table wholeSet = pkb.getPatternIfTable();
-        Table subSet = getTable(pkb);
-        return ResultTable::minusTable(wholeSet, subSet);
-    } else {
-        return getTable(pkb);
-    }
-}
-
 Table IfPatternConstraint::getTable(QueryPkbVirtual &pkb) {
     Table res = pkb.getPatternIfTable();
 
@@ -76,4 +66,14 @@ std::size_t IfPatternConstraint::hash() const {
     hashValue ^= stringHasher(s2) + HASH_OFFSET + (hashValue << 6) + (hashValue >> 2);
 
     return hashValue;
+}
+
+Table IfPatternConstraint::getTableWithDefaultHeadersFromPkb(QueryPkbVirtual &pkb) {
+    auto t = pkb.getPatternIfTable();
+    t.insert(t.begin(), getDefaultHeaders());
+    return t;
+}
+
+vector<string> IfPatternConstraint::getDefaultHeaders() {
+    return {constraintIdentifier->getIdentifier(), HEADER_IFPATTERN};
 }

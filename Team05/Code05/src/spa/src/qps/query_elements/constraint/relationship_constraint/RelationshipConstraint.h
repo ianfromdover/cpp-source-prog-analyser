@@ -9,9 +9,15 @@
 #include "common/Column.h"
 
 class RelationshipConstraint : public Constraint {
+protected:
+    string &stripCharacters(string &str, const string &chars);
+    Table getFullTable(QueryPkbVirtual &pkb) override;
+    Table getRelationshipTable(QueryPkbVirtual &) override;
+    virtual vector<string> getDefaultHeaders() = 0;
 public:
     std::string getConstraintClass() override;
-    Table getRelationshipTable(QueryPkbVirtual &) override;
+
+    bool isDefaultHeaders(vector<std::string> header);
 };
 
 

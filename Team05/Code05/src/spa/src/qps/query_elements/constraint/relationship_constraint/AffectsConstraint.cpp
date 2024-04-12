@@ -20,16 +20,6 @@ std::vector<std::shared_ptr<ConstraintArgument>> AffectsConstraint::getConstrain
     return constraintArguments;
 }
 
-Table AffectsConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
-    if (this->getNot()) {
-        Table wholeSet = getAffectsTable(pkb);
-        Table subSet = getTable(pkb);
-        return ResultTable::minusTable(wholeSet, subSet);
-    } else {
-        return getTable(pkb);
-    }
-}
-
 Table AffectsConstraint::getAffectsTable(QueryPkbVirtual & pkb) {
     // Initialise retrieved table
     Table assign = pkb.getPatternAsgnTable();
@@ -121,4 +111,14 @@ std::size_t AffectsConstraint::hash() const {
     hashValue ^= stringHasher(s2) + HASH_OFFSET + (hashValue << 6) + (hashValue >> 2);
 
     return hashValue;
+}
+
+Table AffectsConstraint::getTableWithDefaultHeadersFromPkb(QueryPkbVirtual &pkb) {
+    auto t = getAffectsTable(pkb);
+    t.insert(t.begin(), getDefaultHeaders());
+    return t;
+}
+
+std::vector<std::string> AffectsConstraint::getDefaultHeaders() {
+    return {HEADER_AFFECTSLHS, HEADER_AFFECTSRHS};
 }

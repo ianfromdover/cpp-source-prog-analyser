@@ -24,6 +24,7 @@
 #define TYPE_QUOTED_IDENT "QuotedIdentity"
 #define TYPE_VAR_WITH "VarWith"
 #define TYPE_LITERAL_WITH "IntWith"
+#define TYPE_NONE "None"
 
 #define RETURN_INT_RESULT "IntResult"
 #define RETURN_STR_RESULT "StrResult"

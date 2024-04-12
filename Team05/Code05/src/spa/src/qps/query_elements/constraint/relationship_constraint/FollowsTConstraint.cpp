@@ -18,15 +18,10 @@ std::vector<std::shared_ptr<ConstraintArgument>> FollowsTConstraint::getConstrai
     return constraintArguments;
 }
 
-
-Table FollowsTConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
-    if (this->getNot()) {
-        Table wholeSet = pkb.getFollowsTTable();
-        Table subSet = getTable(pkb);
-        return ResultTable::minusTable(wholeSet, subSet);
-    } else {
-        return getTable(pkb);
-    }
+Table FollowsTConstraint::getTableWithDefaultHeadersFromPkb(QueryPkbVirtual &pkb) {
+    auto t = pkb.getFollowsTTable();
+    t.insert(t.begin(), getDefaultHeaders());
+    return t;
 }
 
 Table FollowsTConstraint::getTable(QueryPkbVirtual &pkb) {
@@ -91,13 +86,6 @@ Table FollowsTConstraint::getTable(QueryPkbVirtual &pkb) {
     return table.getTable();
 }
 
-bool FollowsTConstraint::isStatementSynonym(std::string type) {
-    vector<std::string> statementVector = {
-            TYPE_STATEMENT, TYPE_READ, TYPE_PRINT, TYPE_ASSIGN,
-            TYPE_CALL, TYPE_WHILE, TYPE_IF
-    };
-    return std::find(statementVector.begin(), statementVector.end(), type) != statementVector.end();
-}
 
 std::size_t FollowsTConstraint::hash() const {
     std::hash<std::string> stringHasher;
@@ -113,4 +101,8 @@ std::size_t FollowsTConstraint::hash() const {
     hashValue ^= stringHasher(s2) + HASH_OFFSET + (hashValue << 6) + (hashValue >> 2);
 
     return hashValue;
+}
+
+std::vector<std::string> FollowsTConstraint::getDefaultHeaders() {
+    return {HEADER_FOLLOWSTLHS, HEADER_FOLLOWSTRHS};
 }

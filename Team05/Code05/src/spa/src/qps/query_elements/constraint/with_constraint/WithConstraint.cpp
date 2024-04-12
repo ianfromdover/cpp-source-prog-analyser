@@ -101,3 +101,7 @@ std::size_t WithConstraint::hash() const {
 
     return hashValue;
 }
+
+Table WithConstraint::getTableWithDefaultHeadersFromPkb(QueryPkbVirtual &pkb) {
+    throw QPSException("function is not used");
+}

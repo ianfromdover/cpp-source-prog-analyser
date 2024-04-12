@@ -19,27 +19,24 @@ class QueryPkbVirtual;
 class Constraint {
 private:
     bool isNot = false;
+protected:
+    virtual Table getFullTable(QueryPkbVirtual &pkb) = 0;
+    virtual Table getTable(QueryPkbVirtual &pkb) = 0;
+    virtual Table getTableWithDefaultHeadersFromPkb(QueryPkbVirtual &pkb) = 0 ;
+    bool isStatementSynonym(std::string type);
+    bool isEntitySynonym(std::string type);
+    bool isStatementOrEntitySynonym(string type);
 public:
     int priority = 0; // Used in constraint ordering for optimization
     virtual std::string getConstraintClass() = 0;
     virtual std::string getConstraintType() = 0;
+    virtual Table getRelationshipTable(QueryPkbVirtual &) = 0;
     virtual std::vector<std::shared_ptr<ConstraintArgument>>  getConstraintArguments() = 0;
     std:: string toString();
-    virtual Table getRelationshipTable(QueryPkbVirtual &) =0;
-    void setNot(bool val) {
-        this->isNot = val;
-    }
-    bool getNot() {
-        return this->isNot;
-    }
-    void removeHeaders(std::vector<std::string> toRemove, shared_ptr<ResultTable> table) {
-        for (std::string s : toRemove) {
-            table->removeColumnByHeader(s);
-        }
-    }
-
+    bool getNot();
+    void removeHeaders(std::vector<std::string>, shared_ptr<ResultTable>);
     virtual std::size_t hash() const = 0;
-
+    void setNot(bool val);
 };
 
 

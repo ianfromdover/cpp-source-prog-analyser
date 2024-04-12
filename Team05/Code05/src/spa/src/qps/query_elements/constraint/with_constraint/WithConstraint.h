@@ -11,19 +11,22 @@
 #include "pkb/apis/QueryPkb.h"
 #include "qps/query_projector/ResultTable.h"
 #include "common/StringUtils.h"
+#include "qps/exceptions/QPSException.h"
 
 class WithConstraint : public Constraint {
 private:
     std::vector<std::shared_ptr<ConstraintArgument>> constraintArguments;
     bool isVariable(std::string);
-    std::vector<std::vector<std::string>> getTable(QueryPkbVirtual &);
-    std::vector<std::vector<std::string>> getFullTable(QueryPkbVirtual &);
+protected:
+    Table getFullTable(QueryPkbVirtual &pkb) override;
+    Table getTable(QueryPkbVirtual &pkb) override;
+    Table getTableWithDefaultHeadersFromPkb(QueryPkbVirtual &pkb) override;
+    Table getRelationshipTable(QueryPkbVirtual &) override;
 public:
     WithConstraint(std::shared_ptr<WithReference>, std::shared_ptr<WithReference>);
     std::string getConstraintClass() override;
     std::string getConstraintType() override;
     std::vector<std::shared_ptr<ConstraintArgument>>  getConstraintArguments() override;
-    std::vector<std::vector<std::string>> getRelationshipTable(QueryPkbVirtual &) override;
     std::size_t hash() const override;
 };
 

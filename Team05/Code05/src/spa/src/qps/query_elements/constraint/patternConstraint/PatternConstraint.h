@@ -14,10 +14,13 @@
 class PatternConstraint : public Constraint {
 protected:
     std::string& stripCharacters(std::string& str, const std::string& chars);
+    Table getFullTable(QueryPkbVirtual &pkb) override;
+    Table getRelationshipTable(QueryPkbVirtual &) override;
+    virtual vector<string> getDefaultHeaders() = 0;
 public:
     std::string getConstraintClass() override;
     virtual std::shared_ptr<Entity> getPatternConstraintIdentifier() = 0;
-    std::vector<std::vector<std::string>> getRelationshipTable(QueryPkbVirtual &) override;
+    bool isDefaultHeaders(vector<std::string> header);
 };
 
 #endif //PROJECT_PATTERNCONSTRAINT_H

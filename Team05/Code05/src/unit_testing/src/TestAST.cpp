@@ -2380,3 +2380,47 @@ TEST_CASE("Error for Milestone2") {
         REQUIRE(ans == expected);
     }
 }
+
+
+TEST_CASE("Parent Handler - not attribute") {
+    std::string codeSnippet = R"(
+    procedure computeCentroid {
+        print x;
+        if (hello == 0) then {
+            y=1;
+            print t;
+            read f;
+            while (x == 0) {
+                if (i == 1) then {
+                    w = 0;
+                } else {
+                    g = 1;
+                }
+                x=1;
+            }
+        } else {
+            print hello;
+        }
+        x=0;
+        y=1;
+        z=x+y;
+    }
+    )";
+    std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
+    auto pkb = make_shared<PopulatePkb>(p);
+    auto sp = SourceProcessor(pkb);
+    sp.exec(codeSnippet);
+    QueryPkb pkb1(p);
+    QPS qps(std::make_shared<QueryPkb>(pkb1));
+
+    // 2, 6, 7 are parent
+    SECTION("Select s1 such that not Parent(s1, s2)") {
+        std::string query = "stmt s1; stmt s2; Select s1 such that not Follows(1, 2)";
+        std::vector<std::string> expected = {"2", "6", "7"};
+        std::vector<std::string> ans = qps.evaluate(query);
+        std::sort(ans.begin(), ans.end());
+        std::sort(expected.begin(), expected.end());
+        REQUIRE(ans == expected);
+    }
+
+}

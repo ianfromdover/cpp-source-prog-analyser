@@ -19,14 +19,10 @@ std::vector<std::shared_ptr<ConstraintArgument>> ParentTConstraint::getConstrain
     return constraintArguments;
 }
 
-Table ParentTConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
-    if (this->getNot()) {
-        Table wholeSet = pkb.getParentTTable();
-        Table subSet = getTable(pkb);
-        return ResultTable::minusTable(wholeSet, subSet);
-    } else {
-        return getTable(pkb);
-    }
+Table ParentTConstraint::getTableWithDefaultHeadersFromPkb(QueryPkbVirtual &pkb) {
+    auto t = pkb.getParentTTable();
+    t.insert(t.begin(), getDefaultHeaders());
+    return t;
 }
 
 Table ParentTConstraint::getTable(QueryPkbVirtual &pkb) {
@@ -84,14 +80,6 @@ Table ParentTConstraint::getTable(QueryPkbVirtual &pkb) {
     return table.getTable();
 }
 
-bool ParentTConstraint::isStatementSynonym(std::string type) {
-    vector<std::string> statementVector = {
-            TYPE_STATEMENT, TYPE_READ, TYPE_PRINT, TYPE_ASSIGN,
-            TYPE_CALL, TYPE_WHILE, TYPE_IF
-    };
-    return std::find(statementVector.begin(), statementVector.end(), type) != statementVector.end();
-}
-
 std::size_t ParentTConstraint::hash() const {
     std::hash<std::string> stringHasher;
 
@@ -106,4 +94,8 @@ std::size_t ParentTConstraint::hash() const {
     hashValue ^= stringHasher(s2) + HASH_OFFSET + (hashValue << 6) + (hashValue >> 2);
 
     return hashValue;
+}
+
+std::vector<std::string> ParentTConstraint::getDefaultHeaders() {
+    return {HEADER_PARENTTLHS, HEADER_PARENTTRHS};
 }

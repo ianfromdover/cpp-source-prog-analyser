@@ -11,13 +11,15 @@
 class ParentConstraint : public RelationshipConstraint {
 private:
     std::vector<std::shared_ptr<ConstraintArgument>> constraintArguments;
-    Table getTable(QueryPkbVirtual &pkb);
+protected:
+    Table getTableWithDefaultHeadersFromPkb(QueryPkbVirtual &pkb) override;
+    Table getTable(QueryPkbVirtual &pkb) override;
+    std::vector<std::string> getDefaultHeaders() override;
+//    Table getFullTable(QueryPkbVirtual &pkb) override;
 public:
     ParentConstraint(std::shared_ptr<StatementReference> , std::shared_ptr<StatementReference> );
     std::string getConstraintType() override;
     std::vector<std::shared_ptr<ConstraintArgument>> getConstraintArguments() override;
-    Table getRelationshipTable(QueryPkbVirtual &) override;
-    bool isStatementSynonym(string type);
     std::size_t hash() const override;
 };
 

@@ -19,16 +19,11 @@ std::vector<std::shared_ptr<ConstraintArgument>> NextConstraint::getConstraintAr
     return constraintArguments;
 }
 
-Table NextConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
-    if (this->getNot()) {
-        Table wholeSet = pkb.getNextTable();
-        Table subSet = getTable(pkb);
-        return ResultTable::minusTable(wholeSet, subSet);
-    } else {
-        return getTable(pkb);
-    }
+Table NextConstraint::getTableWithDefaultHeadersFromPkb(QueryPkbVirtual &pkb) {
+    auto t = pkb.getNextTable();
+    t.insert(t.begin(), getDefaultHeaders());
+    return t;
 }
-
 
 Table NextConstraint::getTable(QueryPkbVirtual & pkb) {
     // Get follows table and populate it into our results table
@@ -89,14 +84,6 @@ Table NextConstraint::getTable(QueryPkbVirtual & pkb) {
     return table.getTable();
 }
 
-bool NextConstraint::isStatementSynonym(std::string type) {
-    vector<std::string> statementVector = {
-            TYPE_STATEMENT, TYPE_READ, TYPE_PRINT, TYPE_ASSIGN,
-            TYPE_CALL, TYPE_WHILE, TYPE_IF
-    };
-    return std::find(statementVector.begin(), statementVector.end(), type) != statementVector.end();
-}
-
 std::size_t NextConstraint::hash() const {
     std::hash<std::string> stringHasher;
 
@@ -111,4 +98,8 @@ std::size_t NextConstraint::hash() const {
     hashValue ^= stringHasher(s2) + HASH_OFFSET + (hashValue << 6) + (hashValue >> 2);
 
     return hashValue;
+}
+
+std::vector<std::string> NextConstraint::getDefaultHeaders() {
+    return {HEADER_NEXTLHS, HEADER_NEXTRHS};
 }

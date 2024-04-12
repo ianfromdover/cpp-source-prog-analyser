@@ -20,14 +20,10 @@ std::vector<std::shared_ptr<ConstraintArgument>> ModifiesPConstraint::getConstra
     return constraintArguments;
 }
 
-std::vector<std::vector<std::string>> ModifiesPConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
-    if (this->getNot()) {
-        Table wholeSet = pkb.getModifiesPTable();
-        Table subSet = getTable(pkb);
-        return ResultTable::minusTable(wholeSet, subSet);
-    } else {
-        return getTable(pkb);
-    }
+Table ModifiesPConstraint::getTableWithDefaultHeadersFromPkb(QueryPkbVirtual &pkb) {
+    auto t = pkb.getModifiesPTable();
+    t.insert(t.begin(), getDefaultHeaders());
+    return t;
 }
 
 Table ModifiesPConstraint::getTable(QueryPkbVirtual &pkb) {
@@ -99,4 +95,8 @@ std::size_t ModifiesPConstraint::hash() const {
     hashValue ^= stringHasher(s2) + HASH_OFFSET + (hashValue << 6) + (hashValue >> 2);
 
     return hashValue;
+}
+
+std::vector<std::string> ModifiesPConstraint::getDefaultHeaders() {
+    return {HEADER_MODIFIESTLHS, HEADER_MODIFIESTRHS};
 }
