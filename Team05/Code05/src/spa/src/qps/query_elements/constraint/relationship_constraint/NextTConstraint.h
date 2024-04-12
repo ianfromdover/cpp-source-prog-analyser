@@ -17,7 +17,8 @@ public:
     std::string getConstraintType() override;
     std::vector<std::shared_ptr<ConstraintArgument>> getConstraintArguments() override;
     Table getRelationshipTable(QueryPkbVirtual &) override;
-
+    Table getNextTTable(QueryPkbVirtual &);
+    Table getTable(QueryPkbVirtual &);
     bool isStatementSynonym(std::string type);
     vector<string> flattenTable(const Table &table);
     Table generateCartesianProductTable(const vector<string> &table);
