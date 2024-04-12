@@ -20,6 +20,17 @@ std::vector<std::shared_ptr<ConstraintArgument>> NextConstraint::getConstraintAr
 }
 
 Table NextConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
+    if (this->getNot()) {
+        Table wholeSet = pkb.getNextTable();
+        Table subSet = getTable(pkb);
+        return ResultTable::minusTable(wholeSet, subSet);
+    } else {
+        return getTable(pkb);
+    }
+}
+
+
+Table NextConstraint::getTable(QueryPkbVirtual & pkb) {
     // Get follows table and populate it into our results table
     std::vector<std::vector<std::string>> result = pkb.getNextTable();
 

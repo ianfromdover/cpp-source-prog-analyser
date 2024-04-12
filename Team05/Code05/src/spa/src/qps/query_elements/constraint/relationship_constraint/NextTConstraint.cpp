@@ -20,6 +20,31 @@ std::vector<std::shared_ptr<ConstraintArgument>> NextTConstraint::getConstraintA
 }
 
 Table NextTConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
+    if (this->getNot()) {
+        Table wholeSet = getNextTTable(pkb);
+        Table subSet = getTable(pkb);
+        return ResultTable::minusTable(wholeSet, subSet);
+    } else {
+        return getTable(pkb);
+    }
+}
+
+Table NextTConstraint::getNextTTable(QueryPkbVirtual & pkb) {
+    // Initialise retrieved table
+    vector<string> flattened = flattenTable(pkb.getStmtTable());
+    Table retrieved = generateCartesianProductTable(flattened);
+    // Initialise empty result table
+    Table result;
+    for (const auto& row : retrieved) {
+        if (pkb.checkNextT(stoi(row.at(0)), stoi(row.at(1)))) {
+            result.push_back({row.at(0), row.at(1)});
+        }
+    }
+    ResultTable final(result);
+    return result;
+}
+
+Table NextTConstraint::getTable(QueryPkbVirtual & pkb) {
     // Initialise retrieved table
     vector<string> flattened = flattenTable(pkb.getStmtTable());
     Table retrieved = generateCartesianProductTable(flattened);
