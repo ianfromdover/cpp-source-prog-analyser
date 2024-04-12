@@ -104,5 +104,5 @@ Table AssignPatternConstraint::getTableWithDefaultHeadersFromPkb(QueryPkbVirtual
 }
 
 vector<string> AssignPatternConstraint::getDefaultHeaders() {
-    return {constraintIdentifier->getIdentifier(), HEADER_ASSIGNLHS, HEADER_ASSIGNRHS};
+    return {constraintIdentifier->getIdentifier(), HEADER_ASSIGNRHS};
 }
