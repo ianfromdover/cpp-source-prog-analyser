@@ -39,8 +39,8 @@ Table NextConstraint::getTable(QueryPkbVirtual & pkb) {
     std::string lhsEntityType = args[0] -> getEntityType();
     std::string rhsEntityType = args[1] -> getEntityType();
 
-    std::string lhsHeader = isStatementSynonym(lhsEntityType) ? args[0]->getArgumentValue()[0] : "NextLHS";
-    std::string rhsHeader = isStatementSynonym(rhsEntityType) ? args[1]->getArgumentValue()[0] : "NextRHS";
+    std::string lhsHeader = isStatementSynonym(lhsEntityType) ? args[0]->getArgumentValue()[0] : HEADER_NEXTLHS;
+    std::string rhsHeader = isStatementSynonym(rhsEntityType) ? args[1]->getArgumentValue()[0] : HEADER_NEXTRHS;
 
     if (lhsHeader==rhsHeader) {
         return {{lhsHeader}};
@@ -78,12 +78,13 @@ Table NextConstraint::getTable(QueryPkbVirtual & pkb) {
         table.add(entityTableResult.getTable());
     }
 
-    if (lhsHeader == "NextLHS"){
-        table.removeColumnByHeader(lhsHeader);
-    }
-    if (rhsHeader == "NextRHS"){
-        table.removeColumnByHeader(rhsHeader);
-    }
+//    if (lhsHeader == HEADER_NEXTLHS){
+//        table.removeColumnByHeader(lhsHeader);
+//    }
+//    if (rhsHeader == HEADER_NEXTRHS){
+//        table.removeColumnByHeader(rhsHeader);
+//    }
+    removeHeaders({HEADER_NEXTLHS, HEADER_NEXTRHS}, make_shared<ResultTable>(table));
 
     return table.getTable();
 }

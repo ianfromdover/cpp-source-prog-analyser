@@ -70,12 +70,13 @@ Table ModifiesSConstraint::getTable(QueryPkbVirtual &pkb) {
         table.filterByColumnExact(rhsHeader,rhsHeaderNew);
     }
 
-    if (lhsHeader == HEADER_MODIFIESSLHS) {
-        table.removeColumnByHeader(lhsHeader);
-    }
-    if (rhsHeader == HEADER_MODIFIESSRHS) {
-        table.removeColumnByHeader(rhsHeader);
-    }
+//    if (lhsHeader == HEADER_MODIFIESSLHS) {
+//        table.removeColumnByHeader(lhsHeader);
+//    }
+//    if (rhsHeader == HEADER_MODIFIESSRHS) {
+//        table.removeColumnByHeader(rhsHeader);
+//    }
+    removeHeaders({HEADER_MODIFIESSLHS, HEADER_MODIFIESSRHS}, make_shared<ResultTable>(table));
 
     return table.getTable();
 }

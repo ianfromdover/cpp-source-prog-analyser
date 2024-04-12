@@ -44,6 +44,7 @@ bool QPSMultiCharacterStrategy::tokenize(char character, std::stringstream &stre
         }
         std::string integer = character + readWhile(stream, [](char ch) { return std::isdigit(ch); });
         tokens.addToken(QPSTokenType::INTEGER, integer);
+        declarationStarted = false;
     } else if (character != ' ' && character != '\n') {
         //Do nothing
     }
@@ -125,14 +126,8 @@ bool QPSMultiCharacterStrategy::expectSynonymNext(const std::string &name, QPSTo
           tokens.addToken(QPSTokenType::WITH, name);
           return false;
         }
-        if (it->second == QPSTokenType::AND) {
-          if (!tokens.getTokens().empty() &&
-              tokens.getTokens().back()->getType().getInfo() ==
-                  QPSTokenType::RIGHT_PAREN) {
-            tokens.addToken(it->second, name);
-          } else {
-            tokens.addToken(QPSTokenType::IDENTIFIER, name);
-          }
+        if (it->second == QPSTokenType::WITHSTMT || it->second == QPSTokenType::WITHVALUE || it->second == QPSTokenType::WITHPROCNAME || it->second == QPSTokenType::WITHVARNAME){
+          tokens.addToken(it->second, name);
           return false;
         }
         if (it->second == QPSTokenType::BOOLEAN) {

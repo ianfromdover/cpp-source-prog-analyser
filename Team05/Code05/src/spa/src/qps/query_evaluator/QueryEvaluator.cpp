@@ -4,6 +4,7 @@
 
 #include "QueryEvaluator.h"
 #include <algorithm>
+#include <utility>
 #include "PkbStub.h"
 #include "qps/query_evaluator/query_result/StringResult.h"
 #include "qps/query_evaluator/query_result/IntResult.h"
@@ -26,73 +27,22 @@ std::shared_ptr<Formattable> QueryEvaluator::evaluate(QueryObject & query) {
     processReturnable(returnable);
 
     if (results.hasEntries() && ResultTable::findCommonHeaders(results.getTable(), select.getTable()).empty()) {
-        // Get the return type column that we want
-
-        // pretty much the same logic as evalHelper but if u copy paste evalHelper here the code breaks?!
-        // getDistinctCol rows suddenly gives lesser col than expected.
-        std::vector<std::string> columnList = returnable->getArgumentValue();
-        if (columnList.empty()) {
-            if (returnable->getReturnType() == RETURN_BOOL_RESULT) {
-              // is boolean
-              bool hasEntries = this->results.hasEntries();
-              if (hasEntries) {
-                std::vector<std::string> val = {"TRUE"};
-                return std::make_shared<StringResult>(val);
-              } else {
-                std::vector<std::string> val = {"FALSE"};
-                return std::make_shared<StringResult>(val);
-              }
-            }
-        } else if (columnList.size() == 1){
-          // is entity
-          std::string column = returnable->getArgumentValue()[0];
-          std::vector<string> val = this->select.getDistinctColumn(column);
-          std::shared_ptr<StringResult> sd = std::make_shared<StringResult>(val);
-          return sd;
-        } else {
-            // is tuple
-            std::vector<vector<string>> val = this->select.getDistinctColumns(columnList);
-            std::shared_ptr<TupleStringResult> sd = std::make_shared<TupleStringResult>(val);
-            return sd;
-        }
-
-
+        return returnable->getSelectResults(pkb, make_shared<ResultTable>(select), make_shared<ResultTable>(results));
     } else {
-        if (!results.isEmpty() && !results.hasEntries()) {
+        if (!results.isEmpty() && !results.hasEntries() && !results.hasEntriesBool) {
             if (returnable->getReturnType() == RETURN_BOOL_RESULT) {
                 std::vector<std::string> val = {"FALSE"};
                 return std::make_shared<StringResult>(val);
             }
             return getEmptyResult();
         }
-        this->results.add(select.getTable());
-        return evalHelper(returnable);
-    }
-}
-
-std::shared_ptr<Formattable> QueryEvaluator::evalHelper(std::shared_ptr<Returnable> returnable) {
-    std::vector<std::string> columnList = returnable->getArgumentValue();
-    if (columnList.size() == 0 && returnable->getReturnType() == RETURN_BOOL_RESULT) {
-        //is boolean
-        bool hasEntries = this->select.hasEntries();
-        if (hasEntries) {
-            std::vector<std::string> val = {"TRUE"};
-            return std::make_shared<StringResult>(val);
-        } else {
-            std::vector<std::string> val = {"FALSE"};
-            return std::make_shared<StringResult>(val);
+        if (constraints.size() == 0 && returnable->getReturnType() == RETURN_BOOL_RESULT){
+          std::vector<std::string> val = {"TRUE"};
+          return std::make_shared<StringResult>(val);
         }
-    } else if (columnList.size() == 1) {
-        // is entity
-        std::string column = returnable->getArgumentValue()[0];
-        std::vector<string> val = this->results.getDistinctColumn(column);
-        std::shared_ptr<StringResult> sd = std::make_shared<StringResult>(val);
-        return sd;
-    } else {
-        // is tuple
-        std::vector<vector<string>> val = this->results.getDistinctColumns(columnList);
-        std::shared_ptr<TupleStringResult> sd = std::make_shared<TupleStringResult>(val);
-        return sd;
+        auto selectTable = select.getTable();
+        this->results.add(selectTable);
+        return returnable->getSelectResults(pkb, make_shared<ResultTable>(results), make_shared<ResultTable>(results));
     }
 }
 
@@ -109,7 +59,9 @@ void QueryEvaluator::processConstraints(std::shared_ptr<Constraint> c){
 
 void QueryEvaluator::processReturnable(std::shared_ptr<Returnable> r) {
   table t = r->getEntityTable(pkb);
-  select.add(t);
+  ResultTable tabl = ResultTable(t);
+  tabl.removeColumnByHeader(HEADER_ENT_WITH_TOMERGE);
+  select.add(tabl.getTable());
 }
 
 std::shared_ptr<Formattable> QueryEvaluator::getEmptyResult() {

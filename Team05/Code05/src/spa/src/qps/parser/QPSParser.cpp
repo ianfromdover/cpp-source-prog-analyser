@@ -156,11 +156,29 @@ std::shared_ptr<SelectClause> QPSParser::select() {
         this->consume(QPSTokenType::LEFT_A_BRAC, "Expect '<' after 'Select'.");
         do {
           QPSToken entityType = this->synonym(this->consume(QPSTokenType::IDENTIFIER, "Expect identifier."));
+          QPSToken attributeType = {QPSTokenType(QPSTokenType::QPSTypeInfo::ERR_NULL),""};
+          if (this->match({QPSTokenType::DECIMAL})){
+              if  (this->match({QPSTokenType::WITHSTMT, QPSTokenType::WITHPROCNAME, QPSTokenType::WITHVARNAME, QPSTokenType::WITHVALUE})){
+                    attributeType = this->previous();
+              } else {
+                  throw QPSParseException("Expect attribute after synonym.");
+              }
+          }
+          selectCl->addSelectArgument(entityType, attributeType);
           selectCl->addSelect(entityType.getLexeme());
         } while (this->match({QPSTokenType::COMMA}));
         this->consume(QPSTokenType::RIGHT_A_BRAC, "Expect '>' after identifier.");
     } else {
       QPSToken entityType = this->synonym(this->consume(QPSTokenType::IDENTIFIER, "Expect identifier."));
+      QPSToken attributeType = {QPSTokenType(QPSTokenType::QPSTypeInfo::ERR_NULL),""};
+      if (this->match({QPSTokenType::DECIMAL})){
+        if  (this->match({QPSTokenType::WITHSTMT, QPSTokenType::WITHPROCNAME, QPSTokenType::WITHVARNAME, QPSTokenType::WITHVALUE})){
+          attributeType = this->previous();
+        } else {
+          throw QPSParseException("Expect attribute after synonym.");
+        }
+      }
+      selectCl->addSelectArgument(entityType, attributeType);
       selectCl->addSelect(entityType.getLexeme());
     }
     return selectCl;

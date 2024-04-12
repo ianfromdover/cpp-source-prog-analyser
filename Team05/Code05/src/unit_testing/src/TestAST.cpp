@@ -591,14 +591,7 @@ TEST_CASE("Modifies Handler - QPS") {
     QueryPkb pkb1(p);
     QPS qps(std::make_shared<QueryPkb>(pkb1));
 
-    SECTION("delete me") {
-        std::string query = "stmt s; assign a; Select s such that not Next(s, a)";
-        std::vector<std::string> expected  = {"deelte"};
-        std::vector<std::string> ans = qps.evaluate(query);
-        std::sort(ans.begin(), ans.end());
-        std::sort(expected.begin(), expected.end());
-        REQUIRE(ans==expected);
-    }
+
 
     SECTION("Select s such that Modifies(s, v)") {
         std::string query = "stmt s; variable v; Select s such that Modifies(s, v)";

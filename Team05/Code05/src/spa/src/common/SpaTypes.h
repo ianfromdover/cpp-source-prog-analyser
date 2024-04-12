@@ -94,6 +94,12 @@
 #define HEADER_USESPRHS "UsesPRHS"
 #define HEADER_USESSLHS "UsesSLHS"
 #define HEADER_USESSRHS "UsesSRHS"
+#define HEADER_AFFECTSLHS "AffectsLHS"
+#define HEADER_AFFECTSRHS "AffectsRHS"
+#define HEADER_NEXTLHS "NextLHS"
+#define HEADER_NEXTRHS "NextRHS"
+#define HEADER_NEXTTLHS "NextTLHS"
+#define HEADER_NEXTTRHS "NextTRHS"
 
 #define HASH_OFFSET 0x9e3779b9
 
@@ -107,6 +113,9 @@
 #define HEADER_ENT_WHILEVAR "WhileVar"
 #define HEADER_ENT_WITHVAR "VariableWith"
 #define HEADER_ENT_WITH_TOMERGE "*TOMERGE*" // special character is used so that it will not clash with possible syn names.
+
+#define HEADER_SPECIAL_ALL_RESULTS "*ALL_RESULT*" // special header used so no joining is done.
+
 
 // error message
 #define ERROR_INVALID_QUERY "Invalid QPS Query"

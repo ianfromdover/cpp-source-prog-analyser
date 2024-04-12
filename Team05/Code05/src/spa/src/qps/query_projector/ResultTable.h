@@ -26,6 +26,7 @@ public:
         _table = t;
     };
     ResultTable() = default;
+    bool hasEntriesBool = false;
 
     bool isEmpty(){
         return _table.empty();
@@ -34,6 +35,8 @@ public:
     void add(const table& a){
         if (_table.empty()){
             _table = removeDuplicateColumn(a); // TODO: remove 'removeDuplicateColumn' after pkb patch
+        } else if (!a.empty() && !a[0].empty() && a[0][0] == HEADER_SPECIAL_ALL_RESULTS) {
+            return; // is a special table that escapes joining as it is every possible result.
         } else {
             _table = joinOrCrossProduct(removeDuplicateColumn(_table), a);
             removeDuplicateEntires(_table);
@@ -128,11 +131,21 @@ public:
     }
 
     bool hasHeader(std::string& header){
+      if (_table.size() <= 0) return false;
         return std::find(_table[0].begin(), _table[0].end(), header) != _table[0].end();
+    }
+
+    void setBoolEntries() {
+        if (hasEntries()) {
+            hasEntriesBool = true;
+        } else {
+            hasEntriesBool = false;
+        }
     }
 
     void removeColumnByHeader(std::string header){
         if (hasHeader(header)) {
+            setBoolEntries();
             size_t index = findColumnIndex(_table, header);
             removeColumnByIndex(index);
         }
@@ -185,6 +198,19 @@ public:
         _table = filteredTab; // Replace the original table with the filtered results
     }
 
+    static table transpose(table tab){
+        if (tab.empty()) return tab;
+        table result;
+        for (size_t i = 0; i < tab[0].size(); ++i) {
+            vector<string> row;
+            for (size_t j = 0; j < tab.size(); ++j) {
+                row.push_back(tab[j][i]);
+            }
+            result.push_back(row);
+        }
+        return result;
+    }
+
     table getTable() {
         removeDuplicateEntires(_table);
         return _table;
@@ -204,6 +230,22 @@ public:
         } catch (std::runtime_error& e){
             return {};
         }
+    }
+
+    std::vector<std::string> getDistinctColumn(int idx){
+      try {
+        if (_table.empty()) return {};
+        if (idx < 0 || idx >= _table[0].size()) return {};
+        std::vector<std::string> result;
+        for (size_t i = 1; i < _table.size(); ++i) {
+          result.push_back(_table[i][idx]);
+        }
+        std::sort(result.begin(), result.end());
+        result.erase(std::unique(result.begin(), result.end()), result.end());
+        return result;
+      } catch (std::runtime_error& e){
+        return {};
+      }
     }
 
     std::vector<std::vector<std::string>> getDistinctColumns(std::vector<std::string> colNames) {
