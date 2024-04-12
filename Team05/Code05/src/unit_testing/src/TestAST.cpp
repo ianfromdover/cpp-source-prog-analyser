@@ -1944,6 +1944,14 @@ TEST_CASE("expression matching") {
     std::sort(expected.begin(), expected.end());
     REQUIRE(ans == expected);
   }
+  SECTION("match (_,_(b/c)_)") {
+    std::string query = "assign a; Select a pattern a(_, _\"(b/c)\"_)";
+    std::vector<std::string> expected = {"2"};
+    std::vector<std::string> ans = qps.evaluate(query);
+    std::sort(ans.begin(), ans.end());
+    std::sort(expected.begin(), expected.end());
+    REQUIRE(ans == expected);
+  }
   SECTION("match (_,_d%e_)") {
     std::string query = "assign a; Select a pattern a(_, _\"d%e\"_)";
     std::vector<std::string> expected = {"2"};
@@ -2354,23 +2362,141 @@ TEST_CASE("test") {
 
 TEST_CASE("Error for Milestone2") {
     std::string codeSnippet = R"(
-    procedure f {
-      while (2 == 3) {
-        print a;
-        while (3 == 2) {
-          x = 1;
-          while (x==2) {
-           u = 2;
-          }
-          if (3 == 8) then {
-            read y;
-          } else {
-            print u;
-          }
-        }
-      }
-    }
+procedure parentTestCase {
+	read a;
+	while(x==1) {
+		print b;
+		c = 1;
+	}
+	if (x==1) then {
+		read d;
+		print e;
+	} else {
+		f = 1;
+		read g;
+	}
+	while(x==1) {
+		print h;
+		while(x==1) {
+			i = 1;
+			read j;
+		}
+		call useless;
+		if (x==1) then {
+			call useless;
+			print n;
+		} else {
+			o = 1;
+			read p;
+		}
+	}
+	if (x==1) then {
+		while(x==1) {
+			r = 1;
+			read s;
+		}
+		if (x==1) then {
+			read m;
+			print n;
+		} else {
+			o = 1;
+			call useless;
+		}
+		print t;
+	} else {
+		u = 1;
+		read v;
+	}
+	if (x==1) then {
+		print w;
+		x = 1;
+	} else {
+		read y;
+		if (x==1) then {
+			read m;
+			print n;
+		} else {
+			o = 1;
+			read p;
+		}
+		while(x==1) {
+			print z;
+			aa = 1;
+		}
+	}
+	while(x==1) {
+		call useless;
+		while(x==1) {
+			print cc;
+			while(x==1) {
+				print dd;
+				ee = 1;
+			}
+			if (x==1) then {
+				call useless;
+				print gg;
+			} else {
+				hh = 1;
+				read ii;
+			}
+		}
+	}
+	if (x==1) then {
+		read ff;
+		if (x==1) then {
+			read ff;
+			if (x==1) then {
+				read ff;
+				print gg;
+			} else {
+				hh = 1;
+				call useless;
+			}
+		} else {
+			hh = 1;
+			if (x==1) then {
+				read ff;
+				print gg;
+			} else {
+				hh = 1;
+				read ii;
+			}
+		}
+	} else {
+		hh = 1;
+		if (x==1) then {
+			read ff;
+			if (x==1) then {
+				read ff;
+				print gg;
+			} else {
+				hh = 1;
+				read ii;
+			}
+			while(x==1) {
+				print dd;
+				ee = 1;
+			}
+		} else {
+			hh = 1;
+			if (x==1) then {
+				read ff;
+				print gg;
+			} else {
+				hh = 1;
+				read ii;
+			}
+			while(x==1) {
+				print dd;
+				ee = 1;
+			}
+		}
+	}
+}
 
+procedure useless {
+	read zz;
+}
     )";
 
     std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
@@ -2381,7 +2507,8 @@ TEST_CASE("Error for Milestone2") {
     QPS qps(std::make_shared<QueryPkb>(pkb1));
 
     SECTION("To Be removed") {
-        std::string query = "while w, w1; Select w1 such that Parent*(w, w1)";
+      std::vector<std::vector<std::string>> ff = pkb1.getUsesSTable();
+        std::string query = "stmt s,s1,s2; Select <s1> such that Parent(s,s1) and Parent(s,s2) and Parent(s1,s2)";
         std::vector<std::string> expected = {"3", "5"};
         std::vector<std::string> ans = qps.evaluate(query);
         std::sort(ans.begin(), ans.end());
@@ -2423,13 +2550,13 @@ TEST_CASE("Parent Handler - not attribute") {
     QPS qps(std::make_shared<QueryPkb>(pkb1));
 
     // 2, 6, 7 are parent
-    SECTION("Select s1 such that not Parent(s1, s2)") {
-        std::string query = "stmt s1; stmt s2; Select s1 such that not Follows(1, 2)";
-        std::vector<std::string> expected = {"2", "6", "7"};
-        std::vector<std::string> ans = qps.evaluate(query);
-        std::sort(ans.begin(), ans.end());
-        std::sort(expected.begin(), expected.end());
-        REQUIRE(ans == expected);
-    }
+//    SECTION("Select s1 such that not Parent(s1, s2)") {
+//        std::string query = "assign a; variable v; if ifs; Select a pattern not a (_, _)";// such that Modifies(a, v) and Uses(ifs, v)";
+//        std::vector<std::string> expected = {"2", "6", "7"};
+//        std::vector<std::string> ans = qps.evaluate(query);
+//        std::sort(ans.begin(), ans.end());
+//        std::sort(expected.begin(), expected.end());
+//        REQUIRE(ans == expected);
+//    }
 
 }

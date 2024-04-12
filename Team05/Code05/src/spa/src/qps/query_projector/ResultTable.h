@@ -35,12 +35,12 @@ public:
 
     void add(const table& a){
         if (_table.empty()){
-            _table = removeDuplicateColumn(a); // TODO: remove 'removeDuplicateColumn' after pkb patch
+            _table = a;
         } else if (!a.empty() && !a[0].empty() && a[0][0] == HEADER_SPECIAL_ALL_RESULTS) {
             isAllResults = true;
             return; // is a special table that escapes joining as it is every possible result.
         } else {
-            _table = joinOrCrossProduct(removeDuplicateColumn(_table), a);
+            _table = joinOrCrossProduct(_table, a);
             removeDuplicateEntires(_table);
         }
     }
@@ -60,11 +60,6 @@ public:
         std::sort(headers.begin(), headers.end());
         auto last = std::unique(headers.begin(), headers.end());
         return last != headers.end();
-    }
-
-    table removeDuplicateColumn(table t){
-
-        return t;
     }
 
     void filterByColumnPartial(const string& header, const string& patternStr) {

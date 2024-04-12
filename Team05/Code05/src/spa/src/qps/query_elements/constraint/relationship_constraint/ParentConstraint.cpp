@@ -64,13 +64,7 @@ Table ParentConstraint::getTable(QueryPkbVirtual & pkb) {
         table.add(entityTableResult.getTable());
     }
 
-//    if (lhsHeader == HEADER_PARENTLHS){
-//        table.removeColumnByHeader(lhsHeader);
-//    }
-//    if (rhsHeader == HEADER_PARENTRHS){
-//        table.removeColumnByHeader(rhsHeader);
-//    }
-    removeHeaders({HEADER_PARENTLHS, HEADER_PARENTRHS}, make_shared<ResultTable>(table));
+    removeHeaders(make_shared<ResultTable>(table));
 
     return table.getTable();
 }

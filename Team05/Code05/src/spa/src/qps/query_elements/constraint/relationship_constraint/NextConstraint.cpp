@@ -73,13 +73,7 @@ Table NextConstraint::getTable(QueryPkbVirtual & pkb) {
         table.add(entityTableResult.getTable());
     }
 
-//    if (lhsHeader == HEADER_NEXTLHS){
-//        table.removeColumnByHeader(lhsHeader);
-//    }
-//    if (rhsHeader == HEADER_NEXTRHS){
-//        table.removeColumnByHeader(rhsHeader);
-//    }
-    removeHeaders({HEADER_NEXTLHS, HEADER_NEXTRHS}, make_shared<ResultTable>(table));
+    removeHeaders(make_shared<ResultTable>(table));
 
     return table.getTable();
 }

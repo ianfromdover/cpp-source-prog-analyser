@@ -71,7 +71,7 @@ Table AffectsConstraint::getTable(QueryPkbVirtual & pkb) {
         table.filterByColumnValues(rhsHeader, intVals);
     }
 
-    removeHeaders({HEADER_AFFECTSLHS, HEADER_AFFECTSRHS}, make_shared<ResultTable>(table));
+    removeHeaders(make_shared<ResultTable>(table));
 
     return table.getTable();
 }

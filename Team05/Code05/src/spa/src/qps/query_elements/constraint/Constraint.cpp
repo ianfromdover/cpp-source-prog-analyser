@@ -49,3 +49,9 @@ void Constraint::removeHeaders(std::vector<std::string> toRemove, shared_ptr<Res
         table->removeColumnByHeader(s);
     }
 }
+
+void Constraint::removeHeaders(shared_ptr<ResultTable> table) {
+  for (std::string s : defaultHeaders) {
+    table->removeColumnByHeader(s);
+  }
+}

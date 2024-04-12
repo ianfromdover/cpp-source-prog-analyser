@@ -83,7 +83,7 @@ Table NextTConstraint::getTable(QueryPkbVirtual & pkb) {
         table.add(entityTableResult.getTable());
     }
 
-    removeHeaders({HEADER_NEXTTLHS, HEADER_NEXTTRHS}, make_shared<ResultTable>(table));
+    removeHeaders(make_shared<ResultTable>(table));
 
     return table.getTable();
 }
