@@ -5,6 +5,7 @@
 #ifndef SPA_VAROCCURRENCE_H
 #define SPA_VAROCCURRENCE_H
 
+#include <memory>
 #include <string>
 #include <utility>
 #include "common/SpaTypes.h"
