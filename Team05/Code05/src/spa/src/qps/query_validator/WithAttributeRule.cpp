@@ -11,6 +11,9 @@ std::string WithAttributeRule::validate(IntermediateQuery & query) {
      checkArgument(cl->getSecondArgType(), cl->getSecondArgAttribute(), cl->getSecondArg(), synonymTypeMap)) {
       return VALIDATION_RULE_WITH_ATTRIBUTE;
     }
+    if (checkComparison(*cl)){
+      return VALIDATION_RULE_WITH_ATTRIBUTE;
+    }
   }
 
   if (query.hasSelectClause()) {
@@ -43,6 +46,18 @@ bool WithAttributeRule::checkArgument(QPSTokenType::QPSTypeInfo type, QPSTokenTy
   return false;
 }
 
-bool WithAttributeRule::checkSelectCl(){
-  return true;
+bool WithAttributeRule::checkComparison(WithClause& cl){
+
+  QPSTokenType::QPSTypeInfo firstType = cl.getFirstArgType() == QPSTokenType::QPSTypeInfo::ATTR_REF ? cl.getFirstArgAttribute() : cl.getFirstArgType();
+  QPSTokenType::QPSTypeInfo secondType = cl.getSecondArgType() == QPSTokenType::QPSTypeInfo::ATTR_REF ? cl.getSecondArgAttribute() : cl.getSecondArgType();
+
+  if (dataType.find(firstType) == dataType.end() || dataType.find(secondType) == dataType.end()){
+    throw QPSException("Invalid data type");
+  }
+  if (dataType.find(firstType)->second != dataType.find(secondType)->second){
+    return true;
+  }
+
+  return false;
 }
+

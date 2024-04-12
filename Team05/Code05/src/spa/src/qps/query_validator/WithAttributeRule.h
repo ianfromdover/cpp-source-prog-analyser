@@ -23,12 +23,21 @@ class WithAttributeRule : public Rule {
       {QType::WHILE, {QType ::WITHSTMT}},
       {QType::IF, {QType ::WITHSTMT}},
       {QType::ASSIGN, {QType ::WITHSTMT}},
-
   };
-  bool checkSelectCl();
+
+  std::map<QType, std::string> dataType = {
+      {QType::WITHPROCNAME, WITHNAME},
+      {QType::WITHVARNAME, WITHNAME},
+      {QType::QUOTED_IDENT, WITHNAME},
+      {QType::WITHSTMT, WITHINT},
+      {QType::WITHVALUE, WITHINT},
+      {QType::INTEGER, WITHINT},
+  };
+
   bool checkArgument(QPSTokenType::QPSTypeInfo type,
                      QPSTokenType::QPSTypeInfo attrType, QPSToken arg,
                      map<string, QPSTokenType::QPSTypeInfo> synonymTypeMap);
+  bool checkComparison(WithClause &cl);
 };
 
 #endif // SPA_WITHATTRIBUTERULE_H
