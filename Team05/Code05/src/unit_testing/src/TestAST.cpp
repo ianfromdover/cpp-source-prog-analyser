@@ -1421,6 +1421,15 @@ TEST_CASE("Calls relationship"){
     QueryPkb pkb1(p);
     QPS qps(std::make_shared<QueryPkb>(pkb1));
 
+    SECTION("ss"){
+      std::string query = "procedure p; Select p with not p.procName = \"f1\"";
+      std::vector<std::string> expected  = {"f", "f2"};
+      std::vector<std::string> ans = qps.evaluate(query);
+      std::sort(ans.begin(), ans.end());
+      std::sort(expected.begin(), expected.end());
+      REQUIRE(ans==expected);
+    }
+
     SECTION("procedure p; Select p such that Calls(_, _)") {
         std::string query = "procedure p; Select p such that Calls(_, _)";
         std::vector<std::string> expected  = {"f", "f1", "f2"};

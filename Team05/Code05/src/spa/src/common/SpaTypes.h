@@ -57,6 +57,10 @@
 #define CONSTRAINT_TYPE_NEXTT "NextT"
 #define CONSTRAINT_TYPE_AFFECTS "Affects"
 
+// With clause data types
+#define WITHNAME "NAME"
+#define WITHINT "INTEGER"
+
 // Used for hashing
 #define CONSTRAINT_TYPE_PATTERN_ASGN "PatternAsgn"
 #define CONSTRAINT_TYPE_PATTERN_IF "PatternIf"

@@ -19,7 +19,7 @@ std::vector<std::string> VariableWith::getArgumentValue() {
 // column that returns value based on SELECT should be synonym name
 // return columns of tables are {statement number, synonym name}
 std::vector<std::string> VariableWith::getHeadersForTable() {
-    std::set<std::string> returnSynName = {TYPE_VARIABLE, TYPE_PROCEDURE};
+    std::set<std::string> returnSynName = {TYPE_VARIABLE, TYPE_PROCEDURE, TYPE_CONSTANT};
     std::string currType = this->variable->getEntityType();
     if (returnSynName.find(currType) == returnSynName.end()) {
         // not inside the set
