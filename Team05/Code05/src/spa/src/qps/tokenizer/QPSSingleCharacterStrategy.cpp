@@ -20,15 +20,15 @@ bool QPSSingleCharacterStrategy::tokenize(char character, std::stringstream &str
             break;
         case '(' :
             type = QPSTokenType::LEFT_PAREN;
-            if (!tokens.getTokens().empty()){
-              QPSTokenType::QPSTypeInfo prevType = tokens.getTokens().back()->getType().getInfo();
-
-              if (relationshipKeywords.find(prevType) == relationshipKeywords.end()) {
-                std::string s = tokens.getTokens().back()->getLexeme();
-                tokens.getTokens().pop_back();
-                tokens.addToken(QPSTokenType::IDENTIFIER, s);
-              }
-            }
+//            if (!tokens.getTokens().empty()){
+//              QPSTokenType::QPSTypeInfo prevType = tokens.getTokens().back()->getType().getInfo();
+//
+//              if (relationshipKeywords.find(prevType) == relationshipKeywords.end()) {
+//                std::string s = tokens.getTokens().back()->getLexeme();
+//                tokens.getTokens().pop_back();
+//                tokens.addToken(QPSTokenType::IDENTIFIER, s);
+//              }
+//            }
             break;
         case ')' :
             type = QPSTokenType::RIGHT_PAREN;

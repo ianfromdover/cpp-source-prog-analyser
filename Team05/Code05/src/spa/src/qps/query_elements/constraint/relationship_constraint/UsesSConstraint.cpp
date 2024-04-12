@@ -83,7 +83,7 @@ Table UsesSConstraint::getTable(QueryPkbVirtual &pkb) {
 
 bool UsesSConstraint::isStatementSynonym(std::string type) {
     vector<std::string> statementVector = {
-            TYPE_STATEMENT, TYPE_PRINT, TYPE_ASSIGN,
+            TYPE_STATEMENT, TYPE_PRINT, TYPE_ASSIGN, TYPE_READ,
             TYPE_CALL, TYPE_WHILE, TYPE_IF
     };
     return std::find(statementVector.begin(), statementVector.end(), type) != statementVector.end();
