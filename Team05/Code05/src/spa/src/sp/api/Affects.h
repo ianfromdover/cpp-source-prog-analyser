@@ -27,6 +27,7 @@ private:
     Uses currentCFGUses;
 private:
     void compute(const std::shared_ptr<CFG>& cfg);
+    void updateDefUseChain(const std::shared_ptr<CFG>& cfg, const std::unordered_map<std::shared_ptr<Block>, DefinitionSet>& in);
     static DefinitionSet computeKillSet(const DefinitionSet& in, const DefinitionSet& gen);
     static void computeSetDifference(DefinitionSet& minuend, const DefinitionSet& subtrahend);
 public:

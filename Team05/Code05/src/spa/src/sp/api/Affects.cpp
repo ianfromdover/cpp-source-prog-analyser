@@ -40,6 +40,7 @@ DefinitionSet Affects::computeKillSet(const DefinitionSet &in, const DefinitionS
     }
 
     for (const auto& def : in) {
+        // TODO: Can there be more than one "in" to kill?
         if (genNames.find(def->getName()) != genNames.end()) {
             kill.insert(def);
         }
@@ -56,10 +57,61 @@ void Affects::computeSetDifference(DefinitionSet &minuend, const DefinitionSet &
 }
 
 void Affects::compute(const std::shared_ptr<CFG>& cfg) {
-    // TODO: Figure out how to populate def-use chain (especially if CFGs are incrementally analyzed across get calls).
-
     std::tie(this->currentCFGDefinitions, this->currentCFGUses) = this->extractor.extract(cfg);
     const auto [in, out] = Solver<DefinitionSet>::solve(cfg, this->meet, this->transfer, DefinitionSet());
+    this->updateDefUseChain(cfg, in);
+}
+
+void Affects::updateDefUseChain(const std::shared_ptr<CFG>& cfg, const std::unordered_map<std::shared_ptr<Block>, DefinitionSet>& in) {
+    auto& defUseChain = this->defUseChainMap[cfg->getProcedureName()];
+    for (const auto& block : *cfg->getBlocks()) {
+        const auto& reachingDefs = in.at(block);
+        const auto& blockDefs = this->currentCFGDefinitions.at(block);
+        const auto& blockUses = this->currentCFGUses.at(block);
+
+        for (const auto& use : blockUses) {
+            std::vector<StmtNo> reachingStmtNos;
+            for (const auto& def : reachingDefs) {
+                if (def->getName() == use->getName()) {
+                    reachingStmtNos.push_back(def->getOccurrences()->back());
+                }
+            }
+
+            std::optional<std::shared_ptr<VarOccurrence>> blockDef;
+            for (const auto& def : blockDefs) {
+                if (def->getName() == use->getName()) {
+                    blockDef = def;
+                    break;
+                }
+            }
+
+            if (reachingStmtNos.empty() && !blockDef) {
+                continue;
+            }
+
+            for (const auto& useStmtNo : *use->getOccurrences()) {
+                if (!reachingStmtNos.empty() && (!blockDef || useStmtNo <= (*blockDef)->getOccurrences()->front())) {
+                    for (const auto defStmtNo : reachingStmtNos) {
+                        defUseChain[defStmtNo].insert(useStmtNo);
+                    }
+                    continue;
+                }
+
+                std::optional<StmtNo> blockDefStmtNo;
+                for (const auto defStmtNo : *(*blockDef)->getOccurrences()) {
+                    if (defStmtNo < useStmtNo) {
+                        blockDefStmtNo = defStmtNo;
+                        continue;
+                    }
+                    break;
+                }
+
+                if (blockDefStmtNo) {
+                    defUseChain[*blockDefStmtNo].insert(useStmtNo);
+                }
+            }
+        }
+    }
 }
 
 bool Affects::get(StmtNo s1, StmtNo s2) {

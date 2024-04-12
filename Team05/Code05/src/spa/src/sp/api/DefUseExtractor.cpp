@@ -66,7 +66,7 @@ std::pair<Definitions, Uses> DefUseExtractor::generateDefUsePair(const std::shar
 }
 
 void DefUseExtractor::addToBlockVarOccurrencesMap(BlockVarOccurrencesMap& map, const std::string& name, StmtNo stmtNo) {
-    auto& blockMap = map.at(this->currentBlock);
+    auto& blockMap = map[this->currentBlock];
     auto result = blockMap.emplace(name, std::make_shared<VarOccurrence>(name));
     result.first->second->addOccurrence(stmtNo);
 }
