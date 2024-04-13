@@ -13,8 +13,7 @@
 
 /**
  * @brief A double-sided map for O(1) retrieval of elements that have Many-Many relations.
- * Used for tables in the PKB. Does not support storage of classes, structs or pointers,
- * and behaviour is not tested for T, as they need to have an overloaded std::to_string defined.
+ * Used for tables in the PKB.
  *
  * @tparam A The type of the keys. Can only be int or std::string.
  * @tparam B The type of the values. Can only be int or std::string.
@@ -22,8 +21,8 @@
 template<typename A, typename B>
 class PkbTable {
 public:
-    std::unordered_map<A, std::set<std::shared_ptr<B>>> forwardMap; // TODO: print out addr to see if ptr is pointing to the key objects
-    std::unordered_map<B, std::set<std::shared_ptr<A>>> backwardMap; // TODO: change to weak_ptr to prevent memory leak
+    std::unordered_map<A, std::set<std::shared_ptr<B>>> forwardMap;
+    std::unordered_map<B, std::set<std::shared_ptr<A>>> backwardMap;
 
     // Check if a key exists in the forwardMap.
     bool containsKey(A key);
