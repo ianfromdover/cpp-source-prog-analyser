@@ -1,14 +1,11 @@
+#include "catch.hpp"
 //
 // Created by yewme on 9/4/2024.
 //
 
-#include "catch.hpp"
 #include "pkb/apis/QueryPkb.h"
 #include "common/TableUtils.h"
 #include <memory>
-
-//std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
-//QueryPkb queryPkb(pkb);
 
 TEST_CASE("Test TableUtils::isPresent testing helper function") {
 
@@ -286,10 +283,6 @@ TEST_CASE("Test QueryPkb getStmt methods") {
     // Add records to stmtTable
     pkb->statementTable->addFinalStatementNo(4); // bracket, not counted in stmts
 
-//    SECTION("Test getStmtByNum() method") {
-//
-//    }
-
     SECTION("Test getStmtTable() method") {
 
         // Retrieve stmtTable and verify its contents
@@ -312,14 +305,6 @@ TEST_CASE("Test QueryPkb getVar methods") {
     pkb->varTable->add(4, "x");
     pkb->varTable->add(5, "z");
 
-//    SECTION("Test getVarByName() method") {
-//
-//    }
-
-//    SECTION("Test getVarByNum() method") {
-//
-//    }
-
     SECTION("Test getVarTable() method") {
 
         // Retrieve procTable and verify its contents
@@ -340,10 +325,6 @@ TEST_CASE("Test QueryPkb getConst methods") {
     pkb->constTable->add(1, 4);
     pkb->constTable->add(2, 2);
     pkb->constTable->add(3, 0);
-
-//    SECTION("Test getConstByNum() method") {
-//
-//    }
 
     SECTION("Test getConstTable() method") {
 
@@ -560,22 +541,6 @@ TEST_CASE("Test QueryPkb getUsesP methods") {
     pkb->usesPTable->add("proc2", "y");
     pkb->usesPTable->add("proc2", "z");
 
-//    SECTION("Test getUsesPByProc() method") {
-//
-//        Table test = queryPkb.getUsesSByNum(4);
-//        REQUIRE(test.size() == 2);
-//        REQUIRE(TableUtils::isPresent(test, {{"y"}, {"z"}}));
-//
-//    }
-//
-//    SECTION("Test getUsesPByVar() method") {
-//
-//        Table test = queryPkb.getUsesSByVar("y");
-//        REQUIRE(test.size() == 2);
-//        REQUIRE(TableUtils::isPresent(test, {{"2"}, {"4"}}));
-//
-//    }
-
     SECTION("Test getUsesPTable() method") {
 
         // Retrieve usesPTable and verify its contents
@@ -691,10 +656,6 @@ TEST_CASE("Test QueryPkb getPatternIf methods") {
 
     std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
     QueryPkb queryPkb(pkb);
-
-    // 1 x, 2 y, 3 z, 4 y already in PKB from previous test case
-    // note: they will not be there if this method is run individually
-    // updated: init new pkb each test case, solves issue
 
     // Add records to patternIfTable
     pkb->patternIfTable->add(1, "x");
@@ -846,43 +807,3 @@ TEST_CASE("Test QueryPkb getNext methods") {
 
     }
 }
-
-
-/*
-TEST_CASE("Test QueryPkb getNextT methods") {
-
-std::shared_ptr<PkbStorage> pkb = std::make_shared<PkbStorage>();
-QueryPkb queryPkb(pkb);
-
-// Add records to nextTTable
-pkb->nextTTable->add(1, 2);
-pkb->nextTTable->add(2, 3);
-pkb->nextTTable->add(2, 4);
-pkb->nextTTable->add(1, 4);
-
-SECTION("Test getNextTByBefore() method") {
-
-    Table test = queryPkb.getNextTAfterByBefore(1);
-    REQUIRE(test.size() == 2);
-    REQUIRE(TableUtils::isPresent(test, {{"2"}, {"4"}}));
-
-}
-
-SECTION("Test getNextTByAfter() method") {
-
-    Table test = queryPkb.getNextTBeforeByAfter(4);
-    REQUIRE(test.size() == 2);
-    REQUIRE(TableUtils::isPresent(test, {{"1"}, {"2"}}));
-
-}
-
-SECTION("Test getNextTTable() method") {
-
-    // Retrieve nextTTable and verify its contents
-    Table nextTTable = queryPkb.getNextTTable();
-    REQUIRE(nextTTable.size() == 4);
-    REQUIRE(TableUtils::isPresent(nextTTable, {{"1", "2"}, {"2", "3"}, {"1", "4"}, {"2", "4"}}));
-
-}
-}
- */

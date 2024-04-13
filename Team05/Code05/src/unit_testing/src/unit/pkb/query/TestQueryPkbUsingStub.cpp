@@ -92,7 +92,7 @@ TEST_CASE("Test QueryPkb getPrint methods using stub") {
 
     // Add records to printTable stub
     stub.setPrint({{"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "y"}, {"4", "z"}});
-    
+
     SECTION("Test getPrintTable() method") {
 
         // Retrieve printTable and verify its contents
@@ -123,14 +123,14 @@ TEST_CASE("Test QueryPkb getStmt methods using stub") {
 TEST_CASE("Test QueryPkb getVar methods using stub") {
 
     // Add records to varTable stub
-    stub.setPrint({{"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "y"}, {"5", "z"}});
+    stub.setVar({{"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "y"}, {"5", "z"}});
 
     SECTION("Test getVarTable() method") {
 
         // Retrieve procTable and verify its contents
         Table varTable = stub.getVarTable();
         REQUIRE(varTable.size() == 5);
-        REQUIRE(TableUtils::isPresent(varTable, {{"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "x"}, {"5", "z"}}));
+        REQUIRE(TableUtils::isPresent(varTable, {{"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "y"}, {"5", "z"}}));
 
     }
 }
@@ -155,7 +155,7 @@ TEST_CASE("Test QueryPkb getConst methods using stub") {
 TEST_CASE("Test QueryPkb getFollows methods using stub") {
 
     // Add records to followsTable stub
-    stub.setFollows({{"1", "2"}, {"2", "3"}, {"3", "4"}, {"4", "y"}, {"4", "z"}});
+    stub.setFollows({{"1", "2"}, {"2", "3"}, {"3", "4"}});
 
     SECTION("Test getFollowsTable() method") {
 
@@ -268,7 +268,7 @@ TEST_CASE("Test QueryPkb getModifiesS methods using stub") {
 TEST_CASE("Test QueryPkb getModifiesP methods using stub") {
 
     // Add records to modifiesPTable stub
-    stub.setModifiesP({{"proc1", "x"}, {"proc1", "y"}, {"proc2", "z"}, {"proc2", "y"}, {"proc2", "z"}});
+    stub.setModifiesP({{"proc1", "x"}, {"proc1", "y"}, {"proc1", "z"}, {"proc2", "y"}, {"proc2", "z"}});
 
     SECTION("Test getModifiesPTable() method") {
 

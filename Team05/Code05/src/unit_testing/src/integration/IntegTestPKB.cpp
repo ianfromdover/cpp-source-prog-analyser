@@ -1,10 +1,3 @@
-// include "sp/yourClass.h"
-// include "sp/yourClass.cpp"
-// include "pkb/yourClass.h"
-// include "pkb/yourClass.cpp"
-// include "qps/yourClass.h"
-// include "qps/yourClass.cpp"
-
 #include "catch.hpp"
 #include "pkb/apis/PkbStorage.h"
 #include "pkb/apis/PopulatePkb.h"
