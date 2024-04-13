@@ -71,7 +71,9 @@ std::size_t WhilePatternConstraint::hash() const {
 Table WhilePatternConstraint::getTableWithDefaultHeadersFromPkb(QueryPkbVirtual &pkb) {
     auto t = pkb.getPatternWhileTable();
     t.insert(t.begin(), getDefaultHeaders());
-    return t;
+    ResultTable r(t);
+    r.removeColumnByIndex(1);
+    return r.getTable();
 }
 
 vector<string> WhilePatternConstraint::getDefaultHeaders() {

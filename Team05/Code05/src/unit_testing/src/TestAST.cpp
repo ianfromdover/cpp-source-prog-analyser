@@ -2762,3 +2762,100 @@ TEST_CASE("Parent Handler - not attribute") {
 //    }
 
 }
+
+//TEST_CASE("next extraction") {
+//  std::string codeSnippet =
+//      "procedure First {\n"
+//      "    read x; \n"                          // 1
+//      "    read z;\n"                           // 2
+//      "    call Second;\n"                      // 3
+//      "}\n"
+//      "\n"
+//      "procedure Second {\n"
+//      "    x = 0;\n"                            // 4
+//      "    i = 5;\n"                            // 5
+//      "    while (i != 0) {\n"                  // 6
+//      "        x = x + 2 * y;\n"                // 7
+//      "        call Third;\n"                   // 8
+//      "        i = i - 1;\n"                    // 9
+//      "    }\n"
+//      "    if (x == 1) then {\n"                // 10
+//      "        x = x + 1;\n"                    // 11
+//      "    } else {\n"
+//      "        z = 1;\n"                        // 12
+//      "    }\n"
+//      "    z = z + x + i;\n"                    // 13
+//      "    y = z + 2;\n"                        // 14
+//      "    x = x * y + z;\n"                    // 15
+//      "}\n"
+//      "\n"
+//      "procedure Third {\n"
+//      "    z = 5;\n"                            // 16
+//      "    v = z;\n"                            // 17
+//      "    print v;\n"                          // 18
+//      "    while (x > Y) {\n"                   // 19
+//      "        print z;\n"                      // 20
+//      "        if (0 < 1) then {\n"             // 21
+//      "            if (v % 2 == 0) then {\n"    // 22
+//      "                x = x + 1;\n"            // 23
+//      "            } else {\n"
+//      "                v = v - 1;\n"            // 24
+//      "            }\n"
+//      "            read x;\n"                   // 25
+//      "        } else {\n"
+//      "            x = x - 1;\n"                // 26
+//      "        }\n"
+//      "        if (z < x) then {\n"             // 27
+//      "            z = z + 1;\n"                // 28
+//      "        } else {\n"
+//      "            v = v + 1;\n"                // 29
+//      "        }\n"
+//      "    }\n"
+//      "}";
+//  std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
+//  auto pkb = make_shared<PopulatePkb>(p);
+//  auto sp = SourceProcessor(pkb);
+//  sp.exec(codeSnippet);
+//  QueryPkb pkb1(p);
+//  QPS qps(std::make_shared<QueryPkb>(pkb1));
+//
+//  //?? not sure how to call
+//  //std::shared_ptr<Affects> affects = std::make_shared<Affects>(std::make_shared<CFGCollection>(program), pkb1);
+//  //std::shared_ptr<NextT> nextT = std::make_shared<NextT>(std::make_shared<CFGCollection>(program));
+//
+////  pkb->setAffectsObj(affects);
+////  pkb->setNextTObj(nextT);
+//
+//  SECTION("3002") {
+//    std::string query = "stmt s; Select s such that not Next(s,_)";
+//    std::vector<std::string> expected = {"3","15","28","29"};
+//    std::vector<std::string> ans = qps.evaluate(query);
+//    std::sort(ans.begin(), ans.end());
+//    std::sort(expected.begin(), expected.end());
+//    REQUIRE(ans == expected);
+//  }
+//  SECTION("30021") {
+//    std::string query = "stmt s; Select s such that Next(s,_)";
+//    std::vector<std::string> expected = {"1","2","4","5","6","7","8","9","10","11","12","13","14","16","17","18","19","20","21","22","23","24","25","26","27"};
+//    std::vector<std::string> ans = qps.evaluate(query);
+//    std::sort(ans.begin(), ans.end());
+//    std::sort(expected.begin(), expected.end());
+//    REQUIRE(ans == expected);
+//  }
+//  SECTION("4002") {
+//    std::string query = "stmt s; Select s such that not Next*(s,_)";
+//    std::vector<std::string> expected = {"3","15","28","29"};
+//    std::vector<std::string> ans = qps.evaluate(query);
+//    std::sort(ans.begin(), ans.end());
+//    std::sort(expected.begin(), expected.end());
+//    REQUIRE(ans == expected);
+//  }
+//  SECTION("40021") {
+//    std::string query = "stmt s; Select s such that Next*(s,_)";
+//    std::vector<std::string> expected = {"1","2","4","5","6","7","8","9","10","11","12","13","14","16","17","18","19","20","21","22","23","24","25","26","27"};
+//    std::vector<std::string> ans = qps.evaluate(query);
+//    std::sort(ans.begin(), ans.end());
+//    std::sort(expected.begin(), expected.end());
+//    REQUIRE(ans == expected);
+//  }
+//}

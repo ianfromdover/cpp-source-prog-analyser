@@ -71,7 +71,9 @@ std::size_t IfPatternConstraint::hash() const {
 Table IfPatternConstraint::getTableWithDefaultHeadersFromPkb(QueryPkbVirtual &pkb) {
     auto t = pkb.getPatternIfTable();
     t.insert(t.begin(), getDefaultHeaders());
-    return t;
+    ResultTable r(t);
+    r.removeColumnByIndex(1);
+    return r.getTable();
 }
 
 vector<string> IfPatternConstraint::getDefaultHeaders() {

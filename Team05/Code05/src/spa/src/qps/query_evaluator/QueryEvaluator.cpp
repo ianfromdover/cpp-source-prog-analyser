@@ -29,8 +29,12 @@ std::shared_ptr<Formattable> QueryEvaluator::evaluate(QueryObject & query) {
         // however, to increase computation efficiency, no table is added to resultTable
         // therefore, resultTable is empty if it is the first constraint.
         // this if block fixes this issue.
-        auto selectTable = select.getTable();
-        this->results.add(selectTable);
+        if (returnable->getReturnType() == RETURN_BOOL_RESULT) {
+            this->results.add({{HEADER_SPECIAL_ALL_RESULTS}});
+        } else {
+          auto selectTable = select.getTable();
+          this->results.add(selectTable);
+        }
     }
 
     // Store select clause result into select

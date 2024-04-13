@@ -34,16 +34,35 @@ Table PatternConstraint::getFullTable(QueryPkbVirtual &pkb){
     if (args.size() > 1) {
         rhsEntityType = args[1] -> getEntityType();
     }
+    ResultTable rt;
+    rt.add(getPatternConstraintIdentifier()->getEntityTable(pkb));
+    if (getPatternConstraintIdentifier()->getEntityType()==TYPE_ASSIGN) {
+      Table temp = rt.getTable();
+      temp.erase(temp.begin()); // erase header
+      Table temp1;
+      for (const auto &entry : temp) {
+        std::string stmtNo = entry[0];
+        std::string lhs = entry[1].substr(0, entry[1].find('='));
+        std::string rhs = entry[1].substr(entry[1].find('=') + 1);
+        temp1.push_back({stmtNo, lhs, rhs});
+      }
+      temp1.insert(temp1.begin(),
+                   {getPatternConstraintIdentifier()->getIdentifier(),
+                    HEADER_ASSIGNLHS, HEADER_ASSIGNRHS});
+      rt = ResultTable(temp1);
+    }
+    rt.removeAllColumnsExceptIndex(0);
 
     if (isStatementOrEntitySynonym(lhsEntityType) || isStatementOrEntitySynonym(rhsEntityType)) {
-        ResultTable t;
+
         if (isStatementOrEntitySynonym(lhsEntityType)) {
-            t.add(args[0]->getEntityTable(pkb));
+          rt.replaceHeader(1,args[0]->getArgumentValue()[0]);
+          rt.add(args[0]->getEntityTable(pkb));
         }
         if (isStatementOrEntitySynonym(rhsEntityType)) {
-            t.add(args[1]->getEntityTable(pkb));
+            rt.add(args[1]->getEntityTable(pkb));
         }
-        return t.getTable();;
+        return rt.getTable();;
     } else {
         return getTableWithDefaultHeadersFromPkb(pkb);
     }

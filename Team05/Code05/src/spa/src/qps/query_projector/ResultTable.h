@@ -33,6 +33,17 @@ public:
         return _table.empty();
     }
 
+    void replaceHeader(int idx, string newHeader){
+      if (idx < 0 || idx >= _table[0].size()) return;
+        _table[0][idx] = std::move(newHeader);
+    }
+
+    void replaceHeader(string oldHeader, string newHeader){
+      int idx = findColumnIndex(_table, oldHeader);
+      if (idx < 0) return;
+        _table[0][idx] = std::move(newHeader);
+    }
+
     void add(const table& a){
         if (!a.empty() && !a[0].empty() && a[0][0] == HEADER_SPECIAL_ALL_RESULTS) {
             isAllResults = true;
@@ -51,6 +62,7 @@ public:
     }
 
     bool hasEntries(){
+        if (isAllResults) return true;
         if (isEmpty()) return false;
         return _table.size() > 1;
     }
@@ -158,7 +170,7 @@ public:
     }
 
     void removeAllColumnsExceptIndex(int i){
-        for (int j = 0; j < _table[0].size(); ++j) {
+        for (int j = _table[0].size(); j >=0 ; --j) {
             if (j != i){
                 removeColumnByIndex(j);
             }
@@ -527,6 +539,7 @@ public:
         // check if rows with commonHeaders have same value, if it does not have same values, insert into result
         // start from i = 1, j = 1 to ignore the header
         for (int aRow = 1; aRow < a.size(); aRow ++) {
+            if (b.size()==1) result.push_back(a[aRow]);
             for (int bRow = 1; bRow < b.size(); bRow ++) {
                 if (isSameValuesBasedHeaderAndIndex(a, b, aRow, bRow, commonHeaders)) {
                     // same so we 'minus' them away and discard the value
