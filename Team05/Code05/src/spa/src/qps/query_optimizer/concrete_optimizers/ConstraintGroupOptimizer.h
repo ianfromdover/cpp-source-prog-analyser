@@ -83,11 +83,4 @@ public:
 
 };
 
-// TODO: create group clause function which will be able to group the clauses
-// create a vec<vec<constraints>>, each time there is no match of the synonym
-// keep a hashset of <index, synonyms> then if the synonyms is present in the
-// oh no need, just keep the hashset of stuff so that each entry just points to one index, then the index will be the index of the constraint vector
-// eg Follows(s1, s2) then key-value pair will be <s1, 0> and <s2, 0> then if Parent<s2, s3> then it will be grouped in the same index as the first one (index 0)
-// if new synonym found, increase the index field by one then assign the synonyms to the new index
-
 #endif //SPA_CONSTRAINTGROUPOPTIMIZER_H

@@ -32,10 +32,6 @@ public:
         optimizers.clear();
     }
 
-    void sortOptimizers() {
-        // TODO: how to determine which to do first?
-    }
-
     std::vector<std::unique_ptr<QueryOptimizer>>& getOptimizers() {
         return optimizers;
     }

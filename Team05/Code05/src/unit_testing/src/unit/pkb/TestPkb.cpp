@@ -702,8 +702,6 @@ TEST_CASE("Test QueryPkb getPatternIf methods") {
     pkb->patternIfTable->add(3, "z");
     pkb->patternIfTable->add(4, "y");
 
-    // TODO: Add the other get methods where necessary
-
     // Retrieve patternIfTable and verify its contents
     Table patternIfTable = queryPkb.getPatternIfTable();
     TableUtils::printTable(patternIfTable);
@@ -725,8 +723,6 @@ TEST_CASE("Test QueryPkb getPatternWhile methods") {
     // Add records to patternWhileTable
     pkb->patternWhileTable->add(1, "x");
     pkb->patternWhileTable->add(4, "y");
-
-    // TODO: Add the other get methods where necessary
 
     // Retrieve patternWhileTable and verify its contents
     Table patternWhileTable = queryPkb.getPatternWhileTable();

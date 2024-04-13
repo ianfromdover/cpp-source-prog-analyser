@@ -23,17 +23,11 @@ TEST_CASE("[IntegTestPKB] SP Integration") {
 }
 
 TEST_CASE("[IntegTestPKB] QPS Integration") {
-    // Initialize Stub for QPS
-    // TODO: shouldn't we use the actual components instead?
 
     std::shared_ptr<PkbStorage> p=std::make_shared<PkbStorage>();
     std::shared_ptr<PopulatePkb> pkb = make_shared<PopulatePkb>(p);
     QueryPkb pkb1 = QueryPkb(p);
     QPS qps = QPS(std::make_shared<QueryPkb>(pkb1));
-
-//    SECTION("Use Stub to test a feature") {
-//        REQUIRE(1 == 1);
-//    }
 
     SECTION("Test Follows") {
         pkb->addFinalStatementNo(1);
