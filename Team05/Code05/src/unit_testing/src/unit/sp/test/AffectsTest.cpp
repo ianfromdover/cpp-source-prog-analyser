@@ -59,6 +59,25 @@ TEST_CASE("Affects_TestWithoutControlFlow") {
         testAffects(source, tests);
     }
 
+    SECTION("Re-Definition By Read") {
+        const std::string source = R"(
+            procedure main {
+                x = 0;
+                x = x + 1;
+                read x;
+                x = x + 2;
+            }
+        )";
+
+        std::vector<Test> tests = {
+            Test({ 1, 2 }, true),
+            Test({ 1, 4 }, false),
+            Test({ 2, 4 }, false),
+        };
+
+        testAffects(source, tests);
+    }
+
     SECTION("Variable Shadowing") {
         const std::string source = R"(
             procedure main {
@@ -90,6 +109,21 @@ TEST_CASE("Affects_TestWithoutControlFlow") {
         std::vector<Test> tests = {
             Test({ 1, 1 }, false),
             Test({ 2, 2 }, false),
+        };
+
+        testAffects(source, tests);
+    }
+
+    SECTION("Undefined Use Doesn't Affect Anything") {
+        const std::string source = R"(
+            procedure main {
+                y = 1;
+                z = x + y + 1;
+            }
+        )";
+
+        std::vector<Test> tests = {
+            Test({ 1, 2 }, true),
         };
 
         testAffects(source, tests);
@@ -187,6 +221,335 @@ TEST_CASE("Affects_TestBadArguments") {
     }
 }
 
-TEST_CASE("Affects_TestWithControlFlow") {}
+TEST_CASE("Affects_TestWithControlFlow") {
+    SECTION("No Re-Definitions In If Statement") {
+        const std::string source = R"(
+            procedure main {
+                x = 0;
+                if (x == 0) then {
+                    print x;
+                } else {
+                    y = 1;
+                }
+                x = x + 1;
+            }
+        )";
+
+        std::vector<Test> tests = {
+            Test({ 1, 5 }, true),
+        };
+
+        testAffects(source, tests);
+    }
+
+    SECTION("Re-Definition In Then-Branch") {
+        const std::string source = R"(
+            procedure main {
+                x = 0;
+                if (x == 0) then {
+                    x = 1;
+                } else {
+                    y = 1;
+                }
+                x = x + 1;
+            }
+        )";
+
+        std::vector<Test> tests = {
+            Test({ 1, 5 }, true),
+            Test({ 3, 5 }, true),
+        };
+
+        testAffects(source, tests);
+    }
+
+    SECTION("Re-Definition In Else-Branch") {
+        const std::string source = R"(
+            procedure main {
+                x = 0;
+                if (x == 0) then {
+                    y = 1;
+                } else {
+                    x = 1;
+                }
+                x = x + 1;
+            }
+        )";
+
+        std::vector<Test> tests = {
+            Test({ 1, 5 }, true),
+            Test({ 4, 5 }, true),
+        };
+
+        testAffects(source, tests);
+    }
+
+    SECTION("Re-Definition In Both Branches") {
+        const std::string source = R"(
+            procedure main {
+                x = 0;
+                if (x == 0) then {
+                    x = 1;
+                } else {
+                    x = 2;
+                }
+                x = x + 1;
+            }
+        )";
+
+        std::vector<Test> tests = {
+            Test({ 1, 5 }, false),
+            Test({ 3, 5 }, true),
+            Test({ 4, 5 }, true),
+        };
+
+        testAffects(source, tests);
+    }
+
+    SECTION("Independence Of Branches") {
+        const std::string source = R"(
+            procedure main {
+                x = 0;
+                if (x == 0) then {
+                    x = x + 1;
+                } else {
+                    x = x + 2;
+                }
+            }
+        )";
+
+        std::vector<Test> tests = {
+            Test({ 1, 3 }, true),
+            Test({ 1, 4 }, true),
+            Test({ 3, 4 }, false),
+        };
+
+        testAffects(source, tests);
+    }
+
+    SECTION("Shadowing In Branch") {
+        const std::string source = R"(
+            procedure main {
+                x = 0;
+                if (x == 0) then {
+                    x = 1;
+                    x = 2;
+                } else {
+                    x = 2;
+                }
+                x = x + 1;
+            }
+        )";
+
+        std::vector<Test> tests = {
+            Test({ 1, 6 }, false),
+            Test({ 3, 6 }, false),
+            Test({ 4, 6 }, true),
+            Test({ 5, 6 }, true),
+        };
+
+        testAffects(source, tests);
+    }
+
+    SECTION("Read In Then-Branch") {
+        const std::string source = R"(
+            procedure main {
+                x = 0;
+                if (x == 0) then {
+                    read x;
+                    x = x + 1;
+                } else {
+                    x = x + 2;
+                }
+                x = x + 1;
+            }
+        )";
+
+        std::vector<Test> tests = {
+            Test({ 1, 4 }, false),
+            Test({ 1, 5 }, true),
+            Test({ 1, 6 }, false),
+            Test({ 4, 6 }, true),
+            Test({ 5, 6 }, true),
+        };
+
+        testAffects(source, tests);
+    }
+
+    SECTION("Read In Else-Branch") {
+        const std::string source = R"(
+            procedure main {
+                x = 0;
+                if (x == 0) then {
+                    x = x + 1;
+                } else {
+                    read x;
+                    x = x + 2;
+                }
+                x = x + 1;
+            }
+        )";
+
+        std::vector<Test> tests = {
+            Test({ 1, 3 }, true),
+            Test({ 1, 5 }, false),
+            Test({ 1, 6 }, false),
+            Test({ 3, 6 }, true),
+            Test({ 5, 6 }, true),
+        };
+
+        testAffects(source, tests);
+    }
+
+    SECTION("Read In Both Branches") {
+        const std::string source = R"(
+            procedure main {
+                x = 0;
+                if (x == 0) then {
+                    read x;
+                    x = x + 1;
+                } else {
+                    read x;
+                    x = x + 2;
+                }
+                x = x + 1;
+            }
+        )";
+
+        std::vector<Test> tests = {
+            Test({ 1, 4 }, false),
+            Test({ 1, 6 }, false),
+            Test({ 1, 7 }, false),
+            Test({ 4, 7 }, true),
+            Test({ 6, 7 }, true),
+        };
+
+        testAffects(source, tests);
+    }
+
+    SECTION("Definition Matches Use In Then-Branch") {
+        const std::string source = R"(
+            procedure main {
+                x = 0;
+                if (x == 0) then {
+                    x = x + 1;
+                } else {
+                    y = 1;
+                }
+                x = x + 1;
+            }
+        )";
+
+        std::vector<Test> tests = {
+            Test({ 1, 3 }, true),
+            Test({ 1, 5 }, true),
+            Test({ 3, 5 }, true),
+        };
+
+        testAffects(source, tests);
+    }
+
+    SECTION("Definition Matches Use In Else-Branch") {
+        const std::string source = R"(
+            procedure main {
+                x = 0;
+                if (x == 0) then {
+                    y = 1;
+                } else {
+                    x = x + 1;
+                }
+                x = x + 1;
+            }
+        )";
+
+        std::vector<Test> tests = {
+            Test({ 1, 4 }, true),
+            Test({ 1, 5 }, true),
+            Test({ 4, 5 }, true),
+        };
+
+        testAffects(source, tests);
+    }
+
+    SECTION("Definition Matches Use In Both Branches") {
+        const std::string source = R"(
+            procedure main {
+                x = 0;
+                if (x == 0) then {
+                    x = x + 1;
+                } else {
+                    x = x + 2;
+                }
+                x = x + 1;
+            }
+        )";
+
+        std::vector<Test> tests = {
+            Test({ 1, 3 }, true),
+            Test({ 1, 4 }, true),
+            Test({ 1, 5 }, false),
+            Test({ 3, 5 }, true),
+            Test({ 4, 5 }, true),
+        };
+
+        testAffects(source, tests);
+    }
+
+    SECTION("Definition Matches Use In Branch With Shadowing") {
+        const std::string source = R"(
+            procedure main {
+                x = 0;
+                if (x == 0) then {
+                    x = x + 1;
+                    x = x + 2;
+                } else {
+                    x = x + 3;
+                }
+                x = x + 1;
+            }
+        )";
+
+        std::vector<Test> tests = {
+            Test({ 1, 3 }, true),
+            Test({ 1, 4 }, false),
+            Test({ 1, 5 }, true),
+            Test({ 1, 6 }, false),
+            Test({ 3, 4 }, true),
+            Test({ 3, 6 }, false),
+            Test({ 4, 6 }, true),
+            Test({ 5, 6 }, true),
+        };
+
+        testAffects(source, tests);
+    }
+
+    SECTION("Definition Doesn't Match Use In Branch With Shadowing") {
+        const std::string source = R"(
+            procedure main {
+                x = 0;
+                if (x == 0) then {
+                    x = 1;
+                    x = x + 2;
+                } else {
+                    x = x + 3;
+                }
+                x = x + 1;
+            }
+        )";
+
+        std::vector<Test> tests = {
+            Test({ 1, 3 }, false),
+            Test({ 1, 4 }, false),
+            Test({ 1, 5 }, true),
+            Test({ 1, 6 }, false),
+            Test({ 3, 4 }, true),
+            Test({ 3, 6 }, false),
+            Test({ 4, 6 }, true),
+            Test({ 5, 6 }, true),
+        };
+
+        testAffects(source, tests);
+    }
+}
 
 TEST_CASE("Affects_TestMultipleProcedures") {}
