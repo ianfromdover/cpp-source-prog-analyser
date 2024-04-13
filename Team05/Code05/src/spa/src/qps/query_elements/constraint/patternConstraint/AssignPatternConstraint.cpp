@@ -98,9 +98,11 @@ std::size_t AssignPatternConstraint::hash() const {
 }
 
 Table AssignPatternConstraint::getTableWithDefaultHeadersFromPkb(QueryPkbVirtual &pkb) {
-    auto t = pkb.getPatternIfTable();
+    auto t = pkb.getPatternAsgnTable();
     t.insert(t.begin(), getDefaultHeaders());
-    return t;
+    ResultTable r(t);
+    r.removeColumnByIndex(1);
+    return r.getTable();
 }
 
 vector<string> AssignPatternConstraint::getDefaultHeaders() {
