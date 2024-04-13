@@ -553,3 +553,188 @@ TEST_CASE("Affects_TestWithControlFlow") {
 }
 
 TEST_CASE("Affects_TestMultipleProcedures") {}
+
+TEST_CASE("Affects_TestGivenExamples") {
+    // Examples from https://nus-cs3203.github.io/course-website/contents/advanced-spa-requirements/design-abstractions.html#affects.
+    SECTION("Code 6 Example") {
+        const auto source = R"(
+            procedure Second {
+                x = 0;
+                i = 5;
+                while (i!=0) {
+                    x = x + 2*y;
+                    call Third;
+                    i = i - 1;
+                }
+                if (x==1) then {
+                    x = x+1;
+                }
+                else {
+                    z = 1;
+                }
+                z = z + x + i;
+                y = z + 2;
+                x = x * y + z;
+            }
+
+            procedure Third {
+                z = 5;
+                v = z;
+                print v;
+            }
+        )";
+
+        std::vector<Test> tests = {
+            Test({ 2, 6 }, true),
+            Test({ 4, 8 }, true),
+            Test({ 4, 10 }, true),
+            Test({ 6, 6 }, true),
+            Test({ 1, 4 }, true),
+            Test({ 1, 8 }, true),
+            Test({ 1, 10 }, true),
+            Test({ 1, 12 }, true),
+            Test({ 2, 10 }, true),
+            Test({ 9, 10 }, true),
+            Test({ 9, 11 }, false),
+            Test({ 9, 12 }, false),
+            Test({ 2, 3 }, false),
+            Test({ 9, 6 }, false),
+        };
+
+        testAffects(source, tests);
+    }
+
+    SECTION("Code 7 Example") {
+        const auto source = R"(
+            procedure alpha {
+                x = 1;
+                if ( i != 2 ) then {
+                    x = a + 1;
+                }
+                else {
+                    a = b;
+                }
+                a = x;
+            }
+        )";
+
+        std::vector<Test> tests = {
+            Test({ 1, 5 }, true),
+        };
+
+        testAffects(source, tests);
+    }
+
+    SECTION("Code 8 Example where Modifies('q', 'x') holds") {
+        const auto source = R"(
+            procedure p {
+                x = a;
+                call q;
+                v = x;
+            }
+
+            procedure q {
+                x = 5;
+            }
+        )";
+
+        std::vector<Test> tests = {
+            Test({ 1, 3 }, false),
+        };
+
+        testAffects(source, tests);
+    }
+
+    SECTION("Code 8 Example where Modifies('q', 'x') does not hold") {
+        const auto source = R"(
+            procedure p {
+                x = a;
+                call q;
+                v = x;
+            }
+
+            procedure q {
+                print x;
+            }
+        )";
+
+        std::vector<Test> tests = {
+            Test({ 1, 3 }, true),
+        };
+
+        testAffects(source, tests);
+    }
+
+    SECTION("Code 9 Example") {
+        const auto source = R"(
+            procedure p {
+                x = 1;
+                y = 2;
+                z = y;
+                call q;
+                z = x + y + z;
+            }
+
+            procedure q {
+                x = 5;
+                t = 4;
+                if ( z > 0 ) then {
+                    t = x + 1;
+                }
+                else {
+                    y = z + x;
+                }
+                x = t + 1;
+            }
+        )";
+
+        std::vector<Test> tests = {
+            Test({ 1, 5 }, false),
+            Test({ 2, 5 }, false),
+            Test({ 3, 10 }, false),
+        };
+
+        testAffects(source, tests);
+    }
+
+    SECTION("Code 10 Example") {
+        const auto source = R"(
+            procedure alpha {
+                x = 1;
+                call beta;
+                a = x;
+            }
+
+            procedure beta {
+                if ( i != 2 ) then {
+                    x = a + 1;
+                }
+                else {
+                    a = b;
+                }
+            }
+        )";
+
+        std::vector<Test> tests = {
+            Test({ 1, 3 }, false),
+        };
+
+        testAffects(source, tests);
+    }
+
+    SECTION("Code 11 Example") {
+        const auto source = R"(
+            procedure p {
+                x = a;
+                read x;
+                v = x;
+            }
+        )";
+
+        std::vector<Test> tests = {
+            Test({ 1, 3 }, false),
+        };
+
+        testAffects(source, tests);
+    }
+}
