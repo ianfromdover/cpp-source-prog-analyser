@@ -11,32 +11,32 @@
 
 class QueryPkbStub : public QueryPkbVirtual {
 private:
-    std::vector<std::vector<std::string>> table;
-    std::vector<std::vector<std::string>> callTable;
-    std::vector<std::vector<std::string>> readTable;
-    std::vector<std::vector<std::string>> ifTable;
-    std::vector<std::vector<std::string>> whileTable;
-    std::vector<std::vector<std::string>> printTable;
-    std::vector<std::vector<std::string>> statementTable;
-    std::vector<std::vector<std::string>> procedureTable;
-    std::vector<std::vector<std::string>> varTable;
-    std::vector<std::vector<std::string>> constTable;
-    std::vector<std::vector<std::string>> followsTable;
-    std::vector<std::vector<std::string>> followsTTable;
-    std::vector<std::vector<std::string>> parentTable;
-    std::vector<std::vector<std::string>> parentTTable;
-    std::vector<std::vector<std::string>> usesSTable;
-    std::vector<std::vector<std::string>> usesPTable;
-    std::vector<std::vector<std::string>> modifiesSTable;
-    std::vector<std::vector<std::string>> modifiesPTable;
-    std::vector<std::vector<std::string>> patternAsgnTable;
-    std::vector<std::vector<std::string>> patternWhileTable;
-    std::vector<std::vector<std::string>> patternIfTable;
-    std::vector<std::vector<std::string>> callsTable;
-    std::vector<std::vector<std::string>> callsTTable;
-    std::vector<std::vector<std::string>> nextTable;
-    std::vector<std::vector<std::string>> nextTTable;
-    std::vector<std::vector<std::string>> affectsTable;
+    Table emptyTable;
+    Table callTable;
+    Table readTable;
+    Table ifTable;
+    Table whileTable;
+    Table printTable;
+    Table statementTable;
+    Table procedureTable;
+    Table varTable;
+    Table constTable;
+    Table followsTable;
+    Table followsTTable;
+    Table parentTable;
+    Table parentTTable;
+    Table usesSTable;
+    Table usesPTable;
+    Table modifiesSTable;
+    Table modifiesPTable;
+    Table patternAsgnTable;
+    Table patternWhileTable;
+    Table patternIfTable;
+    Table callsTable;
+    Table callsTTable;
+    Table nextTable;
+    Table nextTTable;
+    Table affectsTable;
 
 public:
     void setRead(Table t);
