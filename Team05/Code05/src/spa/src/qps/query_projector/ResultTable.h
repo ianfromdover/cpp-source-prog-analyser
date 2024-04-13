@@ -264,6 +264,27 @@ public:
         return ResultTable(result).getTable();
     }
 
+    void removeNonDuplicateRows() {
+        Table new_table;
+        if (!(_table.empty())) {
+            new_table.push_back(_table[0]);
+            for (size_t i = 1; i < _table.size(); ++i) {
+                std::unordered_map<std::string, int> counts;
+                bool has_duplicates = false;
+                for (const auto& item : _table[i]) {
+                    if (++counts[item] > 1) {
+                        has_duplicates = true;
+                        break;
+                    }
+                }
+                if (has_duplicates) {
+                    new_table.push_back(_table[i]);
+                }
+            }
+        }
+        _table = new_table;
+    }
+
     static vector<string> findCommonHeaders(const table& a, const table& b) {
       if (a.empty() || b.empty()) return {};
         try {

@@ -27,7 +27,7 @@ Table AffectsConstraint::getAffectsTable(QueryPkbVirtual & pkb) {
     // Initialise empty result table
     Table result;
     for (const auto& row : retrieved) {
-        if (pkb.checkNextT(stoi(row.at(0)), stoi(row.at(1)))) {
+        if (pkb.checkAffects(stoi(row.at(0)), stoi(row.at(1)))) {
             result.push_back({row.at(0), row.at(1)});
         }
     }
@@ -69,6 +69,10 @@ Table AffectsConstraint::getTable(QueryPkbVirtual & pkb) {
     if (rhsEntityType == TYPE_INTEGER) {
         std::vector<std::string> intVals = {args[1]->getArgumentValue()};
         table.filterByColumnValues(rhsHeader, intVals);
+    }
+
+    if (lhsHeader == rhsHeader) {
+        table.removeNonDuplicateRows();
     }
 
     removeHeaders(make_shared<ResultTable>(table));
