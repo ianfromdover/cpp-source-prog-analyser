@@ -69,7 +69,7 @@ void Affects::updateDefUseChain(const std::shared_ptr<CFG>& cfg, const std::unor
             std::vector<StmtNo> reachingStmtNos;
             for (const auto& def : reachingDefs) {
                 if (def->getName() == use->getName()) {
-                    reachingStmtNos.push_back(def->getOccurrences()->back());
+                    reachingStmtNos.push_back(*(def->getOccurrences()->rbegin()));
                 }
             }
 
@@ -86,7 +86,7 @@ void Affects::updateDefUseChain(const std::shared_ptr<CFG>& cfg, const std::unor
             }
 
             for (const auto& useStmtNo : *use->getOccurrences()) {
-                if (!reachingStmtNos.empty() && (!blockDef || useStmtNo <= (*blockDef)->getOccurrences()->front())) {
+                if (!reachingStmtNos.empty() && (!blockDef || useStmtNo <= *((*blockDef)->getOccurrences()->begin()))) {
                     for (const auto defStmtNo : reachingStmtNos) {
                         defUseChain[defStmtNo].insert(useStmtNo);
                     }

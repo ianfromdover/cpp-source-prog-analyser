@@ -8,14 +8,14 @@ std::string VarOccurrence::getName() const {
     return this->name;
 }
 
-std::shared_ptr<std::vector<StmtNo>> VarOccurrence::getOccurrences() const {
+std::shared_ptr<std::set<StmtNo>> VarOccurrence::getOccurrences() const {
     return this->occurrences;
 }
 
 void VarOccurrence::addOccurrence(StmtNo stmtNo) {
-    this->occurrences->push_back(stmtNo);
+    this->occurrences->insert(stmtNo);
 }
 
-bool VarOccurrence::operator==(const VarOccurrence &other) const {
+bool VarOccurrence::operator==(const VarOccurrence& other) const {
     return this->name == other.name && *(this->occurrences) == *(other.occurrences);
 }
