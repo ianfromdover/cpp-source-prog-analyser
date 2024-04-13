@@ -16,17 +16,6 @@ TEST_CASE("[PopulatePkb] Normal input, no exceptions, no false") {
     auto pkb_storage = std::make_shared<PkbStorage>();
     PopulatePkb populator(pkb_storage);
 
-    /*
-    SECTION("On-Demand Object Setting") {
-        TestWrapper.cpp::34 for constructors
-        std::shared_ptr<Affects> affects = std::make_shared<Affects>();
-        std::shared_ptr<NextT> nextT = std::make_shared<NextT>();
-
-        REQUIRE(populator.setAffectsObj(affects));
-        REQUIRE(populator.setNextTObj(nextT));
-    }
-     */
-
     SECTION("Entity Addition") {
         REQUIRE(populator.addCallStmt(1, "call"));
         REQUIRE(populator.addConst(2, 20));
