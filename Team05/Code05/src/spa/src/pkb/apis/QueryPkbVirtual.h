@@ -73,15 +73,6 @@ public:
 
     // relations --------------------------------------------------------------
 
-    /*
-    // (StmtNo | StmtNo)
-    virtual Table getAffectsTable() = 0; // generated each query
-    virtual Table getAffectsAllAffectors() = 0;
-    virtual Table getAffectsAllAffected() = 0;
-    virtual Table getAffectsAffectedByAffector(StmtNo affector) = 0;
-    virtual Table getAffectsAffectorsByAffected(StmtNo affected) = 0;
-     */
-
     // (ProcName | ProcName)
     virtual Table getCallsTable() = 0;
     virtual Table getCallsAllCallers() = 0;
@@ -131,15 +122,6 @@ public:
     virtual Table getNextAllAfter() = 0;
     virtual Table getNextAfterByBefore(StmtNo before) = 0;
     virtual Table getNextBeforeByAfter(StmtNo after) = 0;
-
-    /*
-    // (StmtNo | StmtNo)
-    virtual Table getNextTTable() = 0; // generated each query
-    virtual Table getNextTAllBefore() = 0;
-    virtual Table getNextTAllAfter() = 0;
-    virtual Table getNextTAfterByBefore(StmtNo before) = 0;
-    virtual Table getNextTBeforeByAfter(StmtNo after) = 0;
-     */
 
     // (StmtNo | StmtNo)
     virtual Table getParentTable() = 0;

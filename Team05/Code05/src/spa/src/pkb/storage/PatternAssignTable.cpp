@@ -2,9 +2,6 @@
 
 PatternAssignTable::PatternAssignTable() = default;
 
-// TODO:
-// do C++ substring match from QPS' string to stored SP string, chatGPT it
-
 // ai-gen start (copilot, 2, e)
 // prompt: used copilot
 // -------- For StmtNo | VarName LHS table
@@ -64,7 +61,7 @@ Table PatternAssignTable::getAllAsStrings() {
     for (auto& stmtLhsPair : result) {
         int stmtNo = std::stoi(stmtLhsPair[0]);
         string lhs = stmtLhsPair[1];
-        // getting the only item in the returned vector<string> so [0] // TODO: temporary method for MS2
+        // getting the only item in the returned vector<string> so [0]
         string rhs = (stmtRhsMap.getRelatedValues(stmtNo)[0]);
         stmtLhsPair[1] = lhs + "=" + rhs;
     }
