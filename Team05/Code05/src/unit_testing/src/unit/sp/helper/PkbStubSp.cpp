@@ -4,8 +4,8 @@
 #include <set>
 #include "pkb/apis/BasePkbPopulator.h"
 #include "common/SpaTypes.h"
-#include "sp/api/Affects.h"
-#include "sp/api/NextT.h"
+#include "sp/api/affects/Affects.h"
+#include "sp/api/nextt/NextT.h"
 
 class PkbStubSp : public BasePkbPopulator {
     std::multiset<std::tuple<std::string, std::string, std::string>> tupleCalls;

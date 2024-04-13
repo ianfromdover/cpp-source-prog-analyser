@@ -9,8 +9,8 @@
 #include "sp/api/formatter/ExprFormatter.h"
 #include "sp/exception/FormatterException.h"
 #include "sp/cfg/CFG.h"
-#include "sp/api/Affects.h"
-#include "sp/api/NextT.h"
+#include "sp/api/affects/Affects.h"
+#include "sp/api/nextt/NextT.h"
 
 using namespace std;
 void require(bool b) {
@@ -2297,49 +2297,251 @@ TEST_CASE("test") {
 }
 
 
-//TEST_CASE("Test Affects") {
-//    const auto source = R"(
-//        procedure main {
-//            x = 0;
-//            y = 1;
-//            z = 2;
-//
-//            if (x == 0) then {
-//                x = 3;
-//            } else {
-//                x = 4;
-//            }
-//        }
-//    )";
-//
-//    const auto& pkb = std::make_shared<PkbStorage>();
-//    auto populatePkb = std::make_shared<PopulatePkb>(pkb);
-//    auto queryPkb = std::make_shared<QueryPkb>(pkb);
-//
-//    auto sp = SourceProcessor(populatePkb);
-//    const auto& tokens = sp.scan(source);
-//    const auto& program = sp.parse(tokens);
-//    sp.validate(program);
-//    sp.extract(program);
-//
-//    const auto& cfgCollection = std::make_shared<CFGCollection>(program);
-//    auto affects = Affects(cfgCollection, queryPkb);
-//    const auto [in, out] = affects.get(1, 2);
-//
-//    for (const auto& block : *cfgCollection->getCFGs()->at(0)->getBlocks()) {
-//        std::cout << block->toString() << std::endl;
-//        std::cout << "In: [" << std::endl;
-//        for (const auto& var : in.at(block)) {
-//            std::cout << "(" << var.getName() << ", " << std::to_string(var.getStmtNo()) << ")" << std::endl;
-//        }
-//        std::cout << "]" << std::endl;
-//        std::cout << "Out: [" << std::endl;
-//        for (const auto& var : out.at(block)) {
-//            std::cout << "(" << var.getName() << ", " << std::to_string(var.getStmtNo()) << ")" << std::endl;
-//        }
-//        std::cout << "]" << std::endl;
-//    }
-//}
+TEST_CASE("Test Affects 1") {
+    // https://nus-cs3203.github.io/course-website/contents/advanced-spa-requirements/design-abstractions.html#affects
+    // Code 6 Example.
+    const auto source = R"(
+        procedure Second {
+            x = 0;
+            i = 5;
+            while (i!=0) {
+                x = x + 2*y;
+                call Third;
+                i = i - 1;
+            }
+            if (x==1) then {
+                x = x+1;
+            }
+            else {
+                z = 1;
+            }
+            z = z + x + i;
+            y = z + 2;
+            x = x * y + z;
+        }
+
+        procedure Third {
+            z = 5;
+            v = z;
+            print v;
+        }
+    )";
+
+    const auto& pkb = std::make_shared<PkbStorage>();
+    auto populatePkb = std::make_shared<PopulatePkb>(pkb);
+    auto queryPkb = std::make_shared<QueryPkb>(pkb);
+
+    auto sp = SourceProcessor(populatePkb);
+    const auto program = sp.parse(sp.scan(source));
+    sp.validate(program);
+    sp.extract(program);
+
+    auto affects = Affects(std::make_shared<CFGCollection>(program), queryPkb);
+
+    REQUIRE(affects.get(2, 6));
+    REQUIRE(affects.get(4, 8));
+    REQUIRE(affects.get(4, 10));
+    REQUIRE(affects.get(6, 6));
+    REQUIRE(affects.get(1, 4));
+    REQUIRE(affects.get(1, 8));
+    REQUIRE(affects.get(1, 10));
+    REQUIRE(affects.get(1, 12));
+    REQUIRE(affects.get(2, 10));
+    REQUIRE(affects.get(9, 10));
+
+    REQUIRE(!affects.get(9, 11));
+    REQUIRE(!affects.get(9, 12));
+    REQUIRE(!affects.get(2, 3));
+    REQUIRE(!affects.get(9, 6));
+}
+
+TEST_CASE("Test Affects 2") {
+    // https://nus-cs3203.github.io/course-website/contents/advanced-spa-requirements/design-abstractions.html#affects
+    // Code 7 Example.
+    const auto source = R"(
+        procedure alpha {
+            x = 1;
+            if ( i != 2 ) then {
+                x = a + 1;
+            }
+            else {
+                a = b;
+            }
+            a = x;
+        }
+    )";
+
+    const auto& pkb = std::make_shared<PkbStorage>();
+    auto populatePkb = std::make_shared<PopulatePkb>(pkb);
+    auto queryPkb = std::make_shared<QueryPkb>(pkb);
+
+    auto sp = SourceProcessor(populatePkb);
+    const auto program = sp.parse(sp.scan(source));
+    sp.validate(program);
+    sp.extract(program);
+
+    auto affects = Affects(std::make_shared<CFGCollection>(program), queryPkb);
+
+    REQUIRE(affects.get(1, 5));
+}
+
+TEST_CASE("Test Affects 3") {
+    // https://nus-cs3203.github.io/course-website/contents/advanced-spa-requirements/design-abstractions.html#affects
+    // Code 8 Example where Modifies("q", "x") holds.
+    const auto source = R"(
+        procedure p {
+            x = a;
+            call q;
+            v = x;
+        }
+
+        procedure q {
+            x = 5;
+        }
+    )";
+
+    const auto& pkb = std::make_shared<PkbStorage>();
+    auto populatePkb = std::make_shared<PopulatePkb>(pkb);
+    auto queryPkb = std::make_shared<QueryPkb>(pkb);
+
+    auto sp = SourceProcessor(populatePkb);
+    const auto program = sp.parse(sp.scan(source));
+    sp.validate(program);
+    sp.extract(program);
+
+    auto affects = Affects(std::make_shared<CFGCollection>(program), queryPkb);
+
+    REQUIRE(!affects.get(1, 3));
+}
+
+TEST_CASE("Test Affects 4") {
+    // https://nus-cs3203.github.io/course-website/contents/advanced-spa-requirements/design-abstractions.html#affects
+    // Code 8 Example where Modifies("q", "x") does not hold.
+    const auto source = R"(
+        procedure p {
+            x = a;
+            call q;
+            v = x;
+        }
+
+        procedure q {
+            print x;
+        }
+    )";
+
+    const auto& pkb = std::make_shared<PkbStorage>();
+    auto populatePkb = std::make_shared<PopulatePkb>(pkb);
+    auto queryPkb = std::make_shared<QueryPkb>(pkb);
+
+    auto sp = SourceProcessor(populatePkb);
+    const auto program = sp.parse(sp.scan(source));
+    sp.validate(program);
+    sp.extract(program);
+
+    auto affects = Affects(std::make_shared<CFGCollection>(program), queryPkb);
+
+    REQUIRE(affects.get(1, 3));
+}
+
+TEST_CASE("Test Affects 5") {
+    // https://nus-cs3203.github.io/course-website/contents/advanced-spa-requirements/design-abstractions.html#affects
+    // Code 9 Example.
+    const auto source = R"(
+        procedure p {
+            x = 1;
+            y = 2;
+            z = y;
+            call q;
+            z = x + y + z;
+        }
+
+        procedure q {
+            x = 5;
+            t = 4;
+            if ( z > 0 ) then {
+                t = x + 1;
+            }
+            else {
+                y = z + x;
+            }
+            x = t + 1;
+        }
+    )";
+
+    const auto& pkb = std::make_shared<PkbStorage>();
+    auto populatePkb = std::make_shared<PopulatePkb>(pkb);
+    auto queryPkb = std::make_shared<QueryPkb>(pkb);
+
+    auto sp = SourceProcessor(populatePkb);
+    const auto program = sp.parse(sp.scan(source));
+    sp.validate(program);
+    sp.extract(program);
+
+    auto affects = Affects(std::make_shared<CFGCollection>(program), queryPkb);
+
+    REQUIRE(!affects.get(1, 5));
+    REQUIRE(!affects.get(2, 5));
+    REQUIRE(!affects.get(3, 10));
+}
+
+TEST_CASE("Test Affects 6") {
+    // https://nus-cs3203.github.io/course-website/contents/advanced-spa-requirements/design-abstractions.html#affects
+    // Code 10 Example.
+    const auto source = R"(
+        procedure alpha {
+            x = 1;
+            call beta;
+            a = x;
+        }
+
+        procedure beta {
+            if ( i != 2 ) then {
+                x = a + 1;
+            }
+            else {
+                a = b;
+            }
+        }
+    )";
+
+    const auto& pkb = std::make_shared<PkbStorage>();
+    auto populatePkb = std::make_shared<PopulatePkb>(pkb);
+    auto queryPkb = std::make_shared<QueryPkb>(pkb);
+
+    auto sp = SourceProcessor(populatePkb);
+    const auto program = sp.parse(sp.scan(source));
+    sp.validate(program);
+    sp.extract(program);
+
+    auto affects = Affects(std::make_shared<CFGCollection>(program), queryPkb);
+
+    REQUIRE(!affects.get(1, 3));
+}
+
+TEST_CASE("Test Affects 7") {
+    // https://nus-cs3203.github.io/course-website/contents/advanced-spa-requirements/design-abstractions.html#affects
+    // Code 11 Example.
+    const auto source = R"(
+        procedure p {
+            x = a;
+            read x;
+            v = x;
+        }
+    )";
+
+    const auto& pkb = std::make_shared<PkbStorage>();
+    auto populatePkb = std::make_shared<PopulatePkb>(pkb);
+    auto queryPkb = std::make_shared<QueryPkb>(pkb);
+
+    auto sp = SourceProcessor(populatePkb);
+    const auto program = sp.parse(sp.scan(source));
+    sp.validate(program);
+    sp.extract(program);
+
+    auto affects = Affects(std::make_shared<CFGCollection>(program), queryPkb);
+
+    REQUIRE(!affects.get(1, 3));
+}
 
 TEST_CASE("Error for Milestone2") {
     std::string codeSnippet = R"(

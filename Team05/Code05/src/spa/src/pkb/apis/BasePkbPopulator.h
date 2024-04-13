@@ -6,8 +6,8 @@
 #include <string>
 #include <utility>
 #include <vector>
-#include "sp/api/Affects.h"
-#include "sp/api/NextT.h"
+#include "sp/api/affects/Affects.h"
+#include "sp/api/nextt/NextT.h"
 
 // should rename to virtual also, and have ref to pkb
 // add destructuors to others

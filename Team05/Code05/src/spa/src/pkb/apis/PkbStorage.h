@@ -7,8 +7,9 @@
 
 #include "pkb/storage/PatternAssignTable.h"
 #include "pkb/storage/PkbTable.hpp"
-#include "sp/api/Affects.h"
-#include "sp/api/NextT.h"
+#include "sp/api/nextt/NextT.h"
+
+class Affects;
 
 class PkbStorage {
 public:

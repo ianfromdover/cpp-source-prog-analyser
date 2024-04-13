@@ -21,7 +21,7 @@
  */
 template<typename A, typename B>
 class PkbTable {
-private:
+public:
     std::unordered_map<A, std::set<std::shared_ptr<B>>> forwardMap; // TODO: print out addr to see if ptr is pointing to the key objects
     std::unordered_map<B, std::set<std::shared_ptr<A>>> backwardMap; // TODO: change to weak_ptr to prevent memory leak
 
@@ -33,8 +33,6 @@ private:
 
     // Convert a map into a table
     std::shared_ptr<Table> makeTable(bool isFwdMap);
-
-public:
     PkbTable() = default;
     ~PkbTable() = default;
 

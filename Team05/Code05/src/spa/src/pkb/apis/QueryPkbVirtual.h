@@ -160,6 +160,7 @@ public:
     virtual Table getPatternAsgnByStmt(StmtNo sNum) = 0;
     virtual Table getPatternAsgnByLhs(VarName Lhs) = 0;
     virtual Table getPatternAsgnByRhs(std::string Rhs) = 0;
+    virtual bool isAsgn(StmtNo sNum) = 0;
 
     // (StmtNo | VarName)
     virtual Table getPatternIfTable() = 0;

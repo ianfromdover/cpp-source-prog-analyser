@@ -192,6 +192,7 @@ public:
     Table getPatternAsgnByStmt(StmtNo sNum) override;
     Table getPatternAsgnByLhs(VarName Lhs) override;
     Table getPatternAsgnByRhs(std::string Rhs) override;
+    bool isAsgn(StmtNo sNum) override;
 
     Table getPatternIfTable() override;
     Table getPatternIfAllStmts() override;
