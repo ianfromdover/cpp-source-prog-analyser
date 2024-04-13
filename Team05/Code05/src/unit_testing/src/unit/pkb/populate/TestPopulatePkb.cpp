@@ -1,145 +1,108 @@
-//
-// Created by yewme on 26/2/2024.
-//
-
-/*
 #include "catch.hpp"
 #include "pkb/apis/PopulatePKB.h"
 
-TEST_CASE("Test addRead function") {
-    // Create a mock PKBStorage object
-    std::shared_ptr<PKBStorage> pkb = std::make_shared<PKBStorage>();
-    PopulatePKB populatePKB(pkb);
-
-    // Add a record to the read table
-    REQUIRE(populatePKB.addRead(1, "y"));
-
-    // Check if the entry was added to the table
-    auto table = pkb->readTable->getTable();
-    bool entryFound = false;
-    for (const auto& record : table) {
-        if (record[0] == "1" && record[1] == "y") {
-            entryFound = true;
-            break;
+// ai-gen start (copilot, 2, e)
+// prompt: used copilot
+bool isAdded(Table table, std::string key, std::string value) {
+    for (const auto& pair : table) {
+        if (pair[0] == key && pair[1] == value) {
+            return true;
         }
     }
-    REQUIRE(entryFound);
+    return false;
 }
 
-TEST_CASE("Test Table") {
-    SECTION("AddRecord") {
-        Table table;
+TEST_CASE("[PopulatePkb] Normal input, no exceptions, no false") {
+    auto pkb_storage = std::make_shared<PkbStorage>();
+    PopulatePkb populator(pkb_storage);
 
-        REQUIRE(table.addRecord("1", "x"));
-        REQUIRE(table.addRecord("2", "y"));
+    /*
+    SECTION("On-Demand Object Setting") {
+        TestWrapper.cpp::34 for constructors
+        std::shared_ptr<Affects> affects = std::make_shared<Affects>();
+        std::shared_ptr<NextT> nextT = std::make_shared<NextT>();
 
-        auto tableData = table.getTable();
-        REQUIRE(tableData.size() == 2);
-        REQUIRE(tableData[0][0] == "1");
-        REQUIRE(tableData[0][1] == "x");
-        REQUIRE(tableData[1][0] == "2");
-        REQUIRE(tableData[1][1] == "y");
+        REQUIRE(populator.setAffectsObj(affects));
+        REQUIRE(populator.setNextTObj(nextT));
+    }
+     */
+
+    SECTION("Entity Addition") {
+        REQUIRE(populator.addCallStmt(1, "call"));
+        REQUIRE(populator.addConst(2, 20));
+        REQUIRE(populator.addPrint(3, "print"));
+        REQUIRE(populator.addProcedure("procedure"));
+        REQUIRE(populator.addRead(4, "read"));
+        REQUIRE(populator.addFinalStatementNo(5));
+        REQUIRE(populator.addVar(6, "var"));
+
+        // check for correctness
+        Table t = pkb_storage->callTable->getAll();
+        REQUIRE(isAdded(t, "1", "call"));
+        t = pkb_storage->constTable->getAll();
+        REQUIRE(isAdded(t, "2", "20"));
+        t = pkb_storage->printTable->getAll();
+        REQUIRE(isAdded(t, "3", "print"));
+        t = pkb_storage->procedureTable->getAll();
+        REQUIRE(isAdded(t, "procedure", ""));
+        t = pkb_storage->readTable->getAll();
+        REQUIRE(isAdded(t, "4", "read"));
+        t = pkb_storage->statementTable->getAll();
+        REQUIRE(isAdded(t, "5", ""));
+        t = pkb_storage->varTable->getAll();
+        REQUIRE(isAdded(t, "6", "var"));
+    }
+
+    SECTION("Relation Addition") {
+        REQUIRE(populator.addCalls("Caller", "Called"));
+        REQUIRE(populator.addCallsT("Caller", "Called"));
+        REQUIRE(populator.addFollows(7, 8));
+        REQUIRE(populator.addFollowsT(9, 10));
+        REQUIRE(populator.addModifiesS(11, "modifyS"));
+        REQUIRE(populator.addModifiesP("ProcedureName", "modifyP"));
+        REQUIRE(populator.addNext(12, 13));
+        REQUIRE(populator.addParent(14, 15));
+        REQUIRE(populator.addParentT(16, 17));
+        REQUIRE(populator.addUsesS(18, "useS"));
+        REQUIRE(populator.addUsesP("ProcedureName", "useP"));
+
+        // check for correctness
+        Table t = pkb_storage->callsTable->getAll();
+        REQUIRE(isAdded(t, "Caller", "Called"));
+        t = pkb_storage->callsTTable->getAll();
+        REQUIRE(isAdded(t, "Caller", "Called"));
+        t = pkb_storage->followsTable->getAll();
+        REQUIRE(isAdded(t, "7", "8"));
+        t = pkb_storage->followsTTable->getAll();
+        REQUIRE(isAdded(t, "9", "10"));
+        t = pkb_storage->modifiesSTable->getAll();
+        REQUIRE(isAdded(t, "11", "modifyS"));
+        t = pkb_storage->modifiesPTable->getAll();
+        REQUIRE(isAdded(t, "ProcedureName", "modifyP"));
+        t = pkb_storage->nextTable->getAll();
+        REQUIRE(isAdded(t, "12", "13"));
+        t = pkb_storage->parentTable->getAll();
+        REQUIRE(isAdded(t, "14", "15"));
+        t = pkb_storage->parentTTable->getAll();
+        REQUIRE(isAdded(t, "16", "17"));
+        t = pkb_storage->usesSTable->getAll();
+        REQUIRE(isAdded(t, "18", "useS"));
+        t = pkb_storage->usesPTable->getAll();
+        REQUIRE(isAdded(t, "ProcedureName", "useP"));
+    }
+
+    SECTION("Pattern Addition") {
+        REQUIRE(populator.addPatternAsgn(19, "lhs", "rhs"));
+        REQUIRE(populator.addPatternIf(20, "if"));
+        REQUIRE(populator.addPatternWhile(21, "while"));
+
+        // check for correctness
+        Table t = pkb_storage->patternAssignTable->getAllAsStrings();
+        REQUIRE(isAdded(t, "19", "lhs=rhs"));
+        t = pkb_storage->patternIfTable->getAll();
+        REQUIRE(isAdded(t, "20", "if"));
+        t = pkb_storage->patternWhileTable->getAll();
+        REQUIRE(isAdded(t, "21", "while"));
     }
 }
-
-TEST_CASE("Test addWhile function") {
-    std::shared_ptr<PKBStorage> pkb = std::make_shared<PKBStorage>();
-    PopulatePKB populatePKB(pkb);
-    REQUIRE(populatePKB.addPatternWhile(3, "while1"));
-    auto table = pkb->whileTable->getTable();
-    REQUIRE(table.size() == 1);
-    REQUIRE(table[0][0] == "3");
-    REQUIRE(table[0][1] == "while1");
-}
-
-TEST_CASE("Test addPrint function") {
-    std::shared_ptr<PKBStorage> pkb = std::make_shared<PKBStorage>();
-    PopulatePKB populatePKB(pkb);
-    REQUIRE(populatePKB.addPrint(4, "print1"));
-    auto table = pkb->printTable->getTable();
-    REQUIRE(table.size() == 1);
-    REQUIRE(table[0][0] == "4");
-    REQUIRE(table[0][1] == "print1");
-}
-
-TEST_CASE("Test addFinalStatementNo function") {
-    std::shared_ptr<PKBStorage> pkb = std::make_shared<PKBStorage>();
-    PopulatePKB populatePKB(pkb);
-    REQUIRE(populatePKB.addFinalStatementNo(5));
-    auto table = pkb->statementTable->getTable();
-    REQUIRE(table.size() == 1);
-    REQUIRE(table[0][0] == "5");
-    REQUIRE(table[0][1] == "5");
-}
-
-TEST_CASE("Test addProcedure function") {
-    std::shared_ptr<PKBStorage> pkb = std::make_shared<PKBStorage>();
-    PopulatePKB populatePKB(pkb);
-    REQUIRE(populatePKB.addProcedure("proc2"));
-    auto table = pkb->procedureTable->getTable();
-    REQUIRE(table.size() == 1);
-    REQUIRE(table[0][0] == "proc2");
-    REQUIRE(table[0][1] == "proc2");
-}
-
-TEST_CASE("Test addVar function") {
-    std::shared_ptr<PKBStorage> pkb = std::make_shared<PKBStorage>();
-    PopulatePKB populatePKB(pkb);
-    REQUIRE(populatePKB.addVar(6, "x"));
-    auto table = pkb->variableTable->getTable();
-    REQUIRE(table.size() == 1);
-    REQUIRE(table[0][0] == "6");
-    REQUIRE(table[0][1] == "x");
-}
-
-TEST_CASE("Test addConst function") {
-    std::shared_ptr<PKBStorage> pkb = std::make_shared<PKBStorage>();
-    PopulatePKB populatePKB(pkb);
-    REQUIRE(populatePKB.addConst(7, 42));
-    auto table = pkb->constantTable->getTable();
-    REQUIRE(table.size() == 1);
-    REQUIRE(table[0][0] == "7");
-    REQUIRE(table[0][1] == "42");
-}
-
-TEST_CASE("Test addFollows function") {
-    std::shared_ptr<PKBStorage> pkb = std::make_shared<PKBStorage>();
-    PopulatePKB populatePKB(pkb);
-    REQUIRE(populatePKB.addFollows(8, 9));
-    auto table = pkb->followsTable->getTable();
-    REQUIRE(table.size() == 1);
-    REQUIRE(table[0][0] == "8");
-    REQUIRE(table[0][1] == "9");
-}
-
-TEST_CASE("Test addFollowsT function") {
-    std::shared_ptr<PKBStorage> pkb = std::make_shared<PKBStorage>();
-    PopulatePKB populatePKB(pkb);
-    REQUIRE(populatePKB.addFollowsT(10, 11));
-    auto table = pkb->followsTTable->getTable();
-    REQUIRE(table.size() == 1);
-    REQUIRE(table[0][0] == "10");
-    REQUIRE(table[0][1] == "11");
-}
-
-TEST_CASE("Test addParent function") {
-    std::shared_ptr<PKBStorage> pkb = std::make_shared<PKBStorage>();
-    PopulatePKB populatePKB(pkb);
-    REQUIRE(populatePKB.addParent(12, 13));
-    auto table = pkb->parentTable->getTable();
-    REQUIRE(table.size() == 1);
-    REQUIRE(table[0][0] == "12");
-    REQUIRE(table[0][1] == "13");
-}
-
-TEST_CASE("Test addParentT function") {
-    std::shared_ptr<PKBStorage> pkb = std::make_shared<PKBStorage>();
-    PopulatePKB populatePKB(pkb);
-    REQUIRE(populatePKB.addParentT(14, 15));
-    auto table = pkb->parentTTable->getTable();
-    REQUIRE(table.size() == 1);
-    REQUIRE(table[0][0] == "14");
-    REQUIRE(table[0][1] == "15");
-}
-
- */
+// ai-gen end
