@@ -158,25 +158,6 @@ Table QueryPkb::getWhileStmtsByVar(VarName var) {
 }
 // relations --------------------------------------------------------------
 
-/*
-// generated each query
-Table QueryPkb::getAffectsTable() {
-    return {{}}; // derive from the accepted affects object
-}
-Table QueryPkb::getAffectsAllAffectors() {
-    return {{}}; // derive from the accepted affects object
-}
-Table QueryPkb::getAffectsAllAffected() {
-    return {{}}; // derive from the accepted affects object
-}
-Table QueryPkb::getAffectsAffectedByAffector(StmtNo affector) {
-    return {{}}; // derive from the accepted affects object
-}
-Table QueryPkb::getAffectsAffectorsByAffected(StmtNo affected) {
-    return {{}}; // derive from the accepted affects object
-}
- */
-
 Table QueryPkb::getCallsTable() {
     return pkb->callsTable->getAll();
 }
@@ -292,25 +273,6 @@ Table QueryPkb::getNextBeforeByAfter(StmtNo after) {
     return TableUtils::toTable(pkb->nextTable->getRelatedKeys(after));
 }
 
-/*
-// generated each query
-Table QueryPkb::getNextTTable() {
-    return {{}}; // derive from the accepted nextT object
-}
-Table QueryPkb::getNextTAllBefore() {
-    return {{}}; // derive from the accepted nextT object
-}
-Table QueryPkb::getNextTAllAfter() {
-    return {{}}; // derive from the accepted nextT object
-}
-Table QueryPkb::getNextTAfterByBefore(StmtNo before) {
-    return {{}}; // derive from the accepted nextT object
-}
-Table QueryPkb::getNextTBeforeByAfter(StmtNo after) {
-    return {{}}; // derive from the accepted nextT object
-}
- */
-
 Table QueryPkb::getParentTable() {
     return pkb->parentTable->getAll();
 }
@@ -347,13 +309,13 @@ Table QueryPkb::getPatternAsgnTable() {
     return pkb->patternAssignTable->getAllAsStrings();
 }
 Table QueryPkb::getPatternAsgnByStmt(StmtNo sNum) {
-    return {{}}; // 2-col map needed
+    return {{}};
 }
 Table QueryPkb::getPatternAsgnByLhs(VarName Lhs) {
-    return {{}}; // 2-col map needed
+    return {{}};
 }
 Table QueryPkb::getPatternAsgnByRhs(std::string Rhs) {
-    return {{}}; // 2-col map needed
+    return {{}};
 }
 bool QueryPkb::isAsgn(StmtNo sNum) {
     return pkb->patternAssignTable->isAsgn(sNum);

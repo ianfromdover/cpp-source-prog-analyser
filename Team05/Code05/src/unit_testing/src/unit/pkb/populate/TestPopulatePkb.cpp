@@ -1,5 +1,5 @@
 #include "catch.hpp"
-#include "pkb/apis/PopulatePKB.h"
+#include "pkb/apis/PopulatePkb.h"
 
 // ai-gen start (copilot, 2, e)
 // prompt: used copilot
