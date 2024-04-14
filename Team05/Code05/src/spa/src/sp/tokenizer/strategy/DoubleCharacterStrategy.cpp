@@ -1,3 +1,6 @@
+// ai-gen start(gpt, 1, e)
+// prompt: https://chat.openai.com/share/7295ea70-2fb1-40e1-a767-0da8113ec557
+
 #include "DoubleCharacterStrategy.h"
 
 bool DoubleCharacterStrategy::tokenize(char character, std::stringstream& stream, std::shared_ptr<std::vector<std::shared_ptr<Token>>>& tokens,
@@ -50,3 +53,5 @@ bool DoubleCharacterStrategy::tokenize(char character, std::stringstream& stream
     prevTokenIsKeyword = false; // Reset keyword flag for all tokens handled here
     return true;
 }
+
+// ai-gen end

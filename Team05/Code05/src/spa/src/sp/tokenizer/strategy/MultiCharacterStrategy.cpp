@@ -1,7 +1,8 @@
 //
 // Created by sjh_9 on 9/2/2024.
 //
-
+// ai-gen start(gpt, 1, e)
+// prompt: https://chat.openai.com/share/7295ea70-2fb1-40e1-a767-0da8113ec557
 #include "MultiCharacterStrategy.h"
 
 bool MultiCharacterStrategy::tokenize(char character, std::stringstream& stream,
@@ -53,3 +54,5 @@ std::string MultiCharacterStrategy::readWhile(std::stringstream& stream, const s
     }
     return result;
 }
+
+// ai-gen end
