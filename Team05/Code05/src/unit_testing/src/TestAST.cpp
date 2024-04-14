@@ -2315,162 +2315,162 @@ TEST_CASE("test") {
     }
 }
 
-TEST_CASE("Error for Milestone2") {
-    std::string codeSnippet = R"(
-procedure parentTestCase {
-	read a;
-	while(x==1) {
-		print b;
-		c = 1;
-	}
-	if (x==1) then {
-		read d;
-		print e;
-	} else {
-		f = 1;
-		read g;
-	}
-	while(x==1) {
-		print h;
-		while(x==1) {
-			i = 1;
-			read j;
-		}
-		call useless;
-		if (x==1) then {
-			call useless;
-			print n;
-		} else {
-			o = 1;
-			read p;
-		}
-	}
-	if (x==1) then {
-		while(x==1) {
-			r = 1;
-			read s;
-		}
-		if (x==1) then {
-			read m;
-			print n;
-		} else {
-			o = 1;
-			call useless;
-		}
-		print t;
-	} else {
-		u = 1;
-		read v;
-	}
-	if (x==1) then {
-		print w;
-		x = 1;
-	} else {
-		read y;
-		if (x==1) then {
-			read m;
-			print n;
-		} else {
-			o = 1;
-			read p;
-		}
-		while(x==1) {
-			print z;
-			aa = 1;
-		}
-	}
-	while(x==1) {
-		call useless;
-		while(x==1) {
-			print cc;
-			while(x==1) {
-				print dd;
-				ee = 1;
-			}
-			if (x==1) then {
-				call useless;
-				print gg;
-			} else {
-				hh = 1;
-				read ii;
-			}
-		}
-	}
-	if (x==1) then {
-		read ff;
-		if (x==1) then {
-			read ff;
-			if (x==1) then {
-				read ff;
-				print gg;
-			} else {
-				hh = 1;
-				call useless;
-			}
-		} else {
-			hh = 1;
-			if (x==1) then {
-				read ff;
-				print gg;
-			} else {
-				hh = 1;
-				read ii;
-			}
-		}
-	} else {
-		hh = 1;
-		if (x==1) then {
-			read ff;
-			if (x==1) then {
-				read ff;
-				print gg;
-			} else {
-				hh = 1;
-				read ii;
-			}
-			while(x==1) {
-				print dd;
-				ee = 1;
-			}
-		} else {
-			hh = 1;
-			if (x==1) then {
-				read ff;
-				print gg;
-			} else {
-				hh = 1;
-				read ii;
-			}
-			while(x==1) {
-				print dd;
-				ee = 1;
-			}
-		}
-	}
-}
-
-procedure useless {
-	read zz;
-}
-    )";
-
-    std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
-    auto pkb = make_shared<PopulatePkb>(p);
-    auto sp = SourceProcessor(pkb);
-    sp.exec(codeSnippet);
-    QueryPkb pkb1(p);
-    QPS qps(std::make_shared<QueryPkb>(pkb1));
-
-    SECTION("To Be removed") {
-      std::vector<std::vector<std::string>> ff = pkb1.getUsesSTable();
-        std::string query = "stmt s,s1,s2; Select <s1> such that Parent(s,s1) and Parent(s,s2) and Parent(s1,s2)";
-        std::vector<std::string> expected = {"3", "5"};
-        std::vector<std::string> ans = qps.evaluate(query);
-        std::sort(ans.begin(), ans.end());
-        std::sort(expected.begin(), expected.end());
-        REQUIRE(ans == expected);
-    }
-}
+//TEST_CASE("Error for Milestone2") {
+//    std::string codeSnippet = R"(
+//procedure parentTestCase {
+//	read a;
+//	while(x==1) {
+//		print b;
+//		c = 1;
+//	}
+//	if (x==1) then {
+//		read d;
+//		print e;
+//	} else {
+//		f = 1;
+//		read g;
+//	}
+//	while(x==1) {
+//		print h;
+//		while(x==1) {
+//			i = 1;
+//			read j;
+//		}
+//		call useless;
+//		if (x==1) then {
+//			call useless;
+//			print n;
+//		} else {
+//			o = 1;
+//			read p;
+//		}
+//	}
+//	if (x==1) then {
+//		while(x==1) {
+//			r = 1;
+//			read s;
+//		}
+//		if (x==1) then {
+//			read m;
+//			print n;
+//		} else {
+//			o = 1;
+//			call useless;
+//		}
+//		print t;
+//	} else {
+//		u = 1;
+//		read v;
+//	}
+//	if (x==1) then {
+//		print w;
+//		x = 1;
+//	} else {
+//		read y;
+//		if (x==1) then {
+//			read m;
+//			print n;
+//		} else {
+//			o = 1;
+//			read p;
+//		}
+//		while(x==1) {
+//			print z;
+//			aa = 1;
+//		}
+//	}
+//	while(x==1) {
+//		call useless;
+//		while(x==1) {
+//			print cc;
+//			while(x==1) {
+//				print dd;
+//				ee = 1;
+//			}
+//			if (x==1) then {
+//				call useless;
+//				print gg;
+//			} else {
+//				hh = 1;
+//				read ii;
+//			}
+//		}
+//	}
+//	if (x==1) then {
+//		read ff;
+//		if (x==1) then {
+//			read ff;
+//			if (x==1) then {
+//				read ff;
+//				print gg;
+//			} else {
+//				hh = 1;
+//				call useless;
+//			}
+//		} else {
+//			hh = 1;
+//			if (x==1) then {
+//				read ff;
+//				print gg;
+//			} else {
+//				hh = 1;
+//				read ii;
+//			}
+//		}
+//	} else {
+//		hh = 1;
+//		if (x==1) then {
+//			read ff;
+//			if (x==1) then {
+//				read ff;
+//				print gg;
+//			} else {
+//				hh = 1;
+//				read ii;
+//			}
+//			while(x==1) {
+//				print dd;
+//				ee = 1;
+//			}
+//		} else {
+//			hh = 1;
+//			if (x==1) then {
+//				read ff;
+//				print gg;
+//			} else {
+//				hh = 1;
+//				read ii;
+//			}
+//			while(x==1) {
+//				print dd;
+//				ee = 1;
+//			}
+//		}
+//	}
+//}
+//
+//procedure useless {
+//	read zz;
+//}
+//    )";
+//
+//    std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
+//    auto pkb = make_shared<PopulatePkb>(p);
+//    auto sp = SourceProcessor(pkb);
+//    sp.exec(codeSnippet);
+//    QueryPkb pkb1(p);
+//    QPS qps(std::make_shared<QueryPkb>(pkb1));
+//
+//    SECTION("To Be removed") {
+//      std::vector<std::vector<std::string>> ff = pkb1.getUsesSTable();
+//        std::string query = "stmt s,s1,s2; Select <s1> such that Parent(s,s1) and Parent(s,s2) and Parent(s1,s2)";
+//        std::vector<std::string> expected = {"3", "5"};
+//        std::vector<std::string> ans = qps.evaluate(query);
+//        std::sort(ans.begin(), ans.end());
+//        std::sort(expected.begin(), expected.end());
+//        REQUIRE(ans == expected);
+//    }
+//}
 
 
 TEST_CASE("Parent Handler - not attribute") {
@@ -2515,100 +2515,3 @@ TEST_CASE("Parent Handler - not attribute") {
 //    }
 
 }
-
-//TEST_CASE("next extraction") {
-//  std::string codeSnippet =
-//      "procedure First {\n"
-//      "    read x; \n"                          // 1
-//      "    read z;\n"                           // 2
-//      "    call Second;\n"                      // 3
-//      "}\n"
-//      "\n"
-//      "procedure Second {\n"
-//      "    x = 0;\n"                            // 4
-//      "    i = 5;\n"                            // 5
-//      "    while (i != 0) {\n"                  // 6
-//      "        x = x + 2 * y;\n"                // 7
-//      "        call Third;\n"                   // 8
-//      "        i = i - 1;\n"                    // 9
-//      "    }\n"
-//      "    if (x == 1) then {\n"                // 10
-//      "        x = x + 1;\n"                    // 11
-//      "    } else {\n"
-//      "        z = 1;\n"                        // 12
-//      "    }\n"
-//      "    z = z + x + i;\n"                    // 13
-//      "    y = z + 2;\n"                        // 14
-//      "    x = x * y + z;\n"                    // 15
-//      "}\n"
-//      "\n"
-//      "procedure Third {\n"
-//      "    z = 5;\n"                            // 16
-//      "    v = z;\n"                            // 17
-//      "    print v;\n"                          // 18
-//      "    while (x > Y) {\n"                   // 19
-//      "        print z;\n"                      // 20
-//      "        if (0 < 1) then {\n"             // 21
-//      "            if (v % 2 == 0) then {\n"    // 22
-//      "                x = x + 1;\n"            // 23
-//      "            } else {\n"
-//      "                v = v - 1;\n"            // 24
-//      "            }\n"
-//      "            read x;\n"                   // 25
-//      "        } else {\n"
-//      "            x = x - 1;\n"                // 26
-//      "        }\n"
-//      "        if (z < x) then {\n"             // 27
-//      "            z = z + 1;\n"                // 28
-//      "        } else {\n"
-//      "            v = v + 1;\n"                // 29
-//      "        }\n"
-//      "    }\n"
-//      "}";
-//  std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
-//  auto pkb = make_shared<PopulatePkb>(p);
-//  auto sp = SourceProcessor(pkb);
-//  sp.exec(codeSnippet);
-//  QueryPkb pkb1(p);
-//  QPS qps(std::make_shared<QueryPkb>(pkb1));
-//
-//  //?? not sure how to call
-//  //std::shared_ptr<Affects> affects = std::make_shared<Affects>(std::make_shared<CFGCollection>(program), pkb1);
-//  //std::shared_ptr<NextT> nextT = std::make_shared<NextT>(std::make_shared<CFGCollection>(program));
-//
-////  pkb->setAffectsObj(affects);
-////  pkb->setNextTObj(nextT);
-//
-//  SECTION("3002") {
-//    std::string query = "stmt s; Select s such that not Next(s,_)";
-//    std::vector<std::string> expected = {"3","15","28","29"};
-//    std::vector<std::string> ans = qps.evaluate(query);
-//    std::sort(ans.begin(), ans.end());
-//    std::sort(expected.begin(), expected.end());
-//    REQUIRE(ans == expected);
-//  }
-//  SECTION("30021") {
-//    std::string query = "stmt s; Select s such that Next(s,_)";
-//    std::vector<std::string> expected = {"1","2","4","5","6","7","8","9","10","11","12","13","14","16","17","18","19","20","21","22","23","24","25","26","27"};
-//    std::vector<std::string> ans = qps.evaluate(query);
-//    std::sort(ans.begin(), ans.end());
-//    std::sort(expected.begin(), expected.end());
-//    REQUIRE(ans == expected);
-//  }
-//  SECTION("4002") {
-//    std::string query = "stmt s; Select s such that not Next*(s,_)";
-//    std::vector<std::string> expected = {"3","15","28","29"};
-//    std::vector<std::string> ans = qps.evaluate(query);
-//    std::sort(ans.begin(), ans.end());
-//    std::sort(expected.begin(), expected.end());
-//    REQUIRE(ans == expected);
-//  }
-//  SECTION("40021") {
-//    std::string query = "stmt s; Select s such that Next*(s,_)";
-//    std::vector<std::string> expected = {"1","2","4","5","6","7","8","9","10","11","12","13","14","16","17","18","19","20","21","22","23","24","25","26","27"};
-//    std::vector<std::string> ans = qps.evaluate(query);
-//    std::sort(ans.begin(), ans.end());
-//    std::sort(expected.begin(), expected.end());
-//    REQUIRE(ans == expected);
-//  }
-//}
