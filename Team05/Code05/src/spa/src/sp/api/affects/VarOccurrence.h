@@ -6,6 +6,7 @@
 #define SPA_VAROCCURRENCE_H
 
 #include <memory>
+#include <set>
 #include <string>
 #include <utility>
 #include "common/SpaTypes.h"
@@ -13,11 +14,11 @@
 class VarOccurrence {
 private:
     std::string name;
-    std::shared_ptr<std::vector<StmtNo>> occurrences;
+    std::shared_ptr<std::set<StmtNo>> occurrences;
 public:
-    explicit VarOccurrence(std::string name) : name(std::move(name)), occurrences(std::make_shared<std::vector<StmtNo>>()) {}
+    explicit VarOccurrence(std::string name) : name(std::move(name)), occurrences(std::make_shared<std::set<StmtNo>>()) {}
     [[nodiscard]] std::string getName() const;
-    [[nodiscard]] std::shared_ptr<std::vector<StmtNo>> getOccurrences() const;
+    [[nodiscard]] std::shared_ptr<std::set<StmtNo>> getOccurrences() const;
     void addOccurrence(StmtNo stmtNo);
     bool operator==(const VarOccurrence& other) const;
 };

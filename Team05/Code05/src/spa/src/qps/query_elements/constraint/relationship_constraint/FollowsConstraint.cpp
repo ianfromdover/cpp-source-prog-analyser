@@ -19,36 +19,10 @@ std::vector<std::shared_ptr<ConstraintArgument>> FollowsConstraint::getConstrain
     return constraintArguments;
 }
 
-Table FollowsConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
-    if (this->getNot()) {
-        Table wholeSet = getFullTable(pkb);
-        Table subSet = getTable(pkb);
-        Table result = ResultTable::minusTable(wholeSet, subSet);
-//        cout << ResultTable(wholeSet).toString();
-//        cout << "*********************";
-        return result;
-    } else {
-        return getTable(pkb);
-    }
-}
-
-Table FollowsConstraint::getFullTable(QueryPkbVirtual &pkb){
-  std::vector<std::shared_ptr<ConstraintArgument>> args = getConstraintArguments();
-  std::string lhsEntityType = args[0] -> getEntityType();
-  std::string rhsEntityType = args[1] -> getEntityType();
-
-  if (isStatementSynonym(lhsEntityType) || isStatementSynonym(rhsEntityType)) {
-    ResultTable t;
-    if (isStatementSynonym(lhsEntityType)) {
-      t.add(args[0]->getEntityTable(pkb));
-    }
-    if (isStatementSynonym(rhsEntityType)) {
-      t.add(args[1]->getEntityTable(pkb));
-    }
-    return t.getTable();;
-  } else {
-    return pkb.getFollowsTable();
-  }
+Table FollowsConstraint::getTableWithDefaultHeadersFromPkb(QueryPkbVirtual &pkb) {
+    auto t = pkb.getFollowsTable();
+    t.insert(t.begin(), getDefaultHeaders());
+    return t;
 }
 
 Table FollowsConstraint::getTable(QueryPkbVirtual &pkb) {
@@ -101,24 +75,11 @@ Table FollowsConstraint::getTable(QueryPkbVirtual &pkb) {
         table.add(entityTableResult.getTable());
     }
 
-//    if (lhsHeader == HEADER_FOLLOWSLHS){
-//        table.removeColumnByHeader(lhsHeader);
-//    }
-//    if (rhsHeader == HEADER_FOLLOWSRHS){
-//        table.removeColumnByHeader(rhsHeader);
-//    }
-    removeHeaders({HEADER_FOLLOWSLHS, HEADER_FOLLOWSRHS}, make_shared<ResultTable>(table));
+    removeHeaders(make_shared<ResultTable>(table));
 
     return table.getTable();
 }
 
-bool FollowsConstraint::isStatementSynonym(std::string type) {
-    vector<std::string> statementVector = {
-            TYPE_STATEMENT, TYPE_READ, TYPE_PRINT, TYPE_ASSIGN,
-            TYPE_CALL, TYPE_WHILE, TYPE_IF
-    };
-    return std::find(statementVector.begin(), statementVector.end(), type) != statementVector.end();
-}
 
 std::size_t FollowsConstraint::hash() const {
     std::hash<std::string> stringHasher;
@@ -134,4 +95,8 @@ std::size_t FollowsConstraint::hash() const {
     hashValue ^= stringHasher(s2) + HASH_OFFSET + (hashValue << 6) + (hashValue >> 2);
 
     return hashValue;
+}
+
+std::vector<std::string> FollowsConstraint::getDefaultHeaders() {
+    return {HEADER_FOLLOWSLHS, HEADER_FOLLOWSRHS};
 }

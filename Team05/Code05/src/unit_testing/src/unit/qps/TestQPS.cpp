@@ -28,7 +28,7 @@ TEST_CASE("[TestQPS] basic select attributes") {
   std::shared_ptr<QueryPkbStub> pkb = std::make_shared<QueryPkbStub>();
   pkb->setStatement(3);
   pkb->setConst({{"1","1"},{"2","2"},{"3","3"}});
-  pkb->setProcedure({{"1","f1"},{"2","f2"}});
+  pkb->setProcedure({{"f1"},{"f2"}});
   pkb->setPatternAsgn({{"1","a3"},{"2","a2"},{"3","a3"}});
   pkb->setPatternWhile({{"1","w1"},{"2","w2"},{"3","w3"}});
   pkb->setWhile({{"1","w1"},{"2","w2"},{"3","w3"}});

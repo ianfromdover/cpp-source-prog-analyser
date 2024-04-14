@@ -16,7 +16,7 @@ TEST_CASE("[IntegTestPKB] SP Integration") {
 }
 
 TEST_CASE("[IntegTestPKB] QPS Integration") {
-
+    // Initialize Stub for QPS
     std::shared_ptr<PkbStorage> p=std::make_shared<PkbStorage>();
     std::shared_ptr<PopulatePkb> pkb = make_shared<PopulatePkb>(p);
     QueryPkb pkb1 = QueryPkb(p);

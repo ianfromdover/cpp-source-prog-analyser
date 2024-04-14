@@ -64,40 +64,16 @@ Table ParentConstraint::getTable(QueryPkbVirtual & pkb) {
         table.add(entityTableResult.getTable());
     }
 
-//    if (lhsHeader == HEADER_PARENTLHS){
-//        table.removeColumnByHeader(lhsHeader);
-//    }
-//    if (rhsHeader == HEADER_PARENTRHS){
-//        table.removeColumnByHeader(rhsHeader);
-//    }
-    removeHeaders({HEADER_PARENTLHS, HEADER_PARENTRHS}, make_shared<ResultTable>(table));
+    removeHeaders(make_shared<ResultTable>(table));
 
     return table.getTable();
-}
-
-Table ParentConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
-    if (this->getNot()) {
-        Table wholeSet = pkb.getParentTable();
-        Table subSet = getTable(pkb);
-        return ResultTable::minusTable(wholeSet, subSet);
-    } else {
-        return getTable(pkb);
-    }
-}
-
-bool ParentConstraint::isStatementSynonym(std::string type) {
-    vector<std::string> statementVector = {
-            TYPE_STATEMENT, TYPE_READ, TYPE_PRINT, TYPE_ASSIGN,
-            TYPE_CALL, TYPE_WHILE, TYPE_IF
-    };
-    return std::find(statementVector.begin(), statementVector.end(), type) != statementVector.end();
 }
 
 std::size_t ParentConstraint::hash() const {
     std::hash<std::string> stringHasher;
 
     std::string s1 = constraintArguments[0]->getArgumentValue()[0];
-    std::string s2 = constraintArguments[0]->getArgumentValue()[0];
+    std::string s2 = constraintArguments[1]->getArgumentValue()[0];
 
     std::size_t hashValue = 0;
 
@@ -107,4 +83,14 @@ std::size_t ParentConstraint::hash() const {
     hashValue ^= stringHasher(s2) + HASH_OFFSET + (hashValue << 6) + (hashValue >> 2);
 
     return hashValue;
+}
+
+Table ParentConstraint::getTableWithDefaultHeadersFromPkb(QueryPkbVirtual &pkb) {
+    auto t = pkb.getParentTable();
+    t.insert(t.begin(), getDefaultHeaders());
+    return t;
+}
+
+std::vector<std::string> ParentConstraint::getDefaultHeaders() {
+    return {HEADER_PARENTLHS, HEADER_PARENTRHS};
 }

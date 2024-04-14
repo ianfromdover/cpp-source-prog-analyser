@@ -21,6 +21,7 @@ using table = Table;
 class ResultTable {
 public:
     table _table;
+    bool isAllResults = false;
     ResultTable(table& t){
         removeDuplicateEntires(t);
         _table = t;
@@ -32,13 +33,25 @@ public:
         return _table.empty();
     }
 
+    void replaceHeader(int idx, string newHeader){
+      if (idx < 0 || idx >= _table[0].size()) return;
+        _table[0][idx] = std::move(newHeader);
+    }
+
+    void replaceHeader(string oldHeader, string newHeader){
+      int idx = findColumnIndex(_table, oldHeader);
+      if (idx < 0) return;
+        _table[0][idx] = std::move(newHeader);
+    }
+
     void add(const table& a){
-        if (_table.empty()){
-            _table = removeDuplicateColumn(a); // TODO: remove 'removeDuplicateColumn' after pkb patch
-        } else if (!a.empty() && !a[0].empty() && a[0][0] == HEADER_SPECIAL_ALL_RESULTS) {
+        if (!a.empty() && !a[0].empty() && a[0][0] == HEADER_SPECIAL_ALL_RESULTS) {
+            isAllResults = true;
             return; // is a special table that escapes joining as it is every possible result.
+        } else if (_table.empty()) {
+            _table = a;
         } else {
-            _table = joinOrCrossProduct(removeDuplicateColumn(_table), a);
+            _table = joinOrCrossProduct(_table, a);
             removeDuplicateEntires(_table);
         }
     }
@@ -49,6 +62,7 @@ public:
     }
 
     bool hasEntries(){
+        if (isAllResults) return true;
         if (isEmpty()) return false;
         return _table.size() > 1;
     }
@@ -58,11 +72,6 @@ public:
         std::sort(headers.begin(), headers.end());
         auto last = std::unique(headers.begin(), headers.end());
         return last != headers.end();
-    }
-
-    table removeDuplicateColumn(table t){
-
-        return t;
     }
 
     void filterByColumnPartial(const string& header, const string& patternStr) {
@@ -161,7 +170,7 @@ public:
     }
 
     void removeAllColumnsExceptIndex(int i){
-        for (int j = 0; j < _table[0].size(); ++j) {
+        for (int j = _table[0].size(); j >=0 ; --j) {
             if (j != i){
                 removeColumnByIndex(j);
             }
@@ -265,6 +274,27 @@ public:
             result.push_back(row);
         }
         return ResultTable(result).getTable();
+    }
+
+    void removeNonDuplicateRows() {
+        Table new_table;
+        if (!(_table.empty())) {
+            new_table.push_back(_table[0]);
+            for (size_t i = 1; i < _table.size(); ++i) {
+                std::unordered_map<std::string, int> counts;
+                bool has_duplicates = false;
+                for (const auto& item : _table[i]) {
+                    if (++counts[item] > 1) {
+                        has_duplicates = true;
+                        break;
+                    }
+                }
+                if (has_duplicates) {
+                    new_table.push_back(_table[i]);
+                }
+            }
+        }
+        _table = new_table;
     }
 
     static vector<string> findCommonHeaders(const table& a, const table& b) {
@@ -509,6 +539,7 @@ public:
         // check if rows with commonHeaders have same value, if it does not have same values, insert into result
         // start from i = 1, j = 1 to ignore the header
         for (int aRow = 1; aRow < a.size(); aRow ++) {
+            if (b.size()==1) result.push_back(a[aRow]);
             for (int bRow = 1; bRow < b.size(); bRow ++) {
                 if (isSameValuesBasedHeaderAndIndex(a, b, aRow, bRow, commonHeaders)) {
                     // same so we 'minus' them away and discard the value

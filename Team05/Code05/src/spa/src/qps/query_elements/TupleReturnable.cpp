@@ -17,8 +17,9 @@ std::vector<std::vector<std::string>> TupleReturnable::getEntityTable(QueryPkbVi
     ResultTable rs;
     for (std::shared_ptr<Entity> ent : entityVector) {
         std::vector<std::vector<std::string>> table = ent->getEntityTable(pkb);
-        rs.add(table);
-//        result.push_back(table.at(0));
+        ResultTable t(table);
+        t.removeColumnByHeader(HEADER_ENT_WITH_TOMERGE);
+        rs.add(t.getTable());
     }
     return rs._table;
 }

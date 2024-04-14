@@ -32,6 +32,7 @@ bool QPSMultiCharacterStrategy::tokenize(char character, std::stringstream &stre
               } else {
                 tokens.addToken(QPSTokenType::NOT, name);
               }
+              declarationStarted = false;
               return true;
             }
             tokens.addToken(QPSTokenType::IDENTIFIER, name);
@@ -52,46 +53,6 @@ bool QPSMultiCharacterStrategy::tokenize(char character, std::stringstream &stre
 }
 
 bool QPSMultiCharacterStrategy::expectSynonymNext(const std::string &name, QPSTokenList &tokens) {
-    static const std::map<std::string, QPSTokenType::QPSTypeInfo> declarationKeywords = {
-            // Design entities
-            {"stmt",      QPSTokenType::STMT1},
-            {"read",      QPSTokenType::READ},
-            {"print",     QPSTokenType::PRINT},
-            {"while",     QPSTokenType::WHILE},
-            {"if",        QPSTokenType::IF},
-            {"call",      QPSTokenType::CALL},
-            {"assign",    QPSTokenType::ASSIGN},
-            {"variable",  QPSTokenType::VARIABLE},
-            {"constant",  QPSTokenType::CONSTANT},
-            {"procedure", QPSTokenType::PROCEDURE},
-
-            // Relations
-            {"Follows",   QPSTokenType::FOLLOWS},
-            {"Follows*",  QPSTokenType::FOLLOWS_T},
-            {"Parent",    QPSTokenType::PARENT},
-            {"Parent*",   QPSTokenType::PARENT_T},
-            {"Modifies", QPSTokenType::MODIFIES},
-            {"Uses", QPSTokenType::USES},
-            {"Calls", QPSTokenType::CALLS},
-            {"Calls*",    QPSTokenType::CALLS_T},
-            {"Next",    QPSTokenType::NEXT},
-            {"Next*",    QPSTokenType::NEXT_T},
-            {"Affects",    QPSTokenType::AFFECTS},
-
-        // With
-        {"stmt#",   QPSTokenType::WITHSTMT},
-        {"value",   QPSTokenType::WITHVALUE},
-        {"procName",   QPSTokenType::WITHPROCNAME},
-        {"varName",   QPSTokenType::WITHVARNAME},
-        {"with",   QPSTokenType::WITH},
-
-            {"Select",    QPSTokenType::SELECT},
-            {"that",      QPSTokenType::THAT},
-            {"pattern",   QPSTokenType::PATTERN},
-            {"not",   QPSTokenType::NOT},
-
-            {"and",   QPSTokenType::AND},
-    };
 
     auto it = declarationKeywords.find(name);
     if (it != declarationKeywords.end()) {
@@ -122,13 +83,9 @@ bool QPSMultiCharacterStrategy::expectSynonymNext(const std::string &name, QPSTo
             }
             return false;
         }
-        if (it->second == QPSTokenType::WITH){
-          tokens.addToken(QPSTokenType::WITH, name);
-          return false;
-        }
-        if (it->second == QPSTokenType::WITHSTMT || it->second == QPSTokenType::WITHVALUE || it->second == QPSTokenType::WITHPROCNAME || it->second == QPSTokenType::WITHVARNAME){
-          tokens.addToken(it->second, name);
-          return false;
+        if (tokenMap.find(it->second) != tokenMap.end()) {
+            tokens.addToken(it->second, name);
+            return false;
         }
         if (it->second == QPSTokenType::BOOLEAN) {
           if (!tokens.getTokens().empty() && tokens.getTokens().back()->getType().getInfo() == QPSTokenType::SELECT) {

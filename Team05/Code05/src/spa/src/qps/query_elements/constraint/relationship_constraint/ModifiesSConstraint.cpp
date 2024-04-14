@@ -19,14 +19,10 @@ std::vector<std::shared_ptr<ConstraintArgument>> ModifiesSConstraint::getConstra
     return constraintArguments;
 }
 
-Table ModifiesSConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
-    if (this->getNot()) {
-        Table wholeSet = pkb.getModifiesSTable();
-        Table subSet = getTable(pkb);
-        return ResultTable::minusTable(wholeSet, subSet);
-    } else {
-        return getTable(pkb);
-    }
+Table ModifiesSConstraint::getTableWithDefaultHeadersFromPkb(QueryPkbVirtual &pkb) {
+    auto t = pkb.getModifiesSTable();
+    t.insert(t.begin(), getDefaultHeaders());
+    return t;
 }
 
 Table ModifiesSConstraint::getTable(QueryPkbVirtual &pkb) {
@@ -70,30 +66,17 @@ Table ModifiesSConstraint::getTable(QueryPkbVirtual &pkb) {
         table.filterByColumnExact(rhsHeader,rhsHeaderNew);
     }
 
-//    if (lhsHeader == HEADER_MODIFIESSLHS) {
-//        table.removeColumnByHeader(lhsHeader);
-//    }
-//    if (rhsHeader == HEADER_MODIFIESSRHS) {
-//        table.removeColumnByHeader(rhsHeader);
-//    }
-    removeHeaders({HEADER_MODIFIESSLHS, HEADER_MODIFIESSRHS}, make_shared<ResultTable>(table));
+    removeHeaders(make_shared<ResultTable>(table));
 
     return table.getTable();
 }
 
-bool ModifiesSConstraint::isStatementSynonym(std::string type) {
-    vector<std::string> statementVector = {
-            TYPE_STATEMENT, TYPE_READ, TYPE_ASSIGN,
-            TYPE_CALL, TYPE_WHILE, TYPE_IF, TYPE_PRINT
-    };
-    return std::find(statementVector.begin(), statementVector.end(), type) != statementVector.end();
-}
 
 std::size_t ModifiesSConstraint::hash() const {
     std::hash<std::string> stringHasher;
 
     std::string s1 = constraintArguments[0]->getArgumentValue()[0];
-    std::string s2 = constraintArguments[0]->getArgumentValue()[0];
+    std::string s2 = constraintArguments[1]->getArgumentValue()[0];
 
     std::size_t hashValue = 0;
 
@@ -103,4 +86,8 @@ std::size_t ModifiesSConstraint::hash() const {
     hashValue ^= stringHasher(s2) + HASH_OFFSET + (hashValue << 6) + (hashValue >> 2);
 
     return hashValue;
+}
+
+std::vector<std::string> ModifiesSConstraint::getDefaultHeaders() {
+    return {HEADER_MODIFIESSLHS, HEADER_MODIFIESSRHS};
 }

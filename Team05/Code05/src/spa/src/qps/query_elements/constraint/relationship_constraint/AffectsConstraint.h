@@ -14,15 +14,20 @@
 class AffectsConstraint : public RelationshipConstraint {
 private:
     std::vector<std::shared_ptr<ConstraintArgument>> constraintArguments;
+protected:
+    Table getTableWithDefaultHeadersFromPkb(QueryPkbVirtual &pkb) override;
+    Table getTable(QueryPkbVirtual &pkb) override;
+    std::vector<std::string> getDefaultHeaders() override;
+//    Table getFullTable(QueryPkbVirtual &pkb) override;
 public:
     AffectsConstraint(std::shared_ptr<StatementReference>, std::shared_ptr<StatementReference>);
     std::string getConstraintType() override;
     std::vector<std::shared_ptr<ConstraintArgument>> getConstraintArguments() override;
-    Table getRelationshipTable(QueryPkbVirtual &) override;
-
     Table generateCartesianProductTable(const vector<string> &table);
     vector<string> getDistinctColumnByIndex(const Table &entityTable, int index);
     std::size_t hash() const override;
+    Table getAffectsTable(QueryPkbVirtual &pkb);
+
 };
 
 

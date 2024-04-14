@@ -14,15 +14,16 @@
 class UsesPConstraint : public RelationshipConstraint {
 private:
     std::vector<std::shared_ptr<ConstraintArgument>> constraintArguments;
-    Table getTable(QueryPkbVirtual &pkb);
+protected:
+    Table getTableWithDefaultHeadersFromPkb(QueryPkbVirtual &pkb) override;
+    Table getTable(QueryPkbVirtual &pkb) override;
+    std::vector<std::string> getDefaultHeaders() override;
+//    Table getFullTable(QueryPkbVirtual &pkb) override;
 public:
     UsesPConstraint(std::shared_ptr<EntityReference> , std::shared_ptr<EntityReference> );
     std::string getConstraintType() override;
     std::vector<std::shared_ptr<ConstraintArgument>> getConstraintArguments() override;
-    std::vector<std::vector<std::string>> getRelationshipTable(QueryPkbVirtual &) override;
-
     string &stripCharacters(string &str, const string &chars);
-
     std::size_t hash() const override;
 };
 

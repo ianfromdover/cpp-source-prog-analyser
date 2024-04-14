@@ -19,7 +19,13 @@ std::vector<std::shared_ptr<ConstraintArgument>> NextConstraint::getConstraintAr
     return constraintArguments;
 }
 
-Table NextConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
+Table NextConstraint::getTableWithDefaultHeadersFromPkb(QueryPkbVirtual &pkb) {
+    auto t = pkb.getNextTable();
+    t.insert(t.begin(), getDefaultHeaders());
+    return t;
+}
+
+Table NextConstraint::getTable(QueryPkbVirtual & pkb) {
     // Get follows table and populate it into our results table
     std::vector<std::vector<std::string>> result = pkb.getNextTable();
 
@@ -67,23 +73,9 @@ Table NextConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
         table.add(entityTableResult.getTable());
     }
 
-//    if (lhsHeader == HEADER_NEXTLHS){
-//        table.removeColumnByHeader(lhsHeader);
-//    }
-//    if (rhsHeader == HEADER_NEXTRHS){
-//        table.removeColumnByHeader(rhsHeader);
-//    }
-    removeHeaders({HEADER_NEXTLHS, HEADER_NEXTRHS}, make_shared<ResultTable>(table));
+    removeHeaders(make_shared<ResultTable>(table));
 
     return table.getTable();
-}
-
-bool NextConstraint::isStatementSynonym(std::string type) {
-    vector<std::string> statementVector = {
-            TYPE_STATEMENT, TYPE_READ, TYPE_PRINT, TYPE_ASSIGN,
-            TYPE_CALL, TYPE_WHILE, TYPE_IF
-    };
-    return std::find(statementVector.begin(), statementVector.end(), type) != statementVector.end();
 }
 
 std::size_t NextConstraint::hash() const {
@@ -100,4 +92,8 @@ std::size_t NextConstraint::hash() const {
     hashValue ^= stringHasher(s2) + HASH_OFFSET + (hashValue << 6) + (hashValue >> 2);
 
     return hashValue;
+}
+
+std::vector<std::string> NextConstraint::getDefaultHeaders() {
+    return {HEADER_NEXTLHS, HEADER_NEXTRHS};
 }

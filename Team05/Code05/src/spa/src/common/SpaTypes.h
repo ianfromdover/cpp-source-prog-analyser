@@ -24,6 +24,7 @@
 #define TYPE_QUOTED_IDENT "QuotedIdentity"
 #define TYPE_VAR_WITH "VarWith"
 #define TYPE_LITERAL_WITH "IntWith"
+#define TYPE_NONE "None"
 
 #define RETURN_INT_RESULT "IntResult"
 #define RETURN_STR_RESULT "StrResult"
@@ -55,6 +56,10 @@
 #define CONSTRAINT_TYPE_NEXT "Next"
 #define CONSTRAINT_TYPE_NEXTT "NextT"
 #define CONSTRAINT_TYPE_AFFECTS "Affects"
+
+// With clause data types
+#define WITHNAME "NAME"
+#define WITHINT "INTEGER"
 
 // Used for hashing
 #define CONSTRAINT_TYPE_PATTERN_ASGN "PatternAsgn"

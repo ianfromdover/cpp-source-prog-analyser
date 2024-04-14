@@ -5,7 +5,10 @@
 // prompt: used copilot
 bool isAdded(Table table, std::string key, std::string value) {
     for (const auto& pair : table) {
-        if (pair[0] == key && pair[1] == value) {
+        if (pair.size() == 1 && pair[0] == key) {
+            return true;
+        }
+        else if (pair.size() == 2 && pair[0] == key && pair[1] == value) {
             return true;
         }
     }

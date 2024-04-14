@@ -13,14 +13,17 @@ class IfPatternConstraint : public PatternConstraint {
 private:
     std::vector<std::shared_ptr<ConstraintArgument>> constraintArguments;
     std::shared_ptr<IfEntity> constraintIdentifier;
-    Table getTable(QueryPkbVirtual &pkb);
 public:
     IfPatternConstraint(std::shared_ptr<EntityReference>, std::shared_ptr<IfEntity>);
     std::string getConstraintType() override;
     std::shared_ptr<Entity> getPatternConstraintIdentifier() override;
     std::vector<std::shared_ptr<ConstraintArgument>>  getConstraintArguments() override;
-    std::vector<std::vector<std::string>> getRelationshipTable(QueryPkbVirtual &) override;
     std::size_t hash() const override;
+protected:
+    Table getTableWithDefaultHeadersFromPkb(QueryPkbVirtual &pkb) override;
+    Table getTable(QueryPkbVirtual &pkb) override;
+    vector<string> getDefaultHeaders() override;
+//    Table getFullTable(QueryPkbVirtual &pkb) override;
 };
 
 

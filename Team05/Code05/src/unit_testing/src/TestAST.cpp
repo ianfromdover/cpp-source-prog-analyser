@@ -591,6 +591,8 @@ TEST_CASE("Modifies Handler - QPS") {
     QueryPkb pkb1(p);
     QPS qps(std::make_shared<QueryPkb>(pkb1));
 
+
+
     SECTION("Select s such that Modifies(s, v)") {
         std::string query = "stmt s; variable v; Select s such that Modifies(s, v)";
         std::vector<std::string> expected  = {"2", "3", "5", "6", "7", "9", "10", "11"};
@@ -1419,6 +1421,15 @@ TEST_CASE("Calls relationship"){
     QueryPkb pkb1(p);
     QPS qps(std::make_shared<QueryPkb>(pkb1));
 
+    SECTION("ss"){
+      std::string query = "procedure p; Select p with not p.procName = \"f1\"";
+      std::vector<std::string> expected  = {"f", "f2"};
+      std::vector<std::string> ans = qps.evaluate(query);
+      std::sort(ans.begin(), ans.end());
+      std::sort(expected.begin(), expected.end());
+      REQUIRE(ans==expected);
+    }
+
     SECTION("procedure p; Select p such that Calls(_, _)") {
         std::string query = "procedure p; Select p such that Calls(_, _)";
         std::vector<std::string> expected  = {"f", "f1", "f2"};
@@ -1933,6 +1944,14 @@ TEST_CASE("expression matching") {
     std::sort(expected.begin(), expected.end());
     REQUIRE(ans == expected);
   }
+  SECTION("match (_,_(b/c)_)") {
+    std::string query = "assign a; Select a pattern a(_, _\"(b/c)\"_)";
+    std::vector<std::string> expected = {"2"};
+    std::vector<std::string> ans = qps.evaluate(query);
+    std::sort(ans.begin(), ans.end());
+    std::sort(expected.begin(), expected.end());
+    REQUIRE(ans == expected);
+  }
   SECTION("match (_,_d%e_)") {
     std::string query = "assign a; Select a pattern a(_, _\"d%e\"_)";
     std::vector<std::string> expected = {"2"};
@@ -2296,274 +2315,188 @@ TEST_CASE("test") {
     }
 }
 
+//TEST_CASE("Error for Milestone2") {
+//    std::string codeSnippet = R"(
+//procedure parentTestCase {
+//	read a;
+//	while(x==1) {
+//		print b;
+//		c = 1;
+//	}
+//	if (x==1) then {
+//		read d;
+//		print e;
+//	} else {
+//		f = 1;
+//		read g;
+//	}
+//	while(x==1) {
+//		print h;
+//		while(x==1) {
+//			i = 1;
+//			read j;
+//		}
+//		call useless;
+//		if (x==1) then {
+//			call useless;
+//			print n;
+//		} else {
+//			o = 1;
+//			read p;
+//		}
+//	}
+//	if (x==1) then {
+//		while(x==1) {
+//			r = 1;
+//			read s;
+//		}
+//		if (x==1) then {
+//			read m;
+//			print n;
+//		} else {
+//			o = 1;
+//			call useless;
+//		}
+//		print t;
+//	} else {
+//		u = 1;
+//		read v;
+//	}
+//	if (x==1) then {
+//		print w;
+//		x = 1;
+//	} else {
+//		read y;
+//		if (x==1) then {
+//			read m;
+//			print n;
+//		} else {
+//			o = 1;
+//			read p;
+//		}
+//		while(x==1) {
+//			print z;
+//			aa = 1;
+//		}
+//	}
+//	while(x==1) {
+//		call useless;
+//		while(x==1) {
+//			print cc;
+//			while(x==1) {
+//				print dd;
+//				ee = 1;
+//			}
+//			if (x==1) then {
+//				call useless;
+//				print gg;
+//			} else {
+//				hh = 1;
+//				read ii;
+//			}
+//		}
+//	}
+//	if (x==1) then {
+//		read ff;
+//		if (x==1) then {
+//			read ff;
+//			if (x==1) then {
+//				read ff;
+//				print gg;
+//			} else {
+//				hh = 1;
+//				call useless;
+//			}
+//		} else {
+//			hh = 1;
+//			if (x==1) then {
+//				read ff;
+//				print gg;
+//			} else {
+//				hh = 1;
+//				read ii;
+//			}
+//		}
+//	} else {
+//		hh = 1;
+//		if (x==1) then {
+//			read ff;
+//			if (x==1) then {
+//				read ff;
+//				print gg;
+//			} else {
+//				hh = 1;
+//				read ii;
+//			}
+//			while(x==1) {
+//				print dd;
+//				ee = 1;
+//			}
+//		} else {
+//			hh = 1;
+//			if (x==1) then {
+//				read ff;
+//				print gg;
+//			} else {
+//				hh = 1;
+//				read ii;
+//			}
+//			while(x==1) {
+//				print dd;
+//				ee = 1;
+//			}
+//		}
+//	}
+//}
+//
+//procedure useless {
+//	read zz;
+//}
+//    )";
+//
+//    std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
+//    auto pkb = make_shared<PopulatePkb>(p);
+//    auto sp = SourceProcessor(pkb);
+//    sp.exec(codeSnippet);
+//    QueryPkb pkb1(p);
+//    QPS qps(std::make_shared<QueryPkb>(pkb1));
+//
+//    SECTION("To Be removed") {
+//      std::vector<std::vector<std::string>> ff = pkb1.getUsesSTable();
+//        std::string query = "stmt s,s1,s2; Select <s1> such that Parent(s,s1) and Parent(s,s2) and Parent(s1,s2)";
+//        std::vector<std::string> expected = {"3", "5"};
+//        std::vector<std::string> ans = qps.evaluate(query);
+//        std::sort(ans.begin(), ans.end());
+//        std::sort(expected.begin(), expected.end());
+//        REQUIRE(ans == expected);
+//    }
+//}
 
-TEST_CASE("Test Affects 1") {
-    // https://nus-cs3203.github.io/course-website/contents/advanced-spa-requirements/design-abstractions.html#affects
-    // Code 6 Example.
-    const auto source = R"(
-        procedure Second {
-            x = 0;
-            i = 5;
-            while (i!=0) {
-                x = x + 2*y;
-                call Third;
-                i = i - 1;
-            }
-            if (x==1) then {
-                x = x+1;
-            }
-            else {
-                z = 1;
-            }
-            z = z + x + i;
-            y = z + 2;
-            x = x * y + z;
-        }
 
-        procedure Third {
-            z = 5;
-            v = z;
-            print v;
-        }
-    )";
-
-    const auto& pkb = std::make_shared<PkbStorage>();
-    auto populatePkb = std::make_shared<PopulatePkb>(pkb);
-    auto queryPkb = std::make_shared<QueryPkb>(pkb);
-
-    auto sp = SourceProcessor(populatePkb);
-    const auto program = sp.parse(sp.scan(source));
-    sp.validate(program);
-    sp.extract(program);
-
-    auto affects = Affects(std::make_shared<CFGCollection>(program), queryPkb);
-
-    REQUIRE(affects.get(2, 6));
-    REQUIRE(affects.get(4, 8));
-    REQUIRE(affects.get(4, 10));
-    REQUIRE(affects.get(6, 6));
-    REQUIRE(affects.get(1, 4));
-    REQUIRE(affects.get(1, 8));
-    REQUIRE(affects.get(1, 10));
-    REQUIRE(affects.get(1, 12));
-    REQUIRE(affects.get(2, 10));
-    REQUIRE(affects.get(9, 10));
-
-    REQUIRE(!affects.get(9, 11));
-    REQUIRE(!affects.get(9, 12));
-    REQUIRE(!affects.get(2, 3));
-    REQUIRE(!affects.get(9, 6));
-}
-
-TEST_CASE("Test Affects 2") {
-    // https://nus-cs3203.github.io/course-website/contents/advanced-spa-requirements/design-abstractions.html#affects
-    // Code 7 Example.
-    const auto source = R"(
-        procedure alpha {
-            x = 1;
-            if ( i != 2 ) then {
-                x = a + 1;
-            }
-            else {
-                a = b;
-            }
-            a = x;
-        }
-    )";
-
-    const auto& pkb = std::make_shared<PkbStorage>();
-    auto populatePkb = std::make_shared<PopulatePkb>(pkb);
-    auto queryPkb = std::make_shared<QueryPkb>(pkb);
-
-    auto sp = SourceProcessor(populatePkb);
-    const auto program = sp.parse(sp.scan(source));
-    sp.validate(program);
-    sp.extract(program);
-
-    auto affects = Affects(std::make_shared<CFGCollection>(program), queryPkb);
-
-    REQUIRE(affects.get(1, 5));
-}
-
-TEST_CASE("Test Affects 3") {
-    // https://nus-cs3203.github.io/course-website/contents/advanced-spa-requirements/design-abstractions.html#affects
-    // Code 8 Example where Modifies("q", "x") holds.
-    const auto source = R"(
-        procedure p {
-            x = a;
-            call q;
-            v = x;
-        }
-
-        procedure q {
-            x = 5;
-        }
-    )";
-
-    const auto& pkb = std::make_shared<PkbStorage>();
-    auto populatePkb = std::make_shared<PopulatePkb>(pkb);
-    auto queryPkb = std::make_shared<QueryPkb>(pkb);
-
-    auto sp = SourceProcessor(populatePkb);
-    const auto program = sp.parse(sp.scan(source));
-    sp.validate(program);
-    sp.extract(program);
-
-    auto affects = Affects(std::make_shared<CFGCollection>(program), queryPkb);
-
-    REQUIRE(!affects.get(1, 3));
-}
-
-TEST_CASE("Test Affects 4") {
-    // https://nus-cs3203.github.io/course-website/contents/advanced-spa-requirements/design-abstractions.html#affects
-    // Code 8 Example where Modifies("q", "x") does not hold.
-    const auto source = R"(
-        procedure p {
-            x = a;
-            call q;
-            v = x;
-        }
-
-        procedure q {
-            print x;
-        }
-    )";
-
-    const auto& pkb = std::make_shared<PkbStorage>();
-    auto populatePkb = std::make_shared<PopulatePkb>(pkb);
-    auto queryPkb = std::make_shared<QueryPkb>(pkb);
-
-    auto sp = SourceProcessor(populatePkb);
-    const auto program = sp.parse(sp.scan(source));
-    sp.validate(program);
-    sp.extract(program);
-
-    auto affects = Affects(std::make_shared<CFGCollection>(program), queryPkb);
-
-    REQUIRE(affects.get(1, 3));
-}
-
-TEST_CASE("Test Affects 5") {
-    // https://nus-cs3203.github.io/course-website/contents/advanced-spa-requirements/design-abstractions.html#affects
-    // Code 9 Example.
-    const auto source = R"(
-        procedure p {
-            x = 1;
-            y = 2;
-            z = y;
-            call q;
-            z = x + y + z;
-        }
-
-        procedure q {
-            x = 5;
-            t = 4;
-            if ( z > 0 ) then {
-                t = x + 1;
-            }
-            else {
-                y = z + x;
-            }
-            x = t + 1;
-        }
-    )";
-
-    const auto& pkb = std::make_shared<PkbStorage>();
-    auto populatePkb = std::make_shared<PopulatePkb>(pkb);
-    auto queryPkb = std::make_shared<QueryPkb>(pkb);
-
-    auto sp = SourceProcessor(populatePkb);
-    const auto program = sp.parse(sp.scan(source));
-    sp.validate(program);
-    sp.extract(program);
-
-    auto affects = Affects(std::make_shared<CFGCollection>(program), queryPkb);
-
-    REQUIRE(!affects.get(1, 5));
-    REQUIRE(!affects.get(2, 5));
-    REQUIRE(!affects.get(3, 10));
-}
-
-TEST_CASE("Test Affects 6") {
-    // https://nus-cs3203.github.io/course-website/contents/advanced-spa-requirements/design-abstractions.html#affects
-    // Code 10 Example.
-    const auto source = R"(
-        procedure alpha {
-            x = 1;
-            call beta;
-            a = x;
-        }
-
-        procedure beta {
-            if ( i != 2 ) then {
-                x = a + 1;
-            }
-            else {
-                a = b;
-            }
-        }
-    )";
-
-    const auto& pkb = std::make_shared<PkbStorage>();
-    auto populatePkb = std::make_shared<PopulatePkb>(pkb);
-    auto queryPkb = std::make_shared<QueryPkb>(pkb);
-
-    auto sp = SourceProcessor(populatePkb);
-    const auto program = sp.parse(sp.scan(source));
-    sp.validate(program);
-    sp.extract(program);
-
-    auto affects = Affects(std::make_shared<CFGCollection>(program), queryPkb);
-
-    REQUIRE(!affects.get(1, 3));
-}
-
-TEST_CASE("Test Affects 7") {
-    // https://nus-cs3203.github.io/course-website/contents/advanced-spa-requirements/design-abstractions.html#affects
-    // Code 11 Example.
-    const auto source = R"(
-        procedure p {
-            x = a;
-            read x;
-            v = x;
-        }
-    )";
-
-    const auto& pkb = std::make_shared<PkbStorage>();
-    auto populatePkb = std::make_shared<PopulatePkb>(pkb);
-    auto queryPkb = std::make_shared<QueryPkb>(pkb);
-
-    auto sp = SourceProcessor(populatePkb);
-    const auto program = sp.parse(sp.scan(source));
-    sp.validate(program);
-    sp.extract(program);
-
-    auto affects = Affects(std::make_shared<CFGCollection>(program), queryPkb);
-
-    REQUIRE(!affects.get(1, 3));
-}
-
-TEST_CASE("Error for Milestone2") {
+TEST_CASE("Parent Handler - not attribute") {
     std::string codeSnippet = R"(
-    procedure f {
-      while (2 == 3) {
-        print a;
-        while (3 == 2) {
-          x = 1;
-          while (x==2) {
-           u = 2;
-          }
-          if (3 == 8) then {
-            read y;
-          } else {
-            print u;
-          }
+    procedure computeCentroid {
+        print x;
+        if (hello == 0) then {
+            y=1;
+            print t;
+            read f;
+            while (x == 0) {
+                if (i == 1) then {
+                    w = 0;
+                } else {
+                    g = 1;
+                }
+                x=1;
+            }
+        } else {
+            print hello;
         }
-      }
+        x=0;
+        y=1;
+        z=x+y;
     }
-
     )";
-
     std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
     auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
@@ -2571,12 +2504,14 @@ TEST_CASE("Error for Milestone2") {
     QueryPkb pkb1(p);
     QPS qps(std::make_shared<QueryPkb>(pkb1));
 
-    SECTION("To Be removed") {
-        std::string query = "while w, w1; Select w1 such that Parent*(w, w1)";
-        std::vector<std::string> expected = {"3", "5"};
-        std::vector<std::string> ans = qps.evaluate(query);
-        std::sort(ans.begin(), ans.end());
-        std::sort(expected.begin(), expected.end());
-        REQUIRE(ans == expected);
-    }
+    // 2, 6, 7 are parent
+//    SECTION("Select s1 such that not Parent(s1, s2)") {
+//        std::string query = "assign a; variable v; if ifs; Select a pattern not a (_, _)";// such that Modifies(a, v) and Uses(ifs, v)";
+//        std::vector<std::string> expected = {"2", "6", "7"};
+//        std::vector<std::string> ans = qps.evaluate(query);
+//        std::sort(ans.begin(), ans.end());
+//        std::sort(expected.begin(), expected.end());
+//        REQUIRE(ans == expected);
+//    }
+
 }

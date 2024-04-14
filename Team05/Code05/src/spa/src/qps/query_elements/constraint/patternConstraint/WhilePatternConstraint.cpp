@@ -22,16 +22,6 @@ std::vector<std::shared_ptr<ConstraintArgument>> WhilePatternConstraint::getCons
     return constraintArguments;
 }
 
-std::vector<std::vector<std::string>> WhilePatternConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
-    if (this->getNot()) {
-        Table wholeSet = pkb.getPatternWhileTable();
-        Table subSet = getTable(pkb);
-        return ResultTable::minusTable(wholeSet, subSet);
-    } else {
-        return getTable(pkb);
-    }
-}
-
 Table WhilePatternConstraint::getTable(QueryPkbVirtual &pkb) {
     Table res = pkb.getPatternWhileTable();
 
@@ -78,3 +68,14 @@ std::size_t WhilePatternConstraint::hash() const {
     return hashValue;
 }
 
+Table WhilePatternConstraint::getTableWithDefaultHeadersFromPkb(QueryPkbVirtual &pkb) {
+    auto t = pkb.getPatternWhileTable();
+    t.insert(t.begin(), getDefaultHeaders());
+    ResultTable r(t);
+    r.removeColumnByIndex(1);
+    return r.getTable();
+}
+
+vector<string> WhilePatternConstraint::getDefaultHeaders() {
+    return {constraintIdentifier->getIdentifier(), HEADER_WHILEPATTERN};
+}

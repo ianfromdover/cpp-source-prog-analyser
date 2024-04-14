@@ -19,14 +19,10 @@ std::vector<std::shared_ptr<ConstraintArgument>> UsesSConstraint::getConstraintA
     return constraintArguments;
 }
 
-Table UsesSConstraint::getRelationshipTable(QueryPkbVirtual & pkb) {
-    if (this->getNot()) {
-        Table wholeSet = pkb.getUsesSTable();
-        Table subSet = getTable(pkb);
-        return ResultTable::minusTable(wholeSet, subSet);
-    } else {
-        return getTable(pkb);
-    }
+Table UsesSConstraint::getTableWithDefaultHeadersFromPkb(QueryPkbVirtual &pkb) {
+    auto t = pkb.getUsesSTable();
+    t.insert(t.begin(), getDefaultHeaders());
+    return t;
 }
 
 Table UsesSConstraint::getTable(QueryPkbVirtual &pkb) {
@@ -70,30 +66,16 @@ Table UsesSConstraint::getTable(QueryPkbVirtual &pkb) {
         table.filterByColumnExact(rhsHeader,rhsHeaderNew);
     }
 
-//    if (lhsHeader == HEADER_USESSLHS){
-//        table.removeColumnByHeader(lhsHeader);
-//    }
-//    if (rhsHeader == HEADER_USESSRHS){
-//        table.removeColumnByHeader(rhsHeader);
-//    }
-    removeHeaders({HEADER_USESSLHS, HEADER_USESSRHS}, make_shared<ResultTable>(table));
+    removeHeaders(make_shared<ResultTable>(table));
 
     return table.getTable();
-}
-
-bool UsesSConstraint::isStatementSynonym(std::string type) {
-    vector<std::string> statementVector = {
-            TYPE_STATEMENT, TYPE_PRINT, TYPE_ASSIGN,
-            TYPE_CALL, TYPE_WHILE, TYPE_IF
-    };
-    return std::find(statementVector.begin(), statementVector.end(), type) != statementVector.end();
 }
 
 std::size_t UsesSConstraint::hash() const {
     std::hash<std::string> stringHasher;
 
     std::string s1 = constraintArguments[0]->getArgumentValue()[0];
-    std::string s2 = constraintArguments[0]->getArgumentValue()[0];
+    std::string s2 = constraintArguments[1]->getArgumentValue()[0];
 
     std::size_t hashValue = 0;
 
@@ -103,4 +85,8 @@ std::size_t UsesSConstraint::hash() const {
     hashValue ^= stringHasher(s2) + HASH_OFFSET + (hashValue << 6) + (hashValue >> 2);
 
     return hashValue;
+}
+
+std::vector<std::string> UsesSConstraint::getDefaultHeaders() {
+    return {HEADER_USESSLHS, HEADER_USESSRHS};
 }

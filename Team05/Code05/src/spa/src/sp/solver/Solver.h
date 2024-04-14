@@ -43,7 +43,6 @@ auto Solver<T>::solve(const std::shared_ptr<CFG>& cfg, Meet meet, Transfer trans
         in[block] = newIn;
 
         const auto newOut = transfer(block, in[block]);
-        // TODO: Ensure that `!=` is correctly overloaded or correctly compares the content between the objects.
         if (newOut != out[block]) {
             out[block] = newOut;
             for (const auto& succ : *block->getSuccessors()) {

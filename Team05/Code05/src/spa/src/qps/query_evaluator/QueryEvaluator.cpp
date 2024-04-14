@@ -23,6 +23,20 @@ std::shared_ptr<Formattable> QueryEvaluator::evaluate(QueryObject & query) {
         processConstraints(c);
     }
 
+    if (constraints.size() == 1 && results.isAllResults) {
+        // set results to all possible values
+        // isAllResults flag is set to true if constraint is all result
+        // however, to increase computation efficiency, no table is added to resultTable
+        // therefore, resultTable is empty if it is the first constraint.
+        // this if block fixes this issue.
+        if (returnable->getReturnType() == RETURN_BOOL_RESULT) {
+            this->results.add({{HEADER_SPECIAL_ALL_RESULTS}});
+        } else {
+          auto selectTable = select.getTable();
+          this->results.add(selectTable);
+        }
+    }
+
     // Store select clause result into select
     processReturnable(returnable);
 
@@ -54,7 +68,9 @@ bool isQueryable(std::string type){
 
 void QueryEvaluator::processConstraints(std::shared_ptr<Constraint> c){
     table t = c->getRelationshipTable(pkb);
-    results.add(t);
+    ResultTable tabl = ResultTable(t);
+    tabl.removeColumnByHeader(HEADER_ENT_WITH_TOMERGE);
+    results.add(tabl.getTable());
 }
 
 void QueryEvaluator::processReturnable(std::shared_ptr<Returnable> r) {

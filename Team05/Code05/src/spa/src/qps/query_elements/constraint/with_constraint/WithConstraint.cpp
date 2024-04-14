@@ -65,9 +65,24 @@ Table WithConstraint::getFullTable(QueryPkbVirtual &pkb){
     std::string lhsEntityType = args[0] -> getEntityType();
     std::string rhsEntityType = args[1] -> getEntityType();
 
-    ResultTable t;
-    t.add(args[0]->getEntityTable(pkb));
-    t.add(args[1]->getEntityTable(pkb));
+    ResultTable t, temp;
+    Table _t;
+
+    if (args[0]->getEntityType() == TYPE_VAR_WITH || args[1]->getEntityType() == TYPE_VAR_WITH) {
+      if (args[0]->getEntityType() == TYPE_VAR_WITH) {
+        _t = args[0]->getEntityTable(pkb);
+        temp = ResultTable(_t);
+        temp.removeAllColumnsExceptIndex(0);
+        t.add(temp.getTable());
+      }
+      if (args[1]->getEntityType() == TYPE_VAR_WITH) {
+        _t = args[1]->getEntityTable(pkb);
+        temp = ResultTable(_t);
+        temp.removeAllColumnsExceptIndex(0);
+        t.add(temp.getTable());
+      }
+    }
+
     return t.getTable();
 }
 
@@ -90,7 +105,7 @@ std::size_t WithConstraint::hash() const {
     std::hash<std::string> stringHasher;
 
     std::string s1 = constraintArguments[0]->getArgumentValue()[0];
-    std::string s2 = constraintArguments[0]->getArgumentValue()[0];
+    std::string s2 = constraintArguments[1]->getArgumentValue()[0];
 
     std::size_t hashValue = 0;
 
@@ -100,4 +115,8 @@ std::size_t WithConstraint::hash() const {
     hashValue ^= stringHasher(s2) + HASH_OFFSET + (hashValue << 6) + (hashValue >> 2);
 
     return hashValue;
+}
+
+Table WithConstraint::getTableWithDefaultHeadersFromPkb(QueryPkbVirtual &pkb) {
+    throw QPSException("function is not used");
 }
