@@ -68,7 +68,9 @@ TEST_CASE("SP-PKB Integration Test - SIMPLE Program 1") {
     auto pkb = make_shared<PopulatePkb>(p);
     auto pkb1 = QueryPkb(p);
     auto sp = SourceProcessor(pkb);
-    sp.exec(codeSnippet);
+    const auto program = sp.parse(sp.scan(codeSnippet));
+    sp.validate(program);
+    sp.extract(program);
 
     // Entity Tables
 

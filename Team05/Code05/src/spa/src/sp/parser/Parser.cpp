@@ -196,7 +196,6 @@ bool Parser::lookAheadForRelExpr() {
 }
 
 std::shared_ptr<Expr> Parser::condExpr() {
-    // rel_expr | '(' cond_expr ')' ('&&' | '||') '(' cond_expr ')' | '!' '(' cond_expr ')'
     if (this->lookAheadForRelExpr()) {
         return this->relExpr();
     }
@@ -231,7 +230,6 @@ std::shared_ptr<Expr> Parser::condExpr() {
 }
 
 std::shared_ptr<Expr> Parser::relExpr() {
-    // rel_factor ('>' | '>=' | '<' | '<=' | '==' | '!=') rel_factor
     auto left = this->relFactor();
     if (this->match({ TokenType::GREATER, TokenType::GREATER_EQUAL, TokenType::LESSER,
                       TokenType::LESSER_EQUAL, TokenType::EQUAL_EQUAL, TokenType::BANG_EQUAL })) {
@@ -243,17 +241,14 @@ std::shared_ptr<Expr> Parser::relExpr() {
 }
 
 std::shared_ptr<Expr> Parser::relFactor() {
-    // var_name | const_value | expr
     return this->expr();
 }
 
 std::shared_ptr<Expr> Parser::expr() {
-    // term expr_tail
     return this->exprTail(this->term());
 }
 
 std::shared_ptr<Expr> Parser::exprTail(std::shared_ptr<Expr> left) {
-    // ('+' | '-') term expr_tail | empty
     if (this->match({ TokenType::ADD, TokenType::SUBTRACT })) {
         auto op = std::make_shared<Token>(this->previous());
         auto right = this->term();
@@ -263,12 +258,10 @@ std::shared_ptr<Expr> Parser::exprTail(std::shared_ptr<Expr> left) {
 }
 
 std::shared_ptr<Expr> Parser::term() {
-    // factor term_tail
     return this->termTail(this->factor());
 }
 
 std::shared_ptr<Expr> Parser::termTail(std::shared_ptr<Expr> left) {
-    // ('*' | '/' | '%') factor term_tail | empty
     if (this->match({ TokenType::MULTIPLY, TokenType::DIVIDE, TokenType::MOD })) {
         auto op = std::make_shared<Token>(this->previous());
         auto right = this->factor();
@@ -278,7 +271,6 @@ std::shared_ptr<Expr> Parser::termTail(std::shared_ptr<Expr> left) {
 }
 
 std::shared_ptr<Expr> Parser::factor() {
-    // var_name | const_value | '(' expr ')'
     if (this->match({ TokenType::NAME })) {
         return std::make_shared<Variable>(this->previous().getLexeme());
     }

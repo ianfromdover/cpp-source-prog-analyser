@@ -32,12 +32,10 @@ void TestWrapper::parse(std::string filename) {
         const auto program = sp.parse(tokens);
         sp.validate(program);
         sp.extract(program);
-        this->affects = std::make_shared<Affects>(std::make_shared<CFGCollection>(program), queryPkb);
-        this->nextT = std::make_shared<NextT>(std::make_shared<CFGCollection>(program));
-        populatePkb->setAffectsObj(this->affects);
-        populatePkb->setNextTObj(this->nextT);
+        const auto cfgCollection = std::make_shared<CFGCollection>(program);
+        populatePkb->setAffectsObj(std::make_shared<Affects>(cfgCollection, queryPkb));
+        populatePkb->setNextTObj(std::make_shared<NextT>(cfgCollection));
     } catch (BaseException& exception) {
-        // handle exception
         std::cerr << "Caught BaseException: " << exception.what() << std::endl;
         exit(1); // exit silently
     }

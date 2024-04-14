@@ -18,7 +18,6 @@ private:
     std::shared_ptr<BasePkbPopulator> pkb;
 public:
     explicit SourceProcessor(std::shared_ptr<BasePkbPopulator> pkb) : pkb(std::move(pkb)) {};
-    void exec(const std::string& source);
     std::shared_ptr<std::vector<std::shared_ptr<Token>>> scan(const std::string& source);
     std::shared_ptr<Program> parse(const std::shared_ptr<std::vector<std::shared_ptr<Token>>>& tokens);
     void validate(const std::shared_ptr<Program>& program);

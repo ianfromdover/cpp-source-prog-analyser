@@ -17,6 +17,12 @@ void require(bool b) {
     REQUIRE(b);
 }
 
+void exec(SourceProcessor& sp, const std::string& source) {
+    const auto program = sp.parse(sp.scan(source));
+    sp.validate(program);
+    sp.extract(program);
+}
+
 TEST_CASE("Modifssiges Handler - QPS") {
   std::string codeSnippet = R"(
     procedure parentTestCase {
@@ -159,7 +165,7 @@ procedure useless {
   std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
   auto pkb = make_shared<PopulatePkb>(p);
   auto sp = SourceProcessor(pkb);
-  sp.exec(codeSnippet);
+  exec(sp, codeSnippet);
   QueryPkb pkb1(p);
   QPS qps(std::make_shared<QueryPkb>(pkb1));
 
@@ -196,7 +202,7 @@ TEST_CASE("Modifsies Handler - QPS") {
     std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
     auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
-    sp.exec(codeSnippet);
+    exec(sp, codeSnippet);
     QueryPkb pkb1(p);
     QPS qps(std::make_shared<QueryPkb>(pkb1));
 
@@ -357,7 +363,7 @@ TEST_CASE("Print with parent extractor") {
     std::shared_ptr<PkbStorage> p=std::make_shared<PkbStorage>();
     auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
-    sp.exec(codeSnippet);
+    exec(sp, codeSnippet);
 
 //    std::string query1 = "assign a;variable v;Select v pattern a(_, _)";
     std::string query2 = "assign a;variable v;Select a pattern a(v, _)";
@@ -403,7 +409,7 @@ TEST_CASE("Test SIMPLE semantic analysis") {
         }
     )";
 
-    REQUIRE_THROWS_WITH(sp.exec(repeatedProcedureName), "Repeated procedure names \"getInputs\" is not allowed");
+    REQUIRE_THROWS_WITH(exec(sp, repeatedProcedureName), "Repeated procedure names \"getInputs\" is not allowed");
 
     std::string unknownProcedureCall = R"(
         procedure main {
@@ -415,7 +421,7 @@ TEST_CASE("Test SIMPLE semantic analysis") {
         }
     )";
 
-    REQUIRE_THROWS_WITH(sp.exec(unknownProcedureCall), "Calling of unknown procedure \"getInputs\" is not allowed");
+    REQUIRE_THROWS_WITH(exec(sp, unknownProcedureCall), "Calling of unknown procedure \"getInputs\" is not allowed");
 
     std::string recursiveCall = R"(
         procedure main {
@@ -425,7 +431,7 @@ TEST_CASE("Test SIMPLE semantic analysis") {
         }
     )";
 
-    REQUIRE_THROWS_WITH(sp.exec(recursiveCall), "Recursive and cyclic calls are not allowed");
+    REQUIRE_THROWS_WITH(exec(sp, recursiveCall), "Recursive and cyclic calls are not allowed");
 
     std::string cyclicCalls1 = R"(
         procedure A {
@@ -444,7 +450,7 @@ TEST_CASE("Test SIMPLE semantic analysis") {
         }
     )";
 
-    REQUIRE_THROWS_WITH(sp.exec(cyclicCalls1), "Recursive and cyclic calls are not allowed");
+    REQUIRE_THROWS_WITH(exec(sp, cyclicCalls1), "Recursive and cyclic calls are not allowed");
 
     std::string cyclicCalls2 = R"(
         procedure A {
@@ -463,7 +469,7 @@ TEST_CASE("Test SIMPLE semantic analysis") {
         }
     )";
 
-    REQUIRE_THROWS_WITH(sp.exec(cyclicCalls2), "Recursive and cyclic calls are not allowed");
+    REQUIRE_THROWS_WITH(exec(sp, cyclicCalls2), "Recursive and cyclic calls are not allowed");
 
     std::string cyclicCalls3 = R"(
         procedure A {
@@ -482,7 +488,7 @@ TEST_CASE("Test SIMPLE semantic analysis") {
         }
     )";
 
-    REQUIRE_THROWS_WITH(sp.exec(cyclicCalls3), "Recursive and cyclic calls are not allowed");
+    REQUIRE_THROWS_WITH(exec(sp, cyclicCalls3), "Recursive and cyclic calls are not allowed");
 
     std::string cyclicCalls4 = R"(
         procedure A {
@@ -522,7 +528,7 @@ TEST_CASE("Test SIMPLE semantic analysis") {
         }
     )";
 
-    REQUIRE_THROWS_WITH(sp.exec(cyclicCalls4), "Recursive and cyclic calls are not allowed");
+    REQUIRE_THROWS_WITH(exec(sp, cyclicCalls4), "Recursive and cyclic calls are not allowed");
 
     std::string noCyclicCall1 = R"(
         procedure A {
@@ -561,7 +567,7 @@ TEST_CASE("Test SIMPLE semantic analysis") {
         }
     )";
 
-    REQUIRE_NOTHROW(sp.exec(noCyclicCall1));
+    REQUIRE_NOTHROW(exec(sp, noCyclicCall1));
 }
 
 TEST_CASE("Modifies Handler - QPS") {
@@ -587,7 +593,7 @@ TEST_CASE("Modifies Handler - QPS") {
     std::shared_ptr<PkbStorage> p=std::make_shared<PkbStorage>();
     auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
-    sp.exec(codeSnippet);
+    exec(sp, codeSnippet);
     QueryPkb pkb1(p);
     QPS qps(std::make_shared<QueryPkb>(pkb1));
 
@@ -736,7 +742,7 @@ TEST_CASE("Uses Handler - QPS") {
     std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
     auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
-    sp.exec(codeSnippet);
+    exec(sp, codeSnippet);
     QueryPkb pkb1(p);
     QPS qps(std::make_shared<QueryPkb>(pkb1));
 
@@ -887,7 +893,7 @@ TEST_CASE("Parent Handler - QPS") {
     std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
     auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
-    sp.exec(codeSnippet);
+    exec(sp, codeSnippet);
     QueryPkb pkb1(p);
     QPS qps(std::make_shared<QueryPkb>(pkb1));
 
@@ -1004,7 +1010,7 @@ TEST_CASE("Parent* Handler - QPS") {
     std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
     auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
-    sp.exec(codeSnippet);
+    exec(sp, codeSnippet);
     QueryPkb pkb1(p);
     QPS qps(std::make_shared<QueryPkb>(pkb1));
 
@@ -1122,7 +1128,7 @@ TEST_CASE("Follows Handler - QPS") {
     std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
     auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
-    sp.exec(codeSnippet);
+    exec(sp, codeSnippet);
     QueryPkb pkb1(p);
     QPS qps(std::make_shared<QueryPkb>(pkb1));
 
@@ -1247,7 +1253,7 @@ TEST_CASE("Follows* Handler - QPS") {
     std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
     auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
-    sp.exec(codeSnippet);
+    exec(sp, codeSnippet);
     QueryPkb pkb1(p);
     QPS qps(std::make_shared<QueryPkb>(pkb1));
 
@@ -1371,7 +1377,7 @@ TEST_CASE("Multi-clause"){
     std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
     auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
-    sp.exec(codeSnippet);
+    exec(sp, codeSnippet);
     QueryPkb pkb1(p);
     QPS qps(std::make_shared<QueryPkb>(pkb1));
 
@@ -1417,7 +1423,7 @@ TEST_CASE("Calls relationship"){
     std::shared_ptr<PkbStorage> p=std::make_shared<PkbStorage>();
     auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
-    sp.exec(codeSnippet);
+    exec(sp, codeSnippet);
     QueryPkb pkb1(p);
     QPS qps(std::make_shared<QueryPkb>(pkb1));
 
@@ -1524,7 +1530,7 @@ TEST_CASE("Next relationship") {
     std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
     auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
-    sp.exec(codeSnippet);
+    exec(sp, codeSnippet);
     QueryPkb pkb1(p);
     QPS qps(std::make_shared<QueryPkb>(pkb1));
 
@@ -1908,7 +1914,7 @@ procedure program3 {
     std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
     auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
-    sp.exec(codeSnippet);
+    exec(sp, codeSnippet);
     QueryPkb pkb1(p);
     QPS qps(std::make_shared<QueryPkb>(pkb1));
 
@@ -1932,7 +1938,7 @@ TEST_CASE("expression matching") {
   std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
   auto pkb = make_shared<PopulatePkb>(p);
   auto sp = SourceProcessor(pkb);
-  sp.exec(codeSnippet);
+  exec(sp, codeSnippet);
   QueryPkb pkb1(p);
   QPS qps(std::make_shared<QueryPkb>(pkb1));
 
@@ -2248,7 +2254,7 @@ TEST_CASE("test") {
         std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
         auto pkb = make_shared<PopulatePkb>(p);
         auto sp = SourceProcessor(pkb);
-        sp.exec(codeSnippet);
+        exec(sp, codeSnippet);
 
         require(true);
     }
@@ -2309,7 +2315,7 @@ TEST_CASE("test") {
         std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
         auto pkb = make_shared<PopulatePkb>(p);
         auto sp = SourceProcessor(pkb);
-        sp.exec(codeSnippet);
+        exec(sp, codeSnippet);
 
         require(true);
     }
@@ -2500,7 +2506,7 @@ TEST_CASE("Parent Handler - not attribute") {
     std::shared_ptr<PkbStorage> p = std::make_shared<PkbStorage>();
     auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
-    sp.exec(codeSnippet);
+    exec(sp, codeSnippet);
     QueryPkb pkb1(p);
     QPS qps(std::make_shared<QueryPkb>(pkb1));
 

@@ -43,7 +43,11 @@ TEST_CASE("Milestone 1 failures") {
     std::shared_ptr<PkbStorage> p=std::make_shared<PkbStorage>();
     auto pkb = make_shared<PopulatePkb>(p);
     auto sp = SourceProcessor(pkb);
-    sp.exec(codeSnippet);
+
+    const auto program = sp.parse(sp.scan(codeSnippet));
+    sp.validate(program);
+    sp.extract(program);
+
     QueryPkb pkb1(p);
     QPS qps(std::make_shared<QueryPkb>(pkb1));
 

@@ -8,7 +8,7 @@
 #include "sp/ast/Stmt.h"
 #include "sp/ast/Program.h"
 
-class SemanticAnalyzer : public ProgramVisitor {
+class SemanticAnalyzer : private ProgramVisitor {
 private:
     unordered_map<std::string, std::vector<std::string>> callGraph;
     std::string currentProcedure;

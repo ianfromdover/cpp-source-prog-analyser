@@ -20,13 +20,6 @@
 #include "sp/extractor/cfg_extractor/NextExtractor.h"
 #include "sp/cfg/CFG.h"
 
-void SourceProcessor::exec(const std::string& source) {
-    auto tokens = this->scan(source);
-    auto program = this->parse(tokens);
-    this->validate(program);
-    this->extract(program);
-}
-
 std::shared_ptr<std::vector<std::shared_ptr<Token>>> SourceProcessor::scan(const std::string& source) {
     return Scanner(source).scanTokens();
 }
