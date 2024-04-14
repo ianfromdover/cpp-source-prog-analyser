@@ -92,7 +92,7 @@ TEST_CASE("Test QueryPkb getPrint methods using stub") {
 
     // Add records to printTable stub
     stub.setPrint({{"1", "x"}, {"2", "y"}, {"3", "z"}, {"4", "y"}, {"4", "z"}});
-    
+
     SECTION("Test getPrintTable() method") {
 
         // Retrieve printTable and verify its contents
