@@ -13,7 +13,6 @@ public:
     StatementTable();
     // Saves the final statement number so the table can generate a list of statements until it
     bool addFinalStatementNo(StmtNo sNum);
-    // Returns a vector of statement 1...finalStatementNum
-    // Returns all the statements as strings
+    // Returns a vector of statement 1...finalStatementNum as strings
     Table getAll();
 };

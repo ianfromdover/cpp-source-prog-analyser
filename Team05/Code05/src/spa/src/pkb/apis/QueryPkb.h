@@ -41,7 +41,6 @@ public:
     Table getPrintStmtsByVar(VarName var) override;
 
     Table getProcTable() override;
-    // should i add a containsProc method? for with clause
 
     Table getReadTable() override;
     Table getReadAllStmts() override;
@@ -50,7 +49,6 @@ public:
     Table getReadStmtsByVar(VarName var) override;
 
     Table getStmtTable() override;
-    // should i add a containsStmt method? for with clause
 
     Table getVarTable() override;
     Table getVarAllStmts() override;
@@ -65,14 +63,6 @@ public:
     Table getWhileStmtsByVar(VarName var) override;
 
     // relations --------------------------------------------------------------
-    /*
-    Table getAffectsTable() override; // generated each query
-    Table getAffectsAllAffectors() override;
-    Table getAffectsAllAffected() override;
-    Table getAffectsAffectedByAffector(StmtNo affector) override;
-    Table getAffectsAffectorsByAffected(StmtNo affected) override;
-     */
-
     Table getCallsTable() override;
     Table getCallsAllCallers() override;
     Table getCallsAllCalled() override;
@@ -115,14 +105,6 @@ public:
     Table getNextAllAfter() override;
     Table getNextAfterByBefore(StmtNo before) override;
     Table getNextBeforeByAfter(StmtNo after) override;
-
-    /*
-    Table getNextTTable() override; // generated each query
-    Table getNextTAllBefore() override;
-    Table getNextTAllAfter() override;
-    Table getNextTAfterByBefore(StmtNo before) override;
-    Table getNextTBeforeByAfter(StmtNo after) override;
-    */
 
     Table getParentTable() override;
     Table getParentAllChildren() override;

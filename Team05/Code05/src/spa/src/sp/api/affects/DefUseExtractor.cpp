@@ -6,11 +6,20 @@
 #include "pkb/apis/QueryPkb.h"
 #include <cassert>
 
-std::pair<Definitions, Uses> DefUseExtractor::extract(const std::shared_ptr<CFG> &cfg) {
+std::pair<Definitions, Uses> DefUseExtractor::extract(const std::shared_ptr<CFG>& cfg) {
+    this->resetExtractor();
+    this->extractDefsUsesCallsFromCFG(cfg);
+    this->extractDefsFromCalls();
+    return std::move(this->generateDefUsePair(cfg));
+}
+
+void DefUseExtractor::resetExtractor() {
     this->defs = BlockVarOccurrencesMap();
     this->uses = BlockVarOccurrencesMap();
     this->calls = BlockVarOccurrencesMap();
+}
 
+void DefUseExtractor::extractDefsUsesCallsFromCFG(const std::shared_ptr<CFG>& cfg) {
     for (const auto& block : *cfg->getBlocks()) {
         this->currentBlock = block;
         this->defs.insert({ this->currentBlock, std::unordered_map<std::string, std::shared_ptr<VarOccurrence>>() });
@@ -18,13 +27,9 @@ std::pair<Definitions, Uses> DefUseExtractor::extract(const std::shared_ptr<CFG>
         auto _ = std::make_shared<Accumulator>();
         this->visitStmtList(block->getStmts(), _);
     }
-
-    this->extractDefinitionsFromCalls();
-
-    return std::move(this->generateDefUsePair(cfg));
 }
 
-void DefUseExtractor::extractDefinitionsFromCalls() {
+void DefUseExtractor::extractDefsFromCalls() {
     std::unordered_set<std::string> defNames;
     for (const auto& [_, blockDefs] : this->defs) {
         for (const auto& [defName, _] : blockDefs) {
@@ -91,27 +96,27 @@ void DefUseExtractor::visitReadStmt(const Read &stmt, std::shared_ptr<Accumulato
     this->addToDefs(stmt.getVariable()->getName(), stmt.getStmtNo());
 }
 
-void DefUseExtractor::visitPrintStmt(const Print &stmt, std::shared_ptr<Accumulator>& _) {
-    this->addToUses(stmt.getVariable()->getName(), stmt.getStmtNo());
-}
+//void DefUseExtractor::visitPrintStmt(const Print &stmt, std::shared_ptr<Accumulator>& _) {
+//    this->addToUses(stmt.getVariable()->getName(), stmt.getStmtNo());
+//}
 
 void DefUseExtractor::visitCallStmt(const Call &stmt, std::shared_ptr<Accumulator>& _) {
     this->addToCalls(stmt.getProcName(), stmt.getStmtNo());
 }
 
-void DefUseExtractor::visitWhileStmt(const While &stmt, std::shared_ptr<Accumulator>& _) {
-    // Since the body of the `While` statement spans subsequent blocks, we only need to process its condition.
-    auto acc = std::make_shared<Accumulator>();
-    acc->info.push_back(stmt.getStmtNo());
-    stmt.getCondition()->accept(*this, acc);
-}
+//void DefUseExtractor::visitWhileStmt(const While &stmt, std::shared_ptr<Accumulator>& _) {
+//    // Since the body of the `While` statement spans subsequent blocks, we only need to process its condition.
+//    auto acc = std::make_shared<Accumulator>();
+//    acc->info.push_back(stmt.getStmtNo());
+//    stmt.getCondition()->accept(*this, acc);
+//}
 
-void DefUseExtractor::visitIfStmt(const If &stmt, std::shared_ptr<Accumulator>& _) {
-    // Since the branches of the `If` statement spans subsequent blocks, we only need to process its condition.
-    auto acc = std::make_shared<Accumulator>();
-    acc->info.push_back(stmt.getStmtNo());
-    stmt.getCondition()->accept(*this, acc);
-}
+//void DefUseExtractor::visitIfStmt(const If &stmt, std::shared_ptr<Accumulator>& _) {
+//    // Since the branches of the `If` statement spans subsequent blocks, we only need to process its condition.
+//    auto acc = std::make_shared<Accumulator>();
+//    acc->info.push_back(stmt.getStmtNo());
+//    stmt.getCondition()->accept(*this, acc);
+//}
 
 void DefUseExtractor::visitAssignStmt(const Assign &stmt, std::shared_ptr<Accumulator>& _) {
     this->addToDefs(stmt.getVariable()->getName(), stmt.getStmtNo());
