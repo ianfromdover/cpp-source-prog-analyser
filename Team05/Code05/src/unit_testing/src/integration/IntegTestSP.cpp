@@ -70,7 +70,7 @@ TEST_CASE("SP-PKB Integration Test - SIMPLE Program 1") {
     auto sp = SourceProcessor(pkb);
     const auto program = sp.parse(sp.scan(codeSnippet));
     sp.validate(program);
-    sp.extract(program);
+    sp.extract(program, std::make_shared<CFGCollection>(program));
 
     // Entity Tables
 

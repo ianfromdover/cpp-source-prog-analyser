@@ -20,7 +20,7 @@ void require(bool b) {
 void exec(SourceProcessor& sp, const std::string& source) {
     const auto program = sp.parse(sp.scan(source));
     sp.validate(program);
-    sp.extract(program);
+    sp.extract(program, std::make_shared<CFGCollection>(program));
 }
 
 TEST_CASE("Modifssiges Handler - QPS") {
@@ -1658,9 +1658,10 @@ TEST_CASE("NextT relationship") {
     const auto tokens = sp.scan(codeSnippet);
     const auto program = sp.parse(tokens);
     sp.validate(program);
-    sp.extract(program);
-    auto affects = std::make_shared<Affects>(std::make_shared<CFGCollection>(program), queryPkb);
-    auto nextT = std::make_shared<NextT>(std::make_shared<CFGCollection>(program));
+    const auto cfgCollection = std::make_shared<CFGCollection>(program);
+    sp.extract(program, cfgCollection);
+    auto affects = std::make_shared<Affects>(cfgCollection, queryPkb);
+    auto nextT = std::make_shared<NextT>(cfgCollection);
     pkb->setNextTObj(nextT);
     pkb->setAffectsObj(affects);
     QPS qps(queryPkb);
@@ -1848,8 +1849,9 @@ TEST_CASE("Test Extractor") {
     const auto tokens = sp.scan(input);
     const auto program = sp.parse(tokens);
     sp.validate(program);
-    sp.extract(program);
-    auto nextT = std::make_shared<NextT>(std::make_shared<CFGCollection>(program));
+    const auto cfgCollection = std::make_shared<CFGCollection>(program);
+    sp.extract(program, cfgCollection);
+    auto nextT = std::make_shared<NextT>(cfgCollection);
 //    for (int i = 1; i <= 45; i++) {
 //        for (int j = 1; j <= 45; j++) {
 //            std::string result = nextT->get(i, j) ? "true" : "false";

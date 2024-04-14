@@ -18,7 +18,6 @@
 #include "sp/semantic_analyzer/SemanticAnalyzer.h"
 #include "sp/extractor/relation_extractor/CallsExtractor.h"
 #include "sp/extractor/cfg_extractor/NextExtractor.h"
-#include "sp/cfg/CFG.h"
 
 std::shared_ptr<std::vector<std::shared_ptr<Token>>> SourceProcessor::scan(const std::string& source) {
     return Scanner(source).scanTokens();
@@ -32,8 +31,13 @@ void SourceProcessor::validate(const std::shared_ptr<Program>& program) {
     SemanticAnalyzer().check(program);
 }
 
-void SourceProcessor::extract(const std::shared_ptr<Program>& program) {
-    auto relationExtractor = std::vector<shared_ptr<ProgramVisitor>>{
+void SourceProcessor::extract(const std::shared_ptr<Program>& program, const std::shared_ptr<CFGCollection>& cfgCollection) {
+    this->extractFromAST(program);
+    this->extractFromCFGs(cfgCollection);
+}
+
+void SourceProcessor::extractFromAST(const std::shared_ptr<Program>& program) {
+    auto relationExtractor = std::vector<std::shared_ptr<ProgramVisitor>>{
             std::make_shared<ReadExtractor>(this->pkb),
             std::make_shared<CallExtractor>(this->pkb),
             std::make_shared<IfExtractor>(this->pkb),
@@ -49,17 +53,24 @@ void SourceProcessor::extract(const std::shared_ptr<Program>& program) {
             std::make_shared<FollowsExtractor>(this->pkb),
             std::make_shared<CallsExtractor>(this->pkb, program),
     };
-    auto cfgExtractor = std::vector<shared_ptr<CfgExtractor>> {
-            std::make_shared<NextExtractor>(this->pkb),
-    };
+
     for (const auto& procedure : *program->getProcedures()) {
         //std::cout << "pkb.addProcedure(" << procedure->getName() << ");" << std::endl;
         pkb->addProcedure(procedure->getName());
         for (const auto& extractor : relationExtractor) {
             procedure->accept(*extractor);
         }
-        for (const auto& extractor : cfgExtractor) {
-            CFG(procedure).accept(*extractor);
+    }
+}
+
+void SourceProcessor::extractFromCFGs(const std::shared_ptr<CFGCollection>& cfgCollection) {
+    auto cfgExtractor = std::vector<std::shared_ptr<CfgExtractor>> {
+        std::make_shared<NextExtractor>(this->pkb),
+    };
+
+    for (const auto& extractor : cfgExtractor) {
+        for (const auto& cfg : *cfgCollection->get()) {
+            cfg->accept(*extractor);
         }
     }
 }

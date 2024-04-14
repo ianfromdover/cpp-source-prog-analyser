@@ -31,8 +31,8 @@ void TestWrapper::parse(std::string filename) {
         const auto tokens = sp.scan(input);
         const auto program = sp.parse(tokens);
         sp.validate(program);
-        sp.extract(program);
         const auto cfgCollection = std::make_shared<CFGCollection>(program);
+        sp.extract(program, cfgCollection);
         populatePkb->setAffectsObj(std::make_shared<Affects>(cfgCollection, queryPkb));
         populatePkb->setNextTObj(std::make_shared<NextT>(cfgCollection));
     } catch (BaseException& exception) {

@@ -16,12 +16,15 @@
 class SourceProcessor {
 private:
     std::shared_ptr<BasePkbPopulator> pkb;
+private:
+    void extractFromAST(const std::shared_ptr<Program>& program);
+    void extractFromCFGs(const std::shared_ptr<CFGCollection>& cfgCollection);
 public:
     explicit SourceProcessor(std::shared_ptr<BasePkbPopulator> pkb) : pkb(std::move(pkb)) {};
     std::shared_ptr<std::vector<std::shared_ptr<Token>>> scan(const std::string& source);
     std::shared_ptr<Program> parse(const std::shared_ptr<std::vector<std::shared_ptr<Token>>>& tokens);
     void validate(const std::shared_ptr<Program>& program);
-    void extract(const std::shared_ptr<Program>& program);
+    void extract(const std::shared_ptr<Program>& program, const std::shared_ptr<CFGCollection>& cfgCollection);
 };
 
 

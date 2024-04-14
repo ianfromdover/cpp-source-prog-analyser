@@ -46,7 +46,7 @@ TEST_CASE("Milestone 1 failures") {
 
     const auto program = sp.parse(sp.scan(codeSnippet));
     sp.validate(program);
-    sp.extract(program);
+    sp.extract(program, std::make_shared<CFGCollection>(program));
 
     QueryPkb pkb1(p);
     QPS qps(std::make_shared<QueryPkb>(pkb1));

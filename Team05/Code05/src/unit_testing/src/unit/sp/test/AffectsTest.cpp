@@ -17,9 +17,10 @@ static std::shared_ptr<Affects> setupAffects(const std::string& source) {
     auto sp = SourceProcessor(populatePkb);
     const auto program = sp.parse(sp.scan(source));
     sp.validate(program);
-    sp.extract(program);
+    const auto cfgCollection = std::make_shared<CFGCollection>(program);
+    sp.extract(program, cfgCollection);
 
-    return std::make_shared<Affects>(std::make_shared<CFGCollection>(program), queryPkb);
+    return std::make_shared<Affects>(cfgCollection, queryPkb);
 }
 
 static void testAffects(const std::shared_ptr<Affects>& affects, const std::vector<Test>& tests) {
