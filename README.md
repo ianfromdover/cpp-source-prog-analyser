@@ -11,6 +11,8 @@ It analyses SIMPLE source code and provides information about the program's stru
 Users provide a source program and a query, and the SPA will return the information requested by the query.
 Developed as part of coursework for [CS3203 Software Engineering Project](https://nus-cs3203.github.io/course-website/contents/basic-spa-requirements/motivation.html)
 
+Passes 1434 unit and integration tests.
+
 The SPA is composed the following components:
 - Source Processor (SP)
 - Program Knowledge Base (PKB)
