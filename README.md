@@ -1,4 +1,3 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/XTHBxU7a)
 # Team 05
 
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
@@ -10,6 +9,7 @@
 This is a 🤖 Static Program Analyser (SPA) for the SIMPLE language.
 It analyses SIMPLE source code and provides information about the program's structure and properties.
 Users provide a source program and a query, and the SPA will return the information requested by the query.
+Developed as part of coursework for [CS3203 Software Engineering Project](https://nus-cs3203.github.io/course-website/contents/basic-spa-requirements/motivation.html)
 
 The SPA is composed the following components:
 - Source Processor (SP)
